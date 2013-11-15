@@ -4,6 +4,8 @@
 sample_t coeficientes[TAP_length]; 
 sample_t buffer_ent[TAP_length];
 
+//prueba de comentario gonzalo
+
 int p; //puntero a una muestra. Apunta a la ultima muestra ingresada
 
 void ini_fir(sample_t coefs[]){ //inicializo los coeficientes del filtro, y el buffer de entrada en 0.
