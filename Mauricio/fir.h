@@ -1,23 +1,24 @@
-//-------------------------------------------------------------------------------------------------
-//	Definición de MACROS.																		 
+ï»¿//-------------------------------------------------------------------------------------------------
+//	DefiniciÃ³n MACROS.																		 
 //-------------------------------------------------------------------------------------------------
 #define TAP_LENGTH	6 // Definimos el orden del filtro.
 #define PI 3.141592653589
 //#define TAM_MUESTRA 	100	// Definimos el tamaño de la muestra.
 //-------------------------------------------------------------------------------------------------
 
-// Deja de meter tanto comentario, es demasiado prolijo y nos haces paarecer vagos. Gonzalo
+// Deja de meter tanto comentario, es demasiado prolijo y nos haces paarecer vagos. Gonzalo. Aca agrego un pedazo sobre algo que escribio GO, un negro. M
+
 
 
 //-------------------------------------------------------------------------------------------------
-//	Definición de tipos.																		 
+//	DefiniciÃ³n tipos.																		 
 //-------------------------------------------------------------------------------------------------
 //typedef double t_muestra;//ACA CAMBIAR ALGO PARA CORRERLO LUEGO EN DSP!!!!!!!!!!
 typedef _fract t_muestra;//ACA CAMBIAR ALGO PARA CORRERLO LUEGO EN DSP!!!!!!!!!!
 //-------------------------------------------------------------------------------------------------
 						
 //-------------------------------------------------------------------------------------------------
-//	Declaración de funciones.																	 
+//	DeclaraciÃ³n funciones.																	 
 //-------------------------------------------------------------------------------------------------
 void fir_ini(void);
 t_muestra fir_filtrar(t_muestra x);
