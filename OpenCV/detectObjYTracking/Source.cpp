@@ -1,21 +1,22 @@
 #include <cv.h>
 #include <highgui.h>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <iostream>
+//#include <opencv2/core/core.hpp>
+//#include <opencv2/highgui/highgui.hpp>
+//#include <iostream>
 
 
 using namespace cv;
 using namespace std;
 
 IplImage* imgTracking;
+
 int lastX = -1;
 int lastY = -1;
 
 //This function threshold the HSV image and create a binary image
 IplImage* GetThresholdedImage(IplImage* imgHSV){        
        IplImage* imgThresh=cvCreateImage(cvGetSize(imgHSV),IPL_DEPTH_8U, 1);
-       cvInRangeS(imgHSV, cvScalar(170,160,60), cvScalar(180,256,256), imgThresh); 
+       cvInRangeS(imgHSV, cvScalar(22,0,0), cvScalar(38,256,256), imgThresh); 
        return imgThresh;
 } 
 
@@ -53,7 +54,7 @@ void trackObject(IplImage* imgThresh){
 int main(){
       CvCapture* capture =0;       
 	  
-	 capture = cvCaptureFromAVI("chinoSaltando.mp4");
+	 capture = cvCaptureFromAVI("limon2.mp4");
 
       if(!capture){
             printf("Capture failure\n");
@@ -61,9 +62,11 @@ int main(){
       }
       
       IplImage* frame=0;
+	  frame = cvQueryFrame(capture);           
+      if(!frame) return -1;
 
       cvNamedWindow("Video");      
-      cvNamedWindow("Chino");
+      cvNamedWindow("Ball");
 
 	  
    double dWidth = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH); //get the width of frames of the video
@@ -85,16 +88,16 @@ int main(){
 
     //create a blank image and assigned to 'imgTracking' which has the same size of original video
      imgTracking=cvCreateImage(frameSize,IPL_DEPTH_8U, 3);
-     cvZero(imgTracking); //covert the image, 'imgTracking' to black
+	 cvZero(imgTracking); //covert the image, 'imgTracking' to black
 
 
       //iterate through each frames of the video      
       while(true){
 
-            frame = cvQueryFrame(capture);            
+           frame = cvQueryFrame(capture);           
             if(!frame) break;
-
             frame=cvCloneImage(frame); 
+            
             cvSmooth(frame, frame, CV_GAUSSIAN,3,3); //smooth the original image using Gaussian kernel
 
             IplImage* imgHSV = cvCreateImage(cvGetSize(frame), IPL_DEPTH_8U, 3); 
@@ -102,31 +105,32 @@ int main(){
             IplImage* imgThresh = GetThresholdedImage(imgHSV);
           
             cvSmooth(imgThresh, imgThresh, CV_GAUSSIAN,3,3); //smooth the binary image using Gaussian kernel
-
-		    //track the possition of the ball
-            trackObject(imgThresh);
-
-            // Add the tracking image and the frame
-            cvAdd(imgThresh, imgTracking,imgThresh );
-        
-			oVideoWriter.write(imgThresh); //writer the frame after the filter into the file
-
-            cvShowImage("Chino", imgThresh);            
-            cvShowImage("Video", frame);
             
-            //Clean up used images
-            cvReleaseImage(&imgHSV);
-            cvReleaseImage(&imgThresh);            
-            cvReleaseImage(&frame);
+             //track the possition of the ball
+             trackObject(imgThresh);
 
-            //Wait 50mS
-            int c = cvWaitKey(10);
-            //If 'ESC' is pressed, break the loop
-            if((char)c==27 ) break;      
+             // Add the tracking image and the frame
+             cvAdd(frame, imgTracking, frame);
+			 
+			 oVideoWriter.write(imgThresh); //writer the frame after the filter into the fil
+			
+			 cvShowImage("Ball", imgThresh);           
+             cvShowImage("Video", frame);
+           
+             //Clean up used images
+             cvReleaseImage(&imgHSV);
+             cvReleaseImage(&imgThresh);            
+             cvReleaseImage(&frame);
+
+              //Wait 10mS
+              int c = cvWaitKey(10);
+             //If 'ESC' is pressed, break the loop
+             if((char)c==27 ) break;       
       }
 
       cvDestroyAllWindows() ;
-      cvReleaseCapture(&capture);     
+      cvReleaseCapture(&capture);
+	  cvReleaseImage(&imgTracking);
 
       return 0;
 }
