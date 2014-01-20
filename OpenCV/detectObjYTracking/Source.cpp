@@ -18,11 +18,34 @@ IplImage* GetThresholdedImage(IplImage* imgHSV){
        IplImage* imgThresh=cvCreateImage(cvGetSize(imgHSV),IPL_DEPTH_8U, 1);
        cvInRangeS(imgHSV, cvScalar(22,0,0), cvScalar(38,256,256), imgThresh); 
        return imgThresh;
-} 
+}
 
 //ROJO  -  cvScalar(170,160,60), cvScalar(180,256,256)
 //AZUL  -  cvScalar(75,50,60), cvScalar(130,256,256)
 //Verde - cvScalar(38,50,60), cvScalar(75,256,256)
+
+//This function inverts the image
+IplImage* InvertirColor(IplImage* img){
+	    int height,width,step,channels;
+		uchar *data;
+		int i,j,k;
+        IplImage* imgInv=cvCreateImage(cvGetSize(img),IPL_DEPTH_8U, 3);
+
+		// get the image data
+		height    = img->height;
+		width     = img->width;
+		step      = img->widthStep;
+		channels  = img->nChannels;
+		data      = (uchar *)img->imageData;
+
+        // invert the image
+		for(i=0;i<height;i++)
+		  for(j=0;j<width;j++)
+		    for(k=0;k<channels;k++)  //loop to read for each channel
+		      data[i*step+j*channels+k]=255-data[i*step+j*channels+k];    //inverting the image
+
+        return img;
+} 
 
 void trackObject(IplImage* imgThresh){
     // Calculate the moments of 'imgThresh'
@@ -66,7 +89,8 @@ int main(){
       if(!frame) return -1;
 
       cvNamedWindow("Video");      
-      cvNamedWindow("Ball");
+      //cvNamedWindow("puntos detectados");
+	  cvNamedWindow("tracking");
 
 	  
    double dWidth = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH); //get the width of frames of the video
@@ -78,7 +102,7 @@ int main(){
 
    Size frameSize(static_cast<int>(dWidth), static_cast<int>(dHeight));
 
-   VideoWriter oVideoWriter ("salida.avi", CV_FOURCC('M','P','4','2'), fps, frameSize, false); //initialize the VideoWriter object 
+   VideoWriter oVideoWriter ("salida.avi", CV_FOURCC('M','P','4','2'), fps, frameSize, true); //initialize the VideoWriter object 
    //CV_FOURCC('P','I','M','1')
    if ( !oVideoWriter.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
    {
@@ -86,9 +110,16 @@ int main(){
         return -1;
    }
 
+   IplImage* imgHSV = cvCreateImage(frameSize, IPL_DEPTH_8U, 3); 
+   cvCvtColor(frame, imgHSV, CV_BGR2HSV); //Change the color format from BGR to HSV
+   IplImage* imgThresh = GetThresholdedImage(imgHSV);
+
+
     //create a blank image and assigned to 'imgTracking' which has the same size of original video
-     imgTracking=cvCreateImage(frameSize,IPL_DEPTH_8U, 3);
-	 cvZero(imgTracking); //covert the image, 'imgTracking' to black
+    //imgTracking=cvCreateImage(frameSize,IPL_DEPTH_8U, 3);
+    imgTracking=cvCreateImage(cvGetSize(imgThresh),IPL_DEPTH_8U, 3);
+    //cvCopy(imgThresh,imgTracking);
+	cvZero(imgTracking); //covert the image, 'imgTracking' to black
 
 
       //iterate through each frames of the video      
@@ -105,16 +136,21 @@ int main(){
             IplImage* imgThresh = GetThresholdedImage(imgHSV);
           
             cvSmooth(imgThresh, imgThresh, CV_GAUSSIAN,3,3); //smooth the binary image using Gaussian kernel
-            
+			            
              //track the possition of the ball
              trackObject(imgThresh);
 
              // Add the tracking image and the frame
-             cvAdd(frame, imgTracking, frame);
+			 //cvAdd(frame, imgTracking, frame);
+			 //IplImage* imgInv = InvertirColor(imgThresh);
+			 IplImage* imgThresh2 = cvCreateImage(cvGetSize(frame), IPL_DEPTH_8U, 3); 
+			 cvCvtColor(imgThresh, imgThresh2, CV_GRAY2BGR); //Change the color format from GRAY to BGR
+			 cvAdd(imgThresh2, imgTracking, imgThresh2);
 			 
-			 oVideoWriter.write(imgThresh); //writer the frame after the filter into the fil
+			 oVideoWriter.write(imgThresh2); //writer the frame after the filter into the fil
 			
-			 cvShowImage("Ball", imgThresh);           
+			 //cvShowImage("puntos detectados", imgThresh);
+			 cvShowImage("tracking", imgThresh2);
              cvShowImage("Video", frame);
            
              //Clean up used images
