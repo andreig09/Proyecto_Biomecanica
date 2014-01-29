@@ -1,0 +1,2 @@
+El Archivo "Untitled.m" invoca la lectura de imagenes (puede elegirse cual en el codigo, esta la casa, y el puente)
+Esta comentado la mayoria de las invocaciones, el codigo lee la imagen y aplica los filtros
