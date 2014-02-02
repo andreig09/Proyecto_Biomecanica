@@ -1,0 +1,1 @@
+IplImage*	detectarBlobs(IplImage *filtrada);
