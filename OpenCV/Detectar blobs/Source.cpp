@@ -16,7 +16,6 @@ using namespace cv;
 using namespace std;
 //using namespace cvb;
 
-
 CvScalar Rojomin = cvScalar(170,160,60);
 CvScalar Rojomax = cvScalar(180,256,256);
 CvScalar Amarillomax = cvScalar(38,256,256);
@@ -39,7 +38,7 @@ int main( int argc, char** argv ){
     Mat img;
 		
     img = imread(argv[1], IMREAD_GRAYSCALE); // Read the file
-	//img = imread("betta.jpg", IMREAD_COLOR); // Read the file
+	//img = imread(argv[1], IMREAD_COLOR); // Read the file
 
 	if(! img.data ) // Check for invalid input
     {
@@ -57,7 +56,7 @@ int main( int argc, char** argv ){
 	  IplImage *imagenfiltrada=cvCreateImage(cvSize(cvGetSize(&imagen).width,cvGetSize(&imagen).height),8,3);//Image in HSV color space
 
 	  //imagenfiltrada = filterByColorHSV(&imagen,azulmin,azulmax);
-	  
+	 
 	  imagenfiltrada=detectarBlobs(&imagen);
 
 	  cvShowImage("imagen posta", &imagen);
@@ -65,7 +64,7 @@ int main( int argc, char** argv ){
 
 	  Mat imgf = imagenfiltrada;
 
-	  imwrite("ConBlobs.jpg",imgf);
+	  imwrite("conBlobs.jpg",imgf);
 
 	  waitKey(0); //wait infinite time for a keypress
 

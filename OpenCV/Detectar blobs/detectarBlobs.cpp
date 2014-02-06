@@ -13,7 +13,7 @@ using namespace std;
 
 
 IplImage*	detectarBlobs(IplImage *filtrada){
-
+	
 	//Structure to hold blobs
 	CvBlobs blobs;
 
@@ -25,53 +25,28 @@ IplImage*	detectarBlobs(IplImage *filtrada){
 
 	//Finding the blobs
 	unsigned int result=cvLabel(filtrada,labelImg,blobs);
+	
+	//Filtering the blobs
+	cvFilterByArea(blobs,500,blobs[cvLargestBlob(blobs)]->area);
+
 	//Rendering the blobs
 	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
 	
-	vector< pair<CvLabel, CvBlob*> > blobList;
-    copy(blobs.begin(), blobs.end(), back_inserter(blobList));
-		
-	CvFont font = cvFontQt("CV_FONT_ITALIC");
+	CvFont font;
+    cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
 	CvPoint centroide;
 	char lbl='0';
+	char buffer[7];
+	sprintf(buffer,"1",lbl);
 
-	//Filtering the blobs
-	//cvFilterByArea(blobs,60,500);
 	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
 	{
 		centroide.x = it->second->centroid.x;
 		centroide.y = it->second->centroid.y;
 		lbl = it->second->label;
-		//cvAddText(ImgBlobs,&lbl,centroide,&font);
-		cvPutText(ImgBlobs,&lbl,centroide,&font,cvScalar(200,200,250));
-		//cvPutText(ImgBlobs,it->second->label,it->second->centroid,&font);
+		cvPutText(ImgBlobs,buffer,centroide,&font,cvScalar(200,200,250));
 		
-	//double moment10 = it->second->m10;
-	//double moment01 = it->second->m01;
-	//double area = it->second->area;
-	//Variable for holding position
-	//int x1;
-	//int y1;
-	//Calculating the current position
-	//x1 = moment10/area;
-	//y1 = moment01/area;
 	}
-
-	//if (cvGreaterBlob(blobs)){
-	
-		//blob = blobs[cvLargestBlob(blobs)];
-
-		//if(lastX>=0 && lastY>=0)
-			//    {
-					// Draw a yellow line from the previous point to the current point
-					//cvLine(redline, cvPoint(x1, y1), cvPoint(lastX, lastY), cvScalar(0,0,255), 4);
-				//	cvLine(redline, cvPoint(blob->centroid.x, blob->centroid.y), cvPoint(lastX, lastY), cvScalar(0,0,255), 4);
-				//}
-
-		//lastX = blob->centroid.x;
-		//lastY = blob->centroid.y;
-
-		//cvAdd(frame,redline,frame);
-		//}
+		
 	return ImgBlobs;
 }
