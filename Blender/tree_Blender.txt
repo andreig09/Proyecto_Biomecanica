@@ -2,6 +2,8 @@
 ├── Maniqui con Armadura ---> https://drive.google.com/folderview?id=0B7mu6FFJvDaHdzdwUTdSdzRFZDA&usp=sharing
 │   ├── Animaciones ---> https://drive.google.com/folderview?id=0B7mu6FFJvDaHUjhIekhoR0tuUms&usp=sharing
 │   │   ├── Camina_pelado_BW.zip
+│   │   ├── camina_pelado_camara2.dvd
+│   │   ├── camina_pelado_camara3.dvd
 │   │   ├── Camina_pelado.dvd
 │   │   ├── mostrando_tablero0010.png
 │   │   ├── solo_bolitas_9_020010-0130.dvd
@@ -23,4 +25,5 @@
     ├── tablero_ajedrez.blend2
     └── Wood.bmp
 
-3 directories, 20 files
+3 directories, 22 files
+
