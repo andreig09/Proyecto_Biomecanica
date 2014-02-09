@@ -10,18 +10,22 @@ n = []
 
 for i=1:i_fin
     if i <10
-        imagen = sprintf('blender/test/image_00%d.tif',i);
+        %imagen = sprintf('blender/test/image_00%d.tif',i);
+        imagen = sprintf('blender_02/image_00%d.tiff',i);
     elseif i<100
-        imagen = sprintf('blender/test/image_0%d.tif',i);
+        %imagen = sprintf('blender/test/image_0%d.tif',i);
+        imagen = sprintf('blender_02/image_0%d.tiff',i);
     else
-       imagen = sprintf('blender/test/image_%d.tif',i); 
+        %imagen = sprintf('blender/test/image_%d.tif',i);
+        imagen = sprintf('blender_02/image_%d.tiff',i);
     end;
+    
     
     I=imread(imagen);
     M=double(I(:,:,1));
     %figure(1)
     %subplot(2,1,1)
-    %imshow(uint8(M));
+    imshow(uint8(M));
     title(sprintf('Imagen Original %d',i));
     %M = M-imopen(M,strel('disk',15));
     figure(3)
@@ -51,6 +55,8 @@ for i=1:i_fin
         M_(round(centroide.Centroid(2)),round(centroide.Centroid(1))-largo_m:punteado_m:round(centroide.Centroid(1))+largo_m) = 150;
         M_(round(centroide.Centroid(2))-largo_m:punteado_m:round(centroide.Centroid(2))+largo_m,round(centroide.Centroid(1))) = 150;
     end
+    % Voy guardando los resultados en la matriz "n", estan redondeados, la
+    % primer columna es el indice de frame
     n = [n;round([i*ones(size(m,1),1),m])];
     imshow(uint8(M_));
     if i<10
@@ -64,3 +70,6 @@ for i=1:i_fin
     title(sprintf('Imagen Procesada %d',i));
     pause(1/180)
 end;
+figure
+plot(n(:,2),n(:,3),'x');
+axis square;
