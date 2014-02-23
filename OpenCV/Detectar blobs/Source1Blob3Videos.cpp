@@ -17,29 +17,12 @@ using namespace cvb;
 using namespace std;
 //using namespace cvb;
 
-CvScalar Rojomin = cvScalar(170,160,60);
-CvScalar Rojomax = cvScalar(180,256,256);
-CvScalar Amarillomax = cvScalar(38,256,256);
-CvScalar Amarillomin = cvScalar(22,0,0);
-CvScalar azulmin = cvScalar(75,50,60);
-CvScalar azulmax = cvScalar(130,256,256);
-CvScalar verdemin = cvScalar(38,50,60);
-CvScalar verdemax = cvScalar(75,256,256);
-CvScalar blancomin = cvScalar(0,0,200);
-CvScalar blancomax = cvScalar(180,10,256);
-
-IplImage* imgTracking;
-
-CvBlob blobAnterior;
-
-int lastX = -1;
-int lastY = -1;
-
-int main(){
+//Este main te saca 3 videos: el original, el filtrado y el blob detectado (todo para 1 blob)
+int main1Blob3Vid(){
 		
 	CvCapture* capture =0;       
 	  
-	 capture = cvCaptureFromAVI("limon2.mp4"); //Camina_pelado.dvd
+	 capture = cvCaptureFromAVI("limon2.mp4");
 
       if(!capture){
             printf("Capture failure\n");
@@ -78,47 +61,41 @@ int main(){
         cout << "ERROR: Failed to write the video" << endl;
         return -1;
    }
-      
+    
+   CvScalar Amarillomax = cvScalar(38,256,256);
+   CvScalar Amarillomin = cvScalar(22,0,0);
+
    IplImage* imgThresh = filterByColorHSV(frame,Amarillomin,Amarillomax);
    blobsDetectados detblobs = detectarBlobs(imgThresh);
    IplImage* imgblob = detblobs.imgBlobs;
-
-   //create a blank image and assigned to 'imgTracking' which has the same size of original video
-   imgTracking=cvCreateImage(cvGetSize(imgThresh),IPL_DEPTH_8U, 3);
-   cvZero(imgTracking); //covert the image, 'imgTracking' to black
-
-   //inicializar blob anterior
-   blobAnterior.centroid.x = lastX;
-   blobAnterior.centroid.y = lastY;
 
    //iterate through each frames of the video      
       while(true){
 
            frame = cvQueryFrame(capture);           
-           if(!frame) break;
-           frame=cvCloneImage(frame); 
+            if(!frame) break;
+            frame=cvCloneImage(frame); 
             
            IplImage* imgThresh = filterByColorHSV(frame,Amarillomin,Amarillomax);
-		   //blobsDetectados detblobs = detectarBlobs(imgThresh);
-           //IplImage* imgblob = detblobs.imgBlobs;
-		   IplImage* imgblob = seguirBlob(frame,imgThresh,blobAnterior,imgTracking);
+		   blobsDetectados detblobs = detectarBlobs(imgThresh);
+           IplImage* imgblob = detblobs.imgBlobs;
           
-		   oVideoWriter.write(imgThresh); //writer the frame after the filter into the fil
-		   oVideoWriter2.write(imgblob); //writer the frame after the filter into the fil
+           	 oVideoWriter.write(imgThresh); //writer the frame after the filter into the fil
+			 oVideoWriter2.write(imgblob); //writer the frame after the filter into the fil
 			 
-		   //cvShowImage("puntos detectados", imgThresh);
-		   cvShowImage("filtro", imgThresh);
-		   cvShowImage("Video", frame);
+			 //cvShowImage("puntos detectados", imgThresh);
+			 cvShowImage("filtro", imgThresh);
+			 cvShowImage("Video", frame);
            
-           //Clean up used images
-           cvReleaseImage(&imgThresh);            
-           cvReleaseImage(&frame);
-		   cvReleaseImage(&imgblob);
+             //Clean up used images
+             cvReleaseImage(&imgThresh);            
+             cvReleaseImage(&frame);
+			 cvReleaseImage(&imgblob);
 
-           //Wait 10mS
-           int c = cvWaitKey(10);
-           //If 'ESC' is pressed, break the loop
-           if((char)c==27 ) break;       
+              //Wait 10mS
+              int c = cvWaitKey(10);
+             //If 'ESC' is pressed, break the loop
+             if((char)c==27 ) break;       
       }
 
 	  waitKey(0); //wait infinite time for a keypress

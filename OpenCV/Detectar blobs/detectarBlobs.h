@@ -12,4 +12,13 @@ using namespace cv;
 using namespace cvb;
 using namespace std;
 
-CvBlobs	detectarBlobs(IplImage *filtrada);
+struct blobsDetectados
+{
+	CvBlobs blobs;
+	IplImage *imgBlobs;
+};
+
+blobsDetectados	detectarBlobs(IplImage *filtrada);
+double Distance2(double dX0, double dY0, double dX1, double dY1);
+CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs);
+IplImage* seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage* imagenTracking);

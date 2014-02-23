@@ -2,7 +2,7 @@
 #include<cv.h>
 #include<highgui.h>
 
-
+//Filtra una imagen dada según determinado rango de color HSV
 IplImage* filterByColorHSV(IplImage *img, CvScalar min, CvScalar max){
 
 	

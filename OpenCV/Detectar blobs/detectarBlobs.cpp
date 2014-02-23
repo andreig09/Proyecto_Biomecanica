@@ -12,10 +12,17 @@ using namespace cv;
 using namespace cvb;
 using namespace std;
 
+struct blobsDetectados
+{
+	CvBlobs blobs;
+	IplImage *imgBlobs;
+};
+
 //Funcion que a partir de una imagen filtrada devuelve los blobs 
 //(tambien genera la img con blobs y los enumera en consola)
-CvBlobs	detectarBlobs(IplImage *filtrada){
+blobsDetectados	detectarBlobs(IplImage *filtrada){
 	
+	blobsDetectados salida;
 	//Structure to hold blobs
 	CvBlobs blobs;
 
@@ -47,19 +54,20 @@ CvBlobs	detectarBlobs(IplImage *filtrada){
 		centroide.x = it->second->centroid.x;
 		centroide.y = it->second->centroid.y;
 		lbl = it->second->label;
-		printf("el label del blob es: %c y es el numero: %i \n",lbl,itblob);
+		//printf("el label del blob es: %c y es el numero: %i \n",lbl,itblob);
 		itoa (itblob,buffer,10);
 		cvPutText(ImgBlobs,buffer,centroide,&font,cvScalar(0,0,0));
 	}
 
-	cvShowImage("imagen filtrada", ImgBlobs);
+	cvShowImage("Blobs", ImgBlobs);
 
-	Mat imgf = ImgBlobs;
+	//Mat imgf = ImgBlobs;
 
-	imwrite("conBlobs.jpg",imgf);
+	//imwrite("conBlobs.jpg",imgf);
 
-		
-	return blobs;
+	salida.blobs = blobs;
+	salida.imgBlobs = ImgBlobs;
+	return salida;
 }
 
 double Distance2(double dX0, double dY0, double dX1, double dY1)
@@ -104,15 +112,17 @@ CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){
 
 }
 
-void seguirBlob(IplImage* cuadro,CvBlob lastBlob){
+IplImage* seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage* imagenTracking){
 	
 	CvPoint lastcentroid;
 	lastcentroid.x = lastBlob.centroid.x;
 	lastcentroid.y = lastBlob.centroid.y;
 
+	blobsDetectados detectar;
 	CvBlobs blobs;
 
-	blobs = detectarBlobs(cuadro);
+	detectar = detectarBlobs(filtrada);
+	blobs = detectar.blobs;
 	
 	CvBlob blobActual;
 	blobActual  = ubicarBlob(lastBlob,blobs);
@@ -124,9 +134,13 @@ void seguirBlob(IplImage* cuadro,CvBlob lastBlob){
 	if(lastcentroid.x>=0 && lastcentroid.y>=0 && posX>=0 && posY>=0)
         {
             // Draw a line from the previous point to the current point
-            cvLine(cuadro, cvPoint(posX, posY), cvPoint(lastcentroid.x, lastcentroid.y), cvScalar(0,0,255), 4);
+            cvLine(imagenTracking, cvPoint(posX, posY), cvPoint(lastcentroid.x, lastcentroid.y), cvScalar(0,0,255), 4);
 		}
 
-    lastBlob = blobActual;    
+    lastBlob = blobActual;
 
+	IplImage* imgtracked = cvCreateImage(cvGetSize(cuadro), IPL_DEPTH_8U, 3);
+	imgtracked = cuadro;
+	cvAdd(imgtracked, imagenTracking, imgtracked);
+	return imgtracked;
 }
