@@ -13,6 +13,7 @@
 
 //NameSpaces
 using namespace cv;
+using namespace cvb;
 using namespace std;
 //using namespace cvb;
 
@@ -57,19 +58,22 @@ int main( int argc, char** argv ){
 
 	  //imagenfiltrada = filterByColorHSV(&imagen,azulmin,azulmax);
 	 
-	  imagenfiltrada=detectarBlobs(&imagen);
+	  CvBlobs blobsimg;
+	  blobsimg = detectarBlobs(&imagen);
+	  
 
 	  cvShowImage("imagen posta", &imagen);
-      cvShowImage("imagen filtrada", imagenfiltrada);
+      //cvShowImage("imagen filtrada", imagenfiltrada);
 
-	  Mat imgf = imagenfiltrada;
+	  //Mat imgf = imagenfiltrada;
 
-	  imwrite("conBlobs.jpg",imgf);
+	  //imwrite("conBlobs.jpg",imgf);
 
 	  waitKey(0); //wait infinite time for a keypress
 
-	  destroyWindow("imagen posta"); //destroy the window with the name, "MyWindow"
-	  destroyWindow("imagen filtrada");
+	  //destroyWindow("imagen posta"); //destroy the window with the name, "MyWindow"
+	  //destroyWindow("imagen filtrada");
+	  destroyAllWindows;
 
       return 0;
 
