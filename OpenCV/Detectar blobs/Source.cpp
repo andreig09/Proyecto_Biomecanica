@@ -27,6 +27,8 @@ CvScalar verdemin = cvScalar(38,50,60);
 CvScalar verdemax = cvScalar(75,256,256);
 CvScalar blancomin = cvScalar(0,0,200);
 CvScalar blancomax = cvScalar(180,10,256);
+CvScalar naranjomin = cvScalar(10,122,200);
+CvScalar naranjomax = cvScalar(22,256,256);
 
 IplImage* imgTracking;
 
@@ -39,7 +41,7 @@ int main(){
 		
 	CvCapture* capture =0;       
 	  
-	 capture = cvCaptureFromAVI("limon2.mp4"); //Camina_pelado.dvd
+	 capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd
 
       if(!capture){
             printf("Capture failure\n");
@@ -80,7 +82,8 @@ int main(){
         return -1;
    }
       
-   IplImage* imgThresh = filterByColorHSV(frame,Amarillomin,Amarillomax);
+   IplImage* imgThresh = filterByColorHSV(frame,naranjomin,naranjomax);
+   cvShowImage("filtro", imgThresh);
    blobsDetectados detblobs = detectarBlobs(imgThresh);
    IplImage* imgblob = detblobs.imgBlobs;
 
@@ -99,7 +102,7 @@ int main(){
            if(!frame) break;
            frame=cvCloneImage(frame); 
             
-           IplImage* imgThresh = filterByColorHSV(frame,Amarillomin,Amarillomax);
+           IplImage* imgThresh = filterByColorHSV(frame,naranjomin,naranjomax);
 		   //blobsDetectados detblobs = detectarBlobs(imgThresh);
            //IplImage* imgblob = detblobs.imgBlobs;
 		   imgtrack seguir = seguirBlob(frame,imgThresh,blobAnterior,imgTracking);

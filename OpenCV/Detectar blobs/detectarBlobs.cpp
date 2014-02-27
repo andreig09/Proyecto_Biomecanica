@@ -42,7 +42,11 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	//Finding the blobs
 	unsigned int result=cvLabel(filtrada,labelImg,blobs);
 	
-	//Filtering the blobs
+	int tamañoBlobs = blobs.size();
+
+	if ( tamañoBlobs > 0)
+	{
+		//Filtering the blobs
 	cvFilterByArea(blobs,500,blobs[cvLargestBlob(blobs)]->area);
 
 	//Rendering the blobs
@@ -65,6 +69,8 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 		itoa (itblob,buffer,10);
 		cvPutText(ImgBlobs,buffer,centroide,&font,cvScalar(0,0,0));
 	}
+	}
+	
 
 	cvShowImage("Blobs", ImgBlobs);
 
@@ -135,7 +141,9 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
 	detectar = detectarBlobs(filtrada);
 	blobs = detectar.blobs;
 	
-	CvBlob blobActual;
+	if (blobs.size() > 0)
+	{
+		CvBlob blobActual;
 	blobActual  = ubicarBlob(anterior,blobs);
 	int posX;
 	int posY;
@@ -149,6 +157,8 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
 		}
 
     anterior = blobActual;
+	}
+	
 	salida.BlobAnterior = anterior;
 	imgtracked = cvCreateImage(cvGetSize(cuadro), IPL_DEPTH_8U, 3);
 	imgtracked = detectar.imgBlobs;
