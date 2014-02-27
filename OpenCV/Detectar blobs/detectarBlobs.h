@@ -22,7 +22,7 @@ struct imgtrack
 {
 	IplImage *tracking;
 	IplImage *BlobsTrack;
-	CvBlob BlobAnterior;
+	CvBlobs BlobsAnteriores;
 };
 
 blobsDetectados	detectarBlobs(IplImage *filtrada);

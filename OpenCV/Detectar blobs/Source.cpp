@@ -32,6 +32,7 @@ CvScalar naranjomax = cvScalar(22,256,256);
 
 IplImage* imgTracking;
 
+CvBlobs blobsAnteriores;
 CvBlob blobAnterior;
 
 int lastX = -1;
@@ -41,7 +42,7 @@ int main(){
 		
 	CvCapture* capture =0;       
 	  
-	 capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd
+	 capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd,  macaco.avi
 
       if(!capture){
             printf("Capture failure\n");
@@ -86,14 +87,22 @@ int main(){
    cvShowImage("filtro", imgThresh);
    blobsDetectados detblobs = detectarBlobs(imgThresh);
    IplImage* imgblob = detblobs.imgBlobs;
+   blobsAnteriores = detblobs.blobs;
 
    //create a blank image and assigned to 'imgTracking' which has the same size of original video
    imgTracking=cvCreateImage(cvGetSize(imgThresh),IPL_DEPTH_8U, 3);
    cvZero(imgTracking); //covert the image, 'imgTracking' to black
 
    //inicializar blob anterior
-   blobAnterior.centroid.x = lastX;
-   blobAnterior.centroid.y = lastY;
+   for (CvBlobs::const_iterator it=blobsAnteriores.begin(); it!=blobsAnteriores.end(); ++it)
+	{
+		it->second->centroid.x = lastX;
+		it->second->centroid.y = lastY;
+	}
+
+
+   imgtrack seguir;
+   
 
    //iterate through each frames of the video      
       while(true){
@@ -103,13 +112,18 @@ int main(){
            frame=cvCloneImage(frame); 
             
            IplImage* imgThresh = filterByColorHSV(frame,naranjomin,naranjomax);
-		   //blobsDetectados detblobs = detectarBlobs(imgThresh);
-           //IplImage* imgblob = detblobs.imgBlobs;
-		   imgtrack seguir = seguirBlob(frame,imgThresh,blobAnterior,imgTracking);
-		   imgblob = seguir.BlobsTrack;
-		   imgTracking = seguir.tracking;
-		   blobAnterior = seguir.BlobAnterior;
-           
+		   
+		   //seguir cada blob de la imagen anterior en la imagen actual
+		   for (CvBlobs::const_iterator it=blobsAnteriores.begin(); it!=blobsAnteriores.end(); ++it)
+			{
+				blobAnterior = *(it->second);
+				seguir = seguirBlob(frame,imgThresh,blobAnterior,imgTracking);
+				imgblob = seguir.BlobsTrack;
+				imgTracking = seguir.tracking;
+			}
+		   
+		   blobsAnteriores = seguir.BlobsAnteriores;
+
 		   oVideoWriter.write(imgThresh); //writer the frame after the filter into the fil
 		   oVideoWriter2.write(imgblob); //writer the frame after the filter into the fil
 			 

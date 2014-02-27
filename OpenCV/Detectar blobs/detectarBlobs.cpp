@@ -22,7 +22,7 @@ struct imgtrack
 {
 	IplImage *tracking;
 	IplImage *BlobsTrack;
-	CvBlob BlobAnterior;
+	CvBlobs BlobsAnteriores;
 };
 
 //Funcion que a partir de una imagen filtrada devuelve los blobs 
@@ -129,6 +129,7 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
 	
 	imgtrack salida;
 	CvBlob anterior = lastBlob;
+	
 	IplImage* imgtracked;
 	IplImage* linea = imagenTracking;
 	CvPoint lastcentroid;
@@ -143,7 +144,7 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
 	
 	if (blobs.size() > 0)
 	{
-		CvBlob blobActual;
+	CvBlob blobActual;
 	blobActual  = ubicarBlob(anterior,blobs);
 	int posX;
 	int posY;
@@ -156,10 +157,10 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
             cvLine(linea, cvPoint(posX, posY), cvPoint(lastcentroid.x, lastcentroid.y), cvScalar(0,0,255), 4);
 		}
 
-    anterior = blobActual;
+    //anterior = blobActual;
 	}
 	
-	salida.BlobAnterior = anterior;
+	salida.BlobsAnteriores = detectar.blobs;
 	imgtracked = cvCreateImage(cvGetSize(cuadro), IPL_DEPTH_8U, 3);
 	imgtracked = detectar.imgBlobs;
 	cvAdd(imgtracked, linea, imgtracked);
