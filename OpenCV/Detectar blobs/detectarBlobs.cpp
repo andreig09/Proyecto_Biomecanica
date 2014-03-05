@@ -25,14 +25,13 @@ struct imgtrack
 	CvBlobs BlobsAnteriores;
 };
 
-//Funcion que a partir de una imagen filtrada devuelve los blobs 
-//(tambien genera la img con blobs y los enumera en consola)
+//Funcion que a partir de una imagen filtrada devuelve los blobs.
+//tambien genera la img con blobs y la muestra en una ventana
 blobsDetectados	detectarBlobs(IplImage *filtrada){
 	
+	//inicializar elementos
 	blobsDetectados salida;
-	//Structure to hold blobs
-	CvBlobs blobs;
-
+	CvBlobs blobs; //structure to hold blobs
 	double dWidth = cvGetSize(filtrada).width;
     double dHeight = cvGetSize(filtrada).height;
 	IplImage *labelImg=cvCreateImage(cvSize(dWidth,dHeight),IPL_DEPTH_LABEL,1);//Image Variable for blobs
@@ -44,18 +43,19 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	
 	int tamañoBlobs = blobs.size();
 
-	if ( tamañoBlobs > 0)
+	if ( tamañoBlobs > 0) //Si se detecta al menos 1 blob, se dibujan en la imagen y se numeran
 	{
-		//Filtering the blobs
+	//Filtering the blobs (sacar el ruido)
 	cvFilterByArea(blobs,500,blobs[cvLargestBlob(blobs)]->area);
 
 	//Rendering the blobs
 	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
 	
+	////////////////////////////////////////////////////////////////////////////
+	//Todo lo que sigue es para que aparezca un número en el centroide
 	CvFont font;
     cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
 	CvPoint centroide;
-	char lbl='0';
 	char buffer[7];
 	int itblob = 0;
 			
@@ -64,20 +64,15 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 		itblob++;
 		centroide.x = it->second->centroid.x;
 		centroide.y = it->second->centroid.y;
-		lbl = it->second->label;
-		//printf("el label del blob es: %c y es el numero: %i \n",lbl,itblob);
 		itoa (itblob,buffer,10);
 		cvPutText(ImgBlobs,buffer,centroide,&font,cvScalar(0,0,0));
 	}
+	//////////////////////////////////////////////////////////////////////////////
 	}
 	
-
+	//Se muestra la imagen
 	cvShowImage("Blobs", ImgBlobs);
-
-	//Mat imgf = ImgBlobs;
-
-	//imwrite("conBlobs.jpg",imgf);
-
+		
 	salida.blobs = blobs;
 	salida.imgBlobs = ImgBlobs;
 	return salida;

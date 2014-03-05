@@ -42,7 +42,7 @@ int main(){
 		
 	CvCapture* capture =0;       
 	  
-	 capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd,  macaco.avi
+	 capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
 
       if(!capture){
             printf("Capture failure\n");
@@ -112,7 +112,8 @@ int main(){
            frame=cvCloneImage(frame); 
             
            IplImage* imgThresh = filterByColorHSV(frame,naranjomin,naranjomax);
-		   
+		    
+
 		   //seguir cada blob de la imagen anterior en la imagen actual
 		   for (CvBlobs::const_iterator it=blobsAnteriores.begin(); it!=blobsAnteriores.end(); ++it)
 			{

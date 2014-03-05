@@ -2,7 +2,7 @@
 #include<cv.h>
 #include<highgui.h>
 
-//Filtra una imagen dada según determinado rango de color HSV
+//Filtra una imagen dada según determinado rango de color en formato HSV, devuelve una imagen en blanco y negro 
 IplImage* filterByColorHSV(IplImage *img, CvScalar min, CvScalar max){
 
 	
@@ -13,12 +13,12 @@ IplImage* filterByColorHSV(IplImage *img, CvScalar min, CvScalar max){
 	
 	//smooth the original image using Gaussian kernel
 	cvSmooth(img, img, CV_GAUSSIAN,3,3); 
-	//Changing the color space
+	//Changing the color space from BGR to HSV
 	cvCvtColor(img,hsvframe,CV_BGR2HSV);
-	//Thresholding the frame for yellow
+	//Thresholding the frame for the color given
 	cvInRangeS(hsvframe,min, max,threshy);
-	//Filtering the frame
-	cvSmooth(threshy,threshy,CV_MEDIAN,7,7);
+	//smooth the thresholded image using Median kernel
+    cvSmooth(threshy,threshy,CV_MEDIAN,7,7);
 	
 
 	return threshy;
