@@ -78,23 +78,25 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	return salida;
 }
 
+//Distancia vectorial entre dos puntos
 double Distance2(double dX0, double dY0, double dX1, double dY1)
 {
     return sqrt((dX1 - dX0)*(dX1 - dX0) + (dY1 - dY0)*(dY1 - dY0));
 }
 
-//ubica un blob (o el más parecido y más cercano) de un conjunto de blobs.
-
-//POR AHORA ENCUENTRA SOLO EL MAS CERCANO.
+//ubica un blob dado en otro conjunto de blobs.
+//(POR AHORA ENCUENTRA SOLO EL MAS CERCANO, la idea es hacerlo más 
+//robusto, por ejemplo con el sistema de puntajes.)
 CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){ 
 	
+	//inicializar objetos
 	CvPoint centroideanterior;
 	centroideanterior.x = blobanterior.centroid.x;
 	centroideanterior.y = blobanterior.centroid.y;
 	CvPoint centroide;
-	
 	CvBlob actual;
-
+	
+	//Lista de <label,blob>
 	vector< pair<CvLabel, CvBlob*> > blobList;
     copy(blobs.begin(), blobs.end(), back_inserter(blobList));
 
@@ -104,6 +106,7 @@ CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){
 	distancia = Distance2(centroideanterior.x,centroideanterior.y,actual.centroid.x,actual.centroid.y);
 	int tamaño = blobList.size();
 
+	//recorre todos los blobs y se queda con el que tiene el centroide más cerca
 	for (int i = 0; i < tamaño; i++)
 	{
 		centroide.x = (*blobList[i].second).centroid.x;
@@ -120,23 +123,26 @@ CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){
 
 }
 
+//Función que dibuja una linea entre las posiciones de los 
+//centroides de un mismo blob en dos imagenes consecutivas de una secuencia de imagenes
 imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage* imagenTracking){
 	
+	//declaracion de objetos
 	imgtrack salida;
 	CvBlob anterior = lastBlob;
-	
 	IplImage* imgtracked;
 	IplImage* linea = imagenTracking;
 	CvPoint lastcentroid;
 	lastcentroid.x = anterior.centroid.x;
 	lastcentroid.y = anterior.centroid.y;
-
 	blobsDetectados detectar;
 	CvBlobs blobs;
 
+	//Detectar los blobs de la imagen actual
 	detectar = detectarBlobs(filtrada);
 	blobs = detectar.blobs;
 	
+	//Si hay al menos uno se ubica el blob deseado
 	if (blobs.size() > 0)
 	{
 	CvBlob blobActual;
@@ -148,17 +154,18 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
 
 	if(lastcentroid.x>=0 && lastcentroid.y>=0 && posX>=0 && posY>=0)
         {
-            // Draw a line from the previous point to the current point
+            // Draw a line from the previous centroid to the current centroid
             cvLine(linea, cvPoint(posX, posY), cvPoint(lastcentroid.x, lastcentroid.y), cvScalar(0,0,255), 4);
 		}
-
-    //anterior = blobActual;
 	}
 	
 	salida.BlobsAnteriores = detectar.blobs;
+	
+	//Se crea una imagen igual a la actual con los blobs detectados y se le agrega la linea
 	imgtracked = cvCreateImage(cvGetSize(cuadro), IPL_DEPTH_8U, 3);
 	imgtracked = detectar.imgBlobs;
 	cvAdd(imgtracked, linea, imgtracked);
+
 	salida.BlobsTrack = imgtracked;
 	salida.tracking = linea;
 	return salida;
