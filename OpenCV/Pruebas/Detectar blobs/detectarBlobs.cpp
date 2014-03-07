@@ -52,7 +52,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
 	
 	////////////////////////////////////////////////////////////////////////////
-	//Todo lo que sigue es para que aparezca un número en el centroide
+	//Todo lo que sigue es para que aparezca un número en el centroide ()
 	CvFont font;
     cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
 	CvPoint centroide;
