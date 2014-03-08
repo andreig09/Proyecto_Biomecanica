@@ -119,7 +119,15 @@ CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){
 		}
 	}
 
-	return actual;
+	//supongo que de un cuadro a otro el blob no se mueve más de 100 pixeles
+	if (distancia < 100)
+	{
+		return actual;
+	}else
+	{
+		return blobanterior;
+	}
+	
 
 }
 
