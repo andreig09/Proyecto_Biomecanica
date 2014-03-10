@@ -36,23 +36,59 @@ CvBlob blobAnterior;
 int lastX = -1;
 int lastY = -1;
 
-int main(){
+int main(int argc, char *argv[]){
 	
 	//Obtener video y separarlo en cuadros
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	CvCapture* capture =0;       
-	capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
+	CvCapture* capture =0;
+	IplImage* frame=0;
+
+	if ( argc != 3 ) {// argc should be 2 for correct execution
+    // We print argv[0] assuming it is the program name
+    cout<<"Cantidad de argumentos incorrecta";
+	}else {
+
+	//capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
+	capture = cvCaptureFromAVI(argv[1]);
 
     if(!capture){
          printf("Capture failure\n");
          return -1;
     }
       
-    IplImage* frame=0;
 	frame = cvQueryFrame(capture);           
     if(!frame) return -1;
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
+	CvScalar minimo;
+	CvScalar maximo;
+	
+	switch (*argv[2])
+	{
+	case 'y': minimo = Amarillomin;
+			  maximo = Amarillomax;
+			  break;
+	case 'r': minimo = Rojomin;
+			  maximo = Rojomax;
+			  break;
+	case 'b': minimo = azulmin;
+			  maximo = azulmax;
+			  break;
+	case 'o': minimo = naranjomin;
+			  maximo = naranjomax;
+			  break;
+	case 'w': minimo = blancomin;
+			  maximo = blancomax;
+			  break;
+	case 'g': minimo = verdemin;
+			  maximo = verdemax;
+			  break;
+	default:  minimo = blancomin;
+			  maximo = blancomax;
+			  break;
+	}
+	
 	//Declarar ventanas
     cvNamedWindow("Video");      
     cvNamedWindow("filtro");//esta tiene que ir para adentro del filtro color
@@ -86,7 +122,7 @@ int main(){
    
 	//VALORES INICIALES:
 	//Filtrar imagen
-    IplImage* imgThresh = filterByColorHSV(frame,naranjomin,naranjomax);
+    IplImage* imgThresh = filterByColorHSV(frame,minimo,maximo);
     cvShowImage("filtro", imgThresh);
     //Detectar blobs
 	blobsDetectados detblobs = detectarBlobs(imgThresh);
@@ -110,7 +146,7 @@ int main(){
            if(!frame) break;
            frame=cvCloneImage(frame); 
             
-           IplImage* imgThresh = filterByColorHSV(frame,naranjomin,naranjomax); //Filtrar frame actual
+           IplImage* imgThresh = filterByColorHSV(frame,minimo,maximo); //Filtrar frame actual
 		    
 
 		   //seguir cada blob de la imagen anterior en la imagen actual
