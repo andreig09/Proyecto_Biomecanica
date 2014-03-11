@@ -91,7 +91,7 @@ int main(int argc, char *argv[]){
 	
 	//Declarar ventanas
     cvNamedWindow("Video");      
-    cvNamedWindow("filtro");//esta tiene que ir para adentro del filtro color
+    
 	cvNamedWindow("Seguimiento");
 
 	//Tamaño del frame y frecuencia:  
@@ -123,7 +123,7 @@ int main(int argc, char *argv[]){
 	//VALORES INICIALES:
 	//Filtrar imagen
     IplImage* imgThresh = filterByColorHSV(frame,minimo,maximo);
-    cvShowImage("filtro", imgThresh);
+    
     //Detectar blobs
 	blobsDetectados detblobs = detectarBlobs(imgThresh);
     IplImage* imgblob = detblobs.imgBlobs;
@@ -165,11 +165,11 @@ int main(int argc, char *argv[]){
 			 
 		   //Mostrar videos
 		   cvShowImage("Seguimiento", imgblob); //blobs con trayectoria
-		   cvShowImage("filtro", imgThresh); //filtrada
+		   //cvShowImage("filtro", imgThresh); //filtrada
 		   cvShowImage("Video", frame); //original
            
            //Clean up used images
-           cvReleaseImage(&imgThresh);            
+           //cvReleaseImage(&imgThresh);            
            cvReleaseImage(&frame);
 		   cvReleaseImage(&imgblob); 
 

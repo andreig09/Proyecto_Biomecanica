@@ -76,6 +76,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	salida.blobs = blobs;
 	salida.imgBlobs = ImgBlobs;
 	return salida;
+	cvReleaseImage(&ImgBlobs);
 }
 
 //Distancia vectorial entre dos puntos
