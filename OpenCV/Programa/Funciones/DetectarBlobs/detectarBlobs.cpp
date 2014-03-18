@@ -76,6 +76,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	salida.blobs = blobs;
 	salida.imgBlobs = ImgBlobs;
 	return salida;
+	cvReleaseImage(&ImgBlobs);
 }
 
 //Distancia vectorial entre dos puntos
@@ -119,7 +120,17 @@ CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){
 		}
 	}
 
-	return actual;
+	//supongo que de un cuadro a otro el blob no se mueve más de 100 pixeles
+	//Esto habría que acomodarlo (cuando estén implementadas las otras condiciones) para que
+	//en vez de solo la distancia, evalúe si encontró el blob o el mismo desapareció.
+	if (distancia < 100)
+	{
+		return actual;
+	}else
+	{
+		return blobanterior;
+	}
+	
 
 }
 
