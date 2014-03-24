@@ -146,7 +146,7 @@ int main(int argc, char *argv[]){
            if(!frame) break;
            frame=cvCloneImage(frame); 
             
-           IplImage* imgThresh = filterByColorHSV(frame,minimo,maximo); //Filtrar frame actual
+           imgThresh = filterByColorHSV(frame,minimo,maximo); //Filtrar frame actual
 		    
 
 		   //seguir cada blob de la imagen anterior en la imagen actual
@@ -171,7 +171,8 @@ int main(int argc, char *argv[]){
            //Clean up used images
            //cvReleaseImage(&imgThresh);            
            cvReleaseImage(&frame);
-		   cvReleaseImage(&imgblob); 
+		   cvReleaseImage(&imgblob);
+		   cvReleaseImage(&imgThresh);
 
            //Wait 10mS
            int c = cvWaitKey(10);

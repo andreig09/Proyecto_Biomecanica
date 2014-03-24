@@ -26,4 +26,5 @@ IplImage* filterByColorHSV(IplImage *img, CvScalar min, CvScalar max){
 	
 	return threshy;
 	cvReleaseImage(&threshy);
+	cvReleaseImage(&hsvframe);
 }

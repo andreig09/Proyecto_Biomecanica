@@ -53,6 +53,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	
 	////////////////////////////////////////////////////////////////////////////
 	//Todo lo que sigue es para que aparezca un número en el centroide ()
+	////////////////////////////////////////////////////////////////////////////
 	CvFont font;
     cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
 	CvPoint centroide;
@@ -77,6 +78,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	salida.imgBlobs = ImgBlobs;
 	return salida;
 	cvReleaseImage(&ImgBlobs);
+	cvReleaseImage(&labelImg);
 }
 
 //Distancia vectorial entre dos puntos
@@ -97,7 +99,7 @@ CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){
 	CvPoint centroide;
 	CvBlob actual;
 	
-	//Lista de <label,blob>
+	//Lista de <label,blob>										//Probablemente esto sea innecesario, pero no pude recorrer los CvBlobs
 	vector< pair<CvLabel, CvBlob*> > blobList;
     copy(blobs.begin(), blobs.end(), back_inserter(blobList));
 
@@ -180,4 +182,6 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
 	salida.BlobsTrack = imgtracked;
 	salida.tracking = linea;
 	return salida;
+	cvReleaseImage(&imgtracked);
+	cvReleaseImage(&linea);
 }
