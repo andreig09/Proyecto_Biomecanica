@@ -6,7 +6,10 @@
 //Blob Library Headers
 #include"cvblob.h"
 //#include <cvblob.h>
-#include<Windows.h>
+//#include<Windows.h>  //Solo funciona en Windows
+#include "funcionesAuxiliares.h"
+
+
 //NameSpaces
 using namespace cv;
 using namespace cvb;
@@ -57,7 +60,8 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	CvFont font;
     cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
 	CvPoint centroide;
-	char buffer[7];
+	//char buffer[7];
+	std::string buffer;
 	int itblob = 0;
 			
 	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
@@ -65,8 +69,9 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 		itblob++;
 		centroide.x = it->second->centroid.x;
 		centroide.y = it->second->centroid.y;
-		itoa (itblob,buffer,10);
-		cvPutText(ImgBlobs,buffer,centroide,&font,cvScalar(0,0,0));
+		//itoa (itblob,buffer,10);
+		buffer = itoa(itblob);
+		cvPutText(ImgBlobs,buffer.c_str(),centroide,&font,cvScalar(0,0,0));
 	}
 	//////////////////////////////////////////////////////////////////////////////
 	}
@@ -79,12 +84,6 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	return salida;
 	cvReleaseImage(&ImgBlobs);
 	cvReleaseImage(&labelImg);
-}
-
-//Distancia vectorial entre dos puntos
-double Distance2(double dX0, double dY0, double dX1, double dY1)
-{
-    return sqrt((dX1 - dX0)*(dX1 - dX0) + (dY1 - dY0)*(dY1 - dY0));
 }
 
 //ubica un blob dado en otro conjunto de blobs.
@@ -180,6 +179,7 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
 	cvAdd(imgtracked, linea, imgtracked);
 
 	salida.BlobsTrack = imgtracked;
+	cvShowImage("Seguimiento", imgtracked);
 	salida.tracking = linea;
 	return salida;
 	cvReleaseImage(&imgtracked);

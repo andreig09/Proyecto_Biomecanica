@@ -6,7 +6,7 @@
 //Blob Library Headers
 #include"cvblob.h"
 //#include <cvblob.h>
-#include<Windows.h>
+//#include<Windows.h>  Solo funca en windows
 //NameSpaces
 using namespace cv;
 using namespace cvb;
@@ -26,6 +26,5 @@ struct imgtrack
 };
 
 blobsDetectados	detectarBlobs(IplImage *filtrada);
-double Distance2(double dX0, double dY0, double dX1, double dY1);
 CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs);
 imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage* imagenTracking);

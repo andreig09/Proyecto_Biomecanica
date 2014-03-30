@@ -142,7 +142,8 @@ int main(int argc, char *argv[]){
     //iterate through each frames of the video      
       while(true){
 
-           frame = cvQueryFrame(capture);           
+           frame = cvQueryFrame(capture); 
+		   
            if(!frame) break;
            frame=cvCloneImage(frame); 
             
@@ -164,7 +165,7 @@ int main(int argc, char *argv[]){
 		   oVideoWriter2.write(imgblob); //writer the frame with blobs and the tray
 			 
 		   //Mostrar videos
-		   cvShowImage("Seguimiento", imgblob); //blobs con trayectoria
+		   //cvShowImage("Seguimiento", imgblob); //blobs con trayectoria
 		   //cvShowImage("filtro", imgThresh); //filtrada
 		   cvShowImage("Video", frame); //original
            
