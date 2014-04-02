@@ -140,11 +140,10 @@ int main(int argc, char *argv[]){
     cvZero(imgTracking); //covert the image, 'imgTracking' to black
 	imgtrack seguir;
    
-    //iterate through each frames of the video      
+	//iterate through each frames of the video      
       while(true){
-		  
-		  CvBlobs* blobsAnteriores2 = new CvBlobs;
-		  blobsAnteriores2 = blobsAnteriores;
+		  		  
+		  //blobsAnteriores2 = blobsAnteriores;
 
            frame = cvQueryFrame(capture); 
 		   
@@ -155,7 +154,7 @@ int main(int argc, char *argv[]){
 		    
 
 		   //seguir cada blob de la imagen anterior en la imagen actual
-		   for (CvBlobs::const_iterator it=(*blobsAnteriores2).begin(); it!=(*blobsAnteriores2).end(); ++it)
+		   for (CvBlobs::const_iterator it=(*blobsAnteriores).begin(); it!=(*blobsAnteriores).end(); ++it)
 			{
 				blobAnterior = *(it->second);
 				seguir = seguirBlob(frame,imgThresh,blobAnterior,imgTracking);
@@ -163,8 +162,9 @@ int main(int argc, char *argv[]){
 				imgTracking = seguir.tracking;
 			}
 		   
-		   *blobsAnteriores2 = seguir.BlobsAnteriores;
-		   blobsAnteriores = blobsAnteriores2;
+		   *blobsAnteriores = seguir.BlobsAnteriores;
+		   //blobsAnteriores = blobsAnteriores2;
+		   //delete blobsAnteriores;
 		   oVideoWriter.write(imgThresh); //writer the frame with blobs detected
 		   oVideoWriter2.write(imgblob); //writer the frame with blobs and the tray
 			 
@@ -179,15 +179,12 @@ int main(int argc, char *argv[]){
 		   cvReleaseImage(&imgblob);
 		   cvReleaseImage(&imgThresh);
 		   
-		   delete blobsAnteriores2;
-		   //delete detblobs;
-
-           //Wait 10mS
+		    //Wait 10mS
            int c = cvWaitKey(10);
            //If 'ESC' is pressed, break the loop
            if((char)c==27 ) break;       
       }
-
+	   
 	  waitKey(0); //wait infinite time for a keypress
 
 	  destroyAllWindows;
