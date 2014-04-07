@@ -54,26 +54,10 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	//Rendering the blobs
 	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
 	
-	////////////////////////////////////////////////////////////////////////////
-	//Todo lo que sigue es para que aparezca un número en el centroide ()
-	////////////////////////////////////////////////////////////////////////////
-	CvFont font;
-    cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
-	CvPoint centroide;
-	//char buffer[7];
-	std::string buffer;
-	int itblob = 0;
-			
-	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
-	{
-		itblob++;
-		centroide.x = it->second->centroid.x;
-		centroide.y = it->second->centroid.y;
-		//itoa (itblob,buffer,10);
-		buffer = itoa(itblob);
-		cvPutText(ImgBlobs,buffer.c_str(),centroide,&font,cvScalar(0,0,0));
-	}
-	//////////////////////////////////////////////////////////////////////////////
+	
+	//Todo lo que sigue es para que aparezca un número en el centroide
+	numerar(ImgBlobs,blobs);
+	
 	}
 	
 	//Se muestra la imagen
