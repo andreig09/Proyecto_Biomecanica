@@ -44,9 +44,9 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	//Finding the blobs
 	unsigned int result=cvLabel(filtrada,labelImg,blobs);
 	
-	int tamañoBlobs = blobs.size();
+	int tamanioBlobs = blobs.size();
 
-	if ( tamañoBlobs > 0) //Si se detecta al menos 1 blob, se dibujan en la imagen y se numeran
+	if ( tamanioBlobs > 0) //Si se detecta al menos 1 blob, se dibujan en la imagen y se numeran
 	{
 	//Filtering the blobs (sacar el ruido)
 	cvFilterByArea(blobs,500,blobs[cvLargestBlob(blobs)]->area);
