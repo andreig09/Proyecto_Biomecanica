@@ -53,27 +53,9 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 
 	//Rendering the blobs
 	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
+		
+	numerar(ImgBlobs,blobs);
 	
-	////////////////////////////////////////////////////////////////////////////
-	//Todo lo que sigue es para que aparezca un número en el centroide ()
-	////////////////////////////////////////////////////////////////////////////
-	CvFont font;
-    cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
-	CvPoint centroide;
-	//char buffer[7];
-	std::string buffer;
-	int itblob = 0;
-			
-	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
-	{
-		itblob++;
-		centroide.x = it->second->centroid.x;
-		centroide.y = it->second->centroid.y;
-		//itoa (itblob,buffer,10);
-		buffer = itoa(itblob);
-		cvPutText(ImgBlobs,buffer.c_str(),centroide,&font,cvScalar(0,0,0));
-	}
-	//////////////////////////////////////////////////////////////////////////////
 	}
 	
 	//Se muestra la imagen
@@ -106,10 +88,10 @@ CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){
 	double distancia;
 	double distanciaNueva;
 	distancia = Distance2(centroideanterior.x,centroideanterior.y,actual.centroid.x,actual.centroid.y);
-	int tamaño = blobList.size();
+	int tamanio = blobList.size();
 
 	//recorre todos los blobs y se queda con el que tiene el centroide más cerca
-	for (int i = 0; i < tamaño; i++)
+	for (int i = 0; i < tamanio; i++)
 	{
 		centroide.x = (*blobList[i].second).centroid.x;
 		centroide.y = (*blobList[i].second).centroid.y;
