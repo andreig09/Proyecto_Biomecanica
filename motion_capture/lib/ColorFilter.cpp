@@ -11,17 +11,19 @@ IplImage* filterByColorHSV(IplImage *img, CvScalar min, CvScalar max){
     double dHeight = cvGetSize(img).height;
 	IplImage *hsvframe=cvCreateImage(cvSize(dWidth,dHeight),8,1);//Image in HSV color space
 	IplImage *threshy=cvCreateImage(cvSize(dWidth,dHeight),8,1); //Threshold image of defined color
-	
+		
 	//smooth the original image using Gaussian kernel
-	cvSmooth(img, img, CV_MEDIAN,7,7);  //----------------> el kernel es el método que se usa para remover ruido, habría que ver cual es el mejor para
+	//cvSmooth(img, img, CV_MEDIAN,7,7);  //----------------> el kernel es el método que se usa para remover ruido, habría que ver cual es el mejor para
 										  //				  lo que queremos. Aca están las opciones: http://docs.opencv.org/modules/imgproc/doc/filtering.html
 	//Changing the color space from BGR to HSV
 	cvCvtColor(img,hsvframe,CV_BGR2GRAY);
+		
 	//Thresholding the frame for the color given
 	//cvInRangeS(hsvframe,min, max,threshy);
-	cv::threshold(hsvframe,threshy,0,255, CV_THRESH_BINARY | CV_THRESH_OTSU);
+	cvThreshold(hsvframe,threshy,0,255,CV_THRESH_BINARY | CV_THRESH_OTSU);
+		
 	//smooth the thresholded image using Median kernel
-    cvSmooth(threshy,threshy,CV_MEDIAN,7,7);
+    //cvSmooth(threshy,threshy,CV_MEDIAN,7,7);
 	
 	cvShowImage("filtro",threshy);
 	
