@@ -1,5 +1,5 @@
 #La idea es crear una librería dinamica que contenga todas las fuentes
-SET(roof_lib_src ColorFilter.cpp funcionesAuxiliares.cpp) 
+SET(roof_lib_src ColorFilter.cpp funcionesAuxiliares.cpp multilevelOtsu.cpp) 
 
 INCLUDE_DIRECTORIES(
   ../include 

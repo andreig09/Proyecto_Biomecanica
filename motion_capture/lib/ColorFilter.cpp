@@ -2,8 +2,12 @@
 #include<cv.h>
 #include<highgui.h>
 
+//NameSpaces
+using namespace cv;
+using namespace std;
+
 //Filtra una imagen dada según determinado rango de color en formato HSV, devuelve una imagen en blanco y negro 
-IplImage* filterByColorHSV(IplImage *img, CvScalar min, CvScalar max){
+IplImage* filterOtsu(IplImage *img){
 
 	cvNamedWindow("filtro");
 

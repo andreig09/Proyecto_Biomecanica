@@ -1,0 +1,1 @@
+void histogram(IplImage *image);

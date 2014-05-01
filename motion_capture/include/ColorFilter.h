@@ -1,1 +1,1 @@
-IplImage* filterByColorHSV(IplImage *img, CvScalar min, CvScalar max);
+IplImage* filterOtsu(IplImage *img);

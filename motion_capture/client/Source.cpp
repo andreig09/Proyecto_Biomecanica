@@ -3,20 +3,13 @@
 #include<highgui.h>
 //Input-Output
 #include<stdio.h>
-//Blob Library Headers
-#include"cvblob.h"
-//#include <cvblob.h>
-//#include<Windows.h>
 #include"ColorFilter.h"
-//#include"detectarBlobs.h"
+#include"multilevelOtsu.h"
 
 //NameSpaces
 using namespace cv;
-using namespace cvb;
+//using namespace cvb;
 using namespace std;
-
-CvScalar naranjomin = cvScalar(10,122,200);
-CvScalar naranjomax = cvScalar(22,256,256);
 
 int main(int argc, char *argv[]){
 	
@@ -68,7 +61,8 @@ int main(int argc, char *argv[]){
    
 	//VALORES INICIALES:
 	//Filtrar imagen
-    IplImage* imgThresh = filterByColorHSV(frame,naranjomin,naranjomax);
+    IplImage* imgThresh = filterOtsu(frame);
+	//histogram(frame);
     
     //iterate through each frames of the video      
       while(true){
@@ -78,7 +72,8 @@ int main(int argc, char *argv[]){
            if(!frame) break;
            frame=cvCloneImage(frame); 
             
-           imgThresh = filterByColorHSV(frame,naranjomin,naranjomax); //Filtrar frame actual
+           imgThresh = filterOtsu(frame); //Filtrar frame actual
+		   //histogram(frame);
 		   		   	   
 		   oVideoWriter.write(imgThresh); //writer the frame with blobs detected
 		   			 
