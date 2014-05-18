@@ -1,5 +1,6 @@
 % Main donde se construyen las matrices de proyeccion y las fundamentales a partir de
-% los datos en Blender
+% los datos en Blender. Deja solo variables importantes en el workspace!
+
 
 clear all
 close all
@@ -88,6 +89,19 @@ c_th_y = [c_th_y, 180.439];
 c_th_z = [c_th_z, -301.198];
 
 
+%% Estructura marcador
+%       X -->Matriz cuyas filas son coordenadas 3D y las columnas son frames 
+%       time -->Matriz con los tiempos de cada frame
+%       name -->Nombre del marcador
+%       n -->nro de marcador
+
+for j=1:n_marcadores %hacer para todos los marcadores
+     marker3D(j).X=skeleton(j).t_xyz;
+     marker3D(j).time= time;
+     marker3D(j).name= skeleton(j).name;
+     marker3D(j).n = j;
+end
+
 %% Estructura camara
 %   para cada cámara contiene:
 %       Matriz  de rotación Rc 
@@ -96,6 +110,8 @@ c_th_z = [c_th_z, -301.198];
 %       Resolución horizontal M
 %       Resolución Vertical N
 %       Matriz de proyección Pcam
+%       Estructura marker
+
 for i=1:length(f) %hacer para todas las camaras
     cam(i).Rc = rotacion(c_th_x(i), c_th_y(i), c_th_z(i));
     cam(i).Tc = [c_x(i), c_y(i), c_z(i)];
@@ -104,13 +120,18 @@ for i=1:length(f) %hacer para todas las camaras
     cam(i).N = N(i);
     cam(i).Pcam = proyeccion(f(i), M(i), N(i), sensor(i), cam(i).Tc, cam(i).Rc);% matriz de rotacion asociada a la cámara, se asume rotación XYZ
     for j=1:n_marcadores %hacer para cada marcador 
-        X=skeleton(j).t_xyz;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivos frames
+        %X=skeleton(j).t_xyz;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivos frames
+        X=marker3D(j).X;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivos frames
         cam(i).marker(j).x=proyectar_X(X, cam(1).Pcam);%Guardo la matriz de coordenadas homogeneas x=P*X , del marcador j en la camara i        
+        cam(i).marker(j).time= marker3D(j).time;
+        cam(i).marker(j).name= marker3D(j).name;
+        cam(i).marker(j).n= j;
     end
     %NOTACION: cam(i).marker(j).x(:, k) para acceder a las coordenadas homogeneas del marcador j en el frame k de la camara i.
 end
-%Limpio variables
-clearvars -except cam skeleton n_marcadores n_frames time name_bvh
+
+     
+
 
 %% Matrices fundamentales
 %  matriz fundamental que mapea un punto de camara i en recta de camara j
@@ -129,3 +150,7 @@ F = vgg_F_from_P(cam(i).Pcam, cam(j).Pcam);
 %% Visualización de las proyecciones
 n = 2; %nro de camara a visualizar 
 %plotear(skeleton, cam(n).Pcam, cam(n).M, cam(n).N)
+
+%% Limpio variables 
+clearvars -except cam n_marcadores n_frames time name_bvh marker3D
+
