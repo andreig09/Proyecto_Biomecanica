@@ -1,7 +1,7 @@
 DESCRIPCION DE VARIABLES
 
 ___________________________________________________________
-load('archivo.mat') --->  para cargar estas variables en Matlab utilizar el comando 
+load('archivo.mat') --->  para cargar variables en Matlab 
 ___________________________________________________________	
 
 marker3D = 
