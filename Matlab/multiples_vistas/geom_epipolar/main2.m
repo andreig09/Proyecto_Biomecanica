@@ -96,13 +96,18 @@ c_th_z = [c_th_z, -301.198];
 %       Resolución horizontal M
 %       Resolución Vertical N
 %       Matriz de proyección Pcam
-for j=1:length(f) %hacer para todas las camaras
-    cam(j).Rc = rotacion(c_th_x(j), c_th_y(j), c_th_z(j));
-    cam(j).Tc = [c_x(j), c_y(j), c_z(j)];
-    cam(j).f = f(j);
-    cam(j).M = M(j);
-    cam(j).N = N(j);
-    cam(j).Pcam = proyeccion(f(j), M(j), N(j), sensor(j), cam(j).Tc, cam(j).Rc);% matriz de rotacion asociada a la cámara, se asume rotación XYZ
+for i=1:length(f) %hacer para todas las camaras
+    cam(i).Rc = rotacion(c_th_x(i), c_th_y(i), c_th_z(i));
+    cam(i).Tc = [c_x(i), c_y(i), c_z(i)];
+    cam(i).f = f(i);
+    cam(i).M = M(i);
+    cam(i).N = N(i);
+    cam(i).Pcam = proyeccion(f(i), M(i), N(i), sensor(i), cam(i).Tc, cam(i).Rc);% matriz de rotacion asociada a la cámara, se asume rotación XYZ
+    for j=1:n_marcadores %hacer para cada marcador 
+        X=skeleton(j).t_xyz;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivos frames
+        cam(i).marker(j).x=proyectar_X(X, cam(1).Pcam);%Guardo la matriz de coordenadas homogeneas x=P*X , del marcador j en la camara i        
+    end
+    %NOTACION: cam(i).marker(j).x(:, k) para acceder a las coordenadas homogeneas del marcador j en el frame k de la camara i.
 end
 %Limpio variables
 clearvars -except cam skeleton n_marcadores n_frames time name_bvh
@@ -123,4 +128,4 @@ F = vgg_F_from_P(cam(i).Pcam, cam(j).Pcam);
 
 %% Visualización de las proyecciones
 n = 2; %nro de camara a visualizar 
-plotear(skeleton, cam(n).Pcam, cam(n).M, cam(n).N)
+%plotear(skeleton, cam(n).Pcam, cam(n).M, cam(n).N)

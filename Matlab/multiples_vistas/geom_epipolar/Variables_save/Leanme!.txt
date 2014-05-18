@@ -1,0 +1,54 @@
+DESCRIPCION DE VARIABLES
+
+___________________________________________________________
+load('archivo.mat') --->  para cargar estas variables en Matlab utilizar el comando 
+___________________________________________________________	
+
+skeleton = 
+
+1x26 struct array with fields:
+    name
+    nestdepth
+    parent
+    offsetFromParent
+    Nchannels
+    order
+    head0
+    t_xyz ----->matriz cuyas filas son coordenadas 3D y columnas son frames sucesivos.
+    R_xyz
+    T
+    children
+    tail0
+    R0
+
+NOTACION
+skeleton(j).t_xyz(:, k)   --->para acceder a las coordenadas del marcador j en el frame k se debe escribir
+	
+_____________________________________________________________________
+
+cam = 
+
+1x5 struct array with fields:
+    Rc -->matriz de rotación 
+    Tc -->vector de traslación
+    f ---->distancia focal en metros
+    M --->resolución horizontal en pixeles
+    N --->resolución vertical en pixeles
+    Pcam -->matriz de proyección de la camara
+    marker -->estructura de datos de los marcadores, para cada marcador contiene coordenadas a traves del tiempo  
+
+NOTACION
+cam(i).marker(j).x(:, k) --->para acceder a las coordenadas homogeneas del marcador j en el frame k de la camara i.
+cam(i).Pcam                 --->para acceder a la matriz de proyección asociada a la camara i
+_______________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
