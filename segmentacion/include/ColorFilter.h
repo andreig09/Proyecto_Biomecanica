@@ -1,1 +1,1 @@
-IplImage* filterOtsu(IplImage *img);
+IplImage* filterOtsu(IplImage *img, int thresh);

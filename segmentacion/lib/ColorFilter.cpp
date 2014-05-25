@@ -7,7 +7,7 @@ using namespace cv;
 using namespace std;
 
 //Filtra una imagen dada según determinado rango de color en formato HSV, devuelve una imagen en blanco y negro 
-IplImage* filterOtsu(IplImage *img){
+IplImage* filterOtsu(IplImage *img, int thresh){
 
 	cvNamedWindow("filtro");
 
@@ -21,11 +21,14 @@ IplImage* filterOtsu(IplImage *img){
 										  //				  lo que queremos. Aca están las opciones: http://docs.opencv.org/modules/imgproc/doc/filtering.html
 	//Changing the color space from BGR to HSV
 	cvCvtColor(img,hsvframe,CV_BGR2GRAY);
-		
+	
+	CvScalar min = cvScalar(0,0,thresh);
+	
 	//Thresholding the frame for the color given
 	//cvInRangeS(hsvframe,min, max,threshy);
-	cvThreshold(hsvframe,threshy,0,255,CV_THRESH_BINARY | CV_THRESH_OTSU);
-		
+	cvThreshold(hsvframe,threshy,thresh,255,CV_THRESH_BINARY);
+	//cvThreshold(hsvframe,threshy,0,255,CV_THRESH_BINARY | CV_THRESH_OTSU);
+
 	//smooth the thresholded image using Median kernel
     //cvSmooth(threshy,threshy,CV_MEDIAN,7,7);
 	

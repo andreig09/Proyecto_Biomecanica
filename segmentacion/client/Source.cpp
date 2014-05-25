@@ -5,6 +5,7 @@
 #include<stdio.h>
 #include"ColorFilter.h"
 #include"multilevelOtsu.h"
+#include"main_opencv.h"
 
 //NameSpaces
 using namespace cv;
@@ -30,7 +31,10 @@ int main(int argc, char *argv[]){
          printf("Capture failure\n");
          return -1;
     }
-      
+    
+	//frame = cvLoadImage(argv[1]);
+	//frame = cvLoadImage("trimodal2gaussian.png");
+
 	frame = cvQueryFrame(capture);           
     if(!frame) return -1;
 	}
@@ -53,26 +57,40 @@ int main(int argc, char *argv[]){
     //CV_FOURCC('P','I','M','1')
     if ( !oVideoWriter.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
     {
-        cout << "ERROR: Failed to write the video" << endl;
-        return -1;
+       cout << "ERROR: Failed to write the video" << endl;
+       return -1;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
 	//VALORES INICIALES:
+
+	//Determinar umbral
+	double thresh;
+	thresh = callOtsuN(frame);
+	//thresh = main_opencv("trimodal2gaussian.png");
+
+	cout << "max threshold: " << thresh << "\n" ;
+
+	double thresh2;
+	thresh2 = thresh*255;
+
 	//Filtrar imagen
-    IplImage* imgThresh = filterOtsu(frame);
+    IplImage* imgThresh = filterOtsu(frame,thresh2);
 	//histogram(frame);
     
     //iterate through each frames of the video      
       while(true){
-
+	
            frame = cvQueryFrame(capture); 
 		   
            if(!frame) break;
            frame=cvCloneImage(frame); 
-            
-           imgThresh = filterOtsu(frame); //Filtrar frame actual
+
+		   thresh = callOtsuN(frame);
+		   cout << "max threshold: " << thresh << "\n" ;
+		   thresh2 = thresh*255;
+           imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
 		   //histogram(frame);
 		   		   	   
 		   oVideoWriter.write(imgThresh); //writer the frame with blobs detected

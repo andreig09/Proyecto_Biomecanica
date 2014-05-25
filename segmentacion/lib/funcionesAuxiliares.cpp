@@ -1,8 +1,10 @@
-#include <string>
 #include"cvblob.h"
+#include <fstream>
+#include <string>
 
 using namespace cv;
 using namespace cvb;
+using namespace std;
 
 //Convierte un entero a string
 std::string itoa(int n){
@@ -50,3 +52,20 @@ void numerar(IplImage *img, CvBlobs blobs ){
 		}
 	
 	}
+
+//obtiene el máximo de valores de un txt
+double getMaxThresh(const char * txtName){
+	double maxThres;
+	maxThres = 0;
+	ifstream file(txtName);
+    string str;
+	double entero;
+    while (getline(file, str))
+    {
+        entero = stod(str);
+		if (entero > maxThres){
+			maxThres = entero;
+		}
+    }
+	return maxThres;
+}
