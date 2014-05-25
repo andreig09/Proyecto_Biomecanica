@@ -6,6 +6,7 @@ using namespace cv;
 using namespace cvb;
 using namespace std;
 
+
 //Convierte un entero a string
 std::string itoa(int n){
   std::string rtn;
@@ -68,4 +69,37 @@ double getMaxThresh(const char * txtName){
 		}
     }
 	return maxThres;
+}
+
+void startXML(){
+	FILE *file;
+	file = fopen("markers.xml", "w");
+	fprintf(file, "%s\n", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	fprintf(file, "%s\n", "<Detected_Markers Version=\"1\">");
+	fclose(file);
+}
+
+void XMLAddBlobs(CvBlobs blobs, FILE *file){
+	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it){
+		fprintf(file, "\t\t%s%i%s\n", "<Marker id=\"", it->first, "\" >");
+		fprintf(file, "\t\t\t%s%i%s%i%s\n", "<Centroid x=\"", it->second->centroid.x, "\" y=\"", it->second->centroid.y, "\" />");
+		fprintf(file, "\t\t%s\n", "<Marker/>");
+	}
+}
+
+
+void XMLAddFrame(int frameNumber, CvBlobs blobs){
+	FILE *file;
+	file = fopen("markers.xml", "a");
+	fprintf(file, "\t%s%i%s\n", "<Frame id=\"", frameNumber, "\" >");
+	XMLAddBlobs(blobs, file);
+	fprintf(file, "\t%s\n", "<Frame/>");
+	fclose(file);
+}
+
+void endXML(){
+	FILE *file;
+	file = fopen("markers.xml", "a");
+	fprintf(file, "%s\n", "</Detected_Markers>");
+	fclose(file);
 }
