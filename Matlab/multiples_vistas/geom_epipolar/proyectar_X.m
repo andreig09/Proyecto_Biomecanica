@@ -6,6 +6,8 @@ function x= proyectar_X(X, P)
 % P -->matriz de proyección asociada a una camara
 %% SALIDA
 % x -->matriz de proyecciones cuyas columnas son puntos 2D 
+
+%% Implementacion
     if size(X, 1)==3
         X=[X;ones(1, size(X, 2))];%Paso las columnas de coordenadas 3D a coordenadas homogeneas en espacio proyectivo 3D
     end

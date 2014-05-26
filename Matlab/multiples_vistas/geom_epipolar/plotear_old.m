@@ -1,11 +1,19 @@
-function plotear(E, dim)
-%Funcion que muestra la salida frame a frame de la secuencia 2D o 3D en la estructura E 
+function plotear_old(skeleton, P_blender, res_x, res_y)
+%Funcion que muestra la salida frame a frame de la secuencia guardada en skeleton a traves de la matriz M 
 
 %% Entrada
-%E --> estructura cámara o estructura marker3D
-%dim --> solo puede tener dos string validos '2D' o '3D'
-%           Si dim = '2D', entonces la estructura E es de cámaras
-%           Si dim = '3D', entonces la estructura E es de marcadores 3D 
+%P_blender --> matriz que mapea los datos de skeleton sobre una retina o bien sobre otra base. 
+    %En el caso de que se quiera ver unicamente la nube 3D original poner
+    %M= eye(3) matriz identidad 3x3
+%skeleton --> estructura que guarda la información de las junturas.
+    %skeleton(j) -->accede a la información de la juntura j
+    %skeleton(j).name --> devuelve el nombre de la juntura j
+    %skeleton(j).t_xyz --> matriz cuyas filas son las coordenadas 3D y las
+    %columnas los correspondientes frames de la juntura j
+    %EJEMPLO: skeleton(j).t_xyz(:, k) --> devuelve las coordenadas 3D de la juntura j en el
+    %frame k
+%res_x y res_y son la resolución de la pantalla de salida en pixeles.
+    %en el caso que valgan (0, 0) no se utilizan
 
 %% 
 [filas, colum] = size(P_blender); %las filas de la matriz M determinan la dimensión del espacio de salida y las columnas del espacio de partida
