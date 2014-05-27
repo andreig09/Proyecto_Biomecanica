@@ -240,7 +240,7 @@ for nn=1:Nnodes
         zvec = cross(xvec,yvec);
         skeleton(nn).R0 = [xvec'/norm(xvec) yvec'/norm(yvec) zvec'/norm(zvec)];
     else
-        skeleton(nn).R0 = eye(3)'
+        skeleton(nn).R0 = eye(3)';
     end
 end
 
