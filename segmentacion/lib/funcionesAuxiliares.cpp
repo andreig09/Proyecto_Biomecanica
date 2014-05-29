@@ -48,26 +48,24 @@ void numerar(IplImage *img, CvBlobs blobs ){
 			centroide.x = it->second->centroid.x;
 			centroide.y = it->second->centroid.y;
 			buffer = itoa(it->first);
-			//buffer = itoa(itblob);
 			cvPutText(img,buffer.c_str(),centroide,&font,cvScalar(0,0,0));
 		}
 	
 	}
 
-//obtiene el máximo de valores de un txt
-double getMaxThresh(const char * txtName){
+//obtiene el máximo de valores de todos los threshold
+//double getMaxThresh(const char * txtName){
+double getMaxThresh(int l, double *thr){
 	double maxThres;
 	maxThres = 0;
-	ifstream file(txtName);
-    string str;
-	double entero;
-    while (getline(file, str))
-    {
-        entero = stod(str);
-		if (entero > maxThres){
-			maxThres = entero;
+	
+	for (int i = 0; i < l; i++)
+	{
+		if (thr[i] > maxThres)
+		{
+			maxThres = thr[i];
 		}
-    }
+	}
 	return maxThres;
 }
 
@@ -80,10 +78,13 @@ void startXML(){
 }
 
 void XMLAddBlobs(CvBlobs blobs, FILE *file){
+	CvPoint centroide;
 	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it){
+		centroide.x = it->second->centroid.x;
+		centroide.y = it->second->centroid.y;
 		fprintf(file, "\t\t%s%i%s\n", "<Marker id=\"", it->first, "\" >");
-		fprintf(file, "\t\t\t%s%i%s%i%s\n", "<Centroid x=\"", it->second->centroid.x, "\" y=\"", it->second->centroid.y, "\" />");
-		fprintf(file, "\t\t%s\n", "<Marker/>");
+		fprintf(file, "\t\t\t%s%i%s%i%s\n", "<Centroid x=\"", centroide.x, "\" y=\"", centroide.y, "\" />");
+		fprintf(file, "\t\t%s\n", "</Marker>");
 	}
 }
 
@@ -93,7 +94,7 @@ void XMLAddFrame(int frameNumber, CvBlobs blobs){
 	file = fopen("markers.xml", "a");
 	fprintf(file, "\t%s%i%s\n", "<Frame id=\"", frameNumber, "\" >");
 	XMLAddBlobs(blobs, file);
-	fprintf(file, "\t%s\n", "<Frame/>");
+	fprintf(file, "\t%s\n", "</Frame>");
 	fclose(file);
 }
 

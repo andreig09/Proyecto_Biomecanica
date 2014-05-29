@@ -22,18 +22,19 @@ double callOtsuN(IplImage* img)
 	double* thr;
 	double sep;
 
-	 IplImage *luminance = cvCreateImage(cvGetSize(img), IPL_DEPTH_8U, 1);
+	IplImage *luminance = cvCreateImage(cvGetSize(img), IPL_DEPTH_8U, 1);
     cvCvtColor(img, luminance, CV_RGB2GRAY);
 
 	IplImage* img_seg_cv=cvCreateImage(cvGetSize(img),img->depth,1);
 	otsuN(luminance, img_seg_cv, modes, &thr, &sep);
 	
 	double thresh;
-	thresh = getMaxThresh("thr.txt");
+	//thresh = getMaxThresh("thr.txt");
+	thresh = getMaxThresh(modes-1, thr);
 
 	return thresh;
 
-	cvSaveImage("out.png",img_seg_cv);
+	//cvSaveImage("out.png",img_seg_cv);
 	cvReleaseImage(&img_seg_cv);
 	cvReleaseImage(&img);
 	cvReleaseImage(&luminance);

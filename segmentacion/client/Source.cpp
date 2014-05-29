@@ -4,7 +4,7 @@
 //Input-Output
 #include<stdio.h>
 #include"ColorFilter.h"
-#include"main_opencv.h"
+#include"getThreshold.h"
 #include"detectarBlobs.h"
 
 //NameSpaces
@@ -66,8 +66,7 @@ int main(int argc, char *argv[]){
 	//Determinar umbral
 	double thresh;
 	thresh = callOtsuN(frame);
-	//thresh = main_opencv("trimodal2gaussian.png");
-
+	
 	cout << "max threshold: " << thresh << "\n" ;
 
 	double thresh2;
@@ -94,11 +93,16 @@ int main(int argc, char *argv[]){
 	
            frame = cvQueryFrame(capture); 
 		   frameNum++;
+
+		   string cuadro = itoa(frameNum);
+		   char* char_type = (char*) cuadro.c_str();
+		   char* nombreI = strcat(char_type,".png" );
+		   
            if(!frame) break;
            frame=cvCloneImage(frame); 
 
 		   thresh = callOtsuN(frame);
-		   cout << "max threshold: " << thresh << "\n" ;
+		   //cout << "max threshold: " << thresh << "\n" ;
 		   thresh2 = thresh*255;
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
 
@@ -106,7 +110,8 @@ int main(int argc, char *argv[]){
 		   //*detblobs = detectarBlobs(imgThresh);
 		   //delete[] detblobs;
 		   detblobs = detectarBlobs(imgThresh);
-		   
+
+		   //cvSaveImage(nombreI,detblobs.imgBlobs);
 		   XMLAddFrame(frameNum,detblobs.blobs);
 
 		   oVideoWriter.write(imgThresh); //writer the frame with blobs detected

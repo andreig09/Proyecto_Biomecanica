@@ -567,10 +567,11 @@ void otsuN(IplImage* img, IplImage* img_seg, int modes, double **thr, double* se
 		double_vector_save_to_file("data.txt", xsize*ysize, data);
 		double_vector_save_to_file("data_out.txt", xsize*ysize, Iseg);
 		std::cout << "thr = ";
+		double_vector_save_to_file("thr.txt", modes-1, *thr);
 		double_vector_print(modes-1, *thr);
 		std::cout<< "Criterio de separabilidad: " << *sep << std::endl;
 	}
-	double_vector_save_to_file("thr.txt", modes-1, *thr);
+	
 
 	delete[] Iseg;
 	delete[] data;

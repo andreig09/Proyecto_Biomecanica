@@ -35,6 +35,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	//inicializar elementos
 	blobsDetectados salida;
 	CvBlobs blobs; //structure to hold blobs
+	
 	double dWidth = cvGetSize(filtrada).width;
     double dHeight = cvGetSize(filtrada).height;
 	IplImage *labelImg=cvCreateImage(cvSize(dWidth,dHeight),IPL_DEPTH_LABEL,1);//Image Variable for blobs
@@ -53,7 +54,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 
 	//Rendering the blobs
 	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
-		
+
 	numerar(ImgBlobs,blobs);
 	
 	}
@@ -66,6 +67,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	return salida;
 	cvReleaseImage(&ImgBlobs);
 	cvReleaseImage(&labelImg);
+	
 }
 
 //ubica un blob dado en otro conjunto de blobs.
