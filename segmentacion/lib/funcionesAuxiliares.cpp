@@ -69,6 +69,7 @@ double getMaxThresh(int l, double *thr){
 	return maxThres;
 }
 
+//Funcion para escribir el xml de los markers detectados
 void startXML(){
 	FILE *file;
 	file = fopen("markers.xml", "w");
@@ -77,6 +78,7 @@ void startXML(){
 	fclose(file);
 }
 
+//Funcion para escribir el xml de los markers detectados
 void XMLAddBlobs(CvBlobs blobs, FILE *file){
 	CvPoint centroide;
 	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it){
@@ -88,7 +90,7 @@ void XMLAddBlobs(CvBlobs blobs, FILE *file){
 	}
 }
 
-
+//Funcion para escribir el xml de los markers detectados
 void XMLAddFrame(int frameNumber, CvBlobs blobs){
 	FILE *file;
 	file = fopen("markers.xml", "a");
@@ -98,6 +100,7 @@ void XMLAddFrame(int frameNumber, CvBlobs blobs){
 	fclose(file);
 }
 
+//Funcion para escribir el xml de los markers detectados
 void endXML(){
 	FILE *file;
 	file = fopen("markers.xml", "a");

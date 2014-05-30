@@ -45,8 +45,8 @@ int main(int argc, char *argv[]){
     double dWidth = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH); //get the width of frames of the video
     double dHeight = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT); //get the height of frames of the video
     int fps = cvGetCaptureProperty(capture, CV_CAP_PROP_FPS);
-	//cout << "Frame Size = " << dWidth << "x" << dHeight << endl;
-    //cout << "FPS = " << fps << endl;
+	cout << "Frame Size = " << dWidth << "x" << dHeight << endl;
+    cout << "FPS = " << fps << endl;
 	Size frameSize(static_cast<int>(dWidth), static_cast<int>(dHeight));
 
 	//salidas de video
@@ -65,12 +65,10 @@ int main(int argc, char *argv[]){
 
 	//Determinar umbral
 	double thresh;
-	thresh = callOtsuN(frame);
-	
-	cout << "max threshold: " << thresh << "\n" ;
-
 	double thresh2;
+	thresh = callOtsuN(frame);
 	thresh2 = thresh*255;
+	//cout << "max threshold: " << thresh2 << "\n" ;
 
 	//Filtrar imagen
     IplImage* imgThresh = filterOtsu(frame,thresh2);
@@ -94,33 +92,27 @@ int main(int argc, char *argv[]){
            frame = cvQueryFrame(capture); 
 		   frameNum++;
 
-		   string cuadro = itoa(frameNum);
-		   char* char_type = (char*) cuadro.c_str();
-		   char* nombreI = strcat(char_type,".png" );
-		   
-           if(!frame) break;
+		   if(!frame) break;
            frame=cvCloneImage(frame); 
 
+		   //Detectar Umbral para frame actual
 		   thresh = callOtsuN(frame);
-		   //cout << "max threshold: " << thresh << "\n" ;
 		   thresh2 = thresh*255;
+		   //cout << "max threshold: " << thresh << "\n" ;
+
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
 
-		   //blobsDetectados *detblobs = new blobsDetectados[];
-		   //*detblobs = detectarBlobs(imgThresh);
-		   //delete[] detblobs;
-		   detblobs = detectarBlobs(imgThresh);
+		   detblobs = detectarBlobs(imgThresh); //Detectar markers fitlrados
 
-		   //cvSaveImage(nombreI,detblobs.imgBlobs);
-		   XMLAddFrame(frameNum,detblobs.blobs);
+		   XMLAddFrame(frameNum,detblobs.blobs); //Agregar los blobs de este frame en el xml
 
 		   oVideoWriter.write(imgThresh); //writer the frame with blobs detected
 		   			 
-		   //Mostrar videos
-		   
-		   cvShowImage("Video", frame); //original
+		   //Mostrar video original		   
+		   cvShowImage("Video", frame);
            
            //Clean up used images
+		   //delete[] detblobs;
            cvReleaseImage(&frame);
 		   cvReleaseImage(&imgThresh);
 
@@ -130,7 +122,7 @@ int main(int argc, char *argv[]){
            if((char)c==27 ) break;       
       }
 
-	  endXML();
+	  endXML(); //Cerrar xml
 
 	  waitKey(0); //wait infinite time for a keypress
 
