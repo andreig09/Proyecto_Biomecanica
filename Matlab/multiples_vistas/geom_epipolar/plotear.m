@@ -1,4 +1,4 @@
-function plotear(E, arg2, arg3, arg4, arg5)
+function plotear(E, arg2, arg3, arg4, arg5, arg6)
 %Funcion general de ploteo para secuencias 2D y 3D  
 %% ENTRADA
 %E --> estructura cámara o estructura skeleton
@@ -8,11 +8,11 @@ function plotear(E, arg2, arg3, arg4, arg5)
 %   plotear(skeleton)                                   --> plot_secuencia_3D(E, 0);%se plotea secuencia 3D con etiquetas nombres
 %   plotear(skeleton, 'number')                         --> plot_secuencia_3D(E, 1);%se plotea secuencia 3D con etiquetas numeros
 %   plotear(skeleton, 'name')                           --> plot_secuencia_3D(E, 0);%se plotea secuencia 3D con etiquetas nombres
-%   plotear(skeleton, list_marker, last_frame, t_label) --> plot_trayectoria_3D(E, arg2, arg3, arg4)
+%   plotear(skeleton, list_marker, last_frame, n_prev, t_label) --> plot_trayectoria_3D(E, arg2, arg3, arg4, arg5)
 %   plotear(cam, n_cam )                                  --> plot_secuencia_2D(E, arg2, 0); %se plotea 2D con etiquetas nombres 
 %   plotear(cam, n_cam, 'number' )                        --> plot_secuencia_2D(E, arg2, 1);%se plotea 2D con etiquetas numeros
 %   plotear(cam, n_cam, 'name' )                          --> plot_secuencia_2D(E, arg2, 0);%se plotea 2D con etiquetas nombres
-%   plotear(cam, n_cam, list_marker, last_frame, t_label) --> plot_trayectoria_2D(E, arg2, arg3, arg4, arg5)
+%   plotear(cam, n_cam, list_marker, last_frame, n_prev, t_label) --> plot_trayectoria_2D(E, arg2, arg3, arg4, arg5, arg6)
 
 %SUB_FUNCIONES
            
@@ -23,11 +23,12 @@ function plotear(E, arg2, arg3, arg4, arg5)
             %t_label = 0; se etiqueta con nombres
             %t_label = 1; se etiqueta con numeros
 
-    %plot_trayectoria_3D(skeleton, list_marker, last_frame, t_label)
+    %plot_trayectoria_3D(skeleton, list_marker, last_frame, n_prev, t_label)
      %ENTRADA
         % skeleton    --> estructura skeleton que contiene la informacion 3D de los marcadores 
         % list_marker --> vector que contiene los indices respectivos de cada marcador a graficar %skeleton.marker("indice_respectivo")
         % last_frame  --> indica el ultimo frame de la trayectoria
+        % n_prev      --> es el nro de elementos previos a last_frame que se quiere visualizar
         % t_label     --> indica el tipo de etiquetado
                         %t_label = 0; se etiqueta con nombres
                         %t_label = 1; se etiqueta con numeros
@@ -46,6 +47,7 @@ function plotear(E, arg2, arg3, arg4, arg5)
         %n_cam        -->indica el numero de la camara a graficar
         % list_marker --> vector que contiene los indices respectivos de cada marcador a graficar %skeleton.marker("indice_respectivo")
         % last_frame  --> indica el ultimo frame de la trayectoria
+        % n_prev      --> es el nro de elementos previos a last_frame que se quiere visualizar
         % t_label     --> indica el tipo de etiquetado
                         %t_label = 0; se etiqueta con nombres
                         %t_label = 1; se etiqueta con numeros
@@ -58,10 +60,8 @@ if size(E, 2)==1 %en caso afirmativo es una estructura skeleton
             plot_secuencia_3D(E, 0);%se plotea secuencia 3D con etiquetas nombre
         case 2
             plot_secuencia_3D(E, arg2);%se plotea secuencia 3D con etiquetas nombre (arg1=0) o numero (arg1=1)
-        case 3
-            disp ('Numero de argumentos invalidos para estructura skeleton')
-        case 4
-            plot_trayectoria_3D(E, arg2, arg3, arg4)
+        case 5
+            plot_trayectoria_3D(E, arg2, arg3, arg4, arg5)
         otherwise
             disp('Numero de argumentos invalidos para estructura skeleton')
             return
@@ -76,51 +76,15 @@ else %en caso negativo es una estructura cam    camara = 1;
             plot_secuencia_2D(E, arg2, arg3);%se plotea secuencia 2D con etiquetas nombre(arg3=0) o numero (arg3=1)
         case 4
             plot_trayectoria_2D(E, arg2, arg3, arg4, 0) %se plotean trayectorias 2D con etiquetas nombre
-        case 5
-            plot_trayectoria_2D(E, arg2, arg3, arg4, arg5) %se plotean trayectorias 2D con etiquetas nombre (arg5=0) o numero(arg5=1)            
+        case 6
+            plot_trayectoria_2D(E, arg2, arg3, arg4, arg5, arg6) %se plotean trayectorias 2D con etiquetas nombre (arg5=0) o numero(arg5=1)            
         otherwise
             disp('Numero de argumentos invalidos para estructura cam')
             return            
     end %(del switch)
 end %(del if)
-
-
-
-
-
-
-% switch nargin
-%     case 1
-%         plot_secuencia_3D(E, 0);%se plotea secuencia 3D con etiquetas nombres
-%     case 2
-%         switch arg2 %miro el argumento 2
-%             case 'number'
-%                 plot_secuencia_3D(E, 1);%se plotea secuencia 3D con etiquetas numeros
-%             case 'name'
-%                 plot_secuencia_3D(E, 0);%se plotea secuencia 3D con etiquetas nombres
-%             otherwise 
-%                 plot_secuencia_2D(E, arg2, 0); %se plotea 2D con etiquetas nombres
-%         end
-%     case 3
-%         switch arg3 %miro el argumento 3
-%             case 'number'
-%                 plot_secuencia_2D(E, arg2, 1);%se plotea 2D con etiquetas numeros
-%             case 'name'
-%                 plot_secuencia_2D(E, arg2, 0);%se plotea 2D con etiquetas nombres
-%             otherwise
-%                 disp('el argumento 3 es invalido')
-%                 return;
-%         end
-%     case 4 
-%         plot_trayectoria_3D(E, arg2, arg3, arg4)
-%     case 5 
-%         plot_trayectoria_2D(E, arg2, arg3, arg4, arg5)
-%     otherwise
-%         disp('el nro de argumentos es invalido')
-%         return;
-% end  
             
-end %de la funcion plotear
+end %(de la funcion plotear)
 
 
 function plot_secuencia_2D(cam, n_cam, t_label)
@@ -155,16 +119,16 @@ for k=1:n_frames % para cada frame se plotean las posiciones 2D de los marcadore
         cam(n_cam).frame(k).x(2, :), ... %coordenada y
         labels,...
         'VerticalAlignment','bottom', ...
-        'HorizontalAlignment','right');
-    xlabel('x (pixeles)');
-    ylabel('y (pixeles)');
+        'HorizontalAlignment','right', 'FontSize',10, 'fontweight','b');
+    xlabel('\fontsize{13}{x (pixeles)}', 'fontweight','b' );
+    ylabel('\fontsize{13}{y (pixeles)}', 'fontweight','b');
     str = sprintf('Proyeccion sobre retina de Camara %d  \n frame %d / %d',n_cam, k, n_frames);
-    title(str);
+    title(['\fontsize{14}{',str, '}'], 'fontweight','b');
     axis([0 res_x 0 res_y])
     grid on
     pause(0.01);
 end
-end % de la funcion plotear2D
+end % (de la funcion plotear2D)
 
 
 function plot_secuencia_3D(skeleton, t_label)
@@ -201,27 +165,29 @@ for k=1:n_frames % para cada frame se plotean las posiciones 3D de los marcadore
          skeleton.frame(k).X(3, :), ... %coordenada y
         labels,...
         'VerticalAlignment','bottom', ...
-        'HorizontalAlignment','right');
-    xlabel('x (metros)')
-    ylabel('y (metros)')
-    zlabel('z (metros)')
+        'HorizontalAlignment','right', 'FontSize',10, 'fontweight','b');
+    xlabel('\fontsize{11}{x (metros)}', 'fontweight','b');
+    ylabel('\fontsize{11}{y (metros)}', 'fontweight','b');
+    zlabel('\fontsize{11}{z (metros)}', 'fontweight','b');
     str = sprintf('Secuencia 3D del esqueleto %s \n frame %d / %d',skeleton.name_bvh, k, n_frames);
-    title(str)
+    title(['\fontsize{14}{',str, '}'],'fontweight','b');
     axis equal
     grid on
     pause(0.01);
 end 
-end %de la funcion plotear3D
+end %(de la funcion plotear3D)
 
 
-function plot_trayectoria_3D(skeleton, list_marker, last_frame, t_label)
-%Función que permite graficar las trayectorias 3D hasta el frame last_frame de
+function plot_trayectoria_3D(skeleton, list_marker, last_frame, n_prev, t_label)
+%Función que permite graficar segmentos de trayectorias 3D a partir del
+%frame last_frame y los n_prev frames anteriores de 
 %los marcadores incluidos en el vector list_marker
 
 %% ENTRADA
 % skeleton    --> estructura skeleton que contiene la informacion 3D de los marcadores 
 % list_marker --> vector que contiene los indices respectivos de cada marcador a graficar %skeleton.marker("indice_respectivo")
 % last_frame  --> indica el ultimo frame de la trayectoria
+% n_prev      --> es el nro de elementos previos a last_frame que se quiere visualizar
 % t_label     --> indica el tipo de etiquetado
                 %t_label = 0; se etiqueta con nombres
                 %t_label = 1; se etiqueta con numeros
@@ -240,9 +206,9 @@ n=zeros(n_marker,1);%esta variable solo se utiliza en el caso de etiquetas numer
 %Acumulo los marcadores en vectores
 %skeleton.marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
 for i=1:n_marker
-    X=[X; skeleton.marker(list_marker(i)).X(1, 1:last_frame) ];
-    Y=[Y; skeleton.marker(list_marker(i)).X(2, 1:last_frame) ];
-    Z=[Z; skeleton.marker(list_marker(i)).X(3, 1:last_frame) ];
+    X=[X; skeleton.marker(list_marker(i)).X(1, (last_frame-n_prev):last_frame)];%solo cargo el ultimo frame y los n_prev anteriores
+    Y=[Y; skeleton.marker(list_marker(i)).X(2, (last_frame-n_prev):last_frame)];%solo cargo el ultimo frame y los n_prev anteriores
+    Z=[Z; skeleton.marker(list_marker(i)).X(3, (last_frame-n_prev):last_frame)];%solo cargo el ultimo frame y los n_prev anteriores
     if t_label==0
         labels(i) = cellstr(skeleton.marker(list_marker(i)).name);
     else 
@@ -255,22 +221,22 @@ end
 
 %Ploteo
 if mantener_trayectoria
-        plot3(X(:,1:last_frame)',Y(:,1:last_frame)', Z(:,1:last_frame)', '.-');
+        plot3(X(:,:)',Y(:,:)', Z(:,:)', '.-');%grafico ultimo frame y los n_prev anteriores
     else
-        plot3(X(:,1:last_frame)',Y(:,1:last_frame)', Z(:,1:last_frame)', '.');
+        plot3(X(:,:)',Y(:,:)', Z(:,:)', '.');
 end;
 
 %%%De aquí para abajo son chirimbolos
-text(X(:,last_frame)'...%coordenada x
-    ,Y(:,last_frame)',...%coordenada y
-    Z(:,last_frame)',...%coordenada z
+text(X(:,(n_prev +1))'...%coordenada x -->notar que x, y, z solo tiene (n_prev+1) componentes
+    ,Y(:,(n_prev +1))',...%coordenada y
+    Z(:,(n_prev +1))',...%coordenada z
     labels, 'VerticalAlignment','bottom', ...
-    'HorizontalAlignment','right')
-xlabel('x (metros)')
-ylabel('y (metros)')
-zlabel('z (metros)')
-str = sprintf('Secuencia 3D del esqueleto %s \n hasta el frame %d / %d',skeleton.name_bvh, last_frame, n_frames);
-title(str)
+    'HorizontalAlignment','right', 'FontSize',10, 'fontweight','b')
+xlabel('\fontsize{11}{x (metros)}','fontweight','b');
+ylabel('\fontsize{11}{y (metros)}','fontweight','b');
+zlabel('\fontsize{11}{z (metros)}','fontweight','b');
+str = sprintf('Secuencia 3D del esqueleto %s \n último frame %d / %d',skeleton.name_bvh, last_frame, n_frames);
+title(['\fontsize{14}{',str, '}'],'fontweight','b');
 axis square;
 grid on
     %correccion_zoom =0.005;% porcentaje de ventana de zoom
@@ -284,7 +250,7 @@ grid on
 end
 
 
-function plot_trayectoria_2D(cam, n_cam, list_marker, last_frame, t_label)
+function plot_trayectoria_2D(cam, n_cam, list_marker, last_frame, n_prev,  t_label)
 %Función que permite graficar las trayectorias 2D hasta el frame last_frame de
 %los marcadores incluidos en el vector list_marker
 
@@ -293,6 +259,7 @@ function plot_trayectoria_2D(cam, n_cam, list_marker, last_frame, t_label)
 %n_cam        -->indica el numero de la camara a graficar
 % list_marker --> vector que contiene los indices respectivos de cada marcador a graficar %skeleton.marker("indice_respectivo")
 % last_frame  --> indica el ultimo frame de la trayectoria
+% n_prev      --> es el nro de elementos previos a last_frame que se quiere visualizar
 % t_label     --> indica el tipo de etiquetado
                 %t_label = 0; se etiqueta con nombres
                 %t_label = 1; se etiqueta con numeros
@@ -309,8 +276,8 @@ labels=cellstr(num2str(zeros(n_marker,1)));
 n=zeros(n_marker,1);%esta variable solo se utiliza en el caso de etiquetas numero
 %Acumulo los marcadores en vectores
 for i=1:n_marker
-    x=[x; cam(n_cam).marker(list_marker(i)).x(1, 1:last_frame)];
-    y=[y; cam(n_cam).marker(list_marker(i)).x(2, 1:last_frame)];
+    x=[x; cam(n_cam).marker(list_marker(i)).x(1, (last_frame-n_prev):last_frame)];%solo cargo el ultimo frame y los n_prev anteriores
+    y=[y; cam(n_cam).marker(list_marker(i)).x(2, (last_frame-n_prev):last_frame)];
     if t_label==0
         labels(i) = cellstr(cam(n_cam).marker(list_marker(i)).name); %labels nombre se van adjudicando
     else 
@@ -326,21 +293,26 @@ end
     
 %Ploteo
 if mantener_trayectoria
-        plot(x(:,1:last_frame)',y(:,1:last_frame)','.-');
+        plot(x(:,:)',y(:,:)','.-');%ploteo el último frame y los n_prev anteriores
     else
-        plot(x(:,last_frame)',y(:,last_frame)','.');
+        plot(x(:,:)',y(:,:)','.');
 end;
+hold on
+circulo(x(:,(n_prev+1) ), y(:,(n_prev+1)), 1 )
+hold off
 
 
 %%%De aquí para abajo son chirimbolos
-text(x(:,last_frame)'...%coordenada x
-    ,y(:,last_frame)',...%coordenada y
-    labels, 'VerticalAlignment','bottom', 'HorizontalAlignment','right')
-xlabel('x (pixeles)');
-ylabel('y (pixeles)');
-str = sprintf('Proyeccion sobre retina de Camara %d  \n hasta el frame %d / %d',n_cam, last_frame, n_frames);
-title(str);
+text(x(:,(n_prev+1))',...%coordenada x --->notar que x e y solo tiene (n_prev+1) componentes
+    y(:,(n_prev+1))',...%coordenada y
+    labels, 'VerticalAlignment','bottom', 'HorizontalAlignment','right', 'FontSize',10, 'fontweight','b')
+xlabel('\fontsize{11}{x (pixeles)}', 'fontweight','b');
+ylabel('\fontsize{11}{y (pixeles)}','fontweight','b');
+str = sprintf('Proyección sobre retina de Camara %d  \n último frame %d / %d',n_cam, last_frame, n_frames);
+title(['\fontsize{14}{',str, '}'], 'fontweight','b');
 axis square;
+axis equal;
+grid on
 correccion_zoom =0.005;% porcentaje de ventana de zoom
 axis([(1-correccion_zoom)*min(min(x)),...
     (1+correccion_zoom)*max(max(x)),...
@@ -360,4 +332,13 @@ function n_str =labels_num(n)
         n_str=[n_str, num2str(n(j))]; %paso de una fila de numeros a un cell array de string
     end
 end %de la funcion n_str
+
+function circulo(x_center, y_center, radius)
+%Esta función plotea el contorno de una circunferencia de radio radius cuyo centro son las coordenadas por filas de los vectores 
+%x_center, y_center  
+theta = 0 : 0.1 : 2*pi*(11/10);%% se generan 70 elementos!!! el factor (11/10) se utiliza para cerrar el circulo dando apenas mas que una vuelta
+x = radius * ( ones(length(x_center), 1) * cos(theta))  + x_center*ones(1, length(theta));
+y = radius * ( ones(length(y_center), 1) * sin(theta) ) + y_center*ones(1, length(theta));
+plot(x', y', 'r--');%ploteo todos los circulos
+end
 
