@@ -1,4 +1,4 @@
-function plotear(E, arg2, arg3, arg4, arg5, arg6)
+function plotear(E, arg2, arg3, arg4, arg5, arg6, arg7)
 %Funcion general de ploteo para secuencias 2D y 3D  
 %% ENTRADA
 %E --> estructura cámara o estructura skeleton
@@ -6,13 +6,11 @@ function plotear(E, arg2, arg3, arg4, arg5, arg6)
 
 %POSIBILIDADES:
 %   plotear(skeleton)                                   --> plot_secuencia_3D(E, 0);%se plotea secuencia 3D con etiquetas nombres
-%   plotear(skeleton, 'number')                         --> plot_secuencia_3D(E, 1);%se plotea secuencia 3D con etiquetas numeros
-%   plotear(skeleton, 'name')                           --> plot_secuencia_3D(E, 0);%se plotea secuencia 3D con etiquetas nombres
+%   plotear(skeleton, t_label)                         -->  plot_secuencia_3D(E, 1);%se plotea secuencia 3D con etiquetas t_label
 %   plotear(skeleton, list_marker, last_frame, n_prev, t_label) --> plot_trayectoria_3D(E, arg2, arg3, arg4, arg5)
 %   plotear(cam, n_cam )                                  --> plot_secuencia_2D(E, arg2, 0); %se plotea 2D con etiquetas nombres 
-%   plotear(cam, n_cam, 'number' )                        --> plot_secuencia_2D(E, arg2, 1);%se plotea 2D con etiquetas numeros
-%   plotear(cam, n_cam, 'name' )                          --> plot_secuencia_2D(E, arg2, 0);%se plotea 2D con etiquetas nombres
-%   plotear(cam, n_cam, list_marker, last_frame, n_prev, t_label) --> plot_trayectoria_2D(E, arg2, arg3, arg4, arg5, arg6)
+%   plotear(cam, n_cam, t_label)                        --> plot_secuencia_2D(E, arg2, 1);%se plotea 2D con etiquetas t_label
+%   plotear(cam, n_cam, list_marker, last_frame, n_prev, t_label, radio) --> plot_trayectoria_2D(E, arg2, arg3, arg4, arg5, arg6, arg7)
 
 %SUB_FUNCIONES
            
@@ -41,9 +39,9 @@ function plotear(E, arg2, arg3, arg4, arg5, arg6)
             %t_label = 0; se etiqueta con nombres
             %t_label = 1; se etiqueta con numeros
 
-    %plot_trayectoria_2D(cam, n_cam, list_marker, last_frame, t_label)
+    %plot_trayectoria_2D(cam, n_cam, list_marker, last_frame, t_label, radio)
      % ENTRADA
-        % skeleton    --> estructura skeleton que contiene la informacion 3D de los marcadores 
+        % skeleton    --> estructura skeleton que contiene la informacion 3D de los marcadores
         %n_cam        -->indica el numero de la camara a graficar
         % list_marker --> vector que contiene los indices respectivos de cada marcador a graficar %skeleton.marker("indice_respectivo")
         % last_frame  --> indica el ultimo frame de la trayectoria
@@ -51,6 +49,7 @@ function plotear(E, arg2, arg3, arg4, arg5, arg6)
         % t_label     --> indica el tipo de etiquetado
                         %t_label = 0; se etiqueta con nombres
                         %t_label = 1; se etiqueta con numeros
+        % radio      --> radio de los circulos ubicados en los ultimos frames, su dimension DEBE SER EN PIXELES
 
 %% Cuerpo de la funcion
 
@@ -74,10 +73,8 @@ else %en caso negativo es una estructura cam    camara = 1;
             plot_secuencia_2D(E, arg2, 0) %se plotea secuencia 2D con etiquetas nombre             
         case 3
             plot_secuencia_2D(E, arg2, arg3);%se plotea secuencia 2D con etiquetas nombre(arg3=0) o numero (arg3=1)
-        case 4
-            plot_trayectoria_2D(E, arg2, arg3, arg4, 0) %se plotean trayectorias 2D con etiquetas nombre
-        case 6
-            plot_trayectoria_2D(E, arg2, arg3, arg4, arg5, arg6) %se plotean trayectorias 2D con etiquetas nombre (arg5=0) o numero(arg5=1)            
+       case 7
+            plot_trayectoria_2D(E, arg2, arg3, arg4, arg5, arg6, arg7) %se plotean trayectorias 2D con etiquetas nombre (arg5=0) o numero(arg5=1)            
         otherwise
             disp('Numero de argumentos invalidos para estructura cam')
             return            
@@ -250,7 +247,7 @@ grid on
 end
 
 
-function plot_trayectoria_2D(cam, n_cam, list_marker, last_frame, n_prev,  t_label)
+function plot_trayectoria_2D(cam, n_cam, list_marker, last_frame, n_prev,  t_label, radio)
 %Función que permite graficar las trayectorias 2D hasta el frame last_frame de
 %los marcadores incluidos en el vector list_marker
 
@@ -263,7 +260,7 @@ function plot_trayectoria_2D(cam, n_cam, list_marker, last_frame, n_prev,  t_lab
 % t_label     --> indica el tipo de etiquetado
                 %t_label = 0; se etiqueta con nombres
                 %t_label = 1; se etiqueta con numeros
-
+% radio      --> radio de los circulos ubicados en los ultimos frames, su dimension DEBE SER EN PIXELES
 %% Cuerpo de la funcion
 
 n_frames = size(cam(1).frame, 2); %nro de frames
@@ -297,9 +294,13 @@ if mantener_trayectoria
     else
         plot(x(:,:)',y(:,:)','.');
 end;
-hold on
-circulo(x(:,(n_prev+1) ), y(:,(n_prev+1)), 1 )
-hold off
+
+if (radio~=0)%solo aplica circulos al ultimo frame si radio distinto de cero
+    hold on
+    circulo(x(:,(n_prev+1) ), y(:,(n_prev+1)), radio )
+    hold off    
+end
+
 
 
 %%%De aquí para abajo son chirimbolos
@@ -311,7 +312,7 @@ ylabel('\fontsize{11}{y (pixeles)}','fontweight','b');
 str = sprintf('Proyección sobre retina de Camara %d  \n último frame %d / %d',n_cam, last_frame, n_frames);
 title(['\fontsize{14}{',str, '}'], 'fontweight','b');
 axis square;
-axis equal;
+%axis equal;
 grid on
 correccion_zoom =0.005;% porcentaje de ventana de zoom
 axis([(1-correccion_zoom)*min(min(x)),...
