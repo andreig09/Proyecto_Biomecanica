@@ -1,4 +1,6 @@
 #include"cvblob.h"
+#include<cv.h>
+#include<highgui.h>
 #include <fstream>
 #include <string>
 
@@ -106,4 +108,33 @@ void endXML(){
 	file = fopen("markers.xml", "a");
 	fprintf(file, "%s\n", "</Detected_Markers>");
 	fclose(file);
+}
+
+//encontrar circulos en la imagen en escala de grises
+void findCircles(IplImage* img){
+	
+	vector<Vec3f> circles;
+
+	Mat imgMat(img); 
+		
+	HoughCircles(imgMat,circles,CV_HOUGH_GRADIENT,
+		2,	//accumulator resolution (size of the image / 2)
+		5,	// minimun distance between two circles
+		100,	//Canny high threshold
+		100,	//minimum numbre of votes
+		0, 1000); //min and max radius
+	
+	vector<Vec3f>::const_iterator itc = circles.begin();
+
+	while (itc!=circles.end()){
+		circle(imgMat,Point((*itc)[0], (*itc)[1]), //circle centre
+			(*itc)[2], //circle radius
+			Scalar(153,255,255), //color
+			2); //thickness
+		++itc;
+	}
+
+	namedWindow("circulos",CV_WINDOW_AUTOSIZE);
+	imshow("circulos",imgMat);
+
 }

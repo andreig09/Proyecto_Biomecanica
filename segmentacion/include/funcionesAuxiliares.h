@@ -17,3 +17,5 @@ void startXML();
 void XMLAddBlobs(CvBlobs blobs, FILE *file);
 void XMLAddFrame(int frameNumber, CvBlobs blobs);
 void endXML();
+
+void findCircles(IplImage* img);

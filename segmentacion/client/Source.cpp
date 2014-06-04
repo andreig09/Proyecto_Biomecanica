@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
     cout<<"Cantidad de argumentos incorrecta";
 	}else {
 
-	//capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
+	//capture = cvCaptureFromAVI("peladoFondoAzul.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
 	capture = cvCaptureFromAVI(argv[1]);
 
     if(!capture){
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
 	//Detectar blobs
 	//////////////////////////////////////////////////////////
 	//blobsDetectados detblobs = blobsDetectados();
-	//blobsDetectados* detblobs = new blobsDetectados();
+	//blobsDetectados* detblobsI = new blobsDetectados();
 	//*detblobs = detectarBlobs(imgThresh);
 	//delete[] detblobs;
 	blobsDetectados detblobs;
@@ -86,10 +86,12 @@ int main(int argc, char *argv[]){
 	startXML();
 	XMLAddFrame(frameNum,detblobs.blobs);
 
+	//delete[] detblobsI;
+
     //iterate through each frames of the video      
       while(true){
-	
-           frame = cvQueryFrame(capture); 
+		   //blobsDetectados* detblobs = new blobsDetectados();
+		   frame = cvQueryFrame(capture); 
 		   frameNum++;
 
 		   if(!frame) break;
@@ -102,10 +104,12 @@ int main(int argc, char *argv[]){
 
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
 
+		   //findCircles(imgThresh);
+		   
 		   detblobs = detectarBlobs(imgThresh); //Detectar markers fitlrados
 
 		   XMLAddFrame(frameNum,detblobs.blobs); //Agregar los blobs de este frame en el xml
-
+		   
 		   oVideoWriter.write(imgThresh); //writer the frame with blobs detected
 		   			 
 		   //Mostrar video original		   

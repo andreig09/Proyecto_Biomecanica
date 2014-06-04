@@ -28,6 +28,25 @@ struct imgtrack
 	CvBlobs BlobsAnteriores;
 };
 
+CvBlobs blobsCirculares(CvBlobs intBlobs){
+	CvBlobs *OBlobs = new CvBlobs;
+	int i = 0;
+	//CvBlobs::const_iterator i = OBlobs->begin();
+	
+	for (CvBlobs::const_iterator it=intBlobs.begin(); it!=intBlobs.end(); ++it)
+		{
+			CvBlob *blob=(*it).second;
+			//if ((it->second->m10-it->second->m01 < 5) && (it->second->u02-it->second->u20 < 5) && (it->second->u11 < 5) )
+			if ((blob->u02-blob->u20 < 5) && (blob->u11 < 5) )
+			{
+				//OBlobs->insert(it,(*it).second);
+				OBlobs->insert(CvLabelBlob(blob->label,blob));
+			}
+		}
+	return *OBlobs;
+	delete OBlobs;
+}
+
 //Funcion que a partir de una imagen filtrada devuelve los blobs.
 //tambien genera la img con blobs y la muestra en una ventana
 blobsDetectados	detectarBlobs(IplImage *filtrada){
@@ -35,6 +54,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	//inicializar elementos
 	blobsDetectados salida;
 	CvBlobs blobs; //structure to hold blobs
+	CvBlobs circulos;
 	
 	double dWidth = cvGetSize(filtrada).width;
     double dHeight = cvGetSize(filtrada).height;
@@ -52,17 +72,21 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	//Filtering the blobs (sacar el ruido)
 	cvFilterByArea(blobs,10,blobs[cvLargestBlob(blobs)]->area);
 
-	//Rendering the blobs
-	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
+	circulos = blobsCirculares(blobs);
 
-	numerar(ImgBlobs,blobs);
+	//Rendering the blobs
+	//cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
+	cvRenderBlobs(labelImg,circulos,filtrada,ImgBlobs);
+
+	//numerar(ImgBlobs,blobs);
+	numerar(ImgBlobs,circulos);
 	
 	}
 	
 	//Se muestra la imagen
 	cvShowImage("Blobs", ImgBlobs);
 		
-	salida.blobs = blobs;
+	salida.blobs = circulos;
 	salida.imgBlobs = ImgBlobs;
 	return salida;
 	cvReleaseImage(&ImgBlobs);
