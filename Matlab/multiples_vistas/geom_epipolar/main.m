@@ -7,7 +7,7 @@ close all
 clc
 %% Cargo secuencia 
 name_bvh = 'Mannequin_con_Armadura.bvh';
-[skeleton, n_marcadores, n_frames, time] = load3D(name_bvh);
+[skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);
 %descomentar la siguiente línea si se quiere ver la secuencia 3D
 %plotear(skeleton, eye(3)) 
 
@@ -89,28 +89,72 @@ c_th_y = [c_th_y, 180.439];
 c_th_z = [c_th_z, -301.198];
 
 
-%% Estructura marcador
+%% Estructura marcador 3D
 %       X -->Matriz cuyas filas son coordenadas 3D y las columnas son frames 
 %       time -->Matriz con los tiempos de cada frame
 %       name -->Nombre del marcador
 %       n -->nro de marcador
 
 for j=1:n_marcadores %hacer para todos los marcadores
-     marker3D(j).X=skeleton(j).t_xyz;
+     marker3D(j).X=skeleton_old(j).t_xyz;
      marker3D(j).time= time;
-     marker3D(j).name= skeleton(j).name;
+     marker3D(j).name= skeleton_old(j).name;
      marker3D(j).n = j;
 end
+%NOTACION
+%       marker3D(j).X(:, k)   --->para acceder a las coordenadas del marcador j en el frame k 
 
+%% Estructura frame3D
+%       X -->Matriz cuyas filas son coordenadas 3D y las columnas son nro de marcador 
+%       time -->tiempo de frame
+%       name -->Array de strings con nombre del marcador de cada columna de X
+%       n -->vector fila que contiene el nro asociado a cada marcador de la columna de X
+
+
+for k=1:n_frames %hacer para cada frame
+        %inicializo los campos de la estructura frame(k)
+        frame3D(k).X = [];
+        frame3D(k).name = {}; % los nombres los guardo en un array de string, no problem se accede de la misma manera que un vector.
+        frame3D(k).n = [];
+        frame3D(k).time = time*k;         
+        for j=1:n_marcadores %hacer para cada marcador 
+            frame3D(k).X = [frame3D(k).X, marker3D(j).X(:,k)]; % las columnas de frame(k).X son nro de marcador
+            frame3D(k).name= [frame3D(k).name, marker3D(j).name]; 
+            frame3D(k).n = [frame3D(k).n, j];
+        end
+end
+     %NOTACION: 
+    %        skeleton.frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
+    %        skeleton.frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
+
+%% Estructura skeleton
+%       marker -->estructura marker3D
+%       frame --> estructura frame3D
+%       name_bvh -->nombre del .bvh de origen
+
+skeleton.marker = marker3D;
+skeleton.frame = frame3D;
+skeleton.name_bvh = name_bvh;
+%ACLARACION: las estructuras 'marker' y 'frame' son dos enfoques distintos de ordenar la misma información, la idea es utilizar lo
+    %conveniente en cada caso.
+    %NOTACION: 
+    %        skeleton.marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
+    %        skeleton.frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
+    %        skeleton.frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
+
+    
+    
 %% Estructura camara
 %   para cada cámara contiene:
-%       Matriz  de rotación Rc 
-%       Vector de Traslación Tc
-%       Distancia focal f
-%       Resolución horizontal M
-%       Resolución Vertical N
-%       Matriz de proyección Pcam
-%       Estructura marker
+%     Rc -->matriz de rotación 
+%     Tc -->vector de traslación
+%     f ---->distancia focal en metros
+%     M --->resolución horizontal en pixeles
+%     name.bvh -->nombre del .bvh de origen
+%     N --->resolución vertical en pixeles
+%     Pcam -->matriz de proyección de la camara
+%     marker -->estructura de datos de los marcadores en dicha camara, similar a marker3D
+%     frame --> estructura de datps de los marcadores en dicha camara, similar a frame3D  
 
 for i=1:length(f) %hacer para todas las camaras
     cam(i).Rc = rotacion(c_th_x(i), c_th_y(i), c_th_z(i));
@@ -118,6 +162,7 @@ for i=1:length(f) %hacer para todas las camaras
     cam(i).f = f(i);
     cam(i).M = M(i);
     cam(i).N = N(i);
+    cam(i).name_bvh = name_bvh;
     cam(i).Pcam = proyeccion(f(i), M(i), N(i), sensor(i), cam(i).Tc, cam(i).Rc);% matriz de rotacion asociada a la cámara, se asume rotación XYZ
     for j=1:n_marcadores %hacer para cada marcador 
         %X=skeleton(j).t_xyz;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivos frames
@@ -126,8 +171,26 @@ for i=1:length(f) %hacer para todas las camaras
         cam(i).marker(j).time= marker3D(j).time;
         cam(i).marker(j).name= marker3D(j).name;
         cam(i).marker(j).n= j;
+    end    
+    for k=1:n_frames %hacer para cada frame
+        %inicializo los campos de la estructura cam(i).frame(k)
+        cam(i).frame(k).x = [];
+        cam(i).frame(k).name = {}; % los nombres los guardo en un array de string, no problem se accede de la misma manera que un vector.
+        cam(i).frame(k).n = [];
+        cam(i).frame(k).time = time*k;         
+        for j=1:n_marcadores %hacer para cada marcador 
+            cam(i).frame(k).x = [cam(i).frame(k).x, cam(i).marker(j).x(:,k)]; %las columnas de cam(i).frame(k).x son nro de marcador
+            cam(i).frame(k).name= [cam(i).frame(k).name, cam(i).marker(j).name]; 
+            cam(i).frame(k).n = [cam(i).frame(k).n, j];
+        end
     end
-    %NOTACION: cam(i).marker(j).x(:, k) para acceder a las coordenadas homogeneas del marcador j en el frame k de la camara i.
+    %ACLARACION: las estructuras 'marker' y 'frame' son dos enfoques distintos de ordenar la misma información, la idea es utilizar lo
+    %conveniente en cada caso.
+    %NOTACION: 
+    %        cam(i).marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
+    %        cam(i).frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
+    %        cam(i).frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
+    
 end
 
      
@@ -148,9 +211,11 @@ F = vgg_F_from_P(cam(i).Pcam, cam(j).Pcam);
 %vgg_gui_F(im1, im2, F')
 
 %% Visualización de las proyecciones
-n = 3; %nro de camara a visualizar 
-plotear(skeleton, cam(n).Pcam, cam(n).M, cam(n).N)
-
+n_cam = 3; %nro de camara a visualizar 
+%plotear(skeleton, cam(n).Pcam, cam(n).M, cam(n).N)
+%plotear(cam, n_cam, 'number');
+plotear(skeleton, 'number');
 %% Limpio variables 
-clearvars -except cam n_marcadores n_frames time name_bvh marker3D
+clearvars -except cam n_marcadores n_frames name_bvh skeleton
+disp('Variables cargadas en Workspace ;)')
 

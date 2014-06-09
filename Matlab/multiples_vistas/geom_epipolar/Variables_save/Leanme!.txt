@@ -3,42 +3,68 @@ DESCRIPCION DE VARIABLES
 ___________________________________________________________
 load('archivo.mat') --->  para cargar variables en Matlab 
 ___________________________________________________________	
+___________________________________________________________	
 
-marker3D = 
-
-1x26 struct array with fields:
-    X	     ---->matriz cuyas filas son coordenadas 3D y columnas son frames sucesivos.
-    time   --->matriz con los tiempos correspondientes a cada frame
-    name --->nombre del marcador
-    n       --->nro de marcador
+_____________________________________________________________________
+marker3D =
+struct array with fields:
+       X -->Matriz cuyas filas son coordenadas 3D y las columnas son frames 
+       time -->Matriz con los tiempos de cada frame
+       name -->Nombre del marcador
+       n -->nro de marcador
 
 NOTACION
-marker(j).X(:, k)   --->para acceder a las coordenadas del marcador j en el frame k 
-
-
-
+       marker3D(j).X(:, k)   --->para acceder a las coordenadas del marcador j en el frame k 
 	
 _____________________________________________________________________
 
-cam = 
+frame3D =
+struct array with fields:
+       X -->Matriz cuyas filas son coordenadas 3D y las columnas son nro de marcador 
+       time -->tiempo de frame
+       name -->Array de strings con nombre del marcador de cada columna de X
+       n -->vector fila que contiene el nro asociado a cada marcador de la columna de X
 
-1x5 struct array with fields:
-    Rc -->matriz de rotación 
-    Tc -->vector de traslación
-    f ---->distancia focal en metros
-    M --->resolución horizontal en pixeles
-    N --->resolución vertical en pixeles
-    Pcam -->matriz de proyección de la camara
-    marker -->estructura de datos de los marcadores en dicha camara, similar a marker3D
-
-NOTACION
-cam(i).marker(j).x(:, k) --->para acceder a las coordenadas homogeneas del marcador j en el frame k de la camara i.
-cam(i).Pcam                 --->para acceder a la matriz de proyección asociada a la camara i
+NOTACION: 
+        skeleton.frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
+        skeleton.frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
 _______________________________________________________________________
 
-VARIABLE REDUCIDA EN marker3D
+skeleton =
+struct array with fields:
+       marker -->estructura marker3D
+       frame --> estructura frame3D
+       name_bvh -->nombre del .bvh de origen
 
-skeleton = 
+ACLARACION: las estructuras 'marker' y 'frame' son dos enfoques distintos de ordenar la misma información, la idea es utilizar lo conveniente en cada caso.
+NOTACION: 
+        skeleton.marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
+        skeleton.frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
+        skeleton.frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
+_______________________________________________________________________
+
+cam =
+struct array with fields:  
+     Rc -->matriz de rotación 
+     Tc -->vector de traslación
+     f ---->distancia focal en metros
+     M --->resolución horizontal en pixeles
+     name.bvh -->nombre del .bvh de origen
+     N --->resolución vertical en pixeles
+     Pcam -->matriz de proyección de la camara
+     marker -->estructura de datos de los marcadores en dicha camara, similar a marker3D
+     frame --> estructura de datps de los marcadores en dicha camara, similar a frame3D
+ACLARACION: las estructuras 'marker' y 'frame' son dos enfoques distintos de ordenar la misma información, la idea es utilizar lo conveniente en cada caso.
+NOTACION: 
+        cam(i).marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
+        cam(i).frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
+        cam(i).frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
+    
+_______________________________________________________________________
+
+VARIABLE REDUCIDA EN skeleton
+
+skeleton_old = 
 
 1x26 struct array with fields:
     name
