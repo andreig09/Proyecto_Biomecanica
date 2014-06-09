@@ -28,6 +28,25 @@ struct imgtrack
 	CvBlobs BlobsAnteriores;
 };
 
+CvBlobs blobsCirculares(CvBlobs intBlobs){
+	CvBlobs *OBlobs = new CvBlobs;
+	int i = 0;
+	//CvBlobs::const_iterator i = OBlobs->begin();
+	
+	for (CvBlobs::const_iterator it=intBlobs.begin(); it!=intBlobs.end(); ++it)
+		{
+			CvBlob *blob=(*it).second;
+			//if ((it->second->m10-it->second->m01 < 5) && (it->second->u02-it->second->u20 < 5) && (it->second->u11 < 5) )
+			if ((blob->u02-blob->u20 < 10) && (blob->u11 < 10) )
+			{
+				//OBlobs->insert(it,(*it).second);
+				OBlobs->insert(CvLabelBlob(blob->label,blob));
+			}
+		}
+	return *OBlobs;
+	delete OBlobs;
+}
+
 //Funcion que a partir de una imagen filtrada devuelve los blobs.
 //tambien genera la img con blobs y la muestra en una ventana
 blobsDetectados	detectarBlobs(IplImage *filtrada){
@@ -35,10 +54,13 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	//inicializar elementos
 	blobsDetectados salida;
 	CvBlobs blobs; //structure to hold blobs
+	CvBlobs circulos;
+	
 	double dWidth = cvGetSize(filtrada).width;
     double dHeight = cvGetSize(filtrada).height;
 	IplImage *labelImg=cvCreateImage(cvSize(dWidth,dHeight),IPL_DEPTH_LABEL,1);//Image Variable for blobs
 	IplImage *ImgBlobs=cvCreateImage(cvSize(dWidth,dHeight),IPL_DEPTH_8U,3);//Image Variable for blobs
+	IplImage *ImgBlobsAll=cvCreateImage(cvSize(dWidth,dHeight),IPL_DEPTH_8U,3);//Image Variable for blobs
 
 
 	//Finding the blobs
@@ -51,21 +73,30 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	//Filtering the blobs (sacar el ruido)
 	cvFilterByArea(blobs,10,blobs[cvLargestBlob(blobs)]->area);
 
+	circulos = blobsCirculares(blobs);
+
 	//Rendering the blobs
-	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
-		
-	numerar(ImgBlobs,blobs);
+	//cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
+	cvRenderBlobs(labelImg,circulos,filtrada,ImgBlobs);
+	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobsAll);
+
+	//numerar(ImgBlobs,blobs);
+	numerar(ImgBlobs,circulos);
+	numerar(ImgBlobsAll,blobs);
 	
 	}
 	
 	//Se muestra la imagen
-	cvShowImage("Blobs", ImgBlobs);
+	cvShowImage("Blobs circulares", ImgBlobs);
+	cvShowImage("Blobs", ImgBlobsAll);
 		
-	salida.blobs = blobs;
+	salida.blobs = circulos;
 	salida.imgBlobs = ImgBlobs;
 	return salida;
 	cvReleaseImage(&ImgBlobs);
+	cvReleaseImage(&ImgBlobsAll);
 	cvReleaseImage(&labelImg);
+	
 }
 
 //ubica un blob dado en otro conjunto de blobs.

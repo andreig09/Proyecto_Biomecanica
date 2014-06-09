@@ -1,1 +1,2 @@
-main2.m es la cabeza de todo el resto son funciones 
+--->main.m es la cabeza de todo el resto son funciones 
+--->Para entender las estructuras leer el Leanme! de la carpeta Variables_save

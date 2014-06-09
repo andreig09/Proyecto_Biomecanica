@@ -1,4 +1,6 @@
 #include"cvblob.h"
+#include<cv.h>
+#include<highgui.h>
 #include <fstream>
 #include <string>
 
@@ -48,29 +50,28 @@ void numerar(IplImage *img, CvBlobs blobs ){
 			centroide.x = it->second->centroid.x;
 			centroide.y = it->second->centroid.y;
 			buffer = itoa(it->first);
-			//buffer = itoa(itblob);
 			cvPutText(img,buffer.c_str(),centroide,&font,cvScalar(0,0,0));
 		}
 	
 	}
 
-//obtiene el máximo de valores de un txt
-double getMaxThresh(const char * txtName){
+//obtiene el máximo de valores de todos los threshold
+//double getMaxThresh(const char * txtName){
+double getMaxThresh(int l, double *thr){
 	double maxThres;
 	maxThres = 0;
-	ifstream file(txtName);
-    string str;
-	double entero;
-    while (getline(file, str))
-    {
-        entero = stod(str);
-		if (entero > maxThres){
-			maxThres = entero;
+	
+	for (int i = 0; i < l; i++)
+	{
+		if (thr[i] > maxThres)
+		{
+			maxThres = thr[i];
 		}
-    }
+	}
 	return maxThres;
 }
 
+//Funcion para escribir el xml de los markers detectados
 void startXML(){
 	FILE *file;
 	file = fopen("markers.xml", "w");
@@ -79,27 +80,61 @@ void startXML(){
 	fclose(file);
 }
 
+//Funcion para escribir el xml de los markers detectados
 void XMLAddBlobs(CvBlobs blobs, FILE *file){
+	CvPoint centroide;
 	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it){
+		centroide.x = it->second->centroid.x;
+		centroide.y = it->second->centroid.y;
 		fprintf(file, "\t\t%s%i%s\n", "<Marker id=\"", it->first, "\" >");
-		fprintf(file, "\t\t\t%s%i%s%i%s\n", "<Centroid x=\"", it->second->centroid.x, "\" y=\"", it->second->centroid.y, "\" />");
-		fprintf(file, "\t\t%s\n", "<Marker/>");
+		fprintf(file, "\t\t\t%s%i%s%i%s\n", "<Centroid x=\"", centroide.x, "\" y=\"", centroide.y, "\" />");
+		fprintf(file, "\t\t%s\n", "</Marker>");
 	}
 }
 
-
+//Funcion para escribir el xml de los markers detectados
 void XMLAddFrame(int frameNumber, CvBlobs blobs){
 	FILE *file;
 	file = fopen("markers.xml", "a");
 	fprintf(file, "\t%s%i%s\n", "<Frame id=\"", frameNumber, "\" >");
 	XMLAddBlobs(blobs, file);
-	fprintf(file, "\t%s\n", "<Frame/>");
+	fprintf(file, "\t%s\n", "</Frame>");
 	fclose(file);
 }
 
+//Funcion para escribir el xml de los markers detectados
 void endXML(){
 	FILE *file;
 	file = fopen("markers.xml", "a");
 	fprintf(file, "%s\n", "</Detected_Markers>");
 	fclose(file);
+}
+
+//encontrar circulos en la imagen en escala de grises
+void findCircles(IplImage* img){
+	
+	vector<Vec3f> circles;
+
+	Mat imgMat(img); 
+		
+	HoughCircles(imgMat,circles,CV_HOUGH_GRADIENT,
+		2,	//accumulator resolution (size of the image / 2)
+		5,	// minimun distance between two circles
+		100,	//Canny high threshold
+		100,	//minimum numbre of votes
+		0, 1000); //min and max radius
+	
+	vector<Vec3f>::const_iterator itc = circles.begin();
+
+	while (itc!=circles.end()){
+		circle(imgMat,Point((*itc)[0], (*itc)[1]), //circle centre
+			(*itc)[2], //circle radius
+			Scalar(153,255,255), //color
+			2); //thickness
+		++itc;
+	}
+
+	namedWindow("circulos",CV_WINDOW_AUTOSIZE);
+	imshow("circulos",imgMat);
+
 }

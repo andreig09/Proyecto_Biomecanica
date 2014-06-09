@@ -4,7 +4,7 @@
 //Input-Output
 #include<stdio.h>
 #include"ColorFilter.h"
-#include"main_opencv.h"
+#include"getThreshold.h"
 #include"detectarBlobs.h"
 
 //NameSpaces
@@ -12,20 +12,22 @@ using namespace cv;
 //using namespace cvb;
 using namespace std;
 
+CvCapture* capture =0;
+IplImage* frame=0;
+int frameNum = 0;
+double thresh;
+double thresh2;
+
 int main(int argc, char *argv[]){
 	
 	//Obtener video y separarlo en cuadros
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	CvCapture* capture =0;
-	IplImage* frame=0;
-	int frameNum = 0;
-
 	if ( argc != 2 ) {// argc should be 2 for correct execution
     // We print argv[0] assuming it is the program name
     cout<<"Cantidad de argumentos incorrecta";
 	}else {
 
-	//capture = cvCaptureFromAVI("pelotitas.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
+	//capture = cvCaptureFromAVI("peladoFondoAzul.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
 	capture = cvCaptureFromAVI(argv[1]);
 
     if(!capture){
@@ -42,36 +44,31 @@ int main(int argc, char *argv[]){
     cvNamedWindow("Video");      
     
 	//Tamaño del frame y frecuencia:  
-    double dWidth = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH); //get the width of frames of the video
-    double dHeight = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT); //get the height of frames of the video
-    int fps = cvGetCaptureProperty(capture, CV_CAP_PROP_FPS);
+    //double dWidth = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH); //get the width of frames of the video
+    //double dHeight = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT); //get the height of frames of the video
+    //int fps = cvGetCaptureProperty(capture, CV_CAP_PROP_FPS);
 	//cout << "Frame Size = " << dWidth << "x" << dHeight << endl;
     //cout << "FPS = " << fps << endl;
-	Size frameSize(static_cast<int>(dWidth), static_cast<int>(dHeight));
+	//Size frameSize(static_cast<int>(dWidth), static_cast<int>(dHeight));
 
 	//salidas de video
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    VideoWriter oVideoWriter ("filtro.avi", CV_FOURCC('M','P','4','2'), fps, frameSize, false); //initialize the VideoWriter object 
+    //VideoWriter oVideoWriter ("filtro.avi", CV_FOURCC('M','P','4','2'), fps, frameSize, false); //initialize the VideoWriter object 
     //CV_FOURCC('P','I','M','1')
-    if ( !oVideoWriter.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
-    {
-       cout << "ERROR: Failed to write the video" << endl;
-       return -1;
-    }
+    //if ( !oVideoWriter.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
+    //{
+    //   cout << "ERROR: Failed to write the video" << endl;
+    //   return -1;
+    //}
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
 	//VALORES INICIALES:
 
 	//Determinar umbral
-	double thresh;
 	thresh = callOtsuN(frame);
-	//thresh = main_opencv("trimodal2gaussian.png");
-
-	cout << "max threshold: " << thresh << "\n" ;
-
-	double thresh2;
 	thresh2 = thresh*255;
+	//cout << "max threshold: " << thresh2 << "\n" ;
 
 	//Filtrar imagen
     IplImage* imgThresh = filterOtsu(frame,thresh2);
@@ -79,7 +76,7 @@ int main(int argc, char *argv[]){
 	//Detectar blobs
 	//////////////////////////////////////////////////////////
 	//blobsDetectados detblobs = blobsDetectados();
-	//blobsDetectados* detblobs = new blobsDetectados();
+	//blobsDetectados* detblobsI = new blobsDetectados();
 	//*detblobs = detectarBlobs(imgThresh);
 	//delete[] detblobs;
 	blobsDetectados detblobs;
@@ -89,33 +86,37 @@ int main(int argc, char *argv[]){
 	startXML();
 	XMLAddFrame(frameNum,detblobs.blobs);
 
+	//delete[] detblobsI;
+
     //iterate through each frames of the video      
       while(true){
-	
-           frame = cvQueryFrame(capture); 
+		   //blobsDetectados* detblobs = new blobsDetectados();
+		   frame = cvQueryFrame(capture); 
 		   frameNum++;
-           if(!frame) break;
+
+		   if(!frame) break;
            frame=cvCloneImage(frame); 
 
+		   //Detectar Umbral para frame actual
 		   thresh = callOtsuN(frame);
-		   cout << "max threshold: " << thresh << "\n" ;
 		   thresh2 = thresh*255;
+		   //cout << "max threshold: " << thresh << "\n" ;
+
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
 
-		   //blobsDetectados *detblobs = new blobsDetectados[];
-		   //*detblobs = detectarBlobs(imgThresh);
-		   //delete[] detblobs;
-		   detblobs = detectarBlobs(imgThresh);
+		   //findCircles(imgThresh);
 		   
-		   XMLAddFrame(frameNum,detblobs.blobs);
+		   detblobs = detectarBlobs(imgThresh); //Detectar markers fitlrados
 
-		   oVideoWriter.write(imgThresh); //writer the frame with blobs detected
-		   			 
-		   //Mostrar videos
+		   XMLAddFrame(frameNum,detblobs.blobs); //Agregar los blobs de este frame en el xml
 		   
-		   cvShowImage("Video", frame); //original
+		   //oVideoWriter.write(imgThresh); //writer the frame with blobs detected
+		   			 
+		   //Mostrar video original		   
+		   cvShowImage("Video", frame);
            
            //Clean up used images
+		   //delete[] detblobs;
            cvReleaseImage(&frame);
 		   cvReleaseImage(&imgThresh);
 
@@ -125,7 +126,7 @@ int main(int argc, char *argv[]){
            if((char)c==27 ) break;       
       }
 
-	  endXML();
+	  endXML(); //Cerrar xml
 
 	  waitKey(0); //wait infinite time for a keypress
 

@@ -26,8 +26,8 @@ struct array with fields:
        n -->vector fila que contiene el nro asociado a cada marcador de la columna de X
 
 NOTACION: 
-        skeleton.frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
-        skeleton.frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
+        frame(k).X(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
+        frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
 _______________________________________________________________________
 
 skeleton =
@@ -38,8 +38,8 @@ struct array with fields:
 
 ACLARACION: las estructuras 'marker' y 'frame' son dos enfoques distintos de ordenar la misma información, la idea es utilizar lo conveniente en cada caso.
 NOTACION: 
-        skeleton.marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
-        skeleton.frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
+        skeleton.marker(j).X(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
+        skeleton.frame(k).X(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
         skeleton.frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
 _______________________________________________________________________
 

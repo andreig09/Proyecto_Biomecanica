@@ -22,8 +22,6 @@ IplImage* filterOtsu(IplImage *img, int thresh){
 	//Changing the color space from BGR to HSV
 	cvCvtColor(img,hsvframe,CV_BGR2GRAY);
 	
-	CvScalar min = cvScalar(0,0,thresh);
-	
 	//Thresholding the frame for the color given
 	//cvInRangeS(hsvframe,min, max,threshy);
 	cvThreshold(hsvframe,threshy,thresh,255,CV_THRESH_BINARY);
