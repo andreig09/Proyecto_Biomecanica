@@ -6,7 +6,7 @@ clear all
 close all
 clc
 %% Cargo secuencia 
-name_bvh = 'Mannequin_con_Armadura.bvh';
+name_bvh = 'Mannequin2.bvh';
 [skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);
 %descomentar la siguiente línea si se quiere ver la secuencia 3D
 %plotear(skeleton, eye(3)) 
@@ -200,7 +200,7 @@ end
 %  matriz fundamental que mapea un punto de camara i en recta de camara j
 i=2; %elegir la camara de entrada
 j=4; %elegir la camara de salida
-F = vgg_F_from_P(cam(i).Pcam, cam(j).Pcam);
+
 %% Example of using vgg_gui_F  (ALGO NO FUNCIONA O NO SE ESTA CALCULANDO BIEN LA MATRIZ FUNDAMENTAL O EL PROGRAMA vgg_gui_F ESTA MAL)
 %%read in chapel images
 %im1 = imread('cam2.bmp');
@@ -211,10 +211,10 @@ F = vgg_F_from_P(cam(i).Pcam, cam(j).Pcam);
 %vgg_gui_F(im1, im2, F')
 
 %% Visualización de las proyecciones
-n_cam = 3; %nro de camara a visualizar 
+%n_cam = 3; %nro de camara a visualizar 
 %plotear(skeleton, cam(n).Pcam, cam(n).M, cam(n).N)
 %plotear(cam, n_cam, 'number');
-plotear(skeleton, 'number');
+%plotear(skeleton, 'number');
 %% Limpio variables 
 clearvars -except cam n_marcadores n_frames name_bvh skeleton
 disp('Variables cargadas en Workspace ;)')
