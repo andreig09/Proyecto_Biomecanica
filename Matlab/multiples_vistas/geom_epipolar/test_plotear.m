@@ -1,10 +1,10 @@
 close all;
-clear all;
+%clear all;
 clc;
 %% Este archivo permite probar la funcion plotear con todas las entradas posibles
 
-load('Variables_save/skeleton.mat')
-load('Variables_save/cam.mat')
+%load('Variables_save/skeleton.mat')
+%load('Variables_save/cam.mat')
 
 total_marker = size(cam(1).marker, 2);
 total_frame =  size(cam(1).frame, 2);
@@ -31,10 +31,10 @@ radio = 2;%valor del radio de las circunferencias centradas en el último frame 
        for i=1:last_frame
            if (i-n_prev)<1
                plotear(cam, n_cam, list_marker, i, i-1, t_label, radio) %se plotean trayectorias 2D con etiquetas nombre (t_label=0) o numero (t_label=1)
-               pause(0.1)
+               pause(0.01)
            else
                plotear(cam, n_cam, list_marker, i, n_prev, t_label, radio) %se plotean trayectorias 2D con etiquetas nombre (t_label=0) o numero (t_label=1)
-               pause(0.1)
+               pause(0.01)
            end
        end
    end

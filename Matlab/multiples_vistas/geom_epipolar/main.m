@@ -6,6 +6,7 @@ clear all
 close all
 clc
 %% Cargo secuencia 
+%name_bvh = 'pelotita.bvh';
 name_bvh = 'Mannequin.bvh';
 [skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);
 %descomentar la siguiente línea si se quiere ver la secuencia 3D
@@ -24,13 +25,16 @@ M = 800;    % resolución horizontal en píxeles
 N = 300;    % resolución vertical en píxeles
 sensor = 32;    % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
 % posición xyz cámara 1, todas las medidas son en metros
-c_x = 0.02353001;
+c_x = 0.2353001;
 c_y = -2.5;
 c_z = 8;
 % angulos de rotacion cam1 en grados
 c_th_x = 180;
 c_th_y = 180;
 c_th_z = -90;
+% rotación a partir de cuaternion
+q1=[-0.707, -0.000001, 0.000, -0.707];
+q1=quaternion(q1); %convierto el vector a cuaternion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %CAMARA2 (toma posterior izquierda)
 f = [f, 50];     %dist. focal en mm
@@ -45,6 +49,9 @@ c_z = [c_z, 1.2];
 c_th_x = [c_th_x, 267.067];
 c_th_y = [c_th_y, 180.439];
 c_th_z = [c_th_z, -57.198];
+% rotación a partir de cuaternion
+q2=[-0.345, -0.332, -0.603, -0.638];
+q2=quaternion(q2); %convierto el vector a cuaternion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %CAMARA3 (toma delantera izquierda)
 f = [f, 50];     %dist. focal en mm
@@ -59,6 +66,9 @@ c_z = [c_z, 1.2];
 c_th_x = [c_th_x, 267.067];
 c_th_y = [c_th_y, 180.439];
 c_th_z = [c_th_z, -121.198];
+% rotación a partir de cuaternion
+q3=[0.630, 0.601, 0.336, 0.358];
+q3=quaternion(q3); %convierto el vector a cuaternion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %CAMARA4 (toma  delantera derecha)
 f = [f, 50];     %dist. focal en mm
@@ -73,6 +83,9 @@ c_z = [c_z, 1.2];
 c_th_x = [c_th_x, 267.067];
 c_th_y = [c_th_y, 180.439];
 c_th_z = [c_th_z, -237.198];
+% rotación a partir de cuaternion
+q4=[0.638, 0.603, -0.332, -0.345];
+q4=quaternion(q4); %convierto el vector a cuaternion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %CAMARA5 (toma posterior derecha)
 f = [f, 50];     %dist. focal en mm
@@ -87,6 +100,10 @@ c_z = [c_z, 1.2];
 c_th_x = [c_th_x, 267.067];
 c_th_y = [c_th_y, 180.439];
 c_th_z = [c_th_z, -301.198];
+% rotación a partir de cuaternion
+q5=[0.358, 0.336, -0.601, -0.630];
+q5=quaternion(q5); %convierto el vector a cuaternion
+
 
 
 %% Estructura marcador 3D
@@ -156,8 +173,12 @@ skeleton.name_bvh = name_bvh;
 %     marker -->estructura de datos de los marcadores en dicha camara, similar a marker3D
 %     frame --> estructura de datps de los marcadores en dicha camara, similar a frame3D  
 
+q=[q1;q2;q3;q4;q5]; %agrupo todos los cuaterniones
+R=RotationMatrix(q);%Obtengo las matrices de rotación a partir de los cuaterniones. R(:,:,i) es la matriz de rotación de la camara i
+
 for i=1:length(f) %hacer para todas las camaras
-    cam(i).Rc = rotacion(c_th_x(i), c_th_y(i), c_th_z(i));
+    %cam(i).Rc = R(:,:,i)';%calculo con cuaterniones TENGO QUE VER PORQUE DEBO HACER LA INVERSA
+    cam(i).Rc = rotacion(c_th_x(i), c_th_y(i), c_th_z(i));    
     cam(i).Tc = [c_x(i), c_y(i), c_z(i)];
     cam(i).f = f(i);
     cam(i).M = M(i);
@@ -192,6 +213,14 @@ for i=1:length(f) %hacer para todas las camaras
     %        cam(i).frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
     
 end
+%     %Lo siguiente es para comparar matrices calculadas por cuaterniones y
+%     %por rotaciones
+%     disp('________________________________________________________')
+%     cam(i).Rc
+%     R(:,:,i)
+%     disp('________________________________________________________')
+%     disp('________________________________________________________')
+%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
      
 
@@ -200,22 +229,14 @@ end
 %  matriz fundamental que mapea un punto de camara i en recta de camara j
 i=2; %elegir la camara de entrada
 j=4; %elegir la camara de salida
+F= F_from_P(cam(i).Pcam, cam(j).Pcam);
 
-%% Example of using vgg_gui_F  (ALGO NO FUNCIONA O NO SE ESTA CALCULANDO BIEN LA MATRIZ FUNDAMENTAL O EL PROGRAMA vgg_gui_F ESTA MAL)
-%%read in chapel images
-%im1 = imread('cam2.bmp');
-%im2 = imread('cam4.bmp');
-%%view epipolar geometry in GUI, move mouse with button down
-%%in either window to see transferred point
-%%NB function uses F transpose
-%vgg_gui_F(im1, im2, F')
 
-%% Visualización de las proyecciones
-%n_cam = 3; %nro de camara a visualizar 
-%plotear(skeleton, cam(n).Pcam, cam(n).M, cam(n).N)
-%plotear(cam, n_cam, 'number');
-%plotear(skeleton, 'number');
-%% Limpio variables 
-clearvars -except cam n_marcadores n_frames name_bvh skeleton
+%% Guardo y Limpio variables 
+save('Variables_save/cam','cam');
+save('Variables_save/skeleton','skeleton');
+save('Variables_save/marker3D','marker3D');
+save('Variables_save/frame3D','frame3D');
+clearvars -except cam n_marcadores n_frames name_bvh skeleton F
 disp('Variables cargadas en Workspace ;)')
 
