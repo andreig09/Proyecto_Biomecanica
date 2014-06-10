@@ -7,15 +7,15 @@ clc
 %tengo del ground truth
 
 
-%load('Variables_save/skeleton.mat')
-%load('Variables_save/cam.mat')
+
 
 total_marker = size(cam(1).marker, 2);
 total_frame =  size(cam(1).frame, 2);
 
 list_marker =[1:total_marker];%marcadores que se quieren visualizar
-last_frame = 1; %ultimo frame a graficar
-n_prev =0; %graficar 3 frame anteriores al último
+init_frame =1; %primer frame a graficar
+last_frame =100; %ultimo frame a graficar
+n_prev = 0;
 t_label = 1; %con etiquetas nombre (t_label=0) o numero (t_label=1)
 n_cam = 2;%camara numero n_cam
 radio = 0;%valor del radio de las circunferencias centradas en el último frame de cada marcador ¿valor en pixeles?
@@ -24,37 +24,38 @@ res_y = cam(n_cam).N; %resolucion vertical
 
 
 
-cam_aux=cam;
-y=[];
+cam_aux=cam; %en esta camara voy a guardar las coordenadas invertidas para graficar con los pixeles
 for j=1:total_marker
-    X=cam(n_cam).marker(j).x(1, :); % al final X(k) indica las coordenadas 'y' del marcador j frame k
+    X=cam(n_cam).marker(j).x(1, :); % al final X(k) indica las coordenadas 'x' del marcador j frame k
     Y=cam(n_cam).marker(j).x(2, :); % al final Y(k) indica las coordenadas 'y' del marcador j frame k
-    cam_aux(n_cam).marker(j).x(1,:)= (X+1); %Por algún motivo tengo que hacer estas correcciones para que se solapen los marcadores   
-    %cam_aux(n_cam).marker(j).x(2,:)=res_y - Y+3.5;
-    cam_aux(n_cam).marker(j).x(2,:)=(res_y - Y+0.5);
+    cam_aux(n_cam).marker(j).x(1,:)= (X); %Por algún motivo tengo que hacer estas correcciones para que se solapen los marcadores   
+    cam_aux(n_cam).marker(j).x(2,:)=(res_y - Y+1);
 
 end
 
-%cam_aux(n_cam).
+
+%% Cargo las imagenes
 im=[];
-for k=1:last_frame    
+for k=0:last_frame %guardo el nombre de cada frame en la matriz im   
     if k<10
-        str = sprintf('cam2_000%d.bmp',k);
+        str = sprintf('Frames_cam%d/cam%d_000%d.png',n_cam, n_cam, k);
     else if k<100
-        str = sprintf('cam2_00%d.bmp',k);
+        str = sprintf('Frames_cam%d/cam%d_00%d.png',n_cam, n_cam, k);
         else 
-          str = sprintf('cam2_0%d.bmp',k);
+          str = sprintf('Frames_cam%d/cam%d_0%d.png', n_cam, n_cam, k);
         end
     end
     im=[im; str];
 end
+%A=imread(im(last_frame));% si quisiera cargar la matriz de imagen de last_frame
 
-A=imread(im)
-for k=last_frame:last_frame
-    figure(1), clf, imshow(im(k, :)) %,axis square, %axis([1, res_x, 1, res_y])
-     hold on, plotear(cam_aux, n_cam, list_marker, k, n_prev, t_label, radio)
-     %hold off
-    pause(0.1)
+%% Ploteos
+figure(1)
+for k=init_frame:last_frame %desde el frame inicial al final
+     clf, imshow(im(k, :)) , axis([1, res_x, 1, res_y])
+     hold on
+     plotear(cam_aux, n_cam, list_marker, k, n_prev, t_label, radio)
+     pause(0.1)
 end
 %[XX,YY] = meshgrid(0:res_x,0:res_y);
 %plot(XX, YY, 'g.')

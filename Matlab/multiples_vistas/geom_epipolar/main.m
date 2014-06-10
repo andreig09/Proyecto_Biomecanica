@@ -6,7 +6,7 @@ clear all
 close all
 clc
 %% Cargo secuencia 
-name_bvh = 'Mannequin2.bvh';
+name_bvh = 'Mannequin.bvh';
 [skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);
 %descomentar la siguiente línea si se quiere ver la secuencia 3D
 %plotear(skeleton, eye(3)) 

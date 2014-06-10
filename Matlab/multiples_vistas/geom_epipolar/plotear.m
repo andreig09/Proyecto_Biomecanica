@@ -318,10 +318,10 @@ xlabel('\fontsize{11}{x (pixeles)}', 'fontweight','b');
 ylabel('\fontsize{11}{y (pixeles)}','fontweight','b');
 str = sprintf('Proyección sobre retina de Camara %d  \n último frame %d / %d',n_cam, last_frame, n_frames);
 title(['\fontsize{14}{',str, '}'], 'fontweight','b');
-axis square;
+%axis square;
 res_x = cam(n_cam).M; %resolucion horizontal
 res_y = cam(n_cam).N; %resolucion vertical
-axis([0 res_x 0 res_y])
+%axis([0 res_x 0 res_y])
 %axis equal;
 grid on
 correccion_zoom =0.005;% porcentaje de ventana de zoom
