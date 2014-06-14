@@ -1,4 +1,4 @@
-function Pcam= proyeccion(f, M, N, sensor, Tc, Rc)
+function Pcam= MatrixProyection(f, M, N, sensor, Tc, Rc)
 % Construye las matrices de parámetros intrínsecos y extrínsecos a partir de
 % los datos en Blender y devuelve tanto la matriz de proyección como la matriz fundamental.
 
@@ -21,8 +21,11 @@ function Pcam= proyeccion(f, M, N, sensor, Tc, Rc)
 %                       parametros (X, Y) es (0, 0)
 %                   2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio, indicado por 
 %                       los parametros (X, Y) es (1, 1)
+% Ox = M/2+0.5;   % coordenada en x (pìxeles) del punto principal
+% Oy = N/2+0.5;   % coordenada en y (pìxeles) del punto principal
 Ox = M/2;   % coordenada en x (pìxeles) del punto principal
 Oy = N/2;   % coordenada en y (pìxeles) del punto principal
+
 Sx = sensor/M;  % tamaño en mm de un píxel en la dirección horizontal
 Sy = Sx;        % tamaño en mm de un píxel en la dirección vertical (en este caso como los píxeles son cuadrados Sy = Sx)
 

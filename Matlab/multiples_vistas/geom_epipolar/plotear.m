@@ -322,7 +322,7 @@ title(['\fontsize{14}{',str, '}'], 'fontweight','b');
 res_x = cam(n_cam).M; %resolucion horizontal
 res_y = cam(n_cam).N; %resolucion vertical
 axis([0 res_x 0 res_y])
-%axis equal;
+axis equal;
 grid on
 correccion_zoom =0.005;% porcentaje de ventana de zoom
 % axis([(1-correccion_zoom)*min(min(x)),...

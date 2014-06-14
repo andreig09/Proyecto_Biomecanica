@@ -10,8 +10,8 @@ total_marker = size(cam(1).marker, 2);
 total_frame =  size(cam(1).frame, 2);
 
 list_marker =[1:total_marker];%marcadores que se quieren visualizar
-last_frame = total_frame; %ultimo frame a graficar
-n_prev =3; %graficar 3 frame anteriores al último
+last_frame = 15 %total_frame; %ultimo frame a graficar
+n_prev =7; %graficar 3 frame anteriores al último
 t_label = 1; %con etiquetas nombre (t_label=0) o numero (t_label=1)
 n_cam = 2;%camara numero n_cam
 radio = 2;%valor del radio de las circunferencias centradas en el último frame de cada marcador ¿valor en pixeles?
