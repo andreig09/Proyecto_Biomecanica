@@ -9,100 +9,132 @@ clc
 %name_bvh = 'pelotita.bvh';
 name_bvh = 'Mannequin.bvh';
 [skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);
-%descomentar la siguiente línea si se quiere ver la secuencia 3D
+%descomentar la siguiente linea si se quiere ver la secuencia 3D
 %plotear(skeleton, eye(3)) 
 
-%% Parámetros de las camaras
+%% Parametros de las camaras
 %Se asumen dos cosas en los calculos que siguen:
 %                   1) que la variable de Blender,  Properties/Object Data/Lens/Shift, indicado por los
 %                       parametros (X, Y) es (0, 0)
 %                   2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio, indicado por 
 %                       los parametros (X, Y) es (1, 1)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA 1 (toma superior)
-f = 40;     %dist. focal en mm
-M = 800;    % resolución horizontal en píxeles
-N = 300;    % resolución vertical en píxeles
-sensor = 32;    % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 1, todas las medidas son en metros
-c_x = 0.2353001;
-c_y = -2.5;
-c_z = 8;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%dist. focal en mm
+%        cam1        cam2       cam3        cam4        cam5
+f =      [40         50         50          50          50     ];
+% resolucion horizontal en pixeles
+M =      [800        800        800         800         800    ];
+% resolucion vertical en pixeles
+N =      [300        300        300         300         300    ];
+sensor = [32         32         32          32          32     ]; 
+% posicion xyz del centro de las camaras, todas las medidas son en metros
+c_x =    [0.2353001  7.5        7.5        -7.5        -7.5   ];
+c_y =    [-2.5       2.5       -7.5        -7.5         2.5    ];
+c_z =    [8          1.2        1.2         1.2         1.2    ];
 % angulos de rotacion cam1 en grados
-c_th_x = 180;
-c_th_y = 180;
-c_th_z = -90;
-% rotación a partir de cuaternion
+c_th_x = [180        267.067    267.067     267.067     267.067];
+c_th_y = [180        180.439    180.439     180.439     180.439];
+c_th_z = [-90       -57.198     121.198    -237.198    -301.198];
+
+% rotacion a partir de cuaternion
 q1=[-0.707, -0.000001, 0.000, -0.707];
 q1=quaternion(q1); %convierto el vector a cuaternion
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA2 (toma posterior izquierda)
-f = [f, 50];     %dist. focal en mm
-M = [M, 800];    % resolución horizontal en píxeles
-N = [N, 300];    % resolución vertical en píxeles
-sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 2, todas las medidas son en metros
-c_x = [c_x, 7.5];
-c_y = [c_y, 2.5];
-c_z = [c_z, 1.2];
-% angulos de rotacion cam2 en grados
-c_th_x = [c_th_x, 267.067];
-c_th_y = [c_th_y, 180.439];
-c_th_z = [c_th_z, -57.198];
-% rotación a partir de cuaternion
 q2=[-0.345, -0.332, -0.603, -0.638];
 q2=quaternion(q2); %convierto el vector a cuaternion
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA3 (toma delantera izquierda)
-f = [f, 50];     %dist. focal en mm
-M = [M, 800];    % resolución horizontal en píxeles
-N = [N,300];    % resolución vertical en píxeles
-sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 3, todas las medidas son en metros
-c_x = [c_x, 7.5];
-c_y = [c_y, -7.5];
-c_z = [c_z, 1.2];
-% angulos de rotacion cam3 en grados
-c_th_x = [c_th_x, 267.067];
-c_th_y = [c_th_y, 180.439];
-c_th_z = [c_th_z, -121.198];
-% rotación a partir de cuaternion
 q3=[0.630, 0.601, 0.336, 0.358];
 q3=quaternion(q3); %convierto el vector a cuaternion
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA4 (toma  delantera derecha)
-f = [f, 50];     %dist. focal en mm
-M = [M, 800];    % resolución horizontal en píxeles
-N = [N, 300];    % resolución vertical en píxeles
-sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 4, todas las medidas son en metros
-c_x = [c_x, -7.5];
-c_y = [c_y, -7.5];
-c_z = [c_z, 1.2];
-% angulos de rotacion cam4 en grados
-c_th_x = [c_th_x, 267.067];
-c_th_y = [c_th_y, 180.439];
-c_th_z = [c_th_z, -237.198];
-% rotación a partir de cuaternion
 q4=[0.638, 0.603, -0.332, -0.345];
 q4=quaternion(q4); %convierto el vector a cuaternion
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA5 (toma posterior derecha)
-f = [f, 50];     %dist. focal en mm
-M = [M, 800];    % resolución horizontal en píxeles
-N = [N, 300];    % resolución vertical en píxeles
-sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 5, todas las medidas son en metros
-c_x = [c_x,  -7.5];
-c_y = [c_y, 2.5];
-c_z = [c_z, 1.2];
-% angulos de rotacion cam5 en grados
-c_th_x = [c_th_x, 267.067];
-c_th_y = [c_th_y, 180.439];
-c_th_z = [c_th_z, -301.198];
-% rotación a partir de cuaternion
 q5=[0.358, 0.336, -0.601, -0.630];
 q5=quaternion(q5); %convierto el vector a cuaternion
+
+
+
+
+
+% f = 40;     %dist. focal en mm
+% M = 800;    % resolucion horizontal en pixeles
+% N = 300;    % resolucion vertical en pixeles
+% sensor = 32;    % tama�o en mm del sensor (se considera el lado mas largo, en este caso el horizontal)
+% % posicion xyz camara 1, todas las medidas son en metros
+% c_x = 0.2353001;
+% c_y = -2.5;
+% c_z = 8;
+% % angulos de rotacion cam1 en grados
+% c_th_x = 180;
+% c_th_y = 180;
+% c_th_z = -90;
+% % rotacion a partir de cuaternion
+% q1=[-0.707, -0.000001, 0.000, -0.707];
+% q1=quaternion(q1); %convierto el vector a cuaternion
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %CAMARA2 (toma posterior izquierda)
+% f = [f, 50];     %dist. focal en mm
+% M = [M, 800];    % resolucion horizontal en pixeles
+% N = [N, 300];    % resolucion vertical en pixeles
+% sensor= [sensor, 32]; % tama�o en mm del sensor (se considera el lado mas largo, en este caso el horizontal)
+% % posicion xyz camara 2, todas las medidas son en metros
+% c_x = [c_x, 7.5];
+% c_y = [c_y, 2.5];
+% c_z = [c_z, 1.2];
+% % angulos de rotacion cam2 en grados
+% c_th_x = [c_th_x, 267.067];
+% c_th_y = [c_th_y, 180.439];
+% c_th_z = [c_th_z, -57.198];
+% % rotación a partir de cuaternion
+% q2=[-0.345, -0.332, -0.603, -0.638];
+% q2=quaternion(q2); %convierto el vector a cuaternion
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %CAMARA3 (toma delantera izquierda)
+% f = [f, 50];     %dist. focal en mm
+% M = [M, 800];    % resolución horizontal en píxeles
+% N = [N,300];    % resolución vertical en píxeles
+% sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
+% % posición xyz cámara 3, todas las medidas son en metros
+% c_x = [c_x, 7.5];
+% c_y = [c_y, -7.5];
+% c_z = [c_z, 1.2];
+% % angulos de rotacion cam3 en grados
+% c_th_x = [c_th_x, 267.067];
+% c_th_y = [c_th_y, 180.439];
+% c_th_z = [c_th_z, -121.198];
+% % rotación a partir de cuaternion
+% q3=[0.630, 0.601, 0.336, 0.358];
+% q3=quaternion(q3); %convierto el vector a cuaternion
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %CAMARA4 (toma  delantera derecha)
+% f = [f, 50];     %dist. focal en mm
+% M = [M, 800];    % resolución horizontal en píxeles
+% N = [N, 300];    % resolución vertical en píxeles
+% sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
+% % posición xyz cámara 4, todas las medidas son en metros
+% c_x = [c_x, -7.5];
+% c_y = [c_y, -7.5];
+% c_z = [c_z, 1.2];
+% % angulos de rotacion cam4 en grados
+% c_th_x = [c_th_x, 267.067];
+% c_th_y = [c_th_y, 180.439];
+% c_th_z = [c_th_z, -237.198];
+% % rotación a partir de cuaternion
+% q4=[0.638, 0.603, -0.332, -0.345];
+% q4=quaternion(q4); %convierto el vector a cuaternion
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %CAMARA5 (toma posterior derecha)
+% f = [f, 50];     %dist. focal en mm
+% M = [M, 800];    % resolución horizontal en píxeles
+% N = [N, 300];    % resolución vertical en píxeles
+% sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
+% % posición xyz cámara 5, todas las medidas son en metros
+% c_x = [c_x,  -7.5];
+% c_y = [c_y, 2.5];
+% c_z = [c_z, 1.2];
+% % angulos de rotacion cam5 en grados
+% c_th_x = [c_th_x, 267.067];
+% c_th_y = [c_th_y, 180.439];
+% c_th_z = [c_th_z, -301.198];
+% % rotación a partir de cuaternion
+% q5=[0.358, 0.336, -0.601, -0.630];
+% q5=quaternion(q5); %convierto el vector a cuaternion
 
 
 
