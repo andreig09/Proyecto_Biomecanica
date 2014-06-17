@@ -7,8 +7,8 @@ close all
 clc
 %% Cargo secuencia 
 %name_bvh = 'pelotita.bvh';
-%name_bvh = 'Mannequin.bvh';
-name_bvh ='Marcador_en_origen.bvh';
+name_bvh = 'Mannequin.bvh';
+%name_bvh ='Marcador_en_origen.bvh';
 [skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);
 %descomentar la siguiente linea si se quiere ver la secuencia 3D
 %plotear(skeleton, eye(3)) 
@@ -20,41 +20,40 @@ name_bvh ='Marcador_en_origen.bvh';
 %                   2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio, indicado por 
 %                       los parametros (X, Y) es (1, 1)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %dist. focal en mm
-% %        cam1        cam2       cam3        cam4        cam5
-% f =      [40         50         50          50          50     ];
-% % resolucion horizontal en pixeles
-% M =      [800        800        800         800         800    ];
-% % resolucion vertical en pixeles
-% N =      [300        300        300         300         300    ];
-% sensor = [32         32         32          32          32     ]; 
-% % posicion xyz del centro de las camaras, todas las medidas son en metros
-% c_x =    [0.2353001  7.5        7.5        -7.5        -7.5   ];
-% c_y =    [-2.5       2.5       -7.5        -7.5         2.5    ];
-% c_z =    [8          1.2        1.2         1.2         1.2    ];
-% % angulos de rotacion cam1 en grados
-% c_th_x = [180        267.067    267.067     267.067     267.067];
-% c_th_y = [180        180.439    180.439     180.439     180.439];
-% c_th_z = [-90       -57.198     121.198    -237.198    -301.198];
-
 %dist. focal en mm
 %        cam1        cam2       cam3        cam4        cam5
-f =      [50];
+f =      [40         50         50          50          50     ];
 % resolucion horizontal en pixeles
-M =      [800];
+M =      [800        800        800         800         800    ];
 % resolucion vertical en pixeles
-N =      [300];
-sensor = [32]; 
+N =      [300        300        300         300         300    ];
+sensor = [32         32         32          32          32     ]; 
 % posicion xyz del centro de las camaras, todas las medidas son en metros
-c_x =    [5];
-c_y =    [0];
-c_z =    [0];
+c_x =    [0.2353001  7.5        7.5        -7.5        -7.5   ];
+c_y =    [-2.5       2.5       -7.5        -7.5         2.5    ];
+c_z =    [8          1.2        1.2         1.2         1.2    ];
 % angulos de rotacion cam1 en grados
-c_th_x = [90];
-c_th_y = [0];
-c_th_z = [90];
+c_th_x = [180        267.067    267.067     267.067     267.067];
+c_th_y = [180        180.439    180.439     180.439     180.439];
+c_th_z = [-90       -57.198     121.198    -237.198    -301.198];
 
-
+% %dist. focal en mm
+% %        cam1        cam2       cam3        cam4        cam5        cam6
+% f =      [40         50         50          50          50          50];
+% % resolucion horizontal en pixeles
+% M =      [800        800        800         800         800         800 ];
+% % resolucion vertical en pixeles
+% N =      [300        300        300         300         300         300];
+% sensor = [32         32         32          32          32          32 ]; 
+% % posicion xyz del centro de las camaras, todas las medidas son en metros
+% c_x =    [0.2353001  7.5        7.5        -7.5        -7.5         5];
+% c_y =    [-2.5       2.5       -7.5        -7.5         2.5         0 ];
+% c_z =    [8          1.2        1.2         1.2         1.2         0];
+% % angulos de rotacion cam1 en grados
+% c_th_x = [180        267.067    267.067     267.067     267.067     90 ];
+% c_th_y = [180        180.439    180.439     180.439     180.439     0];
+% c_th_z = [-90       -57.198     121.198    -237.198    -301.198     90];
+% 
 
 % rotacion a partir de cuaternion
 q1=[-0.707, -0.000001, 0.000, -0.707];

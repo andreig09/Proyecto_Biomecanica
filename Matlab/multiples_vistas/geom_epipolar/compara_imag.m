@@ -17,7 +17,7 @@ init_frame =1; %primer frame a graficar
 last_frame =1; %ultimo frame a graficar
 n_prev = 0;
 t_label = 1; %con etiquetas nombre (t_label=0) o numero (t_label=1)
-n_cam = 2;%camara numero n_cam
+n_cam = 1;%camara numero n_cam
 radio = 3;%valor del radio de las circunferencias centradas en el último frame de cada marcador ¿valor en pixeles?
 res_x = cam(n_cam).M; %resolucion horizontal
 res_y = cam(n_cam).N; %resolucion vertical
@@ -44,7 +44,7 @@ end
 
 %% Cargo las imagenes
 im=[];
-for k=0:last_frame %guardo el nombre de cada frame en la matriz im   
+for k=1:last_frame %guardo el nombre de cada frame en la matriz im   
     if k<10
         str = sprintf('Frames_cam%d/cam%d_000%d.png',n_cam, n_cam, k);
     else if k<100
