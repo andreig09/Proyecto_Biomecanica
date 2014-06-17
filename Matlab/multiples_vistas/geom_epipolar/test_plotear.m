@@ -24,9 +24,9 @@ radio = 2;%valor del radio de las circunferencias centradas en el último frame 
 %Estructura cam
    %plotear(cam, n_cam )        %se plotea 2D con etiquetas nombres 
    %plotear(cam, n_cam, t_label) %se plotea secuencia 2D con etiquetas nombre (t_label=0) o numero (t_label=1)
-   %plotear(cam, n_cam, list_marker, last_frame, n_prev, t_label, radio) %se plotean trayectorias 2D con etiquetas nombre (t_label=0) o numero (t_label=1)
+   plotear(cam, n_cam, list_marker, last_frame, n_prev, t_label, radio) %se plotean trayectorias 2D con etiquetas nombre (t_label=0) o numero (t_label=1)
 
-   animacion=1;
+   animacion=0;
    if animacion==1
        for i=1:last_frame
            if (i-n_prev)<1

@@ -53,7 +53,7 @@ struct array with fields:
      N --->resolución vertical en pixeles
      Pcam -->matriz de proyección de la camara
      marker -->estructura de datos de los marcadores en dicha camara, similar a marker3D
-     frame --> estructura de datps de los marcadores en dicha camara, similar a frame3D
+     frame --> estructura de datos de los marcadores en dicha camara, similar a frame3D
 ACLARACION: las estructuras 'marker' y 'frame' son dos enfoques distintos de ordenar la misma información, la idea es utilizar lo conveniente en cada caso.
 NOTACION: 
         cam(i).marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
