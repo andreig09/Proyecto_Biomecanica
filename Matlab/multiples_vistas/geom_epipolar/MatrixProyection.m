@@ -1,6 +1,6 @@
 function Pcam= MatrixProyection(f, M, N, sensor, Tc, Rc)
 % Construye las matrices de parametros intrinsecos y extrinsecos a partir de
-% los datos en Blender y devuelve tanto la matriz de proyeccion como la matriz fundamental.
+% los datos en Blender y devuelve tanto la matriz de proyeccion. 
 
 %% ENTRADA
 % f -->dist. focal en mm
@@ -38,7 +38,7 @@ M_int = [ -f/Sx     0        Ox
 
 %% Parametros extrínsecos
 
-M_ext = [Rc , - Rc*Tc'];
+M_ext = [Rc , - Rc*Tc']; %se genera una matriz que permite hacer Pc = Rc*(Pworld-Tc) como Pc = M_ext*Pworld
 
 %% Matriz de proyección
 

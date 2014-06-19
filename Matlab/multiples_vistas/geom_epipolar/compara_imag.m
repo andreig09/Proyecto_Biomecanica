@@ -17,7 +17,7 @@ init_frame =1; %primer frame a graficar
 last_frame =1; %ultimo frame a graficar
 n_prev = 0;
 t_label = 1; %con etiquetas nombre (t_label=0) o numero (t_label=1)
-n_cam = 1;%camara numero n_cam
+n_cam = 4;%camara numero n_cam
 radio = 3;%valor del radio de las circunferencias centradas en el último frame de cada marcador ¿valor en pixeles?
 res_x = cam(n_cam).M; %resolucion horizontal
 res_y = cam(n_cam).N; %resolucion vertical
