@@ -56,13 +56,13 @@ q5 = [-0.3582007586956024, -0.33571362495422363, 0.601429283618927]';
 
 
 %Parametros Intrinsecos
-t_vista =['PERSP', 'PERSP', 'PERSP', 'PERSP', 'PERSP'];% tipo de vista utilizado en cada camara
+t_vista = {'PERSP' 'PERSP' 'PERSP' 'PERSP' 'PERSP' };% tipo de vista utilizado en cada camara
 f=[40.0, 50.0, 50.0, 50.0, 50.0];% Vector con las distancias focales unidades en (MILLIMETERS)
 shift_x = [0.0, 0.0, 0.0, 0.0, 0.0];
 shift_y = [0.0, 0.0, 0.0, 0.0, 0.0];% Corrimientos horizontales y verticales del centro de la camara 
-sensor_height = [32.0, 32.0, 32.0, 32.0, 32.0];%Largo, ancho y tipo de ajuste utilizado para el sensor
+sensor_height = [18.0, 10.0, 10.0, 10.0, 10.0];%Largo, ancho y tipo de ajuste utilizado para el sensor
 sensor_width = [32.0, 32.0, 32.0, 32.0, 32.0];
-sensor_fit = ['AUTO', 'HORIZONTAL', 'AUTO', 'HORIZONTAL', 'HORIZONTAL'];% En modo Auto ajusta la anchura o largura del sensor en función de la resolución 
+sensor_fit = {'AUTO' 'AUTO' 'AUTO' 'AUTO' 'AUTO' };% En modo Auto ajusta la anchura o largura del sensor en función de la resolución 
 %Este parametro nos dice que dimension del sensor se va a usar por completo dada la resolucion del renderizado
 %Datos del renderizado Blender
 resolution_x = 800;
