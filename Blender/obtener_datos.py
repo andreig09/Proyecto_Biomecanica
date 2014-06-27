@@ -29,6 +29,7 @@ for acceso in lista_acceso:
     sensor_height.append(acceso.sensor_height)
     sensor_fit.append(acceso.sensor_fit)
     tipo_vista.append(acceso.type)
+    
 #################################
 #Obtener Parametros extrinsecos	
 T = []
@@ -38,6 +39,7 @@ for nombre in lista_nombres:
 	T.append([C.x, C.y, C.z])
 	angle=bpy.data.objects[nombre].rotation_euler#tiene tres componentes angulo y un string con el orden de los angulos. EJ: "XYZ".
 	lista_angles.append(angle)#me quedo con las tres primeras componentes de la lista angle
+
 ###########################################################
 #Datos del renderizado
 resolution_x=bpy.data.scenes["Scene"].render.resolution_x
@@ -53,33 +55,37 @@ dir_actual = os.getcwd()
 with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equivalente a efectuar 
 #file = open(dir_actual + "/InfoCamBlender.txt", "w") #pero supuestamente es una buena practica hacerlo de esta manera
     file.write("%%PARAMETROS DE CAMARAS BLENDER\n\n")
+    file.write("n_cam = "+ repr(len(T)) +"; %Numero de camaras\n\n")
     file.write("%Parametros Extrinsecos\n")
     file.write("%Matriz con los centros de las camaras. T(:,i) indica las coordenadas correspondientes a camara i\n")
-    file.write("T =...\n" )
+    file.write("T =[...\n" )
     for centro in T[0:-1]: #para todos los valores desde indice 0 hasta final, menos el ultimo.
-        file.write( repr(centro) +"'+...\n" )
+        file.write("\t" +repr(centro) +"'...\n" )
     
-    file.write( repr(T[-1]) + "';\n\n")
+    file.write("\t" +repr(T[-1]) + "'...\n];\n\n")
     file.write("%Matriz con los angulos de las camaras. angles(:,i) indica los angulos correspondientes a camara i en el orden " + lista_angles[0].order + "\n")
-    file.write("angles = ...\n")
+    file.write("angles =[...\n")
     for angle in lista_angles[0:-1]:#para todos los XYZ desde el primero hasta final, menos el ultimo
-        file.write("["+repr(angle[0]) +", " +repr(angle[1]) +", " +repr(angle[2]) +"]'+...\n" )
+        file.write("\t[" +repr(angle.x) +", " +repr(angle.y) +", " +repr(angle.z) +"]'...\n" )
     
-    file.write("["+repr(lista_angles[-1][0])  +", " +repr(lista_angles[-1][1])  +", "+ repr(lista_angles[-1][0]) +"]';\n\n")    
+    file.write("\t[ " +repr(lista_angles[-1].x)  +", " +repr(lista_angles[-1].y)  +", "+ repr(lista_angles[-1].z) +"]'...\n];\n\n")    
     file.write("%Matrices de rotación \n")  
     num_cam=1
+    file.write("R=zeros(3, 3, n_cam);% Array de matrices para guardar en tercera dimension las rotaciones de cada camara\n\n")
     for angle in lista_angles:
         file.write("%matriz de rotacion y cuaternion asociado a la camara "+repr(num_cam)+"\n")
         matrix_rotation = angle.to_matrix()
-        file.write("R" +repr(num_cam) +"= [...\n")
+        file.write("R(:,:," +repr(num_cam) +")= [...\n")
         for fila in matrix_rotation[0:-1]: #cada fila es un vector por lo que puedo imprimir igual que antes
-            file.write(repr(fila[0]) +", " +repr(fila[1]) +", " +repr(fila[2]) +";...\n" )
-        file.write(repr(fila[0]) +", " +repr(fila[1]) +", "  +repr(fila[2]) +"];\n") 
+            file.write("\t" +repr(fila.x) +", " +repr(fila.y) +", " +repr(fila.z) +";...\n" )
+        fila=matrix_rotation[-1]
+        file.write("\t" +repr(fila.x) +", " +repr(fila.y) +", "  +repr(fila.z) +"...\n];\n") 
         quaternion  = angle.to_quaternion()
-        file.write("q" +repr(num_cam) +" = [" +repr(quaternion[0]) +", " +repr(quaternion[1]) +", " +repr(quaternion[2]) +"]';\n\n")
+        file.write("q" +repr(num_cam) +" = [" +repr(quaternion[0]) +", " +repr(quaternion[1]) +", " +repr(quaternion[2]) +", " +repr(quaternion[3]) +"];\n\n")
+        
         num_cam=num_cam+1 #incremento nro de camara
     
-        
+      
     file.write("\n")
     file.write("\n%Parametros Intrinsecos\n")
     file.write("t_vista ="+repr(tipo_vista) +";")
@@ -95,14 +101,21 @@ with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equiva
     file.write("sensor_fit = "+repr(sensor_fit)+";")
     file.write("% En modo Auto ajusta la anchura o largura del sensor en función de la resolución \n%Este parametro nos dice que dimension del sensor se va a usar por completo dada la resolucion del renderizado")
     
-    file.write("\n%Datos del renderizado Blender\n")
-    file.write("resolution_x = "+repr(resolution_x) +";\n")
-    file.write("resolution_y = "+repr(resolution_y) +";\n")
+    
+    file.write("\n\n%Datos del renderizado Blender\n")
+    file.write("resolution_x = "+repr(resolution_x) +"*ones(1, length(f));\n")
+    file.write("resolution_y = "+repr(resolution_y) +"*ones(1, length(f));\n")
     file.write("pixel_aspect_x = "+repr(pixel_aspect_x) +";%si estos dos valores son iguales el pixel es cuadrado\n")
     file.write("pixel_aspect_y = "+repr(pixel_aspect_y) +";\n")
     file.write("frame_start = "+repr(frame_start) +";\n")    
-    file.write("frame_end = "+repr(frame_end) +";\n")    
-        
+    file.write("frame_end = "+repr(frame_end) +";\n\n")    
+    
+    file.write("%Ajustes finales\n")
+    file.write("sensor = [sensor_width; sensor_height]; %Agrupo el ancho y largo del sensor en un solo vector\n")
+    file.write("resolution = [resolution_x; resolution_y]; %agrupo resoluciones en un solo vector\n")
+    file.write("q=[q1;q2;q3;q4;q5]; %agrupo todos los cuaterniones\n")  
+    file.write("q=quaternion(q); %transformo en tipo de dato cuaternion\n")
+    file.write("Rq=RotationMatrix(q);%Obtengo las matrices de rotación a partir de los cuaterniones. R(:,:,i) es la matriz de rotación de la camara i")        
 file.close()
     
 

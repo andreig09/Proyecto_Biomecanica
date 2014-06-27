@@ -1,12 +1,15 @@
-function Pcam= MatrixProyection(f, M, N, sensor, Tc, Rc)
+function Pcam= MatrixProyection(f, resolution, sensor, sensor_fit, Tc, Rc)
 % Construye las matrices de parametros intrinsecos y extrinsecos a partir de
 % los datos en Blender y devuelve tanto la matriz de proyeccion. 
 
 %% ENTRADA
 % f -->dist. focal en mm
-% M -->resolucion horizontal en pixeles
-% N --> resolucion vertical en pixeles
-% sensor --> tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
+% resolution -->vector cuyas componentes indican la resolucion horizontal y vertical en pixeles de cada camara
+% sensor -->vector cuyas componentes indican el tamaño horizontal y vertical  del sensor en mm.
+%sensor_fit --> tipo de ajuste que efectúa Blender en la camara
+                %'AUTO' indica que el tamaño de pixel depende del tamaño horizontal del sensor y la resolución horizontal de la imagen 
+                %'HORIZONTAL' indica que el tamaño de pixel depende del tamaño horizontal del sensor y la resolución horizontal de la imagen 
+                %'VERTICAL' indica que el tamaño de pixel depende del tamaño vertical del sensor y la resolución vertical de la imagen 
 % Tc -->  Tc=(Cx, Cy, Cz) vector de traslacion que indica la posicion del origen de la
     % camara. Tc= C - O_world
 %Rc --> matriz de rotacion  de la camara respecto al sistema del mundo. 
@@ -20,14 +23,19 @@ function Pcam= MatrixProyection(f, M, N, sensor, Tc, Rc)
 %                   1) que la variable de Blender,  Properties/Object Data/Lens/Shift, indicado por los
 %                       parametros (X, Y) es (0, 0)
 %                   2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio, indicado por 
-%                       los parametros (X, Y) es (1, 1)
-% Ox = M/2+0.5;   % coordenada en x (pixeles) del punto principal
-% Oy = N/2+0.5;   % coordenada en y (pixeles) del punto principal
-Ox = M/2;   % coordenada en x (pixeles) del punto principal
-Oy = N/2;   % coordenada en y (pixeles) del punto principal
+%                       los parametros (X, Y) es (1, 1) con lo cual los
+%                       pixeles son cuadrados
+Ox = resolution(1)/2;   % coordenada en x (pixeles) del punto principal
+Oy = resolution(2)/2;   % coordenada en y (pixeles) del punto principal
 
-Sx = sensor/M;  % tamaño en mm de un pixel en la direccion horizontal
-Sy = Sx;        % tamaño en mm de un pixel en la direccion vertical (en este caso como los píxeles son cuadrados Sy = Sx)
+switch sensor_fit
+   case 'VERTICAL'
+      Sy = sensor(2)/resolution(2);  % tamaño en mm de un pixel en la direccion horizontal
+      Sx = Sy;        % tamaño en mm de un pixel en la direccion vertical (en este caso como los píxeles son cuadrados Sy = Sx)
+    otherwise %resulta que estamos en el caso AUTO o HORIZONTAL
+      Sx = sensor(1)/resolution(1);  % tamaño en mm de un pixel en la direccion horizontal
+      Sy = Sx;        % tamaño en mm de un pixel en la direccion vertical (en este caso como los píxeles son cuadrados Sy = Sx)
+end
 
  
 %% Matriz de parámetros intrínsecos

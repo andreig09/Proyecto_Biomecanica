@@ -1,10 +1,9 @@
 % Main donde se construyen las matrices de proyeccion y las fundamentales a partir de
 % los datos en Blender. Deja solo variables importantes en el workspace!
-
-
 clear all
 close all
 clc
+
 %% Cargo secuencia 
 %name_bvh = 'pelotita.bvh';
 name_bvh = 'Mannequin.bvh';
@@ -13,59 +12,20 @@ name_bvh = 'Mannequin.bvh';
 %descomentar la siguiente linea si se quiere ver la secuencia 3D
 %plotear(skeleton, eye(3)) 
 
-%% Parametros de las camaras
-%Se asumen dos cosas en los calculos que siguen:
-%                   1) que la variable de Blender,  Properties/Object Data/Lens/Shift, indicado por los
-%                       parametros (X, Y) es (0, 0)
-%                   2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio, indicado por 
-%                       los parametros (X, Y) es (1, 1)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%dist. focal en mm
-%        cam1        cam2       cam3        cam4        cam5
-f =      [40         50         50          50          50     ];
-% resolucion horizontal en pixeles
-M =      [800        800        800         800         800    ];
-% resolucion vertical en pixeles
-N =      [300        300        300         300         300    ];
-sensor = [32         32         32          32          32     ]; 
-% posicion xyz del centro de las camaras, todas las medidas son en metros
-c_x =    [0.2353001  7.5        7.5        -7.5        -7.5   ];
-c_y =    [-2.5       2.5       -7.5        -7.5         2.5    ];
-c_z =    [8          1.2        1.2         1.2         1.2    ];
-% angulos de rotacion cam1 en grados
-c_th_x = [180        267.067    267.067     267.067     267.067];
-c_th_y = [180        180.439    180.439     180.439     180.439];
-c_th_z = [-90       -57.198     121.198    -237.198    -301.198];
+%% Cargo Parametros de las camaras
 
-% %dist. focal en mm
-% %        cam1        cam2       cam3        cam4        cam5        cam6
-% f =      [40         50         50          50          50          50];
-% % resolucion horizontal en pixeles
-% M =      [800        800        800         800         800         800 ];
-% % resolucion vertical en pixeles
-% N =      [300        300        300         300         300         300];
-% sensor = [32         32         32          32          32          32 ]; 
-% % posicion xyz del centro de las camaras, todas las medidas son en metros
-% c_x =    [0.2353001  7.5        7.5        -7.5        -7.5         5];
-% c_y =    [-2.5       2.5       -7.5        -7.5         2.5         0 ];
-% c_z =    [8          1.2        1.2         1.2         1.2         0];
-% % angulos de rotacion cam1 en grados
-% c_th_x = [180        267.067    267.067     267.067     267.067     90 ];
-% c_th_y = [180        180.439    180.439     180.439     180.439     0];
-% c_th_z = [-90       -57.198     121.198    -237.198    -301.198     90];
-% 
+InfoCamBlender %este archivo .m fue generado con Python desde Blender y contienen todos los parametros de interes
 
-% rotacion a partir de cuaternion
-q1=[-0.707, -0.000001, 0.000, -0.707];
-q1=quaternion(q1); %convierto el vector a cuaternion
-q2=[-0.345, -0.332, -0.603, -0.638];
-q2=quaternion(q2); %convierto el vector a cuaternion
-q3=[0.630, 0.601, 0.336, 0.358];
-q3=quaternion(q3); %convierto el vector a cuaternion
-q4=[0.638, 0.603, -0.332, -0.345];
-q4=quaternion(q4); %convierto el vector a cuaternion
-q5=[0.358, 0.336, -0.601, -0.630];
-q5=quaternion(q5); %convierto el vector a cuaternion
+%Verifico hipotesis de trabajo
+if (pixel_aspect_x ~= pixel_aspect_y)|any(shift_x ~= shift_y)
+   disp('Se asumen dos cosas en los calculos que siguen:')
+   disp('                1) que la variable de Blender,  Properties/ObjectData/Lens/Shift, indicado por los')
+   disp('                     parametros (X, Y) es (0, 0)')
+   disp('                2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio de cada camara, indicado por') 
+   disp('                    los parametros (X, Y) sea (z, z) con z cualquiera')
+   disp('Hay que corregir alguno de estos parametros para proseguir.')
+   break
+end
 
 
 %% Estructura marcador 3D
@@ -135,18 +95,18 @@ skeleton.name_bvh = name_bvh;
 %     marker -->estructura de datos de los marcadores en dicha camara, similar a marker3D
 %     frame --> estructura de datps de los marcadores en dicha camara, similar a frame3D  
 
-q=[q1;q2;q3;q4;q5]; %agrupo todos los cuaterniones
-R=RotationMatrix(q);%Obtengo las matrices de rotación a partir de los cuaterniones. R(:,:,i) es la matriz de rotación de la camara i
+% q=quaternion(q); %transformo en tipo de dato cuaternion
+% R=RotationMatrix(q);%Obtengo las matrices de rotación a partir de los cuaterniones. R(:,:,i) es la matriz de rotación de la camara i
 
 for i=1:length(f) %hacer para todas las camaras
-    %cam(i).Rc = R(:,:,i)';%calculo con cuaterniones TENGO QUE VER PORQUE DEBO HACER LA INVERSA
-    cam(i).Rc = rotacion(c_th_x(i), c_th_y(i), c_th_z(i));    
-    cam(i).Tc = [c_x(i), c_y(i), c_z(i)];
+    cam(i).Rq = R(:,:,i)';%calculo con cuaterniones 
+    cam(i).Rc = rotacion(angles(1,i), angles(2,i), angles(3,i));    
+    cam(i).Tc = [T(1,i), T(2,i), T(3,i)];
     cam(i).f = f(i);
-    cam(i).M = M(i);
-    cam(i).N = N(i);
+    cam(i).resolution = resolution(:,i);
+    %cam(i).N = resolution(2,i);
     cam(i).name_bvh = name_bvh;
-    cam(i).Pcam = MatrixProyection(f(i), M(i), N(i), sensor(i), cam(i).Tc, cam(i).Rc);% matriz de rotacion asociada a la cámara, se asume rotación XYZ
+    cam(i).Pcam = MatrixProyection(f(i), resolution(:,i), sensor(:,i), sensor_fit(i), cam(i).Tc, cam(i).Rc);% matriz de rotacion asociada a la cámara, se asume rotación XYZ
     for j=1:n_marcadores %hacer para cada marcador 
         %X=skeleton(j).t_xyz;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivos frames
         X=marker3D(j).X;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivas frames

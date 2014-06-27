@@ -96,8 +96,8 @@ function plot_secuencia_2D(cam, n_cam, t_label)
 %          cam(i).frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
 
 n_frames = size(cam(1).frame, 2); %nro de frames
-res_x = cam(n_cam).M; %resolucion horizontal
-res_y = cam(n_cam).N; %resolucion vertical
+res_x = cam(n_cam).resolution(1,:); %resolucion horizontal
+res_y = cam(n_cam).resolution(2,:); %resolucion vertical
 
 for k=1:n_frames % para cada frame se plotean las posiciones 2D de los marcadores con sus respectivas etiquetas
     plot(...
@@ -319,8 +319,8 @@ ylabel('\fontsize{11}{y (pixeles)}','fontweight','b');
 str = sprintf('Proyección sobre retina de Camara %d  \n último frame %d / %d',n_cam, last_frame, n_frames);
 title(['\fontsize{14}{',str, '}'], 'fontweight','b');
 %axis square;
-res_x = cam(n_cam).M; %resolucion horizontal
-res_y = cam(n_cam).N; %resolucion vertical
+res_x = cam(n_cam).resolution(1,:); %resolucion horizontal
+res_y = cam(n_cam).resolution(2,:); %resolucion vertical
 axis([0 res_x 0 res_y])
 axis equal;
 grid on

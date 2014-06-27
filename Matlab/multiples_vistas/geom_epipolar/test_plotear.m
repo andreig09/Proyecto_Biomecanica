@@ -10,7 +10,7 @@ total_marker = size(cam(1).marker, 2);
 total_frame =  size(cam(1).frame, 2);
 
 list_marker =[1:total_marker];%marcadores que se quieren visualizar
-last_frame = 10 %total_frame; %ultimo frame a graficar
+last_frame = 100 %total_frame; %ultimo frame a graficar
 n_prev =0; %graficar 3 frame anteriores al último
 t_label = 1; %con etiquetas nombre (t_label=0) o numero (t_label=1)
 n_cam = 1;%camara numero n_cam

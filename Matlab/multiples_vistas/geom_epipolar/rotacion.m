@@ -7,25 +7,25 @@ function R = rotacion(th_x, th_y, th_z)
     th =  -th_x; %como a continuacion se utiliza la matriz de rotacion Alibis se invierte el signo de los angulos para obtener una del tipo Axis
 
     Rx = [  1    0          0
-            0   cosd(th)     -sind(th)
-            0   sind(th)     cosd(th)]; 
+            0   cos(th)     -sin(th)
+            0   sin(th)     cos(th)]; 
 
 
 %% Matriz de rotacion respecto al eje y
 % th =  -th_y;
 % 
-% Ry = [  cosd(th)    0          sind(th)
+% Ry = [  cos(th)    0          sin(th)
 %         0          1          0
-%         -sind(th)   0          cosd(th)];
+%         -sin(th)   0          cos(th)];
 
 %Otra manera es poner directamente la matriz de rotación Axis
-    Ry = [  cosd(th_y)    0          -sind(th_y)
+    Ry = [  cos(th_y)    0          -sin(th_y)
             0          1          0
-            sind(th_y)   0          cosd(th_y)];
+            sin(th_y)   0          cos(th_y)];
 
 %% Matriz de rotacion respecto al eje z
-    Rz = [  cosd(th_z)    sind(th_z)    0
-            -sind(th_z)    cosd(th_z)     0
+    Rz = [  cos(th_z)    sin(th_z)    0
+            -sin(th_z)    cos(th_z)     0
             0           0          1];%matriz de rotacion Axis
     
 %%  Matriz de rotacion total (son rotaciones extrinsecas, siempre referidas a la base del mundo)  
