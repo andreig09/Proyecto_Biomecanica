@@ -8,12 +8,13 @@ load('skeleton.mat');
 
 %% Parametros
 
+ini_frame = 20;
 limit_frames = 300;% cantidad de frames
-limit_marker = 26;% cantidad de marcadores
 mantener_trayectoria = true; % mantiene o no la trayectoria
 time_step = 1/500;% tiempo entre entre frames
 
-ini_frame = 20;
+marker_list = 1:26;
+limit_marker = length(marker_list);% cantidad de marcadores
 
 for camera = 1:1
     
@@ -40,11 +41,11 @@ for camera = 1:1
         if rem(100*frame/limit_frames,10)==0
             %disp([num2str(100*frame/limit_frames) '% - ' num2str(toc(t_start))]);
         end
-    N1 = skeleton.frame(frame-1).X(:,1:limit_marker);
+    N1 = skeleton.frame(frame-1).X(:,marker_list);
     % nube de puntos del frame f
-    N2 = skeleton.frame(frame).X(:,1:limit_marker);
-    N3 = skeleton.frame(frame+1).X(:,1:limit_marker);
-    N4 = skeleton.frame(frame+2).X(:,1:limit_marker);    
+    N2 = skeleton.frame(frame).X(:,marker_list);
+    N3 = skeleton.frame(frame+1).X(:,marker_list);
+    N4 = skeleton.frame(frame+2).X(:,marker_list);    
         
         tamN2 = size(N2);
         
@@ -100,9 +101,9 @@ for camera = 1:1
             
             link_next_versus = [link_next_versus;...
                 enfrentar_marcadores_restantes(N1,N2,N3,N4,...% Marcadores de N2 que no fueron enlazados
-                setdiff((1:length(N2))',link_next_versus(:,1)),...% Enlaces previos de los marcadores de N2 que no fueron encontrados
-                enlazado.frame(frame).marcador(setdiff((1:length(N2))',link_next_versus(:,1))),...% Marcadores de N3 que no fueron enlazados
-                setdiff((1:length(N3))',link_next_versus(:,2)))];
+                setdiff((1:size(N2,2))',link_next_versus(:,1)),...% Enlaces previos de los marcadores de N2 que no fueron encontrados
+                enlazado.frame(frame).marcador(setdiff((1:size(N2,2))',link_next_versus(:,1))),...% Marcadores de N3 que no fueron enlazados
+                setdiff((1:size(N3,2))',link_next_versus(:,2)))];
             
             % Quito los marcadores cuya primer columna tengo enlaces nulos
             
@@ -111,9 +112,9 @@ for camera = 1:1
         end
         
         % Genero matriz con marcadores en N1,N2,N3,N4, y aceleracion
-        
+        %disp(['Frame ' num2str(frame)]);
         N5=[enlazado.frame(frame).marcador(link_next_versus(:,1))',link_next_versus];
-        
+        %disp('----------------------------------------------------------');
         % Calculo las distancias entre  N3 y (2*N2-N1), d3
         %                               N4 y (2*N3-N2), d4
         % Usando los enlaces obtenidos, para la proxima iteracion
@@ -175,5 +176,6 @@ axis equal
             plot3(Naux(1,indice),Naux(2,indice),Naux(3,indice),'sg')
         end
     end
+    %axis square;
     pause
 end
