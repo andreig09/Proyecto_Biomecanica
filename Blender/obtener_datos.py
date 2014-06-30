@@ -55,7 +55,7 @@ dir_actual = os.getcwd()
 with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equivalente a efectuar 
 #file = open(dir_actual + "/InfoCamBlender.txt", "w") #pero supuestamente es una buena practica hacerlo de esta manera
     file.write("%%PARAMETROS DE CAMARAS BLENDER\n\n")
-    file.write("n_cam = "+ repr(len(T)) +"; %Numero de camaras\n\n")
+    file.write("n_cams = "+ repr(len(T)) +"; %Numero de camaras\n\n")
     file.write("%Parametros Extrinsecos\n")
     file.write("%Matriz con los centros de las camaras. T(:,i) indica las coordenadas correspondientes a camara i\n")
     file.write("T =[...\n" )
@@ -71,7 +71,7 @@ with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equiva
     file.write("\t[ " +repr(lista_angles[-1].x)  +", " +repr(lista_angles[-1].y)  +", "+ repr(lista_angles[-1].z) +"]'...\n];\n\n")    
     file.write("%Matrices de rotación \n")  
     num_cam=1
-    file.write("R=zeros(3, 3, n_cam);% Array de matrices para guardar en tercera dimension las rotaciones de cada camara\n\n")
+    file.write("R=zeros(3, 3, n_cams);% Array de matrices para guardar en tercera dimension las rotaciones de cada camara\n\n")
     for angle in lista_angles:
         file.write("%matriz de rotacion y cuaternion asociado a la camara "+repr(num_cam)+"\n")
         matrix_rotation = angle.to_matrix()
