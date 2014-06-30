@@ -1,5 +1,5 @@
 Proyecto_Biomecanica
 ====================
 
-Motion capture project.
+Motion capture project. 
 
