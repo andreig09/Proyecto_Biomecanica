@@ -1,3 +1,7 @@
+SE ESTÁ REMODELANDO LA FORMA DE LAS ESTRUCTURAS POR FAVOR VER EL DIAGRAMA .DIA EN ESTA MISMA CARPETA
+
+
+
 DESCRIPCION DE VARIABLES
 
 ___________________________________________________________
