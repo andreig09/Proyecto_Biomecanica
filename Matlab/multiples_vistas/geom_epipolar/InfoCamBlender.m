@@ -1,6 +1,6 @@
 %%PARAMETROS DE CAMARAS BLENDER
 
-n_cam = 5; %Numero de camaras
+n_cams = 5; %Numero de camaras
 
 %Parametros Extrinsecos
 %Matriz con los centros de las camaras. T(:,i) indica las coordenadas correspondientes a camara i
@@ -22,7 +22,7 @@ angles =[...
 ];
 
 %Matrices de rotación 
-R=zeros(3, 3, n_cam);% Array de matrices para guardar en tercera dimension las rotaciones de cada camara
+R=zeros(3, 3, n_cams);% Array de matrices para guardar en tercera dimension las rotaciones de cada camara
 
 %matriz de rotacion y cuaternion asociado a la camara 1
 R(:,:,1)= [...
@@ -77,12 +77,12 @@ sensor_fit = ['AUTO', 'AUTO', 'AUTO', 'AUTO', 'AUTO'];% En modo Auto ajusta la a
 %Este parametro nos dice que dimension del sensor se va a usar por completo dada la resolucion del renderizado
 
 %Datos del renderizado Blender
-resolution_x = 2400*ones(1, length(f));
-resolution_y = 900*ones(1, length(f));
+resolution_x = 800*ones(1, length(f));
+resolution_y = 300*ones(1, length(f));
 pixel_aspect_x = 1.0;%si estos dos valores son iguales el pixel es cuadrado
 pixel_aspect_y = 1.0;
 frame_start = 1;
-frame_end = 15;
+frame_end = 30;
 
 %Ajustes finales
 sensor = [sensor_width; sensor_height]; %Agrupo el ancho y largo del sensor en un solo vector

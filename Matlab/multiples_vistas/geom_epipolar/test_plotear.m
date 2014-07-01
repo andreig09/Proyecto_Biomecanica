@@ -6,8 +6,8 @@ clc;
 %load('Variables_save/skeleton.mat')
 %load('Variables_save/cam.mat')
 
-total_marker = size(cam(1).marker, 2);
-total_frame =  size(cam(1).frame, 2);
+total_marker = 26
+total_frame =  322
 
 list_marker =[1:total_marker];%marcadores que se quieren visualizar
 last_frame = 100 %total_frame; %ultimo frame a graficar
