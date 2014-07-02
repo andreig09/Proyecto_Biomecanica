@@ -9,16 +9,18 @@ frames = Detected_Markers.getChildNodes;
 
 totalFrames = frames.getLength;
 
+l=1;
 for i=0:(totalFrames-1)
     if frames.item(i).getNodeName == 'Frame'
-        salida(i)= parsearFrame(frames.item(i));
+        salida(l)= parsearFrame(frames.item(i));
+        l = l+1;
     end
 end
 
 function frameI = parsearFrame(Frame)
 %Puede pasar que un frame no tenga marcadores
 if (Frame.hasChildNodes) && (Frame.getLength > 1)
-    k=0;
+    k=1;
     markers = Frame.getChildNodes;
 
     totalMarkers = markers.getLength;
@@ -43,5 +45,5 @@ name = Marker.getAttribute('id');
 function xyz = getMarkerPosition(Marker)
 centroid =  Marker.getChildNodes.item(1);
 coordenadas = centroid.getAttributes;
-xyz = [coordenadas.item(0); coordenadas.item(1); 0];
+xyz = [str2num(coordenadas.item(0).getValue.toString); str2num(coordenadas.item(1).getValue.toString); 0];
 
