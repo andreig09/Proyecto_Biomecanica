@@ -44,8 +44,8 @@ end
 marker = struct(...
     'coord',        zeros(3, 1), ...%Coordenadas euclidianas del marcador 
     'name',         blanks(15), ...%Nombre del marcador
-    'estado',       0.0, ...%con alguna metrica indica el estado del marcador
-    'source_cam',   zeros(1, n_cams) ...%conjunto de camaras que reconstruye el marcador
+    'state',       0.0, ...%con alguna metrica indica el estado del marcador
+    'source_cam',   zeros(n_cams, 1) ...%conjunto de camaras que reconstruye el marcador
     );
 
 
@@ -58,7 +58,7 @@ frame = struct(...
 path = struct(...
     'name',         blanks(15), ...%nombre de la trayectoria
     'members',      zeros(1, n_frames), ...%secuencia de nombres asociados a la trayectoria
-    'estado',       0.0, ...%con alguna metrica indica la calidad de la trayectoria
+    'state',       0.0, ...%con alguna metrica indica la calidad de la trayectoria
     'n_markers',    n_frames ...%numero total de marcadores en la trayectoria
     );
 
@@ -82,6 +82,7 @@ skeleton = struct(...
     'path',         repmat(path, 1, n_markers), ...%genero una estructura path por marcador
     'n_frames',     n_frames, ...%numero de frames totales
     'n_paths',      n_markers, ...%numero de trayectorias totales
+    'n_cams',       n_cams, ... %numero de camras que estan filmando a skeleton 
     'frame_rate',   time(2) ... %indica el tiempo entre cada frame    
     );
     
@@ -111,7 +112,7 @@ for k=1:skeleton.n_frames %hacer para cada frame de skeleton
     for j=1:n_marcadores %hacer para cada marcador 
         skeleton.frame(k).marker(j).coord = skeleton_old(j).t_xyz(:,k);
         skeleton.frame(k).marker(j).name = skeleton_old(j).name;
-        skeleton.frame(k).marker(j).estado = 0;% 0 indica que el dato es posta y 1 la más baja calidad
+        skeleton.frame(k).marker(j).state = 0;% 0 indica que el dato es posta y 1 la más baja calidad
         skeleton.frame(k).marker(j).source_cam = -1;%en nuestro caso es ground truth
     end
 end
@@ -139,18 +140,18 @@ for i=1:length(cam) %hacer para todas las camaras
     cam(i).info.sensor_fit = sensor_fit(i);
     cam(i).info.pixel_aspect = pixel_aspect_x/pixel_aspect_y;
     cam(i).info.Pcam = MatrixProjection(cam(i).info.f, cam(i).info.resolution, ...
-        cam(i).info.sensor, cam(i).info.sensor_fit, cam(i).info.Tc, cam(i).info.Rc);% matriz de rotacion asociada a la cámara; 
+        cam(i).info.sensor, cam(i).info.sensor_fit{1}, cam(i).info.Tc, cam(i).info.Rc);% matriz de rotacion asociada a la cámara; 
     
     %genero la estructura frame para la camara
     for k=1:cam(i).n_frames %hacer para cada frame
         cam(i).frame(k).n_marker = n_marcadores;
         frame(k).time = time(k);     
-        X = get_nube_markers(k, skeleton); %get_nube_marker(n_frame, structure, list_markers) 
+        X = get_markers_of_frame(k, skeleton); %get_nube_marker(n_frame, structure, list_markers) 
         x = obtain_coord_retina(X, cam(i).info.Pcam);
         for j=1:n_marcadores %hacer para cada marcador             
             cam(i).frame(k).marker(j).coord =x(:, j);%Guardo la matriz de coordenadas homogeneas x=P*X , del marcador j del frame k en la camara i
             cam(i).frame(k).marker(j).name = skeleton.frame(k).marker(j).name;
-            cam(i).frame(k).marker(j).estado = 0;% 0 indica que el dato es posta y 1 la más baja calidad
+            cam(i).frame(k).marker(j).state = 0;% 0 indica que el dato es posta y 1 la más baja calidad
             cam(i).frame(k).marker(j).source_cam = -1;%en nuestro caso es ground truth
         end
     end    

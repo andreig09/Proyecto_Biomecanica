@@ -88,7 +88,11 @@ with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equiva
       
     file.write("\n")
     file.write("\n%Parametros Intrinsecos\n")
-    file.write("t_vista ="+repr(tipo_vista) +";")
+    file.write("t_vista ={")
+    for elemento in tipo_vista:
+        file.write(repr(elemento) + "  ")
+        
+    file.write("};")
     file.write("% tipo de vista utilizado en cada camara\n")
     file.write("f="+repr(f)+";")
     file.write("% Vector con las distancias focales unidades en ("+f_unit[1]+")\n")
@@ -98,7 +102,11 @@ with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equiva
     file.write("sensor_height = "+repr(sensor_height)+";")
     file.write("%Largo, ancho y tipo de ajuste utilizado para el sensor\n")
     file.write("sensor_width = "+repr(sensor_width)+";\n")
-    file.write("sensor_fit = "+repr(sensor_fit)+";")
+    file.write("sensor_fit = {")
+    for elemento in sensor_fit:
+        file.write(repr(elemento) + "  ")
+        
+    file.write("};")
     file.write("% En modo Auto ajusta la anchura o largura del sensor en función de la resolución \n%Este parametro nos dice que dimension del sensor se va a usar por completo dada la resolucion del renderizado")
     
     

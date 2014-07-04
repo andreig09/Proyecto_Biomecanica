@@ -1,5 +1,9 @@
-function info = get_info_cam(cam)
-% Funcion que actualiza "cam.info" con los valores de estructura "info"
+function info_out = get_info_cam(varargin)
+% Funcion que recupera la información de una camara
+%% Entrada
+% cam --> una estructura camara
+% t_data -->string que indica el tipo de dato a recuperar del campo info de la camara, t_data = 'info' es un string valido y regresa la estructura info integramente.
+%
 %info = struct(...
 %     'Rc',               nan(3, 3), ...%matriz de rotación
 %     'Tc',               nan(3, 1), ...%vector de traslación
@@ -12,5 +16,25 @@ function info = get_info_cam(cam)
 %     'pixels_aspect',    1, ...%(pixel_aspect_x)/(pixel_aspect_y) valor 1 indica pixel cuadrado
 %     'Pcam',              nan(3, 3) ...%matrix de proyección de la camara
 %     );
-info = cam.info;
+%% Salida
+% info_out -->informacion de salida, su tipo depende del string data
+%% EJEMPLO
+%  info_out = get_info_cam(cam(1), 'Rc'); %devuelve la matriz Rc
+
+%% ---------
+% Author: M.R.
+% created the 02/07/2014.
+% Copyright T.R.U.C.H.A.
+
+%% Cuerpo de la funcion
+
+%proceso la entrada
+cam = varargin{1};
+if (length(varargin)==1)
+    comando = 'cam.info';
+elseif (length(varargin)==2)
+    comando = sprintf('cam.info.%s', varargin{2});      
+end
+%obtengo la salida
+info_out = eval(comando);
 end
