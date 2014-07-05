@@ -3,23 +3,20 @@ function info_out = get_info_cam(varargin)
 %% Entrada
 % cam --> una estructura camara
 % t_data -->string que indica el tipo de dato a recuperar del campo info de la camara, t_data = 'info' es un string valido y regresa la estructura info integramente.
-%
-%info = struct(...
-%     'Rc',               nan(3, 3), ...%matriz de rotación
-%     'Tc',               nan(3, 1), ...%vector de traslación
-%     'f' ,               0.0, ...%distancia focal en metros
-%     'resolution',       nan(1, 2), ...%=[resolución_x, resolution_y] unidades en pixeles
-%     't_vista',          blanks(15), ...%tipo de vista utilizada en la camara (PERSPECTIVA, ORTOGRAFICA, PANORAMICA)
-%     'shift',            nan(1, 2), ...%[shift_x, shidt_y] corrimiento del centro de la camara en pixeles
-%     'sensor',           nan(1, 2), ...%[sensor_x, sensor_y] largo y ancho del sensor en milimetros
-%     'sensor_fit',       blanks(15), ...%tipo de ajuste utilizado para el sensor (AUTO, HORIZONTAL, VERTICAL)
-%     'pixels_aspect',    1, ...%(pixel_aspect_x)/(pixel_aspect_y) valor 1 indica pixel cuadrado
-%     'Pcam',              nan(3, 3) ...%matrix de proyección de la camara
-%     );
+
 %% Salida
 % info_out -->informacion de salida, su tipo depende del string data
 %% EJEMPLO
-%  info_out = get_info_cam(cam(1), 'Rc'); %devuelve la matriz Rc
+%  info_out = get_info_cam(cam(1), 'Rc') %devuelve la matriz Rc
+%  info_out = get_info_cam(cam(1), 'Tc') %devuelve vector de traslacion Tc
+%  info_out = get_info_cam(cam(1), 'f') %devuelve distancia focal en metros f 
+%  info_out = get_info_cam(cam(1), 'resolution') %devuelve [resolución_x, resolution_y] unidades en pixeles
+%  info_out = get_info_cam(cam(1), 't_vista') %devuelve tipo de vista utilizada en la camara (PERSPECTIVA, ORTOGRAFICA, PANORAMICA)
+%  info_out = get_info_cam(cam(1), 'shift') %devuelve [shift_x, shidt_y] corrimiento del centro de la camara en pixeles
+%  info_out = get_info_cam(cam(1), 'sensor') %devuelve [sensor_x, sensor_y] largo y ancho del sensor en milimetros
+%  info_out = get_info_cam(cam(1), 'sensor_fit') %devuelve tipo de ajuste utilizado para el sensor (AUTO, HORIZONTAL, VERTICAL)
+%  info_out = get_info_cam(cam(1), 'pixel_aspect') %devuelve (pixel_aspect_x)/(pixel_aspect_y) valor 1 indica pixel cuadrado
+%  info_out = get_info_cam(cam(1), 'projection_matrix') %matrix de proyección de la camara
 
 %% ---------
 % Author: M.R.
