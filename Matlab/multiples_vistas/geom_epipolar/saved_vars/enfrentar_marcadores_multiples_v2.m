@@ -57,14 +57,14 @@ for i=1:length(marker)
     if nargin >6
         I3 = vecinos_intraframe(N3', (2*N2(:,marker(i))-N1(:,link_prev(i)))', d3);
     else
-        I3 = (1:size(N3,2))';
+        I3 = (1:length(N3))';
     end;
     
     for j=1:length(I3)
         if nargin > 7
             I4 = vecinos_intraframe(N4', (2*N3(:,I3(j))-N2(:,marker(i)))', d4);
         else
-            I4 = (1:size(N4,2))';
+            I4 = (1:length(N4))';
         end;
         trayectorias = [trayectorias;...
             link_prev(i)*ones(length(I4),1),...
@@ -76,10 +76,6 @@ end
 
 for i=1:size(trayectorias,1)
     trayectorias(i,5)=delta_aceleracion(N1(:,trayectorias(i,1)),N2(:,trayectorias(i,2)),N3(:,trayectorias(i,3)),N4(:,trayectorias(i,4)));
-    
-    a1 = N2(:,trayectorias(i,2))-N1(:,trayectorias(i,1));
-    a2 = N3(:,trayectorias(i,3))-N2(:,trayectorias(i,2));
-    trayectorias(i,6) = acos(dot(a2,a1)/(norm(a1)*norm(a2)))*180/pi;
 end;
 
 aux = trayectorias;

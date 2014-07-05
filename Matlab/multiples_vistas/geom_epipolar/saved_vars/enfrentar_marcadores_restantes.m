@@ -13,7 +13,7 @@ for i=1:length(marker)
     
     for j=1:length(I3)
         
-        I4 = (1:size(N4,2))';
+        I4 = (1:length(N4))';
         trayectorias = [trayectorias;...
             link_prev(i)*ones(length(I4),1),...
             marker(i)*ones(length(I4),1),...
@@ -22,11 +22,8 @@ for i=1:length(marker)
     end
 end
 
-for i=1:size(trayectorias,1)
+for i=1:length(trayectorias)
     trayectorias(i,5)=delta_aceleracion(N1(:,trayectorias(i,1)),N2(:,trayectorias(i,2)),N3(:,trayectorias(i,3)),N4(:,trayectorias(i,4)));
-    a1 = N2(:,trayectorias(i,2))-N1(:,trayectorias(i,1));
-    a2 = N3(:,trayectorias(i,3))-N2(:,trayectorias(i,2));
-    trayectorias(i,6) = acos(dot(a2,a1)/(norm(a1)*norm(a2)))*180/pi;
 end;
 
 aux = trayectorias;
