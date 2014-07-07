@@ -9,7 +9,7 @@ clc
 InfoCamBlender %este archivo .m fue generado con Python desde Blender y contienen todos los parametros de las camaras de interes
 
 %Verifico hipotesis de trabajo
-if (pixel_aspect_x ~= pixel_aspect_y)|any(shift_x ~= shift_y)
+if (pixel_aspect_x ~= pixel_aspect_y)||any(shift_x ~= shift_y)
    disp('Se asumen dos cosas en los calculos que siguen:')
    disp('                1) que la variable de Blender,  Properties/ObjectData/Lens/Shift, indicado por los')
    disp('                     parametros (X, Y) es (0, 0)')
@@ -41,18 +41,27 @@ end
 
 %% Generacion e inicializacion de estructuras (se reserva memoria)
 
+
+    
 marker = struct(...
     'coord',        zeros(3, 1), ...%Coordenadas euclidianas del marcador 
     'name',         blanks(15), ...%Nombre del marcador
     'state',       0.0, ...%con alguna metrica indica el estado del marcador
-    'source_cam',   zeros(n_cams, 1) ...%conjunto de camaras que reconstruye el marcador
+    'source_cam',   zeros(n_cams, 1) ...%conjunto de camaras que reconstruye el marcador    
     );
 
+like = struct(...
+    'like_cams',        [1: n_cams],... %vector con los numeros asociados a cada camara sobre las que se proyecta 
+    'mapping_table',    ones(n_markers, n_cams),... %tabla de mapeo. Matriz cuyas filas son indices de marcadores que se corresponden en otras camaras,
+                                                ... % y las columnas son camaras cuyo nombre se encuentra en la columna correspondiente de like_cams 
+    'd_min',         ones(n_markers, n_cams)... %matriz que contiene una medida de calidad para cada dato coorespondiente en mapping_table
+    );
 
 frame = struct(...
     'marker',       repmat(marker, 1, n_markers), ...%genero un numero n_markers de estructuras marker
+    'like',         repmat(like, 1, 1),...%genero una estructura like dentro de marker
     'time',         0.0, ...%tiempo de frame en segundos
-    'n_markers',    n_markers ...%nro de marcadores en el frame
+    'n_markers',    n_markers ...%nro de marcadores en el frame    
     );
 
 path = struct(...
@@ -74,6 +83,7 @@ info = struct(...
     'pixels_aspect',    1, ...%(pixel_aspect_x)/(pixel_aspect_y) valor 1 indica pixel cuadrado
     'projection_matrix',              zeros(3, 4) ...%matrix de proyección de la camara
     );
+
 
 skeleton = struct(...
     'name',         blanks(15), ...%nombre del esqueleto    
@@ -124,7 +134,7 @@ end
 
 %% Relleno la estructura cam con la info del name_bvh
 
-for i=1:length(cam) %hacer para todas las camaras  
+for i=1:n_cams %hacer para todas las camaras  
     
     cam(i).name = i;
     cam(i).n_frames = n_frames;
@@ -145,17 +155,41 @@ for i=1:length(cam) %hacer para todas las camaras
     %genero la estructura frame para la camara
     for k=1:cam(i).n_frames %hacer para cada frame
         cam(i).frame(k).n_marker = n_marcadores;
-        frame(k).time = time(k);     
+        cam(i).frame(k).time = time(k);     
         X = get_markers_in_frame(skeleton, k); %get_nube_marker(n_frame, structure, list_markers) 
         x = obtain_coord_retina(X, cam(i).info.projection_matrix);
         for j=1:n_marcadores %hacer para cada marcador             
             cam(i).frame(k).marker(j).coord =x(:, j);%Guardo la matriz de coordenadas homogeneas x=P*X , del marcador j del frame k en la camara i
             cam(i).frame(k).marker(j).name = skeleton.frame(k).marker(j).name;
             cam(i).frame(k).marker(j).state = 0;% 0 indica que el dato es posta y 1 la más baja calidad
-            cam(i).frame(k).marker(j).source_cam = -1;%en nuestro caso es ground truth
-        end
+            cam(i).frame(k).marker(j).source_cam = -1;%en nuestro caso es ground truth            
+        end        
     end    
 end
+disp('Se han cargado los datos básicos de las estructuras. \nRestan las tablas de mapeo')
+%asignaciones que se deben hacer luego de completar todas las camaras
+
+for i=1:n_cams %hacer para todas las camaras  
+    tic
+    for k=1:cam(i).n_frames %hacer para cada frame
+        %cam(i).frame(k).like.like_cams = [1:n_cams];%genero un vector con los nombres de cada camara       
+        for ii=1:n_cams
+            if i~=ii %si las camaras son distintas
+                [~, ~, index_table, d_min] = cam2cam(cam(i), cam(ii), k);%devuelve todos los puntos de cam(i) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(ii)
+                cam(i).frame(k).like.mapping_table(:,ii) = index_table(:,2); %me quedo solo con los correspondientes en cam(ii)
+                cam(i).frame(k).like.d_min(:,ii) = d_min; 
+            else %si las camaras son la misma
+                cam(i).frame(k).like.mapping_table(:,ii) = [1:n_markers]';%cada marcador se corresponde consigo mismo
+                cam(i).frame(k).like.d_min(:,ii) = zeros(n_markers, 1);
+            end
+        end
+    end
+    toc
+    str=sprintf('Se cargo por completo la tabla de mapeo de la camara %d', i);
+    disp(str)
+end
+
+
 
 if guardar==1
     save('saved_vars/cam','cam');    

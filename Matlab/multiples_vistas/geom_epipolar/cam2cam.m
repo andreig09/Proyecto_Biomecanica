@@ -18,7 +18,7 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
 %% EJEMPLOS
 %       n_frame = 1;
 %       index_xi = [1 2];
-%       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame, index_xi)%devuelve todos los puntos de cam(1) del frame n_frame con indice en index_xi y sus       correspondientes contrapartes xd de cam(2)
+%       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame, index_xi)%devuelve todos los puntos de cam(1) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(2)
 %       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame) %devuelve todos los puntos xi de cam1 y sus correspondientes contrapartes xd de cam2
             
     %proceso la entrada
@@ -67,8 +67,8 @@ function [xd, index_table, d_min] = xd_from_xi(cam_i, cam_d, n_frame, index_xi)
 % index_table   -->vector donde la primer columna es el indice de xi y la segunda del xd asociado
     
     %obtengo la matriz fundamental 
-    Pi = get_info_cam(cam_i, 'projection_matrix');
-    Pd = get_info_cam(cam_d, 'projection_matrix');
+    Pi = get_info(cam_i, 'projection_matrix');
+    Pd = get_info(cam_d, 'projection_matrix');
     F= F_from_P(Pi, Pd); 
     
     %efectuo las proyecciones

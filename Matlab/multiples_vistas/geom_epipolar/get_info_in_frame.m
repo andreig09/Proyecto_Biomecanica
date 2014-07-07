@@ -16,17 +16,23 @@ function info_out = get_info_in_frame(varargin)
 %% Ejemplos 
 % structure = skeleton;
 % %structure = cam(2);
-% X = get_info_in_frame(structure, 1, 'time') % devuelve el tiempo asociado al frame 1 de la estructura structure
-% X = get_info_in_frame(structure, 1, 'n_markers') % devuelve el numero de marcadores del frame 1 de la estructura structure
-% X = get_info_in_frame(structure, 1, 'marker', 'coord') %devuelve las coordenadas de todos los marcadores en el frame 1 de structure
-% X = get_info_in_frame(structure, 1, 'marker', 'name') %devuelve un cell string con los nombres de todos los marcadores en el frame 1 de structure
-% X = get_info_in_frame(structure, 1, 'marker', 'state') %devuelve un vector con los estados de  todos los marcadores en el frame 1 de structure
-% X = get_info_in_frame(structure, 1, 'marker', 'source_cam') %devuelve un vector con las camaras fuente de todos los marcadores en el frame 1 de structure
-% X = get_info_in_frame(structure, 1, 'marker', [2 3]) %devuelve las coordenadas de los marcadores 2 y 3 del frame 1 de structure
-% X = get_info_in_frame(structure, 1, 'marker', [2, 3], 'coord') %devuelve las coordenadas de los marcadores 2 y 3 del frame 1 de structure
-% X = get_info_in_frame(structure, 1, 'marker', [2, 3], 'name') %devuelve un cell string con los nombres de los marcadores 2 y 3 del frame 1 de structure
-% X = get_info_in_frame(structure, 1, 'marker', [2, 3], 'state') %devuelve un vector con los estados de los marcadores 2 y 3 del frame 1 de structure
-% X = get_info_in_frame(structure, 1, 'marker', [2, 3], 'source_cam') %devuelve un vector con las camaras fuente de los marcadores 2 y 3 del frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'time') % devuelve el tiempo asociado al frame 1 de la estructura structure
+% info_out = get_info_in_frame(structure, 1, 'n_markers') % devuelve el numero de marcadores del frame 1 de la estructura structure
+% info_out = get_info_in_frame(structure, 1, 'marker', 'coord') %devuelve las coordenadas de todos los marcadores en el frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'marker', 'name') %devuelve un cell string con los nombres de todos los marcadores en el frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'marker', 'state') %devuelve un vector con los estados de  todos los marcadores en el frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'marker', 'source_cam') %devuelve un vector con las camaras fuente de todos los marcadores en el frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'marker', [2 3]) %devuelve las coordenadas de los marcadores 2 y 3 del frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'marker', [2, 3], 'coord') %devuelve las coordenadas de los marcadores 2 y 3 del frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'marker', [2, 3], 'name') %devuelve un cell string con los nombres de los marcadores 2 y 3 del frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'marker', [2, 3], 'state') %devuelve un vector con los estados de los marcadores 2 y 3 del frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'marker', [2, 3], 'source_cam') %devuelve un vector con las camaras fuente de los marcadores 2 y 3 del frame 1 de structure
+% info_out = get_info_in_frame(structure, 1, 'mapping_table') %devuelve la tabla de mapeo del frame 1 de la estructura structure
+% info_out = get_info_in_frame(structure, 1, 'like_cams') %devuelve un vector cuya columna j contiene el numero de la camara  
+%                                                               sobre las que se hizo la correspondencia en la columna j de mapping_table 
+%                                                               del frame 1 de la estructura structure
+% info_out = get_info_in_frame(structure, 1, 'd_min') %matriz que contiene una medida de calidad para cada dato coorespondiente en mapping_table 
+%                                                         del frame 1 de la estructura structure 
 
 %% ---------
 % Author: M.R.
@@ -35,8 +41,7 @@ function info_out = get_info_in_frame(varargin)
 
 %% Cuerpo de la funcion
 
-    %proceso la entrada
-    
+    %proceso la entrada    
     structure = varargin{1}; %el primer argumento es una estructura
     n_frame = varargin{2};%el segundo argumento es un numero de frame
     t_dato1 = varargin{3}; % el tercer argumento t_dato1 indica si se necesitan argumentos posteriores
@@ -55,9 +60,13 @@ function info_out = get_info_in_frame(varargin)
                 info_out = get_markers_in_frame(structure, n_frame, x_index, t_dato2);
             end
         end
-    else %solo se quiere informacion del frame actual       
-        comando = sprintf('structure.frame(n_frame).%s', t_dato1 ); %genero la dirección donde se aloja la informacion t_dato1
-        info_out=eval(comando);
+        return %ya se devuelve la salida
+        
+    elseif sum(strcmp(t_dato1, {'like_cams', 'mapping_table', 'd_min'})) % se quiere devolver informacion de la estructura like
+        comando = sprintf('structure.frame(n_frame).like.%s',t_dato1);%dejo los posibles comandos en funcion del parametro "t_dato1"    
+    else %solo se quiere informacion del frame actual fuera de subestructuras marker o like
+        comando = sprintf('structure.frame(n_frame).%s', t_dato1 ); %genero la dirección donde se aloja la informacion t_dato1        
     end
+    info_out=eval(comando);
 
 end
