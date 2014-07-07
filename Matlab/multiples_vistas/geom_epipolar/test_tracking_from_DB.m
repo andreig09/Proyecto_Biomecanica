@@ -1,8 +1,8 @@
-clc
+    clc
 clear all
 close all
 
-load saved_vars\cam.mat
+load saved_vars/cam.mat
 
 %% Este codigo debe ser ejecutado con lo siguiente en carpeta
 %{
