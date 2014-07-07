@@ -39,12 +39,18 @@ function info_out = get_info(varargin)
 %  info_out = get_info(structure, 'frame', 1, 'marker', [2, 3], 'name') %devuelve un cell string con los nombres de los marcadores 2 y 3 del frame 1 de structure
 %  info_out = get_info(structure, 'frame', 1, 'marker', [2, 3], 'state') %devuelve un vector con los estados de los marcadores 2 y 3 del frame 1 de structure
 %  info_out = get_info(structure, 'frame', 1, 'marker', [2, 3], 'source_cam') %devuelve un vector con las camaras fuente de los marcadores 2 y 3 del frame 1 de structure
+%  info_out = get_info(structure, 'frame', 1, 'mapping_table') %devuelve la tabla de mapeo del frame 1 de la estructura structure
+%  info_out = get_info(structure, 'frame', 1, 'like_cams') %devuelve un vector cuya columna j contiene el numero de la camara  
+%                                                               sobre las que se hizo la correspondencia en la columna j de mapping_table 
+%                                                               del frame 1 de la estructura structure
+%  info_out = get_info(structure, 'frame', 1, 'd_min') %matriz que contiene una medida de calidad para cada dato coorespondiente en mapping_table 
+%                                                         del frame 1 de la estructura structure
 % DATOS DE UN PATH
 %  info_out = get_info(structure, 'path', 1, 'name') % devuelve el nombre asociado a la trayectoria 1 de structure
 %  info_out = get_info(structure, 'path', 1, 'members') % devuelve una matriz 2xn_markers. la primer fila son los indices de los marcadores
 %                                                        miembros de la trayectoria 1 de la estructura structure y la fila 2 son
 %                                                        los correspondientes frames.
-%  info_out = get_info(structure, 'path', 1, 'state) % devuelve una medida de calidad para la trayectoria 1 de la estructura structure
+%  info_out = get_info(structure, 'path', 1, 'state') % devuelve una medida de calidad para la trayectoria 1 de la estructura structure
 %  info_out = get_info(structure, 'path', 1, 'n_markers') % devuelve el numero de marcadores totales en la trayectoria 1 de structure
 %  info_out = get_info(structure, 'path', 1, 'init_frame') %devuelve el frame inicial de la trayectoria 1 de structure
 %  info_out = get_info(structure, 'path', 1, 'end_frame') %devuelve  el frame final de la trayectoria 1 de structure

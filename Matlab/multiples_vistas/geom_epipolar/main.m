@@ -30,7 +30,7 @@ name_bvh = 'Mannequin.bvh';
 
 %% Parametros de main
 
-guardar=0;%para guardar las estructuras generadas pongo 1 
+guardar=1;%para guardar las estructuras generadas pongo 1 
 graficar = 0; % si se desea ver la estructura skeleton_old
 n_markers = n_marcadores; %numero total de marcadores en skeleton
 n_frames = n_frames; %numero total de frames a tratar
@@ -67,8 +67,10 @@ frame = struct(...
 path = struct(...
     'name',         blanks(15), ...%nombre de la trayectoria
     'members',      zeros(1, n_frames), ...%secuencia de nombres asociados a la trayectoria
-    'state',       0.0, ...%con alguna metrica indica la calidad de la trayectoria
-    'n_markers',    n_frames ...%numero total de marcadores en la trayectoria
+    'state',        0.0, ...%con alguna metrica indica la calidad de la trayectoria
+    'n_markers',    n_frames, ...%numero total de marcadores en la trayectoria
+    'init_frame',   1,... %frame inicial de la trayectoria
+    'end_frame',    1 ...%frame final de la trayectoria
     );
 
 info = struct(...
