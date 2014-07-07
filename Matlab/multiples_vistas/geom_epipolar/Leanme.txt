@@ -1,2 +1,2 @@
 --->main.m es la cabeza de todo el resto son funciones 
---->Para entender las estructuras leer el Leanme! de la carpeta Variables_save
+--->Para entender las estructuras ver el diagra Estructura de datos de la carpeta save_vars

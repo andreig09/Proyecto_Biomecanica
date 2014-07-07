@@ -96,8 +96,8 @@ function plot_secuencia_2D(cam, n_cam, t_label)
 %          cam(i).frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
 
 n_frames = size(cam(1).frame, 2); %nro de frames
-res_x = cam(n_cam).M; %resolucion horizontal
-res_y = cam(n_cam).N; %resolucion vertical
+res_x = cam(n_cam).resolution(1,:); %resolucion horizontal
+res_y = cam(n_cam).resolution(2,:); %resolucion vertical
 
 for k=1:n_frames % para cada frame se plotean las posiciones 2D de los marcadores con sus respectivas etiquetas
     plot(...
@@ -121,7 +121,9 @@ for k=1:n_frames % para cada frame se plotean las posiciones 2D de los marcadore
     ylabel('\fontsize{13}{y (pixeles)}', 'fontweight','b');
     str = sprintf('Proyeccion sobre retina de Camara %d  \n frame %d / %d',n_cam, k, n_frames);
     title(['\fontsize{14}{',str, '}'], 'fontweight','b');
+    axis equal
     axis([0 res_x 0 res_y])
+    
     grid on
     pause(0.01);
 end
@@ -169,6 +171,7 @@ for k=1:n_frames % para cada frame se plotean las posiciones 3D de los marcadore
     str = sprintf('Secuencia 3D del esqueleto %s \n frame %d / %d',skeleton.name_bvh, k, n_frames);
     title(['\fontsize{14}{',str, '}'],'fontweight','b');
     axis equal
+    axis([-0.5 0.5 -5 1 0 2]) %esto se debe ajustar a mano si no se ve la figura
     grid on
     pause(0.01);
 end 
@@ -289,11 +292,15 @@ end
     
     
 %Ploteo
-if mantener_trayectoria
+if n_prev==0 %solo ploteo un frame, por lo tanto me intereza tenerlo resaltado
+     plot(x(:,:)',y(:,:)','r+');%ploteo el último frame
+else if mantener_trayectoria
         plot(x(:,:)',y(:,:)','.-');%ploteo el último frame y los n_prev anteriores
     else
         plot(x(:,:)',y(:,:)','.');
-end;
+    end
+end
+    
 
 if (radio~=0)%solo aplica circulos al ultimo frame si radio distinto de cero
     hold on
@@ -311,14 +318,17 @@ xlabel('\fontsize{11}{x (pixeles)}', 'fontweight','b');
 ylabel('\fontsize{11}{y (pixeles)}','fontweight','b');
 str = sprintf('Proyección sobre retina de Camara %d  \n último frame %d / %d',n_cam, last_frame, n_frames);
 title(['\fontsize{14}{',str, '}'], 'fontweight','b');
-axis square;
-%axis equal;
+%axis square;
+res_x = cam(n_cam).resolution(1,:); %resolucion horizontal
+res_y = cam(n_cam).resolution(2,:); %resolucion vertical
+axis([0 res_x 0 res_y])
+axis equal;
 grid on
 correccion_zoom =0.005;% porcentaje de ventana de zoom
-axis([(1-correccion_zoom)*min(min(x)),...
-    (1+correccion_zoom)*max(max(x)),...
-    (1-correccion_zoom)*min(min(y)),...
-    (1+correccion_zoom)*max(max(y))]);
+% axis([(1-correccion_zoom)*min(min(x)),...
+%     (1+correccion_zoom)*max(max(x)),...
+%     (1-correccion_zoom)*min(min(y)),...
+%     (1+correccion_zoom)*max(max(y))]);
 
 end
 

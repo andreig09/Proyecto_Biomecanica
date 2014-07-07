@@ -1,221 +1,210 @@
-% Main donde se construyen las matrices de proyeccion y las fundamentales a partir de
-% los datos en Blender. Deja solo variables importantes en el workspace!
-
-
+% Construye la estructura de datos y las deja en el
+% workspace!
 clear all
 close all
 clc
+
+%% Cargo Parametros de las camaras
+
+InfoCamBlender %este archivo .m fue generado con Python desde Blender y contienen todos los parametros de las camaras de interes
+
+%Verifico hipotesis de trabajo
+if (pixel_aspect_x ~= pixel_aspect_y)||any(shift_x ~= shift_y)
+   disp('Se asumen dos cosas en los calculos que siguen:')
+   disp('                1) que la variable de Blender,  Properties/ObjectData/Lens/Shift, indicado por los')
+   disp('                     parametros (X, Y) es (0, 0)')
+   disp('                2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio de cada camara, indicado por') 
+   disp('                    los parametros (X, Y) sea (z, z) con z cualquiera')
+   disp('Hay que corregir alguno de estos parametros para proseguir.')
+   break
+end
+
 %% Cargo secuencia 
-name_bvh = 'Mannequin_con_Armadura.bvh';
-[skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);
-%descomentar la siguiente línea si se quiere ver la secuencia 3D
-%plotear(skeleton, eye(3)) 
 
-%% Parámetros de las camaras
-%Se asumen dos cosas en los calculos que siguen:
-%                   1) que la variable de Blender,  Properties/Object Data/Lens/Shift, indicado por los
-%                       parametros (X, Y) es (0, 0)
-%                   2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio, indicado por 
-%                       los parametros (X, Y) es (1, 1)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA 1 (toma superior)
-f = 40;     %dist. focal en mm
-M = 800;    % resolución horizontal en píxeles
-N = 300;    % resolución vertical en píxeles
-sensor = 32;    % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 1, todas las medidas son en metros
-c_x = 0.02353001;
-c_y = -2.5;
-c_z = 8;
-% angulos de rotacion cam1 en grados
-c_th_x = 180;
-c_th_y = 180;
-c_th_z = -90;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA2 (toma posterior izquierda)
-f = [f, 50];     %dist. focal en mm
-M = [M, 800];    % resolución horizontal en píxeles
-N = [N, 300];    % resolución vertical en píxeles
-sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 2, todas las medidas son en metros
-c_x = [c_x, 7.5];
-c_y = [c_y, 2.5];
-c_z = [c_z, 1.2];
-% angulos de rotacion cam2 en grados
-c_th_x = [c_th_x, 267.067];
-c_th_y = [c_th_y, 180.439];
-c_th_z = [c_th_z, -57.198];
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA3 (toma delantera izquierda)
-f = [f, 50];     %dist. focal en mm
-M = [M, 800];    % resolución horizontal en píxeles
-N = [N,300];    % resolución vertical en píxeles
-sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 3, todas las medidas son en metros
-c_x = [c_x, 7.5];
-c_y = [c_y, -7.5];
-c_z = [c_z, 1.2];
-% angulos de rotacion cam3 en grados
-c_th_x = [c_th_x, 267.067];
-c_th_y = [c_th_y, 180.439];
-c_th_z = [c_th_z, -121.198];
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA4 (toma  delantera derecha)
-f = [f, 50];     %dist. focal en mm
-M = [M, 800];    % resolución horizontal en píxeles
-N = [N, 300];    % resolución vertical en píxeles
-sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 4, todas las medidas son en metros
-c_x = [c_x, -7.5];
-c_y = [c_y, -7.5];
-c_z = [c_z, 1.2];
-% angulos de rotacion cam4 en grados
-c_th_x = [c_th_x, 267.067];
-c_th_y = [c_th_y, 180.439];
-c_th_z = [c_th_z, -237.198];
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%CAMARA5 (toma posterior derecha)
-f = [f, 50];     %dist. focal en mm
-M = [M, 800];    % resolución horizontal en píxeles
-N = [N, 300];    % resolución vertical en píxeles
-sensor= [sensor, 32]; % tamaño en mm del sensor (se considera el lado más largo, en este caso el horizontal)
-% posición xyz cámara 5, todas las medidas son en metros
-c_x = [c_x,  -7.5];
-c_y = [c_y, 2.5];
-c_z = [c_z, 1.2];
-% angulos de rotacion cam5 en grados
-c_th_x = [c_th_x, 267.067];
-c_th_y = [c_th_y, 180.439];
-c_th_z = [c_th_z, -301.198];
+%name_bvh = 'pelotita.bvh';
+name_bvh = 'Mannequin.bvh';
+%name_bvh ='Marcador_en_origen.bvh';
+
+[skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);%cargo el archivo .bvh
 
 
-%% Estructura marcador 3D
-%       X -->Matriz cuyas filas son coordenadas 3D y las columnas son frames 
-%       time -->Matriz con los tiempos de cada frame
-%       name -->Nombre del marcador
-%       n -->nro de marcador
+%% Parametros de main
 
-for j=1:n_marcadores %hacer para todos los marcadores
-     marker3D(j).X=skeleton_old(j).t_xyz;
-     marker3D(j).time= time;
-     marker3D(j).name= skeleton_old(j).name;
-     marker3D(j).n = j;
+guardar=1;%para guardar las estructuras generadas pongo 1 
+graficar = 0; % si se desea ver la estructura skeleton_old
+n_markers = n_marcadores; %numero total de marcadores en skeleton
+n_frames = n_frames; %numero total de frames a tratar
+
+if graficar == 1
+ plotear(skeleton_old, eye(3)) 
 end
-%NOTACION
-%       marker3D(j).X(:, k)   --->para acceder a las coordenadas del marcador j en el frame k 
 
-%% Estructura frame3D
-%       X -->Matriz cuyas filas son coordenadas 3D y las columnas son nro de marcador 
-%       time -->tiempo de frame
-%       name -->Array de strings con nombre del marcador de cada columna de X
-%       n -->vector fila que contiene el nro asociado a cada marcador de la columna de X
+%% Generacion e inicializacion de estructuras (se reserva memoria)
 
 
-for k=1:n_frames %hacer para cada frame
-        %inicializo los campos de la estructura frame(k)
-        frame3D(k).X = [];
-        frame3D(k).name = {}; % los nombres los guardo en un array de string, no problem se accede de la misma manera que un vector.
-        frame3D(k).n = [];
-        frame3D(k).time = time*k;         
-        for j=1:n_marcadores %hacer para cada marcador 
-            frame3D(k).X = [frame3D(k).X, marker3D(j).X(:,k)]; % las columnas de frame(k).X son nro de marcador
-            frame3D(k).name= [frame3D(k).name, marker3D(j).name]; 
-            frame3D(k).n = [frame3D(k).n, j];
-        end
-end
-     %NOTACION: 
-    %        skeleton.frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
-    %        skeleton.frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
+    
+marker = struct(...
+    'coord',        zeros(3, 1), ...%Coordenadas euclidianas del marcador 
+    'name',         blanks(15), ...%Nombre del marcador
+    'state',       0.0, ...%con alguna metrica indica el estado del marcador
+    'source_cam',   zeros(n_cams, 1) ...%conjunto de camaras que reconstruye el marcador    
+    );
 
-%% Estructura skeleton
-%       marker -->estructura marker3D
-%       frame --> estructura frame3D
-%       name_bvh -->nombre del .bvh de origen
+like = struct(...
+    'like_cams',        [1: n_cams],... %vector con los numeros asociados a cada camara sobre las que se proyecta 
+    'mapping_table',    ones(n_markers, n_cams),... %tabla de mapeo. Matriz cuyas filas son indices de marcadores que se corresponden en otras camaras,
+                                                ... % y las columnas son camaras cuyo nombre se encuentra en la columna correspondiente de like_cams 
+    'd_min',         ones(n_markers, n_cams)... %matriz que contiene una medida de calidad para cada dato coorespondiente en mapping_table
+    );
 
-skeleton.marker = marker3D;
-skeleton.frame = frame3D;
+frame = struct(...
+    'marker',       repmat(marker, 1, n_markers), ...%genero un numero n_markers de estructuras marker
+    'like',         repmat(like, 1, 1),...%genero una estructura like dentro de marker
+    'time',         0.0, ...%tiempo de frame en segundos
+    'n_markers',    n_markers ...%nro de marcadores en el frame    
+    );
+
+path = struct(...
+    'name',         blanks(15), ...%nombre de la trayectoria
+    'members',      zeros(1, n_frames), ...%secuencia de nombres asociados a la trayectoria
+    'state',        0.0, ...%con alguna metrica indica la calidad de la trayectoria
+    'n_markers',    n_frames, ...%numero total de marcadores en la trayectoria
+    'init_frame',   1,... %frame inicial de la trayectoria
+    'end_frame',    1 ...%frame final de la trayectoria
+    );
+
+info = struct(...
+    'Rc',               zeros(3, 3), ...%matriz de rotación
+    'Tc',               zeros(3, 1), ...%vector de traslación
+    'f' ,               0.0, ...%distancia focal en metros
+    'resolution',       zeros(1, 2), ...%=[resolución_x, resolution_y] unidades en pixeles
+    't_vista',          blanks(15), ...%tipo de vista utilizada en la camara (PERSPECTIVA, ORTOGRAFICA, PANORAMICA)
+    'shift',            zeros(1, 2), ...%[shift_x, shidt_y] corrimiento del centro de la camara en pixeles
+    'sensor',           zeros(1, 2), ...%[sensor_x, sensor_y] largo y ancho del sensor en milimetros
+    'sensor_fit',       blanks(15), ...%tipo de ajuste utilizado para el sensor (AUTO, HORIZONTAL, VERTICAL)
+    'pixels_aspect',    1, ...%(pixel_aspect_x)/(pixel_aspect_y) valor 1 indica pixel cuadrado
+    'projection_matrix',              zeros(3, 4) ...%matrix de proyección de la camara
+    );
+
+
+skeleton = struct(...
+    'name',         blanks(15), ...%nombre del esqueleto    
+    'name_bvh',     name_bvh, ... %nombre del .bvh asociado a skeleton
+    'frame',        repmat(frame, 1, n_frames), ...%genero un numero n_frames de estructuras frame
+    'path',         repmat(path, 1, n_markers), ...%genero una estructura path por marcador
+    'n_frames',     n_frames, ...%numero de frames totales
+    'n_paths',      n_markers, ...%numero de trayectorias totales
+    'n_cams',       n_cams, ... %numero de camras que estan filmando a skeleton 
+    'frame_rate',   time(2) ... %indica el tiempo entre cada frame    
+    );
+    
+cam = struct(...
+    'name',         NaN, ...%numero de la camara
+    'info',         info, ...
+    'frame',        repmat(frame, 1, n_frames), ...%genero un numero n_frames de estructuras frame
+    'path',         repmat(path, 1, n_markers), ...%genero una estructura path por marcador
+    'n_frames',     n_frames, ...%numero de frames totales
+    'n_paths',      n_markers, ...%numero de trayectorias totales
+    'frame_rate',   time(2) ... %indica el tiempo entre cada frame    
+    );
+cam = repmat(cam, 1, n_cams);  %genero un numero n_cams de camaras
+
+
+
+%% Relleno la estructura skeleton con la info del name_bvh
+
+skeleton.name = 'skeleton';
 skeleton.name_bvh = name_bvh;
-%ACLARACION: las estructuras 'marker' y 'frame' son dos enfoques distintos de ordenar la misma información, la idea es utilizar lo
-    %conveniente en cada caso.
-    %NOTACION: 
-    %        skeleton.marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
-    %        skeleton.frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
-    %        skeleton.frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
+skeleton.n_frames = n_frames;
+skeleton.frame_rate = time(2);
 
-    
-    
-%% Estructura camara
-%   para cada cámara contiene:
-%     Rc -->matriz de rotación 
-%     Tc -->vector de traslación
-%     f ---->distancia focal en metros
-%     M --->resolución horizontal en pixeles
-%     name.bvh -->nombre del .bvh de origen
-%     N --->resolución vertical en pixeles
-%     Pcam -->matriz de proyección de la camara
-%     marker -->estructura de datos de los marcadores en dicha camara, similar a marker3D
-%     frame --> estructura de datps de los marcadores en dicha camara, similar a frame3D  
-
-for i=1:length(f) %hacer para todas las camaras
-    cam(i).Rc = rotacion(c_th_x(i), c_th_y(i), c_th_z(i));
-    cam(i).Tc = [c_x(i), c_y(i), c_z(i)];
-    cam(i).f = f(i);
-    cam(i).M = M(i);
-    cam(i).N = N(i);
-    cam(i).name_bvh = name_bvh;
-    cam(i).Pcam = proyeccion(f(i), M(i), N(i), sensor(i), cam(i).Tc, cam(i).Rc);% matriz de rotacion asociada a la cámara, se asume rotación XYZ
+for k=1:skeleton.n_frames %hacer para cada frame de skeleton 
+    skeleton.frame(k).n_markers = n_marcadores;
+    skeleton.frame(k).time = time(k);    
     for j=1:n_marcadores %hacer para cada marcador 
-        %X=skeleton(j).t_xyz;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivos frames
-        X=marker3D(j).X;% Obtengo la matriz del marcador j, cuyas filas son coordenadas 3D y columnas sucesivas frames
-        cam(i).marker(j).x=proyectar_X(X, cam(i).Pcam);%Guardo la matriz de coordenadas homogeneas x=P*X , del marcador j en la camara i        
-        cam(i).marker(j).time= marker3D(j).time;
-        cam(i).marker(j).name= marker3D(j).name;
-        cam(i).marker(j).n= j;
+        skeleton.frame(k).marker(j).coord = skeleton_old(j).t_xyz(:,k);
+        skeleton.frame(k).marker(j).name = skeleton_old(j).name;
+        skeleton.frame(k).marker(j).state = 0;% 0 indica que el dato es posta y 1 la más baja calidad
+        skeleton.frame(k).marker(j).source_cam = -1;%en nuestro caso es ground truth
+    end
+end
+
+
+if guardar==1    
+    save('saved_vars/skeleton','skeleton');
+end
+
+%% Relleno la estructura cam con la info del name_bvh
+
+for i=1:n_cams %hacer para todas las camaras  
+    
+    cam(i).name = i;
+    cam(i).n_frames = n_frames;
+    cam(i).frame_rate = time(2);
+    %genero la estructura info para la camara
+    cam(i).info.Rc = Rq(:,:,i)';%matriz de rotación calculada a partir de cuaterniones
+    cam(i).info.Tc = [T(1,i); T(2,i); T(3,i)];
+    cam(i).info.f = f(i);
+    cam(i).info.resolution = resolution(:,i);
+    cam(i).info.t_vista = t_vista(i);
+    cam(i).info.shift = [shift_x(i), shift_y(i)];
+    cam(i).info.sensor = sensor(:,i);
+    cam(i).info.sensor_fit = sensor_fit(i);
+    cam(i).info.pixel_aspect = pixel_aspect_x/pixel_aspect_y;
+    cam(i).info.projection_matrix = MatrixProjection(cam(i).info.f, cam(i).info.resolution, ...
+        cam(i).info.sensor, cam(i).info.sensor_fit{1}, cam(i).info.Tc, cam(i).info.Rc);% matriz de rotacion asociada a la cámara; 
+    
+    %genero la estructura frame para la camara
+    for k=1:cam(i).n_frames %hacer para cada frame
+        cam(i).frame(k).n_marker = n_marcadores;
+        cam(i).frame(k).time = time(k);     
+        X = get_markers_in_frame(skeleton, k); %get_nube_marker(n_frame, structure, list_markers) 
+        x = obtain_coord_retina(X, cam(i).info.projection_matrix);
+        for j=1:n_marcadores %hacer para cada marcador             
+            cam(i).frame(k).marker(j).coord =x(:, j);%Guardo la matriz de coordenadas homogeneas x=P*X , del marcador j del frame k en la camara i
+            cam(i).frame(k).marker(j).name = skeleton.frame(k).marker(j).name;
+            cam(i).frame(k).marker(j).state = 0;% 0 indica que el dato es posta y 1 la más baja calidad
+            cam(i).frame(k).marker(j).source_cam = -1;%en nuestro caso es ground truth            
+        end        
     end    
-    for k=1:n_frames %hacer para cada frame
-        %inicializo los campos de la estructura cam(i).frame(k)
-        cam(i).frame(k).x = [];
-        cam(i).frame(k).name = {}; % los nombres los guardo en un array de string, no problem se accede de la misma manera que un vector.
-        cam(i).frame(k).n = [];
-        cam(i).frame(k).time = time*k;         
-        for j=1:n_marcadores %hacer para cada marcador 
-            cam(i).frame(k).x = [cam(i).frame(k).x, cam(i).marker(j).x(:,k)]; %las columnas de cam(i).frame(k).x son nro de marcador
-            cam(i).frame(k).name= [cam(i).frame(k).name, cam(i).marker(j).name]; 
-            cam(i).frame(k).n = [cam(i).frame(k).n, j];
+end
+disp('Se han cargado los datos básicos de las estructuras. \nRestan las tablas de mapeo')
+%asignaciones que se deben hacer luego de completar todas las camaras
+
+for i=1:n_cams %hacer para todas las camaras  
+    tic
+    for k=1:cam(i).n_frames %hacer para cada frame
+        %cam(i).frame(k).like.like_cams = [1:n_cams];%genero un vector con los nombres de cada camara       
+        for ii=1:n_cams
+            if i~=ii %si las camaras son distintas
+                [~, ~, index_table, d_min] = cam2cam(cam(i), cam(ii), k);%devuelve todos los puntos de cam(i) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(ii)
+                cam(i).frame(k).like.mapping_table(:,ii) = index_table(:,2); %me quedo solo con los correspondientes en cam(ii)
+                cam(i).frame(k).like.d_min(:,ii) = d_min; 
+            else %si las camaras son la misma
+                cam(i).frame(k).like.mapping_table(:,ii) = [1:n_markers]';%cada marcador se corresponde consigo mismo
+                cam(i).frame(k).like.d_min(:,ii) = zeros(n_markers, 1);
+            end
         end
     end
-    %ACLARACION: las estructuras 'marker' y 'frame' son dos enfoques distintos de ordenar la misma información, la idea es utilizar lo
-    %conveniente en cada caso.
-    %NOTACION: 
-    %        cam(i).marker(j).x(:, k) para acceder a las coordenadas del marcador j en el frame k de la camara i.
-    %        cam(i).frame(k).x(:, j)  para acceder a las coordenadas del marcador j en el frame k de la camara i
-    %        cam(i).frame(k).name(j)  para acceder al nombre del marcador j en el frame k de la camara i
-    
+    toc
+    str=sprintf('Se cargo por completo la tabla de mapeo de la camara %d', i);
+    disp(str)
 end
 
-     
 
 
+if guardar==1
+    save('saved_vars/cam','cam');    
+end
 %% Matrices fundamentales
 %  matriz fundamental que mapea un punto de camara i en recta de camara j
-i=2; %elegir la camara de entrada
-j=4; %elegir la camara de salida
-F = vgg_F_from_P(cam(i).Pcam, cam(j).Pcam);
-%% Example of using vgg_gui_F  (ALGO NO FUNCIONA O NO SE ESTA CALCULANDO BIEN LA MATRIZ FUNDAMENTAL O EL PROGRAMA vgg_gui_F ESTA MAL)
-%%read in chapel images
-%im1 = imread('cam2.bmp');
-%im2 = imread('cam4.bmp');
-%%view epipolar geometry in GUI, move mouse with button down
-%%in either window to see transferred point
-%%NB function uses F transpose
-%vgg_gui_F(im1, im2, F')
+% i=2; %elegir la camara de entrada
+% d=4; %elegir la camara de salida
+% Pi = get_projection_matrix(cam(i));
+% Pd = get_projection_matrix(cam(d));
+% F= F_from_P(Pi, Pd);
 
-%% Visualización de las proyecciones
-n_cam = 3; %nro de camara a visualizar 
-%plotear(skeleton, cam(n).Pcam, cam(n).M, cam(n).N)
-%plotear(cam, n_cam, 'number');
-plotear(skeleton, 'number');
-%% Limpio variables 
-clearvars -except cam n_marcadores n_frames name_bvh skeleton
+%% Guardo y Limpio variables 
+
+clearvars -except cam n_cams n_markers n_frames name_bvh skeleton F
 disp('Variables cargadas en Workspace ;)')
-
