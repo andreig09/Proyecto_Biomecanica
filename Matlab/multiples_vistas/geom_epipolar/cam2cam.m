@@ -26,7 +26,7 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
     cam_d = varargin{2};%camara "derecha" o de destino 
     n_frame = varargin{3};%numero de frame  
     if (nargin < 4) %se quiere proyectar todos los puntos de cam_i a cam_d
-        index_xi = [1:get_info_in_frame(cam_i, n_frame, 'n_markers')];%genero un indice para cada marcadores de cam_i en el frame n_frame
+        index_xi = [1:get_info(cam_i,'frame', n_frame, 'n_markers')];%genero un indice para cada marcadores de cam_i en el frame n_frame
     else         
         index_xi = varargin{4}; %vector que contiene los indices de los puntos a proyectar
         
@@ -36,7 +36,7 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
     n_xi = size(index_xi, 2);
     
     %genero salidas
-    xi = get_markers_in_frame(cam_i, n_frame, index_xi);%vector con los puntos de cam_i en frame n_frame a proyectar sobre cam_d     
+    xi = get_info(cam_i,'frame', n_frame,'marker', index_xi, 'coord');%vector con los puntos de cam_i en frame n_frame a proyectar sobre cam_d     
     if (n_xi == 1) %tengo un solo punto xi para proyectar
         [xd, index_table, d_min] = xd_from_xi(cam_i, cam_d, n_frame, index_xi);
     else %tengo mas de un punto
@@ -72,10 +72,10 @@ function [xd, index_table, d_min] = xd_from_xi(cam_i, cam_d, n_frame, index_xi)
     F= F_from_P(Pi, Pd); 
     
     %efectuo las proyecciones
-    xi = get_markers_in_frame(cam_i, n_frame, index_xi);% tomo el punto xi de la camara cam_i a proyectar
+    xi = get_info(cam_i, 'frame', n_frame, 'marker', index_xi, 'coord');% tomo el punto xi de la camara cam_i a proyectar
     ld = F*xi; %recta en cam_d correspondiente al punto xi de cam_i
     ld = homog_norm(ld);%normalizo vector de la recta
-    xd = get_markers_in_frame(cam_d, n_frame); %obtengo todos las coordenadas de los marcadores en el frame n_frame de la camara derecha (destino)
+    xd = get_info(cam_d,'frame', n_frame, 'marker', 'coord'); %obtengo todos las coordenadas de los marcadores en el frame n_frame de la camara derecha (destino)
     
     index_table = ones(1, 2); %inicializo la tabla de indices
     

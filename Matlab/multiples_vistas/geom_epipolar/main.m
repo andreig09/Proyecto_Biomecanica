@@ -66,7 +66,7 @@ frame = struct(...
 
 path = struct(...
     'name',         blanks(15), ...%nombre de la trayectoria
-    'members',      zeros(1, n_frames), ...%secuencia de nombres asociados a la trayectoria
+    'members',      zeros(2, n_frames), ...%secuencia de nombres asociados a la trayectoria
     'state',        0.0, ...%con alguna metrica indica la calidad de la trayectoria
     'n_markers',    n_frames, ...%numero total de marcadores en la trayectoria
     'init_frame',   1,... %frame inicial de la trayectoria
@@ -158,7 +158,7 @@ for i=1:n_cams %hacer para todas las camaras
     for k=1:cam(i).n_frames %hacer para cada frame
         cam(i).frame(k).n_marker = n_marcadores;
         cam(i).frame(k).time = time(k);     
-        X = get_markers_in_frame(skeleton, k); %get_nube_marker(n_frame, structure, list_markers) 
+        X = get_info(skeleton, 'frame', k, 'marker', 'coord'); %obtengo todas las coordenadas de marcadores de skeleton en el frame k
         x = obtain_coord_retina(X, cam(i).info.projection_matrix);
         for j=1:n_marcadores %hacer para cada marcador             
             cam(i).frame(k).marker(j).coord =x(:, j);%Guardo la matriz de coordenadas homogeneas x=P*X , del marcador j del frame k en la camara i
