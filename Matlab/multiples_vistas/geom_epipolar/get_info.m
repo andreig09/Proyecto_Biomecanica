@@ -295,7 +295,7 @@ function info_out = get_markers_in_frame(varargin)
         info_out = cell(1, n_markers ); 
         comando1 = sprintf('{structure.frame(n_frame).marker.%s}',t_dato);%debo devolver un cell de string en lugar de vector con valores
         comando2 = sprintf('{structure.frame(n_frame).marker(list_markers).%s}', t_dato);
-    elseif strcmp(t_dato,'estado')
+    elseif strcmp(t_dato,'state')
         info_out = ones(1, n_markers);
     elseif (strcmp(t_dato, 'source_cam'))%esta opción es valida solo cuando structure=skeleton
         n_cams = structure.n_cams;
