@@ -1,8 +1,8 @@
 % parametros de entrada
-    % N1 - nube de puntos en 2D en camara 1 en formato (a,b)
+    % N1 - nube de puntos en 2D en camara 1 en formato euclideo (a,b)' o coord homogeneneas (a, b, 1)'
     % a - coordenada x (1) o y (2) del punto
 
-    % N2 - nube de puntos en 2D en camara 2 en formato (a,b)
+    % N2 - nube de puntos en 2D en camara 2 en formato euclideo (a,b)' o coord homogeneneas (a, b, 1)'
     
     % P1 - matriz de proyeccion de la cámara 1  
     % P2 - matriz de proyeccion de la cámara 2
@@ -22,15 +22,16 @@ end
 
 
 X = [];
-for i=1:size(N1,2)
+for i=1:size(N1,2)%para cada punto
   
     
     A = [N1(1,i)*P1(3,:)-P1(1,:);
         N1(2,i)*P1(3,:)-P1(2,:);
         N2(1,i)*P2(3,:)-P2(1,:);
         N2(2,i)*P2(3,:)-P2(2,:)];
-      [U,D,V] = svd(A);
-
+      %[U,D,V] = svd(A);
+       [~,~,V] = svd(A);
+       
        X(:,i) = reshape(V(:,4),1,4)';
       
        
