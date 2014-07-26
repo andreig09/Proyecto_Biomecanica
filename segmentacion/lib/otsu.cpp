@@ -509,7 +509,7 @@ int otsu(double* data_out, double** thr, double* sep, double* data, int xsize, i
 	for (int i=0;i<nbins;i++)
 	    cumu+=sep_aux[i];
 	*sep=sigma2Bmax/cumu;
-	
+
 	//*Iseg = data_out;
 	delete[] counts;
 	delete[] aux1;
