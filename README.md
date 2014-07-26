@@ -42,6 +42,6 @@ Tracking:
 -------------------------
 Performance:
 
-Matlab/Performance/Global/meanSquareDistance2D.m
+Matlab/Performance/Global/performance3D2D.m
 
 =====================
