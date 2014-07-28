@@ -37,7 +37,7 @@ CvBlobs blobsCirculares(CvBlobs intBlobs){
 		{
 			CvBlob *blob=(*it).second;
 			//if ((it->second->m10-it->second->m01 < 5) && (it->second->u02-it->second->u20 < 5) && (it->second->u11 < 5) )
-			if ((blob->u02-blob->u20 < 1000) && (blob->u20-blob->u02 < 6000) && (blob->u11 < 3000) )
+			if ((blob->u02-blob->u20 < 3000) && (blob->u20-blob->u02 < 3000) && (blob->u11 < 3000) )
 			{
 				//OBlobs->insert(it,(*it).second);
 				OBlobs->insert(CvLabelBlob(blob->label,blob));
@@ -74,7 +74,7 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	{
 	//Filtering the blobs (sacar el ruido)
 	//cvFilterByArea(*blobs,10,blobs[cvLargestBlob(*blobs)]->area);
-	cvFilterByArea(blobs,100,1000);
+	cvFilterByArea(blobs,150,1000);
 
 	circulos = blobsCirculares(blobs);
 

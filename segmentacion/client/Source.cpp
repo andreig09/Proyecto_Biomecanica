@@ -7,6 +7,7 @@
 #include"getThreshold.h"
 #include"detectarBlobs.h"
 
+
 //NameSpaces
 using namespace cv;
 //using namespace cvb;
@@ -88,7 +89,7 @@ int main(int argc, char *argv[]){
 
 	//delete[] detblobsI;
 
-    //iterate through each frames of the video      
+	//iterate through each frames of the video      
       while(true){
 		   //blobsDetectados* detblobs = new blobsDetectados();
 		   frame = cvQueryFrame(capture); 
@@ -103,9 +104,7 @@ int main(int argc, char *argv[]){
 		   //cout << "max threshold: " << thresh << "\n" ;
 
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
-
-		   //findCircles(imgThresh);
-		   
+		   		   
 		   detblobs = detectarBlobs(imgThresh); //Detectar markers fitlrados
 
 		   XMLAddFrame(frameNum,detblobs.blobs); //Agregar los blobs de este frame en el xml
