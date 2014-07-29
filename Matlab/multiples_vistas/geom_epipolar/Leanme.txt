@@ -1,2 +1,11 @@
 --->main.m es la cabeza de todo el resto son funciones 
 --->Para entender las estructuras ver el diagra Estructura de datos de la carpeta save_vars
+
+recta_epipolar.m -->Funcion que devuelve las rectas epipolares en camara derecha asociados a 
+		los puntos xi de camara izquierda
+reconstruccion.m -->Funcion que efectua la reconstruccion de un punto 3D a partir de 
+		puntos en dos camaras
+
+
+crear una funcion que devuelve los indices en un frame de los marcadores
+que poseen cierto nombre, ponerla dentro de get_info

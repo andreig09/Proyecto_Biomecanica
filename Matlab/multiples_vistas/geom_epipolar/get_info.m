@@ -1,5 +1,5 @@
 function info_out = get_info(varargin)
-% Funcion que recupera información de estructuras skeleton o cam(i)
+% Funcion que recupera informacion de estructuras skeleton o cam(i)
 %% Entrada
 % structure --> una estructura cam(i) o skeleton
 % lista de argumento, ver la sección de ejemplos, en la misma se
@@ -61,7 +61,7 @@ function info_out = get_info(varargin)
 %% ---------
 % Author: M.R.
 % created the 02/07/2014.
-% Copyright T.R.U.C.H.A.
+
 
 %% Cuerpo de la funcion
 

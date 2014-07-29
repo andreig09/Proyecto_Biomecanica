@@ -80,7 +80,7 @@ function [xd, index_table, d_min] = xd_from_xi(cam_i, cam_d, n_frame, index_xi)
     index_table = ones(1, 2); %inicializo la tabla de indices
     
     %encuentro las correspondencias y genero salida
-    [d_min, index_table(2)]=min(abs(xd'*ld));%VER ESTO  --->encuentro el punto xd que posee la minima distancia a la recta ld
+    [d_min, index_table(2)]=min(abs(xd'*ld));%encuentro el punto xd que minimice la metrica |xd'*ld| (o sea que el punto que mejor verifique la ecuacion de la recta, un valor grande con esta metrica indica una mayor distancia del punto a la recta) 
     %igual a encontrar el valor de (xd'*ld) más cercano al cero (agradecer simplicidad a que utilizamos coordenadas homogeneas ;) )
     xd=xd(:,index_table(2)); %devuelvo solo el que genero el minimo
     index_table(1)=index_xi; %agrego en la primera columna de tabla de indices el indice de xi
