@@ -35,7 +35,13 @@ Bloques de corrección:
 
 -------------------------
 Chequeo de visibilidad y oclusión:
+
 -------------------------
 Tracking:
+
+-------------------------
+Performance:
+
+Matlab/Performance/Global/performance3D2D.m
 
 =====================

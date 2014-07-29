@@ -21,6 +21,7 @@ double callOtsuN(IplImage* img)
 	int modes = 3;
 	double* thr;
 	double sep;
+	int indSigma2BMax;
 
 	IplImage *luminance = cvCreateImage(cvGetSize(img), IPL_DEPTH_8U, 1);
 
@@ -31,7 +32,7 @@ double callOtsuN(IplImage* img)
 	otsuN(luminance, img_seg_cv, modes, &thr, &sep); //Obtener 2 umbrales (en el caso de 3 niveles)
 	
 	double thresh;
-	
+		
 	thresh = getMaxThresh(modes-1, thr); //obtener el umbral más grande
 
 	return thresh;
