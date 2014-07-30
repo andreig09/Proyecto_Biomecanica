@@ -1,4 +1,4 @@
-Reconstruir un punto 3D
+%Reconstruir un punto 3D
 %1)cam2cam -->a la salida obtengo dos puntos relacionados
 %2)dlt------->a la salida obtengo el punto 3D
 %3) x= obtain_coord_retina(X, P) -->reproyecta en otras camaras
