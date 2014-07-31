@@ -28,12 +28,12 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
 %% EJEMPLOS
 %       n_frame = 1;
 %       index_xi = [1 2];
-%       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame, 'indice', index_xi)%devuelve todos los puntos de cam(1) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(2)
+%       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame, 'index', index_xi)%devuelve todos los puntos de cam(1) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(2)
 %       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame) %devuelve todos los puntos xi de cam1 y sus correspondientes contrapartes xd de cam2
 %       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame, 'show') %a diferencia de la linea anterior se devuelven
 %       %index_table y d_min no como cell sino como matrices, facilitando la visualizacion por consola de los resultados, el parametro 'show'
 %       %puede ponerse siempre
-%       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame, 'indice', index_xi, 'n_points', 2)%devuelve todos los puntos de cam(1) del
+%       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame, 'index', index_xi, 'n_points', 2)%devuelve todos los puntos de cam(1) del
 %       %frame n_frame con indice en index_xi y sus correspondientes 2 mejores contrapartes xd's de cam(2), ordenadas de mejor a peor.
 %       [xi, xd, index_table, d_min]= cam2cam(cam(1), cam(2), n_frame, 'n_points', 2) %devuelve todos los puntos xi de cam1 y sus
 %       %correspondientes 2 mejores contrapartes xd's de cam2. O sea que para un xi devuelve los 2 puntos mas cercanos a la recta ld=F*xi de la camara cam2 
@@ -49,7 +49,7 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
     cam_i = varargin{1};%camara "izquierda" o de origen
     cam_d = varargin{2};%camara "derecha" o de destino 
     n_frame = varargin{3};%numero de frame  
-    location_indice = find(strcmp(varargin, 'indice'), 1);
+    location_index = find(strcmp(varargin, 'index'), 1);
     location_n_points = find(strcmp(varargin, 'n_points'), 1); 
     location_umbral = find(strcmp(varargin, 'umbral'), 1);  
     visual = find(strcmp(varargin, 'show'), 1);  
@@ -57,11 +57,11 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
     n_markers_i = get_info(cam_i,'frame', n_frame, 'n_markers'); %numero de marcadores en la camara izquierda
     n_markers_d = get_info(cam_d,'frame', n_frame, 'n_markers'); %numero de marcadores en la camara derecha
     
-    if isempty(location_indice) %si no se ingreso un indice
+    if isempty(location_index) %si no se ingreso un indice
         %index_xi = [1:get_info(cam_i,'frame', n_frame, 'n_markers')];%genero un indice para cada marcadores de cam_i en el frame n_frame
         index_xi = [1:n_markers_i];%genero un indice para cada marcadores de cam_i en el frame n_frame
     else % se ingreso un indice
-        index_xi=varargin{ location_indice + 1};%la entrada que le sigue a string 'indice' es el indice    
+        index_xi=varargin{ location_index + 1};%la entrada que le sigue a string 'indice' es el indice    
     end
     
     if (isempty(location_umbral)) %si no se ingreso un umbral
@@ -154,8 +154,8 @@ end
     cam_i=varargin{1}; 
     cam_d=varargin{2};
     n_frame = varargin{3};
-    xi=varargin{ find(strcmp(varargin, 'point'))+1};%la entrada que le sigue a string 'indice' es el indice
-    index_xi = varargin{ find(strcmp(varargin, 'point'))+2};%la entrada que le sigue a string 'indice' es el indice
+    xi=varargin{ find(strcmp(varargin, 'point'))+1};%la entrada que le sigue a string 'index' es el indice
+    index_xi = varargin{ find(strcmp(varargin, 'point'))+2};%la entrada que le sigue a string 'index' es el indice
     if isempty(find(strcmp(varargin, 'n_points'))+1)
         n_points = 1;%solo se devuelve el primer minimo
     else
