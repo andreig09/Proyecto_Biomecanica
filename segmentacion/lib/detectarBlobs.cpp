@@ -3,6 +3,7 @@
 #include<highgui.h>
 //Input-Output
 #include<stdio.h>
+#include<math.h>
 //Blob Library Headers
 #include"cvblob.h"
 //#include <cvblob.h>
@@ -32,19 +33,24 @@ CvBlobs blobsCirculares(CvBlobs intBlobs){
 	CvBlobs *OBlobs = new CvBlobs;
 	int i = 0;
 	//CvBlobs::const_iterator i = OBlobs->begin();
+	double difMom;
 	
 	for (CvBlobs::const_iterator it=intBlobs.begin(); it!=intBlobs.end(); ++it)
 		{
-			CvBlob *blob=(*it).second;
+			//CvBlob *blob= new CvBlob;
+			CvBlob	*blob = (*it).second;
+				//*blob = *it->second;
 			//if ((it->second->m10-it->second->m01 < 5) && (it->second->u02-it->second->u20 < 5) && (it->second->u11 < 5) )
-			if ((blob->u02-blob->u20 < 3000) && (blob->u20-blob->u02 < 3000) && (blob->u11 < 3000) )
+			difMom = abs((blob->u02-blob->u20)/(blob->u02));
+			if ((difMom < 0.5) && (abs(blob->u11) < 10) )
 			{
 				//OBlobs->insert(it,(*it).second);
 				OBlobs->insert(CvLabelBlob(blob->label,blob));
 			}
+			//delete blob;
 		}
-	return *OBlobs;
 	delete OBlobs;
+	return *OBlobs;
 }
 
 //Funcion que a partir de una imagen filtrada devuelve los blobs.
