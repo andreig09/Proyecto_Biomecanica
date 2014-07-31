@@ -42,7 +42,7 @@ CvBlobs blobsCirculares(CvBlobs intBlobs){
 				//*blob = *it->second;
 			//if ((it->second->m10-it->second->m01 < 5) && (it->second->u02-it->second->u20 < 5) && (it->second->u11 < 5) )
 			difMom = abs((blob->u02-blob->u20)/(blob->u02));
-			if ((difMom < 0.5) && (abs(blob->u11) < 10) )
+			if ((difMom < 0.5) && (abs(blob->u11) < 15000) )
 			{
 				//OBlobs->insert(it,(*it).second);
 				OBlobs->insert(CvLabelBlob(blob->label,blob));
