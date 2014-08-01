@@ -61,7 +61,7 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
         %index_xi = [1:get_info(cam_i,'frame', n_frame, 'n_markers')];%genero un indice para cada marcadores de cam_i en el frame n_frame
         index_xi = [1:n_markers_i];%genero un indice para cada marcadores de cam_i en el frame n_frame
     else % se ingreso un indice
-        index_xi=varargin{ location_index + 1};%la entrada que le sigue a string 'indice' es el indice    
+        index_xi=varargin{ location_index + 1};%la entrada que le sigue a string 'index' es el indice    
     end
     
     if (isempty(location_umbral)) %si no se ingreso un umbral
