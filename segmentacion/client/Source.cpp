@@ -23,13 +23,13 @@ int main(int argc, char *argv[]){
 	
 	//Obtener video y separarlo en cuadros
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	if ( argc != 2 ) {// argc should be 2 for correct execution
+	//if ( argc != 2 ) {// argc should be 2 for correct execution
     // We print argv[0] assuming it is the program name
-    cout<<"Cantidad de argumentos incorrecta";
-	}else {
+    //cout<<"Cantidad de argumentos incorrecta";
+	//}else {
 
-	//capture = cvCaptureFromAVI("peladoFondoAzul.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
-	capture = cvCaptureFromAVI(argv[1]);
+	capture = cvCaptureFromAVI("2.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
+	//capture = cvCaptureFromAVI(argv[1]);
 
     if(!capture){
          printf("Capture failure\n");
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
     
 	frame = cvQueryFrame(capture);           
     if(!frame) return -1;
-	}
+	//}
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Declarar ventanas

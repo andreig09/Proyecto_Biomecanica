@@ -32,7 +32,8 @@ IplImage* filterOtsu(IplImage *img, int thresh){
 	
 	cvShowImage("filtro",threshy);
 	
-	return threshy;
-	cvReleaseImage(&threshy);
+	//cvReleaseImage(&threshy);
 	cvReleaseImage(&hsvframe);
+
+	return threshy;
 }

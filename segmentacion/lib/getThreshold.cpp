@@ -35,13 +35,14 @@ double callOtsuN(IplImage* img)
 		
 	thresh = getMaxThresh(modes-1, thr); //obtener el umbral más grande
 
-	return thresh;
-
 	//cvSaveImage("out.png",img_seg_cv); //esto guarda cada frame con los blobs detectados. Lo usaba para ver si coincidian con el xml
 
 	cvReleaseImage(&img_seg_cv);
-	cvReleaseImage(&img);
+	
 	cvReleaseImage(&luminance);
 	delete[] thr;
+
+	return thresh;
+	
 }
 
