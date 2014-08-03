@@ -30,29 +30,32 @@ struct imgtrack
 };
 
 CvBlobs blobsCirculares(CvBlobs intBlobs){
-	CvBlobs salida;
 	CvBlobs *OBlobs = new CvBlobs;
 	int i = 0;
 	//CvBlobs::const_iterator i = OBlobs->begin();
 	double difMom;
+	//double excentric;
 	
 	for (CvBlobs::const_iterator it=intBlobs.begin(); it!=intBlobs.end(); ++it)
 		{
 			//CvBlob *blob= new CvBlob;
-			CvBlob	*blob = (*it).second;
-			//*blob = *it->second;
+			CvBlob *blob;
+				blob = (*it).second;
+				*blob = *it->second;
 			//if ((it->second->m10-it->second->m01 < 5) && (it->second->u02-it->second->u20 < 5) && (it->second->u11 < 5) )
-			difMom = abs((blob->u02-blob->u20)/(blob->u02));
-			if ((difMom < 0.5) && (abs(blob->u11) < 15000) )
+			//difMom = abs((blob->n02-blob->n20)/(blob->n02));
+			difMom = abs((blob->n02-blob->n20)/((blob->n20)+(blob->n20)));
+			//excentric = (((blob->u20)-(blob->u02))*((blob->u20)-(blob->u02)) + 4*(blob->u11))/(blob->m00);
+			if ((difMom < 0.3) && (abs(blob->n11) < 1) )
+			//if ((excentric < 1.2) && (excentric > 0.8) )
 			{
 				//OBlobs->insert(it,(*it).second);
 				OBlobs->insert(CvLabelBlob(blob->label,blob));
 			}
 			//delete blob;
 		}
-	salida = *OBlobs;
-	delete OBlobs;	
-	return salida;
+	//delete OBlobs;
+	return *OBlobs;
 }
 
 //Funcion que a partir de una imagen filtrada devuelve los blobs.
@@ -61,10 +64,10 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	
 	//inicializar elementos
 	blobsDetectados salida;
-	CvBlobs* blobs = new CvBlobs; //structure to hold blobs
-	//CvBlobs circulos;
-	//Cvblobs blobs;
-	CvBlobs *circulos = new CvBlobs;
+	CvBlobs blobs; //structure to hold blobs
+	CvBlobs circulos;
+	//CvBlobs *blobs = new CvBlobs;
+	//CvBlobs *circulos = new CvBlobs;
 	
 	double dWidth = cvGetSize(filtrada).width;
     double dHeight = cvGetSize(filtrada).height;
@@ -74,27 +77,26 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 
 
 	//Finding the blobs
-	unsigned int result=cvLabel(filtrada,labelImg,*blobs);
+	unsigned int result=cvLabel(filtrada,labelImg,blobs);
 	
-	//int tamanioBlobs = blobs.size();
-	int tamanioBlobs = blobs->size();
+	int tamanioBlobs = blobs.size();
 
 	if ( tamanioBlobs > 0) //Si se detecta al menos 1 blob, se dibujan en la imagen y se numeran
 	{
 	//Filtering the blobs (sacar el ruido)
 	//cvFilterByArea(*blobs,10,blobs[cvLargestBlob(*blobs)]->area);
-	cvFilterByArea(*blobs,150,1000);
+	cvFilterByArea(blobs,10,1000);
 
-	*circulos = blobsCirculares(*blobs);
+	circulos = blobsCirculares(blobs);
 
 	//Rendering the blobs
 	//cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
-	cvRenderBlobs(labelImg,*circulos,filtrada,ImgBlobs);
-	cvRenderBlobs(labelImg,*blobs,filtrada,ImgBlobsAll);
+	cvRenderBlobs(labelImg,circulos,filtrada,ImgBlobs);
+	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobsAll);
 
 	//numerar(ImgBlobs,blobs);
-	numerar(ImgBlobs,*circulos);
-	numerar(ImgBlobsAll,*blobs);
+	numerar(ImgBlobs,circulos);
+	numerar(ImgBlobsAll,blobs);
 	
 	}
 	
@@ -102,16 +104,15 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 	cvShowImage("Blobs circulares", ImgBlobs);
 	cvShowImage("Blobs", ImgBlobsAll);
 		
-	salida.blobs = *circulos;
+	salida.blobs = circulos;
 	salida.imgBlobs = ImgBlobs;
-	
+	return salida;
+
 	cvReleaseImage(&ImgBlobs);
 	cvReleaseImage(&ImgBlobsAll);
 	cvReleaseImage(&labelImg);
-	delete blobs;
-	delete circulos;
-	
-	return salida;		
+	//delete blobs;
+	//delete circulos;	
 }
 
 //ubica un blob dado en otro conjunto de blobs.
