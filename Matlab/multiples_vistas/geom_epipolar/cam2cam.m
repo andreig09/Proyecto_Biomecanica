@@ -83,7 +83,7 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
     xi = get_info(cam_i,'frame', n_frame,'marker', index_xi, 'coord');%vector con los puntos de cam_i en frame n_frame a proyectar sobre cam_d     
     
     if (n_xi == 1) %tengo un solo punto xi para proyectar
-        [xd, index_table, d_min] = xd_from_xi(cam_i, cam_d, n_frame, 'point', xi, 'n_points', n_points);
+        [xd, index_table, d_min] = xd_from_xi(cam_i, cam_d, n_frame, 'point', xi, index_xi, 'n_points', n_points);
     else %tengo mas de un punto
         %inicializo salidas
         xd=cell(1, n_xi);

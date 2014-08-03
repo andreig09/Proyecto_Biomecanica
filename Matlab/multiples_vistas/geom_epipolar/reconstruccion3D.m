@@ -29,7 +29,11 @@ cam_d = varargin{2};
 n_frame = varargin{3};
 
 
-[xi, xd, index_table, ~]= cam2cam(cam_i, cam_d, n_frame); %devuelve todos los puntos xi de camara izquierda y sus correspondientes contrapartes xd de camara derecha
+[xi, xd, index_table, ~]= cam2cam(cam_i, cam_d, n_frame, 'show'); %devuelve todos los puntos xi de camara izquierda y sus correspondientes contrapartes xd de camara derecha
+
+if iscell(xd)%si xd es un cell lo llevo a matriz
+    xd=[xd{:}];
+end
 
 Pi = get_info(cam_i, 'projection_matrix'); %matrix de proyeccion de la camara izquierda
 Pd = get_info(cam_d, 'projection_matrix'); %matrix de proyeccion de la camara derecha

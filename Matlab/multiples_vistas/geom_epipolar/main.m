@@ -177,7 +177,7 @@ for i=1:n_cams %hacer para todas las camaras
         %cam(i).frame(k).like.like_cams = [1:n_cams];%genero un vector con los nombres de cada camara       
         for ii=1:n_cams
             if i~=ii %si las camaras son distintas
-                [~, ~, index_table, d_min] = cam2cam(cam(i), cam(ii), k);%devuelve todos los puntos de cam(i) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(ii)
+                [~, ~, index_table, d_min] = cam2cam(cam(i), cam(ii), k, 'show');%devuelve todos los puntos de cam(i) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(ii)
                 cam(i).frame(k).like.mapping_table(:,ii) = index_table(:,2); %me quedo solo con los correspondientes en cam(ii)
                 cam(i).frame(k).like.d_min(:,ii) = d_min; 
             else %si las camaras son la misma

@@ -1,4 +1,19 @@
-function [X, validation, n_cam3, x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, varargin )
+%% ESTA FUNCION SE PASO A VALIDATION3D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, varargin )
 
 % Se reconstruye un punto 3D X a partir de dos puntos x1 y x2, que se corresponden con un mismo marcador. x1 pertenece a cam1 y x2 a cam2.
 % Luego se reproyecta el punto X sobre una tercer camara cam_3 generando el punto x3_1.
@@ -39,14 +54,6 @@ function [X, validation, n_cam3, x3, dist]=validation3D(cam, n_cam1, n_cam2, n_f
 % validation -->vector cuya columna j es un booleano que indica si el punto X(:,j) es un marcador correctamente reconstruido o no.
 
 
-
-%% IDEA DE IMPLEMENTACION
-% 1) hago la funcion para un unico punto x1 validation3D_one(cam, n_cam1, n_cam2, n_frame, varargin )
-% 2) obtengo la matriz x1 de dimension 3xn cuyas columnas son los n puntos de entrada de cam1 dados por index_x1
-% 3) genero un cell array x1_cell donde cada componente sea una columna de x1 -->x1_cell = mat2cell(x1, 3, ones(1, size(x1, 2)))
-% 4) luego utilizo la funcion cellfunc la cual efectua una misma funcion cambiando un parametro determinado por componentes de un cell array
-%  EJEMPLO: hacer la media de todos los vectores de x1_cell --->media = cellfun(@(x) mean(x), x1_cell), la salida cumple media{j}=mean(x1_cell{j})
-% 5) luego modifico el cell de salida para devolver el formato correcto en la funcion validation3D 
 
 %% CUERPO DE LA FUNCION
 
@@ -112,29 +119,15 @@ for i = 1:(n_cams-2) %para todas las camaras en n_cam3
     [flag, d] = check_both_criteria(x3, x3_1, x3_2, umbral, cost);    
     
     %de los puntos encontrados para cada marcador se selecciona el mejor, o sea el que minimiza la funcion de costo d
-    [index_x3, d_aux] = choice_best_x3(flag, d)
-    %necesito un solo punto por marcador no validado, el que minimice la funcion de costo 'd'
-    d_aux = d.*flag; %dejo prendidas solo las distancias que verificaron el umbral
-    d_aux(d_aux==0)=inf; %pongo en infinito las distnacias que estaban en cero 
-    (min_d; row) = min(d_aux, [], 1); %busco los minimos por columna y me devuelve un vector de minimos min_d y la fila donde se encontraba el minimo 
+    [index_current_x3, index_X, d_min, current_index ] = choice_best_x3(flag, d);
     
-%     for j=1:size(flag, 2) %para todos los marcadores aun no validados
-%         index_x3 = find(flag(:,j)==1); %encontrar todos los x3 que sirvan
-%         if (~isempty(index_x3)) %no se encontro ningun punto que verifique
-%             if length(index_x3)>1            
-%             [min_d, index] = min(d(index_x3));%min_d es la distancia minima entre los x3 que sirven
-%             index_x3 = index_x3(indice);% me quedo solo con el indice del punto que minimiza la funcion de costo 'd'   
-%             end
-%             
-%             %guardo en la salida del marcador current_X(:,j) que corresponde al marcador X(:,current_index(j))la informacion del punto que lo valida
-%             n_cam(current_index(j))= n_cam3(i); %guardo el numero de camara actual
-%             x3_out(:,(current_index(j))) = x3(:,index_x3); %guardo las coordenadas del punto
-%             dist(current_index(j), :)=[d1(index_x3), d2(index_x3), d(index_x3)];
-%         end
-%     end
-    %actualizo la lista de puntos de cam1 que aun no fueron validados
-    [~, current_index] = find(flag==0);
-    
+     %actualizo la salida con estos resultados
+     %[X, validation, n_cam3, index_x3, dist]=update_output(X, validation, n_cam3, x3, dist)
+    validation(index_X)=1;
+    n_cam3(index_X) = n_cam3(i);
+    index_x3(index_X) = index_current_x3;%en cada X(j) se guarda su correspondiente x3 que lo valida
+    dist(index_X) = d_min;
+        
     if isempty(current_index) %ya se validaron las reconstrucciones de todos los puntos de cam1 solicitados
         return %salgo de la funcion
     end
@@ -175,7 +168,7 @@ function [flag, d] = check_both_criteria(x3, x3_1, x3_2, umbral, cost)
 %cost ----> vector [alpha, beta] que contiene los costos a aplicar a cada criterio en particular
 
 %% SALIDA
-%flag ---> vector que indica que matriz donde el componente flag(i, j) vale 1 si el vector x3(:,i) 
+%flag ---> matriz donde flag(i,j) vale 1 si x3(:,i)  
 %        verifica el primer criterio con centro x3_1(j) y el segundo criterio con centro x3_2(j), en caso contrario vale 0 
 %        Por lo tanto permite validar el marcador current_X(:,j)=X(:,current_index(j))
 %d ----->matriz que contiene el valor de la funcion de costo asociadas a cada componente de flag. d = alpha*d1 + beta*d2
@@ -190,6 +183,7 @@ function [flag, d] = check_both_criteria(x3, x3_1, x3_2, umbral, cost)
     %veo cuales cumplen ambos criterios 
     flag = flag1.*flag2;% flag(i,j) indica con 1 si el punto x3(:,i) verifica ambos criterios, validando de esta manera 
                         %al marcador current_X(:,j) que corresponde al marcador X(:,current_index(j))
+   
     %calculo la matriz funcion de costo 
     d = cost(1).*d1 + cost(2).*d2; %funcion de costo, d(i, j) es la funcion de costo del punto x3(:,i) 
                                     %con respecto al marcador current_X(:,j) que corresponde  
@@ -215,7 +209,21 @@ function [x3_1, x3_2, l3_x1, l3_x2] =  reprojection(P1, P2, P3, x1, x2, X)
 end
 
 
-function [index_x3, d_aux] = choice_best_x3(d)
+function [index_current_x3, index_X, d_min, current_index] = choice_best_x3(flag, d)
 % Funcion que devuelve los indices de los puntos x3 que minimizan la funcion de costo d para cada marcador en current_X
 
+    %necesito un solo punto por marcador no validado, el que minimice la funcion de costo 'd'
+    d_aux = d.*flag; %dejo prendidas solo las distancias que verificaron el umbral
+    d_aux(d_aux==0)=inf; %pongo en infinito las distancias que estaban en cero 
+    [d_min, index_current_x3] = min(d_aux, [], 1); %busco los minimos por columna y me devuelve un vector de minimos min_d y la fila donde se encontraba el minimo 
+                                            %indica el indice del punto x3
+    
+    %necesito saber que marcador tiene al menos un punto x3 que verifique ambos criterios de validacion
+    flag=sum(flag, 1); %acumulo las banderas prendidas con 1 de cada columna (o sea cada marcador).
+                        %flag deja de ser una matriz y pasa a ser un vector donde flag(j) es mayor a cero si existe al menos un x3 
+                        %que valida current_X(j)=X(:,current_index(j)) 
+    index_current_X = find(flag>0); %me quedo con los indices de current_X que tienen al menos un x3 para validarlo  
+    index_X = current_index(index_current_X);
+    current_index = find(flag==0); %actualizo los indices de X que aun no pueden ser validados
+end
 
