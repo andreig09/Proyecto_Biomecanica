@@ -46,7 +46,7 @@ CvBlobs blobsCirculares(CvBlobs intBlobs){
 			//difMom = abs((blob->n02-blob->n20)/(blob->n02));
 			difMom = abs((blob->n02-blob->n20)/((blob->n20)+(blob->n20)));
 			//excentric = (((blob->u20)-(blob->u02))*((blob->u20)-(blob->u02)) + 4*(blob->u11))/(blob->m00);
-			if ((difMom < 0.3) && (abs(blob->n11) < 1) )
+			if ((difMom < 0.3) && (abs(blob->n11) < 0.05) )
 			//if ((excentric < 1.2) && (excentric > 0.8) )
 			{
 				//OBlobs->insert(it,(*it).second);
