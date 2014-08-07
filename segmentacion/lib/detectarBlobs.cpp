@@ -35,10 +35,11 @@ CvBlobs blobsCirculares(CvBlobs intBlobs){
 	//CvBlobs::const_iterator i = OBlobs->begin();
 	double difMom;
 	//double excentric;
-	
+	//CvBlob *blob= new CvBlob;
+
 	for (CvBlobs::const_iterator it=intBlobs.begin(); it!=intBlobs.end(); ++it)
 		{
-			//CvBlob *blob= new CvBlob;
+			
 			CvBlob *blob;
 				blob = (*it).second;
 				*blob = *it->second;
@@ -52,8 +53,9 @@ CvBlobs blobsCirculares(CvBlobs intBlobs){
 				//OBlobs->insert(it,(*it).second);
 				OBlobs->insert(CvLabelBlob(blob->label,blob));
 			}
-			//delete blob;
+			
 		}
+	//delete blob;
 	//delete OBlobs;
 	return *OBlobs;
 }
@@ -106,11 +108,10 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 		
 	salida.blobs = circulos;
 	salida.imgBlobs = ImgBlobs;
-	return salida;
-
 	cvReleaseImage(&ImgBlobs);
 	cvReleaseImage(&ImgBlobsAll);
 	cvReleaseImage(&labelImg);
+	return salida;
 	//delete blobs;
 	//delete circulos;	
 }
