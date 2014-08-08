@@ -3,6 +3,7 @@
 #include<highgui.h>
 //Input-Output
 #include<stdio.h>
+#include<stdlib.h>
 #include"ColorFilter.h"
 #include"getThreshold.h"
 #include"detectarBlobs.h"
@@ -23,7 +24,7 @@ int main(int argc, char *argv[]){
 	
 	//Obtener video y separarlo en cuadros
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	if ( argc != 2 ) {// argc should be 2 for correct execution
+	if ( (argc != 2) && (argc != 3) ) {// argc should be 2 for correct execution
     // We print argv[0] assuming it is the program name
     cout<<"Cantidad de argumentos incorrecta";
 	}else {
@@ -65,10 +66,19 @@ int main(int argc, char *argv[]){
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
 	//VALORES INICIALES:
-
+	
 	//Determinar umbral
-	thresh = callOtsuN(frame);
-	thresh2 = thresh*255;
+	if (argc == 2)
+	{
+		thresh = callOtsuN(frame);
+		thresh2 = thresh*255;
+		cout<<"Umbral en el frame"<<frameNum<<"="<<thresh2<<"\n";
+	}else 
+	{
+		thresh2 = atof(argv[2]);
+		cout<<"Umbral constante para todos los frames"<<"="<<thresh2<<"\n";
+	}
+	
 	//cout << "max threshold: " << thresh2 << "\n" ;
 
 	//Filtrar imagen
@@ -99,12 +109,16 @@ int main(int argc, char *argv[]){
            frame=cvCloneImage(frame); 
 
 		   //Detectar Umbral para frame actual
-		   thresh = callOtsuN(frame);
-		   thresh2 = thresh*255;
+		   if (argc == 2)
+			{
+				thresh = callOtsuN(frame);
+				thresh2 = thresh*255;
+				cout<<"Umbral en el frame"<<frameNum<<"="<<thresh2<<"\n";
+		   }
 		   //cout << "max threshold: " << thresh << "\n" ;
 
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
-		   		   
+		   	   
 		   detblobs = detectarBlobs(imgThresh); //Detectar markers fitlrados
 
 		   XMLAddFrame(frameNum,detblobs.blobs); //Agregar los blobs de este frame en el xml

@@ -211,7 +211,7 @@ imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage
 	salida.BlobsTrack = imgtracked;
 	cvShowImage("Seguimiento", imgtracked);
 	salida.tracking = linea;
-	return salida;
 	cvReleaseImage(&imgtracked);
 	cvReleaseImage(&linea);
+	return salida;
 }
