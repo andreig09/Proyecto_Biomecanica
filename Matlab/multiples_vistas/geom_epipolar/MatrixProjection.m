@@ -1,6 +1,6 @@
 function Pcam= MatrixProjection(f, resolution, sensor, sensor_fit, Tc, Rc)
 % Construye las matrices de parametros intrinsecos y extrinsecos a partir de
-% los datos en Blender y devuelve tanto la matriz de proyeccion. 
+% los datos en Blender, devuelve  la matriz de proyeccion. 
 
 %% ENTRADA
 % f -->dist. focal en mm
