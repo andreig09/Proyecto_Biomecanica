@@ -1,0 +1,16 @@
+Códigos para extracción de fondo
+
+BackgroundSubstraction
+	- Código original del HumanEva
+	http://vision.cs.brown.edu/humaneva/download1.html
+
+gauss
+	- Código anterior modificado para ser aplicado a cualquier video.
+	Modela cada píxel a lo largo de la secuencia con una distribución gaussiana
+
+dif
+	- Aplica la extracción de fondo restando cuadro a cuadro de un video con una imagen en la que aparezca solamente el 
+	fondo del video. Al resultado luego se le aplica un  umbral.
+
+Ejemplos de resultados en el drive:
+https://drive.google.com/?tab=mo&authuser=0#folders/0B0l941oYAKc_dmgzUWJtSm05bGs
