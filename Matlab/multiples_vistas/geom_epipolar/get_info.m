@@ -114,7 +114,7 @@ function info_out = get_info_in_path(varargin)
 %% ---------
 % Author: M.R.
 % created the 05/07/2014.
-% Copyright T.R.U.C.H.A. 
+
 
 %% Cuerpo de la funcion
 
@@ -172,7 +172,7 @@ function info_out = get_info_in_frame(varargin)
 %% ---------
 % Author: M.R.
 % created the 05/07/2014.
-% Copyright T.R.U.C.H.A. 
+ 
 
 %% Cuerpo de la funcion
 
@@ -241,7 +241,7 @@ function info_out = get_markers_in_frame(varargin)
 %% ---------
 % Author: M.R.
 % created the 30/06/2014.
-% Copyright T.R.U.C.H.A.
+
 
 %% Cuerpo de la funcion
 

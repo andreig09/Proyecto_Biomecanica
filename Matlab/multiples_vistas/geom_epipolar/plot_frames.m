@@ -8,6 +8,7 @@ function plot_frames(varargin)
 %                 'frame'     -->indica que el siguiente parametro es el unico frame a visualizar
 %                 'n_prev'-->indica que el siguiente parametro es la cantidad de frames previos se desean visualizar, si no se indica n_prev=0
 %                 'coord' -->si se coloca agrega como etiquetas las coordenadas de todos los marcadores 
+%                 'num'   -->agrega como etiquetas el numero de cada marcador en dicho frame  
 %                 'name'  -->si se coloca agrega como etiquetas los nombres de todos los marcadores 
 %                 'marker'-->indica que el siguiente parametro es un vector con la lista de marcadores a plotear, si no se coloca se asume que se quiere devolver todos los marcadores
 %                 'fill'  -->si se coloca indica que los marcadores deben tener un relleno de color asociado a su parametro de calidad state (rojo si state=1 y verde si state=0)
@@ -15,17 +16,18 @@ function plot_frames(varargin)
 %% EJEMPLOS
 % structure = cam(1);
 % plot_frames(structure,  'frame', 1) %plotea el frame 1 de la estructura structure 
-% plot_frames(structure,  'init_frame', 1, 'coord') %plotea todos los puntos del frame 1 de la estructura structure e indica sus coordenadas hasta el final
-% plot_frames(structure,  'init_frame', 1, 'name') %plotea todos los puntos del frame 1 de la estructura structure e indica sus nombres hasta el final
-% plot_frames(structure,  'init_frame', 1, 'fill') %plotea todos los puntos del frame 1 de la estructura structure e indica sus nombres hasta el final
-% plot_frames(structure,  'init_frame', 1,  'marker', [1 2]) %plotea los marcadores 1 y 2 del frame 1 hasta el final
-% plot_frames(structure,  'init_frame', 1,  'marker', [1 2], 'fill') %plotea los marcadores 1 y 2 del frame 1 y rellena marcadores con colores hasta el final
-% plot_frames(structure,  'init_frame', 1,  'marker', [1 2], 'coord') %plotea los marcadores 1 y 2 del frame 1 e indica sus coordenadas hasta el final
-% plot_frames(structure,  'init_frame', 1,  'marker', [1 2], 'name') %plotea los marcadores 1 y 2 del frame 1 e indica sus nombres hasta el final
-% plot_frames(structure,  'init_frame', 1,  'marker', [1 2], 'coord', 'fill') %plotea los marcadores 1 y 2 del frame 1, indica sus coordenadas y rellena con colores hasta el final
-% plot_frames(structure,  'init_frame', 1,  'marker', [1 2], 'name', 'fill') %plotea los marcadores 1 y 2 del frame 1, indica sus nombres y rellena con colores hasta el final
-% plot_frames(structure,  'init_frame', 1, 'last_frame', 4) %plotea todos los puntos desde el frame 1 de la estructura structure hasta el frame 4
-% plot_frames(structure,  'init_frame', 1, 'last_frame', 20, 'n_prev', 3) %plotea todos los puntos desde el frame 1 de la estructura structure hasta el frame 20 y se muestran los 3 previos
+% plot_frames(structure,  'frame', 1, 'coord') %plotea todos los puntos del frame 1 de la estructura structure e indica sus coordenadas hasta el final
+% plot_frame(structure,   'frame', 1, 'num') %plotea todos los puntos del frame 1 de la estructura structure e indica el numero de marcador
+% plot_frames(structure,  'frame', 1, 'name') %plotea todos los puntos del frame 1 de la estructura structure e indica sus nombres hasta el final
+% plot_frames(structure,  'frame', 1, 'fill') %plotea todos los puntos del frame 1 de la estructura structure e indica sus nombres hasta el final
+% plot_frames(structure,  'frame', 1,  'marker', [1 2]) %plotea los marcadores 1 y 2 del frame 1 hasta el final
+% plot_frames(structure,  'frame', 1,  'marker', [1 2], 'fill') %plotea los marcadores 1 y 2 del frame 1 y rellena marcadores con colores hasta el final
+% plot_frames(structure,  'frame', 1,  'marker', [1 2], 'coord') %plotea los marcadores 1 y 2 del frame 1 e indica sus coordenadas hasta el final
+% plot_frames(structure,  'frame', 1,  'marker', [1 2], 'name') %plotea los marcadores 1 y 2 del frame 1 e indica sus nombres hasta el final
+% plot_frames(structure,  'frame', 1,  'marker', [1 2], 'coord', 'fill') %plotea los marcadores 1 y 2 del frame 1, indica sus coordenadas y rellena con colores hasta el final
+% plot_frames(structure,  'frame', 1,  'marker', [1 2], 'name', 'fill') %plotea los marcadores 1 y 2 del frame 1, indica sus nombres y rellena con colores hasta el final
+% plot_frames(structure,  'frame', 1, 'last_frame', 4) %plotea todos los puntos desde el frame 1 de la estructura structure hasta el frame 4
+% plot_frames(structure,  'frame', 1, 'last_frame', 20, 'n_prev', 3) %plotea todos los puntos desde el frame 1 de la estructura structure hasta el frame 20 y se muestran los 3 previos
 % plot_frames(structure,  'frame', 40, 'n_prev', 3) %plotea todos los puntos desde el frame 1 de la estructura structure hasta el frame 20 y se muestran los 3 previos
 %% Cuerpo de la funcion
 
@@ -38,6 +40,7 @@ index_frame = find(strcmp(varargin, 'frame'));
 index_prev = find(strcmp(varargin, 'n_prev'));
 any_name = any(strcmp(varargin, 'name'));
 any_coord = any(strcmp(varargin, 'coord'));
+any_num = any(strcmp(varargin, 'num'));
 any_fill = any(strcmp(varargin, 'fill'));
 index_marker = find(strcmp(varargin, 'marker'));
 
@@ -55,15 +58,15 @@ else %de lo contrario se termina en el ultimo frame
     last_frame = get_info(structure, 'n_frames');
 end
 
-if ~isempty(index_frame) %no se quiere iterar simplemente se quiere un frame (no podemos tener paremtros init_frame o last_frame)    
+if ~isempty(index_frame) %no se quiere iterar simplemente se quiere un frame (no podemos tener parametros init_frame o last_frame)    
     init_frame = varargin{index_frame+1};
     last_frame = init_frame;
-    if ~(isempty(index_init)|isempty(index_last>1)) %no estan vacios los parametros imcompatibles con 'frame'
+    if ~(isempty(index_init)||isempty(index_last>1)) %no estan vacios los parametros imcompatibles con 'frame'
         str = ['Se a ingresado parametros incompatibles de frame '];
         error('frame:IndicesIncompatibles',str)
         return
     end
-elseif (isempty(index_init>1)|isempty(index_last>1)) %simplemente no se ingreso nada
+elseif (isempty(index_init>1)||isempty(index_last>1)) %simplemente no se ingreso nada
     str = ['Debe ingresarse algun parametro para frame '];
     error('frame:IndicesInexistentes',str)
     return
@@ -86,16 +89,15 @@ else
     str_marker = sprintf('');%texto vacio pues no se ingresa lista con  marcadores
 end
 
-if any_name %si existe el texto 'name'
-    str_name = sprintf(', ''name''');
-else
-    str_name = sprintf('');%texto vacio
-end
 
-if any_coord %si existe el texto 'coord'
-    str_coord = sprintf(', ''coord''');
+if any_num %si existe el texto 'num'
+    str_label = sprintf(', ''num''');
+elseif any_coord %si existe el texto 'coord'
+    str_label = sprintf(', ''coord''');
+elseif any_name %si existe el texto 'name'
+    str_label = sprintf(', ''name''');
 else
-    str_coord = sprintf('');%texto vacio
+    str_label = sprintf('');%texto vacio
 end
 
 if any_fill %si existe el texto 'fill'
@@ -106,11 +108,13 @@ end
 
 
 %iteraciones
-str = [sprintf('plot_one_frame(structure, k'), str_marker, str_name, str_coord, str_fill, ')'];
+str = [sprintf('plot_one_frame(structure, k'), str_marker, str_label, str_fill, ')'];
 str2 = [sprintf('plot_one_frame(structure, j'), str_marker ', ''tiny'')'];%este llamado se deja para marcadores previos
 %frame_rate=get_info(structure, 'frame_rate');%por si quiero ver el frame rate original
 for k = init_frame:last_frame
+    tic
     eval(str) 
+    toc
     %%%%%%ESTE CICLO FOR SE QUITARIA UTILIZO LAS TRAYECTORIAS DIRECTAMENTE, O SEA SACO LOS INDICES DE UNA TRAYECTORIA, RECOLECTO LOS PUNTOS Y LUEGO PLOTEAR
     %%%%%%OTRA ES RECOLECTAR PUNTOS DE FRAME Y LUEGO PLOTEAR, PARA ELLO DEBO CAMBIAR LA FORMA DE PLOT_ONE_FRAME O UTILIZAR OTRA FUNCION QUE ES LO
     %%%%%%MAS RAZONABLE CREO, ALGUNA LLAMADA PLOT_PATH
@@ -139,6 +143,7 @@ function plot_one_frame(varargin)
 % n_frame ---->numero de frame a plotear
 % properties --> una lista de propiedades donde cada una se componen de un string y un valor asociado, o solo un string. Pueden ir en cualquier orden
 %                 'coord' -->agrega como etiquetas las coordenadas de todos los marcadores 
+%                 'num'   -->agrega como etiquetas el numero de cada marcador en dicho frame  
 %                 'name'  -->agrega como etiquetas los nombres de todos los marcadores 
 %                 'marker'-->indica que el siguiente parametro es un vector con la lista de marcadores a plotear
 %                 'fill'  -->indica que los marcadores deben tener un relleno de color asociado a su parametro de calidad state (rojo si state=1 y verde si state=0)
@@ -148,6 +153,7 @@ function plot_one_frame(varargin)
 % structure = cam(1);
 % plot_one_frame(structure,  1) %plotea todos los puntos del frame 1 de la estructura structure
 % plot_one_frame(structure,  1, 'coord') %plotea todos los puntos del frame 1 de la estructura structure e indica sus coordenadas
+% plot_one_frame(structure,  1, 'num') %plotea todos los puntos del frame 1 de la estructura structure e indica el numero de marcador
 % plot_one_frame(structure,  1, 'name') %plotea todos los puntos del frame 1 de la estructura structure e indica sus nombres
 % plot_one_frame(structure,  1, 'fill') %plotea todos los puntos del frame 1 de la estructura structure e indica sus nombres
 % plot_one_frame(structure,  1,  'marker', [1 2]) %plotea los marcadores 1 y 2 del frame 1
@@ -165,10 +171,11 @@ structure = varargin{1};
 n_frame = varargin{2};
 any_name = any(strcmp(varargin, 'name'));%verifico que parametros existen
 any_coord = any(strcmp(varargin, 'coord'));
+any_num = any(strcmp(varargin, 'num'));
 any_fill = any(strcmp(varargin, 'fill'));
 any_tiny =  any(strcmp(varargin, 'tiny'));
 index_marker = find(strcmp(varargin, 'marker'));
-exist_label = any_name||any_coord;
+exist_label = any_name||any_coord||any_num;
 
 %se gestiona la lista de marcadores a plotear
 if isempty(index_marker) %no se ingresa lista de vectores
@@ -181,12 +188,21 @@ end
 marker = get_info(structure,'frame', n_frame, 'marker', list_markers );%obtengo las coordenadas de los marcadores de interes
 
 %se gestionan las etiquetas
+
 if (any_name)&&(~any_coord) %si algun parametro es 'name' y no se encuentra 'coord', entonces devuelvo etiquetas nombres
     t_label =get_info(structure, 'frame',n_frame , 'marker', list_markers, 'name'); %cargo los nombres como etiquetas para plotear
-    exist_label = 1; %aviso que hay etiqueta
+    %exist_label = 1; %aviso que hay etiqueta
 elseif (any_coord)%si algun argumento es 'coord' y no se encuentra 'name' entonces devuelvo coordenadas    
     t_label = coord2string(marker);
-    exist_label = 1; %aviso que hay etiqueta 
+    %exist_label = 1; %aviso que hay etiqueta 
+elseif (any_num) %por ultimo se revisa que no se esten pidiendo etiquetas num
+    t_label = num2cell(list_markers);
+    for i=1:length(t_label) %llevo los numeros a string
+        t_label{i} = num2str(t_label{i}); 
+    end
+    %exist_label = 1
+else %si llegue hasta aqui es que no hay etiquetas
+    exist_label = 0;
 end
 
 
@@ -289,13 +305,18 @@ function marker_str =coord2string(marker)
     is_2D = ( marker(3,:)==ones(1, n_markers) );%verifico si tengo coordenadas homogeneas normalizadas 2D, para 2D solo se guardan este tipo de coord
     if is_2D
         marker = marker([1 2],:); %Me quedo con las dos primeras coordenadas que son las euclideas
+        for j=1:n_markers %para todas los marcadores
+            str=sprintf('( %0.2f , %0.2f )', marker(:,j));%paso columna j de numero a un string con dos numeros decimales
+            marker_str{j}=str; %guardo string    
+        end
+    else
+        for j=1:n_markers %para todas los marcadores
+            str=sprintf('( %0.2f , %0.2f, %0.2f )', marker(:,j));%paso columna j de numero a un string con dos numeros decimales
+            marker_str{j}=str; %guardo string
+            %marker_str{2,j}=num2str(marker(2,j)); %paso fila 2 columna j de numero a un string
+            %marker_str{3,j}=num2str(marker(3,j)); %paso fila 3 columna j de numero a un string
+        end
     end
-    for j=1:n_markers %para todas los marcadores
-        str=sprintf('( %0.2f , %0.2f, %0.2f )', marker(:,j));%paso columna j de numero a un string con dos numeros decimales
-        marker_str{j}=str; %guardo string
-        %marker_str{2,j}=num2str(marker(2,j)); %paso fila 2 columna j de numero a un string
-        %marker_str{3,j}=num2str(marker(3,j)); %paso fila 3 columna j de numero a un string
-    end    
 return
 
 

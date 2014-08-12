@@ -116,9 +116,9 @@ function C = esfera2cam(X_0, r, P, varargin)
       
       if debug_on         
           x0 = obtain_coord_retina(X_0(:,j), P);%centro de la conica
-          r_retina = (x-x0*ones(1, size(x, 2)));
-          r_retina = pdist2(r_retina', zeros(size(r_retina')));
-          r_retina = mean(diag(r_retina));
+%           r_retina = (x-x0*ones(1, size(x, 2)));
+%           r_retina = pdist2(r_retina', zeros(size(r_retina')));
+%           r_retina = mean(diag(r_retina)); %distancia media de los puntos al "centro"
           %genero puntos internos y externos a la conica para evaluar las variaciones de signo de la funcion de la conica (diag(x'*C{1}*x)) fuera y dentro
           %de la misma.
           %z1 = (x0*ones(1, size(x, 2)) + x)/2; %puntos a media distancia entre lospuntos de la conica y el centro
