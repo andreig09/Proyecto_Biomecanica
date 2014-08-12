@@ -1,5 +1,42 @@
 function [X_,enlazado]=do_tracking(X)
 
+%{
+
+Toma como entrada una matriz cuyas columnas son marcadores, de la forma
+
+x1  x2 ... x1  x2  ...
+y1  y2 ... y1  y2  ...
+z1  z2 ... z1  z2  ...
+f   f      f+1 f+1 
+
+Las primeras tres filas corresponden a coordenadas x,y,z (para el caso 2D, la coordenada z es constante 1)
+
+La cuarta fila corresponde al frame al que pertenece cada marcador anonimo
+detectado
+
+La salida es la misma matriz con filas adicionales, y un struct con los
+enlaces entre frames sucesivos y las variaciones de aceleracion resultantes
+
+x1
+y1
+z1
+f
+n1
+da1
+d1
+
+n1 corresponde al marcador que se realizo el tracking. En el primer frame
+que se trackea, se inicializa desde 1 hasta la cantidad de frames
+detectados, luego marcadores en sucesivos frames respetan esa misma
+notacion
+
+da1, es la variacion de aceleracion resultante en el enlace en el enlace
+que se eligio
+
+d1 es la distancia entre marcadores enlazados
+
+%}
+
 if size(X,2)<size(X,1)
     X=X';
 end
