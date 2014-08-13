@@ -1,9 +1,15 @@
-function plot_rectas(lx, varargin, ventana)
+function plot_rectas(lx, varargin )
 %Funcion que permite plotear un conjunto de rectas en un plano
 
 %% ENTRADA
 %lx --> es una matriz cuyas columnas son los coeficientes de la recta en coordenadas homogeneas
-%       ax+by+c= se guarda como lx=(a;b;c)        
+%       ax+by+c= se guarda como lx=(a;b;c)
+
+%% EJEMPLOS
+% figure; hold on; axis equal;
+% axis(-100 100 100 100]);
+% plot_rectas(lx, 'Color', 'm', 'LineWidth', 2); 
+
 %% CUERPO DE LA FUNCION
 
 %Para tener los parametros que necesita la funcion drawLine() se debe pasar de la notacion lx=(a;b;c) a lx=(-c/a ; 0; -b/a; 1)
@@ -15,9 +21,8 @@ lx = [-c./a;...
       zeros(1,n);...
       -b./a; ...
       ones(1, n)...
-      ];
-%L = createLine(lx')  
-drawLine(lx', ventana)       
+      ];     
+drawLine(lx', varargin{:})       
 end
 
 

@@ -1,5 +1,5 @@
 function [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, varargin )
-
+% Funcion que permite reconstruir y validar las reconstrucciones 3D
 % Se reconstruye un punto 3D X a partir de dos puntos x1 y x2, que se corresponden con un mismo marcador. x1 pertenece a cam1 y x2 a cam2.
 % Luego se reproyecta el punto X sobre una tercer camara cam3 generando el punto x3_1.
 % Por otro lado se trazan las rectas epipolares l3_x1 y l3_x2 correspondientes a los puntos x1 de cam1 y x2 de cam2, sobre la retina de cam3.

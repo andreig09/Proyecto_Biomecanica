@@ -16,7 +16,7 @@ Funciones por bloques:
 -------------------------
 Segmentación:
 
-segmentacion/CMakeLists.txt
+segmentacion/CMakeLists.txt<
 segmentacion/client/Source.cpp
 segmentacion/client/CMakeLists.txt
 segmentacion/include/ColorFilter.h

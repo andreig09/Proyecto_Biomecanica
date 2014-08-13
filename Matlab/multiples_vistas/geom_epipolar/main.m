@@ -30,7 +30,7 @@ name_bvh = 'Mannequin.bvh';
 
 %% Parametros de main
 
-guardar=1;%para guardar las estructuras generadas pongo 1 
+guardar=0;%para guardar las estructuras generadas pongo 1 
 graficar = 0; % si se desea ver la estructura skeleton_old
 n_markers = n_marcadores; %numero total de marcadores en skeleton
 n_frames = n_frames; %numero total de frames a tratar
@@ -156,7 +156,7 @@ for i=1:n_cams %hacer para todas las camaras
     
     %genero la estructura frame para la camara
     for k=1:cam(i).n_frames %hacer para cada frame
-        cam(i).frame(k).n_marker = n_marcadores;
+        cam(i).frame(k).n_markers = n_marcadores;
         cam(i).frame(k).time = time(k);     
         X = get_info(skeleton, 'frame', k, 'marker', 'coord'); %obtengo todas las coordenadas de marcadores de skeleton en el frame k
         x = obtain_coord_retina(X, cam(i).info.projection_matrix);
@@ -168,11 +168,11 @@ for i=1:n_cams %hacer para todas las camaras
         end        
     end    
 end
-disp('Se han cargado los datos básicos de las estructuras. \nRestan las tablas de mapeo')
+disp('Se han cargado los datos basicos de las estructuras. \nRestan las tablas de mapeo')
 %asignaciones que se deben hacer luego de completar todas las camaras
 
 for i=1:n_cams %hacer para todas las camaras  
-    tic
+    
     for k=1:cam(i).n_frames %hacer para cada frame
         %cam(i).frame(k).like.like_cams = [1:n_cams];%genero un vector con los nombres de cada camara       
         for ii=1:n_cams
@@ -186,7 +186,7 @@ for i=1:n_cams %hacer para todas las camaras
             end
         end
     end
-    toc
+    
     str=sprintf('Se cargo por completo la tabla de mapeo de la camara %d', i);
     disp(str)
 end
