@@ -1,4 +1,4 @@
-function [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, varargin )
+function [X, validation, n_cam3, index_x3, dist, valid_points]=validation3D(cam, n_cam1, n_cam2, n_frame, varargin )
 % Funcion que permite reconstruir y validar las reconstrucciones 3D
 % Se reconstruye un punto 3D X a partir de dos puntos x1 y x2, que se corresponden con un mismo marcador. x1 pertenece a cam1 y x2 a cam2.
 % Luego se reproyecta el punto X sobre una tercer camara cam3 generando el punto x3_1.
@@ -49,33 +49,45 @@ function [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam
 %n_frame = 100;
 %n_cam1=1;
 %n_cam2=4;
+%%genero el cell array valid_points que guarda informacion sobre que puntos ya fueron utilizados para validar algun marcador. 
+%%valid_points{i}(j)=1  indica que el marcador j de la camara i esta disponidble para validar.
+% valid_points=cell(n_cams, 1);
+% for i=1:n_cams
+%     n_markers = get_info(cam(i), 'frame', n_frame, 'n_markers');
+%     valid_points{i} = ones(1, n_markers);
+% end
 
+%%en este caso se agrega la lista de puntos validos para efectuar la busqueda de validacion
+%[X, validation, n_cam3, index_x3, dist, valid_points]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', [1:26], [1:26], 'cost', [1 1], 'umbral',  0.0001, valid_points)
+
+%%El string 'replace' al final de cada entrada significa que se efectua reposicion de marcadores, o sea que NO se quitan los puntos que ya
+%%validaron algun marcador.
 %%en este caso busca validar las respectivas reconstrucciones hechas por  los puntos de indice [2, 5] de cam1 y sus correspondientes en cam2,
 %%utilizando un umbral y los pesos para la funcion de costo. Las camaras se ingresan fuera de orden a proposito para ver si funciona. 
-% [X, validation, n_cam3, index_x3, dist]=validation3D(cam, [1 2], [2 1], n_frame, 'index', [2, 5],[2, 5], 'cost', [1 1], 'umbral',  0.0001);
+% [X, validation, n_cam3, index_x3, dist]=validation3D(cam, [1 2], [2 1], n_frame, 'index', [2, 5],[2, 5], 'cost', [1 1], 'umbral',  0.0001, 'replace');
 % 
 % n_cam1 = [1 3 4]; index_x1 = [2 5 1]; n_cam2 = [2, 4, 5]; index_x2=[2 5 1]; 
-% [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', index_x1, index_x2, 'cost', [1 1], 'umbral',  0.0001)
+% [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', index_x1, index_x2, 'cost', [1 1], 'umbral',  0.0001, 'replace')
 
-%temporalmente uno de los peores casos
+%%temporalmente uno de los peores casos
 %n_cam1 = [1*ones(1, 6) 2*ones(1, 6) 3*ones(1, 6) 4*ones(1, 6) 5 4]; index_x1 = [1:26];
 %n_cam2 = [2*ones(1, 6) 3*ones(1, 6) 4*ones(1, 6) 5*ones(1, 6) 1 3]; index_x2 = [1:26];
-%[X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', index_x1, index_x2, 'cost', [1 1], 'umbral',  0.0001)
+%[X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', index_x1, index_x2, 'cost', [1 1], 'umbral',  0.0001, 'replace')
 
-% %1e-5 es el limite inferior del umbral para funcionamiento correcto.
-% %si se ingresan escalares en n_cam1 y n_cam2 se asume que todos los puntos en index_x1 son de cam1 al igual que los de index_x2 son de cam2
+%%1e-5 es el limite inferior del umbral para funcionamiento correcto.
+%%si se ingresan escalares en n_cam1 y n_cam2 se asume que todos los puntos en index_x1 son de cam1 al igual que los de index_x2 son de cam2
 % n_cam1=1; n_cam2=2; 
-% [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral', 1e-5 ) ;
-% %voy a generar a proposito unos puntos X que no deberian encontrar una reconstruccion valida siempre
-% [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', [2, 5],[2, 21], 'cost', [1 1], 'umbral',  0.0001)
+% [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral', 1e-5 , 'replace') ;
+%%voy a generar a proposito unos puntos X que no deberian encontrar una reconstruccion valida siempre
+% [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', [2, 5],[2, 21], 'cost', [1 1], 'umbral',  0.0001, 'replace')
 %   x2 = get_info(cam(2), 'frame', n_frame, 'marker', 'coord');
 %   x2(:,[2, 4, 6, 8, 10]) = [ones(1, 4) 400;2*ones(1, 4) 150; zeros(1, 4), +100];
 %   cam_aux=cam;
 %   cam_aux(2) = set_info(cam(2), 'frame', n_frame, 'marker', 'coord', x2); %setea con las columnas de "x2" las coordenadas de todos los marcadores en el frame 1 de structure
 % 
-%  [X, validation, n_cam3, index_x3, dist]=validation3D(cam_aux, n_cam1, n_cam2, n_frame, 'index', [2],[2], 'cost', [1 1], 'umbral',  0.0001)
-% [X, validation, n_cam3, index_x3, dist]=validation3D(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral',  0.0001)
-% [X, validation, n_cam3, index_x3, dist]=validation3D(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:2],[1:2], 'cost', [1 1], 'umbral', 1e-5 ) 
+% [X, validation, n_cam3, index_x3, dist]=validation3D(cam_aux, n_cam1, n_cam2, n_frame, 'index', [2],[2], 'cost', [1 1], 'umbral',  0.0001, 'replace')
+% [X, validation, n_cam3, index_x3, dist]=validation3D(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral',  0.0001, 'replace')
+% [X, validation, n_cam3, index_x3, dist]=validation3D(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:2],[1:2], 'cost', [1 1], 'umbral', 1e-5, 'replace' ) 
 
 
 
@@ -89,6 +101,8 @@ function [X, validation, n_cam3, index_x3, dist]=validation3D(cam, n_cam1, n_cam
 location_index = find(strcmp(varargin, 'index'), 1);
 location_cost = find(strcmp(varargin, 'cost'), 1);
 location_umbral = find(strcmp(varargin, 'umbral'), 1);
+location_replace = find(strcmp(varargin, 'replace'), 1); %en este caso no se quitan los puntos que validaron alguna vez, y por lo tanto no se ingresa la matriz
+                                                           %invalid_points
 
 if isempty(location_cost) %no se agrego vector de costos
     cost = [1, 1]; 
@@ -111,8 +125,6 @@ else %si se agrego tabla de indice
 end
 
 
-
-
 %incializo las salidas
 n_cams = size(cam, 2); %numero total de camaras del experimento
 n_points = size(index_x1, 2);
@@ -123,16 +135,13 @@ n_cam3 = -ones(n_cams-2, n_points);
 X = -ones(3, n_points);
 
 
-
-
-
-%ordeno las entradas para tener la camara con menor numeracion del par en n_cam1
-[n_cam1, n_cam2, index_x1, index_x2]=ordenar(n_cam1, n_cam2, index_x1, index_x2);
-
 n= length(n_cam1);
 if n==1 %solo se tiene un par de camaras
-    [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', index_x1, index_x2, 'cost', cost, 'umbral', umbral);
+    %[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', index_x1, index_x2, 'cost', cost, 'umbral', umbral);
+    [X, validation, n_cam3, index_x3, dist, valid_points]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, varargin{:});
 else
+    %ordeno las entradas para tener la camara con menor numeracion del par en n_cam1
+    [n_cam1, n_cam2, index_x1, index_x2]=ordenar(n_cam1, n_cam2, index_x1, index_x2);
     for i=1:(n_cams-1) %como estas las camaras ordenadas puedo terminar en n_cams-1
         index1 = (n_cam1 == i);
         if sum(index1)>0 %si se encontro alguna n_cam1=i
@@ -140,8 +149,13 @@ else
                 index2 = (n_cam2 == j);        
                 index = find( index1.*index2==1); %index indica los lugares donde se tiene  n_cam1(index)=i y n_cam2(index)=k
                 if ~isempty(index) %existe la pareja de camaras
-                    [X_aux, validation_aux, n_cam3_aux, index_x3_aux, dist_aux]=...
-                        validation3D_two_cams(cam, i, j, n_frame, 'index', index_x1(index), index_x2(index), 'cost', cost, 'umbral', umbral);
+                    if isempty(location_replace)
+                        [X_aux, validation_aux, n_cam3_aux, index_x3_aux, dist_aux, valid_points]=...                        
+                            validation3D_two_cams(cam, i, j, n_frame, 'index', index_x1(index), index_x2(index),  varargin{4:size(varargin, 2)});
+                    else 
+                        [X_aux, validation_aux, n_cam3_aux, index_x3_aux, dist_aux]=...                        
+                            validation3D_two_cams(cam, i, j, n_frame, 'index', index_x1(index), index_x2(index),  varargin{4:size(varargin, 2)});
+                    end
                     X(:,index)=X_aux;
                     validation(:,index) = validation_aux;
                     n_cam3(:,index) = n_cam3_aux*ones(1, length(index));
@@ -176,7 +190,7 @@ index_x2(index) = aux_point;
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, varargin )
+function [X, validation, n_cam3, index_x3, dist, valid_points]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, varargin )
 
 
 %% ENTRADA
@@ -209,27 +223,41 @@ function [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_ca
 % close all
 % n_frame = 100;
 % n_cam1=1;
-% n_cam2=2; 
+% n_cam2=2;
+% n_cams=size(cam, 2);
+%%genero el cell array valid_points que guarda informacion sobre que puntos ya fueron utilizados para validar algun marcador. 
+%%valid_points{i}(j)=1  indica que el marcador j de la camara i esta disponidble para validar.
+% valid_points=cell(n_cams, 1);
+% for i=1:n_cams
+%     n_markers = get_info(cam(i), 'frame', n_frame, 'n_markers');
+%     valid_points{i} = ones(1, n_markers);
+% end
+
 %tic 
- %en este caso busca validar las respectivas reconstrucciones hechas por  los puntos de indice [2, 5] de cam1 y sus correspondientes en cam2,
-%utilizando un umbral y los pesos para la funcion de costo.  
-%[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', [2, 5],[2, 5], 'cost', [1 1], 'umbral',  0.0001)
-%limite inferior del umbral para funcionamiento correcto
-%[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral', 1e-5 ) 
-%si se agrega el string 'debug' se puede hacer una comprobacion grafica con las conicas frontera y los puntos
-%[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral', 1e-5, 'debug' ) 
+%%en este caso se agrega la lista de puntos validos para efectuar la busqueda de validacion
+%[X, validation, n_cam3, index_x3, dist, valid_points]=validation3D(cam, n_cam1, n_cam2, n_frame, 'index', [1:26], [1:26], 'cost', [1 1], 'umbral',  0.0001, valid_points)
+
+%%El string 'replace' al final de cada entrada significa que se efectua reposicion de marcadores, o sea que NO se quitan los puntos que ya
+%%validaron algun marcador.
+%%en este caso busca validar las respectivas reconstrucciones hechas por  los puntos de indice [2, 5] de cam1 y sus correspondientes en cam2,
+%%utilizando un umbral y los pesos para la funcion de costo.  
+%[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', [2, 5],[2, 5], 'cost', [1 1], 'umbral',  0.0001, 'replace')
+%%limite inferior del umbral para funcionamiento correcto
+%[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral', 1e-5, 'replace' ) 
+%%si se agrega el string 'debug' se puede hacer una comprobacion grafica con las conicas frontera y los puntos
+%[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral', 1e-5, 'debug', 'replace' ) 
 %toc
-%voy a generar a proposito unos puntos X que no deberian encontrar una reconstruccion valida siempre
-%[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', [2, 5],[2, 21], 'cost', [1 1], 'umbral',  0.0001)
+%%voy a generar a proposito unos puntos X que no deberian encontrar una reconstruccion valida siempre
+%[X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_cam1, n_cam2, n_frame, 'index', [2, 5],[2, 21], 'cost', [1 1], 'umbral',  0.0001, 'replace')
 %   x2 = get_info(cam(2), 'frame', n_frame, 'marker', 'coord');
 %   x2(:,[2, 4, 6, 8, 10]) = [ones(1, 4) 400;2*ones(1, 4) 150; zeros(1, 4), +100];
 %   cam_aux=cam;
 %   cam_aux(2) = set_info(cam(2), 'frame', n_frame, 'marker', 'coord', x2); %setea con las columnas de "x2" las coordenadas de todos los marcadores en el frame 1 de structure
 % tic
-% [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam_aux, n_cam1, n_cam2, n_frame, 'index', [2],[2], 'cost', [1 1], 'umbral',  0.0001)
-% [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral',  0.0001)
-% [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:2],[1:2], 'cost', [1 1], 'umbral', 1e-5 ) 
-% [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral', 1e-5, 'debug') 
+% [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam_aux, n_cam1, n_cam2, n_frame, 'index', [2],[2], 'cost', [1 1], 'umbral',  0.0001, 'replace')
+% [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral',  0.0001, 'replace')
+% [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:2],[1:2], 'cost', [1 1], 'umbral', 1e-5 , 'replace') 
+% [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam_aux, n_cam1, n_cam2, n_frame, 'index', [1:26],[1:26], 'cost', [1 1], 'umbral', 1e-5, 'debug', 'replace') 
 % toc
 
 
@@ -246,6 +274,10 @@ function [X, validation, n_cam3, index_x3, dist]=validation3D_two_cams(cam, n_ca
  location_cost = find(strcmp(varargin, 'cost'), 1);
  location_umbral = find(strcmp(varargin, 'umbral'), 1);
  location_debug = find(strcmp(varargin, 'debug'), 1); 
+ 
+ location_replace = find(strcmp(varargin, 'replace'), 1); %en este caso no se quitan los puntos que validaron alguna vez, y por lo tanto no se ingresa la matriz
+                                                           %invalid_points
+ 
 
 if isempty(location_cost) %no se agrego vector de costos
     cost = [1, 1]; 
@@ -272,6 +304,12 @@ if isempty(location_debug) %no se quiere debug
 else
     debug_on=1;
 end
+
+if isempty(location_replace) %si no se va a reponer los puntos que ya validaron el ultimo parametro es invalid_points
+    aux=size(varargin, 2); %indice del ultimo elemento de varargin
+    valid_points=varargin{aux};
+end
+    
 
 %incializo las salidas
 n_cams = size(cam, 2); %numero total de camaras del experimento
@@ -300,7 +338,7 @@ x2 = get_info(cam2,'frame', n_frame, 'marker', index_x2, 'coord'); %devuelve las
 
 %se efectua procedimiento para cam3, cam3 es toda camara distinta de cam1 y cam2
 
-n_cam3 = find( ([1:n_cams]~=n_cam1)&([1:n_cams]~=n_cam2) )';%devuelve un vector con todas los numeros de camaras que no sean cam1 o cam2
+n_cam3 = find( ((1:n_cams)~=n_cam1)&((1:n_cams)~=n_cam2) )';%devuelve un vector con todas los numeros de camaras que no sean cam1 o cam2
 index = index_x1; %esta variable es utilizada para mantener los indices de los puntos para los cuales no se tiene una reconstruccion valida
                        %Vector que indica cuyos elementos son los indices de los X que aun no fueron validados                        
                        
@@ -308,9 +346,14 @@ for i = 1:(n_cams-2) %para todas las camaras en n_cam3
     
     cam3 = cam(n_cam3(i)); %el indice de la camara 3 actual viene dado por n_cam3(i)
     
-      
     %obtengo todos los puntos de cam3 y su matriz de proyeccion
-    x3 = get_info(cam3, 'frame', n_frame, 'marker', 'coord'); %devuelve las coordenadas de todos los marcadores en el frame n_frame de cam3(i)
+    if isempty(location_replace) %si no se quiere hacer reposicion de los marcadores que validaron anteriormente
+        list_index_x3 = find(valid_points{n_cam3(i)});
+    else 
+        n_markers = get_info(cam3, 'frame', n_frame, 'n_markers');
+        list_index_x3 = [1:n_markers];
+    end   
+    x3 = get_info(cam3, 'frame', n_frame, 'marker',list_index_x3,  'coord'); %devuelve las coordenadas de todos los marcadores en el frame n_frame de cam3(i)
     P3 = get_info(cam3, 'projection_matrix'); %matrix de proyeccion de cam3
     
     %obtengo los puntos x3_1 y x3_2
@@ -325,12 +368,24 @@ for i = 1:(n_cams-2) %para todas las camaras en n_cam3
     %de los puntos que satisfacen los criterios encontrados para cada marcador se selecciona el mejor, o sea el que minimiza la funcion de costo d
     [index_best_x3, index_val, d_min] = choice_best_x3(flag, d, index, debug_on);
     
-     %actualizo la salida  
+     
+    
+    %actualizo la salida  
      for k=1:length(index_val) 
          validation(i, :) =or(validation(i, :), (index(:)==index_val(k))'); %voy prendiendo los elementos que fueron validados en la camara i
-     end     
-     index_x3(i,:) = index_best_x3;%en cada X(j) se guarda su correspondiente x3 que lo valida. flag_col(j) vale 1 en ese caso
-     
+     end      
+     if isempty(location_replace) %si no se quiere hacer reposicion de los marcadores que validaron anteriormente
+         index_x3(i,:) = list_index_x3(index_best_x3);%en cada X(j) se guarda su correspondiente x3 que lo valida. flag_col(j) vale 1 en ese caso
+         if sum(validation(i,:))>0 %si se valido algun punto
+             validaron= find(validation(i,:)==1) ;
+             valid_points{n_cam1}(index_x1(validaron))=0;
+             valid_points{n_cam2}(index_x2(validaron))=0;%quito la pareja de entrada cuya reconstruccion encontro al menos una validacion
+             validaron=index_x3(i, validaron);%devuelve los indices de los puntos que validaron algun marcador
+             valid_points{n_cam3(i)}(validaron) = 0; %pongo en cero los puntos que ya validaron algun marcador
+         end
+     else %se efectua reposicion
+         index_x3(i,:) = index_best_x3;%en cada X(j) se guarda su correspondiente x3 que lo valida. flag_col(j) vale 1 en ese caso
+     end
      
      if debug_on
          for k=1:length(index) %para cada marcador
@@ -341,6 +396,7 @@ for i = 1:(n_cams-2) %para todas las camaras en n_cam3
      else 
          dist(i,:)=d_min;
      end 
+     
      
      
      
