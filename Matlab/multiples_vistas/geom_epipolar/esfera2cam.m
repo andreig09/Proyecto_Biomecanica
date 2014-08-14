@@ -1,4 +1,4 @@
-function C = esfera2cam(X_0, r, P, varargin)
+function [C, r_retina] = esfera2cam(X_0, r, P, varargin)
 %Esta funcion permite proyectar esferas 3D sobre la retina de una camara, devolviendo un cell array con las matrices de coeficientes de cada conica 2D
 % (Ver Zisserman seccion 2.2.3 p30-31 sobre conicas)
 % Se aprovecha la idea de que sin importar la retina sobre la que se proyecta la imagen va a ser una circunferencia, lo importante es encontrar
@@ -23,6 +23,8 @@ function C = esfera2cam(X_0, r, P, varargin)
 %      C = [a  ,  b/2 , d/2;  
 %           b/2,  c   , e/2; 
 %           d/2,  e/2 , 1  ]
+%r_retina -->vector donde la componente r_retina(j) indica el radio medio
+%           de la conica C{j} asociado a la camara de matriz P
 
 %% METODO
 % Se encuentra el centro de la camara Ocam = ker(P), las tres primeras coordenadas de este punto tambien puede ser vistas 
@@ -70,6 +72,7 @@ function C = esfera2cam(X_0, r, P, varargin)
       
   %inicializo la salida
   C = cell(1, n_sph);
+  r_retina=zeros(1, n_sph);
   
   %se obtiene el centro de la camara Ocam y el vector normal a la retina
   Ocam = null(P);
@@ -113,8 +116,15 @@ function C = esfera2cam(X_0, r, P, varargin)
       C{j} = [cc(1)     cc(2)/2     cc(4)/2 ;...
               cc(2)/2   cc(3)       cc(5)/2;...
               cc(4)/2   cc(5)/2     cc(6)   ]; 
-      
-      if debug_on         
+      %calculo en radio medio de la conica (este parametro es util en el caso que la conica se aproxime a una circunferencia, lo cual deberia pasar si no hay distorcion en la camara)
+       x0 = obtain_coord_retina(X_0(:,j), P);%centro de la conica
+       r_aux = (x-x0*ones(1, size(x, 2)));
+       r_aux = pdist2(r_aux', zeros(1, size(r_aux', 2)));
+       r_aux = mean(r_aux); %distancia media de los puntos al "centro"   
+       r_retina(j) = r_aux;%radio de la conica j
+       
+       
+       if debug_on         
           x0 = obtain_coord_retina(X_0(:,j), P);%centro de la conica
 %           r_retina = (x-x0*ones(1, size(x, 2)));
 %           r_retina = pdist2(r_retina', zeros(size(r_retina')));
