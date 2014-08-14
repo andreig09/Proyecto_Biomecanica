@@ -25,10 +25,10 @@ n_fin=300;
 % Elijo frame inicial 20, debido al movimiento erratico previo del macaco
 
 for n_frame=n_ini:n_fin
-    if(mod(n_frame,10)==0)
-        disp([ 'Reconstruyendo... ' num2str(100*(n_frame-n_ini)/(n_fin-n_ini)) '%']);
-        clc;
-        
+    
+    if mod(ceil(100*(n_frame-n_ini+1)/(n_fin-n_ini)),10)==0
+        disp(['Reconstruyendo... ' num2str(100*(n_frame-n_ini+1)/(n_fin-n_ini)) '%']);
+        clc
     end;
     
     % Alineo los marcadores, asumiendo misma cantidad de marcadores entre
@@ -62,6 +62,7 @@ Z = [Z(1:3,:);Xi(4,:)]; %me quedo solo con las coordenadas euclideas, agrego lin
 
 % Desde aqui, se puede plotear todas las frames, tanto de 3D, como de las
 % multiples camaras 2D, comentar el return
+%{
 for i=min(Xi(4,:)):max(Xi(4,:))
 figure(1)
 subplot(2,2,1)
@@ -74,7 +75,7 @@ subplot(2,2,2)
 plot3(Z(1,Z(4,:)==i),Z(2,Z(4,:)==i),Z(3,Z(4,:)==i),'.');
 axis([min(Z(1,:)),max(Z(1,:)),min(Z(2,:)),max(Z(2,:)),min(Z(3,:)),max(Z(3,:))]);
 end;
-
+%}
 %%
 
 Y=Z;
@@ -88,7 +89,19 @@ elseif dim_plot==6
     titulo = 'V.Acc. entre enlaces';
 end
 
-close all;for i=1:max(Y_(5,:)) plot(min(Y_(4,Y_(5,:)==i)):max(Y_(4,Y_(5,:)==i)),Y_(dim_plot,Y_(5,:)==i));title([titulo ',Marcador ' num2str(i)]);pause; end;
+%{
+for marker=1:max(Y_(5,:))
+    close all;
+    plot3(Y_(1,Y_(5,:)==marker),Y_(2,Y_(5,:)==marker),Y_(3,Y_(5,:)==marker),'x');
+    title(num2str(marker));
+    pause(1);
+end;
+%}
+return;
+
+marker=10;
+
+
 
 %%
 return;
