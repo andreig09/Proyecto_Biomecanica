@@ -43,6 +43,9 @@ function [X, validation, n_cam3, index_x3, dist, valid_points]=validation3D(cam,
 % validation -->matriz  de validacion, 
 %                        validation(i, j)=1 indica que el punto de indice index_x3(i,j) VALIDA al punto X(:,j).
 %                        validation(i, j)=0 indica que el punto de indice index_x3(i,j) NO VALIDA al punto X(:,j), pero es la mejor opcion que se encontro.
+% valid_points --> cell array valid_points que guarda informacion sobre que puntos ya fueron utilizados para validar algun marcador. 
+%                  %valid_points{i}(j)=1  indica que el marcador j de la camara i esta disponible para futuras validaciones.
+%                  %valid_points{i}(j)=0  indica que el marcador j de la camara i ya fue utilizado para validar algun marcador.
 
 %% EJEMPLOS
 %clc
@@ -216,7 +219,8 @@ function [X, validation, n_cam3, index_x3, dist, valid_points]=validation3D_two_
 % dist -------->matriz de distancias (costos), dist(i,j) es la funcion de costo asociada al punto index_x3(i,j) 
 %               funcion de costo -->d = alpha*d3_1 + beta*d3_2
 % validation -->vector cuya columna j es un booleano que indica si el punto X(:,j) es un marcador correctamente reconstruido o no.
-
+% valid_points --> cell array valid_points que guarda informacion sobre que puntos ya fueron utilizados para validar algun marcador. 
+%                  %valid_points{i}(j)=1  indica que el marcador j de la camara i esta disponible para futuras validaciones.
 
 %% EJEMPLOS
 % clc
