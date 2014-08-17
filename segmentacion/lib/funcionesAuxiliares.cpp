@@ -82,11 +82,14 @@ void startXML(){
 
 //Funcion para escribir el xml de los markers detectados
 void XMLAddBlobs(CvBlobs blobs, FILE *file){
+	int i =0;
 	CvPoint centroide;
 	for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it){
+		i++;
 		centroide.x = it->second->centroid.x;
 		centroide.y = it->second->centroid.y;
-		fprintf(file, "\t\t%s%i%s\n", "<Marker id=\"", it->first, "\" >");
+		//fprintf(file, "\t\t%s%i%s\n", "<Marker id=\"", it->first, "\" >");
+		fprintf(file, "\t\t%s%i%s\n", "<Marker id=\"", i, "\" >");
 		fprintf(file, "\t\t\t%s%i%s%i%s\n", "<Centroid x=\"", centroide.x, "\" y=\"", centroide.y, "\" />");
 		fprintf(file, "\t\t%s\n", "</Marker>");
 	}
