@@ -125,13 +125,13 @@ str2 = {'name', 'name_bvh', 'n_frames', 'n_paths', 'n_cams', 'frame_rate'};
 %proceso la entrada
 structure_out = varargin{1};
 if sum(strcmp(varargin{2}, str1)) %si el segundo argumento es algun string de str1 
-    comando = sprintf('structure_out.info.%s=varargin{3}', varargin{2}); %genero el comando que me setea dicho argumento    
+    comando = sprintf('structure_out.info.%s=varargin{3};', varargin{2}); %genero el comando que me setea dicho argumento    
 elseif sum(strcmp(varargin{2}, str2)) %si el segundo argumento es algun string de str2
-    comando = sprintf('structure_out.%s=varargin{3}', varargin{2}); %genero el comando que me devuelve dicho argumento    
+    comando = sprintf('structure_out.%s=varargin{3};', varargin{2}); %genero el comando que me devuelve dicho argumento    
 elseif strcmp(varargin{2}, 'frame') %si el segundo argumento es el string 'frame' 
-    comando = sprintf('structure_out=set_info_in_frame(structure_out, varargin{3:nargin})'); %paso del parametro 3 en adelante a la funcion get_info_frame que se encarga de obtener info de frames
+    comando = sprintf('structure_out=set_info_in_frame(structure_out, varargin{3:nargin});'); %paso del parametro 3 en adelante a la funcion get_info_frame que se encarga de obtener info de frames
 elseif strcmp(varargin{2}, 'path')   
-    comando = sprintf('structure_out=set_info_in_path(structure_out, varargin{3:nargin})'); %paso del parametro 3 en adelante a la funcion get_info_path que se encarga de obtener info de paths    
+    comando = sprintf('structure_out=set_info_in_path(structure_out, varargin{3:nargin});'); %paso del parametro 3 en adelante a la funcion get_info_path que se encarga de obtener info de paths    
 end
 %obtengo la salida
 eval(comando);

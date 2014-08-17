@@ -112,9 +112,9 @@ str = [sprintf('plot_one_frame(structure, k'), str_marker, str_label, str_fill, 
 str2 = [sprintf('plot_one_frame(structure, j'), str_marker ', ''tiny'')'];%este llamado se deja para marcadores previos
 %frame_rate=get_info(structure, 'frame_rate');%por si quiero ver el frame rate original
 for k = init_frame:last_frame
-    tic
+    %tic
     eval(str) 
-    toc
+    %toc
     %%%%%%ESTE CICLO FOR SE QUITARIA si UTILIZO LAS TRAYECTORIAS DIRECTAMENTE, O SEA SACO LOS INDICES DE UNA TRAYECTORIA, RECOLECTO LOS PUNTOS Y LUEGO PLOTEAR
     %%%%%%OTRA ES RECOLECTAR PUNTOS DE FRAME Y LUEGO PLOTEAR, PARA ELLO DEBO CAMBIAR LA FORMA DE PLOT_ONE_FRAME O UTILIZAR OTRA FUNCION QUE ES LO
     %%%%%%MAS RAZONABLE CREO, ALGUNA LLAMADA PLOT_PATH
