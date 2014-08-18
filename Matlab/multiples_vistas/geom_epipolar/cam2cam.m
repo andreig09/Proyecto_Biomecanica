@@ -191,12 +191,10 @@ end
     
     xd=xd(:,index_table(2:length(index_table))); %devuelvo solo los minimos encontrados
     index_table(1)=index_xi; %agrego en la primera columna de tabla de indices el indice de xi
-    %%%%PARA DEBUG    
-    
-        figure(1);hold on; plot_frames(cam_i,  'frame', 1, 'num')
-        figure(2);hold on; plot_frames(cam_d,  'frame', 1, 'num') 
-    
-    figure(2);hold on; plot_rectas(ld)
+%     %%%%PARA DEBUG 
+%     figure(1);hold on; plot_frames(cam_i,  'frame', 1, 'num')
+%     figure(2);hold on; plot_frames(cam_d,  'frame', 1, 'num')  
+%     figure(2);hold on; plot_rectas(ld)
 end
 
 function [d_min, index_table] = minimos(xd, ld, n_points)
