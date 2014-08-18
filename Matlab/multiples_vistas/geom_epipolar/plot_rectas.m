@@ -7,7 +7,7 @@ function plot_rectas(lx, varargin )
 
 %% EJEMPLOS
 % figure; hold on; axis equal;
-% axis(-100 100 100 100]);
+% axis([-100 100 -100 100]);
 % plot_rectas(lx, 'Color', 'm', 'LineWidth', 2); 
 
 %% CUERPO DE LA FUNCION

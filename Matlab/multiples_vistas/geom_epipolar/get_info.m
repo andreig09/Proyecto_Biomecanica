@@ -278,23 +278,23 @@ function info_out = get_markers_in_frame(varargin)
     
     
     %encuentro cuantos marcadores se deben regresar
-    if (length(list_markers)==1) && (list_markers == -1) %en este caso se devuelven todos los marcadores
-        n_markers = size(structure.frame(n_frame).marker, 2);
+    if (length(list_markers)==1) && (list_markers == -1) %en este caso se devuelven todos los marcadores        
+        n_markers = structure.frame(n_frame).n_markers;
+        list_markers = [1:n_markers];
     else %solo se devuelven los marcadores de list_markers
         n_markers = length(list_markers);
     end
     
     %genero los comandos por defecto para obtener la salida info_out
-    comando1 = sprintf('[structure.frame(n_frame).marker.%s]',t_dato);%dejo los posibles comandos en funcion del parametro "dato"
-    comando2 = sprintf('[structure.frame(n_frame).marker(list_markers).%s]', t_dato);
+    comando1 = sprintf('[structure.frame(n_frame).marker(list_markers).%s]', t_dato);
     
     %Inicializo variable de salida de acuerdo al tipo de dato    
     if strcmp(t_dato,'coord')
         info_out = ones(3, n_markers);
     elseif (strcmp(t_dato,'name'))
         info_out = cell(1, n_markers ); 
-        comando1 = sprintf('{structure.frame(n_frame).marker.%s}',t_dato);%debo devolver un cell de string en lugar de vector con valores
-        comando2 = sprintf('{structure.frame(n_frame).marker(list_markers).%s}', t_dato);
+        %debo devolver un cell de string en lugar de vector con valores
+        comando1 = sprintf('{structure.frame(n_frame).marker(list_markers).%s}', t_dato);
     elseif strcmp(t_dato,'state')
         info_out = ones(1, n_markers);
     elseif (strcmp(t_dato, 'source_cam'))%esta opción es valida solo cuando structure=skeleton
@@ -302,10 +302,5 @@ function info_out = get_markers_in_frame(varargin)
         info_out = ones(n_cams, n_markers);            
     end
         
-    %obtengo la salida 
-    if (length(list_markers)==1) && (list_markers == -1) %en este caso se devuelven todos los marcadores
-        info_out =  eval(comando1);        
-    else % se devuelven solo los marcadores en la lista list_markers        
-        info_out =  eval(comando2);
-    end                    
+    info_out =  eval(comando1);        
 end
