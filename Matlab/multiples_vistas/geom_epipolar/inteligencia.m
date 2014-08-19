@@ -2,12 +2,13 @@ clc
 close all
 clear all
 
-load 'saved_vars/cam_andrei.mat';
+load 'saved_vars/cam.mat';
+%load 'saved_vars/cam_andrei.mat';
 load 'saved_vars/skeleton.mat';
 n_cams = get_info(skeleton, 'n_cams');
 
 %%
-p = 0.50; 
+p = 0.80; 
 aux_cam = dirty_cam(cam,p);
 cam = aux_cam;
 
@@ -17,7 +18,10 @@ cam = aux_cam;
 v_cams = [1:n_cams]; % vector de cámaras
 lv_cams = length(v_cams); 
 frame_i = 1;
+max_frames = 100;
+umbral = .000001;
 
+for frame_i =1:max_frames
 %%
 for ci = v_cams
     
@@ -35,7 +39,8 @@ for ci = v_cams
     end
 
   
-    match_cam{ci} = [];
+    match_cam{ci} = ix_table1;
+    match_pares{ci} = [];
     aux_ix_table2 = ix_table2(:,[2,1]);
     for i = 1:size(ix_table1,1)
         for j= 1:size(ix_table2,1)
@@ -43,9 +48,9 @@ for ci = v_cams
             
             if ix_table1(i,:) == aux_ix_table2(j,:)
    
-                match_cam{ci} = [match_cam{ci};ix_table1(i,:)];
-               
+                match_pares{ci} = [match_pares{ci},i];
             end
+
         end
     end
     
@@ -71,23 +76,18 @@ end
 % ordeno las cámaras segun la cantidad de puntos correctamente matcheados
 cant_cam = [];
 for ci = v_cams
-    cant_cam =  [cant_cam, size(match_cam{ci},1)];
+    cant_cam =  [cant_cam, sum(match_pares{ci})];
 end
 
 [~,ind] = sort(cant_cam);
 v_cams_ord = v_cams(ind);
 
-
+Xrec = [];
 % valido los puntos previamente matcheados
 for ci = v_cams_ord
     
-    suma = 0;
-    for i =  v_cams
-        suma = suma + sum(valid_points{i});
-    end
-    
-    if suma == 0
-        break
+    if isempty(valid_points)
+        break;
     end
     
     n_cam1 = ci;
@@ -97,24 +97,43 @@ for ci = v_cams_ord
         n_cam2 = 1;
     end
     
-    index1 = match_cam{n_cam1}(:,1);
-    index2 = match_cam{n_cam1}(:,2);
+    index1 = match_cam{ci}([match_pares{ci}],1);
+    index2 = match_cam{ci}([match_pares{ci}],2);
     
-    [X, validation, n_cam3, index_x3, ~, valid_points] = validation3D(cam, n_cam1, n_cam2, frame_i, 'index', index1', index2', 'umbral', 10, valid_points);
+    [X, validation, n_cam3, index_x3, ~, valid_points] = validation3D(cam, n_cam1, n_cam2, frame_i, 'index', index1', index2', 'umbral', umbral, valid_points);
     
     %[X, validation, n_cam3, index_x3, ~, valid_points] = validation3D(cam, 1, 2, frame_i, 'index', [1:10], [1:10], 'umbral', 10, valid_points);
     
-    rec_cam(ci).X = X; 
-    rec_cam(ci).validation = validation;
-    rec_cam(ci).n_cam3 = n_cam3;
-    rec_cam(ci).index_x3 = index_x3;
+    for j = 1:size(X,2)
+        if sum(validation(:,j))>=1
+ 
+            Xrec = [Xrec,X];
+        end
+    end
+   % rec_cam(ci).X = X; 
+   % rec_cam(ci).validation = validation;
+   % rec_cam(ci).n_cam3 = n_cam3;
+   % rec_cam(ci).index_x3 = index_x3;
+   
     
 end
-pause
-%%
-[X, validation, n_cam3, index_x3, ~, valid_points]=validation3D(cam, 1, 2, frame_i, 'index', [1:10], [1:10], 'umbral',  10, valid_points)
-%%
-[X, validation, n_cam3, index_x3, ~, valid_points]=validation3D(cam, 1, 2, frame_i, 'index', [1:10], [1:10], valid_points)
-%%
- plot3(X(1,:),X(2,:),X(3,:) ,'*')
+
+plot3(Xrec(1,:),Xrec(2,:),Xrec(3,:) ,'*')
  axis equal
+ grid on
+ pause(0.01)
+%reconstruccion{frame_i} = Xrec;
+%frame_i
+end
+
+
+%%
+
+for i=1:max_frames
+Xrec = reconstruccion{i};
+ plot3(Xrec(1,:),Xrec(2,:),Xrec(3,:) ,'*')
+ axis equal
+ grid on
+ pause(0.1)
+end
+ 
