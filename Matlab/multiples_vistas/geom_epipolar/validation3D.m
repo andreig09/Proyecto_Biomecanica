@@ -353,6 +353,9 @@ for i = 1:(n_cams-2) %para todas las camaras en n_cam3
     %obtengo todos los puntos de cam3 y su matriz de proyeccion
     if isempty(location_replace) %si no se quiere hacer reposicion de los marcadores que validaron anteriormente
         list_index_x3 = find(valid_points{n_cam3(i)});
+        if isempty(list_index_x3) %si la camara no contiene ningun punto entonces reviso la camara que sigue. Esto puede pasar cuando los puntos de la 
+            continue                %camara i ya fueron utilizados para validar en otras iteraciones. 
+        end
     else 
         n_markers = get_info(cam3, 'frame', n_frame, 'n_markers');
         list_index_x3 = [1:n_markers];
