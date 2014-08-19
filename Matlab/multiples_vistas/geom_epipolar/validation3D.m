@@ -37,9 +37,11 @@ function [X, validation, n_cam3, index_x3, dist, valid_points]=validation3D(cam,
 % X ----------->matriz cuyas columnas son puntos 3D reconstruidos.
 % n_cam3 ------>matriz, n_cam3(i,j) indica la camara a la cual pertenece el punto de indice index_x3(i, j).
 % index_x3----->matriz cuyas componentes son indices de puntos de cam3 que minimiza d. 
-%               index_x3(i, j) pertenece a la camara n_cam3(i,j) y se corresponde con X(:,j).%                 
+%               index_x3(i, j) pertenece a la camara n_cam3(i,j) y se corresponde con X(:,j). 
+%               index_x3(i, j)=-1 indica que no se encontro ningun punto en la camara n_cam3(i, j)                  
 % dist -------->matriz de distancias (costos), dist(i,j) es la funcion de costo asociada al punto index_x3(i,j) 
 %               funcion de costo -->d = alpha*d3_1 + beta*d3_2
+%               dist(i, j)= -1 indica que no se encontro ningun punto en la camara n_cam3(i, j)    
 % validation -->matriz  de validacion, 
 %                        validation(i, j)=1 indica que el punto de indice index_x3(i,j) VALIDA al punto X(:,j).
 %                        validation(i, j)=0 indica que el punto de indice index_x3(i,j) NO VALIDA al punto X(:,j), pero es la mejor opcion que se encontro.
