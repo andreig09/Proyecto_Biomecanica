@@ -25,15 +25,16 @@ clc
 %% Cargo secuencia 
 
 %name_bvh = 'pelotita.bvh';
-name_bvh = 'Mannequin.bvh';
+%name_bvh = 'Mannequin.bvh';
 %name_bvh ='Marcador_en_origen.bvh';
+name_bvh ='Mannaquin_con_Armadura_menos_pelotitas.bvh';
 
 [skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);%cargo el archivo .bvh
 
 
 %% Parametros de main
 
-guardar=0;%para guardar las estructuras generadas pongo 1 
+guardar=1;%para guardar las estructuras generadas pongo 1 
 graficar = 0; % si se desea ver la estructura skeleton_old
 n_markers = n_marcadores; %numero total de marcadores en skeleton
 n_frames = n_frames; %numero total de frames a tratar
@@ -119,7 +120,7 @@ end
 %% Relleno la estructura skeleton con la info del name_bvh
 
 %skeleton.name = 'skeleton';
-skeleton = set_info(skeleton, 'name', 'ground_truth');
+skeleton = set_info(skeleton, 'name', 'skeleton_ground_truth');
 %skeleton.name_bvh = name_bvh;
 skeleton = set_info(skeleton, 'name_bvh', name_bvh);
 %skeleton.n_frames = n_frames;
@@ -134,17 +135,17 @@ for k=1:skeleton.n_frames %hacer para cada frame de skeleton
     skeleton = set_info(skeleton, 'frame', k, 'time', time(k));    
     for j=1:n_marcadores %hacer para cada marcador 
         %skeleton.frame(k).marker(j).coord = skeleton_old(j).t_xyz(:,k);
-        skeleton = set_info(skeleton,'frame', k, 'marker', 'coord', skeleton_old(j).t_xyz(:,k));        
+        skeleton = set_info(skeleton,'frame', k, 'marker', [j], 'coord', skeleton_old(j).t_xyz(:,k));        
         %skeleton.frame(k).marker(j).name = skeleton_old(j).name;
         name = skeleton_old(j).name;
         if   strcmp(name,  ' ') %se tiene un nombre en blanco
             str = sprintf('%d', j); %se genera un string con el numero de marcador
-            skeleton = set_info(skeleton,'frame', k, 'marker', [j], 'name', str);
+            skeleton = set_info(skeleton,'frame', k, 'marker', [j], 'name', {str});
         else %name contiene un nombre distinto de un espacio en blanco
-            skeleton = set_info(skeleton,'frame', k, 'marker', [j], 'name', name);        
+            skeleton = set_info(skeleton,'frame', k, 'marker', [j], 'name', {name});        
         end
         skeleton.frame(k).marker(j).state = 0;% 0 indica que el dato es posta y 1 la más baja calidad
-        skeleton = set_info(skeleton, 'frame', k, 'marker', 'state', 0);% 0 indica que el dato es posta y 1 la más baja calidad
+        skeleton = set_info(skeleton, 'frame', k, 'marker', [j],  'state', 0);% 0 indica que el dato es posta y 1 la más baja calidad
 skeleton.frame(k).marker(j).source_cam = -1;%en nuestro caso es ground truth
     end
 end
@@ -157,6 +158,7 @@ end
 
 %% Relleno la estructura cam con la info del name_bvh
 
+n_cams = size(cam, 2);
 for i=1:n_cams %hacer para todas las camaras  
     
 %     cam(i).name = i;
@@ -192,25 +194,25 @@ end
 disp('Se han cargado los datos basicos de las estructuras. \nRestan las tablas de mapeo')
 %asignaciones que se deben hacer luego de completar todas las camaras
 
-for i=1:n_cams %hacer para todas las camaras  
-    
-    for k=1:cam(i).n_frames %hacer para cada frame
-        %cam(i).frame(k).like.like_cams = [1:n_cams];%genero un vector con los nombres de cada camara       
-        for ii=1:n_cams
-            if i~=ii %si las camaras son distintas
-                [~, ~, index_table, d_min] = cam2cam(cam(i), cam(ii), k, 'show');%devuelve todos los puntos de cam(i) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(ii)
-                cam(i).frame(k).like.mapping_table(:,ii) = index_table(:,2); %me quedo solo con los correspondientes en cam(ii)
-                cam(i).frame(k).like.d_min(:,ii) = d_min; 
-            else %si las camaras son la misma
-                cam(i).frame(k).like.mapping_table(:,ii) = [1:n_markers]';%cada marcador se corresponde consigo mismo
-                cam(i).frame(k).like.d_min(:,ii) = zeros(n_markers, 1);
-            end
-        end
-    end
-    
-    str=sprintf('Se cargo por completo la tabla de mapeo de la camara %d', i);
-    disp(str)
-end
+% for i=1:n_cams %hacer para todas las camaras  
+%     
+%     for k=1:cam(i).n_frames %hacer para cada frame
+%         %cam(i).frame(k).like.like_cams = [1:n_cams];%genero un vector con los nombres de cada camara       
+%         for ii=1:n_cams
+%             if i~=ii %si las camaras son distintas
+%                 [~, ~, index_table, d_min] = cam2cam(cam(i), cam(ii), k, 'show');%devuelve todos los puntos de cam(i) del frame n_frame con indice en index_xi y sus correspondientes contrapartes xd de cam(ii)
+%                 cam(i).frame(k).like.mapping_table(:,ii) = index_table(:,2); %me quedo solo con los correspondientes en cam(ii)
+%                 cam(i).frame(k).like.d_min(:,ii) = d_min; 
+%             else %si las camaras son la misma
+%                 cam(i).frame(k).like.mapping_table(:,ii) = [1:n_markers]';%cada marcador se corresponde consigo mismo
+%                 cam(i).frame(k).like.d_min(:,ii) = zeros(n_markers, 1);
+%             end
+%         end
+%     end
+%     
+%     str=sprintf('Se cargo por completo la tabla de mapeo de la camara %d', i);
+%     disp(str)
+% end
 
 
 

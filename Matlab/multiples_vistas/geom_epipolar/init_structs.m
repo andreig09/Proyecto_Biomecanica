@@ -87,8 +87,7 @@ cam = repmat(cam, 1, n_cams);  %genero un numero n_cams de camaras
 
 %% Se agrega la info de las camaras contenida en InfoCamBlender.m
 
-    for i=1:n_cams %hacer para todas las camaras  
-        cam(i).name = i;
+    for i=1:n_cams %hacer para todas las camarascam(i).name = i;
         cam(i).n_frames = n_frames;        
         %genero la estructura info para la camara
         cam(i).info.Rc = Rq(:,:,i)';%matriz de rotación calculada a partir de cuaterniones
