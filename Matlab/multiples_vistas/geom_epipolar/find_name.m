@@ -18,6 +18,8 @@ if sum(strfind(structure_name, 'skeleton')) %si se tiene una estructura skeleton
     names = get_info(structure, 'frame', n_frame, 'marker', 'name');%devuelve un cell string con los nombres de todos los marcadores en el frame n_frame de structure
     index_x = find(strcmp(str, names)); %devuelvo los indices de los marcadores que tienen el nombre contenido en str
     index_x = [index_x; -ones(1, length(index_x))]; %ingreso -1's en la segunda fila
+    
+    
 else %de lo contrario es una estructura cam
     cam=structure;    
     n_cams = size(cam, 2); %encuentro el numero de camaras, en futuras versiones este parametro debe sacarase de get_info
@@ -33,6 +35,29 @@ else %de lo contrario es una estructura cam
     end
 end
 end
+
+function index_path=find_markers_in_path(structure, n_frame, index_x)
+%Funcion que permite encontrar el lugar dentro de los paths donde se
+%encuentran los index_x
+%% ENTRADA
+%structure -->estructura de datos 
+%n_frame   -->numero de frame donde se empieza la busqueda del los marcadores en index_x
+%index_x   -->indices de los marcadores que se quieren encontrar en un
+%frame
+%% SALIDA
+%index_path -->matriz de dos filas, index_path(1,j) indica el path donde se
+%               encuentra el marcador de indice3 index_x(j) y index_pat(2, j) indica el
+%               frame correspondiente
+%% CUERPO DE LA FUNCION
+n_paths = get_info(structure, 'n_paths'); %numero de paths de la estructura
+for i=1:n_paths %hacer para cada path
+    %la idea es buscar en cada path a partir de n_frame donde se encuentra
+    %un marcador
+end
+end
+
+%Hacer todo el codigo para una estructura skeleton o cam(i) luego que
+%alguien de afuera se encargue de hacerlo para todas las camaras 
 
 
 % % Al trabajar con 14 marcadores los mismos se encuentran en el .bvh con los siguientes nombres
