@@ -17,12 +17,17 @@ end
 Xrec = [];
 
 pasadas = 0;
-while (~isempty(valid_points) && size(Xrec,2) < tot_markers)
+p_validos = inf;
+
+while (p_validos > 0 && size(Xrec,2) < tot_markers)
     
     valid_matches = actualizar_matches(matches, valid_points, v_cams);
     
-    [cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame);
+    [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams);
     
+    if res == 0
+        break
+    end
     [X, validation, n_cam3, index_x3, ~, valid_points] = validation3D(cam, cam_i,cam_d, frame, 'index', ind_i, ind_d, 'umbral', umbral, valid_points);
     
     
@@ -30,19 +35,26 @@ while (~isempty(valid_points) && size(Xrec,2) < tot_markers)
     Xrec = [Xrec,X];
    pasadas = pasadas+1;
    disp(pasadas)
-    
+   
+   p_validos = 0;
+   for h = 1:n_cams
+        p_validos = p_validos + sum(valid_points{h});
+   end
+end
+
 end
 
 %%
         function matches = matchear1(cam, v_cams, frame)
             
-            
+            n_cams = length(v_cams);
+            matches = cell(n_cams);
 
             for i = v_cams
                 for j=v_cams
                     
                           
-                        if i ~= j
+                        if i < j
                     
                             n_markers_i = get_info(cam(i), 'frame', frame, 'n_markers');
                             n_markers_d = get_info(cam(j), 'frame', frame, 'n_markers');
@@ -94,6 +106,8 @@ end
                     if ~isempty(matches{i,j})
 
                          
+                        valid_matches{i,j} = [];
+                        
                         ind = valid_points{i}==1;
                         valid_matches_i = matches{i,j}(ind,:);
 
@@ -107,8 +121,13 @@ end
 
                         best_ind = min(valid_ind_ord,[],2);
 
+                        
+                        
                         for k = 1:l1_matches
-                            valid_matches{i,j}(k,:) = [valid_matches_i(k,1), valid_matches_i(k,best_ind(k)+1)];
+
+                            if best_ind(k) ~= inf
+                                valid_matches{i,j}= [valid_matches{i,j}; valid_matches_i(k,1), valid_matches_i(k,best_ind(k)+1)];
+                            end
                         end
                        
 
@@ -120,22 +139,23 @@ end
 
 %%
 
-        function [cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame)   
+        function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams)   
 
 
-            num_matches = size(valid_matches);
+            %num_matches = size(valid_matches);
             matriz_distancias = [];
 
-            for i=1:num_matches(1)
-                for j=1:num_matches(2)
-                    if i<j
+            for i = v_cams
+                for j = v_cams
+                    if i<j && ~isempty(valid_matches{i,j})
 
                         %match_pares{i,j} = [];
-                        s_vmatches = size(valid_matches{i,j});
+                        s_vmatchesi = size(valid_matches{i,j},1);
+                        s_vmatchesd = size(valid_matches{j,i},1);
                         %aux_ix_table2 = valid_matches{j,i}(:,[2,1]);
 
-                        for m = 1:s_vmatches(1)
-                            for n= 1:s_vmatches(2)
+                        for m = 1:s_vmatchesi
+                            for n= 1:s_vmatchesd
 
                                if valid_matches{i,j}(m,:) == valid_matches{j,i}(n,:)
 
@@ -153,6 +173,8 @@ end
                                     dist = dist_2rectas(Ci, ui, Cd, ud);
 
                                     matriz_distancias = [matriz_distancias; dist, i, ind_i, j, ind_d];
+                                    
+                                    
                                 end
 
                             end
@@ -160,13 +182,25 @@ end
                     end
                 end
             end
+            
+            if isempty(matriz_distancias)
+                res = 0;
+                
+                cam_i = [];
+                ind_i = [];
+                cam_d = [];
+                ind_d = [];
+                
+            else
+                res = 1;
 
-            [~,ind_min_dist] = min(matriz_distancias(:,1));
+                [~,ind_min_dist] = min(matriz_distancias(:,1));
 
-            cam_i = matriz_distancias(ind_min_dist,2);
-            ind_i = matriz_distancias(ind_min_dist,3);
-            cam_d = matriz_distancias(ind_min_dist,4);
-            ind_d = matriz_distancias(ind_min_dist,5);
+                cam_i = matriz_distancias(ind_min_dist,2);
+                ind_i = matriz_distancias(ind_min_dist,3);
+                cam_d = matriz_distancias(ind_min_dist,4);
+                ind_d = matriz_distancias(ind_min_dist,5);
+            end
 
         end
     
@@ -232,7 +266,7 @@ end
 
         end
 
-end
+
 
 
 
