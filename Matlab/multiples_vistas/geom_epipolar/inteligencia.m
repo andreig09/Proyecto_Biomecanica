@@ -1,4 +1,7 @@
+
+
 clc
+
 close all
 clear all
 
@@ -136,4 +139,79 @@ Xrec = reconstruccion{i};
  grid on
  pause(0.1)
 end
- 
+
+function matches = actualizar_matches1 (matches, valid_points)
+
+    num_matches = length(A);
+    for i=1:num_matches
+        for j=1:num_matches
+            if i~=j
+                l2_matches = size(matches{i,j},2);
+                matches{i,j} = matches{i,j}.*(valid_points{i}'*ones(1,l2_matches));
+                
+                ind = find(valid_points{i}==1);
+                valid_matches{i,j} = matches{i,j}(ind,:);
+            end
+        end
+    end
+end
+
+
+function matches = actualizar_matches2(matches, valid_points)
+
+    num_matches = length(matches);
+    for i=1:num_matches
+        for j=1:num_matches
+            if i~=j
+
+                
+                ind = find(valid_points{i}==1);
+                valid_matches_i{i,j} = matches{i,j}(ind,:);
+                
+                [~,ind_ord] = sort(valid_matches_i{i,j}(:,2:end),2);
+                l1_matches = size(matches{i,j},1);
+                rep_ones = ones(l1_matches,1);
+                
+                valid_ind_ord = (rep_ones * valid_points{j}) .*  ind_ord;
+                
+                best_ind = min(valid_ind_ord(valid_ind_ord>0),2);
+                
+                for k = 1:l1_matches
+                    valid_matches{i,j}(k,:) = [valid_matches_i{i,j}(k,1), valid_matches_i{i,j}(k,best_ind(k))];
+                end
+                %best_valid_matches = [valid_matches{i,j}(:,1), valid_matches{i,j}(:,)
+                
+                
+            end
+        end
+    end
+end
+
+function matches = actualizar_matches (matches, valid_points)
+
+    num_matches = size(matches);
+    
+    for i=1:num_matches(1)
+
+        ind_nulos = find(valid_points{i}==0);
+                
+        for j=1:num_matches(2)
+                
+            matches{i,j}{ind_nulos} = [];
+        end
+
+    end
+end
+
+
+function matcheos_nz = eliminar_filas_nulas(matcheos)
+
+    matches{:,:} = 
+
+end
+
+function valid_matches = mejores_parejas(valid_matches)
+
+
+end
+
