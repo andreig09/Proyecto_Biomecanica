@@ -4,24 +4,6 @@ clear all
 close all
 clc
 
-
-
-
-% %% Cargo Parametros de las camaras
-% 
-% InfoCamBlender %este archivo .m fue generado con Python desde Blender y contienen todos los parametros de las camaras de interes
-% 
-% %Verifico hipotesis de trabajo
-% if (pixel_aspect_x ~= pixel_aspect_y)||any(shift_x ~= shift_y)
-%    disp('Se asumen dos cosas en los calculos que siguen:')
-%    disp('                1) que la variable de Blender,  Properties/ObjectData/Lens/Shift, indicado por los')
-%    disp('                     parametros (X, Y) es (0, 0)')
-%    disp('                2) que la variable relacion de forma en Properties/Render/Dimensions/Aspect Radio de cada camara, indicado por') 
-%    disp('                    los parametros (X, Y) sea (z, z) con z cualquiera')
-%    disp('Hay que corregir alguno de estos parametros para proseguir.')
-%    break
-% end
-
 %% Cargo secuencia 
 
 %name_bvh = 'pelotita.bvh';
@@ -46,76 +28,16 @@ end
 
 %% Generacion e inicializacion de estructuras (se reserva memoria)
 
-[cam, skeleton]= init_structs(n_markers, n_frames);
-
-    
-% marker = struct(...
-%     'coord',        zeros(3, 1), ...%Coordenadas euclidianas del marcador 
-%     'name',         blanks(15), ...%Nombre del marcador
-%     'state',       0.0, ...%con alguna metrica indica el estado del marcador
-%     'source_cam',   zeros(n_cams, 1) ...%conjunto de camaras que reconstruye el marcador    
-%     );
-% 
-% like = struct(...
-%     'like_cams',        1: n_cams,... %vector con los numeros asociados a cada camara sobre las que se proyecta 
-%     'mapping_table',    ones(n_markers, n_cams),... %tabla de mapeo. Matriz cuyas filas son indices de marcadores que se corresponden en otras camaras,
-%                                                 ... % y las columnas son camaras cuyo nombre se encuentra en la columna correspondiente de like_cams 
-%     'd_min',         ones(n_markers, n_cams)... %matriz que contiene una medida de calidad para cada dato coorespondiente en mapping_table
-%     );
-% 
-% frame = struct(...
-%     'marker',       repmat(marker, 1, n_markers), ...%genero un numero n_markers de estructuras marker
-%     'like',         repmat(like, 1, 1),...%genero una estructura like dentro de marker
-%     'time',         0.0, ...%tiempo de frame en segundos
-%     'n_markers',    n_markers ...%nro de marcadores en el frame    
-%     );
-% 
-% path = struct(...
-%     'name',         blanks(15), ...%nombre de la trayectoria
-%     'members',      zeros(2, n_frames), ...%secuencia de nombres asociados a la trayectoria
-%     'state',        0.0, ...%con alguna metrica indica la calidad de la trayectoria
-%     'n_markers',    n_frames, ...%numero total de marcadores en la trayectoria
-%     'init_frame',   1,... %frame inicial de la trayectoria
-%     'end_frame',    1 ...%frame final de la trayectoria
-%     );
-% 
-% info = struct(...
-%     'Rc',               zeros(3, 3), ...%matriz de rotación
-%     'Tc',               zeros(3, 1), ...%vector de traslación
-%     'f' ,               0.0, ...%distancia focal en metros
-%     'resolution',       zeros(1, 2), ...%=[resolución_x, resolution_y] unidades en pixeles
-%     't_vista',          blanks(15), ...%tipo de vista utilizada en la camara (PERSPECTIVA, ORTOGRAFICA, PANORAMICA)
-%     'shift',            zeros(1, 2), ...%[shift_x, shidt_y] corrimiento del centro de la camara en pixeles
-%     'sensor',           zeros(1, 2), ...%[sensor_x, sensor_y] largo y ancho del sensor en milimetros
-%     'sensor_fit',       blanks(15), ...%tipo de ajuste utilizado para el sensor (AUTO, HORIZONTAL, VERTICAL)
-%     'pixels_aspect',    1, ...%(pixel_aspect_x)/(pixel_aspect_y) valor 1 indica pixel cuadrado
-%     'projection_matrix',              zeros(3, 4) ...%matrix de proyección de la camara
-%     );
-% 
-% 
-% skeleton = struct(...
-%     'name',         blanks(15), ...%nombre del esqueleto    
-%     'name_bvh',     name_bvh, ... %nombre del .bvh asociado a skeleton
-%     'frame',        repmat(frame, 1, n_frames), ...%genero un numero n_frames de estructuras frame
-%     'path',         repmat(path, 1, n_markers), ...%genero una estructura path por marcador
-%     'n_frames',     n_frames, ...%numero de frames totales
-%     'n_paths',      n_markers, ...%numero de trayectorias totales
-%     'n_cams',       n_cams, ... %numero de camras que estan filmando a skeleton 
-%     'frame_rate',   time(2) ... %indica el tiempo entre cada frame    
-%     );
-%     
-% cam = struct(...
-%     'name',         NaN, ...%numero de la camara
-%     'info',         info, ...
-%     'frame',        repmat(frame, 1, n_frames), ...%genero un numero n_frames de estructuras frame
-%     'path',         repmat(path, 1, n_markers), ...%genero una estructura path por marcador
-%     'n_frames',     n_frames, ...%numero de frames totales
-%     'n_paths',      n_markers, ...%numero de trayectorias totales
-%     'frame_rate',   time(2) ... %indica el tiempo entre cada frame    
-%     );
-% cam = repmat(cam, 1, n_cams);  %genero un numero n_cams de camaras
-
-
+markers_name=cell(1, n_markers); %esta variable se debe rellenar con los nombres de los marcadores que se van a utilizar
+for j=1:n_markers
+    if   strcmp(skeleton_old(j).name,  ' ') %se tiene un nombre en blanco
+            str = sprintf('%d', j); %se genera un string con el numero de marcador
+            markers_name{j} = str;
+    else
+        markers_name{j} = skeleton_old(j).name;
+    end
+end
+[cam, skeleton]= init_structs(n_markers, n_frames, markers_name); %para visualizar la forma de la estructura de datos ingresar a esta funcion
 
 %% Relleno la estructura skeleton con la info del name_bvh
 
@@ -222,13 +144,36 @@ disp('Se han cargado los datos basicos de las estructuras. \nRestan las tablas d
 if guardar==1
     save('saved_vars/cam','cam');    
 end
-%% Matrices fundamentales
-%  matriz fundamental que mapea un punto de camara i en recta de camara j
-% i=2; %elegir la camara de entrada
-% d=4; %elegir la camara de salida
-% Pi = get_projection_matrix(cam(i));
-% Pd = get_projection_matrix(cam(d));
-% F= F_from_P(Pi, Pd);
+
+
+%% Remuevo los marcadores que no uso
+
+
+markers_work = {'LeftFoot' 'LeftLeg' 'LeftUpLeg' 'RightFoot' 'RightLeg' 'RightUpLeg'...
+    'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'LHand' 'RightForeArm' 'RightArm'};%cell array con los marcadores que se van a usar
+
+%obtengo un cell array con los nombres de los marcadores a suprimir 
+l_markers = length(markers_work);
+index = ones(1, l_markers);
+for n=1:l_markers
+    aux = strcmp(markers_names, markers_work(n));%markers_name es un cell array con los nombres de todos los marcadores
+    if isempty(aux)
+        index(n)=0;
+    else
+        index(n) = find(aux); %indice que indica donde se encuentra markers_work(n) en markers_names
+    end     
+end
+remove_name=remove_name(index==0);%tengo un cell array con los nombres de marcadores a suprimir
+frame = 1:n_frames;
+
+%remuevo los marcadores listados en remove_name
+skeleton = remove_markers(skeleton, frame, remove_name);
+for i=1:n_cams %hacer para todas las camaras
+    cam(i)=remove_markers(cam(i), frame, remove_name);
+end
+
+
+
 
 %% Guardo y Limpio variables 
 
