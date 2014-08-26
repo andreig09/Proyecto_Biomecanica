@@ -24,6 +24,10 @@ function [index_x] = find_marker_by_name(structure, str, varargin)
 % [index_x2] = find_marker_by_name(structure, str, 'frame', [1, 20]) %busco en los frames 1 y 20 de la estructura los marcadores con nombre 'lolo'
 % str={'lala'};
 % [index_x3] = find_marker_by_name(structure, str, 'frame', [1, 20]) %busco en los frames 1 y 20 de la estructura los marcadores con nombre 'lala'
+
+%% ---------
+% Author: M.R.
+% created the 23/08/2014.
 %% CUERPO DE LA FUNCION
 
     %gestiono la entrada
@@ -49,26 +53,9 @@ function [index_x] = find_marker_by_name(structure, str, varargin)
             index_x(1,k) = index_aux;%en este caso se encontro un marcador con el nombre contenido en str
         end
         index_x(2,k) = n_frame(k);        
-    end
-    
-    
-    
-%     %veo que numero de path tiene asociado el marcador con nombre 'str'
-%     n_paths = get_info(structure, 'n_paths'); %numero de paths de la estructura
-%     for k=1:n_paths %recorrer todos los paths de structure
-%         name = get_info(structure, 'path', k, 'name'); % devuelve el nombre asociado a la trayectoria k de structure
-%         if strcmp(str, name) %se encontro la trayectoria (path)
-%             num_path = k;
-%             break
-%         end
-%     end
-    
+    end    
 end
 
-
-
-%Hacer todo el codigo para una estructura skeleton o cam(i) luego que
-%alguien de afuera se encargue de hacerlo para todas las camaras 
 
 
 % % Al trabajar con 14 marcadores los mismos se encuentran en el .bvh con los siguientes nombres
