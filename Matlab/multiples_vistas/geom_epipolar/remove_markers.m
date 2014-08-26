@@ -9,6 +9,13 @@ function structure = remove_markers(structure, frame, name)
 %% SALIDA
 %structure -->estructura de datos actualizada
 
+%% EJEMPLOS
+% clc
+% structure = skeleton;
+% frame = [1, 2, 3]
+% name = {'Hip' 'LeftLeg'}
+% structure = remove_markers(structure, frame , name)
+
 %% ---------
 % Author: M.R.
 % created the 23/08/2014.
@@ -27,17 +34,19 @@ for k=1:n_names %hacer con cada elemento de names
 end
 index_x = cell2mat(index_x); %obtengo una matriz ordenada cuya primer fila son indices y la segunda indica nro de frame asociado
 
-%Obtengo los numeros de path asociados a los marcadores con nombre en 'name'
-name_path = find_path_by_name(structure, name);%num_path(i) indica el numero de trayectoria con el nombre name(i), en el caso que no exista un trayectoria para name(j), num_path(j)=-1  
-condition = name_path ~=-1; %busco los elementos de name_path distintos de -1
-name_path = name_path(condition); %me quedo solo con los elementos que cumplen la condicion anterior, o sea aquellos paths que tengo que borrar
-
+%verifico que se halla encontrado algun nombre
+aux = find(index_x(1,:)~=-1, 1);
+if isempty(aux)
+    disp('No se encontro ninguno de los nombres ingresados.')
+    disp('La estructura se devuelve sin modificaciones.')
+    return
+end
 
 %% Generacion de variables auxiliares
 %genero variables utiles para el borrado
-n_index = size(index_x, 2);%numero de indices de index_x 
-str_blank=cell(1, n_index);
-for i=1:n_index %relleno el cell con espacios en blanco
+%n_index = size(index_x, 2);%numero de indices de index_x 
+str_blank=cell(1, n_names);
+for i=1:n_names %relleno el cell con espacios en blanco
     str_blank{i}=' ';
 end
 total_frames =  get_info(structure, 'n_frames'); %numero de frames de la estructura structure
@@ -47,39 +56,62 @@ for k = 1:n_frames %hacer para cada frame
     %encuentro los indices de index_x que pertenecen al frame k
     colum = (index_x(2, :)==k);
     markers_for_delete = index_x(1,colum);
+    n_delete = length(index_x(1, colum));%numero de indices de index_x en el frame k
     
-    n_markers = get_info(structure, 'frame', frame(k), 'n_markers', n_markers); %nro de marcadores en el frame k   
+    n_markers = get_info(structure, 'frame', frame(k), 'n_markers'); %nro de marcadores en el frame k   
     
     markers = 1:n_markers;%vector con los indices de todos los marcadores en frame k
     markers(markers_for_delete)=-1;%los indices de los marcadores que estan para borrar se ponen en -1
-    last_markers = markers(markers~=-1);%me quedo con los indices de los marcadores que no se van a borrar
-    last_markers = sort(last_markers,1,'descend');%los ordeno de manera que los ultimos marcadores aparescan al principio
-    
-    %me quedo con los length(colum) vectores de last_markers y los utilizo para rellenar los marcadores que tengo que borrar
-    
-    
+    index_last = markers(markers~=-1);%me quedo con los indices de los marcadores que no se van a borrar
+    index_last = sort(index_last, 2,'descend');%los ordeno de manera que los ultimos marcadores aparescan al principio
+    n_last=length(index_last);
+    if n_delete < n_last %saco menos marcadores que los que tengo para "rellenar"    
+        index_last = index_last(1:n_delete); %solo se quedan los ultimos marcadores que se van a utilizar
+        %me quedo con los length(markers_for_delete) vectores de last_markers y los utilizo para rellenar los marcadores que tengo que borrar
+    end
+
     
     %borro lo referente a la estructura marker 
     %la idea es sobreescribir los marcadores que se quieren borrar en el frame k con los ultimos marcadores no vacios y fuera de la lista de los
     %que se quieren borrar. Luego se borran solo los ultimos marcadores utilizados. De esta manera no se generan huecos con marcadores nulos
     %en un frame.
     
+    %obtengo info de los marcadores en index_last_markers
+    last_markers = get_info(structure, 'frame', frame(k), 'marker', index_last, 'coord');
+    last_name = get_info(structure, 'frame', frame(k), 'marker', index_last, 'name');
+    last_state = get_info(structure, 'frame', frame(k), 'marker', index_last, 'state');
+    last_cam = get_info(structure, 'frame', frame(k), 'marker', index_last, 'source_cam');
     
+    if n_delete > n_last %tengo mas marcadores de los que me quedan para "rellenar", entonces debo poner valores vacios lo que me falte para llenar los huecos
+        need = n_delete - n_last;
+        last_markers = [last_markers, zeros(3, need)];
+        last_name = [last_name, str_blank];
+        last_state = [last_state, -ones(1, need)];
+        last_cam =  [last_cam, -ones(1, need)];
+    end   
+
+
+
+    %relleno los marcadores a borrar con la informacion de los ultimos no nulos
+    structure = set_info(structure, 'frame', frame(k), 'marker', index_x(1,colum), 'coord', last_markers ); %setea con las columnas, las coordenadas de todos los marcadores de index_x(1,colum) en el frame k de structure
+    structure = set_info(structure, 'frame', frame(k), 'marker', index_x(1,colum), 'name', last_name); %setea con las columnas del cell string los nombres de todos los marcadores de index_x(1,colum) en el frame k de structure
+    structure = set_info(structure, 'frame', frame(k), 'marker', index_x(1,colum), 'state', last_state ); %setea con las columnas,  un vector con los estados de  todos los marcadores de index_x(1,colum) en el frame k de structure
+    structure = set_info(structure, 'frame', frame(k), 'marker', index_x(1,colum), 'source_cam', last_cam );  %setea con las columnas, un vector con las camaras fuente de todos los marcadores de index_x(1,colum) en el frame k de structure
     
+    %borrado de los ultimos marcadores no nulos originales    
+    structure = set_info(structure, 'frame', frame(k), 'marker', index_last, 'coord', zeros(3,n_delete) ); %setea con las columnas, las coordenadas de todos los marcadores en el frame k de structure
+    structure = set_info(structure, 'frame', frame(k), 'marker', index_last, 'name', str_blank); %setea con las columnas del cell string los nombres de todos los marcadores en el frame k de structure
+    structure = set_info(structure, 'frame', frame(k), 'marker', index_last, 'state', zeros(1,n_delete) ); %setea con las columnas,  un vector con los estados de  todos los marcadores en el frame k de structure
+    structure = set_info(structure, 'frame', frame(k), 'marker', index_last, 'source_cam', zeros(1,n_delete) );  %setea con las columnas, un vector con las camaras fuente de todos los marcadores en el frame k de structure
     
+    %borro lo referente a la estructura frame        
+    n_markers = n_markers - n_delete; %actualizo el numero de marcadores en el frame k
+    structure = set_info(structure, 'frame', frame(k), 'n_markers', n_markers);    
+
     
 end
 end
 
-%     structure = set_info(structure, 'frame', frame(k), 'marker', index_x(1,colum), 'coord', zeros(3,n_index) ); %setea con las columnas, las coordenadas de todos los marcadores en el frame 1 de structure
-%     structure = set_info(structure, 'frame', frame(k), 'marker', index_x(1,colum), 'name', str_blank); %setea con las columnas del cell string los nombres de todos los marcadores en el frame 1 de structure
-%     structure = set_info(structure, 'frame', frame(k), 'marker', index_x(1,colum), 'state', zeros(1,n_index) ); %setea con las columnas,  un vector con los estados de  todos los marcadores en el frame 1 de structure
-%     structure = set_info(structure, 'frame', frame(k), 'marker', index_x(1,colum), 'source_cam', zeros(1,n_index) );  %setea con las columnas, un vector con las camaras fuente de todos los marcadores en el frame 1 de structure
-%     %borro lo referente a la estructura frame
-%     n_markers=get_info(structure, 'frame', frame(k), 'n_markers');%obtengo el numero de marcadores en el frame
-%     n_index_k = length(index_x(1, colum));%numero de indices de index_x en el frame k
-%     n_markers = n_markers - n_index_k; %actualizo el numero de marcadores en el frame k
-%     structure = set_info(structure, 'frame', frame(k), 'n_markers', n_markers);    
 % end
 % %borro lo referente a la estructura path
 % for path=1:name_path %hacer para todos los paths en name_path

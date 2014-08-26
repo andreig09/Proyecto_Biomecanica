@@ -1,5 +1,18 @@
-function [cam, skeleton]=init_structs(n_markers, n_frames)
+function [cam, skeleton]=init_structs(n_markers, n_frames, names)
 %Funcion que inicializa las estructuras a utilizar
+
+%% ENTRADA
+%n_markers -->numero de marcadores inicializados que se desea tener en las estructuras
+%n_frames -->numero de frames inicializados que se desea tener en las estructuras
+%names   -->cell array de strings con los nombres de los marcadores que se tengan en el primer frame
+
+%% SALIDA
+%cam --> estructura que contiene la informacion de todas las camaras
+%skeleton -->estructura que contiene la informacion 3D del esqueleto
+
+%% ---------
+% Author: M.R.
+% created the 12/08/2014.
 
 %% Cargo Parametros de las camaras
 
@@ -87,7 +100,8 @@ cam = repmat(cam, 1, n_cams);  %genero un numero n_cams de camaras
 
 %% Se agrega la info de las camaras contenida en InfoCamBlender.m
 
-    for i=1:n_cams %hacer para todas las camarascam(i).name = i;
+    for i=1:n_cams %hacer para todas las camaras 
+        cam(i).name = i;
         cam(i).n_frames = n_frames;        
         %genero la estructura info para la camara
         cam(i).info.Rc = Rq(:,:,i)';%matriz de rotación calculada a partir de cuaterniones
@@ -100,6 +114,16 @@ cam = repmat(cam, 1, n_cams);  %genero un numero n_cams de camaras
         cam(i).info.sensor_fit = sensor_fit(i);
         cam(i).info.pixel_aspect = pixel_aspect_x/pixel_aspect_y;
         cam(i).info.projection_matrix = MatrixProjection(cam(i).info.f, cam(i).info.resolution, ...
-                                        cam(i).info.sensor, cam(i).info.sensor_fit{1}, cam(i).info.Tc, cam(i).info.Rc);% matriz de rotacion asociada a la cámara; 
+                                        cam(i).info.sensor, cam(i).info.sensor_fit{1}, cam(i).info.Tc, cam(i).info.Rc);% matriz de rotacion asociada a la camara; 
+    end
+%% se ingresan los nombres de marcadores en 'name' a la estructura path en el frame 1 tanto en skeleton como en las camaras
+
+for k = 1:length(names)%para todos los nombres contenidos en 'name'
+    skeleton = set_info(skeleton, 'path', k, 'name', names{k}); % setea el nombre asociado a la trayectoria k
+    for i=1:n_cams %hacer para todas las camaras
+        cam(i) = set_info(cam(i), 'path', k, 'name', names{k}); % setea el nombre asociado a la trayectoria k        
     end
 end
+
+end
+

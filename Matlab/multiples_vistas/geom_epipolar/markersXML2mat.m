@@ -1,12 +1,11 @@
-% structure21 = set_info(structure, 'frame', 1, 'marker', [2, 3], 'coord', info21); %setea con las columnas de "info21" las coordenadas de los marcadores 2 y 3 del frame 1 de structure
-% structure22 = set_info(structure, 'frame', 1, 'marker', [2, 3], 'name', info22); %setea con las columnas del cell string "info22" los nombres de los marcadores 2 y 3 del frame 1 de s
-function cam = markersXML2mat(n_cams, n_markers, n_frames, archivo)
+function cam = markersXML2mat(n_cams, n_markers, n_frames, names, archivo)
 %Funcion que lleva la informacion de una lista de marcadores desde un XML a la estructura de datos cam.mat 
 
 %% ENTRADA
 % n_cams -->numero de camaras, este parametro indica el numero de archivos XML a cargar
 % n_markers -->numero de marcadores en el esqueleto 3D
 % n_frames --> numero de frames utilizados 
+% names    --> cell array con los nombres de los marcadores que se estan ingresando (se utiliza para inicializar las trayectorias)
 % archivo -->string que indica la ubicacion del archivo XML asi como su 'prefijo'. Los archivos para distintas camaras de un unico experimento deben diferir
 %           en el numero al final del nombre, por ejemplo los archivos de nombre saved_vars/camj.xml con j=1,2,...n_cams indican un unico experimento 
 %           que contiene n_cams camaras. Para cargar todas las camaras con esta funcion se debe ingresar archivo =  'saved_vars/cam'
@@ -15,10 +14,24 @@ function cam = markersXML2mat(n_cams, n_markers, n_frames, archivo)
 %% SALIDA
 % cam --> estructura de datos cam.mat 
 
+%% EJEMPLOS
+% clc
+% n_cams = 17
+% n_markers = 14
+% n_frames = 322
+% names = {'LeftFoot' 'LeftLeg' 'LeftUpLeg' 'RightFoot' 'RightLeg' 'RightUpLeg'...
+%     'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'LHand' 'RightForeArm' 'RightArm'}
+% archivo = 'saved_vars/cam'
+% cam = markersXML2mat(n_cams, n_markers, n_frames, names, archivo)
+
+%% ---------
+% Author: M.R.
+% created the 23/08/2014.
+
 %% CUERPO DE LA FUNCION
 
-    %inicializo la estructura de salida acorde a las necesidades
-        [cam, ~]=init_structs(n_markers, n_frames);
+    %inicializo la estructura de salida acorde a las necesidades        
+        [cam, ~]=init_structs(n_markers, n_frames, names);
         str = 'Se ha inicializado una estructura cam';
         disp(str)
         
@@ -58,3 +71,69 @@ function cam = markersXML2mat(n_cams, n_markers, n_frames, archivo)
         disp(str)
     end
 end
+
+function salida = importXML(archivo)
+% Funcion que permite importar archivos XML
+
+%% ENTRADA
+% archivo --> es un string con la direccion de los archivos a cargar, por ejemplo saved_vars/camj.xml con j=1,2,...n_cams
+
+%% SALIDA
+%salida --> estructura de datos con la informacion del XML
+
+%% CUERPO DE LA FUNCION
+
+    xml = xmlread(archivo);
+    
+    children = xml.getChildNodes;
+    
+    Detected_Markers = children.item(0);
+    
+    frames = Detected_Markers.getChildNodes;
+    
+    totalFrames = frames.getLength;
+    
+    l=1;
+    for i=0:(totalFrames-1)
+        if frames.item(i).getNodeName == 'Frame'
+            salida(l)= parsearFrame(frames.item(i));
+            l = l+1;
+        end
+    end
+end
+
+function frameI = parsearFrame(Frame)
+%Puede pasar que un frame no tenga marcadores
+    if (Frame.hasChildNodes) && (Frame.getLength > 1)
+        k=1;
+        markers = Frame.getChildNodes;
+        
+        totalMarkers = markers.getLength;
+        
+        for i = 0:(totalMarkers - 1)
+            if markers.item(i).getNodeName == 'Marker'
+                %Agregar nombre del marcador a frame.name
+                frameI.name(k) = getMarkerName(markers.item(i));
+                %Crear matriz de coordenadas
+                frameI.X(:,k) = getMarkerPosition(markers.item(i));
+                k = k+1;
+            end
+        end
+    else
+        frameI.name = NULL;
+        frameI.X = NULL;
+    end
+end
+
+function name = getMarkerName(Marker)
+    name = Marker.getAttribute('id');
+end
+
+function xyz = getMarkerPosition(Marker)
+    centroid =  Marker.getChildNodes.item(1);
+    coordenadas = centroid.getAttributes;
+    xyz = [str2num(coordenadas.item(0).getValue.toString); str2num(coordenadas.item(1).getValue.toString); 0];
+end
+
+
+
