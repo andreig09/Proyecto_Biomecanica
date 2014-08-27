@@ -52,8 +52,7 @@ end
 total_frames =  get_info(structure, 'n_frames'); %numero de frames de la estructura structure
 
 %% Borrado de informacion en las estructuras marker, frame y path
-for k = 1:n_frames %hacer para cada frame
-    k
+for k = 1:n_frames %hacer para cada frame    
     %encuentro los indices de index_x que pertenecen al frame k
     colum = (index_x(2, :)==k);
     index_delete = index_x(1,colum);
@@ -66,7 +65,7 @@ for k = 1:n_frames %hacer para cada frame
     k_names = get_info(structure, 'frame', frame(k), 'marker', 'name'); %devuelve un cell string con los nombres de todos los marcadores en el frame 1 de structure
     %me quedo solo con los que no voy a borrar
     
-    aux = logical(ones(1, n_markers));%genero un vector de unos logicos
+    aux = true(1, n_markers);%genero un vector de unos logicos
     for j =1:n_delete
         aux(index_delete(j))=0; %pongo en cero los indices que voy a borrar
     end
@@ -95,54 +94,6 @@ for k = 1:n_frames %hacer para cada frame
     
 end
 end
-
-% end
-% %borro lo referente a la estructura path
-% for path=1:name_path %hacer para todos los paths en name_path
-%     structure = set_info(structure, 'path', path, 'name', {' '}); % setea el nombre asociado a la trayectoria 
-%     structure = set_info(structure, 'path', path, 'members', zeros(2, total_frames)); % setea la secuencia de nombres asociados a la trayectoria
-%     structure = set_info(structure, 'path', path, 'state', -1); % setea una medida de calidad para la trayectoria
-%     structure = set_info(structure, 'path', path, 'n_markers', 0); % setea el numero de marcadores totales en la trayectoria
-%     structure = set_info(structure, 'path', path, 'init_frame', -1); %setea el frame inicial de la trayectoria
-%     structure = set_info(structure, 'path', path, 'end_frame', -1); %setea  el frame final de la trayectoria 
-% end
-% %decremento el numero de paths de la estructura
-% n_paths_init = get_info(structure, 'n_paths'); % numero de paths de la estructura 
-% n_paths_final = n_paths_init - length(name_path);
-% structure = set_info(structure, 'n_paths', n_paths_final); %setea numero de paths de la estructura
-% 
-% %% Ordenacion de la estructura 
-% %ordeno la estructura frame para dejar los marcadores vacios al final de la lista de indices.
-% %La idea es tapar los huecos con los ultimos marcadores disponibles.
-% %Pregunto el numero (n_index_x) de ultimos marcadores fuera de index_x, relleno los huecos con ellos y luego los remuevo del final. 
-% 
-% end
-% 
-% 
-% function structure = sort_structure(structure)
-% %Funcion que permite ordenar la informacion dentro de un estructura skeleton o cam(i)
-% 
-% %% IDEA
-% %ordeno las estructuras frame para dejar los marcadores vacios al final de la lista de indices y la estructura path para dejar los paths vacios al final.
-% %La idea es tapar los huecos con las ultimas informaciones no vacias disponibles.
-% %Por ejemplo para la estructura frame pregunto el numero (n_index_x) de ultimos marcadores fuera de index_x, relleno los huecos con ellos 
-% %y luego los remuevo del final.
-% 
-% %% ---------
-% % Author: M.R.
-% % created the 23/08/2014.
-% 
-% %% CUERPO DE LA FUNCION
-% 
-% name = {' '}; %nombre vacio
-% 
-% %busco los indices de los paths con nombre vacio {' '}
-% name_path = find_path_by_name(structure, name);%num_path(i) indica el numero de trayectoria con el nombre name(i), en el caso que no exista un trayectoria para name(j), num_path(j)=-1  
-% n_paths = 
-% 
-% 
-% 
-% end
 
 
 

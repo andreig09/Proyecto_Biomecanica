@@ -7,9 +7,9 @@ clc
 %% Cargo secuencia 
 
 %name_bvh = 'pelotita.bvh';
-name_bvh = 'Mannequin.bvh';
+%name_bvh = 'Mannequin.bvh';
 %name_bvh ='Marcador_en_origen.bvh';
-%name_bvh ='Mannaquin_con_Armadura_menos_pelotitas.bvh';
+name_bvh ='Mannaquin_con_Armadura_menos_pelotitas.bvh';
 
 [skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);%cargo el archivo .bvh
 
@@ -78,7 +78,7 @@ end
 
 
 if guardar==1    
-    save('saved_vars/skeleton','skeleton');
+    save('saved_vars/skeleton14','skeleton');
 end
 
 %% Relleno la estructura cam con la info del name_bvh
@@ -142,7 +142,7 @@ disp('Se han cargado los datos basicos de las estructuras. \nRestan las tablas d
 
 
 if guardar==1
-    save('saved_vars/cam','cam');    
+    save('saved_vars/cam14','cam');    
 end
 
 
@@ -150,28 +150,30 @@ end
 
 
 markers_work = {'LeftFoot' 'LeftLeg' 'LeftUpLeg' 'RightFoot' 'RightLeg' 'RightUpLeg'...
-    'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'LHand' 'RightForeArm' 'RightArm' 'lFoot'};%cell array con los marcadores que se van a usar
+    'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'RHand' 'RightForeArm' 'RightArm'};%cell array con los marcadores que se van a usar
 
 %obtengo un cell array con los nombres de los marcadores a suprimir 
-l_markers = length(markers_work);
-index = ones(1, l_markers);
-for n=1:l_markers
-    aux = strcmp(markers_name, markers_work(n));%markers_name es un cell array con los nombres de todos los marcadores
-    if isempty(aux)
-        index(n)=0;
-    else
-        index(n) = find(aux); %indice que indica donde se encuentra markers_work(n) en markers_names
-    end     
+n_work = length(markers_work);
+index = ones(1, n_work);
+remove_name = cell(1, (n_markers - n_work));
+i=1;
+for k=1:n_markers %hacer para todos los  marcadores
+    aux = strcmp(markers_name(k), markers_work);%markers_name es un cell array con los nombres de todos los marcadores    
+    if sum(aux)==0%si no existe coincidencia quiere decir que no se va a trabajar con ese punto por lo tanto se debe remover
+        remove_name(i)=markers_name(k);
+        i=i+1;%este indice unicamente sirve para llevar la cuenta de los marcadores a remover
+    end    
 end
-remove_name = markers_work(index==0);%tengo un cell array con los nombres de marcadores a suprimir
 frame = 1:n_frames;
 
 %remuevo los marcadores listados en remove_name
 skeleton = remove_markers(skeleton, frame, remove_name);
+disp('Se removieron los marcadores inutiles de la estructura skeleton')
 for i=1:n_cams %hacer para todas las camaras
     cam(i)=remove_markers(cam(i), frame, remove_name);
+    str = sprintf('Se removieron los marcadores inutiles de la estructura cam%d', i);
+    disp(str)
 end
-
 
 
 
