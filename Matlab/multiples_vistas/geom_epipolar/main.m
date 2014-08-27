@@ -7,9 +7,9 @@ clc
 %% Cargo secuencia 
 
 %name_bvh = 'pelotita.bvh';
-%name_bvh = 'Mannequin.bvh';
+name_bvh = 'Mannequin.bvh';
 %name_bvh ='Marcador_en_origen.bvh';
-name_bvh ='Mannaquin_con_Armadura_menos_pelotitas.bvh';
+%name_bvh ='Mannaquin_con_Armadura_menos_pelotitas.bvh';
 
 [skeleton_old, n_marcadores, n_frames, time] = load3D(name_bvh);%cargo el archivo .bvh
 
@@ -150,20 +150,20 @@ end
 
 
 markers_work = {'LeftFoot' 'LeftLeg' 'LeftUpLeg' 'RightFoot' 'RightLeg' 'RightUpLeg'...
-    'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'LHand' 'RightForeArm' 'RightArm'};%cell array con los marcadores que se van a usar
+    'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'LHand' 'RightForeArm' 'RightArm' 'lFoot'};%cell array con los marcadores que se van a usar
 
 %obtengo un cell array con los nombres de los marcadores a suprimir 
 l_markers = length(markers_work);
 index = ones(1, l_markers);
 for n=1:l_markers
-    aux = strcmp(markers_names, markers_work(n));%markers_name es un cell array con los nombres de todos los marcadores
+    aux = strcmp(markers_name, markers_work(n));%markers_name es un cell array con los nombres de todos los marcadores
     if isempty(aux)
         index(n)=0;
     else
         index(n) = find(aux); %indice que indica donde se encuentra markers_work(n) en markers_names
     end     
 end
-remove_name=remove_name(index==0);%tengo un cell array con los nombres de marcadores a suprimir
+remove_name = markers_work(index==0);%tengo un cell array con los nombres de marcadores a suprimir
 frame = 1:n_frames;
 
 %remuevo los marcadores listados en remove_name
