@@ -17,7 +17,7 @@ function plot_frames(varargin)
 % structure = cam(1);
 % plot_frames(structure,  'frame', 1) %plotea el frame 1 de la estructura structure 
 % plot_frames(structure,  'frame', 1, 'coord') %plotea todos los puntos del frame 1 de la estructura structure e indica sus coordenadas hasta el final
-% plot_frame(structure,   'frame', 1, 'num') %plotea todos los puntos del frame 1 de la estructura structure e indica el numero de marcador
+% plot_frames(structure,   'frame', 1, 'num') %plotea todos los puntos del frame 1 de la estructura structure e indica el numero de marcador
 % plot_frames(structure,  'frame', 1, 'name') %plotea todos los puntos del frame 1 de la estructura structure e indica sus nombres hasta el final
 % plot_frames(structure,  'frame', 1, 'fill') %plotea todos los puntos del frame 1 de la estructura structure e indica sus nombres hasta el final
 % plot_frames(structure,  'frame', 1,  'marker', [1 2]) %plotea los marcadores 1 y 2 del frame 1 hasta el final
