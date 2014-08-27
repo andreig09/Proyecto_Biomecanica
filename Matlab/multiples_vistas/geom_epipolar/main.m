@@ -77,9 +77,7 @@ end
 
 
 
-if guardar==1    
-    save('saved_vars/skeleton14','skeleton');
-end
+
 
 %% Relleno la estructura cam con la info del name_bvh
 
@@ -141,9 +139,8 @@ disp('Se han cargado los datos basicos de las estructuras. \nRestan las tablas d
 
 
 
-if guardar==1
-    save('saved_vars/cam14','cam');    
-end
+
+
 
 
 %% Remuevo los marcadores que no uso
@@ -178,6 +175,10 @@ end
 
 
 %% Guardo y Limpio variables 
+if guardar==1    
+    save('saved_vars/skeleton14','skeleton');
+    save('saved_vars/cam14','cam');    
+end
 
 clearvars -except cam n_cams n_markers n_frames name_bvh skeleton F
 disp('Variables cargadas en Workspace ;)')
