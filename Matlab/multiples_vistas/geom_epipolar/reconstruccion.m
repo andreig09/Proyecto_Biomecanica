@@ -5,9 +5,10 @@ clear all
 %load 'saved_vars/cam.mat';
 %load 'saved_vars/cam_andrei.mat';
 %load 'saved_vars/cam17.mat';
-load 'saved_vars/cam17_andrei.mat';
+%load 'saved_vars/cam17_andrei.mat';
 %load 'saved_vars/skeleton.mat';
-
+load 'saved_vars/cam14_segmentacion';
+cam = cam_segmentacion;
 %%
 n_cams = length(cam);
 tot_markers = 14;
