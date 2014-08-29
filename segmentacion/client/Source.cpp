@@ -19,6 +19,7 @@ IplImage* frame=0;
 int frameNum = 0;
 double thresh;
 double thresh2;
+const char *markers_name = "markers.xml";
 
 int main(int argc, char *argv[]){
 	
@@ -93,9 +94,10 @@ int main(int argc, char *argv[]){
 	blobsDetectados detblobs;
 	detblobs = detectarBlobs(imgThresh);
 	//////////////////////////////////////////////////////////
-
-	startXML();
-	XMLAddFrame(frameNum,detblobs.blobs);
+	const char *name = concat(argv[1],markers_name);
+	cout<<"nombre: "<<name<<"\n";
+	startXML(name);
+	XMLAddFrame(frameNum,detblobs.blobs,argv[1]);
 
 	//delete[] detblobsI;
 
@@ -113,7 +115,7 @@ int main(int argc, char *argv[]){
 			{
 				thresh = callOtsuN(frame);
 				thresh2 = thresh*255;
-				cout<<"Umbral en el frame"<<frameNum<<"="<<thresh2<<"\n";
+				//cout<<"Umbral en el frame"<<frameNum<<"="<<thresh2<<"\n";
 		   }
 		   //cout << "max threshold: " << thresh << "\n" ;
 
@@ -121,7 +123,7 @@ int main(int argc, char *argv[]){
 		   	   
 		   detblobs = detectarBlobs(imgThresh); //Detectar markers fitlrados
 
-		   XMLAddFrame(frameNum,detblobs.blobs); //Agregar los blobs de este frame en el xml
+		   XMLAddFrame(frameNum,detblobs.blobs,name); //Agregar los blobs de este frame en el xml
 		   
 		   //oVideoWriter.write(imgThresh); //writer the frame with blobs detected
 		   			 
@@ -139,9 +141,9 @@ int main(int argc, char *argv[]){
            if((char)c==27 ) break;       
       }
 
-	  endXML(); //Cerrar xml
+	  endXML(name); //Cerrar xml
 
-	  waitKey(0); //wait infinite time for a keypress
+	  //waitKey(0); //wait infinite time for a keypress
 
 	  destroyAllWindows;
 	  cvReleaseCapture(&capture);

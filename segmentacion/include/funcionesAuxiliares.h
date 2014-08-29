@@ -13,9 +13,9 @@ void numerar(IplImage *img, CvBlobs blobs );
 //double getMaxThresh(const char * txtName);
 double getMaxThresh(int l, double *thr);
 
-void startXML();
+void startXML(const char *video);
 void XMLAddBlobs(CvBlobs blobs, FILE *file);
-void XMLAddFrame(int frameNumber, CvBlobs blobs);
-void endXML();
-
+void XMLAddFrame(int frameNumber, CvBlobs blobs, const char *video);
+void endXML(const char *video);
+char* concat(const char *one, const char *two);
 void findCircles(IplImage* img);

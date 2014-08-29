@@ -29,6 +29,19 @@ std::string itoa(int n){
   return rtn;
 }
 
+//Concatenar dos const char
+ char* concat(const char *one, const char *two){
+	std::string buf(one);
+	buf.append(two);
+	int l = buf.length();
+	//const char* result=buf.c_str();
+	char* str = new char;
+	strncpy( str, buf.c_str(), sizeof( str ) );
+	str[sizeof(str) - 1] = 0;
+	cout<<"nombre: "<<str<<"\n";
+	return str;
+}
+
 //Distancia vectorial entre dos puntos
 double Distance2(double dX0, double dY0, double dX1, double dY1)
 {
@@ -72,9 +85,9 @@ double getMaxThresh(int l, double *thr){
 }
 
 //Funcion para escribir el xml de los markers detectados
-void startXML(){
+void startXML(const char *video){
 	FILE *file;
-	file = fopen("markers.xml", "w");
+	file = fopen(video, "w");
 	fprintf(file, "%s\n", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 	fprintf(file, "%s\n", "<Detected_Markers Version=\"1\">");
 	fclose(file);
@@ -96,9 +109,9 @@ void XMLAddBlobs(CvBlobs blobs, FILE *file){
 }
 
 //Funcion para escribir el xml de los markers detectados
-void XMLAddFrame(int frameNumber, CvBlobs blobs){
+void XMLAddFrame(int frameNumber, CvBlobs blobs,const char *video){
 	FILE *file;
-	file = fopen("markers.xml", "a");
+	file = fopen(video, "a");
 	fprintf(file, "\t%s%i%s\n", "<Frame id=\"", frameNumber, "\" >");
 	XMLAddBlobs(blobs, file);
 	fprintf(file, "\t%s\n", "</Frame>");
@@ -106,9 +119,9 @@ void XMLAddFrame(int frameNumber, CvBlobs blobs){
 }
 
 //Funcion para escribir el xml de los markers detectados
-void endXML(){
+void endXML(const char *video){
 	FILE *file;
-	file = fopen("markers.xml", "a");
+	file = fopen(video, "a");
 	fprintf(file, "%s\n", "</Detected_Markers>");
 	fclose(file);
 }

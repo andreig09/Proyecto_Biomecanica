@@ -17,7 +17,7 @@ IplImage* filterOtsu(IplImage *img, int thresh){
 	IplImage *threshy=cvCreateImage(cvSize(dWidth,dHeight),8,1); //Threshold image of defined color
 		
 	//smooth the original image using Gaussian kernel
-	cvSmooth(img, img, CV_MEDIAN,3,3);  //----------------> el kernel es el método que se usa para remover ruido, habría que ver cual es el mejor para
+	//cvSmooth(img, img, CV_MEDIAN,3,3);  //----------------> el kernel es el método que se usa para remover ruido, habría que ver cual es el mejor para
 										  //				  lo que queremos. Aca están las opciones: http://docs.opencv.org/modules/imgproc/doc/filtering.html
 	//Changing the color space from BGR to HSV
 	cvCvtColor(img,hsvframe,CV_BGR2GRAY);
@@ -28,7 +28,7 @@ IplImage* filterOtsu(IplImage *img, int thresh){
 	//cvThreshold(hsvframe,threshy,0,255,CV_THRESH_BINARY | CV_THRESH_OTSU);
 
 	//smooth the thresholded image using Median kernel
-    cvSmooth(threshy,threshy,CV_MEDIAN,3,3);
+    //cvSmooth(threshy,threshy,CV_MEDIAN,3,3);
 	
 	cvShowImage("filtro",threshy);
 	
