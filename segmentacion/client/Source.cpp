@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
 	
 	//Obtener video y separarlo en cuadros
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	if ( (argc != 2) && (argc != 3) ) {// argc should be 2 for correct execution
+	if ( (argc < 2) || (argc > 8) ) {// argc should be 2 for correct execution
     // We print argv[0] assuming it is the program name
     cout<<"Cantidad de argumentos incorrecta";
 	}else {
@@ -67,15 +67,16 @@ int main(int argc, char *argv[]){
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
 	//VALORES INICIALES:
-	
+	double thr = FindT(argc,argv);
+	cout<<"argumneto "<<thr<<"\n";
 	//Determinar umbral
-	if (argc == 2)
+	if (thr == -1)
 	{
 		thresh = callOtsuN(frame);
 		thresh2 = thresh*255;
 	}else 
 	{
-		thresh2 = atof(argv[2]);
+		thresh2 = thr;
 		cout<<"Umbral constante para todos los frames"<<"="<<thresh2<<"\n";
 	}
 	
@@ -90,7 +91,6 @@ int main(int argc, char *argv[]){
 	//////////////////////////////////////////////////////////
 	//argv[1] = "cam2-321.avi";
 	const char *name = XMLname(argv[1]);
-	cout<<"nombre: "<<name<<"\n";
 	startXML(name);
 	XMLAddFrame(frameNum,detblobs.blobs,name);
 

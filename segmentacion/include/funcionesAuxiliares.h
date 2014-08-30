@@ -19,3 +19,4 @@ void XMLAddFrame(int frameNumber, CvBlobs blobs, const char *video);
 void endXML(const char *video);
 char* XMLname(const char *one);
 void findCircles(IplImage* img);
+double FindT(int argc,char *argv[]);

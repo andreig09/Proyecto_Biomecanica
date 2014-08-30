@@ -36,11 +36,8 @@ string itoa(int n){
 	int punto = buf.find_first_of(".");
 	buf = buf.erase(punto);
 	buf.append(markers_name);
-	cout<<"nombre: "<<buf<<"\n";
 	char* str = new char;
 	strncpy( str, buf.c_str(), sizeof( buf ) );
-	//str[sizeof(buf) - 1] = 0;
-	cout<<"nombre: "<<str<<"\n";
 	return str;
 }
 
@@ -155,4 +152,21 @@ void findCircles(IplImage* img){
 	namedWindow("circulos",CV_WINDOW_AUTOSIZE);
 	imshow("circulos",imgMat);
 
+}
+
+double FindT(int argc,char *argv[]){
+	double result = -1;
+	
+	if (argc > 2){
+	for (int i = 2; i < argc; i++)
+	{
+		cout<<"argumneto "<< i << "vale "<<argv[i]<<"\n";
+		if (*argv[i] == 't')
+		{
+			cout<<"result vale "<<argv[i]<<"\n";
+			result = atof(argv[i+1]);
+		}
+	}
+	}
+	return result;
 }
