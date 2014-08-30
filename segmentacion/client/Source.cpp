@@ -19,7 +19,7 @@ IplImage* frame=0;
 int frameNum = 0;
 double thresh;
 double thresh2;
-const char *markers_name = "markers.xml";
+
 
 int main(int argc, char *argv[]){
 	
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
     cout<<"Cantidad de argumentos incorrecta";
 	}else {
 
-	//capture = cvCaptureFromAVI("2.mp4"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
+	//capture = cvCaptureFromAVI("cam2-321.avi"); //Camina_pelado.dvd, Camina_pelado_BW.dvd macaco.avi
 	capture = cvCaptureFromAVI(argv[1]);
 
     if(!capture){
@@ -73,31 +73,26 @@ int main(int argc, char *argv[]){
 	{
 		thresh = callOtsuN(frame);
 		thresh2 = thresh*255;
-		cout<<"Umbral en el frame"<<frameNum<<"="<<thresh2<<"\n";
 	}else 
 	{
 		thresh2 = atof(argv[2]);
 		cout<<"Umbral constante para todos los frames"<<"="<<thresh2<<"\n";
 	}
 	
-	//cout << "max threshold: " << thresh2 << "\n" ;
-
+	
 	//Filtrar imagen
     IplImage* imgThresh = filterOtsu(frame,thresh2);
 
 	//Detectar blobs
 	//////////////////////////////////////////////////////////
-	//blobsDetectados detblobs = blobsDetectados();
-	//blobsDetectados* detblobsI = new blobsDetectados();
-	//*detblobs = detectarBlobs(imgThresh);
-	//delete[] detblobs;
 	blobsDetectados detblobs;
 	detblobs = detectarBlobs(imgThresh);
 	//////////////////////////////////////////////////////////
-	const char *name = concat(argv[1],markers_name);
+	//argv[1] = "cam2-321.avi";
+	const char *name = XMLname(argv[1]);
 	cout<<"nombre: "<<name<<"\n";
 	startXML(name);
-	XMLAddFrame(frameNum,detblobs.blobs,argv[1]);
+	XMLAddFrame(frameNum,detblobs.blobs,name);
 
 	//delete[] detblobsI;
 

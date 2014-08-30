@@ -8,9 +8,10 @@ using namespace cv;
 using namespace cvb;
 using namespace std;
 
+const char *markers_name = ".xml";
 
 //Convierte un entero a string
-std::string itoa(int n){
+string itoa(int n){
   std::string rtn;
   bool neg=false;
   if (n<0)
@@ -30,14 +31,15 @@ std::string itoa(int n){
 }
 
 //Concatenar dos const char
- char* concat(const char *one, const char *two){
-	std::string buf(one);
-	buf.append(two);
-	int l = buf.length();
-	//const char* result=buf.c_str();
+ char* XMLname(const char *one){
+	string buf(one);
+	int punto = buf.find_first_of(".");
+	buf = buf.erase(punto);
+	buf.append(markers_name);
+	cout<<"nombre: "<<buf<<"\n";
 	char* str = new char;
-	strncpy( str, buf.c_str(), sizeof( str ) );
-	str[sizeof(str) - 1] = 0;
+	strncpy( str, buf.c_str(), sizeof( buf ) );
+	//str[sizeof(buf) - 1] = 0;
 	cout<<"nombre: "<<str<<"\n";
 	return str;
 }
