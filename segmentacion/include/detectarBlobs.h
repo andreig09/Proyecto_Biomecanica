@@ -25,10 +25,10 @@ struct imgtrack
 	CvBlobs BlobsAnteriores;
 };
 
-blobsDetectados	detectarBlobs(IplImage *filtrada);
+blobsDetectados	detectarBlobs(IplImage *filtrada , double aMax ,double aMin);
 
 CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs);
 
-imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage* imagenTracking);
+//imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage* imagenTracking);
 
 CvBlobs blobsCirculares(CvBlobs intBlobs);

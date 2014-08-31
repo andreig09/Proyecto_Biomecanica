@@ -160,10 +160,38 @@ double FindT(int argc,char *argv[]){
 	if (argc > 2){
 	for (int i = 2; i < argc; i++)
 	{
-		cout<<"argumneto "<< i << "vale "<<argv[i]<<"\n";
 		if (*argv[i] == 't')
 		{
-			cout<<"result vale "<<argv[i]<<"\n";
+			result = atof(argv[i+1]);
+		}
+	}
+	}
+	return result;
+}
+
+double FindA(int argc,char *argv[]){
+	double result = -1;
+	
+	if (argc > 2){
+	for (int i = 2; i < argc; i++)
+	{
+		if (*argv[i] == 'A')
+		{
+			result = atof(argv[i+1]);
+		}
+	}
+	}
+	return result;
+}
+
+double Finda(int argc,char *argv[]){
+	double result = -1;
+	
+	if (argc > 2){
+	for (int i = 2; i < argc; i++)
+	{
+		if (*argv[i] == 'a')
+		{
 			result = atof(argv[i+1]);
 		}
 	}

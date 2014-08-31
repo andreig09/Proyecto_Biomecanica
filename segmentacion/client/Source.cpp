@@ -67,8 +67,17 @@ int main(int argc, char *argv[]){
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
 	//VALORES INICIALES:
+
+	double Amax = FindA(argc,argv);
+	if (Amax != -1){
+	cout<<"area maxima"<<"="<<Amax<<"\n";
+	}
+	double Amin = Finda(argc,argv);
+	if (Amin != -1){
+	cout<<"area minima"<<"="<<Amin<<"\n";
+	}
 	double thr = FindT(argc,argv);
-	cout<<"argumneto "<<thr<<"\n";
+	
 	//Determinar umbral
 	if (thr == -1)
 	{
@@ -87,7 +96,7 @@ int main(int argc, char *argv[]){
 	//Detectar blobs
 	//////////////////////////////////////////////////////////
 	blobsDetectados detblobs;
-	detblobs = detectarBlobs(imgThresh);
+	detblobs = detectarBlobs(imgThresh, Amax, Amin);
 	//////////////////////////////////////////////////////////
 	//argv[1] = "cam2-321.avi";
 	const char *name = XMLname(argv[1]);
@@ -116,7 +125,7 @@ int main(int argc, char *argv[]){
 
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
 		   	   
-		   detblobs = detectarBlobs(imgThresh); //Detectar markers fitlrados
+		   detblobs = detectarBlobs(imgThresh, Amax, Amin); //Detectar markers fitlrados
 
 		   XMLAddFrame(frameNum,detblobs.blobs,name); //Agregar los blobs de este frame en el xml
 		   

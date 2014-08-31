@@ -20,3 +20,5 @@ void endXML(const char *video);
 char* XMLname(const char *one);
 void findCircles(IplImage* img);
 double FindT(int argc,char *argv[]);
+double FindA(int argc,char *argv[]);
+double Finda(int argc,char *argv[]);

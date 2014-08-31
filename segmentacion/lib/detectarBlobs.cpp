@@ -62,7 +62,7 @@ CvBlobs blobsCirculares(CvBlobs intBlobs){
 
 //Funcion que a partir de una imagen filtrada devuelve los blobs.
 //tambien genera la img con blobs y la muestra en una ventana
-blobsDetectados	detectarBlobs(IplImage *filtrada){
+blobsDetectados	detectarBlobs(IplImage *filtrada, double aMax,double aMin){
 	
 	//inicializar elementos
 	blobsDetectados salida;
@@ -85,14 +85,19 @@ blobsDetectados	detectarBlobs(IplImage *filtrada){
 
 	if ( tamanioBlobs > 0) //Si se detecta al menos 1 blob, se dibujan en la imagen y se numeran
 	{
+	
 	//Filtering the blobs (sacar el ruido)
-	//cvFilterByArea(*blobs,10,blobs[cvLargestBlob(*blobs)]->area);
-	//cvFilterByArea(blobs,10,1000);
+	if ((aMax == -1) && (aMin != -1)){
+		cvFilterByArea(blobs,aMin,blobs[cvLargestBlob(blobs)]->area);
+	} else if ((aMax != -1) && (aMin == -1)){
+		cvFilterByArea(blobs,0,aMax);
+	} else if ((aMax != -1) && (aMin != -1)){
+		cvFilterByArea(blobs,aMin,aMax);
+	}
 
 	circulos = blobsCirculares(blobs);
 
 	//Rendering the blobs
-	//cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobs);
 	cvRenderBlobs(labelImg,circulos,filtrada,ImgBlobs);
 	cvRenderBlobs(labelImg,blobs,filtrada,ImgBlobsAll);
 
@@ -167,51 +172,51 @@ CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs){
 
 //Función que dibuja una linea entre las posiciones de los 
 //centroides de un mismo blob en dos imagenes consecutivas de una secuencia de imagenes
-imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage* imagenTracking){
+//imgtrack seguirBlob(IplImage* cuadro,IplImage* filtrada,CvBlob lastBlob,IplImage* imagenTracking){
 	
 	//declaracion de objetos
-	imgtrack salida;
-	CvBlob anterior = lastBlob;
-	IplImage* imgtracked;
-	IplImage* linea = imagenTracking;
-	CvPoint lastcentroid;
-	lastcentroid.x = anterior.centroid.x;
-	lastcentroid.y = anterior.centroid.y;
-	blobsDetectados detectar;
-	CvBlobs blobs;
+//	imgtrack salida;
+//	CvBlob anterior = lastBlob;
+//	IplImage* imgtracked;
+//	IplImage* linea = imagenTracking;
+//	CvPoint lastcentroid;
+//	lastcentroid.x = anterior.centroid.x;
+//	lastcentroid.y = anterior.centroid.y;
+//	blobsDetectados detectar;
+//	CvBlobs blobs;
 
 	//Detectar los blobs de la imagen actual
-	detectar = detectarBlobs(filtrada);
-	blobs = detectar.blobs;
+//	detectar = detectarBlobs(filtrada, argc,argv);
+//	blobs = detectar.blobs;
 	
 	//Si hay al menos uno se ubica el blob deseado
-	if (blobs.size() > 0)
-	{
-	CvBlob blobActual;
-	blobActual  = ubicarBlob(anterior,blobs);
-	int posX;
-	int posY;
-	posX = blobActual.centroid.x;
-	posY = blobActual.centroid.y;
+//	if (blobs.size() > 0)
+//	{
+//	CvBlob blobActual;
+//	blobActual  = ubicarBlob(anterior,blobs);
+//	int posX;
+//	int posY;
+//	posX = blobActual.centroid.x;
+//	posY = blobActual.centroid.y;
 
-	if(lastcentroid.x>=0 && lastcentroid.y>=0 && posX>=0 && posY>=0)
-        {
-            // Draw a line from the previous centroid to the current centroid
-            cvLine(linea, cvPoint(posX, posY), cvPoint(lastcentroid.x, lastcentroid.y), cvScalar(0,0,255), 4);
-		}
-	}
+//	if(lastcentroid.x>=0 && lastcentroid.y>=0 && posX>=0 && posY>=0)
+//        {
+//            // Draw a line from the previous centroid to the current centroid
+//            cvLine(linea, cvPoint(posX, posY), cvPoint(lastcentroid.x, lastcentroid.y), cvScalar(0,0,255), 4);
+//		}
+//	}
 	
-	salida.BlobsAnteriores = detectar.blobs;
+//	salida.BlobsAnteriores = detectar.blobs;
 	
 	//Se crea una imagen igual a la actual con los blobs detectados y se le agrega la linea
-	imgtracked = cvCreateImage(cvGetSize(cuadro), IPL_DEPTH_8U, 3);
-	imgtracked = detectar.imgBlobs;
-	cvAdd(imgtracked, linea, imgtracked);
+//	imgtracked = cvCreateImage(cvGetSize(cuadro), IPL_DEPTH_8U, 3);
+//	imgtracked = detectar.imgBlobs;
+//	cvAdd(imgtracked, linea, imgtracked);
 
-	salida.BlobsTrack = imgtracked;
-	cvShowImage("Seguimiento", imgtracked);
-	salida.tracking = linea;
-	cvReleaseImage(&imgtracked);
-	cvReleaseImage(&linea);
-	return salida;
-}
+//	salida.BlobsTrack = imgtracked;
+//	cvShowImage("Seguimiento", imgtracked);
+//	salida.tracking = linea;
+//	cvReleaseImage(&imgtracked);
+//	cvReleaseImage(&linea);
+//	return salida;
+//}
