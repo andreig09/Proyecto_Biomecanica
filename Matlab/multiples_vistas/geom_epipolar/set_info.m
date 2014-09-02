@@ -114,7 +114,7 @@ function structure_out = set_info(varargin)
 %% ---------
 % Author: M.R.
 % created the 08/07/2014.
-% Copyright T.R.U.C.H.A.
+
 
 %% Cuerpo de la funcion
 
@@ -328,7 +328,7 @@ function structure = set_markers_in_frame(varargin)
 
 %  structure ----->estructura skeleton o cam(i) desde la cual se extrae la informacion
 %  n_frame ------->numero de frame
-%  list_markers -->vector que contiene los marcadores a setear, si este parametro no se coloca por defecto se devuelven todos los marcadores
+%  list_markers -->vector que contiene los marcadores a setear, si este parametro no se coloca por defecto se setean todos los marcadores
 %  t_dato     ---->string que contiene el tipo de dato a setear. 
 %                  Valores = {'coord', 'name', 'estado', 'source_cam', 'like_markers', 'like_cams', 'dist_min'}
 %  
@@ -392,44 +392,27 @@ function structure = set_markers_in_frame(varargin)
             structure.name];
         error('n_frame:IndiceFueraDeRango',str)
     end
-        
+    
+    
+    n_markers = get_info(structure, 'frame', n_frame, 'n_markers'); %nro de marcadores con informacion en el frame n_frame
+    
     %verifico que se intenga setear un marcador que no existe en la estructura    
-    if  sum(list_markers > (structure.frame(n_frame).n_markers+1)) 
+    if  sum(list_markers > (n_markers+1)) 
         str = ['En list_markers se solicita al menos un indice de marcador mayor al que contiene la estructura ' ...
             structure.name sprintf(' en el frame %d .\n', n_frame )];
         error('list_markers:IndiceNoContiguo',str) %se lanza excepcion pues se estan seteando marcadores inexistentes   
     end
     
     
-    %encuentro cuantos marcadores se deben setear
-    if (length(list_markers)==1) && (list_markers == -1) %en este caso se setean todos los marcadores
-        n_markers = size(structure.frame(n_frame).marker, 2);
-    else %solo se devuelven los marcadores de list_markers
-        n_markers = length(list_markers);
-    end
-    
-    
-    %obtengo la salida 
-    
-%     if (length(list_markers)==1) && (list_markers == -1) %en este caso se devuelven todos los marcadores      
-%         for j=1:n_markers %hacer para todos los marcadores
-%             eval(sprintf('structure.frame(n_frame).marker(%d).%s=dato(:,%d);',j, t_dato, j));%dejo los posibles comandos en funcion del parametro "dato"
-%         end        
-%     else % se devuelven solo los marcadores en la lista list_markers        
-%         for j=1:n_markers 
-%         eval(sprintf('structure.frame(n_frame).marker(list_marker(%d)).%s=dato(:,%d);',j, t_dato, j));%dejo los posibles comandos en funcion del parametro "dato"
-%         end
-%     end  
-    
-    %Hacer esta modificación permite automatizar el pasaje de parametros a
-    %la estructura structure sin un ciclo for aumentando la velocidad del codigo en un factor de 10
+          
+    %obtengo la salida    
     if (length(list_markers)==1) && (list_markers == -1) %en este caso se devuelven todos los marcadores 
         if strcmp(t_info, 'name') %en el caso ya se tiene un cell array en la entrada
             columns = info;
         else %en este caso la entrada tiene matrices de numeros
             columns=num2cell(info, 1); %coloca los vectores columnas de "dato" dentro de un cell que compone un cell array.
         end
-        eval(sprintf('[structure.frame(n_frame).marker(:).%s]=columns{:};', t_info)); %copia cada elemento del cell array "colums" en un correspondiente marcador
+        eval(sprintf('[structure.frame(n_frame).marker(1:n_markers).%s]=columns{:};', t_info)); %copia cada elemento del cell array "colums" en un correspondiente marcador
     else
         if strcmp(t_info, 'name') %en el caso ya se tiene un cell array en la entrada
             columns = info;
