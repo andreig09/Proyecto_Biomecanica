@@ -76,10 +76,10 @@ for k=1:n_cams %hacer con cada elemento en list_vid
         end
     end
 end
-
-list_XML = get_list_files(path_XML, '*.xml'); %Genero la lista de salida con los nombres de los xml generados
-
-restore(MatlabPath, MatlabLibraryPath);%restablece las variables de entorno 'ld_library_path' y 'path'    
+%Obtener lista de salida con los nombres de los xml generados
+list_XML = get_list_files(path_XML, '*.xml'); 
+%Restablecer las variables de entorno 'ld_library_path', 'path' y el directorio de trabajo de matlab    
+restore(MatlabPath, MatlabLibraryPath, current_dir);
 
 end
 
