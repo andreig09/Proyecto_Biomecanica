@@ -23,12 +23,12 @@ function list_XML = segmentacion(path_vid, type_vid, path_program, path_XML)
 % created the 01/09/2014.
 
 %% CUERPO DE LA FUNCION
-%Guardar el path que tiene por defecto matlab
+% %Guardar el path que tiene por defecto matlab
 MatlabPath = path; %POR AHORA NO LO USO
 % Guardar ld_library_paths que tiene por defecto matlab
 MatlabLibraryPath = getenv('LD_LIBRARY_PATH');
 %Modificar ld_library_path para que Matlab use las librerias del sistema?
-setenv('LD_LIBRARY_PATH',getenv('PATH'))
+setenv('LD_LIBRARY_PATH','')
 
 %Generar string con el sistema operativo donde se esta ejecutando el matlab 
 os = computer; 
