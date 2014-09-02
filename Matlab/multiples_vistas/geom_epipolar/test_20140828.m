@@ -30,7 +30,7 @@ end
 %%
 
 f_ini=20;
-f_fin=30;
+f_fin=60;
 
 X_in = Xi;
 %X_in = Yi;
@@ -41,8 +41,13 @@ X_in = X_in(:,(X_in(4,:)<=f_fin)&(X_in(4,:)>=f_ini));
 clc;
 close all;
 
-X_out=make_tracking(X_in);
+[X_out,datos]=make_tracking(X_in);
 
+%X_out = X_out(:,X_out(6,:)~=0);
+
+%return;
+
+X_out=X_out(:,X_out(4,:)<=max(X_out(4,X_out(5,:)~=0)));
 
 figure
 
@@ -53,11 +58,16 @@ for marker=1:max(X_out(5,:))
     ylabel('Y')
     zlabel('Z');
     axis equal;
-    %axis([min(Yi(1,:)),max(Yi(1,:)),min(Yi(2,:)),max(Yi(2,:)),min(Yi(3,:)),max(Yi(3,:))]);
+    axis([...
+        min(Yi(1,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
+        max(Yi(1,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
+        min(Yi(2,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
+        max(Yi(2,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
+        min(Yi(3,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
+        max(Yi(3,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))) ]);
     pause(1);
     
 end;
-
 
 
 figure
@@ -66,13 +76,14 @@ plot(X_out(4,:),X_out(7,:),'.');
 title('Distancias Entre Enlaces');
 xlabel('Frame');
 ylabel('Distancia')
-
+%{
 figure
 
 plot(X_out(4,:),X_out(6,:),'.');
 title('Aceleracion Entre Enlaces');
 xlabel('Frame');
 ylabel('Aceleracion')
+%}
 figure
 
 frames = unique(X_out(4,:));
@@ -94,12 +105,13 @@ ylabel('Cantidad');
 
 figure
 
-hist(X_out(7,X_out(7,:)~=(-Inf)&X_out(7,:)~=(0)));
+hist(X_out(7,X_out(7,:)~=(-Inf)&X_out(7,:)~=(0)),20);
 title('Distribucion de distancias enlazadas');
-
+%{
 figure
-marker = 3;
+marker = 1;
 plot(X_out(4,X_out(5,:)==marker),X_out(7,X_out(5,:)==marker),'.-')
 title(['Evolucion distancia de enlaces , marcador ' num2str(marker)]);
 xlabel('Frame');
 ylabel('Distancia');
+%}
