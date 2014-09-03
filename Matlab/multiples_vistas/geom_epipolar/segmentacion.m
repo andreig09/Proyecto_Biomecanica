@@ -43,34 +43,35 @@ n_cams = length(list_vid);
 %La solucion que encontre es VUELTERA pero funciona, moverme a la carpeta de los videos path_vid, efectuo la segmentacion (ahora los parametros de entrada al programa de segmentacion 
 %consisten solo en el nombre del video), y luego muevo los archivos XML generados en path_vid a su carpeta correspondiente path_XML.
 current_dir = pwd; %guardo el directorio actual
-command1 = ['cd ', path_vid];%command1 permite ir a la carpeta path_vid
-eval(command1)%ejecuto command1 
-command3 = ['mv *.xml ', path_XML];%mueve los archivos XML de la carpeta path_vid a la carpeta path_XML
+cd(path_vid);%permite ir a la carpeta path_vid
+%command2 = ['mv *.xml ', path_XML];%mueve los archivos XML de la carpeta path_vid a la carpeta path_XML
 
 for k=1:n_cams %hacer con cada elemento en list_vid
     name_vid = list_vid{k};%nombre del video actual
     %command2 = sprintf('%s/%s %s/%s', path_program, name_program, path_vid, name_vid);%command2 permite segmentar el video name_vid %POR ALGUN
     %MOTIVO NO FUNCIONA CUANDO EL PARAMETRO A LA ENTRADA DE LA SEGMENTACION ES GRANDE
-    command2 = sprintf('%s/%s %s', path_program, name_program, name_vid);%command2 permite segmentar el video name_vid
+    command = sprintf('%s/%s %s', path_program, name_program, name_vid);%command permite segmentar el video name_vid
     str = sprintf('Comenzando el proceso de segmentacion del archivo %s', name_vid);         
     disp(str)
-    [status2, cmdout2]=system(command2);%ejecutar command1 desde terminal
-    %el .xml de salida de command2 se van generando en el directorio desde donde se ejecuta la funcion, actualmente la carpeta path_vid.
-    %luego command3 se encarga de llevar los  .xml hasta path_XML
+    [status, cmdout]=system(command);%ejecutar command desde terminal
+    %el .xml de salida de command se van generando en el directorio desde donde se ejecuta la funcion, actualmente la carpeta path_vid.
+    %luego con movefile se gestiona el llevar los  .xml hasta path_XML
     
-    %Se gestiona la salida segun command2 
-    if status2~=0 %en este caso se obtuvo un error en command2
+    %Se gestiona la salida segun command 
+    if status~=0 %en este caso se obtuvo un error en command 
         restore(MatlabPath, MatlabLibraryPath, current_dir) %restablece las variables de entorno 'ld_library_path' y 'path'           
-        disp(cmdout2)%devuelvo el mensaje de error de command2
-        error('system:ComandoFallido','El comando ''%s'' ha devuelto una señal de error', command2)         
-    else %command2 se ejecuto normalmente        
-        [status3, cmdout3]=system(command3); %command3 se encarga de llevar los  .xml hasta path_XML
-        %se gestiona la salida segun command3
-        if status3~=0 %en este caso se obtuvo un error en command3
+        disp(cmdout)%devuelvo el mensaje de error de command
+        error('system:ComandoFallido','El comando ''%s'' ha devuelto una señal de error', command)         
+    else %command se ejecuto normalmente           
+        [status_mov, message, messageid]=movefile('*.xml', path_XML); %gestiona el llevar los  .xml hasta path_XML
+        %se gestiona la salida segun status_mov
+        if status_mov==0 %en este caso se obtuvo un error al mover  *.xml (OBSERVAR QUE MATLAB DEVUELVE 0 EN CASO DE ERROR)
             restore(MatlabPath, MatlabLibraryPath, current_dir) %restablece las variables de entorno 'ld_library_path' y 'path'           
-            disp(cmdout3)%devuelvo el mensaje de error de command3
-            error('system:ComandoFallido','El comando ''%s'' ha devuelto una señal de error', command3)   
-        else
+            %devuelvo el mensaje de error 
+            disp(message)
+            disp(messageid)
+            error('system:ComandoFallido','El comando para mover *.xml a su carpeta correspondiente ha devuelto una señal de error')   
+        else 
             str = sprintf('La segmentacion del archivo %s ha finalizado satisfactoriamente.', name_vid);
             disp(str)     
         end
