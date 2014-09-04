@@ -1,4 +1,5 @@
-function cam = markersXML2mat(n_cams, n_markers, n_frames, names, archivo)
+%function cam = markersXML2mat(n_cams, n_markers, n_frames, names, archivo)
+function cam = markersXML2mat(names, path_XML, list_XML)
 %Funcion que lleva la informacion de una lista de marcadores desde un XML a la estructura de datos cam.mat 
 
 %% ENTRADA
@@ -30,38 +31,44 @@ function cam = markersXML2mat(n_cams, n_markers, n_frames, names, archivo)
 
 %% CUERPO DE LA FUNCION
 
-    %inicializo la estructura de salida acorde a las necesidades        
+n_markers = length(names); %nro total de marcadores
+n_cams = length(list_XML); %nro de camaras 
+
+for i=1:n_cams %hacer para todas las camaras
+    %importo el archivo XML con los datos de interes
+    archivo = [path_XML '\' list_XML{i}];%sprintf('%s%d.xml', archivo, i); %genero un string con el nombre del archivo a importar  
+    str=['Cargando datos de ', archivo];
+    disp(str); %genera un aviso de que se empieza a cargar datos
+    [frames_XML, n_frames] = importXML(archivo);  
+    
+    %relevo informacion del XML asociado a la camara i
+    index = str2num([frames_XML(:).name]); %obtengo los indices de los marcadores de cada frame y los ubico consecutivamente en un vector de enteros        
+    markers = [frames_XML(:).X]; %obtengo una matriz cuyas columnas son los marcadores de todos los frames
+    markers(3,:) = ones(1,length(index)); %dejo los puntos 2D en coordenadas homogeneas normalizadas
+    index_frames = find(index==1); %se obtienen los indices donde se cambia de frame        
+
+    if i==1 %inicializo la estructura de salida para todas las camaras acorde a las necesidades        
         [cam, ~]=init_structs(n_markers, n_frames, names);
         str = 'Se ha inicializado una estructura cam';
         disp(str)
-        
-    for i=1:n_cams %para cada camara        
-        
-        %importo el archivo XML con los datos de interes
-        archivo_aux = sprintf('%s%d.xml', archivo, i); %genero un string con el nombre del archivo a importar  
-        %archivo = sprintf('saved_vars/markers_cam%d.xml', i); 
-        str=['Cargando datos de ', archivo_aux];
-        disp(str);
-        frames_XML = importXML(archivo_aux); 
-        
-        %relevo informacion del XML asociado a la camara i
-        index = str2num([frames_XML(:).name]); %obtengo los indices de los marcadores de cada frame y los ubico consecutivamente en un vector de enteros
-        markers = [frames_XML(:).X]; %obtengo una matriz cuyas columnas son los marcadores de todos los frames
-        markers(3,:) = ones(1,length(index)); %dejo los puntos 2D en coordenadas homogeneas normalizadas
-        index_frames = find(index==1); %se tienen los indices donde se cambia de frame        
-        
-        %ingreso los datos de la camara i a la estructura cam.mat
-        cam(i) = set_info(cam(i), 'name', i); %ingreso el numero de camara 
-                
-        n = length(index_frames);
-        for j=1:(n-1) %para cada frame menos el ultimo            
-            init_frame = index_frames(j);
-            end_frame= index_frames(j+1)-1;
-            index_in_frame = index(init_frame:end_frame ); %indices de los marcadores en el frame j
-            markers_frame = markers(:,init_frame:end_frame ); %marcadores en el frame j
-            cam(i) = set_info(cam(i), 'frame', j, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara                    
-            cam(i) = set_info(cam(i), 'frame', j, 'n_markers', length(index_in_frame) );%dejo almacenado cuantos marcadores tiene este frame
-        end
+    end
+    
+%     if n_frame ~= n_frame_const %gestionar el error de camaras con distinto nro de frame
+%         error('n_frame:InvalidNumFrame',...
+%             'El XML %s posee un numero de frames distinto a algun otro XML.\nSe deben ingresar un conjunto de XML con igual numero de frame', list_XML{i})         
+%     end
+%ingreso los datos de la camara i a la estructura cam.mat
+    cam(i) = set_info(cam(i), 'name', i); %ingreso el numero de camara
+    %n = length(index_frames);
+    n = n_frames;
+    for j=1:(n-1) %para cada frame menos el ultimo            
+        init_frame = index_frames(j);
+        end_frame= index_frames(j+1)-1;
+        index_in_frame = index(init_frame:end_frame ); %indices de los marcadores en el frame j
+        markers_frame = markers(:,init_frame:end_frame ); %marcadores en el frame j
+        cam(i) = set_info(cam(i), 'frame', j, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara                    
+        cam(i) = set_info(cam(i), 'frame', j, 'n_markers', length(index_in_frame) );%dejo almacenado cuantos marcadores tiene este frame
+    end
         index_in_frame = index(index_frames(n):length(index)); %indices de los marcadores en el frame j
         markers_frame = markers(:,index_frames(n):length(index)); %marcadores en el frame j
         cam(i) = set_info(cam(i), 'frame', n, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara        
@@ -69,10 +76,10 @@ function cam = markersXML2mat(n_cams, n_markers, n_frames, names, archivo)
         
         str = sprintf('Se han ingresado los datos en la camara %d\n', i );
         disp(str)
-    end
+end
 end
 
-function salida = importXML(archivo)
+function [salida, n_frames] = importXML(archivo)
 % Funcion que permite importar archivos XML
 
 %% ENTRADA
@@ -83,23 +90,20 @@ function salida = importXML(archivo)
 
 %% CUERPO DE LA FUNCION
 
-    xml = xmlread(archivo);
+    xml = xmlread(archivo);    
+    children = xml.getChildNodes;    
+    Detected_Markers = children.item(0);    
+    frames = Detected_Markers.getChildNodes;    
+    n_frames = frames.getLength;
     
-    children = xml.getChildNodes;
-    
-    Detected_Markers = children.item(0);
-    
-    frames = Detected_Markers.getChildNodes;
-    
-    totalFrames = frames.getLength;
-    
-    l=1;
-    for i=0:(totalFrames-1)
-        if frames.item(i).getNodeName == 'Frame'
-            salida(l)= parsearFrame(frames.item(i));
-            l = l+1;
+    k=1;
+    for i=0:(n_frames-1)
+        if strcmp(frames.item(i).getNodeName, 'Frame')
+            salida(k)= parsearFrame(frames.item(i));
+            k = k+1;
         end
     end
+    n_frames = k-1;%numero total de frames no vacios
 end
 
 function frameI = parsearFrame(Frame)
@@ -111,7 +115,7 @@ function frameI = parsearFrame(Frame)
         totalMarkers = markers.getLength;
         
         for i = 0:(totalMarkers - 1)
-            if markers.item(i).getNodeName == 'Marker'
+            if strcmp(markers.item(i).getNodeName,'Marker')
                 %Agregar nombre del marcador a frame.name
                 frameI.name(k) = getMarkerName(markers.item(i));
                 %Crear matriz de coordenadas
@@ -120,8 +124,10 @@ function frameI = parsearFrame(Frame)
             end
         end
     else
-        frameI.name = NULL;
-        frameI.X = NULL;
+        %frameI.name = NULL;
+        frameI.name = [];
+        %frameI.X = NULL;
+        frameI.X = [];
     end
 end
 

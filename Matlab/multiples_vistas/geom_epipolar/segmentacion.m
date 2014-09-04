@@ -4,12 +4,15 @@ function list_XML = segmentacion(path_vid, type_vid, path_program, path_XML)
 
 %% ENTRADA
 %path_vid -->string ubicacion de los videos
-%type_vid -->string extension de los videos. Ejemplo '*.dvd', siempre escribir “*.” y la extension
+%type_vid -->string extension de los videos. Ejemplo '*.dvd', siempre escribir '*.' y la extension.
+%           Se asume que los nombres de los videos se diferencian
+%           unicamente en un numero antes de la extension.
 %path_program -->string ubicacion del programa que efectua la segmentacion
 %path_XML -->string ubicacion de los xml de salida
 
 %% SALIDA
 %list_XML -->cell array de strings con los nombres de los xml generados en la carpeta path_XML
+            
 
 %% EJEMPLO%  
 %  path_vid =[pwd '/Seccion_segmentacion/Videos']; %ubicacion de los videos
@@ -79,6 +82,8 @@ for k=1:n_cams %hacer con cada elemento en list_vid
 end
 %Obtener lista de salida con los nombres de los xml generados
 list_XML = get_list_files(path_XML, '*.xml'); 
+%Ordenar la lista de nombres
+list_XML = sort_list(list_XML);
 %Restablecer las variables de entorno 'ld_library_path', 'path' y el directorio de trabajo de matlab    
 restore(MatlabPath, MatlabLibraryPath, current_dir);
 
@@ -89,7 +94,7 @@ function out=get_list_files(path,type)
 %Funcion que genera una lista de un tipo especifico de archivos de un determinado directorio
 %% ENTRADA:
 % path= directorio de los archivos
-% type=tipo de archivos, ejemplo *.doc % Siempre escribir “*.” y la extension
+% type=tipo de archivos, ejemplo *.doc % Siempre escribir “*.�? y la extension
 %% SALIDA: 
 % out=cell array de strings con los nombres de los archivos en el orden que los devuelve el OS [nx1] 
 %% EJEMPLOS
@@ -101,7 +106,25 @@ function out=get_list_files(path,type)
 
 list_dir=dir(fullfile(path,type));
 list_dir={list_dir.name}';
+%devuelvo la salida
 out=list_dir;
+end
+
+function list_XML = sort_list(list_XML)
+%Funcion que ordena los nombres de list_XML..
+%Se supone que los nombres difieren solo en un numero al final
+%La idea es pasar en cada nombre su numero a un vector y luego ordenarlo.
+%Devolviendo la lista con los nombres ordenados de menor a mayor.
+
+index1 = strfind(list_XML{1}, '1.'); %index-1 indica donde termina el nombre y empiezan los numeros
+n_files = length(list_XML); % cantidad de archivos con extensi�n xml
+num_in_name = zeros(1, n_files);
+for k=1:n_files %la idea es pasar cada numero de un nombre a un vector y luego ordenarlo
+    index2 = strfind(list_XML{k}, '.') -1; %indice que indica hasta donde van los numeros finales
+    num_in_name(k)=str2double(list_XML{k}(index1:index2)); %guardo el numero de archivo
+end
+[~, sort_index] = sort(num_in_name);
+list_XML = list_XML(sort_index);
 end
 
 function restore(MatlabPath, MatlabLibraryPath, current_dir)
