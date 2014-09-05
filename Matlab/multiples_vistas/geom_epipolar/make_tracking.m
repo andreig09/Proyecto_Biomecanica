@@ -41,6 +41,8 @@ X_in=X;
 
 X_in = [X_in;zeros(7-size(X_in,1),size(X_in,2))];
 
+size(X_in)
+
 X_out=[];
 
 f_ini=min(X_in(4,:));
@@ -56,33 +58,26 @@ else
     dim_max=3;
 end;
 
-for frame=f_ini:f_fin-1
+for frame=f_ini:f_fin-2
     
     if frame>f_ini
-        X_fprev=X_in(1:dim_max,X_in(4,:)==frame-1);
-        datos(frame).X_fprev = X_in(:,X_in(4,:)==frame-1);
+        X_fprev=X_in(1:dim_max,X_in(4,:)==(frame-1));
+        datos(frame).X_fprev = X_in(:,X_in(4,:)==(frame-1));
     end;
     
     if frame>(f_ini+1)
-        X_fprev2=X_in(1:dim_max,X_in(4,:)==frame-2);
+        X_fprev2=X_in(1:dim_max,X_in(4,:)==(frame-2));
     end;
     
     X_f0=X_in(1:dim_max,X_in(4,:)==frame);
-    X_f1=X_in(1:dim_max,X_in(4,:)==frame+1);
-    X_f2=X_in(1:dim_max,X_in(4,:)==frame+2);
-    
-    datos(frame).X_f0 = X_in(:,X_in(4,:)==frame);
-    datos(frame).X_f1 = X_in(:,X_in(4,:)==frame+1);
-    
+    X_f1=X_in(1:dim_max,X_in(4,:)==(frame+1));
+    X_f2=X_in(1:dim_max,X_in(4,:)==(frame+2));
+        
     if frame==f_ini
-        datos(frame).X_f2 = X_in(:,X_in(4,:)==frame+2);
         link_next=enfrentar_marcadores_inicial(X_f0,X_f1,X_f2);
     elseif frame==f_fin-1
-        datos(frame).X_fprev = X_in(:,X_in(4,:)==frame-1);
-        link_next=enfrentar_marcadores_inicial(X_fprev,X_f0,X_f1);
+        link_next=enfrentar_marcadores_final(X_fprev,X_f0,X_f1,link_prev);
     else
-        datos(frame).X_fprev = X_in(:,X_in(4,:)==frame-1);
-        datos(frame).X_f2 = X_in(:,X_in(4,:)==frame+2);
         [link_next,X_f1_estimado] = enfrentar_marcadores_herda(X_fprev,X_f0,X_f1,X_f2,link_prev);
         %X_f1_estimado
     end;
@@ -121,12 +116,14 @@ for frame=f_ini:f_fin-1
     disp('*************************************');
     
     if exist('link_prev')
+        
         rescatable_1 = intersect(sobran_0,link_prev(:,2)');
         disp([ '@(f) sobran: ' num2str(sobran_0) ', tenia antes: ' num2str(rescatable_1)]);
         % Si puedo recuperar puntos que son rescatables, debido a que
         % tienen enlaces previos, los recupero como los auxiliares en (f+1)
         
         if ~isempty(rescatable_1)
+            %{
             puntos_rescatados_f1 = [];
             for n_resc=1:length(rescatable_1)
                 puntos_rescatados_f1 = [puntos_rescatados_f1,X_f1_estimado(:,rescatable_1(n_resc))];
@@ -135,28 +132,84 @@ for frame=f_ini:f_fin-1
             link_next = enfrentar_marcadores_herda(X_fprev,X_f0,[X_f1,puntos_rescatados_f1],X_f2,link_prev);
             sortrows(link_next,size(link_next,2));
             link_next = link_next(link_next(:,size(link_next,2))< limit_distancia ,:);
-            
+            %}
         end
         
     else
         disp([ '@(f) sobran: ' num2str(sobran_0) ]);
     end
     disp([ '@(f+1) sobran: ' num2str(sobran_1) ]);
-    disp('*************************************');
     
-    if frame==f_fin-1
-        link_prev=link_next(:,2:3);
-    else
-        link_prev=link_next(:,(size(link_next,2)-4):(size(link_next,2)-3));
+    if ~isempty(sobran_1) & frame>f_ini+1 & frame<(f_fin-1)
+        disp('--->');
+        link_recover = enfrentar_marcadores_herda(...
+            datos(frame-2).X_f0(1:3,:),...
+            datos(frame-2).X_f1(1:3,:),...
+            X_f1(:,sobran_1),...
+            X_f2,...
+            datos(frame-2).enlaces(:,size(datos(frame-2).enlaces,2)-4:size(datos(frame-2).enlaces,2)-3));
+        
+        X_f0_aux = [];
+        
+        for n_recover = 1:size(link_recover,1)
+            link_recover(n_recover,3) = sobran_1(link_recover(n_recover,3));
+        end
+        
+        link_recover = link_recover(link_recover(:,size(link_recover,2))< 2*limit_distancia ,:);
+        
+        X_f0_aux = [];
+        link_next_aux = [];
+        
+        for n_recover = 1:size(link_recover,1)
+            X_aux = (1/3)*(...
+                X_f1(1:3,link_recover(n_recover,3))...
+                +3*(datos(frame-2).X_f1(1:3,link_recover(n_recover,2)))...
+                -(datos(frame-2).X_f0(1:3,link_recover(n_recover,1))));
+            X_f0_aux = [X_f0_aux,...
+                [X_aux...
+                ;frame...
+                ;get_marker_from_tracking(X_out,frame-1,link_recover(n_recover,2))...
+                ;NaN...
+                ;norm(X_aux-X_fprev(1:3,link_recover(n_recover,2)))]];
+            
+            link_next_aux = [link_next_aux;link_recover(n_recover,2),size(X_f0,2)+n_recover,link_recover(n_recover,3),0,NaN,norm(X_f1(1:3,link_recover(n_recover,3))-X_f0_aux(1:3,n_recover))];
+        end
+
+        link_recover;
+        
+        if ~isempty(link_recover)
+        X_out=[X_out,X_f0_aux];
+        
+        X_in = [X_in,X_f0_aux];
+        
+        link_next = [link_next;link_next_aux];
+        
+        end;
+        
+        
+        disp('<---');
     end
     
+    disp('*************************************');
+    
+    link_prev=link_next(:,(size(link_next,2)-4):(size(link_next,2)-3));
+    
     datos(frame).enlaces = link_next;
+    datos(frame).X_f0 = X_in(:,X_in(4,:)==frame);
+    datos(frame).X_f1 = X_in(:,X_in(4,:)==(frame+1));
+    if frame==f_ini
+        datos(frame).X_f2 = X_in(:,X_in(4,:)==(frame+2));
+    elseif frame==f_fin-1
+        datos(frame).X_fprev = X_in(:,X_in(4,:)==(frame-1));
+    else
+        datos(frame).X_fprev = X_in(:,X_in(4,:)==(frame-1));
+        datos(frame).X_f2 = X_in(:,X_in(4,:)==(frame+2));
+    end;
     
     
     %% Actualizo los indices en la matriz de salida
-       
     X_out = actualizar_tracking(X_out,X_in,frame,link_next);
-   
+    
     %%
     
     disp(['(f)(f+1) = (' num2str(frame) ')(' num2str(frame+1) '), enlaces = ' num2str(size(link_next,1)) ]);
@@ -172,6 +225,14 @@ for frame=f_ini:f_fin-1
     
 end
 
+end
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function index_marker = get_marker_from_tracking(X_out,frame,index_frame)
+    elementos_frame = X_out(4,:)==frame;
+    marker_frame = X_out(:,elementos_frame);
+    index_marker = marker_frame(5,index_frame);
 end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -204,6 +265,9 @@ if frame==f_ini
     X_out = [X_0,X_1];
 else
     X_0 = X_out(:,elementos_marcadores_actuales);
+    %link_next(:,2:3)
+    X_0
+    X_1
     for n_enlace=1:size(link_next,1)
         enlaces = link_next(n_enlace,2:3);
         X_1(5,enlaces(2)) = X_0(5,enlaces(1));
@@ -323,8 +387,122 @@ end
 end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function link_next = enfrentar_marcadores_final(N0,N1,N2,link_prev)
+%{
+ENTRADA
+
+Ni - matriz DIM 2 o 3 filas, N[#marcadores@(frame)] columnas
+
+N0 - Marcadores del frame (f)
+N1 - Marcadores del frame (f+1)
+N2 - Marcadores del frame (f+2)
+
+SALIDA
+
+link_next - Matriz,
+    1era columna es el indice de marcador en (f)
+    2nda columna es el indice de marcador en (f+1)
+    3era columna es el indice de marcador en (f+1)
+    4rta columna es la aceleracion resultante
+    5ta columna es la distancia (f)(f+1)
+%}
+%% Genenro las posibles combinaciones de trayectorias, calculando la aceleracion, y la distancias resultantes
+
+%num2str(N0,2)
+
+%num2str(N1,2)
+
+N0,N1,N2,link_prev
+
+trayectorias = [];
+
+for n_marker=1:size(N1,2)
+    
+    n_prev = link_prev(link_prev(:,2)==n_marker,1);
+    
+    if ~isempty(n_prev)
+        d3 = norm(N0(:,n_prev)-N1(:,n_marker));
+        
+        if d3 == 0
+            d3 = d3+0.01;
+        end
+        
+        N2_aux = (2*N1(:,n_marker)-N0(:,n_prev));
+        
+        I3 = [];
+        
+        n_dist = 1;
+        
+        while isempty(I3)
+            I3=vecinos_intraframe(N2',N2_aux',(2^n_dist)*d3);
+            % puntos en (f+1) que se encuentran a distancia d3 de la
+            % estimacion, si no se encuentra nada, se incrementa la distancia
+            if isempty(I3)
+                %disp(['marcador (' num2str(n_marker) ') @(f)- No se encontraron candidatos en (f+1), se duplica la distancia - ' num2str((2^(n_dist+1))*d3) ]);
+                n_dist = n_dist+1;
+            else
+                %disp(['marcador (' num2str(n_marker) ') - Se encontraron ' num2str(length(I3)) ' marcadores en (f+1) ' ]);
+            end
+        end;
+        
+        if length(I3)==1
+            tray_aux_3 = [n_prev,n_marker,I3];
+            tray_aux_3(4) = norm(...
+                N2(:,tray_aux_3(3))...
+                -2*N1(:,tray_aux_3(2))...
+                +N0(:,tray_aux_3(1))...
+                );
+            % calculo la aceleracion para la trayectoria
+            tray_aux_3(5) = norm(N2(:,tray_aux_3(3))-N1(:,tray_aux_3(2)));
+            % calculo la distancia (f)(f+1)
+            %disp(num2str(tray_aux_3));
+            trayectorias = [trayectorias;tray_aux_3]
+        else
+            tray_aux_3 = [n_prev*ones(length(I3),1),n_marker*ones(length(I3),1),I3];
+            for n_tray=1:size(tray_aux_3,1)
+                tray_aux_3(n_tray,4) = norm(...
+                    N2(:,tray_aux_3(n_tray,3))...
+                    -2*N1(:,tray_aux_3(n_tray,2))...
+                    +N0(:,tray_aux_3(n_tray,1))...
+                    );
+                % calculo la aceleracion para la trayectoria
+                tray_aux_3(n_tray,5) = norm(N2(:,tray_aux_3(n_tray,3))-N1(:,tray_aux_3(n_tray,2)));
+                % calculo la distancia (f)(f+1)
+                %disp(num2str(tray_aux_3));
+            end;
+            trayectorias = [trayectorias;tray_aux_3]
+        end
+        
+    end;
+    
+    aux=trayectorias;
+    
+    link_next = [];
+    
+    [I,J]=find(aux(:,4)==min(aux(:,4)),1);
+    
+    while ~isempty(I)
+        
+        link_next = [link_next;aux(I,:)];
+        
+        aux = aux(aux(:,1)~=aux(I,1)&aux(:,2)~=aux(I,2),:);
+        
+        [I,J]=find(aux(:,4)==min(aux(:,4)),1);
+        
+    end
+    
+    %disp(['SOBRAN @(f) ' num2str(setdiff(1:size(N0,2),link_next(:,1)'))]);
+    %disp(['SOBRAN @(f+1) ' num2str(setdiff(1:size(N1,2),link_next(:,1)'))]);
+    %median(link_next(:,5))
+    
+end
+end
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [link_next,X_f1_estimado] = enfrentar_marcadores_herda(X_fprev,X_f0,X_f1,X_f2,link_prev)
+
+%X_fprev,X_f0,X_f1,X_f2,link_prev
 
 %num2str(X_f0,2)
 
