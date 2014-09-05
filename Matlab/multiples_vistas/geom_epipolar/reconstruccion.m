@@ -18,7 +18,7 @@ n_cams = length(cam);
 tot_markers = 13;
 
 
-v_cams = [1:n_cams]; % vector de cámaras
+v_cams = 1:n_cams; % vector de cámaras
 frame = 20;
 umbral = .05;
 
@@ -72,9 +72,6 @@ disp(frame)
 
 
 %% cargar estructura
-
-
-
 
 n_Xrec= size(Xrec, 2); %numero de marcadores reconstruidos en el frame 'frame'
 n_markers = get_info(skeleton_segmentacion, 'frame', frame, 'n_markers'); % devuelve el numero de marcadores del frame 'frame' de la estructura structure
