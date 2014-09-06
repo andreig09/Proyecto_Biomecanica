@@ -30,20 +30,28 @@ string itoa(int n){
   return rtn;
 }
 
+ const char* substring(const char* string){
+  const char *e;
+  int index;
+  e = strchr(string, '.');
+  index = (int)(e - string);
+  char* p = new char [index+1];
+  strncpy(p, string, index);
+  p[index] = NULL;
+  return p;
+ }
+
 //Concatenar dos const char
- char* XMLname(const char *one){
-	string buf(one);
-	int punto = buf.find_first_of(".");
-	buf = buf.erase(punto);
-	buf.append(markers_name);
-	char* str = new char;
-	strncpy( str, buf.c_str(), sizeof( buf ) );
-	//char result[100];   // array to hold the result.
-	//strcpy_s(result,one); // copy string one into the result.
-	//strcat(result,markers_name); // append string two to the result.
-	return str;
-	//cout<<"Adentro de la funcion: "<<result<<"\n";
-	//return result;
+ const char* XMLname(const char *one){
+	const char* r = new char [strlen(one)];
+	r = substring(one);
+	const char* p = new char [strlen(r)+strlen(markers_name)+1];
+	const char* s = new char [strlen(one)+strlen(markers_name)+1];
+    //strcpy(const_cast<char*>(p),one);
+	strcpy(const_cast<char*>(p),r);
+	strcat(const_cast<char*>(p),markers_name);
+	strcpy(const_cast<char*>(s),p);
+	return s;
 }
 
 //Distancia vectorial entre dos puntos

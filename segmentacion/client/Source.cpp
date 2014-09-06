@@ -100,6 +100,7 @@ int main(int argc, char *argv[]){
 	//////////////////////////////////////////////////////////
 	//argv[1] = "cam2-321.avi";
 	const char *name = XMLname(argv[1]);
+	cout<<"Afuera de la funcion: "<<name<<"\n";
 	startXML(name);
 	XMLAddFrame(frameNum,detblobs.blobs,name);
 
