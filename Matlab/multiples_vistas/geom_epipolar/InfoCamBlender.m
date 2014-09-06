@@ -197,8 +197,8 @@ sensor_fit = {'AUTO'  'AUTO'  'AUTO'  'AUTO'  'AUTO'  'AUTO'  'AUTO'  'AUTO'  'A
 %Este parametro nos dice que dimension del sensor se va a usar por completo dada la resolucion del renderizado
 
 %Datos del renderizado Blender
-resolution_x = 800*ones(1, length(f));
-resolution_y = 300*ones(1, length(f));
+resolution_x = 1600*ones(1, length(f));
+resolution_y = 600*ones(1, length(f));
 pixel_aspect_x = 1.0;%si estos dos valores son iguales el pixel es cuadrado
 pixel_aspect_y = 1.0;
 frame_start = 0;
