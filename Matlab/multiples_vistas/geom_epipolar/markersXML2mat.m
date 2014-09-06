@@ -36,30 +36,36 @@ n_cams = length(list_XML); %nro de camaras
 
 for i=1:n_cams %hacer para todas las camaras
     %importo el archivo XML con los datos de interes
-    archivo = [path_XML '\' list_XML{i}];%sprintf('%s%d.xml', archivo, i); %genero un string con el nombre del archivo a importar  
+    archivo = [path_XML '/' list_XML{i}];%genero un string con el nombre del archivo a importar  
     str=['Cargando datos de ', archivo];
     disp(str); %genera un aviso de que se empieza a cargar datos
     [frames_XML, n_frames] = importXML(archivo);  
     
-    %relevo informacion del XML asociado a la camara i
-    index = str2num([frames_XML(:).name]); %obtengo los indices de los marcadores de cada frame y los ubico consecutivamente en un vector de enteros        
-    markers = [frames_XML(:).X]; %obtengo una matriz cuyas columnas son los marcadores de todos los frames
-    markers(3,:) = ones(1,length(index)); %dejo los puntos 2D en coordenadas homogeneas normalizadas
-    index_frames = find(index==1); %se obtienen los indices donde se cambia de frame        
-
-    if i==1 %inicializo la estructura de salida para todas las camaras acorde a las necesidades        
+    if i==1 %inicializo la estructura de salida para todas las camaras acorde a las necesidades solo la primer corrida del ciclo for       
         [cam, ~]=init_structs(n_markers, n_frames, names);
         str = 'Se ha inicializado una estructura cam';
         disp(str)
-    end
+        n_frame_const = n_frames;%guardar el numero de frames de la primer camara para saber si este parametro cambian en los siguientes ciclos
+    end 
     
-%     if n_frame ~= n_frame_const %gestionar el error de camaras con distinto nro de frame
-%         error('n_frame:InvalidNumFrame',...
-%             'El XML %s posee un numero de frames distinto a algun otro XML.\nSe deben ingresar un conjunto de XML con igual numero de frame', list_XML{i})         
-%     end
-%ingreso los datos de la camara i a la estructura cam.mat
-    cam(i) = set_info(cam(i), 'name', i); %ingreso el numero de camara
-    %n = length(index_frames);
+    
+    %relevo informacion del XML asociado a la camara i
+    index = str2num([frames_XML(:).name]); %obtengo los indices de los marcadores de cada frame y los ubico consecutivamente en un vector de enteros        
+    markers = [frames_XML(:).X]; %obtengo una matriz cuyas columnas son los marcadores de todos los frames
+    resolution = get_info(cam(i), 'resolution');  %resolution = [res_x, res_y], obtengo las resoluciones horizontal y vertical  
+    markers = set_coordinate_origin(resolution(2), markers); %llevo de coordenadas pixel a coordenadas cartesianas
+    markers(3,:) = ones(1,length(index)); %dejo los puntos 2D en coordenadas homogeneas normalizadas
+    index_frames = find(index==1); %se obtienen todos los indices donde se cambia de frame        
+
+    
+    
+    if n_frames ~= n_frame_const %avisar de que existen camaras con distinto nro de frame
+        str_warning = sprintf('El XML %s posee un numero de frames distinto a algun otro XML.\nSe deben ingresar un conjunto de XML con igual numero de frame', list_XML{i});    
+        disp(str_warning)
+    end
+
+    %ingreso los datos de la camara i a la estructura cam.mat
+    cam(i) = set_info(cam(i), 'name', i); %ingreso el numero de camara    
     n = n_frames;
     for j=1:(n-1) %para cada frame menos el ultimo            
         init_frame = index_frames(j);
@@ -78,6 +84,28 @@ for i=1:n_cams %hacer para todas las camaras
         disp(str)
 end
 end
+
+
+function markers_out = set_coordinate_origin(res_y, markers)
+%Funcion que permite llevar del sistema de coordenadas pixel con origen en la esquina superior izquierda al sistema cartesiano con origen en la esquina inferior
+%izquierda
+
+%% ENTRADA
+%res_y       --> resolucion vertical de la imagen
+%markers     --> las columnas de esta matriz son coordenadas de puntos en una camara
+%% SALIDA
+%markers_out --> se devuelven las coordenadas de markers pero segun el origen del sistema cartesiano 
+
+%% ---------
+% Author: M.R.
+% created the 5/09/2014.
+
+%% CUERPO DE LA FUNCION
+markers_out = markers;
+markers_out(1,:) = markers(1,:) + 0.5; %esto es debido a que las coordenadas pixel el (0, 0) origen pixel esta segun las coordenadas cartesianas en (-0.5, res_y + 0.5) 
+markers_out(2,:) = res_y -markers(2,:) +0.5; 
+end
+
 
 function [salida, n_frames] = importXML(archivo)
 % Funcion que permite importar archivos XML

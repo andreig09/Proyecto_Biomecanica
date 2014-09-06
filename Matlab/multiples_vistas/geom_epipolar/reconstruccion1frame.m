@@ -1,4 +1,19 @@
+%ACTUALMENTE EJEMPLO DE UN CODIGO SIN COMENTARIOS; PRONTO PARA CAER EN EL OLVIDO DENTRO DE UNAS SEMANAS
+
 function Xrec = reconstruccion1frame(cam, v_cams, frame, umbral, tot_markers)
+% PONER ACA QUE HACE LA FUNCION Y COMO LO HACE
+
+%% ENTRADA
+% cam         --> 
+% v_cams      -->
+% frame       --> 
+% umbral      -->  
+% tot_markers -->
+
+%% SALIDA
+% Xrec   -->
+
+%% CUERPO DE LA FUNCION
 
 matches = matchear1(cam, v_cams, frame);
 %valid_matches = matches;
@@ -55,9 +70,22 @@ end
 
 %%
         function matches = matchear1(cam, v_cams, frame)
+        %Funcion que devuelve las parejas que lograron emparejarse tras hacer cam2cam de cam_izq a cam_der y luego cam2cam de cam_der a cam_izq
+        
+        %% ENTRADAS
+        % cam   -->estructura con camaras 
+        % v_cam -->
+        % frame -->
+        
+        %% SALIDAS
+        % matches -->
+        
+        %% CUERPO DE LA FUNCION
             
-            n_cams = length(v_cams);
-            matches = cell(n_cams);
+            n_cams = length(v_cams);%numero de camaras
+            matches = cell(n_cams);%un cell para cada camara
+            
+            
 
             for i = v_cams
                 for j=v_cams
@@ -82,6 +110,17 @@ end
 %%
 
         function matches = matchear2(cam, v_cams, frame)
+        %Funcion que .....
+        
+        %% ENTRADAS
+        % cam   -->estructura con camaras 
+        % v_cam -->
+        % frame -->
+        
+        %% SALIDAS
+        % matches -->
+        
+        %% CUERPO DE LA FUNCION
 
             lv_cams = length(v_cams); 
             for ci = v_cams
@@ -107,6 +146,17 @@ end
     
 %%
         function valid_matches = actualizar_matches(matches, valid_points, v_cams)
+        %Funcion que .....
+        
+        %% ENTRADAS
+        % cam          -->estructura con camaras 
+        % valid_points -->
+        % v_cams       -->
+        
+        %% SALIDAS
+        % valid_matches -->
+        
+        %% CUERPO DE LA FUNCION
 
             
             
@@ -149,6 +199,18 @@ end
 %%
 
         function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams)   
+        %Funcion que .....
+        
+        %% ENTRADAS
+        % valid_matches  -->
+        % cam            -->estructura con camaras 
+        % frame          -->
+        % v_cams         -->
+        
+        %% SALIDAS
+        % valid_matches -->
+        
+        %% CUERPO DE LA FUNCION
 
 
             %num_matches = size(valid_matches);
@@ -219,66 +281,61 @@ end
 %%
 
         function [C,u] = recta3D(cam, p_retina)
-
-            % Dada una cámara y un punto en su retina, devuelve la recta en el espacio
-            % que pasa por dicho punto y el foco de la cámara. La recta 3D es de la
-            % forma (x,y,z) = C + lambda*u, donde C es un punto de la recta 
-            % (en particular el foco de la cámara), u es el
-            % vector dirección y lambda un escalar.
-
-            % entrada:
-            %   cam: una de las camaras de la estructura cam
-            %   p_retina: punto de la retina de la cámara en píxeles (coord. homogeneas)
-
-            % salida:
-            %    P: un punto de la recta
-            %    u: vector director 'u'
-
-            % p_retina puede ser una matriz de puntos p_retina(i,j) siendo las filas,
-            % las 3 coordenas y las columnas los distintos puntos. En ese caso u tiene
-            % la forma u(i,j) donde se devuelve un vector director para cada punto
-            % ingresado.
-
-            P_matrix= get_info(cam, 'projection_matrix') ; % matriz de proyeccion de la cámara
-
-            foco_h = null(P_matrix);  % foco de la cámara en coord homg.
-
-            punto3D_h = pinv(P_matrix)*p_retina; % punto 3D cualquiera tal que si se proyecta en la cámara se obtiene p_retina (coord. homog)
-
-            punto3D = homog2euclid(punto3D_h); % pasa a coord. euclideas
-            foco = homog2euclid(foco_h);    % pasa a coord. euclideas
-
-            num_puntos = size(p_retina,2);
-            u = punto3D - foco*ones (1,num_puntos);   % vector director dela recta
-
-            % normalizo vector director
-            normas = sqrt(u(1,:).^2 + u(2,:).^2 + u(3,:).^2);
-            u(1,:) = u(1,:)./normas;
-            u(2,:) = u(2,:)./normas;
-            u(3,:) = u(3,:)./normas;
-
-
-            C = foco;
+        % Dada una cámara y un punto en su retina, devuelve la recta en el espacio
+        % que pasa por dicho punto y el foco de la cámara. La recta 3D es de la
+        % forma (x,y,z) = C + lambda*u, donde C es un punto de la recta 
+        % (en particular el foco de la cámara), u es el
+        % vector dirección y lambda un escalar.
+        
+        % entrada:
+        %   cam: una de las camaras de la estructura cam
+        %   p_retina: punto de la retina de la cámara en píxeles (coord. homogeneas)
+        
+        % salida:
+        %    P: un punto de la recta
+        %    u: vector director 'u'
+        
+        % p_retina puede ser una matriz de puntos p_retina(i,j) siendo las filas,
+        % las 3 coordenas y las columnas los distintos puntos. En ese caso u tiene
+        % la forma u(i,j) donde se devuelve un vector director para cada punto
+        % ingresado.
+        
+        P_matrix= get_info(cam, 'projection_matrix') ; % matriz de proyeccion de la cámara
+        
+        foco_h = null(P_matrix);  % foco de la cámara en coord homg.
+        
+        punto3D_h = pinv(P_matrix)*p_retina; % punto 3D cualquiera tal que si se proyecta en la cámara se obtiene p_retina (coord. homog)
+        
+        punto3D = homog2euclid(punto3D_h); % pasa a coord. euclideas
+        foco = homog2euclid(foco_h);    % pasa a coord. euclideas
+        
+        num_puntos = size(p_retina,2);
+        u = punto3D - foco*ones (1,num_puntos);   % vector director dela recta
+        
+        % normalizo vector director
+        normas = sqrt(u(1,:).^2 + u(2,:).^2 + u(3,:).^2);
+        u(1,:) = u(1,:)./normas;
+        u(2,:) = u(2,:)./normas;
+        u(3,:) = u(3,:)./normas;
+        
+        
+        C = foco;
         end
-
-%%
+        
+        %%
         function dist = dist_2rectas(C1, u1, C2, u2)
-
-            % dadas 2 rectas con sus respectivos puntos y vectores directores (C1 y u1,
-            % para la recta 1 y C2, u2 para la recta 2) devulve la distancia que hay
-            % entre ellas.
-
-
-            s = cross (u1,u2);
-
-            dist = abs( dot(s,  (C2 - C1))) / norm(s);
-
+        % dadas 2 rectas con sus respectivos puntos y vectores directores (C1 y u1,
+        % para la recta 1 y C2, u2 para la recta 2) devulve la distancia que hay
+        % entre ellas.
+               
+        s = cross (u1,u2);
+        dist = abs( dot(s,  (C2 - C1))) / norm(s);        
         end
-
-
-
-
-
+        
+        
+        
+        
+        
 
 
 % 

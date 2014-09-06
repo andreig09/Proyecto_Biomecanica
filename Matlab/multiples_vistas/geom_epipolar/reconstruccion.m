@@ -24,14 +24,6 @@ umbral = .05;
 
 tic
 for frame=1:300
-%% eliminar esto %%%%%%%%% invierto coordenada y de la estructura
-
-    for i=1:n_cams
-        n_markers = get_info(cam(i), 'frame', frame, 'n_markers');
-        for j=1:n_markers
-            cam(i).frame(frame).marker(j).coord(2) = 300 - cam(i).frame(frame).marker(j).coord(2);
-        end
-    end
 
 %% ensuciar datos
 %  p = 0.80; 
