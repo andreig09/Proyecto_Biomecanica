@@ -47,16 +47,16 @@ n_cams = length(list_vid);
 %consisten solo en el nombre del video), y luego muevo los archivos XML generados en path_vid a su carpeta correspondiente path_XML.
 current_dir = pwd; %guardo el directorio actual
 cd(path_vid);%permite ir a la carpeta path_vid
-%command2 = ['mv *.xml ', path_XML];%mueve los archivos XML de la carpeta path_vid a la carpeta path_XML
 
-for k=1:n_cams %hacer con cada elemento en list_vid
+parfor k=1:n_cams %hacer con cada elemento en list_vid
     name_vid = list_vid{k};%nombre del video actual
     %command2 = sprintf('%s/%s %s/%s', path_program, name_program, path_vid, name_vid);%command2 permite segmentar el video name_vid %POR ALGUN
     %MOTIVO NO FUNCIONA CUANDO EL PARAMETRO A LA ENTRADA DE LA SEGMENTACION ES GRANDE
     command = sprintf('%s/%s %s', path_program, name_program, name_vid);%command permite segmentar el video name_vid
     str = sprintf('Comenzando el proceso de segmentacion del archivo %s', name_vid);         
     disp(str)
-    [status, cmdout]=system(command);%ejecutar command desde terminal
+    [status, cmdout]=execute_command(command) %ejecutar command desde terminal
+    %[status, cmdout]=system(command);%ejecutar command desde terminal
     %el .xml de salida de command se van generando en el directorio desde donde se ejecuta la funcion, actualmente la carpeta path_vid.
     %luego con movefile se gestiona el llevar los  .xml hasta path_XML
     
@@ -90,11 +90,17 @@ restore(MatlabPath, MatlabLibraryPath, current_dir);
 end
 
 
+function [status, cmdout]=execute_command(command)
+%Funcion que permite ejecutar commandos del sistema operativo
+[status, cmdout]=system(command);%ejecutar command desde terminal
+end
+
+
 function out=get_list_files(path,type)
 %Funcion que genera una lista de un tipo especifico de archivos de un determinado directorio
 %% ENTRADA:
 % path= directorio de los archivos
-% type=tipo de archivos, ejemplo *.doc % Siempre escribir â€œ*.â€? y la extension
+% type=tipo de archivos, ejemplo *.doc % Siempre escribir â€œ*.ï¿½? y la extension
 %% SALIDA: 
 % out=cell array de strings con los nombres de los archivos en el orden que los devuelve el OS [nx1] 
 %% EJEMPLOS
@@ -117,7 +123,7 @@ function list_XML = sort_list(list_XML)
 %Devolviendo la lista con los nombres ordenados de menor a mayor.
 
 index1 = strfind(list_XML{1}, '1.'); %index-1 indica donde termina el nombre y empiezan los numeros
-n_files = length(list_XML); % cantidad de archivos con extensión xml
+n_files = length(list_XML); % cantidad de archivos con extensiï¿½n xml
 num_in_name = zeros(1, n_files);
 for k=1:n_files %la idea es pasar cada numero de un nombre a un vector y luego ordenarlo
     index2 = strfind(list_XML{k}, '.') -1; %indice que indica hasta donde van los numeros finales

@@ -104,7 +104,7 @@ cam = repmat(cam, 1, n_cams);  %genero un numero n_cams de camaras
         cam(i).name = i;
         cam(i).n_frames = n_frames;        
         %genero la estructura info para la camara
-        cam(i).info.Rc = Rq(:,:,i)';%matriz de rotación calculada a partir de cuaterniones
+        cam(i).info.Rc = Rq(:,:,i)';%matriz de rotación calculada a partir de cuaterniones        
         cam(i).info.Tc = [T(1,i); T(2,i); T(3,i)];
         cam(i).info.f = f(i);
         cam(i).info.resolution = resolution(:,i);
