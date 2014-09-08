@@ -34,20 +34,31 @@ function cam = markersXML2mat(names, path_XML, list_XML)
 n_markers = length(names); %nro total de marcadores
 n_cams = length(list_XML); %nro de camaras 
 
-for i=1:n_cams %hacer para todas las camaras
-    %importo el archivo XML con los datos de interes
-    archivo = [path_XML '/' list_XML{i}];%genero un string con el nombre del archivo a importar  
-    str=['Cargando datos de ', archivo];
-    disp(str); %genera un aviso de que se empieza a cargar datos
-    [frames_XML, n_frames] = importXML(archivo);  
-    
-    if i==1 %inicializo la estructura de salida para todas las camaras acorde a las necesidades solo la primer corrida del ciclo for       
+%para poder correr el ciclo parfor debo hacer lo siguiente antes de entrar 
+        archivo = [path_XML '/' list_XML{1}];%genero un string con el nombre del archivo a importar
+        [~, n_frames] = importXML(archivo);
+        n_frame_const = n_frames;%guardar el numero de frames de la primer camara para saber si este parametro cambian en los siguientes ciclos 
         [cam, ~]=init_structs(n_markers, n_frames, names);
         str = 'Se ha inicializado una estructura cam';
         disp(str)
-        n_frame_const = n_frames;%guardar el numero de frames de la primer camara para saber si este parametro cambian en los siguientes ciclos
-    end 
+               
+%%%%%%%%%%%%%%%
+
     
+parfor i=1:n_cams %hacer para todas las camaras
+    %importo el archivo XML con los datos de interes
+    archivo = [path_XML '/' list_XML{i}];%genero un string con el nombre del archivo a importar  
+%     str=['Cargando datos de ', archivo];
+%     disp(str); %genera un aviso de que se empieza a cargar datos
+    [frames_XML, n_frames] = importXML(archivo);  
+    
+%     if i==1 %inicializo la estructura de salida para todas las camaras acorde a las necesidades solo la primer corrida del ciclo for       
+%         [cam, ~]=init_structs(n_markers, n_frames, names);
+%         str = 'Se ha inicializado una estructura cam';
+%         disp(str)
+%         n_frame_const = n_frames;%guardar el numero de frames de la primer camara para saber si este parametro cambian en los siguientes ciclos
+%     end 
+%     
     
     %relevo informacion del XML asociado a la camara i
     index = str2num([frames_XML(:).name]); %obtengo los indices de los marcadores de cada frame y los ubico consecutivamente en un vector de enteros        

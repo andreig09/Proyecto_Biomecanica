@@ -49,13 +49,13 @@ current_dir = pwd; %guardo el directorio actual
 cd(path_vid);%permite ir a la carpeta path_vid
 
 parfor k=1:n_cams %hacer con cada elemento en list_vid
-    name_vid = list_vid{k};%nombre del video actual
+    name_vid = list_vid{k};%nombre del video actual    
     %command2 = sprintf('%s/%s %s/%s', path_program, name_program, path_vid, name_vid);%command2 permite segmentar el video name_vid %POR ALGUN
     %MOTIVO NO FUNCIONA CUANDO EL PARAMETRO A LA ENTRADA DE LA SEGMENTACION ES GRANDE
     command = sprintf('%s/%s %s', path_program, name_program, name_vid);%command permite segmentar el video name_vid
-    str = sprintf('Comenzando el proceso de segmentacion del archivo %s', name_vid);         
-    disp(str)
-    [status, cmdout]=execute_command(command) %ejecutar command desde terminal
+%     str = sprintf('Comenzando el proceso de segmentacion del archivo %s', name_vid);         
+%     disp(str)
+    [status, cmdout]=execute_command(command); %ejecutar command desde terminal
     %[status, cmdout]=system(command);%ejecutar command desde terminal
     %el .xml de salida de command se van generando en el directorio desde donde se ejecuta la funcion, actualmente la carpeta path_vid.
     %luego con movefile se gestiona el llevar los  .xml hasta path_XML
@@ -65,20 +65,32 @@ parfor k=1:n_cams %hacer con cada elemento en list_vid
         restore(MatlabPath, MatlabLibraryPath, current_dir) %restablece las variables de entorno 'ld_library_path' y 'path'           
         disp(cmdout)%devuelvo el mensaje de error de command
         error('system:ComandoFallido','El comando ''%s'' ha devuelto una señal de error', command)         
-    else %command se ejecuto normalmente           
-        [status_mov, message, messageid]=movefile('*.xml', path_XML); %gestiona el llevar los  .xml hasta path_XML
-        %se gestiona la salida segun status_mov
-        if status_mov==0 %en este caso se obtuvo un error al mover  *.xml (OBSERVAR QUE MATLAB DEVUELVE 0 EN CASO DE ERROR)
-            restore(MatlabPath, MatlabLibraryPath, current_dir) %restablece las variables de entorno 'ld_library_path' y 'path'           
-            %devuelvo el mensaje de error 
-            disp(message)
-            disp(messageid)
-            error('system:ComandoFallido','El comando para mover *.xml a su carpeta correspondiente ha devuelto una señal de error')   
-        else 
+    else %command se ejecuto normalmente    
+%         name = name_vid(1:(length(name_vid)-4));%name_vid pero sin la extension de video
+%         [status_mov, message, messageid]=movefile([name, '.xml'], path_XML); %gestiona el llevar los  .xml hasta path_XML
+%         %se gestiona la salida segun status_mov
+%         if status_mov==0 %en este caso se obtuvo un error al mover  *.xml (OBSERVAR QUE MATLAB DEVUELVE 0 EN CASO DE ERROR)
+%             restore(MatlabPath, MatlabLibraryPath, current_dir) %restablece las variables de entorno 'ld_library_path' y 'path'           
+%             %devuelvo el mensaje de error 
+%             disp(message)
+%             disp(messageid)
+%             error('system:ComandoFallido','El comando para mover *.xml a su carpeta correspondiente ha devuelto una señal de error')   
+%         else 
             str = sprintf('La segmentacion del archivo %s ha finalizado satisfactoriamente.', name_vid);
             disp(str)     
-        end
+%         end
     end
+end
+
+%Llevar los .xml hasta path_XML
+[status_mov, message, messageid]=movefile('*.xml', path_XML); %gestiona el llevar los  .xml hasta path_XML
+%se gestiona la salida segun status_mov
+if status_mov==0 %en este caso se obtuvo un error al mover  *.xml (OBSERVAR QUE MATLAB DEVUELVE CERO EN CASO DE ERROR)
+    restore(MatlabPath, MatlabLibraryPath, current_dir) %restablece las variables de entorno 'ld_library_path' y 'path'           
+    %devuelvo el mensaje de error 
+    disp(message)
+    disp(messageid)
+    error('system:ComandoFallido','El comando para mover *.xml a su carpeta correspondiente ha devuelto una señal de error')      
 end
 %Obtener lista de salida con los nombres de los xml generados
 list_XML = get_list_files(path_XML, '*.xml'); 
