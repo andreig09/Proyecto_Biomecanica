@@ -147,7 +147,7 @@ disp('Se han cargado los datos basicos de las estructuras. \nRestan las tablas d
 
 
 markers_work = {'LeftFoot' 'LeftLeg' 'LeftUpLeg' 'RightFoot' 'RightLeg' 'RightUpLeg'...
-    'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'RHand' 'RightForeArm' 'RightArm'};%cell array con los marcadores que se van a usar
+    'RightShoulder' 'LHand' 'LeftForeArm' 'LeftArm' 'RHand' 'RightForeArm' 'RightArm'};%cell array con los marcadores que se van a usar
 
 %obtengo un cell array con los nombres de los marcadores a suprimir 
 n_work = length(markers_work);
@@ -176,8 +176,8 @@ end
 
 %% Guardo y Limpio variables 
 if guardar==1    
-    save('saved_vars/skeleton14','skeleton');
-    save('saved_vars/cam14','cam');    
+    save('saved_vars/skeleton13_ground_truth','skeleton');
+    save('saved_vars/cam13_ground_truth','cam');    
 end
 
 clearvars -except cam n_cams n_markers n_frames name_bvh skeleton F
