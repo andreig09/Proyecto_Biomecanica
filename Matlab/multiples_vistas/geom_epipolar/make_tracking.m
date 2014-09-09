@@ -41,8 +41,6 @@ X_in=X;
 
 X_in = [X_in;zeros(7-size(X_in,1),size(X_in,2))];
 
-size(X_in)
-
 X_out=[];
 
 f_ini=min(X_in(4,:));
@@ -72,7 +70,7 @@ for frame=f_ini:f_fin-2
     X_f0=X_in(1:dim_max,X_in(4,:)==frame);
     X_f1=X_in(1:dim_max,X_in(4,:)==(frame+1));
     X_f2=X_in(1:dim_max,X_in(4,:)==(frame+2));
-        
+    
     if frame==f_ini
         link_next=enfrentar_marcadores_inicial(X_f0,X_f1,X_f2);
     elseif frame==f_fin-1
@@ -123,11 +121,29 @@ for frame=f_ini:f_fin-2
         % tienen enlaces previos, los recupero como los auxiliares en (f+1)
         
         if ~isempty(rescatable_1)
-            %{
+            
             puntos_rescatados_f1 = [];
             for n_resc=1:length(rescatable_1)
-                puntos_rescatados_f1 = [puntos_rescatados_f1,X_f1_estimado(:,rescatable_1(n_resc))];
+                %puntos_rescatados_f1 = [puntos_rescatados_f1,X_f1_estimado(:,rescatable_1(n_resc))];
+                %get_marker_from_tracking(X_out,frame,rescatable_1(n_resc))
+                X_previos = X_out(:,(X_out(5,:)==get_marker_from_tracking(X_out,frame,rescatable_1(n_resc))));
+                disp([ 'Tengo ' num2str(size(X_previos,2)) ' en la cadena rescatable [' num2str(get_marker_from_tracking(X_out,frame,rescatable_1(n_resc))) '] = [' num2str(rescatable_1(n_resc)) '] @ f = ' num2str(frame) ]);
+                if size(X_previos,2) >=3
+                    X_previos=X_previos(1:3,size(X_previos,2)-2:size(X_previos,2));
+                    X_next = X_previos*[1;-3;3];
+                    %X_next = X_previos*[0;-1;2];
+                    %X_in=[X_in,[X_next;(frame+1)*ones(1,size(X_next,2));zeros(size(X_in,1)-4,size(X_next,2))]];
+                    %X_f1 = X_in(1:3,X_in(4,:)==(frame+1));
+                    %[I,J] = find(X_f1==X_next*ones(1,size(X_f1,2)));
+                    %J = unique(J);
+                    %link_next = [link_next;link_prev(link_prev(:,2)==rescatable_1(n_resc),:),J,0,NaN,norm([X_previos,X_next]*[0;0;-1;1])];
+                    
+                elseif size(X_previos,2) ==2
+                    
+                end
             end;
+            
+            %{
             X_in=[X_in,[puntos_rescatados_f1;(frame+1)*ones(1,size(puntos_rescatados_f1,2));zeros(size(X_in,1)-4,size(puntos_rescatados_f1,2))]];
             link_next = enfrentar_marcadores_herda(X_fprev,X_f0,[X_f1,puntos_rescatados_f1],X_f2,link_prev);
             sortrows(link_next,size(link_next,2));
@@ -141,7 +157,8 @@ for frame=f_ini:f_fin-2
     disp([ '@(f+1) sobran: ' num2str(sobran_1) ]);
     
     if ~isempty(sobran_1) & frame>f_ini+1 & frame<(f_fin-1)
-        disp('--->');
+        %{
+        disp('COMIENZO TRACKING SALTEADO--->');
         link_recover = enfrentar_marcadores_herda(...
             datos(frame-2).X_f0(1:3,:),...
             datos(frame-2).X_f1(1:3,:),...
@@ -174,20 +191,21 @@ for frame=f_ini:f_fin-2
             
             link_next_aux = [link_next_aux;link_recover(n_recover,2),size(X_f0,2)+n_recover,link_recover(n_recover,3),0,NaN,norm(X_f1(1:3,link_recover(n_recover,3))-X_f0_aux(1:3,n_recover))];
         end
-
+        
         link_recover;
         
         if ~isempty(link_recover)
-        X_out=[X_out,X_f0_aux];
-        
-        X_in = [X_in,X_f0_aux];
-        
-        link_next = [link_next;link_next_aux];
-        
+            X_out=[X_out,X_f0_aux];
+            
+            X_in = [X_in,X_f0_aux];
+            
+            link_next = [link_next;link_next_aux];
+            
         end;
         
         
-        disp('<---');
+        disp('<---TERMINO TRACKING SALTEADO');
+        %}
     end
     
     disp('*************************************');
@@ -230,9 +248,9 @@ end
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function index_marker = get_marker_from_tracking(X_out,frame,index_frame)
-    elementos_frame = X_out(4,:)==frame;
-    marker_frame = X_out(:,elementos_frame);
-    index_marker = marker_frame(5,index_frame);
+elementos_frame = X_out(4,:)==frame;
+marker_frame = X_out(:,elementos_frame);
+index_marker = marker_frame(5,index_frame);
 end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -266,8 +284,8 @@ if frame==f_ini
 else
     X_0 = X_out(:,elementos_marcadores_actuales);
     %link_next(:,2:3)
-    X_0
-    X_1
+    %X_0
+    %X_1
     for n_enlace=1:size(link_next,1)
         enlaces = link_next(n_enlace,2:3);
         X_1(5,enlaces(2)) = X_0(5,enlaces(1));
