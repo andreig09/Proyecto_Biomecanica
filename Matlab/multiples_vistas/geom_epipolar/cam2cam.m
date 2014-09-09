@@ -84,6 +84,9 @@ function [xi, xd, index_table, d_min]= cam2cam(varargin)
     
     if (n_xi == 1) %tengo un solo punto xi para proyectar
         [xd, index_table, d_min] = xd_from_xi(cam_i, cam_d, n_frame, 'point', xi, index_xi, 'n_points', n_points);
+        %devuelvo un cell array a menos que se utilice 'show' como parametro de entrada
+        index_table = {index_table};
+        d_min = {d_min};
     else %tengo mas de un punto
         %inicializo salidas
         xd=cell(1, n_xi);
