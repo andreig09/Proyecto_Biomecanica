@@ -9,13 +9,21 @@ end
 %% Parametros de entrada
 names = {'LeftFoot' 'LeftLeg' 'LeftUpLeg' 'RightFoot' 'RightLeg' 'RightUpLeg'...
     'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'RHand' 'RightForeArm' 'RightArm'};
+
+names = 1:8;
+names = cellstr(num2str(names'));
+
+
+
+
 name_bvh ='Mannaquin_con_Armadura_menos_pelotitas.bvh';
 current_dir = pwd;
 %path_XML = 'C:\Users\Administrador\Desktop\Seccion_segmentacion';
 path_vid = [current_dir '/Seccion_segmentacion/Videos'];
 type_vid = '*.dvd'; %el nombre de la extension siempre debe escribirse como '*.extension'
 path_program = [current_dir '/Seccion_segmentacion/ProgramaC']; %donde residen los programas que efectuan la segmentacion
-path_XML = [current_dir '/Seccion_segmentacion/XML']; %donde se quieren los archivos xml luego de la segmentacion
+%path_XML = [current_dir '/Seccion_segmentacion/XML']; %donde se quieren los archivos xml luego de la segmentacion
+path_XML = [current_dir '/saved_vars']; %donde se quieren los archivos xml luego de la segmentacion
 path_mat = [current_dir '/saved_vars']; %donde se guardan las estructuras .mat luego de la segmentacion
 name = '13_segmentacion'; %parte final del nombre de los archvos .mat a generar
 
@@ -23,8 +31,8 @@ name = '13_segmentacion'; %parte final del nombre de los archvos .mat a generar
 
 disp('__________________________________________________')
 disp('Se inicia el proceso de Segmentacion.')
-list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
-disp('La segmentacion a culminado con exito.')
+% list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
+% disp('La segmentacion a culminado con exito.')
 %%%%%%%%%%%%%%%%%%%% Esto se tiene que borrar una vez que Andréi solucione lo de los nombres en Source
 list_XML=dir(fullfile(path_XML,'*.xml'));
 list_XML={list_XML.name}';

@@ -31,7 +31,7 @@ function cam = markersXML2mat(names, path_XML, list_XML)
 
 %% CUERPO DE LA FUNCION
 
-n_markers = length(names); %nro total de marcadores
+n_markers = 3*length(names); %nro total de marcadores
 n_cams = length(list_XML); %nro de camaras 
 
 %para poder correr el ciclo parfor debo hacer lo siguiente antes de entrar 
@@ -45,7 +45,7 @@ n_cams = length(list_XML); %nro de camaras
 %%%%%%%%%%%%%%%
 
     
-parfor i=1:n_cams %hacer para todas las camaras
+for i=1:n_cams %hacer para todas las camaras
     %importo el archivo XML con los datos de interes
     archivo = [path_XML '/' list_XML{i}];%genero un string con el nombre del archivo a importar  
 %     str=['Cargando datos de ', archivo];
@@ -61,6 +61,14 @@ parfor i=1:n_cams %hacer para todas las camaras
 %     
     
     %relevo informacion del XML asociado a la camara i
+    aux={frames_XML(:).name};
+    isempt_aux = cellfun(@isempty,aux);   %Encuentra indices vacios dentro del cell     
+    [ ~ , emptyIndex] = find(isempt_aux); %encuentro el numero total de indices vacios    
+    if ~isempty(emptyIndex) %solo efectuo cambios si se tiene algun indice vacio        
+        [frames_XML(isempt_aux).name] = deal('1');  %Lleno los nombres vacios con el string '1'
+        [frames_XML(isempt_aux).X] = deal(zeros(2, 1));%distribuyendo en todos los lugares vacios de frame_XML un marcador con coordenadas nulas 
+    end
+    
     index = str2num([frames_XML(:).name]); %obtengo los indices de los marcadores de cada frame y los ubico consecutivamente en un vector de enteros        
     markers = [frames_XML(:).X]; %obtengo una matriz cuyas columnas son los marcadores de todos los frames
     resolution = get_info(cam(i), 'resolution');  %resolution = [res_x, res_y], obtengo las resoluciones horizontal y vertical  
@@ -94,6 +102,11 @@ parfor i=1:n_cams %hacer para todas las camaras
         str = sprintf('Se han ingresado los datos en la camara %d\n', i );
         disp(str)
 end
+end
+
+function x = fill_name_empty(x)
+%Funcion que verifica si los elementos del cell array x tienen un string vacio. En caso de encontrarlo lo relleno con el string '1'
+
 end
 
 
