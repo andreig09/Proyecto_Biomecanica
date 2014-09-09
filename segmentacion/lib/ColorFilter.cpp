@@ -11,8 +11,8 @@ IplImage* filterOtsu(IplImage *img, int thresh){
 
 	cvNamedWindow("filtro");
 
-	double dWidth = cvGetSize(img).width;
-    double dHeight = cvGetSize(img).height;
+	int dWidth = cvGetSize(img).width;
+    int dHeight = cvGetSize(img).height;
 	IplImage *hsvframe=cvCreateImage(cvSize(dWidth,dHeight),8,1);//Image in HSV color space
 	IplImage *threshy=cvCreateImage(cvSize(dWidth,dHeight),8,1); //Threshold image of defined color
 		
