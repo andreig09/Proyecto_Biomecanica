@@ -25,7 +25,7 @@ path_program = [current_dir '/Seccion_segmentacion/ProgramaC']; %donde residen l
 %path_XML = [current_dir '/Seccion_segmentacion/XML']; %donde se quieren los archivos xml luego de la segmentacion
 path_XML = [current_dir '/saved_vars']; %donde se quieren los archivos xml luego de la segmentacion
 path_mat = [current_dir '/saved_vars']; %donde se guardan las estructuras .mat luego de la segmentacion
-name = '13_segmentacion'; %parte final del nombre de los archvos .mat a generar
+name = '_clinicas'; %parte final del nombre de los archvos .mat a generar
 
 %% Segmentacion
 
@@ -55,7 +55,7 @@ disp('__________________________________________________')
 disp('Se inicia el pasaje de archivos .xml a estructuras .mat.')
 
 n_cams = length(list_XML); %numero de camaras importadas
-n_markers = length(names); %nro de marcadores a detectar
+n_markers = 3*length(names); %nro de marcadores a detectar
 
 %cargo los archivos xml provenientes de la segmentacion asi como los datos de las camaras Blender
 cam_segmentacion = markersXML2mat(names, path_XML, list_XML);

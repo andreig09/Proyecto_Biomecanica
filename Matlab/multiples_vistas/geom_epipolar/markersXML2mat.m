@@ -65,8 +65,8 @@ for i=1:n_cams %hacer para todas las camaras
     isempt_aux = cellfun(@isempty,aux);   %Encuentra indices vacios dentro del cell     
     [ ~ , emptyIndex] = find(isempt_aux); %encuentro el numero total de indices vacios    
     if ~isempty(emptyIndex) %solo efectuo cambios si se tiene algun indice vacio        
-        [frames_XML(isempt_aux).name] = deal('1');  %Lleno los nombres vacios con el string '1'
-        [frames_XML(isempt_aux).X] = deal(zeros(2, 1));%distribuyendo en todos los lugares vacios de frame_XML un marcador con coordenadas nulas 
+        [frames_XML(isempt_aux).name] = deal(java.lang.String('1'));  %Lleno los nombres vacios con el string '1'
+        [frames_XML(isempt_aux).X] = deal(zeros(3, 1));%distribuyendo en todos los lugares vacios de frame_XML un marcador con coordenadas nulas 
     end
     
     index = str2num([frames_XML(:).name]); %obtengo los indices de los marcadores de cada frame y los ubico consecutivamente en un vector de enteros        
