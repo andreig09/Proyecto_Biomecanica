@@ -45,7 +45,7 @@ n_cams = length(list_XML); %nro de camaras
 %%%%%%%%%%%%%%%
 
     
-for i=1:n_cams %hacer para todas las camaras
+parfor i=1:n_cams %hacer para todas las camaras
     %importo el archivo XML con los datos de interes
     archivo = [path_XML '/' list_XML{i}];%genero un string con el nombre del archivo a importar  
 %     str=['Cargando datos de ', archivo];
