@@ -7,12 +7,14 @@ end
 
 
 %% Parametros de entrada
+%nombres para trabajar con los catorce marcadores de 'Mannaquin_con_Armadura_menos_pelotitas.bvh'
 names = {'LeftFoot' 'LeftLeg' 'LeftUpLeg' 'RightFoot' 'RightLeg' 'RightUpLeg'...
     'RightShoulder' 'Head' 'LHand' 'LeftForeArm' 'LeftArm' 'RHand' 'RightForeArm' 'RightArm'};
 
+
+%nombres de los marcadores del clinicas
 names = 1:8;
 names = cellstr(num2str(names'));
-
 
 
 
@@ -25,15 +27,18 @@ path_program = [current_dir '/Seccion_segmentacion/ProgramaC']; %donde residen l
 %path_XML = [current_dir '/Seccion_segmentacion/XML']; %donde se quieren los archivos xml luego de la segmentacion
 path_XML = [current_dir '/saved_vars']; %donde se quieren los archivos xml luego de la segmentacion
 path_mat = [current_dir '/saved_vars']; %donde se guardan las estructuras .mat luego de la segmentacion
-name = '_clinicas'; %parte final del nombre de los archvos .mat a generar
+%parte final del nombre de los archvos .mat a generar
+%name = '13_segmentacion';
+name = '_clinicas'; 
 
 %% Segmentacion
 
 disp('__________________________________________________')
 disp('Se inicia el proceso de Segmentacion.')
-% list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
-% disp('La segmentacion a culminado con exito.')
-%%%%%%%%%%%%%%%%%%%% Esto se tiene que borrar una vez que Andréi solucione lo de los nombres en Source
+%list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
+%disp('La segmentacion a culminado con exito.')
+
+%%%%%%%%%%%%%%%%%%%% Esto se utiliza para empezar a partir de archivos xml en una cierta carpeta, luego debo hacer una funcion con esto
 list_XML=dir(fullfile(path_XML,'*.xml'));
 list_XML={list_XML.name}';
 
@@ -42,7 +47,7 @@ n_files = length(list_XML); % cantidad de archivos con extensi�n xml
 num_in_name = zeros(1, n_files);
 for k=1:n_files %la idea es pasar cada numero de un nombre a un vector y luego ordenarlo
     index2 = strfind(list_XML{k}, '.') -1; %indice que indica hasta donde van los numeros finales
-    num_in_name(k)=str2double(list_XML{k}(index1:index2)); %guardo el numero de archivo
+    num_in_name(k)=str2double(list_XML{k}(index1-1:index2)); %guardo el numero de archivo
 end
 [~, sort_index] = sort(num_in_name);
 list_XML = list_XML(sort_index);
@@ -59,6 +64,13 @@ n_markers = 3*length(names); %nro de marcadores a detectar
 
 %cargo los archivos xml provenientes de la segmentacion asi como los datos de las camaras Blender
 cam_segmentacion = markersXML2mat(names, path_XML, list_XML);
+
+
+%%%%%%%%%%%%ESTO SE AGREGA POR AHORA PUES SE DEBE ARREGLAR LA FUNCION DE INICIALIZACION DE ESTRUCTURAS SIN BLENDER
+if strcmp(name, '_clinicas') %en este caso debo trabajar solo algunas camaras
+    cam_segmentacion=cam_segmentacion(1:n_cams)
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 n_frames = get_info(cam_segmentacion(1), 'n_frames');%obtengo el numero de frames de la camara 1. 
                                                     %(supuestamente todas las camaras deberian tener igual nro de frames). Si esto no ocurre
@@ -84,7 +96,7 @@ Xrec = cell(1, 300);
 disp('__________________________________________________')
 disp('Se inicia el proceso de Reconstruccion')
 parfor frame=1:n_frames %hacer para cada frame (Se efectua en paralelo)
-    %efectuo la reconstruccion de un frame
+    %efectuo la reconstruccion de un frame    
     Xrec{frame} = reconstruccion1frame(cam_segmentacion, vec_cams, frame, umbral, n_markers);
     %genero aviso     
     str=sprintf('Se ha reconstruido el frame %d', frame);
