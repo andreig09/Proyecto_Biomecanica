@@ -155,5 +155,6 @@ setenv('LD_LIBRARY_PATH',MatlabLibraryPath);
 %Restablezco el path original de matlab
 path(MatlabPath); 
 %Retorno al directorio de trabajo
-eval(['cd ' current_dir])
+%eval(['cd ' current_dir])
+cd(current_dir)
 end
