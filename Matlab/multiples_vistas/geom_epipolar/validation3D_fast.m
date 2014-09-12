@@ -1,16 +1,50 @@
-function [X, validation, d]=validation3D_fast(cam, n_cam1, n_cam2, n_frame, varargin)
-tic
+function [X, validation, d, valid_points]=validation3D_fast(cam, n_cam1, n_cam2, n_frame, valid_points, varargin)
+% Funcion que permite reconstruir y validar las reconstrucciones 3D
+% Se reconstruye un punto 3D X a partir de dos puntos x1 y x2, que se corresponden con un mismo marcador. x1 pertenece a cam1 y x2 a cam2.
+% Luego se toman todos los puntos x3 de las camaras cam3 disponibles distintas a cam1 y cam2, y se reconstruye para cada x3 un punto 3D X3.
+% Cada punto X3 se genera al reconstruir con la pareja (x1, x3), para cada x3.
+% Se buscan los puntos x3 de la retina cam3 que satisfagan el siguiente criterio. 
+%   1) Que el punto X3 reconstruido con la pareja (x1, x3) pertenezca al interior de la esfera de centro X y radio umbral
+% Un punto X es considerado un marcador correctamente reconstruido si en al menos una retina se encuentran puntos x3 que satisfagan el criterio
+% anterior.
+
+%% ENTRADA
+% cam ------------->estructura cam que contiene todas las camaras del laboratorio.
+% n_cam1 ---------->vector que indica los numeros de la camara 1. n_cam1(j) indica la camara del punto cuyo indice es index_x1(j)
+% n_cam2 ---------->vector que indica los numeros de la camara 2. n_cam2(j) indica la camara del punto cuyo indice es index_x2(j)
+% n_frame --------->numero de frame.
+% valid_points --> cell array valid_points que guarda informacion sobre que puntos ya fueron utilizados para validar algun marcador. 
+%                  %valid_points{i}(j)=1  indica que el marcador j de la camara i esta disponible para futuras validaciones.
+%                  %valid_points{i}(j)=0  indica que el marcador j de la camara i ya fue utilizado para validar algun marcador.
+% index_x1 -------->se coloca a continuacion del string 'index'. Indices de los puntos de cam1 que se quieren reconstruir y validar
+%                   index_x1(j) pertenece a la camara n_cam1(j)
+% index_x2 -------->se coloca a continuacion del string 'index'. Indices de los puntos de cam2 que se quieren reconstruir y validar
+% umbral ---------->se coloca a continuacion del string 'umbral'. Entorno de busqueda para validacion, 
+%                   radio de la esfera con centro en los puntos reconstruidos X a validar, dentro de la cual se buscan proyecciones de puntos 3D para efectuar 
+%                   validacion, unidades en metros. 1e-5 es ellimite inferior del umbral para un funcionamiento correcto.
+
+
+%% SALIDA
+% X ----------->matriz cuyas columnas son puntos 3D reconstruidos. 
+% d -------->matriz de distancias, FALTA EXPLICAR 
+% valid_points --> cell array valid_points que guarda informacion sobre que puntos ya fueron utilizados para validar algun marcador. 
+%                  %valid_points{i}(j)=1  indica que el marcador j de la camara i esta disponible para futuras validaciones.
+%                  %valid_points{i}(j)=0  indica que el marcador j de la camara i ya fue utilizado para validar algun marcador.
+%validation -->vector que FALTA EXPLICAR
+
+%% ---------
+% Author: M.R.
+% created the 11/09/2014.
+
+
+
+
 %gestiono las entradas
- cam1=cam(n_cam1);
- cam2=cam(n_cam2);
- location_index = find(strcmp(varargin, 'index'), 1);
- 
- location_umbral = find(strcmp(varargin, 'umbral'), 1);
- location_debug = find(strcmp(varargin, 'debug'), 1); 
- 
- location_replace = find(strcmp(varargin, 'replace'), 1); %en este caso no se quitan los puntos que validaron alguna vez, y por lo tanto no se ingresa la matriz
-                                                           %invalid_points
- 
+cam1=cam(n_cam1);
+cam2=cam(n_cam2);
+location_index = find(strcmp(varargin, 'index'), 1);
+location_umbral = find(strcmp(varargin, 'umbral'), 1);
+
 if isempty(location_umbral)%no se agrego umbral
     umbral = [inf, inf];
 else %se agrego vector con umbrales
@@ -25,46 +59,52 @@ else %si se agrego tabla de indice
     index_x2 = varargin{  location_index + 2};%la entrada que le sigue a index_x1 es el vector de indices de cam2 correspondiente.
 end
 
-if isempty(location_debug) %no se quiere debug
-    debug_on=0;
-else
-    debug_on=1;
-end
-
-if isempty(location_replace) %si no se va a reponer los puntos que ya validaron el ultimo parametro es invalid_points
-    aux=size(varargin, 2); %indice del ultimo elemento de varargin
-    valid_points=varargin{aux};
-end
-    
 n_cams=size(cam, 2);
-
-
 %reconstruyo los puntos 3D X
 X = reconstruccion3D(cam1, cam2, n_frame, index_x1, index_x2);
 %se efectua procedimiento para cam3, cam3 es toda camara distinta de cam1 y cam2
-
 vec_cam3 = find( ((1:n_cams)~=n_cam1)&((1:n_cams)~=n_cam2) )';%devuelve un vector con todas los numeros de camaras que no sean cam1 o cam2
-n_cam3 = length(vec_cam3);
-%Obtengo todos los x3 de las posibles camaras cam3
-n_x3 = ones(1,n_cam3);
-for i=1:(n_cam3)
-    %n_x3 = get_info(cam(i), 'frame', n_frame, 'n_markers'); %marcadores de la cam(i) en el frame n_frame
-    %devuelve las coordenadas de los marcadores del frame n_frame de cam(i)
-    %junto con el numero de camara correspondiente en la tercer coordenada
-    %x3{i}=get_info(cam(i),'frame', n_frame, 'marker', 'coord');  
-    %x3{i} = [x3{i}(1:2, :); i*ones(1, n_x3) ];
-    n_x3(i)= get_info(cam(i), 'frame', n_frame, 'n_markers'); %marcadores de la cam(i) en el frame n_frame
-end 
- 
- %X = X*ones(1, sum(n_x3))
- X3 =cell(1, n_cam3); %inicializo X3
- 
- for i=1:n_cam3 
-     index_x3 = 1:n_x3(i);%vector con los indices de los vectores x3 de la camara i     
-     X3{i}=reconstruccion3D(cam1, cam2, n_frame, index_x1*ones(1, n_x3(i)), index_x3);
- end
- X3 = cell2mat(X3);
- d=pdist2(X', X3'); %distancia de todos los puntos X3 reconstruidos al punto X
- validation = d>umbral;
- toc
+n_vec_cam3 = length(vec_cam3); %numero de camaras cam3
+%inicializo algunas variables 
+n_x3 = ones(1,n_vec_cam3);
+index_x3 = cell(1,n_vec_cam3);
+X3 =cell(1, n_vec_cam3); %inicializo la salida  X3
+
+for i=1:n_vec_cam3  %hacer para cada cam3 dentro de vec_cam3
+    n_cam3 = vec_cam3(i);  %numero de camara en iteracion i
+    index_x3{i} = find(valid_points{n_cam3});%encuentro los indices de los puntos x3 disponibles para validar
+    if ~isempty(index_x3{i}) %verifico que se tengan puntos para validar en esta cam3
+        n_x3(i) = length(index_x3{i}); %guardo el numero de indices disponibles        
+        index_x3{i} = [index_x3{i};...%vector conteniendo los indices de la camara i que se van a probar si validan
+                       n_cam3*ones(1, n_x3(i))];%vector que indica el numero de camara de cada columna, la idea es no perder info de camara luego del cell2mat
+        cam3 = cam(n_cam3); %estructura cam3 en iteracion i
+        X3{i}=reconstruccion3D(cam1, cam3, n_frame, index_x1*ones(1, n_x3(i)), index_x3{i}(1,:)); %efetuo la reconstruccion 3D de x1 con todos los x3 disponibles
+    else
+        index_x3{i}=[-1; n_cam3]; %dejo un valor que indique que no se encontraron indices en la camara
+        X3{i}=inf*[1;1;1]; %dejo un valor infinito en la reconstruccion, para que nunca valide
+    end
+end
+X3 = cell2mat(X3); %llevo la informacion de X3 a una matriz
+d=pdist2(X', X3'); %distancia de todos los puntos X3 reconstruidos, al punto X
+validation = d>umbral;%los ceros indican los puntos que verifican la condicion de umbral, por lo tanto validan al actual punto X
+index_x3_mat = cell2mat(index_x3); %llevo index_x3 a una matriz
+%a continuacion agrupo toda la informacion pertinente
+%   primer fila si valida (valor cero) o no (valor uno),
+%   segunda fila el indice del punto
+%   tercer fila la camara de donde proviene
+valid_point_mat = [validation; index_x3_mat]; 
+%se actualiza valid_points
+for i=1:n_vec_cam3 %hacer con cada cam3    
+    n_cam3 = vec_cam3(i); %numero de camara en iteracion i
+    if (index_x3{i}(1,:)~=-1) %hacer solo si se tienen indices validos
+        column=(valid_point_mat(3,:)==n_cam3); %indices de las columnas que pertenecen a la camara i
+        valid_points{n_cam3}(index_x3{i}(1,:)) = valid_point_mat(1,column); %solo modifico la informacion de los puntos con indice index_x3
+    end
+end
+%apago los puntos que se usaron para reconstruir X, pues en futuras iteraciones no van a ser utilizados
+%o sea que dejo no disponibles los indices de la pareja inicial x1 y x2
+valid_points{n_cam1}(index_x1) = 0;
+valid_points{n_cam2}(index_x2) = 0;
+%hago que validation valga 1 cuando el punto verifica
+validation = ~validation;
 end
