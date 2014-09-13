@@ -85,9 +85,17 @@ function matches = matchear1(cam, v_cams, frame)
 n_cams = length(v_cams);%numero de camaras
 matches = cell(n_cams);%un cell para cada camara
 
+%La idea es generar una matriz con dos filas, y que cada columna contenga
+%una combinacion de camaras para hacer cam2cam
+n_markers_cam = zeros(1, n_cams);%inicializo la variable 
+aux = ones(n_cams, n_cams); 
+for i = v_cams %hacer para cada camara de v_cams
+    n_markers_cam(i) = get_info(cam(i), 'frame', frame, 'n_markers'); %vector con el numero de marcadores de cada camara
+    aux(:,n_cams) = n_markers_cam(i)*ones(n_cams, 1);
+end
+n_markers_cam = [aux(:)' ;  repmat(n_markers_cam, 1, n_cams) ];
 
-
-for i = v_cams
+for i = v_cams %hacer para cada camara en v_cams
     for j=v_cams
         
         

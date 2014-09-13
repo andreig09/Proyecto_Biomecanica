@@ -1,4 +1,4 @@
-function [X, validation, d, valid_points]=validation3D_fast(cam, n_cam1, n_cam2, n_frame, valid_points, varargin)
+function [X, validation, index_x3_mat, d, valid_points]=validation3D_fast(cam, n_cam1, n_cam2, n_frame, valid_points, varargin)
 % Funcion que permite reconstruir y validar las reconstrucciones 3D
 % Se reconstruye un punto 3D X a partir de dos puntos x1 y x2, que se corresponden con un mismo marcador. x1 pertenece a cam1 y x2 a cam2.
 % Luego se toman todos los puntos x3 de las camaras cam3 disponibles distintas a cam1 y cam2, y se reconstruye para cada x3 un punto 3D X3.
@@ -28,16 +28,17 @@ function [X, validation, d, valid_points]=validation3D_fast(cam, n_cam1, n_cam2,
 % X ----------->matriz cuyas columnas son puntos 3D reconstruidos. 
 % d -------->matriz de distancias, FALTA EXPLICAR 
 % valid_points --> cell array valid_points que guarda informacion sobre que puntos ya fueron utilizados para validar algun marcador. 
-%                  %valid_points{i}(j)=1  indica que el marcador j de la camara i esta disponible para futuras validaciones.
-%                  %valid_points{i}(j)=0  indica que el marcador j de la camara i ya fue utilizado para validar algun marcador.
-%validation -->vector que FALTA EXPLICAR
+%                  %valid_points{i}(:,j)=1  indica que el marcador j de la camara i esta disponible para futuras validaciones.
+%                  %valid_points{i}(:,j)=0  indica que el marcador j de la camara i ya fue utilizado para validar algun marcador.
+%validation -->vector cuya columna j indica con 1 si el punto
+%               index_x3_mat(1,j) valido la reconstruccion X
+%index_x3_mat -->matriz, cuya primera fila son indice de puntos y la
+%               segunda fila camara correspondiente.
 
 %% ---------
 % Author: M.R.
 % created the 11/09/2014.
-
-
-
+%% CUERPO DE LA FUNCION
 
 %gestiono las entradas
 cam1=cam(n_cam1);
@@ -88,17 +89,13 @@ X3 = cell2mat(X3); %llevo la informacion de X3 a una matriz
 d=pdist2(X', X3'); %distancia de todos los puntos X3 reconstruidos, al punto X
 validation = d>umbral;%los ceros indican los puntos que verifican la condicion de umbral, por lo tanto validan al actual punto X
 index_x3_mat = cell2mat(index_x3); %llevo index_x3 a una matriz
-%a continuacion agrupo toda la informacion pertinente
-%   primer fila si valida (valor cero) o no (valor uno),
-%   segunda fila el indice del punto
-%   tercer fila la camara de donde proviene
-valid_point_mat = [validation; index_x3_mat]; 
+
 %se actualiza valid_points
 for i=1:n_vec_cam3 %hacer con cada cam3    
     n_cam3 = vec_cam3(i); %numero de camara en iteracion i
     if (index_x3{i}(1,:)~=-1) %hacer solo si se tienen indices validos
-        column=(valid_point_mat(3,:)==n_cam3); %indices de las columnas que pertenecen a la camara i
-        valid_points{n_cam3}(index_x3{i}(1,:)) = valid_point_mat(1,column); %solo modifico la informacion de los puntos con indice index_x3
+        column=(index_x3_mat(2,:)==n_cam3); %indices de las columnas que pertenecen a la camara i
+        valid_points{n_cam3}(index_x3{i}(1,:)) = validation(:,column); %solo modifico la informacion de los puntos con indice index_x3
     end
 end
 %apago los puntos que se usaron para reconstruir X, pues en futuras iteraciones no van a ser utilizados
