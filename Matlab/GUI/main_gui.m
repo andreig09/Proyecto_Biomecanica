@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 11-Sep-2014 17:56:25
+% Last Modified by GUIDE v2.5 14-Sep-2014 17:50:58
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -81,6 +81,9 @@ function edit1_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit1 as text
 %        str2double(get(hObject,'String')) returns contents of edit1 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.videoDirectory = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
 
 
 % --- Executes during object creation, after setting all properties.
@@ -104,6 +107,15 @@ function edit2_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit2 as text
 %        str2double(get(hObject,'String')) returns contents of edit2 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+    handles.thresh = input;
+    guidata(hObject,handles); %Guarda el string en videoDirectory
+end
 
 
 % --- Executes during object creation, after setting all properties.
@@ -127,6 +139,15 @@ function edit3_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit3 as text
 %        str2double(get(hObject,'String')) returns contents of edit3 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+  handles.areaMax = input;
+  guidata(hObject,handles); %Guarda el string en videoDirectory
+end
 
 
 % --- Executes during object creation, after setting all properties.
@@ -150,6 +171,15 @@ function edit4_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit4 as text
 %        str2double(get(hObject,'String')) returns contents of edit4 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+  handles.areaMin = input;
+  guidata(hObject,handles); %Guarda el string en videoDirectory
+end
 
 
 % --- Executes during object creation, after setting all properties.
@@ -172,6 +202,11 @@ function checkbox1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox1
+if get(hObject, 'Value')
+    set(handles.edit2, 'enable', 'on');
+else
+    set(handles.edit2, 'enable', 'off');
+end
 
 
 % --- Executes on button press in checkbox2.
@@ -181,6 +216,11 @@ function checkbox2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox2
+if get(hObject, 'Value')
+    set(handles.edit3, 'enable', 'on');
+else
+    set(handles.edit3, 'enable', 'off');
+end
 
 
 % --- Executes on button press in checkbox3.
@@ -190,6 +230,11 @@ function checkbox3_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox3
+if get(hObject, 'Value')
+    set(handles.edit4, 'enable', 'on');
+else
+    set(handles.edit4, 'enable', 'off');
+end
 
 
 % --- Executes on button press in pushbutton1.
@@ -197,6 +242,13 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+display(handles.videoDirectory);
+display(handles.videoExtension);
+display(handles.thresh);
+display(handles.areaMax);
+display(handles.areaMin);
+display(handles.xmlPath);
+
 
 
 
@@ -207,11 +259,41 @@ function edit5_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit5 as text
 %        str2double(get(hObject,'String')) returns contents of edit5 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.xmlPath = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
 
 
 % --- Executes during object creation, after setting all properties.
 function edit5_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit6_Callback(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit6 as text
+%        str2double(get(hObject,'String')) returns contents of edit6 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.videoExtension = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
+
+% --- Executes during object creation, after setting all properties.
+function edit6_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
