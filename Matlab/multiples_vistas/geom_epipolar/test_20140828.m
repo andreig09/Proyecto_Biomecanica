@@ -5,9 +5,9 @@ if ~(exist('Xi')&exist('Yi'))
     
     clear all
     
-    load saved_vars\skeleton14.mat
+    load saved_vars\skeleton13_segmentacion_mm.mat
     
-    load saved_vars\skeleton14_segmentacion2.mat
+    load saved_vars\skeleton13_ground_truth.mat
     
     f_ini=1;
     f_fin=322;
@@ -30,7 +30,7 @@ end
 %%
 
 f_ini=20;
-f_fin=60;
+f_fin=100;
 
 X_in = Xi;
 %X_in = Yi;
@@ -47,12 +47,17 @@ close all;
 
 %return;
 
-X_out=X_out(:,X_out(4,:)<=max(X_out(4,X_out(5,:)~=0)));
+%X_out=X_out(:,X_out(4,:)<=max(X_out(4,X_out(5,:)~=0)));
 
 figure
 
-for marker=1:max(X_out(5,:))
-    plot3(X_out(1,:),X_out(2,:),X_out(3,:),'k.',X_out(1,X_out(5,:)==marker),X_out(2,X_out(5,:)==marker),X_out(3,X_out(5,:)==marker),'g*-');
+%marker_fin = max(X_out(5,:)); marker_ini = 1;
+marker_fin = 1; marker_ini = marker_fin; 
+
+for marker=marker_ini:marker_fin
+    plot3(X_out(1,:),X_out(2,:),X_out(3,:),'kx',...
+        Yi(1,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),Yi(2,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),Yi(3,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),'.',...
+        X_out(1,X_out(5,:)==marker),X_out(2,X_out(5,:)==marker),X_out(3,X_out(5,:)==marker),'go-');
     title(['Trayectoria ' num2str(marker)]);
     xlabel('X');
     ylabel('Y')
@@ -65,10 +70,13 @@ for marker=1:max(X_out(5,:))
         max(Yi(2,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
         min(Yi(3,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
         max(Yi(3,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))) ]);
-    pause(1);
+    if marker~=marker_fin
+        pause;
+    end
     
 end;
 
+return;
 
 figure
 
