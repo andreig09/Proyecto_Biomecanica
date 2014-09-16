@@ -284,7 +284,7 @@ for i = v_cams
                 for n= 1:s_vmatchesd
                     
                     
-                    if valid_matches{i,j}(m,:) == valid_matches{j,i}(n,:)
+                    if valid_matches{i,j}(m,:) == valid_matches{j,i}(n,[2,1])
                     
                         %match_pares{i,j} = [match_pares{ci},i];
                         % match_pares{i,j} = [match_pares{i,j}; valid_matches{i,j}(m,:)];
