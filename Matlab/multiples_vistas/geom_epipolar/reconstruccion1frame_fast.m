@@ -1,6 +1,7 @@
 %ACTUALMENTE EJEMPLO DE UN CODIGO SIN COMENTARIOS; PRONTO PARA CAER EN EL OLVIDO DENTRO DE UNAS SEMANAS
 
-function Xrec = reconstruccion1frame(cam, v_cams, frame, umbral, tot_markers)
+%function Xrec = reconstruccion1frame(cam, v_cams, frame, umbral, tot_markers)
+function Xrec = reconstruccion1frame_fast(cam, v_cams, P, C, frame, umbral, tot_markers)
 % PONER ACA QUE HACE LA FUNCION Y COMO LO HACE
 
 %% ENTRADA
@@ -15,17 +16,35 @@ function Xrec = reconstruccion1frame(cam, v_cams, frame, umbral, tot_markers)
 
 %% CUERPO DE LA FUNCION
 
-matches = matchear1(cam, v_cams, frame);
+n_cams = length(v_cams);
+x_cam = cell(1, n_cams);
+n_markers_cam = ones(1, n_cams);
+%P = cell(1, n_cams);
+%C = cell(1, n_cams);
+%Obtengo informacion de las camaras
+for i=v_cams
+    x_cam{i} = get_info(cam(i), 'frame', frame, 'marker', 'coord'); %devuelve las coordenadas de todos los marcadores de la camara en el frame
+    n_markers_cam(i) = size(x_cam{i}, 2); %numero de marcadores
+    %P{i} = get_info(cam(i), 'projection_matrix'); %matrix de proyeccion de la camara   
+    %C{i} = null(P{i}); %punto centro de la camara, o vector director perpendicular a la retina
+end
+
+
+
+
+%matches = matchear1(cam, v_cams, frame);
+matches = matchear1(x_cam, n_markers_cam, P, v_cams);
 %valid_matches = matches;
 
-n_cams = length(v_cams);
+
 
 
 valid_points=cell(n_cams, 1);
 
 for i=v_cams
-    n_markers = get_info(cam(i), 'frame', frame, 'n_markers');
-    valid_points{i} = ones(1, n_markers);
+    %n_markers = get_info(cam(i), 'frame', frame, 'n_markers');
+    %valid_points{i} = ones(1, n_markers);
+    valid_points{i} = ones(1, n_markers_cam(i));
 end
 
 
@@ -40,7 +59,8 @@ while (p_validos > 0 && size(Xrec,2) < tot_markers)
     valid_matches = actualizar_matches(matches, valid_points, v_cams);
     
     
-    [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams);
+    %[res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams);
+    [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, v_cams, x_cam, P, C );
     
     
     
@@ -51,7 +71,7 @@ while (p_validos > 0 && size(Xrec,2) < tot_markers)
     
     %[X, validation, n_cam3, index_x3, ~, valid_points] = validation3D(cam, cam_i,cam_d, frame, 'index', ind_i, ind_d, 'umbral', umbral, valid_points);
     %[X, ~, ~, ~, ~, valid_points] = validation3D(cam, cam_i,cam_d, frame, 'index', ind_i, ind_d, 'umbral', umbral, valid_points);
-    [X, ~, ~, ~, valid_points]=validation3D_fast(cam, cam_i,cam_d, frame, 'index', ind_i, ind_d, 'umbral', umbral, valid_points);
+    [X, ~, ~, ~, valid_points]=validation3D_fast(cam, cam_i,cam_d, frame, valid_points, 'index', ind_i, ind_d, 'umbral', umbral );
     
     valid_points{cam_i}(ind_i) = 0; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     valid_points{cam_d}(ind_d) = 0;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
@@ -69,7 +89,8 @@ end
 end
 
 %%
-function matches = matchear1(cam, v_cams, frame)
+%function matches = matchear1(cam, v_cams, frame)
+function matches =  matchear1(x_cam, n_markers_cam, P, v_cams)
 %Funcion que devuelve las parejas que lograron emparejarse tras hacer cam2cam de cam_izq a cam_der y luego cam2cam de cam_der a cam_izq
 
 %% ENTRADAS
@@ -87,12 +108,12 @@ matches = cell(n_cams);%un cell para cada camara
 
 %La idea es generar una matriz con dos filas, y que cada columna contenga
 %una combinacion de camaras para hacer cam2cam
-n_markers_cam = zeros(1, n_cams);%inicializo la variable 
-n_markers_i = ones(n_cams, n_cams); %la idea es poner aqui n_cams veces el numero de cada marcador para luego generar las parejas
+%n_markers_cam = zeros(1, n_cams);%inicializo la variable 
+%n_markers_i = ones(n_cams, n_cams); %la idea es poner aqui n_cams veces el numero de cada marcador para luego generar las parejas
 n_cam_i = ones(n_cams, n_cams); %la idea es poner aqui el numero de camara de cada indice contenido en aux1
-
+aux1 = ones(n_cams, n_cams);
 for i = v_cams %hacer para cada camara de v_cams
-    n_markers_cam(i) = get_info(cam(i), 'frame', frame, 'n_markers'); %vector con el numero de marcadores de cada camara    
+    %n_markers_cam(i) = get_info(cam(i), 'frame', frame, 'n_markers'); %vector con el numero de marcadores de cada camara    
     aux1(:,i) = n_markers_cam(i)*ones(n_cams, 1);
     n_cam_i(:,i) = i*ones(n_cams, 1);
 end
@@ -103,29 +124,8 @@ end
 %          n_markers_i(:);... 
 %          n_markers_d(:)];
 pairs =[n_cam_i(:)'; repmat(v_cams, 1, n_cams); aux1(:)' ; repmat(n_markers_cam, 1, n_cams)   ];
-n_pairs = size(pairs, 2); %indica cuantos pares se tienen formados
+%n_pairs = size(pairs, 2); %indica cuantos pares se tienen formados
 
-% tic
-% for i=1:n_pairs %hacer para cada par de camaras en pairs 
-%     
-%     n_cam_i = pairs(1,i);
-%     n_cam_d = pairs(2,i);
-%     n_markers_i = pairs(3,i);
-%     n_markers_d = pairs(4,i);
-%     
-%     
-%     if (n_cam_i~=n_cam_d) && isempty(matches{n_cam_i, n_cam_d})
-%         
-%         [~, ~, ix_table1, ~]= cam2cam(  cam(n_cam_i), cam(n_cam_d), frame, 'n_points', n_markers_d);
-%         [~, ~, ix_table2, ~]= cam2cam(  cam(n_cam_d), cam(n_cam_i), frame, 'n_points', n_markers_i);
-%         ix_table1 = reshape(cell2mat(ix_table1), n_markers_d+1, n_markers_i);         
-%         ix_table2 = reshape(cell2mat(ix_table2), n_markers_i+1, n_markers_d);         
-%         matches{n_cam_i, n_cam_d}=ix_table1';
-%         matches{n_cam_i, n_cam_d}=ix_table2';
-%         
-%     end
-% end
-% toc
 
 for i = v_cams %hacer para cada camara en v_cams
     for j=v_cams
@@ -136,12 +136,18 @@ for i = v_cams %hacer para cada camara en v_cams
             index = find((pairs(1,:)==i)&(pairs(2,:)==j));
             n_markers_i = pairs(3,index);
             n_markers_d = pairs(4,index);
+            %ix_table1 = cam2cam_fast(cam(i), cam(j), frame, n_markers_d);
+            %ix_table2 = cam2cam_fast(cam(j), cam(i), frame, n_markers_i);
+            ix_table1 = cam2cam_fast(x_cam{i}, n_markers_i, P{i}, x_cam{j}, n_markers_d, P{j} );
+            ix_table2 = cam2cam_fast(x_cam{j}, n_markers_d, P{j}, x_cam{i}, n_markers_i, P{i} );
+            
+            
             %n_markers_i = get_info(cam(i), 'frame', frame, 'n_markers');
             %n_markers_d = get_info(cam(j), 'frame', frame, 'n_markers');            
-            
-            [~, ~, ix_table1, ~]= cam2cam(  cam(i), cam(j), frame, 'n_points',n_markers_d,'show');
-            [~, ~, ix_table2, ~]= cam2cam(  cam(j) , cam(i), frame,'n_points',n_markers_i,'show');
+            %[~, ~, ix_table1, ~]= cam2cam(  cam(i), cam(j), frame, 'n_points',n_markers_d,'show');
+            %[~, ~, ix_table2, ~]= cam2cam(  cam(j) , cam(i), frame,'n_points',n_markers_i,'show');
            
+
             matches{i,j} = ix_table1;
             matches{j,i} = ix_table2;          
             
@@ -154,39 +160,39 @@ end
 
 %%
 
-function matches = matchear2(cam, v_cams, frame)
-%Funcion que .....
-
-%% ENTRADAS
-% cam   -->estructura con camaras
-% v_cam -->
-% frame -->
-
-%% SALIDAS
-% matches -->
-
-%% CUERPO DE LA FUNCION
-
-lv_cams = length(v_cams);
-for ci = v_cams
-    if ci < lv_cams
-        i = v_cams(ci);
-        j = v_cams(ci+1);
-    else
-        i = v_cams(ci);
-        j = v_cams(1);
-    end
-    
-    n_markers_i = get_info(cam(i), 'frame', frame, 'n_markers');
-    n_markers_j = get_info(cam(j), 'frame', frame, 'n_markers');
-    
-    [~, ~, ix_table1, ~]= cam2cam(  cam(i), cam(j), frame,'n_points',n_markers_i,'show');
-    [~, ~, ix_table2, ~]= cam2cam(  cam(j) , cam(i), frame,'n_points',n_markers_j,'show');
-    matches{i,j} = ix_table1;
-    matches{j,i} = ix_table2;
-    
-end
-end
+% function matches = matchear2(cam, v_cams, frame)
+% %Funcion que .....
+% 
+% %% ENTRADAS
+% % cam   -->estructura con camaras
+% % v_cam -->
+% % frame -->
+% 
+% %% SALIDAS
+% % matches -->
+% 
+% %% CUERPO DE LA FUNCION
+% 
+% lv_cams = length(v_cams);
+% for ci = v_cams
+%     if ci < lv_cams
+%         i = v_cams(ci);
+%         j = v_cams(ci+1);
+%     else
+%         i = v_cams(ci);
+%         j = v_cams(1);
+%     end
+%     
+%     n_markers_i = get_info(cam(i), 'frame', frame, 'n_markers');
+%     n_markers_j = get_info(cam(j), 'frame', frame, 'n_markers');
+%     
+%     [~, ~, ix_table1, ~]= cam2cam(  cam(i), cam(j), frame,'n_points',n_markers_i,'show');
+%     [~, ~, ix_table2, ~]= cam2cam(  cam(j) , cam(i), frame,'n_points',n_markers_j,'show');
+%     matches{i,j} = ix_table1;
+%     matches{j,i} = ix_table2;
+%     
+% end
+% end
 
 
 %%
@@ -204,6 +210,9 @@ function valid_matches = actualizar_matches(matches, valid_points, v_cams)
 %% CUERPO DE LA FUNCION
 
 
+n_cams = length(v_cams);
+%inicializo variables
+valid_matches = cell(n_cams, n_cams);
 
 for i=v_cams
     for j=v_cams
@@ -243,7 +252,8 @@ end
 
 %%
 
-function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams)
+%function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams)
+function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, v_cams, x_cam, P, C )
 %Funcion que .....
 
 %% ENTRADAS
@@ -273,23 +283,27 @@ for i = v_cams
             for m = 1:s_vmatchesi
                 for n= 1:s_vmatchesd
                     
+                    
                     if valid_matches{i,j}(m,:) == valid_matches{j,i}(n,:)
-                        
+                    
                         %match_pares{i,j} = [match_pares{ci},i];
                         % match_pares{i,j} = [match_pares{i,j}; valid_matches{i,j}(m,:)];
                         
                         ind_i = valid_matches{i,j}(m,1);
                         ind_d = valid_matches{i,j}(m,2);
                         
-                        pcam_i = get_info(cam(i), 'frame', frame, 'marker', ind_i);
-                        pcam_d = get_info(cam(j), 'frame', frame, 'marker', ind_d);
-                        [Ci,ui] = recta3D(cam(i), pcam_i);
-                        [Cd,ud] = recta3D(cam(j), pcam_d);
+                        %pcam_i = get_info(cam(i), 'frame', frame, 'marker', ind_i);
+                        pcam_i = x_cam{i}(:,ind_i);
+                        %pcam_d = get_info(cam(j), 'frame', frame, 'marker', ind_d);
+                        pcam_d = x_cam{j}(:,ind_d);
+                        %[Ci,ui] = recta3D(cam(i), pcam_i);
+                        %[Cd,ud] = recta3D(cam(j), pcam_d);
+                        [Ci,ui] = recta3D(pcam_i, P{i}, C{i} );
+                        [Cd,ud] = recta3D(pcam_d, P{j}, C{j} );
                         
                         dist = dist_2rectas(Ci, ui, Cd, ud);
                         
-                        matriz_distancias = [matriz_distancias; dist, i, ind_i, j, ind_d];
-                        
+                        matriz_distancias = [matriz_distancias; dist, i, ind_i, j, ind_d]; %aqui inicializaria con zeros o ones a matriz_distancia con el tamaño maximo que puede tener y luego de llenado borro lo que no sirva                    
                         
                     end
                     
@@ -325,7 +339,8 @@ end
 
 %%
 
-function [C,u] = recta3D(cam, p_retina)
+%function [C,u] = recta3D(cam, p_retina)
+function [C,u] = recta3D(p_retina, P_matrix, foco_h )
 % Dada una cámara y un punto en su retina, devuelve la recta en el espacio
 % que pasa por dicho punto y el foco de la cámara. La recta 3D es de la
 % forma (x,y,z) = C + lambda*u, donde C es un punto de la recta
@@ -345,9 +360,9 @@ function [C,u] = recta3D(cam, p_retina)
 % la forma u(i,j) donde se devuelve un vector director para cada punto
 % ingresado.
 
-P_matrix= get_info(cam, 'projection_matrix') ; % matriz de proyeccion de la cámara
+%P_matrix= get_info(cam, 'projection_matrix') ; % matriz de proyeccion de la cámara
 
-foco_h = null(P_matrix);  % foco de la cámara en coord homg.
+%foco_h = null(P_matrix);  % foco de la cámara en coord homg.
 
 punto3D_h = pinv(P_matrix)*p_retina; % punto 3D cualquiera tal que si se proyecta en la cámara se obtiene p_retina (coord. homog)
 
@@ -355,7 +370,7 @@ punto3D = homog2euclid(punto3D_h); % pasa a coord. euclideas
 foco = homog2euclid(foco_h);    % pasa a coord. euclideas
 
 num_puntos = size(p_retina,2);
-u = punto3D - foco*ones (1,num_puntos);   % vector director dela recta
+u = punto3D - foco*ones (1,num_puntos);   % vector director de la recta
 
 % normalizo vector director
 normas = sqrt(u(1,:).^2 + u(2,:).^2 + u(3,:).^2);

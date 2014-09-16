@@ -92,7 +92,7 @@ name = '_clinicas';
 
 n_cams = 17;
 n_frames=300;
-n_markers = 14;
+n_markers = 13;
 
 
 
@@ -114,7 +114,7 @@ end
 parfor frame=1:n_frames %hacer para cada frame (Se efectua en paralelo)
     %efectuo la reconstruccion de un frame    
     %Xrec{frame} = reconstruccion1frame(cam_segmentacion, vec_cams, frame, umbral, n_markers);
-    Xrec{frame} = reconstruccion1frame(cam_segmentacion, vec_cams, P, C, frame, umbral, n_markers);
+    Xrec{frame} = reconstruccion1frame_fast(cam_segmentacion, vec_cams, P, C, frame, umbral, n_markers);
     %genero aviso     
     str=sprintf('Se ha reconstruido el frame %d', frame);
     disp(str)    
@@ -129,7 +129,7 @@ for  frame=1:n_frames %hacer para cada frame (Se efectua secuencialmente)
     skeleton_segmentacion = set_info(skeleton_segmentacion, 'frame', frame, 'n_markers', n_Xrec);% actualizo el numero de frame correspondiente
 end
 
-save([path_mat '/skeleton' name ], 'skeleton_segmentacion')
+%save([path_mat '/skeleton' name ], 'skeleton_segmentacion')
 %% Tracking
 
 
