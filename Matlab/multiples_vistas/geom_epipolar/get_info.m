@@ -286,7 +286,8 @@ function info_out = get_markers_in_frame(varargin)
     end
     
     %genero los comandos por defecto para obtener la salida info_out
-    comando1 = sprintf('[structure.frame(n_frame).marker(list_markers).%s]', t_dato);
+    %comando1 = sprintf('[structure.frame(n_frame).marker(list_markers).%s]', t_dato);
+    comando1 = ['[structure.frame(n_frame).marker(list_markers).' t_dato ']'];
     
     %Inicializo variable de salida de acuerdo al tipo de dato    
     if strcmp(t_dato,'coord')
