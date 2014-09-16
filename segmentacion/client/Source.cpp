@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
 	
 	//Obtener video y separarlo en cuadros
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	if ( (argc < 2) || (argc > 8) ) {// argc should be 2 for correct execution
+	if ( (argc < 2) || (argc > 9) ) {// argc should be 2 for correct execution
     // We print argv[0] assuming it is the program name
     cout<<"Cantidad de argumentos incorrecta";
 	}else {
@@ -67,7 +67,6 @@ int main(int argc, char *argv[]){
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
 	//VALORES INICIALES:
-
 	double Amax = FindA(argc,argv);
 	if (Amax != -1){
 	cout<<"area maxima"<<"="<<Amax<<"\n";
@@ -100,7 +99,7 @@ int main(int argc, char *argv[]){
 	//////////////////////////////////////////////////////////
 	//argv[1] = "cam2-321.avi";
 	const char *name = XMLname(argv[1]);
-	cout<<"Afuera de la funcion: "<<name<<"\n";
+	//cout<<"Afuera de la funcion: "<<name<<"\n";
 	startXML(name);
 	XMLAddFrame(frameNum,detblobs.blobs,name);
 
@@ -116,21 +115,21 @@ int main(int argc, char *argv[]){
            frame=cvCloneImage(frame); 
 
 		   //Detectar Umbral para frame actual
-		   if (argc == 2)
+		   if (thr == -1)
 			{
 				thresh = callOtsuN(frame);
 				thresh2 = thresh*255;
 				//cout<<"Umbral en el frame"<<frameNum<<"="<<thresh2<<"\n";
-		   }
+			}
 		   //cout << "max threshold: " << thresh << "\n" ;
 
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
+
+		   //oVideoWriter.write(imgThresh); //writer the frame with blobs detected
 		   	   
 		   detblobs = detectarBlobs(imgThresh, Amax, Amin); //Detectar markers fitlrados
 
 		   XMLAddFrame(frameNum,detblobs.blobs,name); //Agregar los blobs de este frame en el xml
-		   
-		   //oVideoWriter.write(imgThresh); //writer the frame with blobs detected
 		   			 
 		   //Mostrar video original		   
 		   cvShowImage("Video", frame);
