@@ -280,6 +280,7 @@ for i = v_cams
             ind_d = valid_matches{i,j}(:,2);
             n_points = length(ind_i);
             
+<<<<<<< HEAD
             pcam_i = x_cam{i}(:,ind_i);            
             pcam_d = x_cam{j}(:,ind_d);            
             [Ci,ui] = recta3D(pcam_i, inv_P{i}, C{i} );
@@ -321,6 +322,37 @@ for i = v_cams
             %                     end
             %
             %                 end
+=======
+            for m = 1:s_vmatchesi
+                for n= 1:s_vmatchesd
+                    
+                    
+                    if valid_matches{i,j}(m,:) == valid_matches{j,i}(n,[2,1])
+                    
+                        %match_pares{i,j} = [match_pares{ci},i];
+                        % match_pares{i,j} = [match_pares{i,j}; valid_matches{i,j}(m,:)];
+                        
+                        ind_i = valid_matches{i,j}(m,1);
+                        ind_d = valid_matches{i,j}(m,2);
+                        
+                        %pcam_i = get_info(cam(i), 'frame', frame, 'marker', ind_i);
+                        pcam_i = x_cam{i}(:,ind_i);
+                        %pcam_d = get_info(cam(j), 'frame', frame, 'marker', ind_d);
+                        pcam_d = x_cam{j}(:,ind_d);
+                        %[Ci,ui] = recta3D(cam(i), pcam_i);
+                        %[Cd,ud] = recta3D(cam(j), pcam_d);
+                        [Ci,ui] = recta3D(pcam_i, P{i}, C{i} );
+                        [Cd,ud] = recta3D(pcam_d, P{j}, C{j} );
+                        
+                        dist = dist_2rectas(Ci, ui, Cd, ud);
+                        
+                        matriz_distancias = [matriz_distancias; dist, i, ind_i, j, ind_d]; %aqui inicializaria con zeros o ones a matriz_distancia con el tamaño maximo que puede tener y luego de llenado borro lo que no sirva                    
+                        
+                    end
+                    
+                end
+            end
+>>>>>>> 3e28cf259959d6ddd15e957eb2fb8369f4006625
         end
     end
 end
