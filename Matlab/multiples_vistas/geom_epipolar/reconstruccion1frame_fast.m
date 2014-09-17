@@ -1,7 +1,7 @@
 %ACTUALMENTE EJEMPLO DE UN CODIGO SIN COMENTARIOS; PRONTO PARA CAER EN EL OLVIDO DENTRO DE UNAS SEMANAS
 
 %function Xrec = reconstruccion1frame(cam, v_cams, frame, umbral, tot_markers)
-function Xrec = reconstruccion1frame_fast(cam, v_cams, P, C, frame, umbral, tot_markers)
+function Xrec = reconstruccion1frame_fast(cam, v_cams, P, inv_P, C, frame, umbral, tot_markers)
 % PONER ACA QUE HACE LA FUNCION Y COMO LO HACE
 
 %% ENTRADA
@@ -60,7 +60,7 @@ while (p_validos > 0 && size(Xrec,2) < tot_markers)
     
     
     %[res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams);
-    [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, v_cams, x_cam, P, C );
+    [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, v_cams, x_cam, inv_P, C );
     
     
     
@@ -253,7 +253,7 @@ end
 %%
 
 %function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, cam, frame, v_cams)
-function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, v_cams, x_cam, P, C )
+function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, v_cams, x_cam, inv_P, C )
 %Funcion que .....
 
 %% ENTRADAS
@@ -267,51 +267,64 @@ function [res, cam_i, ind_i, cam_d, ind_d] = best_match(valid_matches, v_cams, x
 
 %% CUERPO DE LA FUNCION
 
-
+n_cams = length(v_cams);
 %num_matches = size(valid_matches);
-matriz_distancias = [];
-
+matriz_distancias = cell((n_cams.^2-n_cams)/2, 1);
+aux=1;
 for i = v_cams
     for j = v_cams
         if i<j && ~isempty(valid_matches{i,j})
             
-            %match_pares{i,j} = [];
-            s_vmatchesi = size(valid_matches{i,j},1);
-            s_vmatchesd = size(valid_matches{j,i},1);
-            %aux_ix_table2 = valid_matches{j,i}(:,[2,1]);
+                       
+            ind_i = valid_matches{i,j}(:,1);
+            ind_d = valid_matches{i,j}(:,2);
+            n_points = length(ind_i);
             
-            for m = 1:s_vmatchesi
-                for n= 1:s_vmatchesd
-                    
-                    
-                    if valid_matches{i,j}(m,:) == valid_matches{j,i}(n,:)
-                    
-                        %match_pares{i,j} = [match_pares{ci},i];
-                        % match_pares{i,j} = [match_pares{i,j}; valid_matches{i,j}(m,:)];
-                        
-                        ind_i = valid_matches{i,j}(m,1);
-                        ind_d = valid_matches{i,j}(m,2);
-                        
-                        %pcam_i = get_info(cam(i), 'frame', frame, 'marker', ind_i);
-                        pcam_i = x_cam{i}(:,ind_i);
-                        %pcam_d = get_info(cam(j), 'frame', frame, 'marker', ind_d);
-                        pcam_d = x_cam{j}(:,ind_d);
-                        %[Ci,ui] = recta3D(cam(i), pcam_i);
-                        %[Cd,ud] = recta3D(cam(j), pcam_d);
-                        [Ci,ui] = recta3D(pcam_i, P{i}, C{i} );
-                        [Cd,ud] = recta3D(pcam_d, P{j}, C{j} );
-                        
-                        dist = dist_2rectas(Ci, ui, Cd, ud);
-                        
-                        matriz_distancias = [matriz_distancias; dist, i, ind_i, j, ind_d]; %aqui inicializaria con zeros o ones a matriz_distancia con el tamaño maximo que puede tener y luego de llenado borro lo que no sirva                    
-                        
-                    end
-                    
-                end
-            end
+            pcam_i = x_cam{i}(:,ind_i);            
+            pcam_d = x_cam{j}(:,ind_d);            
+            [Ci,ui] = recta3D(pcam_i, inv_P{i}, C{i} );
+            [Cd,ud] = recta3D(pcam_d, inv_P{j}, C{j} );
+            dist = dist_2rectas(Ci, ui, Cd, ud);
+            matriz_distancias{aux} = [dist', i*ones(n_points, 1), ind_i, j*ones(n_points, 1), ind_d]; %aqui inicializaria con zeros o ones a matriz_distancia con el tamaño maximo que puede tener y luego de llenado borro lo que no sirva
+            aux = aux+1;
+            
+            %             %match_pares{i,j} = [];
+            %             s_vmatchesi = size(valid_matches{i,j},1);
+            %             s_vmatchesd = size(valid_matches{j,i},1);
+            %             %aux_ix_table2 = valid_matches{j,i}(:,[2,1]);
+            
+            %             for m = 1:s_vmatchesi
+            %                 for n= 1:s_vmatchesd
+            %
+            %
+            %                     if valid_matches{i,j}(m,:) == valid_matches{j,i}(n,[2, 1])
+            %
+            %                         %match_pares{i,j} = [match_pares{ci},i];
+            %                         % match_pares{i,j} = [match_pares{i,j}; valid_matches{i,j}(m,:)];
+            %
+            %                         ind_i = valid_matches{i,j}(m,1);
+            %                         ind_d = valid_matches{i,j}(m,2);
+            %
+            %                         %pcam_i = get_info(cam(i), 'frame', frame, 'marker', ind_i);
+            %                         pcam_i = x_cam{i}(:,ind_i);
+            %                         %pcam_d = get_info(cam(j), 'frame', frame, 'marker', ind_d);
+            %                         pcam_d = x_cam{j}(:,ind_d);
+            %                         %[Ci,ui] = recta3D(cam(i), pcam_i);
+            %                         %[Cd,ud] = recta3D(cam(j), pcam_d);
+            %                         [Ci,ui] = recta3D(pcam_i, P{i}, C{i} );
+            %                         [Cd,ud] = recta3D(pcam_d, P{j}, C{j} );
+            %
+            %                         dist = dist_2rectas(Ci, ui, Cd, ud);
+            %
+            %                         matriz_distancias = [matriz_distancias; dist, i, ind_i, j, ind_d]; %aqui inicializaria con zeros o ones a matriz_distancia con el tamaño maximo que puede tener y luego de llenado borro lo que no sirva
+            %
+            %                     end
+            %
+            %                 end
         end
     end
 end
+matriz_distancias = cell2mat(matriz_distancias);
 
 if isempty(matriz_distancias)
     res = 0;
@@ -340,7 +353,7 @@ end
 %%
 
 %function [C,u] = recta3D(cam, p_retina)
-function [C,u] = recta3D(p_retina, P_matrix, foco_h )
+function [C,u] = recta3D(p_retina, inv_P,  foco_h )
 % Dada una cámara y un punto en su retina, devuelve la recta en el espacio
 % que pasa por dicho punto y el foco de la cámara. La recta 3D es de la
 % forma (x,y,z) = C + lambda*u, donde C es un punto de la recta
@@ -363,14 +376,15 @@ function [C,u] = recta3D(p_retina, P_matrix, foco_h )
 %P_matrix= get_info(cam, 'projection_matrix') ; % matriz de proyeccion de la cámara
 
 %foco_h = null(P_matrix);  % foco de la cámara en coord homg.
-
-punto3D_h = pinv(P_matrix)*p_retina; % punto 3D cualquiera tal que si se proyecta en la cámara se obtiene p_retina (coord. homog)
+%invP = pinv(P_matrix);
+punto3D_h = inv_P*p_retina; % punto 3D cualquiera tal que si se proyecta en la cámara se obtiene p_retina (coord. homog)
 
 punto3D = homog2euclid(punto3D_h); % pasa a coord. euclideas
 foco = homog2euclid(foco_h);    % pasa a coord. euclideas
 
 num_puntos = size(p_retina,2);
-u = punto3D - foco*ones (1,num_puntos);   % vector director de la recta
+C =foco*ones (1,num_puntos);
+u = punto3D - C;   % vector director de la recta
 
 % normalizo vector director
 normas = sqrt(u(1,:).^2 + u(2,:).^2 + u(3,:).^2);
@@ -379,7 +393,7 @@ u(2,:) = u(2,:)./normas;
 u(3,:) = u(3,:)./normas;
 
 
-C = foco;
+%C = foco;
 end
 
 %%

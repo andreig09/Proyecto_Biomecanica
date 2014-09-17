@@ -91,8 +91,8 @@ name = '_clinicas';
 %% Reconstruccion
 
 n_cams = 17;
-n_frames=300;
-n_markers = 13;
+n_frames=1;
+n_markers = 16;
 
 
 
@@ -104,20 +104,25 @@ disp('Se inicia el proceso de Reconstruccion')
 
 %obtengo datos que no dependen del frame con el que se este trabajando
 P = cell(1, n_cams);
+invP = cell(1, n_cams);
 C = cell(1, n_cams);
 
 for i=vec_cams    
-    P{i} = get_info(cam_segmentacion(i), 'projection_matrix'); %matrix de proyeccion de la camara   
+    P{i} = get_info(cam_segmentacion(i), 'projection_matrix'); %matrix de proyeccion de la camara 
+    invP{i}=pinv(P{i});%inversa generalizada de P 
     C{i} = null(P{i}); %punto centro de la camara, o vector director perpendicular a la retina
 end
 
-parfor frame=1:n_frames %hacer para cada frame (Se efectua en paralelo)
+for frame=1:n_frames %hacer para cada frame (Se efectua en paralelo)
     %efectuo la reconstruccion de un frame    
     %Xrec{frame} = reconstruccion1frame(cam_segmentacion, vec_cams, frame, umbral, n_markers);
-    Xrec{frame} = reconstruccion1frame_fast(cam_segmentacion, vec_cams, P, C, frame, umbral, n_markers);
-    %genero aviso     
-    str=sprintf('Se ha reconstruido el frame %d', frame);
-    disp(str)    
+    Xrec{frame} = reconstruccion1frame_fast(cam_segmentacion, vec_cams, P,  invP, C, frame, umbral, n_markers);
+    %genero aviso   
+    num = log_operation(); %incremento contador que lleva numeros del ciclos
+    str=sprintf('Se ha reconstruido el frame %d, actualmente se han reconstruideo %d de %d ', frame, num, n_frames);
+    disp(str)  
+    
+    
 end
 
 for  frame=1:n_frames %hacer para cada frame (Se efectua secuencialmente)     
