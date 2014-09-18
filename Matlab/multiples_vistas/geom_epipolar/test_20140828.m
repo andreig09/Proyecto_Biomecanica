@@ -1,20 +1,17 @@
 clc
 close all
 
-if ~(exist('Xi')&exist('Yi'))
+%if ~(exist('Xi')&exist('Yi'))
     
     clear all
     
-    load saved_vars\skeleton13_segmentacion_mm.mat
+    load saved_vars\skeleton_segmentacion17.mat
     
     load saved_vars\skeleton13_ground_truth.mat
     
-    f_ini=1;
-    f_fin=322;
-    
     Xi = [];Yi=[];
     
-    for n_frame=f_ini:f_fin
+    for n_frame=1:min([get_info(skeleton,'n_frames'),get_info(skeleton_segmentacion,'n_frames')])
         
         xi = get_info(skeleton_segmentacion,'frame', n_frame, 'marker', 'coord');
         Xi=[Xi,[xi;n_frame*ones(1,size(xi,2))]];
@@ -24,13 +21,13 @@ if ~(exist('Xi')&exist('Yi'))
         
     end
     
-end
+%end
 
 
 %%
 
 f_ini=20;
-f_fin=100;
+f_fin=300;
 
 X_in = Xi;
 %X_in = Yi;
@@ -51,13 +48,14 @@ close all;
 
 figure
 
-%marker_fin = max(X_out(5,:)); marker_ini = 1;
-marker_fin = 1; marker_ini = marker_fin; 
+marker_fin = max(X_out(5,:)); marker_ini = 1;
+%marker_fin = 8; marker_ini = marker_fin; 
 
 for marker=marker_ini:marker_fin
     plot3(X_out(1,:),X_out(2,:),X_out(3,:),'kx',...
         Yi(1,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),Yi(2,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),Yi(3,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),'.',...
-        X_out(1,X_out(5,:)==marker),X_out(2,X_out(5,:)==marker),X_out(3,X_out(5,:)==marker),'go-');
+        X_out(1,X_out(5,:)==marker),X_out(2,X_out(5,:)==marker),X_out(3,X_out(5,:)==marker),'go-',...
+        X_out(1,isnan(X_out(6,:))==1),X_out(2,isnan(X_out(6,:))==1),X_out(3,isnan(X_out(6,:))==1),'rs');
     title(['Trayectoria ' num2str(marker)]);
     xlabel('X');
     ylabel('Y')
@@ -70,6 +68,7 @@ for marker=marker_ini:marker_fin
         max(Yi(2,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
         min(Yi(3,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
         max(Yi(3,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))) ]);
+    
     if marker~=marker_fin
         pause;
     end
@@ -113,7 +112,7 @@ ylabel('Cantidad');
 
 figure
 
-hist(X_out(7,X_out(7,:)~=(-Inf)&X_out(7,:)~=(0)),20);
+hist(X_out(7,X_out(7,:)~=(-Inf)&X_out(7,:)~=(0)),30);
 title('Distribucion de distancias enlazadas');
 %{
 figure
