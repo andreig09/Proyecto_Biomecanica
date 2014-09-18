@@ -25,7 +25,7 @@ struct imgtrack
 	CvBlobs BlobsAnteriores;
 };
 
-blobsDetectados	detectarBlobs(IplImage *filtrada , double aMax ,double aMin);
+blobsDetectados	detectarBlobs(IplImage *filtrada , double aMax ,double aMin, VideoWriter oVideoWriter2, VideoWriter oVideoWriter3, bool guardar);
 
 CvBlob ubicarBlob(CvBlob blobanterior, CvBlobs blobs);
 

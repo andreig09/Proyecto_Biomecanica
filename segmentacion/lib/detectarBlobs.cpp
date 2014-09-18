@@ -62,7 +62,7 @@ CvBlobs blobsCirculares(CvBlobs intBlobs){
 
 //Funcion que a partir de una imagen filtrada devuelve los blobs.
 //tambien genera la img con blobs y la muestra en una ventana
-blobsDetectados	detectarBlobs(IplImage *filtrada, double aMax,double aMin){
+blobsDetectados	detectarBlobs(IplImage *filtrada, double aMax,double aMin, VideoWriter oVideoWriter2, VideoWriter oVideoWriter3, bool guardar){
 	
 	//inicializar elementos
 	blobsDetectados salida;
@@ -76,7 +76,6 @@ blobsDetectados	detectarBlobs(IplImage *filtrada, double aMax,double aMin){
 	IplImage *labelImg=cvCreateImage(cvSize(dWidth,dHeight),IPL_DEPTH_LABEL,1);//Image Variable for blobs
 	IplImage *ImgBlobs=cvCreateImage(cvSize(dWidth,dHeight),IPL_DEPTH_8U,3);//Image Variable for blobs
 	IplImage *ImgBlobsAll=cvCreateImage(cvSize(dWidth,dHeight),IPL_DEPTH_8U,3);//Image Variable for blobs
-
 
 	//Finding the blobs
 	unsigned int result=cvLabel(filtrada,labelImg,blobs);
@@ -108,9 +107,14 @@ blobsDetectados	detectarBlobs(IplImage *filtrada, double aMax,double aMin){
 	}
 	
 	//Se muestra la imagen
-	cvShowImage("Blobs circulares", ImgBlobs);
-	cvShowImage("Blobs", ImgBlobsAll);
-		
+	//cvShowImage("Blobs circulares", ImgBlobs);
+	//cvShowImage("Blobs", ImgBlobsAll);
+	//se guarda
+	if( (guardar) ){
+		oVideoWriter3.write(ImgBlobsAll);
+		oVideoWriter2.write(ImgBlobs);
+	}
+			
 	salida.blobs = circulos;
 	salida.imgBlobs = ImgBlobs;
 	cvReleaseImage(&ImgBlobs);

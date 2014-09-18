@@ -9,7 +9,7 @@ using namespace std;
 //Filtra una imagen dada según determinado rango de color en formato HSV, devuelve una imagen en blanco y negro 
 IplImage* filterOtsu(IplImage *img, int thresh){
 
-	cvNamedWindow("filtro");
+	//cvNamedWindow("filtro");
 
 	int dWidth = cvGetSize(img).width;
     int dHeight = cvGetSize(img).height;
@@ -30,7 +30,7 @@ IplImage* filterOtsu(IplImage *img, int thresh){
 	//smooth the thresholded image using Median kernel
     //cvSmooth(threshy,threshy,CV_MEDIAN,3,3);
 	
-	cvShowImage("filtro",threshy);
+	//cvShowImage("filtro",threshy);
 	
 	//cvReleaseImage(&threshy);
 	cvReleaseImage(&hsvframe);

@@ -213,3 +213,17 @@ double Finda(int argc,char *argv[]){
 	}
 	return result;
 }
+
+bool Finds(int argc,char *argv[]){
+	bool result = false;
+	if (argc > 2){
+	for (int i = 2; i < argc; i++)
+	{
+		if (*argv[i] == 's')
+		{
+			result = true;
+		}
+	}
+	}
+	return result;
+}

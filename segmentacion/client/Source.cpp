@@ -44,28 +44,50 @@ int main(int argc, char *argv[]){
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Declarar ventanas
-    cvNamedWindow("Video");      
+    //cvNamedWindow("Video");      
     
-	//Tamaño del frame y frecuencia:  
-    //double dWidth = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH); //get the width of frames of the video
-    //double dHeight = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT); //get the height of frames of the video
-    //int fps = cvGetCaptureProperty(capture, CV_CAP_PROP_FPS);
-	//cout << "Frame Size = " << dWidth << "x" << dHeight << endl;
-    //cout << "FPS = " << fps << endl;
-	//Size frameSize(static_cast<int>(dWidth), static_cast<int>(dHeight));
+	bool guardar = Finds(argc,argv);
+	
+	
+		//Tamaño del frame y frecuencia:  
+		double dWidth = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH); //get the width of frames of the video
+		double dHeight = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT); //get the height of frames of the video
+		int fps = cvGetCaptureProperty(capture, CV_CAP_PROP_FPS);
+		//cout << "Frame Size = " << dWidth << "x" << dHeight << endl;
+		//cout << "FPS = " << fps << endl;
+		Size frameSize(static_cast<int>(dWidth), static_cast<int>(dHeight));
+		VideoWriter oVideoWriter;
+		VideoWriter oVideoWriter2;
+		VideoWriter oVideoWriter3;
+		
+		if (guardar){
+		//salidas de video
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		oVideoWriter.open("filtro.avi", CV_FOURCC('M','P','4','2'), fps, frameSize, false); //initialize the VideoWriter object 
+		//CV_FOURCC('P','I','M','1')
+		if ( !oVideoWriter.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
+		{
+		   cout << "ERROR: Failed to write the video" << endl;
+		   return -1;
+		}
+		
+		oVideoWriter2.open("Blobs_Circulares.avi",  CV_FOURCC('M','P','4','2'), fps, frameSize, true); //initialize the VideoWriter object
+		if ( !oVideoWriter2.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
+		{
+			cout << "ERROR: Failed to write the video" << endl;
+			return -1;
+		}
 
-	//salidas de video
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //VideoWriter oVideoWriter ("filtro.avi", CV_FOURCC('M','P','4','2'), fps, frameSize, false); //initialize the VideoWriter object 
-    //CV_FOURCC('P','I','M','1')
-    //if ( !oVideoWriter.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
-    //{
-    //   cout << "ERROR: Failed to write the video" << endl;
-    //   return -1;
-    //}
+		oVideoWriter3.open("Blobs_Todos.avi",  CV_FOURCC('M','P','4','2'), fps, frameSize, true); //initialize the VideoWriter object
+		if ( !oVideoWriter3.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
+		{
+			cout << "ERROR: Failed to write the video" << endl;
+			return -1;
+		}
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		}
+
 	//VALORES INICIALES:
 	double Amax = FindA(argc,argv);
 	if (Amax != -1){
@@ -91,11 +113,14 @@ int main(int argc, char *argv[]){
 	
 	//Filtrar imagen
     IplImage* imgThresh = filterOtsu(frame,thresh2);
+	if (guardar){
+		oVideoWriter.write(imgThresh);
+	}
 
 	//Detectar blobs
 	//////////////////////////////////////////////////////////
 	blobsDetectados detblobs;
-	detblobs = detectarBlobs(imgThresh, Amax, Amin);
+	detblobs = detectarBlobs(imgThresh, Amax, Amin,oVideoWriter2, oVideoWriter3,guardar);
 	//////////////////////////////////////////////////////////
 	//argv[1] = "cam2-321.avi";
 	const char *name = XMLname(argv[1]);
@@ -124,15 +149,16 @@ int main(int argc, char *argv[]){
 		   //cout << "max threshold: " << thresh << "\n" ;
 
            imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
+		   if (guardar){
+		   oVideoWriter.write(imgThresh); //writer the frame filtered
+		   }
 
-		   //oVideoWriter.write(imgThresh); //writer the frame with blobs detected
-		   	   
-		   detblobs = detectarBlobs(imgThresh, Amax, Amin); //Detectar markers fitlrados
-
+		   detblobs = detectarBlobs(imgThresh, Amax, Amin, oVideoWriter2, oVideoWriter3, guardar); //Detectar markers fitlrados
+		   
 		   XMLAddFrame(frameNum,detblobs.blobs,name); //Agregar los blobs de este frame en el xml
 		   			 
 		   //Mostrar video original		   
-		   cvShowImage("Video", frame);
+		   //cvShowImage("Video", frame);
            
            //Clean up used images
 		   //delete[] detblobs;
@@ -147,9 +173,9 @@ int main(int argc, char *argv[]){
 
 	  endXML(name); //Cerrar xml
 
-	  //waitKey(0); //wait infinite time for a keypress
+	  cout<<"Segmentatio complete";
 
-	  destroyAllWindows;
+	  //destroyAllWindows;
 	  cvReleaseCapture(&capture);
       return 0;
 

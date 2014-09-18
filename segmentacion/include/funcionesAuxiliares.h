@@ -23,3 +23,4 @@ void findCircles(IplImage* img);
 double FindT(int argc,char *argv[]);
 double FindA(int argc,char *argv[]);
 double Finda(int argc,char *argv[]);
+bool Finds(int argc,char *argv[]);
