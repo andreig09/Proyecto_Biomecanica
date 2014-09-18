@@ -156,43 +156,6 @@ end
 end
 
 %%
-
-% function matches = matchear2(cam, v_cams, frame)
-% %Funcion que .....
-% 
-% %% ENTRADAS
-% % cam   -->estructura con camaras
-% % v_cam -->
-% % frame -->
-% 
-% %% SALIDAS
-% % matches -->
-% 
-% %% CUERPO DE LA FUNCION
-% 
-% lv_cams = length(v_cams);
-% for ci = v_cams
-%     if ci < lv_cams
-%         i = v_cams(ci);
-%         j = v_cams(ci+1);
-%     else
-%         i = v_cams(ci);
-%         j = v_cams(1);
-%     end
-%     
-%     n_markers_i = get_info(cam(i), 'frame', frame, 'n_markers');
-%     n_markers_j = get_info(cam(j), 'frame', frame, 'n_markers');
-%     
-%     [~, ~, ix_table1, ~]= cam2cam(  cam(i), cam(j), frame,'n_points',n_markers_i,'show');
-%     [~, ~, ix_table2, ~]= cam2cam(  cam(j) , cam(i), frame,'n_points',n_markers_j,'show');
-%     matches{i,j} = ix_table1;
-%     matches{j,i} = ix_table2;
-%     
-% end
-% end
-
-
-%%
 function valid_matches = actualizar_matches(matches, valid_points, v_cams)
 %Funcion que .....
 
@@ -216,35 +179,39 @@ for i=v_cams
         if ~isempty(matches{i,j})
             
             
-            valid_matches{i,j} = [];
+            %valid_matches{i,j} = [];
             
-            ind = valid_points{i}==1;
-            valid_matches_i = matches{i,j}(ind,:);
-            
-            [~,ind_ord] = sort(valid_matches_i(:,2:end),2);
-            l1_matches = size(valid_matches_i,1);
-            rep_ones = ones(l1_matches,1);
+            ind = valid_points{i}==1; %indices dee los puntos validos en la camara i
+            valid_matches_i = matches{i,j}(ind,:);%me quedo solo con las parejas conformadas a partir de puntos que aun pueden validar en camara i
             
             
-            valid_ind_ord = (rep_ones * valid_points{j}) .*  ind_ord;
-            valid_ind_ord(valid_ind_ord ==0)=inf;
+            %ordeno los marcadores de la camara j de menor a mayor, de manera de poder enmascarar con validation{j}
+            %de los puntos que "sobrevivieron"  me quedo con el
+            %que se encuentra con menor indice de columna en cada fila de valid_matches_i 
+            [~,index_sort_cam_j] = sort(valid_matches_i(:,2:end),2);%ordeno los indices de la camara j de menor a mayor, pero solo me preocupo de llevar los las columnas iniciales que ocupaban en cada fila de valid_matches_i
+            %l1_matches = size(valid_matches_i,1); %numero de indices validos en camara i            
+            %rep_ones = ones(l1_matches,1); %es igual a ind(ind)'            
+            %valid_ind_ord = (rep_ones * valid_points{j}) .* index_sort_cam_j;%apago en ind_ord los puntos que no juegan pues ya se usaron para validaciones anteriores
+            %ind(ind)' devuelve un vector de unos que tiene largo igual a la cantidad de unos que tenga ind
+            valid_ind_ord = (ind(ind)' * valid_points{j}) .*  index_sort_cam_j; %utilizo la mascara de valid_points, para saber que indices puedo utilizar
+            valid_ind_ord(valid_ind_ord ==0)=inf; %pongo los indices que no puedo usar en infinito
             
-            best_ind = min(valid_ind_ord,[],2);
+            [~, best_match] = min(valid_ind_ord,[],2);%encuentro el minimo de cada fila, o sea que se va a devolver en cada fila la primer columna de valid_matches_i que se puede utilizar
             
             
-            
-            for k = 1:l1_matches
-                
-                if best_ind(k) ~= inf
-                    valid_matches{i,j}= [valid_matches{i,j}; valid_matches_i(k,1), valid_matches_i(k,best_ind(k)+1)];
-                end
-            end
-            
+            %[best_ind, ~] = min(valid_ind_ord,[],2);%encuentro el minimo de cada fila, o sea que se va a devolver en cada fila la primer columna de valid_matches_i que se puede utilizar
+%             for k = 1:l1_matches
+%                 if best_ind(k) ~= inf
+%                    valid_matches{i,j}= [valid_matches{i,j}; valid_matches_i(k,1), valid_matches_i(k,best_ind(k)+1)];                    
+%                 end
+%             end
+            valid_matches{i, j} = [valid_matches_i(:,1), best_match];
             
             
         end
     end
 end
+
 end
 
 %%
@@ -383,15 +350,18 @@ punto3D = homog2euclid(punto3D_h); % pasa a coord. euclideas
 num_puntos = size(p_retina,2);
 
 C =foco_h*ones (1,num_puntos);
-u = punto3D - C;   % vector director de la recta
+
+u = punto3D - C;  % vector director de la recta
 
 % normalizo vector director
 normas = sqrt(u(1,:).^2 + u(2,:).^2 + u(3,:).^2);
-u(1,:) = u(1,:)./normas;
-u(2,:) = u(2,:)./normas;
-u(3,:) = u(3,:)./normas;
-
-
+normas = [normas; normas; normas];
+u=u./normas;
+% u(1,:) = u(1,:)./normas;
+% u(2,:) = u(2,:)./normas;
+% u(3,:) = u(3,:)./normas;
+% 
+% 
 %C = foco;
 end
 

@@ -77,10 +77,13 @@ name = '_clinicas';
 %                                                     %deberia haber algun warning en la terminal matlab producido por markersXML2mat.
 % 
 % %inicializo una estructura skeleton para completar a medida que se trabaje con los datos de cam_segmentacion
-% [~ , skeleton_segmentacion]=init_structs(n_markers, n_frames, names);
-% skeleton_segmentacion = set_info(skeleton_segmentacion, 'name_bvh', name_bvh); %setea string nombre de la estructura
-% skeleton_segmentacion=set_info(skeleton_segmentacion, 'name', ['skeleton' name])
-% 
+
+n_markers = 14;
+
+[~ , skeleton_segmentacion]=init_structs(n_markers, n_frames, names);
+skeleton_segmentacion = set_info(skeleton_segmentacion, 'name_bvh', name_bvh); %setea string nombre de la estructura
+skeleton_segmentacion=set_info(skeleton_segmentacion, 'name', ['skeleton' name])
+
 % %guardo la informacion
 % save([path_mat '/cam' name ], 'cam_segmentacion')
 % str = sprintf('Se a guardado el resultado de la segmentacion de las camaras en %s/cam%s', path_mat, name);
@@ -90,9 +93,10 @@ name = '_clinicas';
 % toc
 %% Reconstruccion
 
+
 n_cams = 17;
-n_frames=1;
-n_markers = 16;
+n_frames=300;
+n_markers = 14;
 
 
 
@@ -110,16 +114,17 @@ C = cell(1, n_cams);
 for i=vec_cams    
     P{i} = get_info(cam_segmentacion(i), 'projection_matrix'); %matrix de proyeccion de la camara 
     invP{i}=pinv(P{i});%inversa generalizada de P 
-    C{i} = null(P{i}); %punto centro de la camara, o vector director perpendicular a la retina
+    C{i} = homog2euclid(null(P{i})); %punto centro de la camara, o vector director perpendicular a la retina    
 end
 
-for frame=1:n_frames %hacer para cada frame (Se efectua en paralelo)
+parfor frame=1:n_frames %hacer para cada frame (Se efectua en paralelo)
     %efectuo la reconstruccion de un frame    
     %Xrec{frame} = reconstruccion1frame(cam_segmentacion, vec_cams, frame, umbral, n_markers);
     Xrec{frame} = reconstruccion1frame_fast(cam_segmentacion, vec_cams, P,  invP, C, frame, umbral, n_markers);
     %genero aviso   
-    num = log_operation(); %incremento contador que lleva numeros del ciclos
-    str=sprintf('Se ha reconstruido el frame %d, actualmente se han reconstruideo %d de %d ', frame, num, n_frames);
+    %num = log_operation(''); %incremento contador que lleva numeros del ciclos
+    %str=sprintf('Se ha reconstruido el frame %d, actualmente se han reconstruideo %d de %d ', frame, num, n_frames);
+    str=sprintf('Se ha reconstruido el frame %d', frame);
     disp(str)  
     
     
