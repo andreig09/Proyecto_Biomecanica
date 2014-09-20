@@ -1,81 +1,54 @@
-clc
-close all
-clear all
+function skeleton = reconstruccion(cam, skeleton, umbral, init_frame, end_frame)
+%Funcion que efectua la reconstruccion.
+%% ENTRADA
+%cam -->estructura cam
+%skeleton -->estructura skeleton
+%umbral -->radio de la esfera dentro de la cual se tienen puntos validos en la reconstruccion
 
-%load 'saved_vars/cam.mat';
-%load 'saved_vars/cam_andrei.mat';
-%load 'saved_vars/cam17.mat';
-%load 'saved_vars/cam17_andrei.mat';
-%load 'saved_vars/skeleton.mat';
-%load 'saved_vars/skeleton14.mat'
-load 'saved_vars/cam14_segmentacion';
-cam = cam_segmentacion;
-%%
-load 'saved_vars/skeleton14_segmentacion.mat';
-estructura_salida = skeleton_segmentacion;
+%% SALIDA
+
+%skeleton -->estructura skeleton actualizada
+
+%% CUERPO DE LA FUNCION
 
 n_cams = length(cam);
-tot_markers = 13;
+n_markers = get_info(skeleton, 'frame', 1, 'n_markers');
 
+disp('__________________________________________________')
+disp('Se inicia el proceso de Reconstruccion')
 
-v_cams = 1:n_cams; % vector de cámaras
-frame = 20;
-umbral = .05;
+vec_cams = 1:n_cams;
+Xrec = cell(1, 300);
 
-tic
-for frame=1:300
+%obtengo datos que no dependen del frame con el que se este trabajando
+P = cell(1, n_cams);
+invP = cell(1, n_cams);
+C = cell(1, n_cams);
 
-%% ensuciar datos
-%  p = 0.80; 
-%  aux_cam = dirty_cam(cam,p);
-%  cam = aux_cam;
-
-%% reconstrucción
-
-
-Xrec = reconstruccion1frame(cam, v_cams, frame, umbral, tot_markers);
-
-disp(frame)
-%% ploteo
-% figura = figure;
-% hold off
-% plot3(Xrec(1,:),Xrec(2,:),Xrec(3,:) ,'*')
-% 
-% 
-%  X=zeros(tot_markers,1);
-%  Y=zeros(tot_markers,1);
-%  Z=zeros(tot_markers,1);
-%  
-% for h=1:tot_markers+1
-%     X(h) = skeleton.frame(frame).marker(h).coord(1);
-%     Y(h) = skeleton.frame(frame).marker(h).coord(2);
-%     Z(h) = skeleton.frame(frame).marker(h).coord(3);
-% end
-% 
-% 
-% hold on
-% plot3(X,Y,Z ,'r*')
-% title(['frame: ' num2str(frame)])
-%  axis equal
-%  grid on
-% 
-% 
-% saveas(figura,num2str(frame),'fig')
-
-
-%% cargar estructura
-
-n_Xrec= size(Xrec, 2); %numero de marcadores reconstruidos en el frame 'frame'
-n_markers = get_info(skeleton_segmentacion, 'frame', frame, 'n_markers'); % devuelve el numero de marcadores del frame 'frame' de la estructura structure
-Xrec = [Xrec, zeros(3, (n_markers - n_Xrec) )];%Si faltan marcadores para rellenar la estructura los lleno con ceros
-
-
-estructura_salida = set_info(estructura_salida, 'frame', frame, 'marker', 'coord', Xrec); %ingreso los marcadores en el frame correspondiente de estructura_salida
-estructura_salida = set_info(estructura_salida, 'frame', frame, 'n_markers', n_Xrec);% actualizo el numero de frame correspondiente
-
-%%
+for i=vec_cams    
+    P{i} = get_info(cam(i), 'projection_matrix'); %matrix de proyeccion de la camara 
+    invP{i}=pinv(P{i});%inversa generalizada de P 
+    C{i} = homog2euclid(null(P{i})); %punto centro de la camara, o vector director perpendicular a la retina    
 end
 
-toc
+log_operation('reset'); %funcion que permite generar un contador de ciclos dentro del ciclo parfor
+%parfor frame=1:n_frames %hacer para cada frame (Se efectua en paralelo)
+parfor frame=init_frame:end_frame %hacer para cada frame (Se efectua en paralelo)
+    %efectuo la reconstruccion de un frame     
+    Xrec{frame} = reconstruccion1frame_fast(cam, vec_cams, P,  invP, C, frame, umbral, n_markers);
+    %genero aviso   
+    num = log_operation(''); %incremento contador que lleva numeros del ciclos
+    str=sprintf('Se ha reconstruido el frame %d, actualmente se han reconstruideo %d de %d ', frame, num*frame, n_frames);
+    %str=sprintf('Se ha reconstruido el frame %d', frame);
+    disp(str)      
+end
 
+%for  frame=1:n_frames %hacer para cada frame (Se efectua secuencialmente)     
+for  frame=init_frame:end_frame %hacer para cada frame (Se efectua secuencialmente)     
+    n_Xrec= size(Xrec{frame}, 2); %numero de marcadores reconstruidos en el frame 'frame'
+    n_markers = get_info(skeleton, 'frame', frame, 'n_markers'); % devuelve el numero de marcadores del frame 'frame' de la estructura structure
+    Xrec{frame} = [Xrec{frame}, zeros(3, (n_markers - n_Xrec) )];%Si faltan marcadores para rellenar la estructura los lleno con ceros    
+    skeleton = set_info(skeleton, 'frame', frame, 'marker', 'coord', Xrec{frame}); %ingreso los marcadores en el frame correspondiente de estructura_salida
+    skeleton = set_info(skeleton, 'frame', frame, 'n_markers', n_Xrec);% actualizo el numero de frame correspondiente
+end
 
