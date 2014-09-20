@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 14-Sep-2014 17:50:58
+% Last Modified by GUIDE v2.5 19-Sep-2014 20:56:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -242,15 +242,11 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-display(handles.videoDirectory);
-display(handles.videoExtension);
-display(handles.thresh);
-display(handles.areaMax);
-display(handles.areaMin);
-display(handles.xmlPath);
-
-
-
+if get(handles.checkbox9, 'Value')
+    %ACÁ TENDRÍAN QUE IR LOS CHORIZOS QUE LLAMAN A LA SEGMENTACÍON
+else
+    display('no está seleccionado el checkbox de segmentación');
+end
 
 function edit5_Callback(hObject, eventdata, handles)
 % hObject    handle to edit5 (see GCBO)
@@ -294,6 +290,163 @@ guidata(hObject,handles); %Guarda el string en videoDirectory
 % --- Executes during object creation, after setting all properties.
 function edit6_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit9_Callback(hObject, eventdata, handles)
+% hObject    handle to edit9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit9 as text
+%        str2double(get(hObject,'String')) returns contents of edit9 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+  handles.reconsThr = input;
+  guidata(hObject,handles); %Guarda el string en videoDirectory
+end
+
+% --- Executes during object creation, after setting all properties.
+function edit9_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in checkbox8.
+function checkbox8_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox8
+if get(hObject, 'Value')
+    set(handles.edit9, 'enable', 'on');
+else
+    set(handles.edit9, 'enable', 'off');
+end
+
+% --- Executes on button press in checkbox7.
+function checkbox7_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox7
+if get(hObject, 'Value')
+    set(handles.edit8, 'enable', 'on');
+else
+    set(handles.edit8, 'enable', 'off');
+end
+
+
+function edit8_Callback(hObject, eventdata, handles)
+% hObject    handle to edit8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit8 as text
+%        str2double(get(hObject,'String')) returns contents of edit8 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.MatPath = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
+% --- Executes during object creation, after setting all properties.
+function edit8_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in checkbox9.
+function checkbox9_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox9
+if get(hObject, 'Value')
+    set(handles.checkbox1, 'enable', 'on');
+    set(handles.checkbox2, 'enable', 'on');
+    set(handles.checkbox3, 'enable', 'on');
+    set(handles.checkbox7, 'enable', 'on');
+    set(handles.text2, 'enable', 'on');
+    set(handles.text4, 'enable', 'on');
+    set(handles.edit5, 'enable', 'on');
+else
+    set(handles.checkbox1, 'enable', 'off');
+    set(handles.checkbox2, 'enable', 'off');
+    set(handles.checkbox3, 'enable', 'off');
+    set(handles.checkbox7, 'enable', 'off');
+    set(handles.text2, 'enable', 'off');
+    set(handles.text4, 'enable', 'off');
+    set(handles.edit5, 'enable', 'off');
+end
+
+% --- Executes on button press in checkbox10.
+function checkbox10_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox10
+
+
+% --- Executes on button press in checkbox11.
+function checkbox11_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox11
+
+
+
+function edit10_Callback(hObject, eventdata, handles)
+% hObject    handle to edit10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit10 as text
+%        str2double(get(hObject,'String')) returns contents of edit10 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+    handles.TotMarkers = input;
+    guidata(hObject,handles); %Guarda el string en videoDirectory
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function edit10_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit10 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
