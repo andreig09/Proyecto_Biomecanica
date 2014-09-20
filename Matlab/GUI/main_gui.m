@@ -243,9 +243,52 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(handles.checkbox9, 'Value')
-    %ACÁ TENDRÍAN QUE IR LOS CHORIZOS QUE LLAMAN A LA SEGMENTACÍON
+    %ACï¿½ TENDRï¿½AN QUE IR LOS CHORIZOS QUE LLAMAN A LA SEGMENTACï¿½ON
+    current_dir = pwd;
+    n_markers = handles.TotMarkers;
+    path_vid = handles.videoDirectory; 
+    type_vid = handles.videoExtension; %el nombre de la extension siempre debe escribirse como '*.extension'
+    path_program = [current_dir '/Seccion_segmentacion/ProgramaC']; %donde residen los programas que efectuan la segmentacion
+    path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segmentacion
+    
+    names = 1:n_markers;
+    names = cellstr(num2str(names'));
+    
+    
+    disp('__________________________________________________')
+    disp('Se inicia el proceso de Segmentacion.')
+    list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
+    disp('La segmentacion a culminado con exito.')    
+    disp('__________________________________________________')
+    disp('Se inicia el pasaje de archivos .xml a estructuras .mat.')
+    
+    
+    n_markers = 3*length(names); %nro de marcadores a detectar
+    
+    %cargo los archivos xml provenientes de la segmentacion asi como los datos de las camaras Blender
+    cam_segmentacion = markersXML2mat(names, path_XML, list_XML);    
+    
+    n_frames = get_info(cam_segmentacion(1), 'n_frames');%obtengo el numero de frames de la camara 1.
+    %(supuestamente todas las camaras deberian tener igual nro de frames). Si esto no ocurre
+    %deberia haber algun warning en la terminal matlab producido por markersXML2mat.
+    
+    %inicializo una estructura skeleton para completar a medida que se trabaje con los datos de cam_segmentacion   
+    [~ , skeleton_segmentacion]=init_structs(n_markers, n_frames, names);
+    skeleton_segmentacion = set_info(skeleton_segmentacion, 'name_bvh', name_bvh); %setea string nombre de la estructura
+    skeleton_segmentacion=set_info(skeleton_segmentacion, 'name', ['skeleton' name_structure]);
+    
+    %guardo la informacion
+    if strcmp(handles.edit8, 'on' )    %no se como poner que si la casilla esta activa haga tal o cual cosa    
+        path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion        
+        save([path_mat '/cam' name_structure ], 'cam_segmentacion')
+        str = sprintf('Se a guardado el resultado de la segmentacion de las camaras en %s/cam%s', path_mat, name_structure);
+        disp(str)
+        save([path_mat '/skeleton' name_structure ], 'skeleton_segmentacion')        
+    end
+    disp('El pasaje a estructuras .mat a culminado.')
 else
-    display('no está seleccionado el checkbox de segmentación');
+    display('no estï¿½ seleccionado el checkbox de segmentaciï¿½n');
+    
 end
 
 function edit5_Callback(hObject, eventdata, handles)
