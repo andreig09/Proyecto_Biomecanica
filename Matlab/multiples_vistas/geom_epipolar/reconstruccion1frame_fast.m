@@ -68,7 +68,7 @@ while (p_validos > 0 && size(Xrec,2) < tot_markers)
     
     %[X, validation, n_cam3, index_x3, ~, valid_points] = validation3D(cam, cam_i,cam_d, frame, 'index', ind_i, ind_d, 'umbral', umbral, valid_points);
     %[X, ~, ~, ~, ~, valid_points] = validation3D(cam, cam_i,cam_d, frame, 'index', ind_i, ind_d, 'umbral', umbral, valid_points);
-    [X, ~, ~, ~, valid_points]=validation3D_fast(cam, cam_i,cam_d, frame, valid_points, 'index', ind_i, ind_d, 'umbral', umbral );
+    [X, ~, ~, ~, valid_points]=validation3D_fast2(cam, cam_i, cam_d, x_cam, P, valid_points, 'index', ind_i, ind_d, 'umbral', umbral );
     
     valid_points{cam_i}(ind_i) = 0; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     valid_points{cam_d}(ind_d) = 0;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
