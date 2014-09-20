@@ -31,14 +31,15 @@ for i=vec_cams
     C{i} = homog2euclid(null(P{i})); %punto centro de la camara, o vector director perpendicular a la retina    
 end
 
+global contador
+contador =0;
 log_operation('reset'); %funcion que permite generar un contador de ciclos dentro del ciclo parfor
-%parfor frame=1:n_frames %hacer para cada frame (Se efectua en paralelo)
-for frame=init_frame:end_frame %hacer para cada frame (Se efectua en paralelo)
+parfor frame=init_frame:end_frame %hacer para cada frame (Se efectua en paralelo)
     %efectuo la reconstruccion de un frame     
     Xrec{frame} = reconstruccion1frame_fast(cam, vec_cams, P,  invP, C, frame, umbral, n_markers);
-    %genero aviso   
-    num = log_operation(''); %incremento contador que lleva numeros del ciclos
-    str=sprintf('Se ha reconstruido el frame %d, actualmente se han reconstruideo %d de %d ', frame, num*frame, (end_frame-init_frame+1));
+    %genero aviso     
+    num = log_operation(end_frame); %incremento contador que lleva numeros del ciclos
+    str=sprintf('Se ha reconstruido el frame %d, actualmente se han reconstruideo %d de %d ', frame, num, (end_frame-init_frame+1));
     %str=sprintf('Se ha reconstruido el frame %d', frame);
     disp(str)      
 end

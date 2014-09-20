@@ -46,19 +46,10 @@ n_cams = length(list_XML); %nro de camaras
 
     
 parfor i=1:n_cams %hacer para todas las camaras
+%for i=1:n_cams %hacer para todas las camaras
     %importo el archivo XML con los datos de interes
-    archivo = [path_XML '/' list_XML{i}];%genero un string con el nombre del archivo a importar  
-%     str=['Cargando datos de ', archivo];
-%     disp(str); %genera un aviso de que se empieza a cargar datos
+    archivo = [path_XML '/' list_XML{i}];%genero un string con el nombre del archivo a importar 
     [frames_XML, n_frames] = importXML(archivo);  
-    
-%     if i==1 %inicializo la estructura de salida para todas las camaras acorde a las necesidades solo la primer corrida del ciclo for       
-%         [cam, ~]=init_structs(n_markers, n_frames, names);
-%         str = 'Se ha inicializado una estructura cam';
-%         disp(str)
-%         n_frame_const = n_frames;%guardar el numero de frames de la primer camara para saber si este parametro cambian en los siguientes ciclos
-%     end 
-%     
     
     %relevo informacion del XML asociado a la camara i
     aux={frames_XML(:).name};

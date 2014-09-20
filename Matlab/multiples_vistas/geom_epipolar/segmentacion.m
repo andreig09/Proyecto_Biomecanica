@@ -51,7 +51,7 @@ cd(path_vid);%permite ir a la carpeta path_vid
 parfor k=1:n_cams %hacer con cada elemento en list_vid
     name_vid = list_vid{k};%nombre del video actual    
     %command2 = sprintf('%s/%s %s/%s', path_program, name_program, path_vid, name_vid);%command2 permite segmentar el video name_vid %POR ALGUN
-    %MOTIVO NO FUNCIONA CUANDO EL PARAMETRO A LA ENTRADA DE LA SEGMENTACION ES GRANDE
+    %MOTIVO NO FUNCIONA CUANDO EL PARAMETRO A LA ENTRADA DE LA SEGMENTACION ES GRANDE    
     command = sprintf('%s/%s %s', path_program, name_program, name_vid);%command permite segmentar el video name_vid
 %     str = sprintf('Comenzando el proceso de segmentacion del archivo %s', name_vid);         
 %     disp(str)
@@ -76,7 +76,7 @@ parfor k=1:n_cams %hacer con cada elemento en list_vid
 %             disp(messageid)
 %             error('system:ComandoFallido','El comando para mover *.xml a su carpeta correspondiente ha devuelto una señal de error')   
 %         else 
-            str = sprintf('La segmentacion del archivo %s ha finalizado satisfactoriamente.', name_vid);
+            str = ['La segmentacion del archivo ', name_vid, ' ha finalizado satisfactoriamente.'];
             disp(str)     
 %         end
     end
