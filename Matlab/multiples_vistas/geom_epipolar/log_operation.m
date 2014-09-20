@@ -2,7 +2,9 @@ function contador = log_operation(str)
 %se utiliza esta funcion para contar cuantas veces se entra a un ciclo
 %parfor
 
-global contador
+if ~exist('contador')
+    global contador
+end
 if strcmp(str, 'reset')
     contador = 0;
 else if isempty(contador)
