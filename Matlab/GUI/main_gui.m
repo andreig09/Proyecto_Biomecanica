@@ -242,6 +242,45 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if (get(handles.checkbox9,'Value') && get(handles.checkbox10,'Value') && get(handles.checkbox11,'Value'))
+	processMethod = 0; %LOS 3 BLOQUES, el método por defecto
+elseif (get(handles.checkbox9,'Value') && not(get(handles.checkbox10,'Value')) && not(get(handles.checkbox11,'Value')))
+	processMethod = 1; %solo SEGMENTACION
+elseif (not(get(handles.checkbox9,'Value')) && get(handles.checkbox10,'Value') && not(get(handles.checkbox11,'Value')))
+	processMethod = 2; %solo RECONSTRUCCION
+elseif (not(get(handles.checkbox9,'Value')) && not(get(handles.checkbox10,'Value')) && get(handles.checkbox11,'Value'))
+	processMethod = 3; %solo TRACKING
+elseif (get(handles.checkbox9,'Value') && get(handles.checkbox10,'Value') && not(get(handles.checkbox11,'Value')))
+	processMethod = 4; %SEGMENTACION y RECONSTRUCCION
+elseif (not(get(handles.checkbox9,'Value')) && get(handles.checkbox10,'Value') && get(handles.checkbox11,'Value'))
+	processMethod = 5; %RECONSTRUCCION y TRACKING
+else
+	errordlg('You must enter a valid combination of blocks','Invalid blocks','modal')
+  	uicontrol(hObject)
+  	return
+end
+
+switch processMethod
+	case 0
+		%ACA VAN LOS 3 BLOQUES
+	case 1
+		%ACA VA SOLO LA SEGMENTACION
+	case 2
+		%ACA VA SOLO LA RECONSTRUCCION
+	case 3
+		%ACA VA SOLO el TRACKING
+	case 4
+		%ACA VA SEGMENTACION + RECONSTRUCCION
+	case 5
+		%ACA va RECONSTRUCCION + TRACKING
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 if get(handles.checkbox9, 'Value')
     %ACï¿½ TENDRï¿½AN QUE IR LOS CHORIZOS QUE LLAMAN A LA SEGMENTACï¿½ON
     current_dir = pwd;
