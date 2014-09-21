@@ -243,10 +243,9 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 if (get(handles.checkbox9,'Value') && get(handles.checkbox10,'Value') && get(handles.checkbox11,'Value'))
-	processMethod = 0; %LOS 3 BLOQUES, el método por defecto
+	processMethod = 0; %LOS 3 BLOQUES, el mï¿½todo por defecto
 elseif (get(handles.checkbox9,'Value') && not(get(handles.checkbox10,'Value')) && not(get(handles.checkbox11,'Value')))
 	processMethod = 1; %solo SEGMENTACION
 elseif (not(get(handles.checkbox9,'Value')) && get(handles.checkbox10,'Value') && not(get(handles.checkbox11,'Value')))
@@ -263,71 +262,52 @@ else
   	return
 end
 
-switch processMethod
-	case 0
-		%ACA VAN LOS 3 BLOQUES
-	case 1
-		%ACA VA SOLO LA SEGMENTACION
-	case 2
-		%ACA VA SOLO LA RECONSTRUCCION
-	case 3
-		%ACA VA SOLO el TRACKING
-	case 4
-		%ACA VA SEGMENTACION + RECONSTRUCCION
-	case 5
-		%ACA va RECONSTRUCCION + TRACKING
+n_markers = handles.TotMarkers;%obtengo el numero de marcadores
+names = 1:n_markers;%genero los nombres de los marcadores
+names = cellstr(num2str(names'));
+
+path_vid = handles.videoDirectory;
+type_vid = handles.videoExtension; %el nombre de la extension siempre debe escribirse como '*.extension'
+path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segmentacion
+save_segmentation_mat = get(handles.checkbox7, 'Value'); % indica si se quiere guardar la estructura .mat al final de la segmentacion
+path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
+reconsThr_on = get(handles.checkbox8, 'Value'); %indica si se encuentra habilitado el umbral en la reconstruccion
+reconsThr = handles.reconsThr; %valor del umbral en reconstruccion %POR DEFECTO DEBERIA SER 0.05
+switch processMethod    
+    case 0
+        %ACA VAN LOS 3 BLOQUES         
+        cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
+        
+        
+    case 1
+        %ACA VA SOLO LA SEGMENTACION
+        cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
+        
+    case 2
+        %ACA VA SOLO LA RECONSTRUCCION
+        if ~exist('cam_segmentacion') %existe en el workspace una estructura cam_segmentacion        
+            load([path_mat, '/cam.mat'])%cargo el archivo cam.mat que contiene la variable cam_segmentacion
+        end
+        n_frames = get_info(cam_segmentacion(1), 'n_frames');%obtengo el numero de frames de la primera camara, todas las camaras deberian tener igual nro de frame
+        %inicializo una estructura skeleton
+        [~ , skeleton]=init_structs(n_markers, n_frames, names);            
+        skeleton=set_info(skeleton, 'name', 'skeleton');
+        
+        init_frame=1
+        end_frame=10
+        
+        skeleton = reconstruccion(cam_segmentacion, skeleton, reconsThr, init_frame, end_frame);
+    case 3
+        %ACA VA SOLO el TRACKING
+    case 4
+        %ACA VA SEGMENTACION + RECONSTRUCCION
+        cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
+        
+    case 5
+        %ACA va RECONSTRUCCION + TRACKING
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-if get(handles.checkbox9, 'Value')
-    %ACï¿½ TENDRï¿½AN QUE IR LOS CHORIZOS QUE LLAMAN A LA SEGMENTACï¿½ON
-    current_dir = pwd;
-    n_markers = handles.TotMarkers;
-    path_vid = handles.videoDirectory; 
-    type_vid = handles.videoExtension; %el nombre de la extension siempre debe escribirse como '*.extension'
-    path_program = [current_dir '/Seccion_segmentacion/ProgramaC']; %donde residen los programas que efectuan la segmentacion
-    path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segmentacion
-    
-    names = 1:n_markers;
-    names = cellstr(num2str(names'));
-    
-    
-    disp('__________________________________________________')
-    disp('Se inicia el proceso de Segmentacion.')
-    list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
-    disp('La segmentacion a culminado con exito.')    
-    disp('__________________________________________________')
-    disp('Se inicia el pasaje de archivos .xml a estructuras .mat.')
-    
-    
-    n_markers = 3*length(names); %nro de marcadores a detectar
-    
-    %cargo los archivos xml provenientes de la segmentacion asi como los datos de las camaras Blender
-    cam_segmentacion = markersXML2mat(names, path_XML, list_XML);    
-    
-    n_frames = get_info(cam_segmentacion(1), 'n_frames');%obtengo el numero de frames de la camara 1.
-    %(supuestamente todas las camaras deberian tener igual nro de frames). Si esto no ocurre
-    %deberia haber algun warning en la terminal matlab producido por markersXML2mat.
-    
-    %inicializo una estructura skeleton para completar a medida que se trabaje con los datos de cam_segmentacion   
-    [~ , skeleton_segmentacion]=init_structs(n_markers, n_frames, names);
-    skeleton_segmentacion = set_info(skeleton_segmentacion, 'name_bvh', name_bvh); %setea string nombre de la estructura
-    skeleton_segmentacion=set_info(skeleton_segmentacion, 'name', ['skeleton' name_structure]);
-    
-    %guardo la informacion
-    if strcmp(handles.edit8, 'on' )    %no se como poner que si la casilla esta activa haga tal o cual cosa    
-        path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion        
-        save([path_mat '/cam' name_structure ], 'cam_segmentacion')
-        str = sprintf('Se a guardado el resultado de la segmentacion de las camaras en %s/cam%s', path_mat, name_structure);
-        disp(str)
-        save([path_mat '/skeleton' name_structure ], 'skeleton_segmentacion')        
-    end
-    disp('El pasaje a estructuras .mat a culminado.')
-else
-    display('no estï¿½ seleccionado el checkbox de segmentaciï¿½n');
-    
+ 
 end
 
 function edit5_Callback(hObject, eventdata, handles)
@@ -354,6 +334,19 @@ function edit5_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
+function edit6_Callback(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit6 as text
+%        str2double(get(hObject,'String')) returns contents of edit6 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.videoExtension = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
 
 
 
@@ -537,3 +530,5 @@ function edit10_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
