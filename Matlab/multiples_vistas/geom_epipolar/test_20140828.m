@@ -26,8 +26,8 @@ close all
 
 %%
 
-f_ini=20;
-f_fin=300;
+f_ini=18;
+f_fin=100;
 
 X_in = Xi;
 %X_in = Yi;
@@ -40,7 +40,7 @@ close all;
 
 [X_out,datos]=make_tracking(X_in);
 
-%X_out = X_out(:,X_out(6,:)~=0);
+X_out = X_out(:,X_out(5,:)~=0);
 
 %return;
 
@@ -49,11 +49,13 @@ close all;
 figure
 
 marker_fin = max(X_out(5,:)); marker_ini = 1;
-%marker_fin = 8; marker_ini = marker_fin; 
+%marker_fin = 4; marker_ini = marker_fin; 
 
 for marker=marker_ini:marker_fin
     plot3(X_out(1,:),X_out(2,:),X_out(3,:),'kx',...
+        %{
         Yi(1,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),Yi(2,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),Yi(3,Yi(4,:)<=f_fin&Yi(4,:)>=f_ini),'.',...
+        %}
         X_out(1,X_out(5,:)==marker),X_out(2,X_out(5,:)==marker),X_out(3,X_out(5,:)==marker),'go-',...
         X_out(1,isnan(X_out(6,:))==1),X_out(2,isnan(X_out(6,:))==1),X_out(3,isnan(X_out(6,:))==1),'rs');
     title(['Trayectoria ' num2str(marker)]);
@@ -61,6 +63,7 @@ for marker=marker_ini:marker_fin
     ylabel('Y')
     zlabel('Z');
     axis equal;
+    %{
     axis([...
         min(Yi(1,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
         max(Yi(1,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
@@ -68,7 +71,7 @@ for marker=marker_ini:marker_fin
         max(Yi(2,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
         min(Yi(3,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))),...
         max(Yi(3,Yi(4,:)<=max(X_out(4,X_out(5,:)~=0)))) ]);
-    
+    %}
     if marker~=marker_fin
         pause;
     end

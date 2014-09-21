@@ -109,7 +109,7 @@ for frame=f_ini:f_fin-1
     link_next = link_next(link_next(:,size(link_next,2))< limit_distancia ,:);
     
     if size(X_out,1)==7
-        max_step_global = max(X_out(7,:))
+        max_step_global = max(X_out(7,:));
     end
     
     %sobran_prev = setdiff(1:size(X_fprev,2),link_next(:,1));
@@ -139,46 +139,56 @@ for frame=f_ini:f_fin-1
                 
                 X_path = X_out(:,X_out(5,:)==n_path_perdido);
                 
-                back_frame = 3;
-                step_path = mean(X_path(1:3,max([2,size(X_path,2)-back_frame]):size(X_path,2))-X_path(1:3,max([1,size(X_path,2)-back_frame-1]):size(X_path,2)-1),2);
-                
-                paso_distancia = max(X_path(7,size(X_path,2)-2:size(X_path,2)));
-                
-                X_perdido = X_path(1:3,X_path(4,:)==n_frame_perdido);
-                
-                distancia_perdido = norm(X_f1(1:3,n_index_f1)-X_perdido);
-                
-                diferencia_frames = frame+1-n_frame_perdido;
-                
-                estimacion_lineal = X_perdido+diferencia_frames*step_path;
-                
-                ratio_direccional = norm(X_f1(1:3,n_index_f1)-estimacion_lineal)/paso_distancia;
-                ratio_radial = norm(X_f1(1:3,n_index_f1)-X_perdido)/paso_distancia;
-                
-                if ratio_direccional<10
-                    disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto: [' num2str(X_f1(1:3,n_index_f1)',3) '] ,dist: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_direccional: ' num2str(ratio_direccional,3)])
+                if size(X_path,2)==1
+                    distancia_perdido = norm(X_path(1:3,:)-X_f1(1:3,n_index_f1));
+                    diff_frames = frame+1-n_frame_perdido;
+                    ratio_radial = distancia_perdido/max_step_global;
+                    if ratio_radial<(diff_frames+1)
+                        disp(['      ---> marker: ' num2str(n_index_f1) ' @(' num2str(frame+1) ') - path: ' num2str(n_path_perdido) ' @(' num2str(n_frame_perdido) ')' ]);
+                        posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido];
+                    end
+                else
+                    back_frame = 3;
+                    step_path = mean(X_path(1:3,max([2,size(X_path,2)-back_frame]):size(X_path,2))-X_path(1:3,max([1,size(X_path,2)-back_frame-1]):size(X_path,2)-1),2);
                     
-                end
-                
-                if ratio_direccional<10
-                    disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto: [' num2str(X_f1(1:3,n_index_f1)',3) '] ,dist: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_radial: ' num2str(ratio_radial,3)])
-                end
-                
-                
-                %[distancia_perdido/paso_distancia,diferencia_frames+2]
-                
-                %if (distancia_perdido/paso_distancia) < (diferencia_frames+2)
-                
-                max_ratio = 4;
-                
-                if ratio_direccional<max_ratio || ratio_radial<max_ratio
-                    posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido];
+                    paso_distancia = max(X_path(7,max([1,size(X_path,2)-2]):size(X_path,2)));
+                    
+                    X_perdido = X_path(1:3,X_path(4,:)==n_frame_perdido);
+                    
+                    distancia_perdido = norm(X_f1(1:3,n_index_f1)-X_perdido);
+                    
+                    diff_frames = frame+1-n_frame_perdido;
+                    
+                    estimacion_lineal = X_perdido+diff_frames*step_path;
+                    
+                    ratio_direccional = norm(X_f1(1:3,n_index_f1)-estimacion_lineal)/paso_distancia;
+                    ratio_radial = norm(X_f1(1:3,n_index_f1)-X_perdido)/paso_distancia;
+                    
+                    if ratio_direccional<10
+                        disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto: [' num2str(X_f1(1:3,n_index_f1)',3) '] ,dist: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_direccional: ' num2str(ratio_direccional,3)])
+                        
+                    end
+                    
+                    if ratio_direccional<10
+                        disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto: [' num2str(X_f1(1:3,n_index_f1)',3) '] ,dist: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_radial: ' num2str(ratio_radial,3)])
+                    end
+                    
+                    
+                    %[distancia_perdido/paso_distancia,diff_frames+2]
+                    
+                    %if (distancia_perdido/paso_distancia) < (diff_frames+2)
+                    
+                    max_ratio = 4;
+                    
+                    if ratio_direccional<max_ratio || ratio_radial<max_ratio
+                        posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido];
+                    end
                 end
             end
             
         end
         
-        aux = posibles_rescates
+        aux = posibles_rescates;
         
         % Busco las distancia minimas, para cada path recuperado
         posibles_rescates = [];
@@ -193,7 +203,7 @@ for frame=f_ini:f_fin-1
                 [I,J]=find(aux(:,3)==min(aux(:,3)),1);
             end
             
-            posibles_rescates
+            posibles_rescates;
             % Fin Minimos
             
             for n_rescate=1:size(posibles_rescates,1)
@@ -240,6 +250,7 @@ for frame=f_ini:f_fin-1
         end
     end;
     
+    %{
     if ~isempty(inicializaciones_truncas) && length(sobran_1)>0
                 
         posible_inicializacion = [];
@@ -304,9 +315,9 @@ for frame=f_ini:f_fin-1
         end
         
     end
-    
-    
-    
+    %}
+   
+    %{
     if exist('link_prev')
         
         rescatable_1 = intersect(sobran_0,link_prev(:,2)');
@@ -327,17 +338,30 @@ for frame=f_ini:f_fin-1
     else
         disp([ '@(f) sobran: ' num2str(sobran_0) ' (3)']);
     end
+    %}
     
+    disp([ '@(f) sobran: ' num2str(sobran_0)]);
+    
+    for n_sobran=1:size(sobran_0,2)
+        path_perdido = get_path_from_tracking(X_out,frame,sobran_0(n_sobran));
+        if path_perdido~=0
+            disp(['   ---> Perdi marker: ' num2str(sobran_0(n_sobran)) ' @(' num2str(frame) '), path: '  num2str(path_perdido)]);
+            trayectorias_truncas = [trayectorias_truncas;path_perdido,frame];
+        end
+    end
+    
+    
+    %{
     for n_sobran=1:length(sobran_0)
         if frame==f_ini
-        inicializaciones_truncas = [inicializaciones_truncas;sobran_0(n_sobran),frame];
-    end
+            inicializaciones_truncas = [inicializaciones_truncas;sobran_0(n_sobran),frame];
+        end
     end
     
     if frame-f_ini>3
         inicializaciones_truncas = [];
     end
-    
+    %}
     disp('-----------------------------------------');
     
     link_prev=link_next(:,(size(link_next,2)-4):(size(link_next,2)-3));
@@ -380,9 +404,13 @@ end
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function index_path = get_path_from_tracking(X_out,frame,index_frame)
-elementos_frame = X_out(4,:)==frame;
-marker_frame = X_out(:,elementos_frame);
-index_path = marker_frame(5,index_frame);
+if isempty(X_out)
+    index_path = index_frame;
+else
+    elementos_frame = X_out(4,:)==frame;
+    marker_frame = X_out(:,elementos_frame);
+    index_path = marker_frame(5,index_frame);    
+end
 end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -407,8 +435,7 @@ end
 function X_estimado = estimar_marcadores(X_out,X_in,path,frame,index_marker)
 
 X_path = X_out(:,X_out(5,:)==path);
-frame_path = X_path(4,size(X_path,2))
-frame
+frame_path = X_path(4,size(X_path,2));
 X_f1 = X_in(:,X_in(4,:)==frame);
 diff_frames = frame - frame_path;
 X_f1_aux= X_f1(:,index_marker);
@@ -457,9 +484,9 @@ for i=1:size(M3,1)
     M3(i,i+1) = 1;
 end
 %}
-M = [M1]
+M = [M1];
 
-A=M(:,size(M,2)-diff_frames+1:size(M,2)-1)
+A=M(:,size(M,2)-diff_frames+1:size(M,2)-1);
 B=-M(:,size(M,2))*X_f1_aux(1:3,:)'-M(:,1:size(M,2)-diff_frames)*X_path(1:3,max([size(X_path,2)-2,1]):size(X_path,2))';
 
 % Viejo y Querido Minimos Cuadrados
