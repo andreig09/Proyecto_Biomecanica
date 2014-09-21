@@ -35,6 +35,7 @@ global contador
 contador =0;
 log_operation('reset'); %funcion que permite generar un contador de ciclos dentro del ciclo parfor
 parfor frame=init_frame:end_frame %hacer para cada frame (Se efectua en paralelo)
+%for frame=init_frame:end_frame %hacer para cada frame (Se efectua en paralelo)
     %efectuo la reconstruccion de un frame     
     Xrec{frame} = reconstruccion1frame_fast(cam, vec_cams, P,  invP, C, frame, umbral, n_markers);
     %genero aviso     

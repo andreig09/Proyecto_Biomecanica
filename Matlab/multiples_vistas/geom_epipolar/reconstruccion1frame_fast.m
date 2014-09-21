@@ -45,12 +45,14 @@ for i=v_cams
 end
 
 
-Xrec = [];
+%Xrec = [];
+Xrec = zeros(3,tot_markers);
+%pasadas = 0;
+%p_validos = inf;
 
-pasadas = 0;
-p_validos = inf;
 
-while (p_validos > 0 && size(Xrec,2) < tot_markers)
+for k = 1:tot_markers
+%while (p_validos > 0 && size(Xrec,2) < tot_markers)
     
     
     valid_matches = actualizar_matches(matches, valid_points, v_cams);
@@ -73,13 +75,17 @@ while (p_validos > 0 && size(Xrec,2) < tot_markers)
     valid_points{cam_i}(ind_i) = 0; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     valid_points{cam_d}(ind_d) = 0;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
     
-    Xrec = [Xrec,X];
-    pasadas = pasadas+1;
+    %Xrec = [Xrec,X];
+    Xrec(:,k) = X;
+    %pasadas = pasadas+1;
     %disp(pasadas)
     
     p_validos = 0;
     for h = 1:n_cams
         p_validos = p_validos + sum(valid_points{h});
+    end
+    if (p_validos < 0 || sum(Xrec(:,tot_markers)))
+        return
     end
 end
 
