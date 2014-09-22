@@ -243,6 +243,7 @@ matriz_distancias = cell((n_cams.^2-n_cams)/2, 1);
 aux=1;
 for i = v_cams
     for j = v_cams
+        %if i~=j && ~isempty(valid_matches{i,j})
         if i<j && ~isempty(valid_matches{i,j})
             
                        

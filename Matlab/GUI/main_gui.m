@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 19-Sep-2014 20:56:32
+% Last Modified by GUIDE v2.5 22-Sep-2014 19:09:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -273,6 +273,8 @@ save_segmentation_mat = get(handles.checkbox7, 'Value'); % indica si se quiere g
 path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
 reconsThr_on = get(handles.checkbox8, 'Value'); %indica si se encuentra habilitado el umbral en la reconstruccion
 reconsThr = handles.reconsThr; %valor del umbral en reconstruccion %POR DEFECTO DEBERIA SER 0.05
+init_frame = handles.InitFrame;
+end_frame = handles.EndFrame;
 switch processMethod    
     case 0
         %ACA VAN LOS 3 BLOQUES         
@@ -291,10 +293,11 @@ switch processMethod
         n_frames = get_info(cam_segmentacion(1), 'n_frames');%obtengo el numero de frames de la primera camara, todas las camaras deberian tener igual nro de frame
         %inicializo una estructura skeleton
         [~ , skeleton]=init_structs(n_markers, n_frames, names);            
-        skeleton=set_info(skeleton, 'name', 'skeleton');
+        skeleton=set_info(skeleton, 'name', 'skeleton');        
         
-        init_frame=1
-        end_frame=10
+        if ~reconsThr_on %si el usuario no ingreso un umbral para reconstruccion
+            reconsThr = 0.05; %valor por defecto del umbral para reconstruccion       
+        end
         
         skeleton = reconstruccion(cam_segmentacion, skeleton, reconsThr, init_frame, end_frame);
     case 3
@@ -308,7 +311,7 @@ switch processMethod
 end
 
  
-end
+
 
 function edit5_Callback(hObject, eventdata, handles)
 % hObject    handle to edit5 (see GCBO)
@@ -348,18 +351,6 @@ input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
 handles.videoExtension = input;
 guidata(hObject,handles); %Guarda el string en videoDirectory
 
-
-
-function edit6_Callback(hObject, eventdata, handles)
-% hObject    handle to edit6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit6 as text
-%        str2double(get(hObject,'String')) returns contents of edit6 as a double
-input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
-handles.videoExtension = input;
-guidata(hObject,handles); %Guarda el string en videoDirectory
 
 
 % --- Executes during object creation, after setting all properties.
@@ -469,17 +460,27 @@ if get(hObject, 'Value')
     set(handles.checkbox2, 'enable', 'on');
     set(handles.checkbox3, 'enable', 'on');
     set(handles.checkbox7, 'enable', 'on');
-    set(handles.text2, 'enable', 'on');
-    set(handles.text4, 'enable', 'on');
-    set(handles.edit5, 'enable', 'on');
+    if get(handles.checkbox1, 'Value')
+       set(handles.edit2, 'enable', 'on'); 
+    end
+    if get(handles.checkbox2, 'Value')
+       set(handles.edit3, 'enable', 'on'); 
+    end
+    if get(handles.checkbox3, 'Value')
+       set(handles.edit4, 'enable', 'on'); 
+    end    
+    set(handles.text11, 'enable', 'on');
+    set(handles.edit19, 'enable', 'on');
 else
     set(handles.checkbox1, 'enable', 'off');
     set(handles.checkbox2, 'enable', 'off');
     set(handles.checkbox3, 'enable', 'off');
-    set(handles.checkbox7, 'enable', 'off');
-    set(handles.text2, 'enable', 'off');
-    set(handles.text4, 'enable', 'off');
-    set(handles.edit5, 'enable', 'off');
+    set(handles.checkbox7, 'enable', 'off');    
+    set(handles.text11, 'enable', 'off');    
+    set(handles.edit19, 'enable', 'off');
+    set(handles.edit2, 'enable', 'off');
+    set(handles.edit3, 'enable', 'off');
+    set(handles.edit4, 'enable', 'off');
 end
 
 % --- Executes on button press in checkbox10.
@@ -489,7 +490,23 @@ function checkbox10_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox10
-
+if get(hObject, 'Value')
+    set(handles.checkbox8, 'enable', 'on');    
+    set(handles.text6, 'enable', 'on');
+    set(handles.text7, 'enable', 'on');
+    if get(handles.checkbox8, 'Value')
+        set(handles.edit9, 'enable', 'on');
+    end
+    set(handles.edit11, 'enable', 'on');
+    set(handles.edit12, 'enable', 'on');
+else
+    set(handles.checkbox8, 'enable', 'off'); 
+    set(handles.text6, 'enable', 'off');
+    set(handles.text7, 'enable', 'off');
+    set(handles.edit9, 'enable', 'off');
+    set(handles.edit11, 'enable', 'off');
+    set(handles.edit12, 'enable', 'off');
+end
 
 % --- Executes on button press in checkbox11.
 function checkbox11_Callback(hObject, eventdata, handles)
@@ -532,3 +549,161 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
+
+function edit11_Callback(hObject, eventdata, handles)
+% hObject    handle to edit11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit11 as text
+%        str2double(get(hObject,'String')) returns contents of edit11 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+    handles.InitFrame = input;
+    guidata(hObject,handles); %Guarda el string en videoDirectory
+end
+
+% --- Executes during object creation, after setting all properties.
+function edit11_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit12_Callback(hObject, eventdata, handles)
+% hObject    handle to edit12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit12 as text
+%        str2double(get(hObject,'String')) returns contents of edit12 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+    handles.EndFrame = input;
+    guidata(hObject,handles); %Guarda el string en videoDirectory
+end
+
+% --- Executes during object creation, after setting all properties.
+function edit12_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit13_Callback(hObject, eventdata, handles)
+% hObject    handle to edit13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit13 as text
+%        str2double(get(hObject,'String')) returns contents of edit13 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit13_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit16_Callback(hObject, eventdata, handles)
+% hObject    handle to edit16 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit16 as text
+%        str2double(get(hObject,'String')) returns contents of edit16 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.xmlPath = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
+% --- Executes during object creation, after setting all properties.
+function edit16_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit16 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit18_Callback(hObject, eventdata, handles)
+% hObject    handle to edit18 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit18 as text
+%        str2double(get(hObject,'String')) returns contents of edit18 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.MatPath = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
+% --- Executes during object creation, after setting all properties.
+function edit18_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit18 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit19_Callback(hObject, eventdata, handles)
+% hObject    handle to edit19 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit19 as text
+%        str2double(get(hObject,'String')) returns contents of edit19 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.videoDirectory = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
+% --- Executes during object creation, after setting all properties.
+function edit19_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit19 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
