@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 22-Sep-2014 19:09:08
+% Last Modified by GUIDE v2.5 23-Sep-2014 00:45:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -266,48 +266,73 @@ n_markers = handles.TotMarkers;%obtengo el numero de marcadores
 names = 1:n_markers;%genero los nombres de los marcadores
 names = cellstr(num2str(names'));
 
-path_vid = handles.videoDirectory;
-type_vid = handles.videoExtension; %el nombre de la extension siempre debe escribirse como '*.extension'
 path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segmentacion
-save_segmentation_mat = get(handles.checkbox7, 'Value'); % indica si se quiere guardar la estructura .mat al final de la segmentacion
 path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
-reconsThr_on = get(handles.checkbox8, 'Value'); %indica si se encuentra habilitado el umbral en la reconstruccion
-reconsThr = handles.reconsThr; %valor del umbral en reconstruccion %POR DEFECTO DEBERIA SER 0.05
-init_frame = handles.InitFrame;
-end_frame = handles.EndFrame;
+
+if get(handles.checkbox9, 'Value') %Si la segmentacion esta seleccionada 
+    path_vid = handles.videoDirectory;
+    type_vid = handles.videoExtension; %el nombre de la extension siempre debe escribirse como '*.extension'
+    save_segmentation_mat = get(handles.checkbox7, 'Value'); % indica si se quiere guardar la estructura .mat al final de la segmentacion
+end
+if get(handles.checkbox10, 'Value') % Si la reconstruccion esta seleccionada
+    save_reconstruction_mat = get(handles.checkbox12, 'Value'); % indica si se quiere guardar la estructura .mat al final de la reconstruccion
+    reconsThr_on = get(handles.checkbox8, 'Value'); %indica si se encuentra habilitado el umbral en la reconstruccion
+    if reconsThr_on %si el usuario no ingreso un umbral para reconstruccion
+        reconsThr = handles.reconsThr; %valor del umbral en reconstruccion %POR DEFECTO DEBERIA SER 0.05
+    else
+        reconsThr = 0.05; %valor por defecto del umbral para reconstruccion
+    end
+    InitFrameSeg = handles.InitFrameSeg;
+    EndFrameSeg = handles.EndFrameSeg;
+end
+if get(handles.checkbox11, 'Value') % Si el tracking esta seleccionado
+    save_tracking_mat = get(handles.checkbox13, 'Value'); % indica si se quiere guardar la estructura .mat al final del tracking    
+    InitFrameTrack = handles.InitFrameTrack;
+    EndFrameTrack = handles.EndFrameTrack;
+end
+
+    
 switch processMethod    
-    case 0
-        %ACA VAN LOS 3 BLOQUES         
+    case 0          
+        %segmentacion
         cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
-        
+        %reconstruccion
+        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
+        %tracking
+        [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat)
         
     case 1
-        %ACA VA SOLO LA SEGMENTACION
+        %segmentacion
         cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
         
     case 2
-        %ACA VA SOLO LA RECONSTRUCCION
+        if ~exist('cam_segmentacion') %si no existe en el workspace una estructura cam_segmentacion        
+            load([path_mat, '/cam.mat'])%cargo el archivo cam.mat que contiene la variable cam_segmentacion
+        end
+        %reconstruccion
+        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);        
+        
+    case 3
+        if ~exist('skeleton') %si no existe en el workspace una estructura skeleton        
+            load([path_mat, '/skeleton.mat'])%cargo el archivo skeleton.mat que contiene la variable skeleton
+        end
+        %tracking
+        [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat)
+        
+    case 4
+        %segmentacion
+        cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
+        %reconstruccion
+        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
+        
+    case 5
         if ~exist('cam_segmentacion') %existe en el workspace una estructura cam_segmentacion        
             load([path_mat, '/cam.mat'])%cargo el archivo cam.mat que contiene la variable cam_segmentacion
         end
-        n_frames = get_info(cam_segmentacion(1), 'n_frames');%obtengo el numero de frames de la primera camara, todas las camaras deberian tener igual nro de frame
-        %inicializo una estructura skeleton
-        [~ , skeleton]=init_structs(n_markers, n_frames, names);            
-        skeleton=set_info(skeleton, 'name', 'skeleton');        
-        
-        if ~reconsThr_on %si el usuario no ingreso un umbral para reconstruccion
-            reconsThr = 0.05; %valor por defecto del umbral para reconstruccion       
-        end
-        
-        skeleton = reconstruccion(cam_segmentacion, skeleton, reconsThr, init_frame, end_frame);
-    case 3
-        %ACA VA SOLO el TRACKING
-    case 4
-        %ACA VA SEGMENTACION + RECONSTRUCCION
-        cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
-        
-    case 5
-        %ACA va RECONSTRUCCION + TRACKING
+        %reconstruccion
+        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
+        %tracking
+        [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat)
 end
 
  
@@ -340,7 +365,7 @@ end
 
 
 
-function edit6_Callback(hObject, eventdata, handles)
+function edit20_Callback(hObject, eventdata, handles)
 % hObject    handle to edit6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -417,11 +442,7 @@ function checkbox7_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox7
-if get(hObject, 'Value')
-    set(handles.edit8, 'enable', 'on');
-else
-    set(handles.edit8, 'enable', 'off');
-end
+
 
 
 function edit8_Callback(hObject, eventdata, handles)
@@ -469,18 +490,23 @@ if get(hObject, 'Value')
     if get(handles.checkbox3, 'Value')
        set(handles.edit4, 'enable', 'on'); 
     end    
-    set(handles.text11, 'enable', 'on');
     set(handles.edit19, 'enable', 'on');
+    set(handles.edit21, 'enable', 'on');
+    set(handles.text11, 'enable', 'on');
+    set(handles.text13, 'enable', 'on');
+    
 else
     set(handles.checkbox1, 'enable', 'off');
     set(handles.checkbox2, 'enable', 'off');
     set(handles.checkbox3, 'enable', 'off');
-    set(handles.checkbox7, 'enable', 'off');    
-    set(handles.text11, 'enable', 'off');    
+    set(handles.checkbox7, 'enable', 'off');        
     set(handles.edit19, 'enable', 'off');
+    set(handles.edit21, 'enable', 'off');
     set(handles.edit2, 'enable', 'off');
     set(handles.edit3, 'enable', 'off');
     set(handles.edit4, 'enable', 'off');
+    set(handles.text11, 'enable', 'off');    
+    set(handles.text13, 'enable', 'off');    
 end
 
 % --- Executes on button press in checkbox10.
@@ -492,6 +518,7 @@ function checkbox10_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of checkbox10
 if get(hObject, 'Value')
     set(handles.checkbox8, 'enable', 'on');    
+    set(handles.checkbox12, 'enable', 'on');    
     set(handles.text6, 'enable', 'on');
     set(handles.text7, 'enable', 'on');
     if get(handles.checkbox8, 'Value')
@@ -501,6 +528,7 @@ if get(hObject, 'Value')
     set(handles.edit12, 'enable', 'on');
 else
     set(handles.checkbox8, 'enable', 'off'); 
+    set(handles.checkbox12, 'enable', 'off'); 
     set(handles.text6, 'enable', 'off');
     set(handles.text7, 'enable', 'off');
     set(handles.edit9, 'enable', 'off');
@@ -515,7 +543,19 @@ function checkbox11_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox11
-
+if get(hObject, 'Value')    
+    set(handles.checkbox13, 'enable', 'on');    
+    set(handles.text14, 'enable', 'on');
+    set(handles.text15, 'enable', 'on');    
+    set(handles.edit22, 'enable', 'on');
+    set(handles.edit23, 'enable', 'on');
+else
+    set(handles.checkbox13, 'enable', 'off');     
+    set(handles.text14, 'enable', 'off');
+    set(handles.text15, 'enable', 'off');    
+    set(handles.edit22, 'enable', 'off');
+    set(handles.edit23, 'enable', 'off');
+end
 
 
 function edit10_Callback(hObject, eventdata, handles)
@@ -563,8 +603,8 @@ if isnan(input)
   uicontrol(hObject)
   return
 else
-    handles.InitFrame = input;
-    guidata(hObject,handles); %Guarda el string en videoDirectory
+    handles.InitFrameSeg = input;
+    guidata(hObject,handles); %Guarda el string en handles.InitFrameSeg
 end
 
 % --- Executes during object creation, after setting all properties.
@@ -594,8 +634,8 @@ if isnan(input)
   uicontrol(hObject)
   return
 else
-    handles.EndFrame = input;
-    guidata(hObject,handles); %Guarda el string en videoDirectory
+    handles.EndFrameSeg = input;
+    guidata(hObject,handles); %Guarda el string en handles.EndFrameSeg
 end
 
 % --- Executes during object creation, after setting all properties.
@@ -707,3 +747,159 @@ function edit19_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in checkbox12.
+function checkbox12_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox12
+
+
+% --- Executes during object creation, after setting all properties.
+function checkbox7_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to checkbox7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function edit20_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit20 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function text12_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to text12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object deletion, before destroying properties.
+function text12_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to text12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit21_Callback(hObject, eventdata, handles)
+% hObject    handle to edit21 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit21 as text
+%        str2double(get(hObject,'String')) returns contents of edit21 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.videoExtension = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
+% --- Executes during object creation, after setting all properties.
+function edit21_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit21 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit6_Callback(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit6 as text
+%        str2double(get(hObject,'String')) returns contents of edit6 as a double
+
+
+% --- Executes during object deletion, before destroying properties.
+function edit9_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to edit9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit22_Callback(hObject, eventdata, handles)
+% hObject    handle to edit22 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit22 as text
+%        str2double(get(hObject,'String')) returns contents of edit22 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+    handles.EndFrameTrack = input;
+    guidata(hObject,handles); %Guarda el string en handles.EndFrameTrack
+end
+
+% --- Executes during object creation, after setting all properties.
+function edit22_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit22 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit23_Callback(hObject, eventdata, handles)
+% hObject    handle to edit23 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit23 as text
+%        str2double(get(hObject,'String')) returns contents of edit23 as a double
+input = str2double(get(hObject,'string'));
+if isnan(input)
+  errordlg('You must enter a numeric value','Invalid Input','modal')
+  uicontrol(hObject)
+  return
+else
+    handles.InitFrameTrack = input;
+    guidata(hObject,handles); %Guarda el string en handles.InitFrameTrack
+end
+
+% --- Executes during object creation, after setting all properties.
+function edit23_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit23 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in checkbox13.
+function checkbox13_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox13
