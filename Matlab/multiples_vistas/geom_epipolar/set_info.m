@@ -125,13 +125,17 @@ str2 = {'name', 'name_bvh', 'n_frames', 'n_paths', 'n_cams', 'frame_rate'};
 %proceso la entrada
 structure_out = varargin{1};
 if sum(strcmp(varargin{2}, str1)) %si el segundo argumento es algun string de str1 
-    comando = sprintf('structure_out.info.%s=varargin{3};', varargin{2}); %genero el comando que me setea dicho argumento    
+    %comando = sprintf('structure_out.info.%s=varargin{3};', varargin{2}); %genero el comando que me setea dicho argumento    
+    comando = ['structure_out.info.', varargin{2}, '=varargin{3};', ]; %genero el comando que me setea dicho argumento    
 elseif sum(strcmp(varargin{2}, str2)) %si el segundo argumento es algun string de str2
-    comando = sprintf('structure_out.%s=varargin{3};', varargin{2}); %genero el comando que me devuelve dicho argumento    
+    %comando = sprintf('structure_out.%s=varargin{3};', varargin{2}); %genero el comando que me devuelve dicho argumento    
+    comando = ['structure_out.', varargin{2}, '=varargin{3};']; %genero el comando que me devuelve dicho argumento    
 elseif strcmp(varargin{2}, 'frame') %si el segundo argumento es el string 'frame' 
-    comando = sprintf('structure_out=set_info_in_frame(structure_out, varargin{3:nargin});'); %paso del parametro 3 en adelante a la funcion get_info_frame que se encarga de obtener info de frames
+    %comando = sprintf('structure_out=set_info_in_frame(structure_out, varargin{3:nargin});'); %paso del parametro 3 en adelante a la funcion get_info_frame que se encarga de obtener info de frames
+    comando = ['structure_out=set_info_in_frame(structure_out, varargin{3:nargin});']; %paso del parametro 3 en adelante a la funcion get_info_frame que se encarga de obtener info de frames
 elseif strcmp(varargin{2}, 'path')   
-    comando = sprintf('structure_out=set_info_in_path(structure_out, varargin{3:nargin});'); %paso del parametro 3 en adelante a la funcion get_info_path que se encarga de obtener info de paths    
+    %comando = sprintf('structure_out=set_info_in_path(structure_out, varargin{3:nargin});'); %paso del parametro 3 en adelante a la funcion get_info_path que se encarga de obtener info de paths    
+    comando = ['structure_out=set_info_in_path(structure_out, varargin{3:nargin});']; %paso del parametro 3 en adelante a la funcion get_info_path que se encarga de obtener info de paths    
 end
 %obtengo la salida
 eval(comando);
@@ -197,10 +201,12 @@ function structure_out = set_info_in_path(varargin)
         list_member = varargin{4}; %contiene el miembro a cambiar       
         info = varargin{5}; %debe contener un vector 2x1 cuya primera fila es el indice de marcador y la segunda el frame correspondiente
         column=num2cell(info, 1); %coloca los vectores columnas de "info" dentro de un cell que compone un cell array.
-        comando = sprintf('structure_out.path(n_path).%s(:,list_member)=column{:};', t_dato1 ); %copia cada elemento del cell array "colums" en una correspondiente columna de members
+        %comando = sprintf('structure_out.path(n_path).%s(:,list_member)=column{:};', t_dato1 ); %copia cada elemento del cell array "colums" en una correspondiente columna de members
+        comando = ['structure_out.path(n_path).', t_dato1 ,'(:,list_member)=column{:};']; %copia cada elemento del cell array "colums" en una correspondiente columna de members
     else %el argumento es información para ingresar
         info = varargin{4};
-        comando = sprintf('structure_out.path(n_path).%s=info;', t_dato1 ); %genero la salida       
+        %comando = sprintf('structure_out.path(n_path).%s=info;', t_dato1 ); %genero la salida       
+        comando = ['structure_out.path(n_path).', t_dato1 ,'=info;']; %genero la salida       
     end%genero la salida
     eval(comando);    
 
@@ -303,17 +309,20 @@ function structure_out = set_info_in_frame(varargin)
             info_in = varargin{6}; %contiene la info del miembro a setear
             %column=num2cell(info, 1); %coloca los vectores columnas de "info" dentro de un cell que compone un cell array.
             if isequal(size(indice), [1 1]) %se tiene un numero y entonces se quiere setear like_cams
-                comando = sprintf('structure_out.frame(n_frame).like.%s(indice(1))=info_in;', t_info1 ); %copia cada elemento del cell array "colums" en una correspondiente columna de members            
+                %comando = sprintf('structure_out.frame(n_frame).like.%s(indice(1))=info_in;', t_info1 ); %copia cada elemento del cell array "colums" en una correspondiente columna de members            
+                comando = ['structure_out.frame(n_frame).like.', t_info1  , '(indice(1))=info_in;']; %copia cada elemento del cell array "colums" en una correspondiente columna de members            
             else %se quiere setear un dato de una matriz en mapping_table o dmin
-                comando = sprintf('structure_out.frame(n_frame).like.%s(indice(1), indice(2))=info_in;', t_info1 ); %copia cada elemento del cell array "colums" en una correspondiente columna de members            
+                %comando = sprintf('structure_out.frame(n_frame).like.%s(indice(1), indice(2))=info_in;', t_info1 ); %copia cada elemento del cell array "colums" en una correspondiente columna de members            
+                comando = ['structure_out.frame(n_frame).like.', t_info1, '(indice(1), indice(2))=info_in;']; %copia cada elemento del cell array "colums" en una correspondiente columna de members            
             end            
         else % se quiere setear un campo completo
             info_in = varargin{4};
-            comando = sprintf('structure_out.frame(n_frame).like.%s=info_in;',t_info1);%dejo los posibles comandos en funcion del parametro "t_dato1"    
+            comando = ['structure_out.frame(n_frame).like.', t_info1 ,'=info_in;'];%dejo los posibles comandos en funcion del parametro "t_dato1"    
         end          
     else %solo se quiere setear informacion del frame actual fuera de subestructuras marker o like
         info_in = varargin{4};
-        comando = sprintf('structure_out.frame(n_frame).%s=info_in;', t_info1 ); %genero la dirección donde se aloja la informacion t_dato1        
+        %comando = sprintf('structure_out.frame(n_frame).%s=info_in;', t_info1 ); %genero la dirección donde se aloja la informacion t_dato1        
+        comando = ['structure_out.frame(n_frame).', t_info1 ,'=info_in;']; %genero la dirección donde se aloja la informacion t_dato1        
     end
     eval(comando);
 
@@ -412,14 +421,16 @@ function structure = set_markers_in_frame(varargin)
         else %en este caso la entrada tiene matrices de numeros
             columns=num2cell(info, 1); %coloca los vectores columnas de "dato" dentro de un cell que compone un cell array.
         end
-        eval(sprintf('[structure.frame(n_frame).marker(1:n_markers).%s]=columns{:};', t_info)); %copia cada elemento del cell array "colums" en un correspondiente marcador
+        %eval(sprintf('[structure.frame(n_frame).marker(1:n_markers).%s]=columns{:};', t_info)); %copia cada elemento del cell array "colums" en un correspondiente marcador
+        eval(['[structure.frame(n_frame).marker(1:n_markers).', t_info  , ']=columns{:};']); %copia cada elemento del cell array "colums" en un correspondiente marcador
     else
         if strcmp(t_info, 'name') %en el caso ya se tiene un cell array en la entrada
             columns = info;
         else %en este caso la entrada tiene matrices de numeros
             columns=num2cell(info, 1); %coloca los vectores columnas de "dato" dentro de un cell que compone un cell array.
         end
-        eval(sprintf('[structure.frame(n_frame).marker(list_markers).%s]=columns{:};', t_info)); %copia cada elemento del cell array "colums" en un correspondiente marcador 
+        %eval(sprintf('[structure.frame(n_frame).marker(list_markers).%s]=columns{:};', t_info)); %copia cada elemento del cell array "colums" en un correspondiente marcador 
+        eval(['[structure.frame(n_frame).marker(list_markers).', t_info, ']=columns{:};']); %copia cada elemento del cell array "colums" en un correspondiente marcador 
     end
     
     
