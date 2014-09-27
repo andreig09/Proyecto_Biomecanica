@@ -16,7 +16,7 @@ name_bvh ='Mannaquin_con_Armadura_menos_pelotitas.bvh';
 
 %% Parametros de main
 
-guardar=1;%para guardar las estructuras generadas pongo 1 
+guardar=0;%para guardar las estructuras generadas pongo 1 
 graficar = 0; % si se desea ver la estructura skeleton_old
 n_markers = n_marcadores; %numero total de marcadores en skeleton
 n_frames = n_frames; %numero total de frames a tratar
@@ -60,7 +60,7 @@ for k=1:skeleton.n_frames %hacer para cada frame de skeleton
     skeleton = set_info(skeleton, 'frame', k, 'd_min', -1); %setea con un valor que invalida la matriz d_min 
     for j=1:n_marcadores %hacer para cada marcador 
         %skeleton.frame(k).marker(j).coord = skeleton_old(j).t_xyz(:,k);
-        skeleton = set_info(skeleton,'frame', k, 'marker', [j], 'coord', skeleton_old(j).t_xyz(:,k));        
+        skeleton = set_info(skeleton,'frame', k, 'marker', j, 'coord', skeleton_old(j).t_xyz(:,k));        
         %skeleton.frame(k).marker(j).name = skeleton_old(j).name;
         name = skeleton_old(j).name;
         if   strcmp(name,  ' ') %se tiene un nombre en blanco
