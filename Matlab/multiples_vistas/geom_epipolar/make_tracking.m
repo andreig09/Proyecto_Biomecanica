@@ -1,4 +1,4 @@
-function [X_out,datos,X]=make_tracking(X)
+function [X_out,datos,X]=make_tracking(X,limit_distancia)
 
 %{
 
@@ -99,29 +99,19 @@ for frame=f_ini:f_fin-1
     
     %limit_distancia = 3*median(link_next(:,size(link_next,2)));
     
-    limit_distancia = 0.06;
+    %limit_distancia = 3*0.0336;
     
     %limit_distancia;
     
     % Controlo que ningun enlace se vaya mas alla de cierto multiplo de
     % la mayor distancia de enlace registrada hasta el momento
     
-    link_next = link_next(link_next(:,size(link_next,2))< limit_distancia ,:);
-    
+	[link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,'externo',limit_distancia);
+
     if size(X_out,1)==7
         max_step_global = max(X_out(7,:));
     end
-    
-    %sobran_prev = setdiff(1:size(X_fprev,2),link_next(:,1));
-    if frame==f_ini
-        sobran_0 = setdiff(1:size(X_f0,2),link_next(:,1));
-        sobran_1 = setdiff(1:size(X_f1,2),link_next(:,2));
-    else
-        sobran_0 = setdiff(1:size(X_f0,2),link_next(:,2));
-        sobran_1 = setdiff(1:size(X_f1,2),link_next(:,3));
-    end;
-    %disp([ '@(f-1) sobran: ' num2str(sobran_prev) ]);
-    
+        
     disp('-----------------------------------------');
     
     disp([ '@(f+1) sobran: ' num2str(sobran_1) ]);
@@ -181,7 +171,7 @@ for frame=f_ini:f_fin-1
                     max_ratio = 4;
                     
                     if ratio_direccional<max_ratio || ratio_radial<max_ratio
-                        posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido];
+                        posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido]
                     end
                 end
             end
@@ -249,97 +239,7 @@ for frame=f_ini:f_fin-1
             end
         end
     end;
-    
-    %{
-    if ~isempty(inicializaciones_truncas) && length(sobran_1)>0
-                
-        posible_inicializacion = [];
-        for n_rescate=1:length(sobran_1)
-            for n_inicializacion=1:size(inicializaciones_truncas,1)
-                frame_proximo = frame+1;
-                marcador_proximo = sobran_1(n_rescate)  ;
-                    frame_trunco = inicializaciones_truncas(n_inicializacion,2);
-                marcador_trunco = inicializaciones_truncas(n_inicializacion,1);
-                
-                diff_frames = frame_proximo-frame_trunco;
-                
-                distancia_rescate = norm(get_marker_from_tracking(X_out,frame_trunco,marcador_trunco)-get_marker_from_tracking(X_in,frame_proximo,marcador_proximo));
-                
-                if (distancia_rescate/max_step_global)<(diff_frames+1) ...
-                        && (diff_frames)>1 ...
-                        && get_path_from_tracking(X_out,frame_trunco,marcador_trunco)~=0
-                    
-                    disp([' fr.' num2str(frame_trunco) ' ,marker '  num2str(marcador_trunco) ' , fr.' num2str(frame_proximo) ' ,marker '  num2str(marcador_proximo) ' , ratio_distancia: ' num2str(distancia_rescate/max_step_global)]);
-                    
-                    X_estimado = estimar_marcadores(X_out,X_in,get_path_from_tracking(X_out,frame_trunco,marcador_trunco),frame_proximo,marcador_proximo);
-                    
-                    X_out = [X_out,X_estimado(1:size(X_out,1),:)];
-                    X_in = [X_in,X_estimado(1:size(X_in,1),:)];
-                    
-                    n_prev = get_index_from_tracking(X_out,frame-1,get_path_from_tracking(X_out,frame_trunco,marcador_trunco));
-                    n_0 = get_index_from_tracking(X_out,frame,get_path_from_tracking(X_out,frame_trunco,marcador_trunco));
-                    n_1 = marcador_proximo;
-                    
-                    X_fprev = X_in(:,X_in(4,:)==(frame-1));
-                    X_f0 = X_in(:,X_in(4,:)==(frame));
-                    X_f1 = X_in(:,X_in(4,:)==(frame+1));
-                    
-                    if norm(X_estimado(1:3,size(X_estimado,2))-X_f1(1:3,n_1))<limit_distancia
-                        
-                        if frame<f_fin-1
-                            link_next = [link_next;n_prev,...
-                                n_0,...
-                                n_1,...
-                                0,...
-                                norm(X_fprev(1:3,n_prev)-2*X_f0(1:3,n_0)+X_f1(1:3,n_1)),...
-                                norm(X_estimado(1:3,size(X_estimado,2))-X_f1(1:3,n_1))...
-                                ];
-                        else
-                            link_next = [link_next;n_prev,...
-                                n_0,...
-                                n_1,...
-                                NaN,...
-                                norm(X_estimado(1:3,size(X_estimado,2))-X_f1(1:3,n_1))...
-                                ];
-                        end                        
-                    end
-                    
-                end
-            end
-            
-        end;
-        
-        
-        for n_enlaces=1:size(link_next,1)
-            inicializaciones_truncas = inicializaciones_truncas(inicializaciones_truncas(:,1)~=get_path_from_tracking(X_out,frame,link_next(n_enlaces,2)),:);
-        end
-        
-    end
-    %}
    
-    %{
-    if exist('link_prev')
-        
-        rescatable_1 = intersect(sobran_0,link_prev(:,2)');
-        if ~isempty(rescatable_1)
-            disp([ '@(f) sobran: ' num2str(sobran_0) ' (1)' ]);
-            
-            for n_rescate = 1:length(rescatable_1)
-                disp([ '                    -> tenia antes: ' num2str(rescatable_1(n_rescate)) ', trayectoria ' num2str(get_path_from_tracking(X_out,frame,rescatable_1(n_rescate)))]);
-                if size(X_out(:,X_out(5,:)==get_path_from_tracking(X_out,frame,rescatable_1(n_rescate))),2)>=3
-                    trayectorias_truncas = [trayectorias_truncas;get_path_from_tracking(X_out,frame,rescatable_1(n_rescate)),frame];
-                end;
-            end;
-            % Si puedo recuperar puntos que son rescatables, debido a que
-            % tienen enlaces previos, los recupero como los auxiliares en (f+1)
-        else
-            disp([ '@(f) sobran: ' num2str(sobran_0) ' (2)']);
-        end
-    else
-        disp([ '@(f) sobran: ' num2str(sobran_0) ' (3)']);
-    end
-    %}
-    
     disp([ '@(f) sobran: ' num2str(sobran_0)]);
     
     for n_sobran=1:size(sobran_0,2)
@@ -351,17 +251,6 @@ for frame=f_ini:f_fin-1
     end
     
     
-    %{
-    for n_sobran=1:length(sobran_0)
-        if frame==f_ini
-            inicializaciones_truncas = [inicializaciones_truncas;sobran_0(n_sobran),frame];
-        end
-    end
-    
-    if frame-f_ini>3
-        inicializaciones_truncas = [];
-    end
-    %}
     disp('-----------------------------------------');
     
     link_prev=link_next(:,(size(link_next,2)-4):(size(link_next,2)-3));
@@ -401,7 +290,46 @@ end
 
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,modo,parametro)
+if size(X_out,2)==0
+    frame = min(X_in(4,:));
+else
+    frame = max(X_out(4,:));
+end
+
+if strcmp(modo,'global')
+    if nargin<5
+        parametro = 1;
+    end
+    link_next = link_next(link_next(:,size(link_next,2))< parametro*max(X_out(7,:)),:);
+    if frame==min(X_in(4,:))
+        sobran_0 = setdiff(1:size(X_in(:,X_in(4,:)==frame),2),link_next(:,1));
+        sobran_1 = setdiff(1:size(X_in(:,X_in(4,:)==frame+1),2),link_next(:,2));
+    else
+        sobran_0 = setdiff(1:size(X_in(:,X_in(4,:)==frame),2),link_next(:,2));
+        sobran_1 = setdiff(1:size(X_in(:,X_in(4,:)==frame+1),2),link_next(:,3));
+    end
+elseif strcmp(modo,'local')
+    
+elseif strcmp(modo,'externo')
+    if nargin<5
+        parametro = Inf;
+    end
+    link_next = link_next(link_next(:,size(link_next,2))< parametro,:);
+    if frame==min(X_in(4,:))
+        sobran_0 = setdiff(1:size(X_in(:,X_in(4,:)==frame),2),link_next(:,1));
+        sobran_1 = setdiff(1:size(X_in(:,X_in(4,:)==frame+1),2),link_next(:,2));
+    else
+        sobran_0 = setdiff(1:size(X_in(:,X_in(4,:)==frame),2),link_next(:,2));
+        sobran_1 = setdiff(1:size(X_in(:,X_in(4,:)==frame+1),2),link_next(:,3));
+    end
+end
+    
+end
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function index_path = get_path_from_tracking(X_out,frame,index_frame)
 if isempty(X_out)
@@ -413,7 +341,7 @@ else
 end
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function index_frame = get_index_from_tracking(X_out,frame,index_path)
 elementos_frame = X_out(4,:)==frame;
@@ -422,7 +350,7 @@ marker_frame = X_out(:,elementos_frame);
 index_frame = J;
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function marker = get_marker_from_tracking(X_out,frame,index_frame)
 elementos_frame = X_out(4,:)==frame;
@@ -430,7 +358,7 @@ marker_frame = X_out(:,elementos_frame);
 marker = marker_frame(1:3,index_frame);
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function X_estimado = estimar_marcadores(X_out,X_in,path,frame,index_marker)
 
@@ -499,7 +427,7 @@ for i=1:size(X_estimado,2)
 end
 
 end
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function X_out = actualizar_tracking(X_out,X_in,frame,link_next)
 
 f_ini = min(X_in(4,:));
@@ -547,7 +475,7 @@ end
 
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function I = vecinos_intraframe(N, p, d)
 
@@ -586,7 +514,7 @@ condicion = sqrt(sum([dx, dy, dz].^2,2)) < d;
 I = find(condicion);
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function link_next = enfrentar_marcadores_inicial(N0,N1,N2)
 %{
@@ -649,7 +577,7 @@ end
 
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function link_next = enfrentar_marcadores_final(N0,N1,N2,link_prev)
 %{
 ENTRADA
@@ -759,7 +687,7 @@ end
 
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [link_next,X_f1_estimado] = enfrentar_marcadores_herda(X_fprev,X_f0,X_f1,X_f2,link_prev)
 
@@ -939,4 +867,4 @@ end
 
 end
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
