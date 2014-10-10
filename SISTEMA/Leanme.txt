@@ -1,0 +1,6 @@
+Antes de empezar deben correr
+-->add_paths()
+y al culminar 
+-->restore_paths()
+De esta manera se tienen todas las carpetas transparentes para el matlab.
+Esto es provisorio en pues la idea es cargar estas funciones en el main_gui.m
