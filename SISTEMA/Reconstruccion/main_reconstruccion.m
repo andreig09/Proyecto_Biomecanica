@@ -10,7 +10,7 @@ skeleton = Lab.skeleton;
 skeleton=set_info(skeleton, 'name', 'skeleton_reconstruccion');
 skeleton=set_info(skeleton, 'n_frames', n_frames);%ingreso la cantidad de frames que se van a tener
 
-skeleton = reconstruccion(cam_segmentacion, skeleton, reconsThr, init_frame, end_frame);
+skeleton = reconstruccion(cam_segmentacion, skeleton, reconsThr, init_frame, end_frame, n_markers);
 
 if save_reconstruction_mat
     save([path_mat '/skeleton'], 'skeleton')

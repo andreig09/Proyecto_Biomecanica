@@ -93,7 +93,7 @@ if isempty(location_skeleton) %solo se ejecuta mientras no se haya agregado un s
         end
     else %Se ingreso el string 'blender' como parametro de entrada, por lo que se dispone de la calibracion de las camaras
         %Cargo Parametros de las camaras
-         vec_cam = [4, 8, 17]; %vector con el numero de camaras a mantener del archivo InfoCamBlender
+        vec_cam = [1:17]; %vector con el numero de camaras a mantener del archivo InfoCamBlender
         choose_cam;%script que deja disponibles solo las camaras indicadas por vec_cam 
         
         %Verifico hipotesis de trabajo

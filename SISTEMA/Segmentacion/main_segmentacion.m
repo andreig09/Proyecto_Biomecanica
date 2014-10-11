@@ -27,7 +27,8 @@ if ~isempty(list_vid) %solo ejecuta segmentación si encuentra videos
 %efectuo la segmentacion
 disp('__________________________________________________')
 disp('Se inicia el proceso de Segmentacion.')
-list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
+%list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
+segmentacion(path_vid, type_vid, path_program, path_XML);
 %disp('La segmentacion ha culminado con exito.')
 end
 

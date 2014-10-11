@@ -1,4 +1,4 @@
-function skeleton = reconstruccion(cam, skeleton, umbral, init_frame, end_frame)
+function skeleton = reconstruccion(cam, skeleton, umbral, init_frame, end_frame, n_markers)
 %Funcion que efectua la reconstruccion.
 %% ENTRADA
 %cam -->estructura cam
@@ -12,7 +12,7 @@ function skeleton = reconstruccion(cam, skeleton, umbral, init_frame, end_frame)
 %% CUERPO DE LA FUNCION
 
 n_cams = length(cam);
-n_markers = get_info(cam, 'frame', 1, 'n_markers');
+%n_markers = get_info(cam, 'frame', 1, 'n_markers');
 
 disp('__________________________________________________')
 disp('Se inicia el proceso de Reconstruccion')

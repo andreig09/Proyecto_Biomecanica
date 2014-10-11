@@ -32,7 +32,7 @@ MatlabPath = path; %POR AHORA NO LO USO
 % Guardar ld_library_paths que tiene por defecto matlab
 MatlabLibraryPath = getenv('LD_LIBRARY_PATH');
 %Modificar ld_library_path para que Matlab use las librerias del sistema?
-setenv('LD_LIBRARY_PATH','')
+setenv('LD_LIBRARY_PATH',' ')
 
 %Generar string con el sistema operativo donde se esta ejecutando el matlab 
 os = computer; 
@@ -148,6 +148,47 @@ end
 % [~, sort_index] = sort(num_in_name);
 % list_XML = list_XML(sort_index);
 % end
+
+
+function out=get_list_files(path,type)
+%Funcion que genera una lista de un tipo especifico de archivos de un determinado directorio
+%% ENTRADA:
+% path= directorio de los archivos
+% type=tipo de archivos, ejemplo *.doc % Siempre escribir “*.�? y la extension
+%% SALIDA: 
+% out=cell array de strings con los nombres de los archivos en el orden que los devuelve el OS [nx1] 
+%% EJEMPLOS
+% d='/Seccion_segmentacion'; %busca en esta carpeta
+% tipo = '*.dvd' %archivos con extension .dvd
+% out=get_list_files(d,tipo)
+
+%% CUERPO DE LA FUNCION
+
+list_dir=dir(fullfile(path,type));
+list_dir={list_dir.name}';
+%devuelvo la salida
+out=list_dir;
+end
+
+function list_XML = sort_list(list_XML)
+%Funcion que ordena los nombres de list_XML..
+%Se supone que los nombres difieren solo en un numero al final
+%La idea es pasar en cada nombre su numero a un vector y luego ordenarlo.
+%Devolviendo la lista con los nombres ordenados de menor a mayor.
+
+index1 = strfind(list_XML{1}, '1.'); %index-1 indica donde termina el nombre y empiezan los numeros
+n_files = length(list_XML); % cantidad de archivos con extensi�n xml
+num_in_name = zeros(1, n_files);
+for k=1:n_files %la idea es pasar cada numero de un nombre a un vector y luego ordenarlo
+    index2 = strfind(list_XML{k}, '.') -1; %indice que indica hasta donde van los numeros finales
+    num_in_name(k)=str2double(list_XML{k}(index1:index2)); %guardo el numero de archivo
+end
+[~, sort_index] = sort(num_in_name);
+list_XML = list_XML(sort_index);
+end
+
+
+
 
 function restore(MatlabPath, MatlabLibraryPath, current_dir)
 %Funcion que restablece las variables de entorno 'ld_library_path' y 'path'    
