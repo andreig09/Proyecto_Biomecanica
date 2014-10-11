@@ -27,7 +27,7 @@ close all
 
 %%
 
-f_ini=11;
+f_ini=20;
 f_fin=300;
 
 X_in = Xi;
@@ -39,7 +39,7 @@ X_in = X_in(:,(X_in(4,:)<=f_fin)&(X_in(4,:)>=f_ini));
 clc;
 close all;
 
-[X_out,datos]=make_tracking(X_in,0.05);
+[X_out,datos]=make_tracking(X_in,0.055);
 
 %% Limpieza de puntos no trackeados
 X_out = X_out(:,X_out(5,:)~=0);
@@ -58,7 +58,7 @@ end
 %figure
 
 marker_fin = max(X_out(5,:)); marker_ini = 1;
-%marker_fin = 9; marker_ini = marker_fin; 
+marker_fin = 5; marker_ini = marker_fin; 
 
 for marker=marker_ini:marker_fin
     figure(1)
@@ -83,7 +83,7 @@ for marker=marker_ini:marker_fin
     figure(2)
     subplot(4,1,1)
     plot(X_out(4,X_out(5,:)==marker),X_out(7,X_out(5,:)==marker),'b.-')
-    title([ ' Path ' num2str(marker) ' , Distancia entre frames/velocidad' ]);
+    title([ ' Path ' num2str(marker) ' , Distancia entre frames (velocidad)' ]);
     subplot(4,1,2)
     plot(X_out(4,X_out(5,:)==marker),X_out(1,X_out(5,:)==marker),'b.-')
     title([ ' Path ' num2str(marker) ' , X' ]);
@@ -98,6 +98,8 @@ for marker=marker_ini:marker_fin
     end
     
 end;
+
+thr = histograma_tracking(X_out,99);
 
 return;
 
