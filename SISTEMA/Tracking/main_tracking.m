@@ -7,7 +7,14 @@ X = get_frames_of_marker(skeleton, InitFrameTrack, EndFrameTrack);
 index_markers = X(5,:);%me quedo con los indices de los marcadores
 X = X(1:4, :);%me quedo solo con las coordenadas y el frame respectivo
 %efectuo el tracking 
-[X_out,datos]=make_tracking(X);
+[X_out,datos]=make_tracking(X, Inf);%Se corre dos veces el tracking, la primera es para encontrar el umbral optimo
+X_out =clean_tracking(X_out);%Limpieza de puntos 
+porcent_tracking = 98;%ESTO HAY QUE DECIDIR SI SALE PARA FUERA O NO, O SEA PARA EL USUARIO
+umbral=histograma_tracking(X_out, porcent_tracking);%ACTUALMENTE GRAFICA COSAS PARA DEBUG, QUE SE VAN A PASAR A OTRA PARTE DE LA INTERFAZ
+close all%Esto se tiene que sacar en VERSIONES FUTURAS
+[X_out,datos]=make_tracking(X, umbral);
+X_out =clean_tracking(X_out);%Limpiando puntos
+
 %actualizo la informacion de skeleton
 skeleton = update_skeleton(skeleton, X_out, index_markers,  InitFrameTrack, EndFrameTrack);
 if save_tracking_mat
@@ -72,4 +79,22 @@ for k=1:n_paths
 end 
 
 
+end
+
+function X_out =clean_tracking(X_out)
+%Funcion que permite descartar puntos que no pertenecen a ninguna
+%trayectoria y truncar trayectorias que se encuentran incompletas.
+
+%% Limpieza de puntos no trackeados
+X_out = X_out(:,X_out(7,:)~=0);
+
+%% Limpieza de trayectorias truncas
+
+total_frames = max(X_out(4,:))-min(X_out(4,:));
+
+for n_path=1:max(X_out(5,:))
+    if size(X_out(:,X_out(5,:)==n_path),2)<0.9*total_frames
+        X_out = X_out(:,X_out(5,:)~=n_path);
+    end
+end
 end
