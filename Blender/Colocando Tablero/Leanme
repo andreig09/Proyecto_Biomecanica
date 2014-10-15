@@ -1,0 +1,5 @@
+Para que el script funcione se debe instalar antes la siguiente extensión en Phyton
+
+http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/3D_interaction/Align_Tools
+
+La misma se encuentra también en esta carpeta. Para instalar una extensión ir a File/User_Preferences/Addons/Install_from_File y luego seleccionar el archivo con la extensión.
