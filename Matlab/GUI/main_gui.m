@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 19-Oct-2014 14:21:29
+% Last Modified by GUIDE v2.5 19-Oct-2014 20:54:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -242,7 +242,6 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 
 if (get(handles.checkbox9,'Value') && get(handles.checkbox10,'Value') && get(handles.checkbox11,'Value'))
 	processMethod = 0; %LOS 3 BLOQUES, el m�todo por defecto
@@ -919,7 +918,7 @@ else
     set(handles.edit16, 'enable', 'off');
     set(handles.pushbutton3, 'enable', 'off');
     if ~(get(handles.checkbox23, 'Value'))
-        errordlg('At least one of the directories must be enabled','Invalid selection','modal')
+        errordlg('At least one of the directories must be marked','Invalid selection','modal')
         uicontrol(hObject)
         return
     end
@@ -940,7 +939,7 @@ else
     set(handles.edit18, 'enable', 'off');
     set(handles.pushbutton4, 'enable', 'off');
     if ~(get(handles.checkbox22, 'Value'))
-        errordlg('At least one of the directories must be enabled','Invalid selection','modal')
+        errordlg('At least one of the directories must be marked','Invalid selection','modal')
         uicontrol(hObject)
         return
     end
@@ -1060,6 +1059,9 @@ function edit27_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit27 as text
 %        str2double(get(hObject,'String')) returns contents of edit27 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+handles.videoDirectoryPath = input;
+guidata(hObject,handles); %Guarda el string en videoDirectory
 
 
 % --- Executes during object creation, after setting all properties.
@@ -1135,4 +1137,79 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 folder_name = uigetdir;
 if ~(strcmp(folder_name,'0'));
     set(handles.edit27, 'string', folder_name);
+end
+
+
+% --- Executes on button press in radiobutton1.
+function radiobutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton1
+if get(hObject, 'Value')
+    set(handles.radiobutton2, 'Value', 0);
+    set(handles.edit34, 'Enable', 'off');
+else
+    set(handles.radiobutton2, 'Value', 1);
+    set(handles.edit34, 'Enable', 'on');
+end
+
+
+% --- Executes on button press in radiobutton2.
+function radiobutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if get(hObject, 'Value')
+    set(handles.radiobutton1, 'Value', 0);
+    set(handles.edit34, 'Enable', 'on');
+else
+    set(handles.radiobutton1, 'Value', 1);
+    set(handles.edit34, 'Enable', 'off');
+end
+
+
+function edit34_Callback(hObject, eventdata, handles)
+% hObject    handle to edit34 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit34 as text
+%        str2double(get(hObject,'String')) returns contents of edit34 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+vec_pages = input;
+pages = strread(vec_pages,'%n','delimiter',';');
+handles.vector_pages = pages;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
+
+
+
+% --- Executes during object creation, after setting all properties.
+function edit34_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit34 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if (get(handles.checkbox9,'Value'))
+    segmentacion
+end
+if (get(handles.checkbox10,'Value'))
+    reconstruccion
+end
+if (get(handles.checkbox11,'Value'))
+    tracking
 end
