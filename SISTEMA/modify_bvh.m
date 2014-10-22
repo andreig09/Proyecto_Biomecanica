@@ -1,5 +1,6 @@
 function modify_bvh(bvh2modify, bvhDataHip)
-
+% Funcion que permite modificar la trayectoria del hip de  un archivo bvh2modify
+% para que sea igual a la trayectoria del hip del archivo bvhData
 
 [C_out, index_data_out] = bvh2cell(bvh2modify);%contiene el bvh a modificar
 [C_in, index_data_in] = bvh2cell(bvhDataHip);%contiene el bvh que se utiliza para modificaciones
@@ -15,7 +16,7 @@ InfoFrames_out = C_out(index_data_out:end);%Me quedo solo con los datos de cada 
 InfoFrames_out = str2num(char(InfoFrames_out));%llevo toda la info a una matriz
 InfoHipTraslation_out= InfoFrames_out(:,1:3);%Me quedo solo con la traslacion del HIP origen
 %Modifico la traslacion de HIP destino
-row = min([row_out, row_in])
+row = min([row_out, row_in]);
 for k=2:row %para cada frame veo cual es la traslacion del HIP que se deberia tener y la agrego al bvh de salida
     traslation = InfoHipTraslation_in(k, :)-InfoHipTraslation_in(k-1, :);
     InfoHipTraslation_out(k, :) = InfoHipTraslation_out(k-1,:) + traslation;
@@ -36,8 +37,6 @@ end
 fclose(fid);
 
 end
-
-
 
 function [C, index_data] = bvh2cell(nameText)
 %fileID = fopen('Marcador_en_origen.bvh');
