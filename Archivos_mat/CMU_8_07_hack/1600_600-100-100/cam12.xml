@@ -1,0 +1,1667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Detected_Markers Version="1">
+	<Frame id="0" >
+		<Marker id="1" >
+			<Centroid x="224.666667" y="191.000000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="170.977778" y="201.688889" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="341.842105" y="201.210526" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="371.500000" y="207.000000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="134.444444" y="209.066667" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="248.976744" y="293.581395" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="250.809524" y="397.928571" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="252.146341" y="501.853659" />
+		</Marker>
+	</Frame>
+	<Frame id="1" >
+		<Marker id="1" >
+			<Centroid x="243.500000" y="186.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="250.382979" y="243.574468" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="292.933333" y="254.444444" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="234.883721" y="292.883721" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="195.238095" y="374.166667" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="143.902439" y="424.731707" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="328.347826" y="458.260870" />
+		</Marker>
+	</Frame>
+	<Frame id="2" >
+		<Marker id="1" >
+			<Centroid x="266.333333" y="185.000000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="262.116279" y="249.116279" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="300.909091" y="268.636364" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="253.928571" y="289.809524" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="218.800000" y="376.075000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="163.000000" y="420.756098" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="328.592593" y="458.629630" />
+		</Marker>
+	</Frame>
+	<Frame id="3" >
+		<Marker id="1" >
+			<Centroid x="280.795455" y="180.545455" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="268.422222" y="248.466667" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="301.000000" y="276.860465" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="267.976744" y="283.581395" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="240.636364" y="377.909091" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="183.925000" y="419.200000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="329.000000" y="458.160000" />
+		</Marker>
+	</Frame>
+	<Frame id="4" >
+		<Marker id="1" >
+			<Centroid x="293.066667" y="170.444444" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="274.604167" y="240.541667" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="282.023256" y="277.418605" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="298.354167" y="277.645833" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="263.000000" y="378.000000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="206.146341" y="416.146341" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="328.956522" y="457.739130" />
+		</Marker>
+	</Frame>
+	<Frame id="5" >
+		<Marker id="1" >
+			<Centroid x="303.636364" y="163.909091" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="279.022222" y="233.311111" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="359.250000" y="290.833333" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="288.418605" y="377.023256" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="233.333333" y="418.000000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="329.320000" y="457.280000" />
+		</Marker>
+	</Frame>
+	<Frame id="6" >
+		<Marker id="1" >
+			<Centroid x="313.000000" y="159.000000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="283.319149" y="226.425532" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="376.236842" y="242.763158" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="310.933333" y="268.444444" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="290.204545" y="273.113636" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="390.756098" y="286.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="315.866667" y="375.066667" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="264.333333" y="426.000000" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="330.200000" y="456.120000" />
+		</Marker>
+	</Frame>
+	<Frame id="7" >
+		<Marker id="1" >
+			<Centroid x="322.204545" y="157.886364" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="288.444444" y="222.066667" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="399.666667" y="239.000000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="325.581395" y="268.023256" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="287.363636" y="270.090909" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="421.500000" y="276.500000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="346.133333" y="372.288889" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="298.928571" y="436.190476" />
+		</Marker>
+	</Frame>
+	<Frame id="8" >
+		<Marker id="1" >
+			<Centroid x="331.711111" y="157.866667" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="405.151515" y="166.272727" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="294.913043" y="218.000000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="424.711111" y="234.133333" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="450.883721" y="263.116279" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="285.909091" y="265.636364" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="340.652174" y="268.804348" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="376.886364" y="366.795455" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="338.045455" y="447.931818" />
+		</Marker>
+	</Frame>
+	<Frame id="9" >
+		<Marker id="1" >
+			<Centroid x="343.000000" y="158.000000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="420.222222" y="166.111111" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="302.319149" y="212.425532" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="450.363636" y="227.909091" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="478.425000" y="246.075000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="287.066667" y="258.444444" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="356.090909" y="269.363636" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="405.444444" y="360.066667" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="336.724138" y="449.862069" />
+		</Marker>
+		<Marker id="10" >
+			<Centroid x="380.000000" y="457.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="10" >
+		<Marker id="1" >
+			<Centroid x="355.170213" y="161.021277" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="434.857143" y="168.171429" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="313.000000" y="211.000000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="475.608696" y="220.608696" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="290.500000" y="253.869565" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="413.666667" y="267.666667" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="372.304348" y="273.217391" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="431.354167" y="356.354167" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="338.269231" y="448.730769" />
+		</Marker>
+		<Marker id="10" >
+			<Centroid x="425.227273" y="463.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="11" >
+		<Marker id="1" >
+			<Centroid x="367.000000" y="166.000000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="449.675676" y="170.891892" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="323.645833" y="210.354167" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="498.928571" y="211.785714" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="294.930233" y="248.720930" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="388.954545" y="277.931818" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="454.787234" y="355.489362" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="339.884615" y="447.115385" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="468.931818" y="464.954545" />
+		</Marker>
+	</Frame>
+	<Frame id="12" >
+		<Marker id="1" >
+			<Centroid x="381.000000" y="173.000000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="464.769231" y="174.897436" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="519.209302" y="205.139535" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="337.000000" y="211.772727" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="303.954545" y="244.931818" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="406.090909" y="284.363636" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="477.000000" y="357.000000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="507.065217" y="464.239130" />
+		</Marker>
+	</Frame>
+	<Frame id="13" >
+		<Marker id="1" >
+			<Centroid x="396.978723" y="180.829787" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="538.717949" y="202.641026" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="353.444444" y="216.066667" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="317.444444" y="243.066667" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="423.680851" y="290.957447" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="499.369565" y="359.108696" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="533.360000" y="465.500000" />
+		</Marker>
+	</Frame>
+	<Frame id="14" >
+		<Marker id="1" >
+			<Centroid x="414.645833" y="189.645833" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="559.684211" y="205.578947" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="371.555556" y="222.933333" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="334.636364" y="246.045455" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="441.326531" y="298.571429" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="519.957447" y="364.319149" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="544.500000" y="474.130435" />
+		</Marker>
+	</Frame>
+	<Frame id="15" >
+		<Marker id="1" >
+			<Centroid x="434.571429" y="199.326531" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="582.432432" y="209.540541" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="391.000000" y="229.913043" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="354.066667" y="253.555556" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="459.086957" y="304.000000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="541.326531" y="365.571429" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="550.784314" y="478.313725" />
+		</Marker>
+	</Frame>
+	<Frame id="16" >
+		<Marker id="1" >
+			<Centroid x="454.673469" y="207.428571" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="602.621622" y="219.054054" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="410.529412" y="240.431373" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="374.708333" y="267.500000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="474.708333" y="308.500000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="559.354167" y="365.645833" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="554.000000" y="477.913043" />
+		</Marker>
+	</Frame>
+	<Frame id="17" >
+		<Marker id="1" >
+			<Centroid x="474.428571" y="209.326531" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="618.000000" y="228.000000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="431.375000" y="249.895833" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="398.000000" y="282.391304" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="490.428571" y="308.326531" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="574.000000" y="369.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="556.360000" y="477.500000" />
+		</Marker>
+	</Frame>
+	<Frame id="18" >
+		<Marker id="1" >
+			<Centroid x="490.297872" y="207.702128" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="625.069767" y="239.720930" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="451.708333" y="259.500000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="424.428571" y="299.673469" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="504.500000" y="306.291667" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="585.500000" y="373.500000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="556.608696" y="477.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="19" >
+		<Marker id="1" >
+			<Centroid x="505.686275" y="200.784314" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="626.239130" y="245.065217" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="661.000000" y="253.685714" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="474.500000" y="264.360000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="519.360000" y="299.500000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="455.857143" y="311.183673" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="594.571429" y="377.673469" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="557.063830" y="476.553191" />
+		</Marker>
+	</Frame>
+	<Frame id="20" >
+		<Marker id="1" >
+			<Centroid x="520.500000" y="192.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="624.086957" y="245.000000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="498.500000" y="264.500000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="659.583333" y="269.250000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="533.829787" y="291.978723" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="492.431373" y="315.470588" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="600.428571" y="381.326531" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="557.428571" y="476.326531" />
+		</Marker>
+	</Frame>
+	<Frame id="21" >
+		<Marker id="1" >
+			<Centroid x="536.500000" y="184.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="621.574468" y="240.829787" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="527.000000" y="261.913043" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="652.130435" y="277.500000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="547.750000" y="283.770833" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="533.500000" y="312.500000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="602.750000" y="383.000000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="556.645833" y="474.645833" />
+		</Marker>
+	</Frame>
+	<Frame id="22" >
+		<Marker id="1" >
+			<Centroid x="552.711538" y="177.288462" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="621.000000" y="236.000000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="554.784314" y="256.686275" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="642.391304" y="280.000000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="573.840000" y="303.260000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="604.183673" y="384.183673" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="558.086957" y="474.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="23" >
+		<Marker id="1" >
+			<Centroid x="570.365385" y="171.153846" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="621.365854" y="230.097561" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="582.307692" y="250.019231" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="576.740000" y="272.520000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="631.577778" y="276.800000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="612.566038" y="288.811321" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="604.784314" y="384.313725" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="558.500000" y="472.360000" />
+		</Marker>
+	</Frame>
+	<Frame id="24" >
+		<Marker id="1" >
+			<Centroid x="588.288462" y="164.711538" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="610.288462" y="240.711538" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="591.500000" y="268.500000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="649.320755" y="270.641509" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="605.250000" y="383.000000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="559.428571" y="470.326531" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="640.500000" y="470.222222" />
+		</Marker>
+	</Frame>
+	<Frame id="25" >
+		<Marker id="1" >
+			<Centroid x="606.400000" y="159.400000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="637.666667" y="230.352941" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="682.769231" y="251.211538" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="606.470588" y="265.568627" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="606.354167" y="380.354167" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="560.933333" y="467.555556" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="688.750000" y="472.500000" />
+		</Marker>
+	</Frame>
+	<Frame id="26" >
+		<Marker id="1" >
+			<Centroid x="625.549020" y="158.294118" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="664.870370" y="222.296296" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="713.672727" y="234.563636" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="609.666667" y="246.518519" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="621.500000" y="265.500000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="608.816327" y="378.367347" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="563.326531" y="465.428571" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="732.000000" y="470.714286" />
+		</Marker>
+	</Frame>
+	<Frame id="27" >
+		<Marker id="1" >
+			<Centroid x="644.711538" y="161.288462" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="691.611111" y="216.388889" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="742.500000" y="222.500000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="637.490196" y="270.156863" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="613.400000" y="379.400000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="564.270833" y="463.375000" />
+		</Marker>
+	</Frame>
+	<Frame id="28" >
+		<Marker id="1" >
+			<Centroid x="665.388889" y="164.388889" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="717.254545" y="212.145455" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="768.611111" y="213.388889" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="652.888889" y="274.444444" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="696.666667" y="280.333333" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="618.081633" y="378.755102" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="566.000000" y="461.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="29" >
+		<Marker id="1" >
+			<Centroid x="687.611111" y="168.611111" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="655.125000" y="206.775000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="793.388889" y="210.611111" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="741.672727" y="212.563636" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="622.531250" y="226.187500" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="670.880000" y="281.420000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="627.600000" y="381.400000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="569.400000" y="457.600000" />
+		</Marker>
+	</Frame>
+	<Frame id="30" >
+		<Marker id="1" >
+			<Centroid x="712.327273" y="173.436364" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="673.214286" y="212.880952" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="816.500000" y="213.285714" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="764.210526" y="217.491228" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="638.205128" y="229.717949" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="691.500000" y="289.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="641.431373" y="384.313725" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="578.446809" y="454.936170" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="834.000000" y="483.714286" />
+		</Marker>
+	</Frame>
+	<Frame id="31" >
+		<Marker id="1" >
+			<Centroid x="750.208333" y="151.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="738.547170" y="175.566038" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="695.666667" y="218.944444" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="838.862069" y="219.500000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="785.563636" y="222.672727" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="660.343750" y="236.281250" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="712.711538" y="295.288462" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="652.085106" y="380.914894" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="585.680851" y="450.957447" />
+		</Marker>
+	</Frame>
+	<Frame id="32" >
+		<Marker id="1" >
+			<Centroid x="774.404255" y="155.574468" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="765.508772" y="178.789474" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="804.571429" y="230.750000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="859.087719" y="230.807018" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="687.115385" y="250.000000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="731.436364" y="299.327273" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="671.700000" y="388.140000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="597.625000" y="448.104167" />
+		</Marker>
+	</Frame>
+	<Frame id="33" >
+		<Marker id="1" >
+			<Centroid x="797.730769" y="155.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="788.436364" y="178.672727" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="818.714286" y="237.500000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="873.118644" y="245.033898" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="751.566038" y="299.452830" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="694.380000" y="392.260000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="613.600000" y="442.600000" />
+		</Marker>
+	</Frame>
+	<Frame id="34" >
+		<Marker id="1" >
+			<Centroid x="817.653846" y="152.173077" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="806.563636" y="175.672727" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="825.127273" y="243.781818" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="877.034483" y="260.689655" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="768.471698" y="295.698113" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="722.803922" y="398.568627" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="637.500000" y="440.360000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="849.500000" y="489.222222" />
+		</Marker>
+	</Frame>
+	<Frame id="35" >
+		<Marker id="1" >
+			<Centroid x="835.340000" y="145.540000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="822.438596" y="170.175439" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="827.553571" y="245.250000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="874.137931" y="273.500000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="785.611111" y="290.388889" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="753.425926" y="402.111111" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="667.104167" y="442.166667" />
+		</Marker>
+	</Frame>
+	<Frame id="36" >
+		<Marker id="1" >
+			<Centroid x="851.490566" y="137.943396" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="836.545455" y="162.345455" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="828.500000" y="241.714286" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="866.561404" y="280.175439" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="802.807018" y="284.087719" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="787.288462" y="402.711538" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="703.924528" y="446.641509" />
+		</Marker>
+	</Frame>
+	<Frame id="37" >
+		<Marker id="1" >
+			<Centroid x="849.137931" y="155.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="828.327273" y="235.563636" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="820.563636" y="278.672727" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="856.500000" y="282.137931" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="822.327273" y="400.436364" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="744.500000" y="453.769231" />
+		</Marker>
+	</Frame>
+	<Frame id="38" >
+		<Marker id="1" >
+			<Centroid x="860.714286" y="149.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="829.375000" y="228.142857" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="845.672727" y="280.436364" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="944.025000" y="290.650000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="858.672727" y="395.563636" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="787.611111" y="463.611111" />
+		</Marker>
+	</Frame>
+	<Frame id="39" >
+		<Marker id="1" >
+			<Centroid x="896.090909" y="122.431818" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="871.500000" y="147.862069" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="832.672727" y="223.563636" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="950.157895" y="238.842105" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="857.611111" y="273.388889" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="986.250000" y="276.272727" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="836.285714" y="278.500000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="896.824561" y="389.438596" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="835.320755" y="475.358491" />
+		</Marker>
+	</Frame>
+	<Frame id="40" >
+		<Marker id="1" >
+			<Centroid x="883.186441" y="146.711864" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="839.614035" y="218.964912" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="982.441860" y="228.790698" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1024.954545" y="257.795455" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="830.067797" y="273.474576" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="877.285714" y="273.500000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="932.862069" y="382.500000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="853.200000" y="483.850000" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="887.714286" y="486.500000" />
+		</Marker>
+	</Frame>
+	<Frame id="41" >
+		<Marker id="1" >
+			<Centroid x="895.137931" y="147.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="849.000000" y="216.448276" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1012.565217" y="218.478261" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1058.921569" y="237.549020" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="826.500000" y="267.137931" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="896.448276" y="275.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="964.500000" y="376.862069" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="940.964912" y="494.614035" />
+		</Marker>
+	</Frame>
+	<Frame id="42" >
+		<Marker id="1" >
+			<Centroid x="908.338983" y="150.898305" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1040.425532" y="209.489362" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="858.448276" y="215.000000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1088.363636" y="218.500000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="826.250000" y="260.428571" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="917.745763" y="278.915254" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="994.150000" y="375.100000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="995.714286" y="499.500000" />
+		</Marker>
+	</Frame>
+	<Frame id="43" >
+		<Marker id="1" >
+			<Centroid x="921.655738" y="155.885246" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1065.500000" y="200.458333" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1113.142857" y="200.257143" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="866.631579" y="212.701754" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="828.551724" y="253.000000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="936.766667" y="280.233333" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1015.000000" y="376.500000" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1044.803279" y="500.295082" />
+		</Marker>
+	</Frame>
+	<Frame id="44" >
+		<Marker id="1" >
+			<Centroid x="940.500000" y="166.137931" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1136.818182" y="191.363636" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1090.942308" y="199.173077" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="881.950000" y="214.950000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="839.611111" y="250.388889" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="960.627119" y="294.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1047.440678" y="382.186441" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1087.761905" y="504.190476" />
+		</Marker>
+	</Frame>
+	<Frame id="45" >
+		<Marker id="1" >
+			<Centroid x="960.213115" y="175.131148" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1038.666667" y="174.393939" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1158.333333" y="187.333333" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1114.113208" y="200.245283" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="900.714286" y="218.500000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="855.571429" y="249.250000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="982.033898" y="301.118644" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1074.137931" y="384.500000" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1108.426230" y="509.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="46" >
+		<Marker id="1" >
+			<Centroid x="982.583333" y="182.883333" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1181.838710" y="189.419355" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1137.818182" y="203.290909" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="923.310345" y="224.965517" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="877.068966" y="252.603448" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1004.500000" y="306.862069" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1100.145161" y="387.145161" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1119.854839" y="514.854839" />
+		</Marker>
+	</Frame>
+	<Frame id="47" >
+		<Marker id="1" >
+			<Centroid x="1004.750000" y="189.600000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1206.820513" y="198.769231" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1161.813559" y="210.745763" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="947.137931" y="234.500000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="901.706897" y="263.706897" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1024.500000" y="310.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1123.295082" y="386.540984" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1123.500000" y="515.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="48" >
+		<Marker id="1" >
+			<Centroid x="1028.000000" y="189.500000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1229.735849" y="210.641509" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1182.274194" y="216.096774" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="972.822581" y="238.951613" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="931.050000" y="275.050000" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1044.666667" y="307.561404" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1141.360656" y="388.377049" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1125.815385" y="514.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="49" >
+		<Marker id="1" >
+			<Centroid x="1049.600000" y="186.750000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1194.500000" y="226.137931" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1244.819672" y="230.622951" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="999.500000" y="244.862069" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="965.396552" y="289.603448" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1062.741935" y="304.258065" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1155.953125" y="391.765625" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1127.066667" y="513.400000" />
+		</Marker>
+	</Frame>
+	<Frame id="50" >
+		<Marker id="1" >
+			<Centroid x="1070.000000" y="180.880597" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1200.250000" y="233.400000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1029.000000" y="250.500000" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1250.637931" y="250.672414" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1081.016129" y="298.645161" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1005.500000" y="303.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1167.301587" y="395.031746" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1127.968254" y="512.698413" />
+		</Marker>
+	</Frame>
+	<Frame id="51" >
+		<Marker id="1" >
+			<Centroid x="1090.281250" y="173.546875" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1203.114754" y="236.344262" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1059.442623" y="252.049180" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1248.606557" y="268.360656" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1100.937500" y="292.843750" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1051.301587" y="309.936508" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1176.843750" y="399.062500" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1128.096774" y="512.274194" />
+		</Marker>
+	</Frame>
+	<Frame id="52" >
+		<Marker id="1" >
+			<Centroid x="1138.537037" y="125.370370" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1111.338462" y="167.707692" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1203.921569" y="236.019608" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1094.184615" y="254.000000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1238.465517" y="280.344828" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1120.000000" y="286.426230" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1100.983871" y="312.354839" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1182.234375" y="402.046875" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1128.184615" y="512.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="53" >
+		<Marker id="1" >
+			<Centroid x="1157.639344" y="120.934426" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1133.184615" y="163.000000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1130.939394" y="253.151515" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1224.500000" y="287.291667" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1152.049180" y="308.557377" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1186.815385" y="405.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1127.786885" y="511.836066" />
+		</Marker>
+	</Frame>
+	<Frame id="54" >
+		<Marker id="1" >
+			<Centroid x="1176.508197" y="118.573770" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1155.880597" y="160.000000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1169.776119" y="250.432836" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1158.281250" y="279.406250" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1203.878788" y="299.272727" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1190.815385" y="407.000000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1128.854839" y="511.854839" />
+		</Marker>
+	</Frame>
+	<Frame id="55" >
+		<Marker id="1" >
+			<Centroid x="1197.354839" y="114.983871" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1180.208955" y="155.895522" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1209.553846" y="242.923077" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1179.428571" y="276.984127" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1254.411765" y="283.279412" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1193.258065" y="407.741935" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1129.066667" y="510.400000" />
+		</Marker>
+	</Frame>
+	<Frame id="56" >
+		<Marker id="1" >
+			<Centroid x="1218.596774" y="113.887097" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1207.565217" y="151.782609" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1196.236842" y="223.315789" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1250.000000" y="233.000000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1302.970588" y="263.941176" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1183.895833" y="274.583333" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1199.727273" y="275.272727" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1195.000000" y="406.426230" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1130.704918" y="508.540984" />
+		</Marker>
+	</Frame>
+	<Frame id="57" >
+		<Marker id="1" >
+			<Centroid x="1240.553846" y="114.169231" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1231.347826" y="152.028986" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1285.197183" y="224.845070" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1343.888889" y="245.291667" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1220.910448" y="276.089552" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1196.031746" y="404.301587" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1132.258065" y="506.741935" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1351.000000" y="509.000000" />
+		</Marker>
+	</Frame>
+	<Frame id="58" >
+		<Marker id="1" >
+			<Centroid x="1263.000000" y="119.123077" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1257.323944" y="155.197183" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1254.125000" y="215.339286" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1320.197183" y="218.845070" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1382.092105" y="230.447368" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1240.848485" y="279.742424" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1199.272727" y="402.272727" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1135.306452" y="504.177419" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1405.200000" y="506.400000" />
+		</Marker>
+	</Frame>
+	<Frame id="59" >
+		<Marker id="1" >
+			<Centroid x="1287.292308" y="125.000000" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1285.154930" y="158.549296" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1355.500000" y="212.888889" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1419.097222" y="217.833333" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1278.553571" y="221.553571" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1264.848485" y="286.060606" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1199.983871" y="395.354839" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1137.583333" y="500.883333" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1447.333333" y="506.666667" />
+		</Marker>
+	</Frame>
+	<Frame id="60" >
+		<Marker id="1" >
+			<Centroid x="1313.693548" y="131.790323" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1313.549296" y="163.154930" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1389.082192" y="209.767123" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1453.500000" y="209.710526" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1239.584906" y="215.207547" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1304.733333" y="228.350000" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1194.891304" y="241.978261" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1289.188406" y="292.811594" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1214.727273" y="395.727273" />
+		</Marker>
+		<Marker id="10" >
+			<Centroid x="1142.950820" y="494.557377" />
+		</Marker>
+		<Marker id="11" >
+			<Centroid x="1481.333333" y="511.666667" />
+		</Marker>
+	</Frame>
+	<Frame id="61" >
+		<Marker id="1" >
+			<Centroid x="1338.523810" y="138.888889" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1341.000000" y="168.000000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1483.000000" y="208.618421" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1418.000000" y="212.000000" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1259.872727" y="219.454545" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1329.741935" y="235.467742" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1212.883721" y="243.604651" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1312.828571" y="300.614286" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1229.250000" y="396.984375" />
+		</Marker>
+		<Marker id="10" >
+			<Centroid x="1449.666667" y="393.333333" />
+		</Marker>
+		<Marker id="11" >
+			<Centroid x="1149.540984" y="489.295082" />
+		</Marker>
+	</Frame>
+	<Frame id="62" >
+		<Marker id="1" >
+			<Centroid x="1338.523810" y="138.888889" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1341.000000" y="168.000000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1483.000000" y="208.618421" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1418.098592" y="211.901408" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1259.872727" y="219.454545" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1329.741935" y="235.467742" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1212.883721" y="243.604651" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1312.873239" y="300.563380" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1229.393939" y="397.000000" />
+		</Marker>
+		<Marker id="10" >
+			<Centroid x="1449.666667" y="393.333333" />
+		</Marker>
+		<Marker id="11" >
+			<Centroid x="1149.571429" y="489.349206" />
+		</Marker>
+	</Frame>
+	<Frame id="63" >
+		<Marker id="1" >
+			<Centroid x="1338.523810" y="138.888889" />
+		</Marker>
+		<Marker id="2" >
+			<Centroid x="1341.000000" y="168.000000" />
+		</Marker>
+		<Marker id="3" >
+			<Centroid x="1483.000000" y="208.618421" />
+		</Marker>
+		<Marker id="4" >
+			<Centroid x="1418.098592" y="211.901408" />
+		</Marker>
+		<Marker id="5" >
+			<Centroid x="1259.872727" y="219.454545" />
+		</Marker>
+		<Marker id="6" >
+			<Centroid x="1329.741935" y="235.467742" />
+		</Marker>
+		<Marker id="7" >
+			<Centroid x="1212.883721" y="243.604651" />
+		</Marker>
+		<Marker id="8" >
+			<Centroid x="1312.873239" y="300.563380" />
+		</Marker>
+		<Marker id="9" >
+			<Centroid x="1229.393939" y="397.000000" />
+		</Marker>
+		<Marker id="10" >
+			<Centroid x="1449.666667" y="393.333333" />
+		</Marker>
+		<Marker id="11" >
+			<Centroid x="1149.571429" y="489.349206" />
+		</Marker>
+	</Frame>
+</Detected_Markers>
