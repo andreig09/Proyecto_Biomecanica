@@ -105,9 +105,13 @@ for frame=f_ini:f_fin-1
     
     % Controlo que ningun enlace se vaya mas alla de cierto multiplo de
     % la mayor distancia de enlace registrada hasta el momento
+    limit_percent = 0.3;
     
-	[link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,'externo',limit_distancia);
-
+	if (frame-f_ini)>=4 && frame<(f_fin-1)
+        [link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,'local',limit_percent);
+    else
+        [link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,'externo',limit_distancia);
+    end
     if size(X_out,1)==7
         max_step_global = max(X_out(7,:));
     end
@@ -312,7 +316,26 @@ if strcmp(modo,'global')
         sobran_1 = setdiff(1:size(X_in(:,X_in(4,:)==frame+1),2),link_next(:,3));
     end
 elseif strcmp(modo,'local')
+    if nargin<5
+        parametro = 1;
+    end
     
+    marker_valid = [];
+    for n_link=1:size(link_next,1)
+        %disp([frame,link_next(n_link,2),get_path_from_tracking(X_out,frame,link_next(n_link,2))]);
+        x_estimado = X_out(1:3,X_out(5,:)==get_path_from_tracking(X_out,frame,link_next(n_link,2))&X_out(4,:)<=frame&X_out(4,:)>=(frame-2))*[1,-3,3]';
+        x_previo = X_out(1:3,X_out(5,:)==get_path_from_tracking(X_out,frame,link_next(n_link,2))&X_out(4,:)==frame);
+        marker_valid(n_link) = (norm(x_estimado-x_previo)/link_next(n_link,size(link_next,2)))<(1+parametro)&...
+            (norm(x_estimado-x_previo)/link_next(n_link,size(link_next,2)))>(1-parametro);
+    end
+    link_next=link_next((marker_valid')~=0,:);
+    if frame==min(X_in(4,:))
+        sobran_0 = setdiff(1:size(X_in(:,X_in(4,:)==frame),2),link_next(:,1));
+        sobran_1 = setdiff(1:size(X_in(:,X_in(4,:)==frame+1),2),link_next(:,2));
+    else
+        sobran_0 = setdiff(1:size(X_in(:,X_in(4,:)==frame),2),link_next(:,2));
+        sobran_1 = setdiff(1:size(X_in(:,X_in(4,:)==frame+1),2),link_next(:,3));
+    end
 elseif strcmp(modo,'externo')
     if nargin<5
         parametro = Inf;
@@ -348,14 +371,6 @@ elementos_frame = X_out(4,:)==frame;
 marker_frame = X_out(:,elementos_frame);
 [I,J] = find(marker_frame(5,:)==index_path);
 index_frame = J;
-end
-
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function marker = get_marker_from_tracking(X_out,frame,index_frame)
-elementos_frame = X_out(4,:)==frame;
-marker_frame = X_out(:,elementos_frame);
-marker = marker_frame(1:3,index_frame);
 end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
