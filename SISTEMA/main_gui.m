@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 23-Sep-2014 00:45:32
+% Last Modified by GUIDE v2.5 25-Oct-2014 17:46:01
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -498,6 +498,8 @@ if get(hObject, 'Value')
     set(handles.checkbox2, 'enable', 'on');
     set(handles.checkbox3, 'enable', 'on');
     set(handles.checkbox7, 'enable', 'on');
+    set(handles.checkbox20, 'enable', 'on');
+    set(handles.pushbutton5, 'enable', 'on');
     if get(handles.checkbox1, 'Value')
        set(handles.edit2, 'enable', 'on'); 
     end
@@ -517,6 +519,8 @@ else
     set(handles.checkbox2, 'enable', 'off');
     set(handles.checkbox3, 'enable', 'off');
     set(handles.checkbox7, 'enable', 'off');        
+    set(handles.checkbox20, 'enable', 'off');        
+    set(handles.pushbutton5, 'enable', 'off');        
     set(handles.edit19, 'enable', 'off');
     set(handles.edit21, 'enable', 'off');
     set(handles.edit2, 'enable', 'off');
@@ -538,19 +542,31 @@ if get(hObject, 'Value')
     set(handles.checkbox12, 'enable', 'on');    
     set(handles.text6, 'enable', 'on');
     set(handles.text7, 'enable', 'on');
+    set(handles.text20, 'enable', 'on');
+    set(handles.text19, 'enable', 'on');
+    set(handles.radiobutton2, 'enable', 'on');
+    set(handles.radiobutton3, 'enable', 'on');
     if get(handles.checkbox8, 'Value')
         set(handles.edit9, 'enable', 'on');
+    end
+    if get(handles.radiobutton3, 'Value')
+        set(handles.edit30, 'enable', 'on');
     end
     set(handles.edit11, 'enable', 'on');
     set(handles.edit12, 'enable', 'on');
 else
     set(handles.checkbox8, 'enable', 'off'); 
     set(handles.checkbox12, 'enable', 'off'); 
+    set(handles.radiobutton2, 'enable', 'off');
+    set(handles.radiobutton3, 'enable', 'off');
     set(handles.text6, 'enable', 'off');
     set(handles.text7, 'enable', 'off');
+    set(handles.text20, 'enable', 'off');
+    set(handles.text19, 'enable', 'off');
     set(handles.edit9, 'enable', 'off');
     set(handles.edit11, 'enable', 'off');
     set(handles.edit12, 'enable', 'off');
+    set(handles.edit30, 'enable', 'off');
 end
 
 % --- Executes on button press in checkbox11.
@@ -920,3 +936,169 @@ function checkbox13_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox13
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if (get(handles.checkbox9,'Value'))
+    segmentacion
+end
+if (get(handles.checkbox10,'Value'))
+    reconstruccion
+end
+if (get(handles.checkbox11,'Value'))
+    tracking
+end
+
+% --- Executes on button press in checkbox18.
+function checkbox18_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox18 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox18
+if get(hObject, 'Value')
+    set(handles.edit16, 'enable', 'on');
+    set(handles.pushbutton3, 'enable', 'on');
+else
+    set(handles.edit16, 'enable', 'off');
+    set(handles.pushbutton3, 'enable', 'off');
+    if ~(get(handles.checkbox19, 'Value'))
+        errordlg('At least one of the directories must be marked','Invalid selection','modal')
+        uicontrol(hObject)
+        return
+    end
+end
+
+
+% --- Executes on button press in checkbox19.
+function checkbox19_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox19 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox19
+if get(hObject, 'Value')
+    set(handles.edit18, 'enable', 'on');
+    set(handles.pushbutton4, 'enable', 'on');
+else
+    set(handles.edit18, 'enable', 'off');
+    set(handles.pushbutton4, 'enable', 'off');
+    if ~(get(handles.checkbox18, 'Value'))
+        errordlg('At least one of the directories must be marked','Invalid selection','modal')
+        uicontrol(hObject)
+        return
+    end
+end
+
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+folder_name = uigetdir;
+if ~(strcmp(folder_name,'0'));
+    set(handles.edit16, 'string', folder_name);
+end
+if (strcmp(get(handles.edit16, 'string'),'0'));
+    set(handles.edit16, 'string', 'XML Directory');
+end
+
+
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+folder_name = uigetdir;
+if ~(strcmp(folder_name,'0'));
+    set(handles.edit18, 'string', folder_name);
+end
+if (strcmp(get(handles.edit18, 'string'),'0'));
+    set(handles.edit18, 'string', '.Mat Directory');
+end
+
+
+% --- Executes on button press in radiobutton2.
+function radiobutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton2
+if get(hObject, 'Value')
+    set(handles.radiobutton3, 'Value', 0);
+    set(handles.edit30, 'Enable', 'off');
+else
+    set(handles.radiobutton3, 'Value', 1);
+    set(handles.edit30, 'Enable', 'on');
+end
+
+% --- Executes on button press in radiobutton3.
+function radiobutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton3
+if get(hObject, 'Value')
+    set(handles.radiobutton2, 'Value', 0);
+    set(handles.edit30, 'Enable', 'on');
+else
+    set(handles.radiobutton2, 'Value', 1);
+    set(handles.edit30, 'Enable', 'off');
+end
+
+
+function edit30_Callback(hObject, eventdata, handles)
+% hObject    handle to edit30 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit30 as text
+%        str2double(get(hObject,'String')) returns contents of edit30 as a double
+input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+vec_cameras = input;
+cameras = strread(vec_cameras,'%n','delimiter',';');
+handles.vector_cameras = cameras;
+guidata(hObject,handles); %Guarda el string en videoDirectory
+
+% --- Executes during object creation, after setting all properties.
+function edit30_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit30 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+folder_name = uigetdir;
+if ~(strcmp(folder_name,'0'));
+    set(handles.edit19, 'string', folder_name);
+end
+if (strcmp(get(handles.edit19, 'string'),'0'));
+    set(handles.edit19, 'string', 'Videos Directory');
+end
+
+
+% --- Executes on button press in checkbox20.
+function checkbox20_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox20 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%SI ESTE CHECKBOX ESTÁ ACTIVADO HAY QUE PASARLE EL ARGUMENTO s A LA
+%SEGMENTACION
+handles.saveSegmentedVideos = get(hObject, 'Value');
+guidata(hObject,handles); %Guarda el string en videoDirectory
