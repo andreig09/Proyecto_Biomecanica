@@ -108,7 +108,9 @@ for frame=f_ini:f_fin-1
     limit_percent = 0.3;
     
 	if (frame-f_ini)>=4 && frame<(f_fin-1)
-        [link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,'local',limit_percent);
+        %[link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,'local',limit_percent);
+        [link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,'externo',limit_distancia);
+  
     else
         [link_next,sobran_0,sobran_1] = validar_enlaces(X_out,X_in,link_next,'externo',limit_distancia);
     end
