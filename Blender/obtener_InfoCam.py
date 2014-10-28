@@ -1,6 +1,31 @@
 #Script que permita exportar la informacion de las camaras Blender
+#Se debe ingresar el directorio donde se desea InfoCamBlender.m
+#Ejemplo: blender --background ARCHIVO.blend --P obtener_InfoCam.py -- /home/sun/datos
 import bpy #modulo de Blender para el interprete python
 import os #nos permite acceder a funcionalidades dependientes del Sistema Operativo
+import sys#se agrega para poder manejar parametros de entrada, los mismos se deben colocar a continuación del nombre del script
+# Get script parameters:
+# all list items after the last occurence of "--"
+print()
+print(sys.argv)
+print()
+
+try:
+    args = list(reversed(sys.argv))
+    idx = args.index("--")
+
+except ValueError:
+    params = []
+
+else:
+    params = args[:idx][::-1]
+
+print("Script params:", params)
+
+
+
+
+
 lista_info_cam = bpy.data.cameras.items()  #de esta manera obtengo un objeto LISTA donde cada componente es otro objeto LISTA de dos componentes, 1-nombre y 2-punto de acceso a la camara
 lista_nombres = [] #genero esta LISTA para guardar los nombres de las camaras
 lista_acceso = [] #genero esta LISTA para guardar los puntos de acceso de las camaras
@@ -42,17 +67,22 @@ for nombre in lista_nombres:
 
 ###########################################################
 #Datos del renderizado
-resolution_x=bpy.data.scenes["Scene"].render.resolution_x
-resolution_y=bpy.data.scenes["Scene"].render.resolution_y
-pixel_aspect_x=bpy.data.scenes["Scene"].render.pixel_aspect_x
-pixel_aspect_y=bpy.data.scenes["Scene"].render.pixel_aspect_y
-frame_start = bpy.data.scenes["Scene"].frame_start
-frame_end =bpy.data.scenes["Scene"].frame_end
+scene = bpy.data.scenes["Scene"]
+resolution_x=scene.render.resolution_x
+resolution_y=scene.render.resolution_y
+pixel_aspect_x=scene.render.pixel_aspect_x
+pixel_aspect_y=scene.render.pixel_aspect_y
+frame_start = scene.frame_start
+frame_end = scene.frame_end
+frame_map_old = scene.render.frame_map_old#con este parámetro y el que sigue se puede ingresar o sacar frames en los videos respecto a las tomas originales del bvh
+frame_map_new = scene.render.frame_map_new
 ###################################################################
 #Preparacion para imprimir en archivo
-dir_actual = os.getcwd()
+#dir_actual = os.getcwd()
+dir_destino = params[-1]#tomo el último parámetro el cual debe ser la carpeta donde se desea el archivo InfoCamBlender. 
 #A continuacion en la carpeta donde se encuentre el script creo o sobreescribo el archivo InfoCamBlender.m
-with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equivalente a efectuar 
+with open(dir_destino + "/InfoCamBlender.m", "w") as file: 
+#with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equivalente a efectuar 
 #file = open(dir_actual + "/InfoCamBlender.txt", "w") #pero supuestamente es una buena practica hacerlo de esta manera
     file.write("%%PARAMETROS DE CAMARAS BLENDER\n\n")
     file.write("n_cams = "+ repr(len(T)) +"; %Numero de camaras\n\n")
@@ -116,7 +146,9 @@ with open(dir_actual + "/InfoCamBlender.m", "w") as file: #lo anterior es equiva
     file.write("pixel_aspect_x = "+repr(pixel_aspect_x) +";%si estos dos valores son iguales el pixel es cuadrado\n")
     file.write("pixel_aspect_y = "+repr(pixel_aspect_y) +";\n")
     file.write("frame_start = "+repr(frame_start) +";\n")    
-    file.write("frame_end = "+repr(frame_end) +";\n\n")    
+    file.write("frame_end = "+repr(frame_end) +";\n")    
+    file.write("frame_map_old = "+repr(frame_map_old) +";\n")    
+    file.write("frame_map_new = "+repr(frame_map_new) +";\n\n")    
     
     file.write("%Ajustes finales\n")
     file.write("sensor = [sensor_width; sensor_height]; %Agrupo el ancho y largo del sensor en un solo vector\n")
