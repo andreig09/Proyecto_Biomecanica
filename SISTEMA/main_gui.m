@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 25-Oct-2014 17:46:01
+% Last Modified by GUIDE v2.5 25-Oct-2014 17:02:34
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -498,7 +498,6 @@ if get(hObject, 'Value')
     set(handles.checkbox2, 'enable', 'on');
     set(handles.checkbox3, 'enable', 'on');
     set(handles.checkbox7, 'enable', 'on');
-    set(handles.checkbox20, 'enable', 'on');
     set(handles.pushbutton5, 'enable', 'on');
     if get(handles.checkbox1, 'Value')
        set(handles.edit2, 'enable', 'on'); 
@@ -519,7 +518,6 @@ else
     set(handles.checkbox2, 'enable', 'off');
     set(handles.checkbox3, 'enable', 'off');
     set(handles.checkbox7, 'enable', 'off');        
-    set(handles.checkbox20, 'enable', 'off');        
     set(handles.pushbutton5, 'enable', 'off');        
     set(handles.edit19, 'enable', 'off');
     set(handles.edit21, 'enable', 'off');
@@ -1061,9 +1059,9 @@ function edit30_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of edit30 as text
 %        str2double(get(hObject,'String')) returns contents of edit30 as a double
 input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
-vec_cameras = input;
-cameras = strread(vec_cameras,'%n','delimiter',';');
-handles.vector_cameras = cameras;
+vec_pages = input;
+pages = strread(vec_pages,'%n','delimiter',';');
+handles.vector_pages = pages;
 guidata(hObject,handles); %Guarda el string en videoDirectory
 
 % --- Executes during object creation, after setting all properties.
@@ -1091,14 +1089,3 @@ end
 if (strcmp(get(handles.edit19, 'string'),'0'));
     set(handles.edit19, 'string', 'Videos Directory');
 end
-
-
-% --- Executes on button press in checkbox20.
-function checkbox20_Callback(hObject, eventdata, handles)
-% hObject    handle to checkbox20 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-%SI ESTE CHECKBOX ESTÁ ACTIVADO HAY QUE PASARLE EL ARGUMENTO s A LA
-%SEGMENTACION
-handles.saveSegmentedVideos = get(hObject, 'Value');
-guidata(hObject,handles); %Guarda el string en videoDirectory
