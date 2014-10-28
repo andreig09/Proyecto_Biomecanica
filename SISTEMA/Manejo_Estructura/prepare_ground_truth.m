@@ -8,7 +8,7 @@ function [skeleton, cam] = prepare_ground_truth(path_bvh, name_bvh, path_info_bl
 % path_save -->path donde se desea guardar los archivos xml
 % name_save -->nombre del archivo xml
 % save_vars --> booleano que indica si se desea salvar o no la salida en un xml;
-% vararout -->puede agregarse un cell array de strings con los nombres de los marcadores con los cuales se desea trabajar, el resto son removidos
+% varargin -->puede agregarse un cell array de strings con los nombres de los marcadores con los cuales se desea trabajar, el resto son removidos
 % de las estructuras
 %% SALIDA
 %skeleton -->estructura para esqueleto de ground truth
@@ -25,7 +25,7 @@ cam = Lab.cam;
 
 %% Remuevo los marcadores que no uso
 if ~isempty(varargin)
-    markers_work = varargin; %cell array conteniendo los nombres de los marcadores con los que se desea trabajar
+    markers_work = varargin{1}; %cell array conteniendo los nombres de los marcadores con los que se desea trabajar
     %markers_work = {'LeftFoot' 'LeftLeg' 'LeftUpLeg' 'RightFoot' 'RightLeg' 'RightUpLeg'...
     %   'RightShoulder' 'LHand' 'LeftForeArm' 'LeftArm' 'RHand' 'RightForeArm' 'RightArm'};%cell array con los marcadores que se van a usar
     disp('_________________________________________')
@@ -56,8 +56,21 @@ if ~isempty(varargin)
     end
 end
 %% Guardo y Limpio variables 
-if save_vars==1    
-    save([path_save,'/',  name_save] ,'skeleton');
-    save([path_save,'/', name_save],'cam');    
+Lab.cam = cam;
+Lab.skeleton = skeleton;
+s.Lab= Lab;
+if save_vars==1 
+    disp(' ');
+    disp('_________________________________________')
+    disp('Guardando las variables pertinentes')
+    %Archivos.mat
+    save([path_save,'/skeleton_ground_truth.mat'] ,'skeleton');
+    disp('skeleton_ground_truth a sido guardado')
+    save([path_save,'/cam_ground_truth.mat'],'cam'); 
+    disp('cam_ground_truth a sido guardado')
+    %Archivos.xml
+    struct2xml( s, [path_save,'/',  name_save, '.xml'] )
+    str = sprintf('%s.xml a sido guardado', name_save);
+    disp(str)
 end
 end

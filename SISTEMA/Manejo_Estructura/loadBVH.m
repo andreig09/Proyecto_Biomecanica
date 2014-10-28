@@ -64,15 +64,14 @@ end
 
 %genero estructura path
 path_struct = cell(1,n_paths);
-members = num2str_2([ones(1, n_frames); 1:n_frames ]);
 for k=1:n_paths
     path_struct{k}.Attributes.id = num2str(k);%numero indentificador
-    path_struct{k}.Attributes.name = blanks(15);
+    path_struct{k}.Attributes.name = marker_name{k};
     path_struct{k}.Attributes.state = '0'; %estado de la trayectoria, asumo que 0 indica "baja incertidumbre"
     path_struct{k}.Attributes.n_markers = num2str_2(n_markers); %numero total de marcadores en la trayectoria
     path_struct{k}.Attributes.init_frame = '1';%frame inicial de la trayectoria
     path_struct{k}.Attributes.end_frame = num2str_2(n_frames);%frame final de la trayectoria
-    path_struct{k}.Attributes.members = members;%secuencia de nombres asociados a la trayectoria
+    path_struct{k}.Attributes.members = num2str_2([k*ones(1, n_frames); 1:n_frames ]);;%secuencia de nombres asociados a la trayectoria
 end
 
 %Atributos de esqueleto
@@ -107,7 +106,7 @@ f=f;
 t_vista = t_vista;
 shift_x = shift_x;
 shift_y = shift_y;
-snesor = sensor;
+sensor = sensor;
 sensor_fit = sensor_fit;
 pixel_aspect =pixel_aspect_x/pixel_aspect_y;
 
@@ -124,10 +123,10 @@ parfor i=1:n_cams %hacer para todas las camaras
     cam{i}.Attributes.Tc = num2str_2([T(1,i); T(2,i); T(3,i)]); %vector de traslacion hasta el centro de la camara
     cam{i}.Attributes.focal_dist = num2str_2(f(i) ); %distancia focal de la camara en metros
     cam{i}.Attributes.resolution = num2str_2(resolution(:,i)); %%=[resolución_x, resolution_y] unidades en pixeles
-    cam{i}.Attributes.t_vista = t_vista(i); %tipo de vista utilizada en la camara (PERSPECTIVA, ORTOGRAFICA, PANORAMICA)
+    cam{i}.Attributes.t_vista = t_vista{i}; %tipo de vista utilizada en la camara (PERSPECTIVA, ORTOGRAFICA, PANORAMICA)
     cam{i}.Attributes.shift = num2str_2([shift_x(i), shift_y(i)]);%[shift_x, shidt_y] corrimiento del centro de la camara en pixeles
     cam{i}.Attributes.sensor = num2str_2(sensor(:,i));%[sensor_x, sensor_y] largo y ancho del sensor en milimetros
-    cam{i}.Attributes.sensor_fit = sensor_fit(i) ;%tipo de ajuste utilizado para el sensor (AUTO, HORIZONTAL, VERTICAL)
+    cam{i}.Attributes.sensor_fit = sensor_fit{i} ;%tipo de ajuste utilizado para el sensor (AUTO, HORIZONTAL, VERTICAL)
     cam{i}.Attributes.pixel_aspect = num2str_2(pixel_aspect);%(pixel_aspect_x)/(pixel_aspect_y) valor 1 indica pixel cuadrado
     cam{i}.Attributes.projection_matrix = num2str_2( MatrixProjection(f(i), resolution, sensor, sensor_fit{i}, [T(1,i); T(2,i); T(3,i)] , Rq(:,:,i)' ) );% matriz de proyeccion asociada a la camara;
     %Elementos frame de cam

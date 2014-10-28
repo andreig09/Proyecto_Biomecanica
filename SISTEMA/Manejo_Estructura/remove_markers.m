@@ -1,7 +1,8 @@
 function structure = remove_markers(structure, frame, name)
 %Funcion que remueve los marcadores cuyos nombres se encuentran en el cell array de string names de la estructura structure
 %en los frames indicados en el vector frame
-
+%El campo path de cada estructura queda desactualizado, se debe gestionar
+%un nuevo tracking para completarlo
 %% ENTRADA
 %structure -->estructura de datos skeleton o cam(i)
 %frame     -->vector que indica los frames donde se efectua la supresion de marcadores
@@ -51,11 +52,12 @@ for i=1:n_names %relleno el cell con espacios en blanco
 end
 total_frames =  get_info(structure, 'n_frames'); %numero de frames de la estructura structure
 
-%% Borrado de informacion en las estructuras marker, frame y path
+
+%% Borrado de informacion en las estructuras marker, frame
 for k = 1:n_frames %hacer para cada frame    
     %encuentro los indices de index_x que pertenecen al frame k
     colum = (index_x(2, :)==k);
-    index_delete = index_x(1,colum);
+    index_delete = index_x(1,colum);%indices de los marcadores a borrar en el frame k 
     n_delete = length(index_x(1, colum));%numero de indices de index_x en el frame k
     
     n_markers = get_info(structure, 'frame', frame(k), 'n_markers'); %nro de marcadores en el frame k   
@@ -93,7 +95,29 @@ for k = 1:n_frames %hacer para cada frame
 
     
 end
+%% Borrado informacion en la estructura path (util solo al trabajar con ground truth, en otro caso debe realizarse tracking nuevamente con las estructuras salida de esta funcion)
+n_paths = get_info(structure, 'n_paths'); %numero de paths de la estructura
+id = 1; %voy actualizando el numero de id de los paths que si van a quedar para que sean consecutivos
+for k=1:n_paths
+    path_name = get_info(structure, 'path', k, 'name');%averiguo el nombre del path k
+    aux = strcmp(path_name, name);
+    if sum(aux)==1 %si path_name se encuentra dentro de la lista de nombres name
+        structure = set_info(structure, 'path', k, 'state', -1);
+        structure = set_info(structure, 'path', k, 'members', [zeros(1, total_frames); 1:total_frames ]);
+        structure = set_info(structure, 'path', k, 'n_markers', 0);
+        structure = set_info(structure, 'path', k, 'init_frame', -1);
+        structure = set_info(structure, 'path', k, 'end_frame', -1);
+        structure = set_info(structure, 'path', k, 'id', -1);
+    else
+        structure = set_info(structure, 'path', k, 'id', id);        
+        structure = set_info(structure, 'path', k, 'members', [id*ones(1, total_frames); 1:total_frames ]);
+        id=id+1;        
+    end        
 end
+structure = set_info(structure, 'n_paths', id); %Actualizo el nro de paths de la estructura
+
+end
+
 
 
 

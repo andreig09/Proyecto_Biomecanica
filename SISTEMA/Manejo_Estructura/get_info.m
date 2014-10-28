@@ -112,6 +112,14 @@ function info_out = get_info_in_path(varargin)
     structure = varargin{1}; %el primer argumento es una estructura
     n_path = varargin{2};%el segundo argumento es un numero de path
     t_dato1 = varargin{3}; % el tercer argumento t_dato1 indica lo que se desea devolver        
+    %obtengo el indice del path con id=n_path
+    for k=1:str2double(structure.Attributes.n_paths)
+        if n_path ==str2double(structure.Attributes.id)
+            n_path = k;%actualizo n_path
+            break%encontre lo que queria por lo tanto salgo del ciclo for
+        end
+    end
+    
     %genero la salida
     if strcmp(t_dato1, 'name') %se debe devolver un dato string        
         comando = 'structure.path{n_path}.Attributes.name'; %genero la direccion
