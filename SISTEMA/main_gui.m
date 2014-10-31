@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 25-Oct-2014 17:46:01
+% Last Modified by GUIDE v2.5 23-Sep-2014 00:45:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -552,8 +552,6 @@ if get(hObject, 'Value')
     set(handles.checkbox2, 'enable', 'on');
     set(handles.checkbox3, 'enable', 'on');
     set(handles.checkbox7, 'enable', 'on');
-    set(handles.checkbox20, 'enable', 'on');
-    set(handles.pushbutton5, 'enable', 'on');
     if get(handles.checkbox1, 'Value')
        set(handles.edit2, 'enable', 'on'); 
     end
@@ -573,8 +571,6 @@ else
     set(handles.checkbox2, 'enable', 'off');
     set(handles.checkbox3, 'enable', 'off');
     set(handles.checkbox7, 'enable', 'off');        
-    set(handles.checkbox20, 'enable', 'off');        
-    set(handles.pushbutton5, 'enable', 'off');        
     set(handles.edit19, 'enable', 'off');
     set(handles.edit21, 'enable', 'off');
     set(handles.edit2, 'enable', 'off');
@@ -596,31 +592,19 @@ if get(hObject, 'Value')
     set(handles.checkbox12, 'enable', 'on');    
     set(handles.text6, 'enable', 'on');
     set(handles.text7, 'enable', 'on');
-    set(handles.text20, 'enable', 'on');
-    set(handles.text19, 'enable', 'on');
-    set(handles.radiobutton2, 'enable', 'on');
-    set(handles.radiobutton3, 'enable', 'on');
     if get(handles.checkbox8, 'Value')
         set(handles.edit9, 'enable', 'on');
-    end
-    if get(handles.radiobutton3, 'Value')
-        set(handles.edit30, 'enable', 'on');
     end
     set(handles.edit11, 'enable', 'on');
     set(handles.edit12, 'enable', 'on');
 else
     set(handles.checkbox8, 'enable', 'off'); 
     set(handles.checkbox12, 'enable', 'off'); 
-    set(handles.radiobutton2, 'enable', 'off');
-    set(handles.radiobutton3, 'enable', 'off');
     set(handles.text6, 'enable', 'off');
     set(handles.text7, 'enable', 'off');
-    set(handles.text20, 'enable', 'off');
-    set(handles.text19, 'enable', 'off');
     set(handles.edit9, 'enable', 'off');
     set(handles.edit11, 'enable', 'off');
     set(handles.edit12, 'enable', 'off');
-    set(handles.edit30, 'enable', 'off');
 end
 
 % --- Executes on button press in checkbox11.
@@ -990,6 +974,7 @@ function checkbox13_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox13
+<<<<<<< HEAD
 
 
 % --- Executes on button press in pushbutton6.
@@ -1160,3 +1145,5 @@ function checkbox20_Callback(hObject, eventdata, handles)
 %SEGMENTACION
 handles.saveSegmentedVideos = get(hObject, 'Value');
 guidata(hObject,handles); %Guarda el string en videoDirectory
+=======
+>>>>>>> 7add716fad754a8683c382ff204b1a71ec43eeb5
