@@ -1,4 +1,8 @@
 function [Xi_aux,X_out_aux] = recuperar_indices(Xi,X_out)
+%Funcion que permite recuperar la informacion de que indice de marcador
+%corresponde a cada columna de X_i y X_out.
+%Se devuelve las mismas matrices, pero con una fila extra indicando el
+%indice de marcador de la columna
 X1 = [Xi;(-1)*ones(1,size(Xi,2))];
 X2 = [X_out;(-1)*ones(1,size(X_out,2))];
 for frame=min(X2(4,:)):max(X2(4,:))

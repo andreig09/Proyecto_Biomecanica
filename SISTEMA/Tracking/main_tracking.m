@@ -15,8 +15,11 @@ close all%Esto se tiene que sacar en VERSIONES FUTURAS
 [X_out,datos]=make_tracking(X, umbral);
 X_out =clean_tracking(X_out);%Limpiando puntos
 
+
+[~,X_out] = recuperar_indices(X,X_out);%coloco los indices de los marcadores de cada columna
+
 %actualizo la informacion de skeleton
-skeleton = update_skeleton(skeleton, X_out, index_markers,  InitFrameTrack, EndFrameTrack);
+skeleton = update_skeleton(skeleton, X_out,  InitFrameTrack, EndFrameTrack);
 if save_tracking_mat
     save([path_mat '/skeleton'], 'skeleton')
     str = ['Se a actualizado el resultado del tracking en el esqueleto ', path_mat, '/skeleton.mat'];
@@ -24,19 +27,19 @@ if save_tracking_mat
 end
 end
 
-function skeleton = update_skeleton(skeleton, X_out, index_markers, init_frame, end_frame)
+function skeleton = update_skeleton(skeleton, X_out, init_frame, end_frame)
 %Funcion que permite actualizar la informacion de skeleton con la informacion de X proveniente del tracking
 
 
 %% CUERPO DE LA FUNCION
-X_out = [X_out; -ones(1,size(X_out, 2))]; %agrego una fila al final de la matriz para colocar los indices de los marcadores
-row_index = 8;%fila donde se encuentran los indices de los los marcadores en las columnas de X_out
+
 row_coord = 1:3;
 row_frame = 4;
 row_path = 5;
 row_accel = 6;
+row_index = 8;%fila donde se encuentran los indices de los los marcadores en las columnas de X_out
+
 X_ok =  X_out(:,~isnan(X_out(row_accel,:)) );% Nos quedamos con los marcadores que existen en skeleton 
-X_ok(row_index,:) = index_markers;    %actualizamos los indices de los los marcadores;
 X_nan = X_out(:,isnan(X_out(row_accel,:)) );
 
 %ingreso los nuevos marcadores a la estructura skeleton
