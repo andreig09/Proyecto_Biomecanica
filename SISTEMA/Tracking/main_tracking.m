@@ -11,7 +11,7 @@ X = X(1:4, :);%me quedo solo con las coordenadas y el frame respectivo
 X_out =clean_tracking(X_out);%Limpieza de puntos 
 porcent_tracking = 98;%ESTO HAY QUE DECIDIR SI SALE PARA FUERA O NO, O SEA PARA EL USUARIO
 umbral=histograma_tracking(X_out, porcent_tracking);%ACTUALMENTE GRAFICA COSAS PARA DEBUG, QUE SE VAN A PASAR A OTRA PARTE DE LA INTERFAZ
-close all%Esto se tiene que sacar en VERSIONES FUTURAS
+%close %Esto se tiene que sacar en VERSIONES FUTURAS
 [X_out,datos]=make_tracking(X, umbral);
 X_out =clean_tracking(X_out);%Limpiando puntos
 
