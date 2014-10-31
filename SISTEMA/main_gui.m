@@ -329,6 +329,7 @@ switch processMethod
         [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat);
         assignin ('base','skeleton',skeleton)
         assignin ('base','cam_segmentation',cam_segmentacion)
+        assignin ('base','X_out',X_out)
         
     case 1
         %segmentacion
@@ -368,6 +369,7 @@ switch processMethod
         disp('')
         [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat);
         assignin ('base','skeleton',skeleton)
+        assignin ('base','X_out',X_out)
         
     case 4
         %segmentacion
@@ -404,6 +406,7 @@ switch processMethod
         [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat);
         assignin ('base','skeleton',skeleton)
         assignin ('base','cam_segmentation',cam_segmentacion)
+        assignin ('base','X_out',X_out)
 end
 
  

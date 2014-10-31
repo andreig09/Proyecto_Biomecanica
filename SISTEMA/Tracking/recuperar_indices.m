@@ -11,7 +11,7 @@ for frame=min(X2(4,:)):max(X2(4,:))
     
     X1(5,X1(4,:)==frame) = 1:size(X1_frame,2);
     for j=1:size(X2_frame,2)
-        [I,J] = find(ismember(X1_frame(1:3,:),X2_frame(1:3,j)),1);
+        [~,J] = find(ismember(X1_frame(1:3,:),X2_frame(1:3,j)),1);
         if ~isempty(J)
             X2_frame(8,j) = J;
         end
