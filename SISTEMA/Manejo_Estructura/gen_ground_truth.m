@@ -4,7 +4,7 @@ clc
 %path donde se encuentra el archivo bvh a cargar
 path_bvh = '/home/sun/Documentos/Fing/Blender/renders/CMU_8_07_hack';
 %nombre del archivo bvh a cargar
-name_bvh = 'CMU_8_07_blend_100-100.bvh';
+name_bvh = '08_07_hacker.bvh';
 %path donde se encuentra el archivo InfoCamBlender.m, el cual contiene la informacion de las camaras Blender
 path_info_blender = '/home/sun/Documentos/Fing/Blender/renders/CMU_8_07_hack/1600_600-100-100';
 %booleano que indica si se desea salvar o no la salida en un xml;

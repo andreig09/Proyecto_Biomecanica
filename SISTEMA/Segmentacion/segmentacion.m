@@ -51,7 +51,7 @@ cd(path_vid);%permite ir a la carpeta path_vid
 if isempty(list_vid) %si no se tienen videos para segmentar, generar una advertencia y seguir la generacion de la estructura cam con los xml que se tengan
     disp(['No se tienen videos para segmentar en la carpeta ', path_vid, '.'])
     disp(['Se procede a gestionar los archivos .xml que se tengan en ', path_XML, '.'])
-else
+else    
     parfor k=1:n_cams %hacer con cada elemento en list_vid
         %for  k=1:n_cams
         name_vid = list_vid{k};%nombre del video actual
@@ -79,8 +79,7 @@ else
             %             error('system:ComandoFallido','El comando para mover *.xml a su carpeta correspondiente ha devuelto una señal de error')
             %         else
             str = ['La segmentacion del archivo ', name_vid, ' ha finalizado satisfactoriamente.'];
-            disp(str)
-            %         end
+            disp(str)            
         end
     end
 end

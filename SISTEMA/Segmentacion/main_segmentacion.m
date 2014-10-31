@@ -42,7 +42,7 @@ list_XML = sort_list(list_XML);
 
 %cargo los archivos xml provenientes de la segmentacion asi como los datos de las camaras Blender
 cam_segmentacion = markersXML2mat(names, path_XML, list_XML);
-disp('El pasaje a la estructura .mat a culminado.')
+disp('El pasaje a la estructura .mat a culminado con exito.')
 
 
 %guardo la informacion en caso que se solicite

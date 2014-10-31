@@ -69,8 +69,8 @@ if save_vars==1
     save([path_save,'/cam_ground_truth.mat'],'cam'); 
     disp('cam_ground_truth a sido guardado')
     %Archivos.xml
-    struct2xml( s, [path_save,'/',  name_save, '.xml'] )
-    str = sprintf('%s.xml a sido guardado', name_save);
-    disp(str)
+    %struct2xml( s, [path_save,'/',  name_save, '.xml'] )
+    %str = sprintf('%s.xml a sido guardado', name_save);
+    %disp(str)
 end
 end

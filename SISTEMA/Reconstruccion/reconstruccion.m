@@ -14,9 +14,6 @@ function skeleton = reconstruccion(cam, skeleton, umbral, init_frame, end_frame,
 n_cams = length(cam);
 %n_markers = get_info(cam, 'frame', 1, 'n_markers');
 
-disp('__________________________________________________')
-disp('Se inicia el proceso de Reconstruccion')
-
 vec_cams = 1:n_cams;
 Xrec = cell(1, 300);
 
@@ -31,19 +28,20 @@ for i=vec_cams
     C{i} = homog2euclid(null(P{i})); %punto centro de la camara, o vector director perpendicular a la retina    
 end
 
-global contador
-contador =0;
-log_operation('reset'); %funcion que permite generar un contador de ciclos dentro del ciclo parfor
+%inicializo la barra de progreso
+parfor_progress(end_frame);
 parfor frame=init_frame:end_frame %hacer para cada frame (Se efectua en paralelo)
 %for frame=init_frame:end_frame %hacer para cada frame (Se efectua en paralelo)
+
     %efectuo la reconstruccion de un frame     
     Xrec{frame} = reconstruccion1frame_fast(cam, vec_cams, P,  invP, C, frame, umbral, n_markers);
-    %genero aviso     
-    num = log_operation(end_frame); %incremento contador que lleva numeros del ciclos
-    str=sprintf('Se ha reconstruido el frame %d, actualmente se han reconstruideo %d de %d ', frame, num, (end_frame-init_frame+1));
+    %genero barra de progreso         
+    parfor_progress;
     %str=sprintf('Se ha reconstruido el frame %d', frame);
-    disp(str)      
+    %disp(str)      
 end
+parfor_progress(0);
+
 
 %for  frame=1:n_frames %hacer para cada frame (Se efectua secuencialmente)     
 for frame=init_frame:end_frame %hacer para cada frame (Se efectua secuencialmente)     

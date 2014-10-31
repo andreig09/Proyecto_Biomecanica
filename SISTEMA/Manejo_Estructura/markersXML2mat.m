@@ -32,7 +32,7 @@ disp(str)
 
 %%%%%%%%%%%%%%%
 
-
+parfor_progress(n_cams);%inicializo la barra de progreso
 parfor i=1:n_cams %hacer para todas las camaras
 %for i=1:n_cams %hacer para todas las camaras
     %for i=1:n_cams %hacer para todas las camaras
@@ -81,9 +81,13 @@ parfor i=1:n_cams %hacer para todas las camaras
     cam{i} = set_info(cam(i), 'frame', n, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara
     
     
-    str = sprintf('Se han ingresado los datos en la camara %d\n', i );
-    disp(str)
+    %str = sprintf('Se han ingresado los datos en la camara %d\n', i );
+    %disp(str)
+    
+    %genero barra de progreso         
+    parfor_progress;
 end
+parfor_progress(0);%finalizo la barra de progreso
 end
 
 function markers_out = set_coordinate_origin(res_y, markers)

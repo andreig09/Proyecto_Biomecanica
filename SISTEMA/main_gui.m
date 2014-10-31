@@ -246,7 +246,11 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 %% CUERPO DE LA FUNCION
 
 %cargo en el path las carpetas de interes
-add_paths();
+clc
+disp('_____________________________________________________________')
+disp('Monitor de Procesos')
+disp('_____________________________________________________________')
+disp(' ')
 
 if (get(handles.checkbox9,'Value') && get(handles.checkbox10,'Value') && get(handles.checkbox11,'Value'))
 	processMethod = 0; %LOS 3 BLOQUES, el mï¿½todo por defecto
@@ -274,8 +278,12 @@ path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segm
 path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
 
 if get(handles.checkbox9, 'Value') %Si la segmentacion esta seleccionada 
-    path_vid = handles.videoDirectory;
-    type_vid = handles.videoExtension; %el nombre de la extension siempre debe escribirse como '*.extension'
+    path_vid = handles.videoDirectory; 
+    if exist('handles.videoExtension', 'var')%verifico si existe handles.videoExtension
+        type_vid = handles.videoExtension; %el nombre de la extension siempre debe escribirse como '*.extension'                
+    else
+        type_vid = '*.dvd';%por defecto se lee *.dvd
+    end    
     save_segmentation_mat = get(handles.checkbox7, 'Value'); % indica si se quiere guardar la estructura .mat al final de la segmentacion
 end
 if get(handles.checkbox10, 'Value') % Si la reconstruccion esta seleccionada
@@ -288,6 +296,11 @@ if get(handles.checkbox10, 'Value') % Si la reconstruccion esta seleccionada
     end
     InitFrameSeg = handles.InitFrameSeg;
     EndFrameSeg = handles.EndFrameSeg;
+    if get(handles.radiobutton3, 'Value')%si se tiene activada la casilla donde se indican las camaras que se utilizaran para la reconstruccion
+        vec_cams = handles.vector_cameras;
+    else
+        vec_cams = -1;%se coloca un valor que indica que se va a reconstruir con todas las camaras
+    end
 end
 if get(handles.checkbox11, 'Value') % Si el tracking esta seleccionado
     save_tracking_mat = get(handles.checkbox13, 'Value'); % indica si se quiere guardar la estructura .mat al final del tracking    
@@ -299,54 +312,95 @@ end
 switch processMethod    
     case 0          
         %segmentacion
+        disp('_________________________________________')
+        disp('Iniciando el proceso de segmentacion')
+        disp('')
         cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
         %reconstruccion
-        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
+        disp('_________________________________________')
+        disp('Iniciando el proceso de reconstruccion')
+        disp('')
+        main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, vec_cams, path_XML, save_reconstruction_mat, path_mat);        
+        %skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
         %tracking
+        disp('_________________________________________')
+        disp('Iniciando el proceso de tracking')
+        disp('')
         [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat);
         assignin ('base','skeleton',skeleton)
         assignin ('base','cam_segmentation',cam_segmentacion)
         
     case 1
         %segmentacion
+        disp('_________________________________________')
+        disp('Iniciando el proceso de segmentacion')
+        disp('')
         cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion        
         assignin ('base','cam_segmentation',cam_segmentacion)
     case 2
         if ~exist('cam_segmentacion') %si no existe en el workspace una estructura cam_segmentacion        
 %             Lab = xml2struct([path_XML '/cam.xml']);
 %             cam_segmentacion = Lab.cam;
+%           %debo leer los .mat en la carpeta y luego seleccionar el que
+%           contenga el string cam al inicio___')
+        disp('--->Cargando una estructura cam, por favor espere.')
+        disp('')
             load([path_mat, '/cam.mat'])%cargo el archivo cam.mat que contiene la variable cam_segmentacion
         end
         %reconstruccion
-        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);        
+        disp('_________________________________________')
+        disp('Iniciando el proceso de reconstruccion')
+        disp('')
+        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, vec_cams, path_XML, save_reconstruction_mat, path_mat);        
         assignin ('base','skeleton',skeleton)
         assignin ('base','cam_segmentation',cam_segmentacion)
     case 3
         if ~exist('skeleton') %si no existe en el workspace una estructura skeleton        
 %             Lab = xml2struct([path_XML '/skeleton.xml']);
 %             skeleton = Lab.skeleton;
+        disp('-->Cargando una estructura skeleton, por favor espere.')
+        disp('')
             load([path_mat, '/skeleton.mat'])%cargo el archivo skeleton.mat que contiene la variable skeleton
         end
         %tracking
+        disp('_________________________________________')
+        disp('Iniciando el proceso de tracking')
+        disp('')
         [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat);
         assignin ('base','skeleton',skeleton)
         
     case 4
         %segmentacion
+        disp('_________________________________________')
+        disp('Iniciando el proceso de segmentacion')
+        disp('')
         cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
         %reconstruccion
-        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
+        disp('_________________________________________')
+        disp('Iniciando el proceso de reconstruccion')
+        disp('')
+        main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, vec_cams, path_XML, save_reconstruction_mat, path_mat);        
+        %skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
         assignin ('base','skeleton',skeleton)
         assignin ('base','cam_segmentation',cam_segmentacion)
     case 5
         if ~exist('cam_segmentacion') %existe en el workspace una estructura cam_segmentacion        
 %             Lab = xml2struct([path_XML '/cam.xml']);
 %             cam_segmentacion = Lab.cam;
+        disp('--->Cargando una estructura cam, por favor espere.')
+        disp('')
             load([path_mat, '/cam.mat'])%cargo el archivo cam.mat que contiene la variable cam_segmentacion
         end
         %reconstruccion
-        skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
+        disp('_________________________________________')
+        disp('Iniciando el proceso de reconstruccion')
+        disp('')
+        main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, vec_cams, path_XML, save_reconstruction_mat, path_mat);        
+        %skeleton = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, InitFrameSeg, EndFrameSeg, path_XML, save_reconstruction_mat, path_mat);
         %tracking
+        disp('_________________________________________')
+        disp('Iniciando el proceso de tracking')
+        disp('')
         [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat);
         assignin ('base','skeleton',skeleton)
         assignin ('base','cam_segmentation',cam_segmentacion)
@@ -355,45 +409,45 @@ end
  
 
 
-function edit5_Callback(hObject, eventdata, handles)
-% hObject    handle to edit5 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit5 as text
-%        str2double(get(hObject,'String')) returns contents of edit5 as a double
-input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
-handles.xmlPath = input;
-guidata(hObject,handles); %Guarda el string en videoDirectory
+% function edit5_Callback(hObject, eventdata, handles)
+% % hObject    handle to edit5 (see GCBO)
+% % eventdata  reserved - to be defined in a future version of MATLAB
+% % handles    structure with handles and user data (see GUIDATA)
+% 
+% % Hints: get(hObject,'String') returns contents of edit5 as text
+% %        str2double(get(hObject,'String')) returns contents of edit5 as a double
+% input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+% handles.xmlPath = input;
+% guidata(hObject,handles); %Guarda el string en videoDirectory
 
 
 
 % --- Executes during object creation, after setting all properties.
-function edit5_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit5 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function edit20_Callback(hObject, eventdata, handles)
-% hObject    handle to edit6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit6 as text
-%        str2double(get(hObject,'String')) returns contents of edit6 as a double
-input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
-handles.videoExtension = input;
-guidata(hObject,handles); %Guarda el string en videoDirectory
+% function edit5_CreateFcn(hObject, eventdata, handles)
+% % hObject    handle to edit5 (see GCBO)
+% % eventdata  reserved - to be defined in a future version of MATLAB
+% % handles    empty - handles not created until after all CreateFcns called
+% 
+% % Hint: edit controls usually have a white background on Windows.
+% %       See ISPC and COMPUTER.
+% if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+%     set(hObject,'BackgroundColor','white');
+% end
 
 
+
+% function edit20_Callback(hObject, eventdata, handles)
+% % hObject    handle to edit6 (see GCBO)
+% % eventdata  reserved - to be defined in a future version of MATLAB
+% % handles    structure with handles and user data (see GUIDATA)
+% 
+% % Hints: get(hObject,'String') returns contents of edit6 as text
+% %        str2double(get(hObject,'String')) returns contents of edit6 as a double
+% input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
+% handles.videoExtension = input;
+% guidata(hObject,handles); %Guarda el string en videoDirectory
+% 
+% 
 
 % --- Executes during object creation, after setting all properties.
 function edit6_CreateFcn(hObject, eventdata, handles)
@@ -1002,6 +1056,8 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 folder_name = uigetdir;
 if ~(strcmp(folder_name,'0'));
     set(handles.edit16, 'string', folder_name);
+    %llamar al callback del edit16
+    edit16_Callback(handles.edit16, eventdata, handles)
 end
 if (strcmp(get(handles.edit16, 'string'),'0'));
     set(handles.edit16, 'string', 'XML Directory');
@@ -1016,6 +1072,7 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 folder_name = uigetdir;
 if ~(strcmp(folder_name,'0'));
     set(handles.edit18, 'string', folder_name);
+    edit18_Callback(handles.edit18, eventdata, handles)
 end
 if (strcmp(get(handles.edit18, 'string'),'0'));
     set(handles.edit18, 'string', '.Mat Directory');
@@ -1087,6 +1144,7 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 folder_name = uigetdir;
 if ~(strcmp(folder_name,'0'));
     set(handles.edit19, 'string', folder_name);
+    edit19_Callback(handles.edit19, eventdata, handles)
 end
 if (strcmp(get(handles.edit19, 'string'),'0'));
     set(handles.edit19, 'string', 'Videos Directory');
@@ -1098,7 +1156,7 @@ function checkbox20_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox20 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-%SI ESTE CHECKBOX ESTÁ ACTIVADO HAY QUE PASARLE EL ARGUMENTO s A LA
+%SI ESTE CHECKBOX ESTï¿½ ACTIVADO HAY QUE PASARLE EL ARGUMENTO s A LA
 %SEGMENTACION
 handles.saveSegmentedVideos = get(hObject, 'Value');
 guidata(hObject,handles); %Guarda el string en videoDirectory
