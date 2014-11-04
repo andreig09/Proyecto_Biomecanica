@@ -1,4 +1,4 @@
-function [skeleton, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_mat)
+function [skeleton_track, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_XML, path_mat)
 %Funcion que gestiona el tracking en la funcion GUI
 
 %% CUERPO DE LA FUNCION
@@ -19,9 +19,21 @@ X_out =clean_tracking(X_out);%Limpiando puntos
 [~,X_out] = recuperar_indices(X,X_out);%coloco los indices de los marcadores de cada columna
 
 %actualizo la informacion de skeleton
-skeleton = update_skeleton(skeleton, X_out,  InitFrameTrack, EndFrameTrack);
+skeleton_track = update_skeleton(skeleton, X_out,  InitFrameTrack, EndFrameTrack);
+
+
+%Se actualiza path_XML y path_mat para que se guarde en la carpeta
+%old_path_XML/Tracking y old_path_mat/Tracking
+%Verifico que exista el nuevo path y en caso negativo lo creo
+if ~isdir([path_XML, '/Tracking'])
+    mkdir(path_XML, '/Tracking')
+elseif ~isdir([path_mat, '/Tracking'])
+    mkdir(path_mat, '/Tracking')
+end
+path_XML = [path_XML '/Tracking'];
+path_mat = [path_mat '/Tracking'];
 if save_tracking_mat
-    save([path_mat '/skeleton'], 'skeleton')
+    save([path_mat '/skeleton'], 'skeleton_track')
     str = ['Se a actualizado el resultado del tracking en el esqueleto ', path_mat, '/skeleton.mat'];
     disp(str)
 end

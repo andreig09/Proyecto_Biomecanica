@@ -1,5 +1,5 @@
 
-function cam_segmentacion = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat)
+function cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat)
 %Funcion que permite segmentar y junto a la informacion de la calibracion, devolver una estructura cam
 
 %% ENTRADA
@@ -22,11 +22,21 @@ current_dir = pwd;
 path_program = [current_dir '/ProgramaC']; %donde residen los programas que efectuan la segmentacion
 %Generar una lista con los nombres de los videos en path_vid
 list_vid = get_list_files(path_vid, type_vid);
+%Se actualiza path_XML y path_mat para que se guarde en la carpeta
+%old_path_XML/Segmentacion y old_path_mat/Segmentacion
+%Verifico que exista el nuevo path y en caso negativo lo creo
+if ~isdir([path_XML, '/Segmentacion'])
+    mkdir(path_XML, '/Segmentacion')
+elseif ~isdir([path_mat, '/Segmentacion'])
+    mkdir(path_mat, '/Segmentacion')
+end
+path_XML = [path_XML '/Segmentacion'];
+path_mat = [path_mat '/Segmentacion'];
 
 if ~isempty(list_vid) %solo ejecuta segmentación si encuentra videos
 %efectuo la segmentacion
-disp('__________________________________________________')
-disp('Se inicia el proceso de Segmentacion.')
+%disp('__________________________________________________')
+%disp('Se inicia el proceso de Segmentacion.')
 %list_XML = segmentacion(path_vid, type_vid, path_program, path_XML);
 segmentacion(path_vid, type_vid, path_program, path_XML);
 %disp('La segmentacion ha culminado con exito.')
@@ -34,15 +44,14 @@ end
 
 disp('__________________________________________________')
 disp('Se inicia el pasaje de archivos .xml a estructuras .mat.')
-
 %Obtener lista de salida con los nombres de los xml generados
 list_XML = get_list_files(path_XML, '*.xml'); 
 %Ordenar la lista de nombres
 list_XML = sort_list(list_XML);
-
 %cargo los archivos xml provenientes de la segmentacion asi como los datos de las camaras Blender
-cam_segmentacion = markersXML2mat(names, path_XML, list_XML);
+cam_seg = markersXML2mat(names, path_XML, list_XML);
 disp('El pasaje a la estructura .mat a culminado con exito.')
+
 
 
 %guardo la informacion en caso que se solicite
@@ -51,7 +60,7 @@ if  save_segmentation_mat   %¿se tiene activado el checkbox7?
 %     Lab.cam = cam_segmentacion(:);
 %     struct2xml(Lab, [path_XML '/cam.xml'])
 %     str = ['Se a guardado el resultado de la segmentacion de las camaras en ', path_XML, '/cam.xml'];
-     save([path_mat '/cam'], 'cam_segmentacion')
+     save([path_mat '/cam'], 'cam_seg')
      str = ['Se a guardado el resultado de la segmentacion de las camaras en ', path_mat, '/cam.mat'];
     disp(str)
 end
@@ -85,7 +94,7 @@ function list_XML = sort_list(list_XML)
 %La idea es pasar en cada nombre su numero a un vector y luego ordenarlo.
 %Devolviendo la lista con los nombres ordenados de menor a mayor.
 
-index1 = strfind(list_XML{1}, '1.'); %index-1 indica donde termina el nombre y empiezan los numeros
+index1 = strfind(list_XML{1}, '01.'); %index-1 indica donde termina el nombre y empiezan los numeros
 n_files = length(list_XML); % cantidad de archivos con extensi�n xml
 num_in_name = zeros(1, n_files);
 for k=1:n_files %la idea es pasar cada numero de un nombre a un vector y luego ordenarlo
