@@ -1,4 +1,4 @@
-function [skeleton, cam] = prepare_ground_truth(path_bvh, name_bvh, path_info_blender, save_vars, path_save, name_save, varargin)
+function [skeleton, cam] = prepare_ground_truth(path_bvh, name_bvh, path_info_blender, varargin)
 %Funcion que permite cargar y preparar el ground truth proveniente de secuencias bvh
 
 %% ENTRADA
@@ -55,22 +55,5 @@ if ~isempty(varargin)
         disp(str)
     end
 end
-%% Guardo y Limpio variables 
-Lab.cam = cam;
-Lab.skeleton = skeleton;
-s.Lab= Lab;
-if save_vars==1 
-    disp(' ');
-    disp('_________________________________________')
-    disp('Guardando las variables pertinentes')
-    %Archivos.mat
-    save([path_save,'/skeleton_ground_truth.mat'] ,'skeleton');
-    disp('skeleton_ground_truth a sido guardado')
-    save([path_save,'/cam_ground_truth.mat'],'cam'); 
-    disp('cam_ground_truth a sido guardado')
-    %Archivos.xml
-    %struct2xml( s, [path_save,'/',  name_save, '.xml'] )
-    %str = sprintf('%s.xml a sido guardado', name_save);
-    %disp(str)
-end
+
 end

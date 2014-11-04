@@ -201,8 +201,8 @@ resolution_x = 1600*ones(1, length(f));
 resolution_y = 600*ones(1, length(f));
 pixel_aspect_x = 1.0;%si estos dos valores son iguales el pixel es cuadrado
 pixel_aspect_y = 1.0;
-frame_start = 0;
-frame_end = 800;
+frame_start = 1;
+frame_end = 57;
 frame_map_old = 100;
 frame_map_new = 200;
 

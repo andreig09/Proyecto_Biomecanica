@@ -254,17 +254,19 @@ if strfind(t_structure, 'skeleton') %si el nombre de la estructura tiene la pala
 else %se tiene una estructura camara
     
     %genero relleno de marcadores
-    if (any_fill)&&(~any_tiny) %se quieren marcadores con relleno y que no sean puntos
-         h_scatter=scatter(x, y,...%coordenadas
-             70, ...%tamano de marcadores, debe haber uno por cada marcador
-             color, 'fill' ...%colores de los marcadores acorde al estado de los mismos
-             ); 
-    else %se quieren marcadores sin relleno
-         h_scatter=scatter(x, y, ...%coordenadas
-             70 ...%tamano de marcadores, debe haber uno por cada marcador
-                 ); 
-    end
-     
+%     if (any_fill)&&(~any_tiny) %se quieren marcadores con relleno y que no sean puntos
+%          h_scatter=scatter(x, y,...%coordenadas
+%              70, ...%tamano de marcadores, debe haber uno por cada marcador
+%              color, 'fill' ...%colores de los marcadores acorde al estado de los mismos
+%              ); 
+%     else %se quieren marcadores sin relleno
+%          h_scatter=scatter(x, y, ...%coordenadas
+%              70 ...%tamano de marcadores, debe haber uno por cada marcador
+%                  ); 
+%     end
+     plot(x, y, 'rx', 'LineWidth', 2)
+
+
      %genero ejes 
      resolution = get_info(structure, 'resolution');
      if resolution(1)*resolution(2)~=0 %alguna resolucion es nula             
@@ -281,20 +283,20 @@ else %se tiene una estructura camara
          set(h_text,  'VerticalAlignment','bottom', 'HorizontalAlignment','right', 'FontSize',10, 'fontweight','b', 'Color', 'b')%opciones para el texto
      end
      
-     %titulo y nombre de ejes
-     xlabel('\fontsize{11}{x (pixeles)}', 'fontweight','b');
-     ylabel('\fontsize{11}{y (pixeles)}','fontweight','b');
-     str = sprintf('Secuencia de camara %d. \n Frame %d de %d.',t_structure, n_frame, last_frame); %genero titulo
+%      %titulo y nombre de ejes
+%      xlabel('\fontsize{11}{x (pixeles)}', 'fontweight','b');
+%      ylabel('\fontsize{11}{y (pixeles)}','fontweight','b');
+%      str = sprintf('Secuencia de camara %d. \n Frame %d de %d.',t_structure, n_frame, last_frame); %genero titulo
 end
 
-%propiedades comunes a ambos ploteos
-if any_tiny
-    set(h_scatter, 'MarkerEdgeColor', 'k', 'LineWidth', 2, 'Marker', '.');%marcadores como puntos
-else
-    set(h_scatter, 'MarkerEdgeColor', 'k', 'LineWidth', 2 );%marcadores normales
-end
-title(['\fontsize{14}{',str, '}'],'fontweight','b');%coloco el titulo
-grid minor
+% %propiedades comunes a ambos ploteos
+% if any_tiny
+%     set(h_scatter, 'MarkerEdgeColor', 'k', 'LineWidth', 2, 'Marker', '.');%marcadores como puntos
+% else
+%     set(h_scatter, 'MarkerEdgeColor', 'k', 'LineWidth', 2 );%marcadores normales
+% end
+% title(['\fontsize{14}{',str, '}'],'fontweight','b');%coloco el titulo
+% grid minor
 
 return
 
