@@ -188,7 +188,7 @@ function structure_out = set_info(varargin)
 %variable auxiliares string
 str1 = {'t_vista', 'sensor_fit', 'name', 'name_bvh'};
 %variables auxiliares numericas
-str2 = {'id', 'Rc', 'Tc', 'focal_dist', 'frame_rate', 'n_frames', 'n_paths', 'pixel_aspect', 'projection_matrix', ...
+str2 = {'id', 'Rc', 'Tc', 'focal_dist', 'frame_rate', 'init_frame', 'end_frame', 'n_frames', 'n_paths', 'pixel_aspect', 'projection_matrix', ...
     'resolution', 'sensor', 'shift',};
 
 %proceso la entrada

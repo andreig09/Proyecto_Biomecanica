@@ -42,7 +42,8 @@ parfor frame=init_frame:end_frame %hacer para cada frame (Se efectua en paralelo
 end
 parfor_progress(0);
 
-
+skeleton = set_info(skeleton, 'init_frame', init_frame);
+skeleton = set_info(skeleton, 'end_frame', end_frame);
 %for  frame=1:n_frames %hacer para cada frame (Se efectua secuencialmente)     
 for frame=init_frame:end_frame %hacer para cada frame (Se efectua secuencialmente)     
     n_Xrec= size(Xrec{frame}, 2); %numero de marcadores reconstruidos en el frame 'frame'

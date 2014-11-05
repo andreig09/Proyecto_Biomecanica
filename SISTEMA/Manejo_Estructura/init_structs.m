@@ -1,5 +1,7 @@
 function Lab=init_structs(n_markers, n_frames, frame_rate, n_cams, varargin)
-%Funcion que inicializa las estructuras a utilizar
+%Funcion que inicializa las estructuras a utilizar.
+%Para cambiar las estructuras de trabajo se debe modificar este archivo,
+%el archivo loadBVH.m así como get_info y set_info
 
 %% ENTRADA
 %n_markers -->numero de marcadores inicializados que se desea tener en las estructuras
@@ -166,6 +168,8 @@ if isempty(location_cam) %solo se ejecuta mientras no se haya agregado un string
     skeleton.Attributes.name = 'skeleton'; %Nombre del esqueleto
     skeleton.Attributes.name_bvh = blanks(15); %Nombre del bvh asociado al esqueleto
     skeleton.Attributes.n_frames = '0'; %numero de frames que contiene la estructura
+    skeleton.Attributes.init_frame = '0'; %primer frame en uso que contiene la estructura
+    skeleton.Attributes.end_frame = '0'; %ultimo frame en uso que contiene la estructura
     skeleton.Attributes.n_paths = '0'; %numero de trayectorias generadas
     skeleton.Attributes.frame_rate = num2str_2(frame_rate); %frame_rate con el que se va a trabajar
     skeleton.Attributes.n_cams = n_cams; %numero de camaras que se utilizaron para efectuar la reconstruccion

@@ -26,6 +26,8 @@ function info_out = get_info(varargin)
 % name = get_info(structure, 'name') %string nombre de la estructura
 % %name_bvh = get_info(structure, 'name_bvh') %nombre del archivo.bvh asociado al esqueleto structure (VALIDO SOLO SI STRUCTURE ES UN SKELETON)
 % n_frames = get_info(structure, 'n_frames') %numero de frames de la estructura
+% init_frames = get_info(structure, 'init_frames') %numero de frames de la estructura
+% end_frames = get_info(structure, 'end_frames') %numero de frames de la estructura
 % n_paths = get_info(structure, 'n_paths') %numero de paths de la estructura
 % %n_cams = get_info(structure, 'n_cams') %numero de camaras de la estructura (VALIDO SOLO SI STRUCTURE ES UN SKELETON)
 % frame_rate = get_info(structure, 'frame_rate') %frame rate de los frames en la estructura
@@ -65,7 +67,7 @@ function info_out = get_info(varargin)
 %variable auxiliares string
 str1 = {'t_vista', 'sensor_fit', 'name', 'name_bvh'};
 %variables auxiliares numericas
-str2 = {'id', 'Rc', 'Tc', 'focal_dist', 'frame_rate', 'n_frames', 'n_paths', 'pixel_aspect', 'projection_matrix', ...
+str2 = {'id', 'Rc', 'Tc', 'focal_dist', 'frame_rate', 'init_frame', 'end_frame', 'n_frames', 'n_paths', 'pixel_aspect', 'projection_matrix', ...
     'resolution', 'sensor', 'shift',};
 %proceso la entrada  
 structure = varargin{1};
