@@ -202,9 +202,9 @@ resolution_y = 600*ones(1, length(f));
 pixel_aspect_x = 1.0;%si estos dos valores son iguales el pixel es cuadrado
 pixel_aspect_y = 1.0;
 frame_start = 1;
-frame_end = 57;
+frame_end = 300;
 frame_map_old = 100;
-frame_map_new = 200;
+frame_map_new = 100;
 
 %Ajustes finales
 sensor = [sensor_width; sensor_height]; %Agrupo el ancho y largo del sensor en un solo vector
