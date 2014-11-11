@@ -57,7 +57,7 @@ else
         name_vid = list_vid{k};%nombre del video actual
         %command2 = sprintf('%s/%s %s/%s', path_program, name_program, path_vid, name_vid);%command2 permite segmentar el video name_vid %POR ALGUN
         %MOTIVO NO FUNCIONA CUANDO EL PARAMETRO A LA ENTRADA DE LA SEGMENTACION ES GRANDE
-        command = sprintf('%s/%s %s', path_program, name_program, name_vid);%command permite segmentar el video name_vid
+        command = sprintf('%s/%s %s', path_program, name_program, name_vid);%command permite segmentar el video name_vid  %%% MODIFICAR NAME_VID PARA QUE INCLUYA LOS ARGUMENTOS
         [status, cmdout]=execute_command(command); %ejecutar command desde terminal
         %el .xml de salida de command se van generando en el directorio desde donde se ejecuta la funcion, actualmente la carpeta path_vid.
         %luego con movefile se gestiona el llevar los  .xml hasta path_XML
