@@ -9,7 +9,8 @@ X = X(1:4, :);%me quedo solo con las coordenadas y el frame respectivo
 %efectuo el tracking 
 [X_out,datos]=make_tracking(X, Inf);%Se corre dos veces el tracking, la primera es para encontrar el umbral optimo
 X_out =clean_tracking(X_out);%Limpieza de puntos 
-porcent_tracking = 98;%ESTO HAY QUE DECIDIR SI SALE PARA FUERA O NO, O SEA PARA EL USUARIO
+
+porcent_tracking = 99;%ESTO HAY QUE DECIDIR SI SALE PARA FUERA O NO, O SEA PARA EL USUARIO
 umbral=histograma_tracking(X_out, porcent_tracking);%ACTUALMENTE GRAFICA COSAS PARA DEBUG, QUE SE VAN A PASAR A OTRA PARTE DE LA INTERFAZ
 %close %Esto se tiene que sacar en VERSIONES FUTURAS
 [X_out,datos]=make_tracking(X, umbral);
@@ -75,21 +76,23 @@ X_out = [X_ok, X_nan]; %agrupo nuevamente todos los marcadores
 X_out = X_out(:,sort_column);
 %agrego los indices de los marcadores
 
-n_paths = max(X_out(5,:));%numero total de trayectorias encontradas
-skeleton = set_info(skeleton, 'n_paths', n_paths);
-for k=1:n_paths
-    columns = X_out(row_path, :)==k; %encuentro la trayectoria k
+n_paths = unique(X_out(5,X_out(5,:)~=0));%numero total de trayectorias encontradas
+
+skeleton = set_info(skeleton, 'n_paths', size(n_paths));
+
+for k=1:size(n_paths)
+    columns = X_out(row_path, :)==n_paths(k); %encuentro la trayectoria k
     path_frames = X_out(row_frame,columns);
     end_path_frame = max(path_frames);
     init_path_frame = min(path_frames);
-    skeleton = set_info(skeleton, 'path', k, 'name', cellstr(num2str(k))); % setea el nombre asociado a la trayectoria k de structure
-    skeleton = set_info(skeleton, 'path', k, 'members', [X_out(row_index,columns) ; path_frames] ); % setea una matriz 2xn_markers. la primer fila son los indices de los marcadores
+    skeleton = set_info(skeleton, 'path', n_paths(k), 'name', cellstr(num2str(n_paths(k)))); % setea el nombre asociado a la trayectoria k de structure
+    skeleton = set_info(skeleton, 'path', n_paths(k), 'members', [X_out(row_index,columns) ; path_frames] ); % setea una matriz 2xn_markers. la primer fila son los indices de los marcadores
     %         miembros de la trayectoria k de la estructura structure y la fila 2 son
     %         los correspondientes frames.
-    skeleton = set_info(skeleton, 'path', 1, 'state', 0); % setea una medida de calidad para la trayectoria k de la estructura structure
-    skeleton = set_info(skeleton, 'path', k, 'n_markers', length(path_frames)); % setea el numero de marcadores totales en la trayectoria k de structure
-    skeleton = set_info(skeleton, 'path', k, 'init_frame', init_path_frame); %setea el frame inicial de la trayectoria k de structure
-    skeleton = set_info(skeleton, 'path', k, 'end_frame', end_path_frame); %setea  el frame final de la trayectoria k de structure
+    skeleton = set_info(skeleton, 'path', n_paths(k), 'state', 0); % setea una medida de calidad para la trayectoria k de la estructura structure
+    skeleton = set_info(skeleton, 'path', n_paths(k), 'n_markers', length(path_frames)); % setea el numero de marcadores totales en la trayectoria k de structure
+    skeleton = set_info(skeleton, 'path', n_paths(k), 'init_frame', init_path_frame); %setea el frame inicial de la trayectoria k de structure
+    skeleton = set_info(skeleton, 'path', n_paths(k), 'end_frame', end_path_frame); %setea  el frame final de la trayectoria k de structure
     
 end 
 

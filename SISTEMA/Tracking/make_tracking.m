@@ -51,7 +51,7 @@ f_fin=max(X_in(4,:));
 datos.enlaces = [];
 
 if(X_in(3,:)==ones(1,size(X_in,2)))
-    dim_max=2;
+    dim_max=3;
 else
     dim_max=3;
 end;
@@ -458,6 +458,7 @@ end
 elementos_marcadores_proximos = X_in(4,:)==frame+1;
 
 X_1 = X_in(:,elementos_marcadores_proximos);X_1 = X_in(:,elementos_marcadores_proximos);
+X_1(5,:) = zeros(size(X_1(5,:)));
 
 if frame==f_ini
     X_0 = X_in(:,elementos_marcadores_actuales);
