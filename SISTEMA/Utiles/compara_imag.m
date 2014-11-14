@@ -12,13 +12,13 @@ clc
  
  n_cam = 6;
  vid_path = '/home/sun/Documentos/Fing/Blender/renders/CMU_9_07_hack/1600_600-100-100';
- vid_name = sprintf('cam%d.dvd', n_cam);
+ vid_name = sprintf('cam0%d.dvd', n_cam);
  frames_path = [vid_path '/' num2str(n_cam)];
  ground_path = '/home/sun/Documentos/Fing/Proyecto_Biomecanica/Archivos_mat/CMU_9_07_hack/1600_600-100-100/Ground_Truth';
  %if ~exist('cam.mat', 'var')
- %cam2=   load([ground_path '/cam.mat']);
+ %cam=   load([ground_path '/cam.mat']);
  %end
- %cam2=cam2.cam;
+ %cam=cam.cam;
 
  %Construyo un objeto de video
  if ~exist('xyloObj')
@@ -55,13 +55,13 @@ clc
 %% Cargo las imagenes
 im = cell(1, last_frame);
 
-for k=0:last_frame %guardo el nombre de cada frame en la matriz im   
+for k=1:last_frame %guardo el nombre de cada frame en la matriz im   
 %     if k<10
 %         im{k+1}= [frames_path '/cam' num2str(n_cam) '-000' num2str(k), '.png'];
 %     else 
 %         im{k+1}= [frames_path '/cam' num2str(n_cam) '-00' num2str(k), '.png'];
 %     end
-    im{k+1}= [frames_path '/cam' num2str(n_cam) '-' num2str(k), '.png'];
+    im{k}= [frames_path '/cam0' num2str(n_cam) '-' num2str(k), '.png'];
 end
 
 
@@ -76,18 +76,18 @@ f1=figure(1);
 
 for k=init_frame:last_frame %desde el frame inicial al final
      
-        image(imread(im{k+1}));
+        image(imread(im{k}));
         set(f1,'Position',screen_size-[0 0 0 70] );% Ajusta la ventana activa al tamaño de la pantalla 
        axis([1, vidWidth, 1, vidHeight]);
        hold on
      
      
-     marker = get_info(cam{n_cam},'frame', k, 'marker', 'coord');%obtengo las coordenadas de los marcadores en el frame k
+     marker = get_info(cam{n_cam},'frame', k+1, 'marker', 'coord');%obtengo las coordenadas de los marcadores en el frame k
      x = marker(1,:);%coordenada x
      y = marker(2,:);%coordenada y     
      x=x+(0.5)*ones(1, length(x));
      y=-y+(vidHeight+0.5)*ones(1, length(y));
-     plot(x, y, 'rx', 'LineWidth', 2)
+     plot(x, y, 'rs', 'LineWidth', 2)
      %plot(x, y, 'rx')
      
      %marker = get_info(cam2{n_cam},'frame', k, 'marker', 'coord');%obtengo las coordenadas de los marcadores en el frame k
