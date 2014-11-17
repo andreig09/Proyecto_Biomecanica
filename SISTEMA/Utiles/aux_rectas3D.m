@@ -7,44 +7,51 @@ clc
 %% CUERPO DE LA FUNCION
 
 %Carga de Ground truth
-%load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Ground_Truth/Segmentacion/cam.mat';
-%load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Ground_Truth/Reconstruccion/skeleton.mat'
+load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Ground_Truth/Segmentacion/cam.mat';
+load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Ground_Truth/Reconstruccion/skeleton.mat'
 %carga de segmentacion real
 %load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Segmentacion/cam.mat';
 %load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Reconstruccion/skeleton.mat'
 %load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Tracking/skeleton.mat'
 
 cam = cam_seg;
-%skeleton = skeleton_rec;
+skeleton = skeleton_rec;
 %skeleton = skeleton_track;
 
-num_cam = [2, 3, 6];%indica los rayos de que camaras se quieren plotear
-markers = [1:9]; %indica el indice de los marcadores que se quieren utilizar 
+vec_cams = 1:17;%indica los rayos de que camaras se quieren plotear
+n_cams = length(vec_cams);
+markers = 1:10; %indica el indice de los marcadores que se quieren utilizar 
 n_frame = 29; %nro de frame a visualizar
 str='[';%voy guardando los nombres de las camaras
 colors = {'g', 'm', 'c', 'y', 'b'};%permite que en cada ciclo for se cambie de color, al menos hasta i=5
-for i = 1:length(num_cam)
-    puntos_retina = get_info(cam{num_cam(i)}, 'frame', n_frame, 'marker', 'coord', markers);   
+index_colors = 1;%en esta variable mantengo el indice acutal de color que se utiliza
+for i = 1:length(vec_cams)
+    puntos_retina = get_info(cam{vec_cams(i)}, 'frame', n_frame, 'marker', 'coord', markers);
     puntos_retina = puntos_retina(:,markers);
-    [F,u] = recta3D(cam{num_cam(i)}, puntos_retina);
+    [F,u] = recta3D(cam{vec_cams(i)}, puntos_retina);
     %F es el foco de la cámara
-    %u es el vector director del rayo de la camara al punto de la retina    
-    lambda = -1:12; %ayuda a moverse sobre el vector director    
-    for j = 1:length(markers) %plotea un rayo para cada punto de la retina especificado en markers       
+    %u es el vector director del rayo de la camara al punto de la retina
+    lambda = -1:12; %ayuda a moverse sobre el vector director
+    for j = 1:length(markers) %plotea un rayo para cada punto de la retina especificado en markers
         x = F(1) +lambda*u(1,j);
         y = F(2) +lambda*u(2,j);
-        z = F(3) +lambda*u(3,j);        
-        plot3(x,y,z, colors{i})
-        grid on
-        hold on
+        z = F(3) +lambda*u(3,j);
+        plot3(x,y,z, colors{index_colors})
     end
+    index_colors = index_colors +1;
+    if index_colors==6
+        index_colors =1;
+    end
+    grid on
+    hold on
+    
     %plotea el centro de la camara
-    plot3(F(1),F(2),F(3),'*r', 'LineWidth',4) 
+    plot3(F(1),F(2),F(3),'*r', 'LineWidth',4)
     %guardo el nombre de la camara
     if i==1
-        str = [str num2str(num_cam(i))];
+        str = [str num2str(vec_cams(i))];
     else
-        str  =[str '; ' num2str(num_cam(i))];
+        str  =[str '; ' num2str(vec_cams(i))];
     end
 end
 str=[str ' ]'];
@@ -73,5 +80,5 @@ title(['Reconstrucción con las camaras de índices' str], 'FontWeight', 'bold',
 
 %la siguiente linea permite ajustar manualmente que parte del ploteo 3D se
 %quiere ver [xmin, xmax, ymin, ymax, zmin, zmax]
-axis([-1, 8, -3, 2, 0, 2])
+%axis([-1, 8, -3, 2, 0, 2])
 %distancia = dist_rectas3D (F1, u1, F2, u2)
