@@ -275,18 +275,56 @@ n_markers = handles.TotMarkers;%obtengo el numero de marcadores
 names = 1:n_markers;%genero los nombres de los marcadores
 names = cellstr(num2str(names'));
 
-path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segmentacion
-path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
+%SE TIENE QUE GESTIONAR QUE PASA SI NO SE INGRESA path_XML O path_mat DE MANERA
+%ADECUADA LO QUE SIGUE ES UN PARCHE
+if get(handles.checkbox18, 'Value')%Si se tiene habilitada la casilla para ingresar el directorio xml
+    path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segmentacion
+    if get(handles.checkbox19, 'Value')%Si se tiene la activada la casilla para ingresar en el directorio .mat
+        path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
+    end
+else if get(handles.checkbox19, 'Value')%Si se tiene la activada la casilla para ingresar en el directorio .mat
+        path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
+        path_XML = path_mat;
+    end
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if get(handles.checkbox9, 'Value') %Si la segmentacion esta seleccionada 
     path_vid = handles.videoDirectory; 
+    
+    %%%%%NUNCA DICE QUE EXISTE handles.videoExtension, HAY QUE VER COMO
+    %%%%%PREGUNTAR LA EXISTENCIA DE ESTE TIPO DE VARIABLES
     if exist('handles.videoExtension', 'var')%verifico si existe handles.videoExtension
         type_vid = handles.videoExtension; %el nombre de la extension siempre debe escribirse como '*.extension'                
     else
         type_vid = '*.dvd';%por defecto se lee *.dvd
     end    
     save_segmentation_mat = get(handles.checkbox7, 'Value'); % indica si se quiere guardar la estructura .mat al final de la segmentacion
+    if get(handles.checkbox20, 'Value')
+        saveSegmentedVideos = handles.saveSegmentedVideos;%get(handles.checkbox20, 'Value')  %% indica si se quiere guardar los videos generados en la segmentacion
+    else 
+        saveSegmentedVideos = nan;
+    end
+    %verifico que se tengan valores para las casillas habilitadas en la ventana de segmentación
+    if get(handles.checkbox1,'Value') %si se tiene activada la casilla Static threshold leo el valor (ya se verifico que este valor está ingresado)
+        seg_thr = handles.thresh;
+    else
+        seg_thr = nan;  %dejo un valor vacio
+    end
+    if get(handles.checkbox2,'Value') %verifico si se tiene activada la casilla de  Max area
+        seg_areaMax = handles.areaMax;
+    else
+        seg_areaMax = nan;%dejo un valor vacio
+    end
+    if get(handles.checkbox3,'Value') %verifico si se tiene activada la casilla de  Min area
+        seg_areaMin = handles.areaMin;
+    else
+        seg_areaMin = nan;%dejo un valor vacio
+    end
 end
+%%%%%%%%%%%%%%5
+%%%%%%%%%%%%%
+
 if get(handles.checkbox10, 'Value') % Si la reconstruccion esta seleccionada
     save_reconstruction_mat = get(handles.checkbox12, 'Value'); % indica si se quiere guardar la estructura .mat al final de la reconstruccion
     reconsThr_on = get(handles.checkbox8, 'Value'); %indica si se encuentra habilitado el umbral en la reconstruccion
@@ -311,12 +349,12 @@ end
 
     
 switch processMethod    
-    case 0 %Segmentación y reconstruccion
+    case 0 %SEGMENTACIÓN Y RECONSTRUCCION
         %segmentacion
         disp('_________________________________________')
         disp('Iniciando el proceso de segmentacion')
         disp('')
-        cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
+        cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat, saveSegmentedVideos, seg_thr, seg_areaMax, seg_areaMin); %ejecuto segmentacion
         %reconstruccion
         disp('_________________________________________')
         disp('Iniciando el proceso de reconstruccion')
@@ -331,14 +369,14 @@ switch processMethod
         assignin ('base','cam_seg',cam_seg)
         assignin ('base','X_out',X_out)
         
-    case 1 %Solo segmentacion
+    case 1 %SOLO SEGMENTACION
         disp('_________________________________________')
         disp('Iniciando el proceso de segmentacion')
         disp('')
-        cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion        
+        cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat, saveSegmentedVideos, seg_thr, seg_areaMax, seg_areaMin); %ejecuto segmentacion
         assignin ('base','cam_seg',cam_seg)
         
-    case 2 %Solo reconstruccion
+    case 2 %SOLO RECONSTRUCCION
         if ~exist('cam_seg', 'var') %si no existe en el workspace una estructura cam_seg  
             disp('--->Cargando una estructura cam, por favor espere.')
             disp('')
@@ -352,7 +390,7 @@ switch processMethod
         assignin ('base','skeleton_rec',skeleton_rec)
         assignin ('base','cam_seg',cam_seg)
         
-    case 3  %Solo tracking
+    case 3  %SOLO TRACKING
         if ~exist('skeleton_rec', 'var') %si no existe en el workspace una estructura skeleton_rec    
             disp('-->Cargando una estructura skeleton, por favor espere.')
             disp('')
@@ -366,12 +404,12 @@ switch processMethod
         assignin ('base','skeleton_track',skeleton_track)
         assignin ('base','X_out',X_out)
         
-    case 4 %Segmentacion y reconstruccion
+    case 4 %SEGMENTACION Y RECONSTRUCCION
         %segmentacion
         disp('_________________________________________')
         disp('Iniciando el proceso de segmentacion')
         disp('')
-        cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat); %ejecuto segmentacion
+        cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat, saveSegmentedVideos, seg_thr, seg_areaMax, seg_areaMin); %ejecuto segmentacion
         %reconstruccion
         disp('_________________________________________')
         disp('Iniciando el proceso de reconstruccion')
@@ -381,7 +419,7 @@ switch processMethod
         assignin ('base','skeleton_rec',skeleton_rec)
         assignin ('base','cam_seg',cam_seg)
         
-    case 5  %Reconstruccion y tracking
+    case 5  %RECONSTRUCCION Y TRACKING
         if ~exist('cam_seg', 'var') %existe en el workspace una estructura cam_segmentacion 
             disp('--->Cargando una estructura cam, por favor espere.')
             disp('')

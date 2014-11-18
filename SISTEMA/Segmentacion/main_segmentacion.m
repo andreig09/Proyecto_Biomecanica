@@ -1,5 +1,6 @@
 
-function cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat)
+%function cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat)
+function cam_seg = main_segmentacion(names, path_vid, type_vid, path_XML, save_segmentation_mat, path_mat, saveSegmentedVideos, seg_thr, seg_areaMax, seg_areaMin)
 %Funcion que permite segmentar y junto a la informacion de la calibracion, devolver una estructura cam
 
 %% ENTRADA
@@ -35,11 +36,9 @@ path_mat = [path_mat '/Segmentacion'];
 
 if ~isempty(list_vid) %solo ejecuta segmentación si encuentra videos
 %efectuo la segmentacion
-%disp('__________________________________________________')
-%disp('Se inicia el proceso de Segmentacion.')
-%list_XML = segmentacion(path_vid, type_vid, path_program, path_XML); % AGREGAR ARGUMENTOS (UMBRALES, AREA MAXIMA, AREA MINIMA, SALVAR VIDEOS)
-segmentacion(path_vid, type_vid, path_program, path_XML);
-%disp('La segmentacion ha culminado con exito.')
+% AGREGAR ARGUMENTOS (UMBRALES, AREA MAXIMA, AREA MINIMA, SALVAR VIDEOS)
+%segmentacion(path_vid, type_vid, path_program, path_XML);
+segmentacion(path_vid, type_vid, path_program, path_XML, saveSegmentedVideos, seg_thr, seg_areaMax, seg_areaMin);
 end
 
 disp('__________________________________________________')
