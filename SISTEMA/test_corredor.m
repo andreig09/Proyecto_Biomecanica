@@ -6,7 +6,7 @@ add_paths()
 
 frame_ini = 10;
 
-load 'D:\Proyecto\Proyecto_GIT\Archivos_mat\Nuevos\CMU_9_07_hack\1600_600-100-200\Ground_Truth\Reconstruccion\skeleton.mat';
+load 'D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_9_12_hack\1600_600-100-100\Ground_Truth\Reconstruccion\skeleton.mat';
 
 skeleton_ground = skeleton_rec;
 n_frames = get_info(skeleton_rec,'n_frames');
@@ -16,10 +16,10 @@ for frame=frame_ini:n_frames
     yi = get_info(skeleton_rec,'frame', frame, 'marker', 'coord');
     Yi=[Yi,[yi;frame*ones(1,size(yi,2));1:size(yi,2)]];
 end
+%}  
 
-%%
 
-load 'D:\Proyecto\Proyecto_GIT\Archivos_mat\Nuevos\CMU_9_07_hack\1600_600-100-200\Reconstruccion\skeleton.mat'
+load 'D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_9_12_hack\1600_600-100-100\Reconstruccion\skeleton.mat'
 
 n_frames = get_info(skeleton_rec,'n_frames');
 
@@ -37,16 +37,15 @@ end
 X_out=make_tracking(Xi,Inf);
 
 X_out = clean_tracking(X_out);
-
 %{
-thr = histograma_tracking(X_out,99)
+thr = histograma_tracking(X_out,98)
 close all
 
 [X_out,datos]=make_tracking(Xi,thr);;X_out = clean_tracking(X_out);
 %}
 
 n_paths = unique(X_out(5,:));
-n_paths = 4;
+%n_paths = 8;
 
 for n_path=1:size(n_paths,2)
     path = n_paths(n_path);
@@ -60,22 +59,29 @@ for n_path=1:size(n_paths,2)
     xlabel('X');ylabel('Y');zlabel('Z');
     grid on
     figure(2)
-    subplot(4,1,1)
-    plot(X_path(4,:),X_path(1,:),'.b')
-    subplot(4,1,2)
-    plot(X_path(4,:),X_path(2,:),'.b')
-    subplot(4,1,3)
-    plot(X_path(4,:),X_path(3,:),'.b')
-    subplot(4,1,4)
-    plot(X_path(4,:),X_path(7,:),'.b')
+    subplot(5,1,1)
+    plot(X_path(4,:),X_path(1,:),'b.-')
+    subplot(5,1,2)
+    plot(X_path(4,:),X_path(2,:),'b.-')
+    subplot(5,1,3)
+    plot(X_path(4,:),X_path(3,:),'b.-')
+    subplot(5,1,4)
+    plot(X_path(4,:),X_path(7,:),'b.-')
+    subplot(5,1,5)
+    prc_ = prctile(X_path(7,2:size(X_path,2))./X_path(7,1:size(X_path,2)-1),98);
+    plot(X_path(4,2:size(X_path,2)),X_path(7,2:size(X_path,2))./X_path(7,1:size(X_path,2)-1),'b.-',...
+        X_path(4,2:size(X_path,2)),prc_*ones(size(X_path(4,2:size(X_path,2)))),'r--')
+    title(num2str(prc_))
+
     if n_path<length(n_paths)
         pause
     end
 end
-
+%{
 for i=1:size(n_paths,2)
     disp([n_paths(i),sum(isnan(X_out(6,X_out(5,:)==n_paths(i))))*100/length(isnan(X_out(6,X_out(5,:)==n_paths(i))))]);
 end;
+%}
 
 %animar_tracking(X_out)
 
@@ -83,11 +89,12 @@ end;
 
 [a,b,c,d]=rmse_segmentacion_ground(Xi,Yi);
 
-a
+disp([ 'Promedio = ' num2str(a*100) ' cm' ])
 
-prctile(b(1,:),99)
+disp([ '99% = ' num2str(prctile(b(1,:),99)*100) ' cm' ])
 
-median(b(1,:))
+
+disp([ 'Media = ' num2str(median(b(1,:))*100) ' cm' ])
  
 
 

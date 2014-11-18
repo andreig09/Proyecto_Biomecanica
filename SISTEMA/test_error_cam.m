@@ -4,12 +4,12 @@ clear all
 run add_paths
 
 %load D:\Proyecto\Proyecto_GIT\Archivos_mat\CMU_9_07_hack\1600_600-100-200\Ground_Truth\cam_ground_truth.mat;
-load D:\Proyecto\Proyecto_GIT\Archivos_mat\Nuevos\CMU_8_07_hack\1600_600-100-200\Ground_Truth\Segmentacion\cam.mat;
+load D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_9_12_hack\1600_600-100-100\Ground_Truth\Segmentacion\cam.mat;
 
 cam = cam_seg;
 
 %load D:\Proyecto\Proyecto_GIT\Archivos_mat\CMU_9_07_hack\1600_600-100-200\cam.mat;
-load D:\Proyecto\Proyecto_GIT\Archivos_mat\Nuevos\CMU_8_07_hack\1600_600-100-200\Segmentacion\cam.mat;
+load D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_9_12_hack\1600_600-100-100\Segmentacion\cam.mat;
 
 cam_segmentacion = cam_seg;
 
@@ -47,12 +47,12 @@ end
 return;
 %}
 
-%for n_cam = 1:size(cam_segmentacion,2)
-for n_cam = 6:6
+for n_cam = 1:size(cam_segmentacion,2)
+%for n_cam = 7:7
     
     figure(n_cam)
     
-    frame_ini = 1;
+    frame_ini = 10;
     frame_fin = get_info(cam(n_cam),'n_frames');
     %frame_fin = 200;
     
@@ -69,18 +69,18 @@ for n_cam = 6:6
     
     Yi = Yi(:,Yi(2,:)>0&Yi(2,:)<600);
     
-    subplot(1,3,1)
-    plot(Yi(1,:),Yi(2,:),'b.');axis square;
+    subplot(3,1,1)
+    plot(Yi(1,:),Yi(2,:),'b.');axis equal;
     title(['Ground Truth - fr.(' num2str(frame_ini) ...
         '-' num2str(frame_fin) ...
         '), ' num2str(size(Yi,2)) ' puntos']);
-    subplot(1,3,2)
-    plot(Xi(1,:),Xi(2,:),'b.');axis square;
+    subplot(3,1,2)
+    plot(Xi(1,:),Xi(2,:),'b.');axis equal;
     title(['Segmentacion - fr.(' num2str(frame_ini) ...
         '-' num2str(frame_fin) ...
         '), ' num2str(size(Xi,2)) ' puntos']);
-    subplot(1,3,3)
-    plot(Yi(1,:),Yi(2,:),'r.',Xi(1,:),Xi(2,:),'b.')
+    subplot(3,1,3)
+    plot(Yi(1,:),Yi(2,:),'r.',Xi(1,:),Xi(2,:),'b.');axis equal;
     [rmse,aux]=rmse_segmentacion_ground(Xi,Yi);
     disp(['Camara ' num2str(n_cam) ...
         ' - fr.(' num2str(frame_ini) '-' num2str(frame_fin) ...

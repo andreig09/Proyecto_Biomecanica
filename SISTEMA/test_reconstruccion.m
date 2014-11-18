@@ -3,13 +3,13 @@ close all
 clc
 add_paths()
 
-load 'D:\Proyecto\Proyecto_GIT\Archivos_mat\Nuevos\CMU_9_12_hack\1600_600-100-100\Reconstruccion\skeleton.mat'
+load 'C:\Proyecto\Proyecto_Biomecanica\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Reconstruccion\skeleton.mat'
 
 skeleton_reconstruccion = skeleton_rec;
 
 %return;
 
-load 'D:\Proyecto\Proyecto_GIT\Archivos_mat\Nuevos\CMU_9_12_hack\1600_600-100-100\Ground_Truth\Reconstruccion\skeleton.mat';
+load 'C:\Proyecto\Proyecto_Biomecanica\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Ground_Truth\Reconstruccion\skeleton.mat';
 
 skeleton_ground = skeleton_rec;
 
@@ -19,7 +19,7 @@ clear skeleton_rec;
 
 Xi=[];Yi=[];
 
-for frame=1:get_info(skeleton_reconstruccion,'n_frames')
+for frame=10:get_info(skeleton_reconstruccion,'n_frames')
     xi = get_info(skeleton_reconstruccion,'frame', frame, 'marker', 'coord');
     
     Xi=[Xi,[xi;frame*ones(1,size(xi,2))]];
@@ -45,6 +45,13 @@ for frame=1:get_info(skeleton_ground,'n_frames')
     Yi=[Yi,[yi;frame*ones(1,size(yi,2))]];
 end
 
+%% Testeo de Error de Reconsturccion
+
 [a,b,c,d]=rmse_segmentacion_ground(Xi,Yi);
 
-disp(a)
+disp([ 'Promedio = ' num2str(a*100) ' cm' ])
+
+disp([ '99% = ' num2str(prctile(b(1,:),99)*100) ' cm' ])
+
+
+disp([ 'Media = ' num2str(median(b(1,:))*100) ' cm' ])
