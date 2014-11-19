@@ -52,7 +52,7 @@ parfor i=1:n_cams %hacer para todas las camaras
     index = str2num([frames_XML(:).name]); %obtengo los indices de los marcadores de cada frame y los ubico consecutivamente en un vector de enteros
     markers = [frames_XML(:).X]; %obtengo una matriz cuyas columnas son los marcadores de todos los frames
     resolution = get_info(cam(i), 'resolution');  %resolution = [res_x, res_y], obtengo las resoluciones horizontal y vertical
-    markers = set_coordinate_origin(resolution(2), markers); %llevo de coordenadas pixel a coordenadas cartesianas
+    [markers, marker_empty ]= set_coordinate_origin(resolution(2), markers); %llevo de coordenadas pixel a coordenadas cartesianas
     markers(3,:) = ones(1,length(index)); %dejo los puntos 2D en coordenadas homogeneas normalizadas
     index_frames = find(index==1); %se obtienen todos los indices donde se cambia de frame
     
@@ -68,17 +68,37 @@ parfor i=1:n_cams %hacer para todas las camaras
     cam{i} = set_info(cam(i), 'n_frames', n_frames); %ingreso el numero de camara
     n = n_frames;
     for j=1:(n-1) %para cada frame menos el ultimo
+        if (i==6)&&(j==79)
+            disp('toy')
+        end
         init_frame = index_frames(j);
         end_frame= index_frames(j+1)-1;
         index_in_frame = index(init_frame:end_frame ); %indices de los marcadores en el frame j
-        markers_frame = markers(:,init_frame:end_frame ); %marcadores en el frame j
-        cam{i} = set_info(cam(i), 'frame', j, 'n_markers', length(index_in_frame) );%dejo almacenado cuantos marcadores tiene este frame
-        cam{i} = set_info(cam(i), 'frame', j, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara        
+        markers_frame = markers(:,init_frame:end_frame ); %marcadores en el frame j 
+        
+        if markers_frame == marker_empty*ones(1, size(markers_frame, 2)) %si el frame no tiene marcadores esta condicion es verdadera
+            cam{i} = set_info(cam(i), 'frame', j, 'n_markers', 0 );%dejo almacenado cuantos marcadores tiene este frame            
+        else%de lo contrario se tiene marcadores en el frame
+            cam{i} = set_info(cam(i), 'frame', j, 'n_markers', length(index_in_frame) );%dejo almacenado cuantos marcadores tiene este frame
+            cam{i} = set_info(cam(i), 'frame', j, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara        
+        end
+        
+            %cam{i} = set_info(cam(i), 'frame', j, 'n_markers', length(index_in_frame) );%dejo almacenado cuantos marcadores tiene este frame
+            %cam{i} = set_info(cam(i), 'frame', j, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara        
     end
     index_in_frame = index(index_frames(n):length(index)); %indices de los marcadores en el frame j
     markers_frame = markers(:,index_frames(n):length(index)); %marcadores en el frame j
-    cam{i} = set_info(cam(i), 'frame', n, 'n_markers', length(index_in_frame) );%dejo almacenado cuantos marcadores tiene este frame
-    cam{i} = set_info(cam(i), 'frame', n, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara
+    
+    
+        if markers_frame == marker_empty*ones(1, size(markers_frame, 2)) %si el frame no tiene marcadores esta condicion es verdadera
+            cam{i} = set_info(cam(i), 'frame', j, 'n_markers', 0 );%dejo almacenado cuantos marcadores tiene este frame            
+        else%de lo contrario se tiene marcadores en el frame
+            cam{i} = set_info(cam(i), 'frame', j, 'n_markers', length(index_in_frame) );%dejo almacenado cuantos marcadores tiene este frame
+            cam{i} = set_info(cam(i), 'frame', j, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara        
+        end
+    
+    %cam{i} = set_info(cam(i), 'frame', n, 'n_markers', length(index_in_frame) );%dejo almacenado cuantos marcadores tiene este frame
+    %cam{i} = set_info(cam(i), 'frame', n, 'marker', index_in_frame, 'coord', markers_frame); %setea con las columnas de "markers" las coordenadas de los marcadores en 'index_frame' del frame j de la camara
     
     
     %str = sprintf('Se han ingresado los datos en la camara %d\n', i );
@@ -90,7 +110,7 @@ end
 parfor_progress(0);%finalizo la barra de progreso
 end
 
-function markers_out = set_coordinate_origin(res_y, markers)
+function [markers_out, markers_empty] = set_coordinate_origin(res_y, markers)
 %Funcion que permite llevar del sistema de coordenadas pixel con origen en la esquina superior izquierda al sistema cartesiano con origen en la esquina inferior
 %izquierda
 
@@ -108,6 +128,7 @@ function markers_out = set_coordinate_origin(res_y, markers)
 markers_out = markers;
 markers_out(1,:) = markers(1,:) + 0.5; %esto es debido a que las coordenadas pixel el (0, 0) origen pixel esta segun las coordenadas cartesianas en (-0.5, res_y + 0.5)
 markers_out(2,:) = res_y -markers(2,:) +0.5;
+markers_empty = [0.5; res_y+0.5;1];%esta línea se agrega provisoriamente para corregir que importXML cuando lee un frame sin marcadores devuelve estas coordenadas y genera un marcador que no debería estar en ese frame, un fantasma en la estructura cam. La idea es gestionarlo antes de meter esa info en la estructura.
 end
 
 
