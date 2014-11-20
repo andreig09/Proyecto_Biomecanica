@@ -10,8 +10,8 @@ area_parcial = [];
 for i=1:length(A)
     area_parcial(i) = sum(A(1:i)*bins);
 end
-figure
-plot(B,100*area_parcial/area_total,'.')
+%figure
+%plot(B,100*area_parcial/area_total,'.')
 C=[100*area_parcial/area_total;B];
 thr = C(2,find(C(1,:)>porcentaje,1));
 disp([  num2str(porcentaje) '% @ ' num2str(thr)]);
