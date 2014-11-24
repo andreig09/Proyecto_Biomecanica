@@ -4,12 +4,12 @@ clear all
 run add_paths
 
 %load D:\Proyecto\Proyecto_GIT\Archivos_mat\CMU_9_07_hack\1600_600-100-200\Ground_Truth\cam_ground_truth.mat;
-load D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_9_12_hack\1600_600-100-100\Ground_Truth\Segmentacion\cam.mat;
+load D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_8_11_hack\Ground_Truth\Segmentacion\cam.mat;
 
 cam = cam_seg;
 
 %load D:\Proyecto\Proyecto_GIT\Archivos_mat\CMU_9_07_hack\1600_600-100-200\cam.mat;
-load D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_9_12_hack\1600_600-100-100\Segmentacion\cam.mat;
+load D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_8_11_hack\Segmentacion\cam.mat;
 
 cam_segmentacion = cam_seg;
 
@@ -67,7 +67,7 @@ for n_cam = 1:size(cam_segmentacion,2)
         
     end
     
-    Yi = Yi(:,Yi(2,:)>0&Yi(2,:)<600);
+    %Yi = Yi(:,Yi(2,:)>0&Yi(2,:)<600);
     
     subplot(3,1,1)
     plot(Yi(1,:),Yi(2,:),'b.');axis equal;
