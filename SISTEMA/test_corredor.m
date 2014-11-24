@@ -6,7 +6,7 @@ add_paths()
 
 frame_ini = 10;
 
-load 'D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_8_03_hack\Ground_Truth\Reconstruccion\skeleton.mat';
+load 'C:\Proyecto\PB_2014_11_23\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Ground_Truth\Reconstruccion\skeleton.mat';
 
 skeleton_ground = skeleton_rec;
 n_frames = get_info(skeleton_rec,'n_frames');
@@ -19,7 +19,7 @@ end
 %}  
 
 
-load 'D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_8_03_hack\Reconstruccion\skeleton.mat'
+load 'C:\Proyecto\PB_2014_11_23\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Reconstruccion\skeleton.mat'
 
 n_frames = get_info(skeleton_rec,'n_frames');
 
@@ -35,19 +35,23 @@ for frame=frame_ini:n_frames
 end
 
 X_out=make_tracking(Xi,Inf);
-
 X_out = clean_tracking(X_out);
 
-thr = histograma_tracking(X_out,98)
+%%
+
+[X_out,thr] = filter_tracking(X_out);
 close all
+return
+%{
+%%
 
+thr = histograma_tracking(X_out,99)
+close all
 [X_out,datos]=make_tracking(Xi,thr);
-
 X_out = clean_tracking(X_out);
-
-
+%}
 n_paths = unique(X_out(5,:));
-%n_paths = 9;
+%n_paths = 13;
 
 for n_path=1:size(n_paths,2)
     path = n_paths(n_path);
@@ -64,20 +68,31 @@ for n_path=1:size(n_paths,2)
     xlabel('X');ylabel('Y');zlabel('Z');
     grid on
     figure(2)
-    subplot(5,1,1)
+    subplot(6,1,1)
     plot(X_path(4,:),X_path(1,:),'b.-')
-    subplot(5,1,2)
+    title(['Marker ' num2str(n_paths(n_path)) ' - X']);
+    subplot(6,1,2)
     plot(X_path(4,:),X_path(2,:),'b.-')
-    subplot(5,1,3)
+    title(['Marker ' num2str(n_paths(n_path)) ' - Y']);
+    subplot(6,1,3)
     plot(X_path(4,:),X_path(3,:),'b.-')
-    subplot(5,1,4)
-    plot(X_path(4,:),X_path(7,:),'b.-')
-    subplot(5,1,5)
-    prc_num = 97;
-    prc_ = prctile(X_path(7,2:size(X_path,2))./X_path(7,1:size(X_path,2)-1),prc_num);
-    plot(X_path(4,2:size(X_path,2)),X_path(7,2:size(X_path,2))./X_path(7,1:size(X_path,2)-1),'b.-',...
-        X_path(4,2:size(X_path,2)),prc_*ones(size(X_path(4,2:size(X_path,2)))),'r--')
-    title(num2str(prc_))
+    title(['Marker ' num2str(n_paths(n_path)) ' - Z']);
+    subplot(6,1,4)
+    velocidad = sum((X_path(1:3,2:size(X_path,2))-X_path(1:3,1:size(X_path,2)-1)).^2).^(1/2);
+    plot(X_path(4,2:size(X_path,2)),velocidad,'b.-',...
+        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(velocidad,90:0.1:100))*[1,1],'r--')
+    title(['Marker ' num2str(n_paths(n_path)) ' - Velocidad']);
+    
+    subplot(6,1,5)
+    aceleracion = sum((-X_path(1:3,3:size(X_path,2))+2*X_path(1:3,2:size(X_path,2)-1)-X_path(1:3,1:size(X_path,2)-2)).^2).^(1/2);
+    plot(X_path(4,3:size(X_path,2)),aceleracion,'b.-',...
+        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(aceleracion,90:0.1:100))*[1,1],'r--')
+    title(['Marker ' num2str(n_paths(n_path)) ' - Aceleracion']);
+    subplot(6,1,6)
+    v_aceleracion = sum((-X_path(1:3,4:size(X_path,2))+3*X_path(1:3,3:size(X_path,2)-1)-3*X_path(1:3,2:size(X_path,2)-2)+X_path(1:3,1:size(X_path,2)-3)).^2).^(1/2);
+    plot(X_path(4,4:size(X_path,2)),v_aceleracion,'b.-',...
+        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(v_aceleracion,90:0.1:100))*[1,1],'r--')
+	title(['Marker ' num2str(n_paths(n_path)) ' - Var.Aceleracion']);
 
     if n_path<length(n_paths)
         pause
@@ -123,10 +138,15 @@ disp(sortrows(error_marker,4))
 
 %%
 
-marker_tracking = 3;
-marker_ground = 4;
+marker_tracking = 13;
+marker_ground = 1;
 
 X_1=X_out(:,X_out(5,:)==marker_tracking);
 X_2=Yi(:,Yi(5,:)==marker_ground);
 figure
-plot(100*(sum((X_1(1:3,:)-X_2(1:3,:)).^2)).^0.5,'.-')
+plot(X_out(4,X_out(5,:)==marker_tracking),100*(sum((X_1(1:3,:)-X_2(1:3,:)).^2)).^0.5,'.-')
+title([' Error - Tracking: ' num2str(marker_tracking) ' ,Ground: ' num2str(marker_ground)])
+xlabel('Frame')
+ylabel('Error (cm)')
+figure
+plot3(X_out(1,X_out(5,:)==marker_tracking),X_out(2,X_out(5,:)==marker_tracking),X_out(3,X_out(5,:)==marker_tracking),'b.',Yi(1,Yi(5,:)==marker_ground),Yi(2,Yi(5,:)==marker_ground),Yi(3,Yi(5,:)==marker_ground),'r.'),axis equal
