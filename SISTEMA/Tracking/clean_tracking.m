@@ -1,6 +1,6 @@
 function X_out = clean_tracking(X_out)
 %% Limpieza de puntos no trackeados
-X_out = X_out(:,X_out(7,:)~=0);
+X_out = X_out(:,X_out(5,:)~=0);
 
 %% Limpieza de trayectorias truncas
 

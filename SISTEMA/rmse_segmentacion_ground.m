@@ -1,4 +1,4 @@
-function [rmse,rmse_i,q_x,q_y]=rmse_segmentacion_ground(Xi,Yi)
+function [rmse,rmse_i,q_x,q_y,matcheo_inicial]=rmse_segmentacion_ground(Xi,Yi)
 
 %Xi, datos a comparar, Yi ground truth
 
@@ -17,6 +17,10 @@ for frame=min(Xi(4,:)):max(Xi(4,:))
     
     matcheo = matcheo_intraframe_segmentacion_ground(xi,yi);
 
+    if frame==min(Xi(4,:))
+        matcheo_inicial = matcheo;
+    end
+    
     if ~isempty(matcheo)
     
     rmse = [rmse,...

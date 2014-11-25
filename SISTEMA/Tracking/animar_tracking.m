@@ -6,6 +6,8 @@ function animar_tracking(X_out,marker,skeleton)
     end
     close all
     figure
+        set(gcf,'units','normalized','outerposition',[0 0 1 1])
+pause
     for n_frame=min(X_out(4,:)):max(X_out(4,:))
         X_frame = X_out(:,X_out(4,:)==n_frame);
         if size(X_out,1)>4
@@ -44,6 +46,6 @@ function animar_tracking(X_out,marker,skeleton)
     title(['Trayectoria ' num2str(marker) ', frame ' num2str(n_frame) ]);
     xlabel('X');ylabel('Y');zlabel('Z');
     grid on
-    pause(0.05);
+    pause(0.01);
     end
 end

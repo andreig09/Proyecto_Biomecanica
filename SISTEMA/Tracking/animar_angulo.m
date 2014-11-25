@@ -21,6 +21,6 @@ for f=min(frames):max(frames)
     angle = [angle,(180/pi)*atan2(norm(cross(x_2_f-x_1_f,x_3_f-x_1_f)), dot(x_2_f-x_1_f,x_3_f-x_1_f))];
 end
 
-plot(frames,angle,'.')
+plot(frames,angle,'b.-')
 
 end
