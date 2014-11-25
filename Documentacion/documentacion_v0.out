@@ -1,0 +1,13 @@
+\BOOKMARK [1][-]{section.1}{Introducci\363n}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Estado del arte}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Implementaci\363n de bloques del sistema}{}% 3
+\BOOKMARK [1][-]{section.3}{Segmentaci\363n}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Introducci\363n}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{Estado del arte}{section.3}% 6
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Detecci\363n de bordes}{subsection.3.2}% 7
+\BOOKMARK [3][-]{subsubsection.3.2.2}{M\351todos de umbral}{subsection.3.2}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Justificaci\363n y explicaci\363n del algoritmo}{section.3}% 9
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Algoritmo}{subsection.3.3}% 10
+\BOOKMARK [2][-]{subsection.3.4}{Resultados y an\341lisis}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Discusi\363n y an\341lisis de resultados}{}% 12
+\BOOKMARK [1][-]{section.5}{Conclusiones}{}% 13

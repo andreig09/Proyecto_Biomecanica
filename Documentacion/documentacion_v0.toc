@@ -1,0 +1,14 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Estado del arte}{2}{subsection.1.1}
+\contentsline {section}{\numberline {2}Implementaci\IeC {\'o}n de bloques del sistema}{2}{section.2}
+\contentsline {section}{\numberline {3}Segmentaci\IeC {\'o}n}{2}{section.3}
+\contentsline {subsection}{\numberline {3.1}Introducci\IeC {\'o}n}{2}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Estado del arte}{2}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Detecci\IeC {\'o}n de bordes}{2}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}M\IeC {\'e}todos de umbral}{7}{subsubsection.3.2.2}
+\contentsline {subsection}{\numberline {3.3}Justificaci\IeC {\'o}n y explicaci\IeC {\'o}n del algoritmo}{12}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Algoritmo}{12}{subsubsection.3.3.1}
+\contentsline {subsection}{\numberline {3.4}Resultados y an\IeC {\'a}lisis}{15}{subsection.3.4}
+\contentsline {section}{\numberline {4}Discusi\IeC {\'o}n y an\IeC {\'a}lisis de resultados}{16}{section.4}
+\contentsline {section}{\numberline {5}Conclusiones}{16}{section.5}
