@@ -7,11 +7,11 @@ clc
 %% CUERPO DE LA FUNCION
 
 %Carga de Ground truth
-load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Ground_Truth/Segmentacion/cam.mat';
-load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Ground_Truth/Reconstruccion/skeleton.mat'
+%load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Ground_Truth/Segmentacion/cam.mat';
+%load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Ground_Truth/Reconstruccion/skeleton.mat'
 %carga de segmentacion real
-%load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Segmentacion/cam.mat';
-%load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Reconstruccion/skeleton.mat'
+%load '../Archivos_mat/CMU_8_03_hack/1600_600-100-100/Segmentacion/cam.mat';
+%load '../Archivos_mat/CMU_8_03_hack/1600_600-100-100/Reconstruccion/skeleton.mat'
 %load '../Archivos_mat/CMU_8_07_hack/1600_600-100-100/Tracking/skeleton.mat'
 
 cam = cam_seg;
@@ -20,8 +20,8 @@ skeleton = skeleton_rec;
 
 vec_cams = 1:17;%indica los rayos de que camaras se quieren plotear
 n_cams = length(vec_cams);
-markers = 1:10; %indica el indice de los marcadores que se quieren utilizar 
-n_frame = 29; %nro de frame a visualizar
+markers = 1:6; %indica el indice de los marcadores que se quieren utilizar 
+n_frame = 50; %nro de frame a visualizar
 str='[';%voy guardando los nombres de las camaras
 colors = {'g', 'm', 'c', 'y', 'b'};%permite que en cada ciclo for se cambie de color, al menos hasta i=5
 index_colors = 1;%en esta variable mantengo el indice acutal de color que se utiliza
