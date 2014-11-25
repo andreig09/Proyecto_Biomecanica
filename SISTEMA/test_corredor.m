@@ -38,20 +38,19 @@ X_out=make_tracking(Xi,Inf);
 X_out = clean_tracking(X_out);
 
 %%
-
 [X_out,thr] = filter_tracking(X_out);
-close all
-return
+thr
 %{
 %%
 
 thr = histograma_tracking(X_out,99)
 close all
+
 [X_out,datos]=make_tracking(Xi,thr);
 X_out = clean_tracking(X_out);
 %}
 n_paths = unique(X_out(5,:));
-%n_paths = 13;
+n_paths = 6;
 
 for n_path=1:size(n_paths,2)
     path = n_paths(n_path);
@@ -149,4 +148,5 @@ title([' Error - Tracking: ' num2str(marker_tracking) ' ,Ground: ' num2str(marke
 xlabel('Frame')
 ylabel('Error (cm)')
 figure
-plot3(X_out(1,X_out(5,:)==marker_tracking),X_out(2,X_out(5,:)==marker_tracking),X_out(3,X_out(5,:)==marker_tracking),'b.',Yi(1,Yi(5,:)==marker_ground),Yi(2,Yi(5,:)==marker_ground),Yi(3,Yi(5,:)==marker_ground),'r.'),axis equal
+plot3(X_out(1,X_out(5,:)==marker_tracking),X_out(2,X_out(5,:)==marker_tracking),X_out(3,X_out(5,:)==marker_tracking),'b.',...
+    Yi(1,Yi(5,:)==marker_ground),Yi(2,Yi(5,:)==marker_ground),Yi(3,Yi(5,:)==marker_ground),'r.'),axis equal
