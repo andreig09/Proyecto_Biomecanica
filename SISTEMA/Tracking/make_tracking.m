@@ -342,7 +342,7 @@ elseif strcmp(modo,'externo')
     if nargin<5
         parametro = Inf;
     end
-    link_next = link_next(link_next(:,size(link_next,2))< parametro,:);
+    link_next = link_next(link_next(:,size(link_next,2)-1)< parametro,:);
     if frame==min(X_in(4,:))
         sobran_0 = setdiff(1:size(X_in(:,X_in(4,:)==frame),2),link_next(:,1));
         sobran_1 = setdiff(1:size(X_in(:,X_in(4,:)==frame+1),2),link_next(:,2));
@@ -642,7 +642,7 @@ for n_marker=1:size(N1,2)
         
         n_dist = 1;
         
-        while isempty(I3)
+        while isempty(I3) %&& n_dist<=3
             I3=vecinos_intraframe(N2',N2_aux',(2^n_dist)*d3);
             % puntos en (f+1) que se encuentran a distancia d3 de la
             % estimacion, si no se encuentra nada, se incrementa la distancia
@@ -666,6 +666,7 @@ for n_marker=1:size(N1,2)
             % calculo la distancia (f)(f+1)
             %disp(num2str(tray_aux_3));
             trayectorias = [trayectorias;tray_aux_3];
+        elseif isempty(I3)
         else
             tray_aux_3 = [n_prev*ones(length(I3),1),n_marker*ones(length(I3),1),I3];
             for n_tray=1:size(tray_aux_3,1)
@@ -741,7 +742,7 @@ for n_marker=1:length(X_f0)
         
         n_dist = 1;
         
-        while isempty(I3)
+        while isempty(I3) %&& n_dist<=3
             I3=vecinos_intraframe(X_f1',X_f1_aux',(2^n_dist)*d3);
             % puntos en (f+1) que se encuentran a distancia d3 de la
             % estimacion, si no se encuentra nada, se incrementa la distancia
@@ -767,6 +768,7 @@ for n_marker=1:length(X_f0)
             % calculo la distancia (f)(f+1)
             %disp(num2str(tray_aux_3));
             trayectorias = [trayectorias;tray_aux_3];
+        elseif isempty(I3)
         else
             
             tray_aux_3 = [];
