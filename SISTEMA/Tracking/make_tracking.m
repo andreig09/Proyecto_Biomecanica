@@ -782,7 +782,7 @@ for n_marker=1:length(X_f0)
                     end
                     
                     % distancia entre frames, de un mismo marcador
-                    X_f2_aux = 2*X_f1(:,I3(m_marker))-X_f0(:,n_marker);
+                    X_f2_aux = 3*X_f1(:,I3(m_marker))-3*X_f0(:,n_marker)+X_fprev(:,n_prev);
                     % estimacion del punto en frame (f+2), que verifica (x1-x0)-(X2-x1)=0, aceleracion nula
                     
                     I4 = [];
