@@ -4,15 +4,15 @@
 \subsection{Introducción}
 \label{}
 Mencionar que tipo de base de datos se necesita\\
-Con el fin de relevar distinta clase de actividades humanas, en particular la marcha, se pretende trabajar con una base de datos basada en marcadores, que contenga un cierto número de sujetos, realizando una variedad de movimientos predefinidos, donde para cada sujeto a estudiar, se tengan múltiples secuencias de videos 2D del movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado previamente acondicionado. Dicha base debe contar con el correspondiete ground truth 2D y 3D de los datos de movimiento relevados, en nuestro caso como nuestro sistema está basado en marcadores, dicha información consiste en obtener las coordenadas espaciales a lo largo del tiempo para cada marcador de interés. Así como la información de calibración.blablabla MEJORAR \\
+Con el fin de relevar distinta clase de actividades humanas, en particular la marcha, se pretende trabajar con una base de datos basada en marcadores, que contenga un cierto número de sujetos, realizando una variedad de movimientos predefinidos, donde para cada sujeto a estudiar, se tengan múltiples secuencias de videos 2D del movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado previamente acondicionado. Dicha base debe contar con el correspondiente ground truth 2D y 3D de los datos de movimiento relevados, en nuestro caso como nuestro sistema está basado en marcadores, dicha información consiste en obtener las coordenadas espaciales a lo largo del tiempo para cada marcador de interés. Así como la información de calibración.blablabla MEJORAR \\
 
 Mencionar porque se tuvo que generar una y que contiene a grandes rasgos.\\
 Se propone una estructura de datos para almacenar la información relevante del ground truth y  se cuenta con código de soporte que facilita la generación de nuevas secuencias así como la gestión de la información en la estructura de datos, evaluar resultados y realizar el  posterior análisis de performance.
 
 \subsection{Revisión de base de datos}
 \label{}
-En esta sección se muestra  resultados del relevamietno de bases de datos útiles para el análisis de la marcha.
-Inicialmente nuestro objetivo era obtener un sistema funcional para el caso de la marcha humana, aunque luego de la implementación del mismo se generalizaron sus usos. Por lo tanto una base de datos con este tipo de movimiento es el eje principal de la búsqueda.
+En esta sección se muestra  resultados del relevamiento de bases de datos útiles para el análisis de la marcha.
+Inicialmente nuestro objetivo era obtener un sistema funcional para el caso de la marcha humana, aunque luego de la implementación del mismo se generalizaron sus usos. Por lo tanto bases de datos con este tipo de movimiento fueron el eje central de la búsqueda.
 
 Se encontraron principalmente tres páginas web que a manera de compendio agrupan  bases de datos útiles en varias de las ramas de la visión por computadora.
 
@@ -35,100 +35,111 @@ Se encontraron principalmente tres páginas web que a manera de compendio agrupa
 		\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://riemenschneider.hayko.at/vision/dataset/}}}
 	\end{itemize}
 
-Dentro de estas páginas se encuentra una gran variedad de bases de datos que tratan el caso particular de la marcha, a continuación se muestran algunas de las bases relevadas y sus características representativas, que permiten hacer una idea del panorama global encontrado a la hora de recopilar información en la web.  
+Dentro de estas páginas se encuentra una gran variedad de bases de datos que tratan el caso particular de la marcha, en la tabla \ref{Referencias} se muestran algunas de las bases relevadas y sus características representativas, que permiten hacer una idea del panorama global encontrado a la hora de recopilar información en la web.  
+
+\begin{table}[h!]
+	\centering	
+	\caption{Comparación de algunas bases de datos disponibles y empleadas por la comunidad.}
+	\label{bases_relevadas}
+	\begin{minipage}{\textwidth}
+	\renewcommand{\thefootnote}{\arabic{\thempfootnote}} %por algún motivo el arabic no funciona, no me pone llamados a pie de página numericos
+	\begin{tabular}{||l|ccccc||} 
+\rowcolor[HTML]{CBCEFB} 
+\hline
+\textbf{Base}     & \textbf{Cantidad }  & \textbf{Nro. de }   & \textbf{Entorno} & \textbf{Número de} & \textbf{Calibración}\\
+\rowcolor[HTML]{CBCEFB} 
+\textbf{de datos} & \textbf{de sujetos} & \textbf{secuencias} &         & \textbf{cámaras }  &  \textbf{disponible} \\
+
+
+\hline \hline
+M.C.L. \footnote{Motion Capture Lab: \textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}.}  
+ & 3 		& 		299	   & Interior&     1    &    No      \\ \hline
+C.M.U  \footnote{Carnegie Mellon University Motion Capture Database: 
+\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}.}	
+	}   & >100     &       2605   & Interior&      1   &    No       \\ \hline
+G.T \footnote{Georgia Tech: \textcolor{blue}{\underline{\url{http://www.cc.gatech.edu/cpl/projects/hid/index.html}}}.} &       20    & $\sim$100           & Interior y &   3      &  Si       \\ 
+		 &		 &					 & exterior        &         &    \\ \hline
+U.S. \footnote{University of Southampton Database, \textcolor{blue}{\underline{\url{http://www.gait.ecs.soton.ac.uk/database/large_db.php3 }}}.} &       >100    &     $\sim$       & Interior &   12      &  $\sim$      \\ \hline
+Human ID  \footnote{\textcolor{blue}{\underline{\url{http://marathon.csee.usf.edu/GaitBaseline/ }}}.} &     122    & 1870           & Exterior &   2      &$\sim$       \\ \hline
+HumanEva \footnote{\textcolor{blue}{\underline{\url{http://vision.cs.brown.edu/humaneva/index.html }}}.}&     4+2    & 56           & Interior &   4/7      &  Si       \\ \hline
+INRIA \footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home  }}}.} &       >11    & >40           & Interior &   $\geq$1      &  Si       \\ \hline
+CMU Mobo \footnote{CMU Motion of Body,  \textcolor{blue}{\underline{\url{http://www.ri.cmu.edu/publication_view.html?pub_id=3904 }}}.} &     25    & 100           & Caminadora &   6      &  $\sim$       \\ \hline
+CASIA \footnote{ \textcolor{blue}{\underline{\url{http://www.cbsr.ia.ac.cn/english/Gait\%20Databases.asp
+ }}}.}&     385    & $\sim$           & Interior y  &   >4      &  $\sim$       \\ 
+ &         &            & exterior  &         &      \\ \hline
+MHAD \footnote{Berkeley Multimodal Human Action Database,\textcolor{blue}{\underline{\url{http://tele-immersion.citris-uc.org/berkeley_mhad\#dl  }}}.} & 12         & 660            & interior  & 12        & Si      \\ 
+\hline \hline
+
+
+\rowcolor[HTML]{CBCEFB}
+\textbf{Base}     & \textbf{Movimientos}  & \textbf{Apariencia}    & \textbf{Ground Truth} & & \\
+\rowcolor[HTML]{CBCEFB}
+\textbf{de datos} & \textbf{disponibles} &               &           & & \\
+\hline \hline
+
+{M.C.L. }   & Varios    &  Traje MoCap & 3D-Vicon \footnote{ Esta notación indica que la captura considerada ground truth, se hizo con un sistema  de captura de movimiento (MoCap) de Vicon-Peak, \textcolor{blue}{\underline{\url{http://www.vicon.com/}}} } & & \\ \hline
+{C.M.U }    & Varios    &  Traje MoCap & 3D-Vicon \footnote{Secuencias bvh de CMU, \textcolor{blue}{\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}.} & & \\ \hline
+{G.T} &     Marcha fuera&     Traje MoCap y       & 3D  en formato & & \\ 
+	 &	   de régimen  &  Natural   &   Maya & & \\ \hline
+U.S. &       Marcha    &  Natural    &  $\sim$ & &       \\	\hline
+Human ID &     Marcha    & Natural  & $\sim$ &  &       \\ \hline
+HumanEva &     Varios    & Natural  & 3D - Vicon & &   \\ \hline
+INRIA &       Varios    & Traje MoCap y            & 2D - MoCap &   &       \\
+  &           & Natural            &   etiquetado manual  & &         \\ \hline
+  CMU Mobo &     5 tipos de marcha    & $\sim$           & Etiquetado Manual\footnote{Disponible en  \textcolor{blue}{\underline{\url{http://www.cs.cmu.edu/~zhangjy/\# Data}}}.} &         &        \\ \hline
+CASIA &  Varias velocidades       &   Natural         & No  &         &      \\ 
+ & de marcha        &            &   &         &      \\ \hline
+MHAD & Varios        & Traje MoCap            & 3D - Vicon    &   &       \\
+\hline\hline	 
+
+	\end{tabular}
+	\end{minipage}
+	
+\end{table}
+
+Algunos comentarios que vale la pena resaltar sobre las bases anteriores, 
+El Ground truth del movimiento fue capturado usando un sistema de captura de movimiento (MoCap) de Vicon-Peak (agregar pie de página con http://www.vicon.com/)
+
+
+
 
 \paragraph{Motion Capture Lab}
-%\begin{itemize}
-%	\item \textbf{Cantidad de sujetos:} 
-%	\item \textbf{Nro. de Secuencias:} 
-%	\item \textbf{Entorno (interior, exterior, caminadora):} 
-%	\item \textbf{Datos de video.} 
-%	\begin{itemize}
-%		\item \textbf{Nro. de cámaras:}
-%		\item \textbf{Calibración disponible:}
-%	\end{itemize}
-%	\item \textbf{Movimientos disponibles:} 
-%	\item \textbf{Apariencia (traje Mocap, natural):} 
-%	\item \textbf{Ground truth:} 
-%	\item \textbf{Comentario:} 
-%	\item \textbf{Enlace}: http:/\!/
-%\end{itemize}
-\begin{itemize}
-	\item \textbf{Cantidad de sujetos:} 3
-	\item \textbf{Nro. de Secuencias:} 299
-	\item \textbf{Entorno (interior, exterior, caminadora):} Interior
-	\item \textbf{Datos de video.} 
-	\begin{itemize}
-		\item \textbf{Nro. de cámaras:} 1
-		\item \textbf{Calibración disponible:} No
-	\end{itemize}
-	\item \textbf{Movimientos disponibles:} Varios
-	\item \textbf{Apariencia (traje Mocap, natural):} traje Mocap
-	\item \textbf{Ground truth:} 3D a través de sistema Vicon
-	\item \textbf{Comentario:} Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos Mocap, inclusive el bvh.
-	\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}
-\end{itemize}
+	Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos MoCap, inclusive el bvh.
+
 
 
 \paragraph{Carnegie Mellon University Motion Capture Database}
-\begin{itemize}
-	\item \textbf{Cantidad de sujetos:} >100
-	\item \textbf{Nro. de Secuencias:} 2605
-	\item \textbf{Entorno (interior, exterior, caminadora):} Interior
-	\item \textbf{Datos de video.} 
-	\begin{itemize}
-		\item \textbf{Nro. de cámaras:} 1
-		\item \textbf{Calibración disponible:} No
-	\end{itemize}
-	\item \textbf{Movimientos disponibles:} Varios
-	\item \textbf{Apariencia (traje Mocap, natural):} traje Mocap
-	\item \textbf{Ground truth:} 3D a través de sistema Vicon
-	\item \textbf{Comentario:} El laboratorio que genera esta base de datos se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos Mocap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como del laboratorio. Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora.
-	\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}
-	\begin{itemize}
-			\item Secuencias bvh de CMU\\ \textcolor{blue}{\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}
-	\end{itemize}
-\end{itemize}
-%
-%\begin{itemize}
-%	\item \textbf{Cantidad de sujetos:} 3
-%	\item \textbf{Nro. de Secuencias:} 299
-%	\item \textbf{Entorno (interior, exterior, caminadora):} Interior
-%	\item \textbf{Datos de video.} 
-%	\begin{itemize}
-%		\item \textbf{Nro. de cámaras:} 1
-%		\item \textbf{Calibración disponible:} No
-%	\end{itemize}
-%	\item \textbf{Movimientos disponibles:} Varios
-%	\item \textbf{Apariencia (traje Mocap, natural):} traje Mocap
-%	\item \textbf{Ground truth:} 3D a través de sistema Vicon
-%	\item \textbf{Comentario:} Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos Mocap, inclusive el bvh.
-%	\item \textbf{Enlace}: {\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}
-%\end{itemize}
-%
-%\begin{itemize}
-%	\item \textbf{Cantidad de sujetos:} 3
-%	\item \textbf{Nro. de Secuencias:} 299
-%	\item \textbf{Entorno (interior, exterior, caminadora):} Interior
-%	\item \textbf{Datos de video.} 
-%	\begin{itemize}
-%		\item \textbf{Nro. de cámaras:} 1
-%		\item \textbf{Calibración disponible:} No
-%	\end{itemize}
-%	\item \textbf{Movimientos disponibles:} Varios
-%	\item \textbf{Apariencia (traje Mocap, natural):} traje Mocap
-%	\item \textbf{Ground truth:} 3D a través de sistema Vicon
-%	\item \textbf{Comentario:} Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos Mocap, inclusive el bvh.
-%	\item \textbf{Enlace}:{\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}
-%\end{itemize}
-%
-%\begin{center}
-%\begin{tabular}{||l||ccr||} \hline
-%Base de datos & Cantidad de sujetos & Nro. de secuencias & Entorno \\
-%Adams, Cynthia & E38 & N17 & 68 \\ \cline{2-4}
-%Williams, George & I25 & N7 & 123 \\
-%Williams, Joan & I13 & N38 & 72 \\ \hline
-%\end{tabular}
-%\end{center}
+ El laboratorio que genera esta base de datos se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como del laboratorio. Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora.
+
+\paragraph{Georgia Tech}
+Las cámaras están todas sobre un costado del caminante y la resolución es baja. No se cuidan las condiciones de laboratorio para trabajar de manera óptica.
+
+
+\paragraph{University of Southampton Database}
+Interesados en el reconocimiento de personas a través del seguimiento de la marcha. Poseen dos bases de datos, HiD gait database  (100 sujetos) y Biometric tunnel. El servidor donde se alojaba la base de datos está fuera de línea desde el 2004, el encargado de la página es Mark Nixon (\textcolor{blue}{\underline{\url{msn@ecs.soton.ac.uk}}}). Aparentemente se continúa actualmente el proyecto en \textcolor{blue}{\underline{\url{http://www.cspc.ecs.soton.ac.uk/gait}}}.  
+
+\paragraph{Human ID Gait Challenge Dataset}
+1.2 Tera bytes de información. Utilizada para el reconocimiento de la marcha,  no posee marcadores. Contiene en la secuencia imagenes de dameros para calibrar cámaras y las secuencias para un mismo sujeto modifican distintos tipos de factores como el terreno sobre el que se camina así como el tipo de calzado.
+
+\paragraph{HumanEva}
+13 Gigabit de información. Trabajo muy completo, incluye métricas de evaluación. El único inconveniente para las necesidades de nuestro proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas.
+
+\paragraph{INRIA Perception, Multicam Dataset}
+No posee marcadores. 
+
+\paragraph{CMU MoBo Dataset}
+Estudia la marcha humana, enfocada en la identificación Biométrica de humanos a partir de sus características individuales. Para acceder a la base de datos debe pedirse acceso comunicandose con \textcolor{blue}{\underline{\url{rgross@cs.cmu.edu }}}
+
+\paragraph{CASIA Gait Database} 
+Contiene 4 bases de datos, una incluye información de la presión de la planta de los pies al caminar. No contiene marcadores.
+
+\paragraph{Berkeley Multimodal Human Action Database (MHAD)}
+El objetivo de esta base de datos es reconocer el movimiento del cuerpo al realizar este distintas actividades. Tiene la información necesaria para efectuar sustracción de fondo, devuelven también información de Kinect y el sujeto posee un acelerómetro. El problema está en que los marcadores utilizados, únicamente recopilan información para el ground truth, con lo cual no se cuida de obtener una buena información óptica de los mismos.
+
+
+
+
+TENGO QUE ACTUALIZAR CON EL HARDWARE QUE SE UTILIZA EN LAS CAMARAS
+
 
 FALTO PASAR ABUNDANTE MATERIAL QUE YA ESTA PROCESADO. SOBRE TODO LA ESTRUCTURA DEL CAPITULO 
