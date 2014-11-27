@@ -9,14 +9,53 @@ for i=1:size(marker,2)
     frames = frames(:,3:size(X_path,2));
     aceleracion = sum((-X_path(:,3:size(X_path,2))+2*X_path(:,2:size(X_path,2)-1)-X_path(:,1:size(X_path,2)-2)).^2).^(1/2);
     
-    thr = [thr;marker(i),median(prctile(aceleracion,90:0.1:100))];
+    p=50:0.01:100;
+    test = prctile(aceleracion,p);
+    %figure
+    %subplot(1,2,1)
+    %plot(test,p,'b.-')
+    %title(['Distribucion Aceleracion - Marker ' num2str(marker(i))]);
+    %subplot(1,2,2)
+    p=p(2:size(p,2));
+    test=(test(2:size(test,2))-test(1:size(test,2)-1))./(test(1:size(test,2)-1));
+    %plot(p,test,'b.-')
+    thr_i = prctile(aceleracion,p(find(test==max(test),1)));
+    %title(num2str(thr_i))
+    %subplot(1,2,1)
+    %hold on
+    %plot(thr_i*[1,1],[min(p),max(p)],'r--');grid on;xlabel('Aceleracion');ylabel('Porcentaje')
+    %pause
+    %close(gcf)
+    
+    
+    thr = [thr;...
+        marker(i),...
+        thr_i];
+    
+    %{ 
+    %Filtro de "promedio"
+    
+    for f=min(X_out(4,:))+3:max(X_out(4,:))-3
+        X_out(1:3,X_out(4,:)==f&X_out(5,:)==marker(i)) = (1/6)*(...
+            -X_out(1:3,X_out(4,:)==(f-2)&X_out(5,:)==marker(i))...
+            +4*X_out(1:3,X_out(4,:)==(f-1)&X_out(5,:)==marker(i)) ...
+            +4*X_out(1:3,X_out(4,:)==(f+1)&X_out(5,:)==marker(i)) ...
+            -X_out(1:3,X_out(4,:)==(f+2)&X_out(5,:)==marker(i)));
+        %X_out(6,X_out(4,:)==f&X_out(5,:)==marker(i)) = NaN;
+        %X_out(7,X_out(4,:)==f&X_out(5,:)==marker(i)) = NaN;
+        
+    end
+    
+    %} 
+    %Filtro 
+    
     
     % Marco los puntos a corregir
     X_out(6:7,X_out(5,:)==marker(i)&X_out(6,:)>thr(thr(:,1)==marker(i),2)) = NaN*ones(size(X_out(6:7,X_out(5,:)==marker(i)&X_out(6,:)>thr(thr(:,1)==marker(i),2))));
     
     % Busco el proximo invalido
     marker_i = X_out(:,find(isnan(X_out(7,:))==1&...
-        X_out(5,:)==marker(i),1))
+        X_out(5,:)==marker(i),1));
     
     if ~isempty(marker_i)
     
@@ -56,10 +95,10 @@ for i=1:size(marker,2)
             M1(eq,eq+3) = 1;
         end    
     end
-    X_path
-    M1
-    A=M1(:,size(X_path,2)+1:size(M1,2)-1)
-    B=-M1(:,1:size(X_path,2))*X_path(1:3,:)'-M1(:,size(M1,2))*marker_j(1:3,:)'
+    %X_path;
+    %M1;
+    A=M1(:,size(X_path,2)+1:size(M1,2)-1);
+    B=-M1(:,1:size(X_path,2))*X_path(1:3,:)'-M1(:,size(M1,2))*marker_j(1:3,:)';
     X_aux = [(inv(A'*A)*A'*B)';...
         marker_i(4):marker_j(4)-1;...
         marker_i(5)*ones(1,marker_j(4)-marker_i(4));...
@@ -72,7 +111,7 @@ for i=1:size(marker,2)
     
     % Busco el proximo invalido
     marker_i = X_out(:,find(isnan(X_out(7,:))==1&...
-        X_out(5,:)==marker(i),1))
+        X_out(5,:)==marker(i),1));
     
     % Busco el primer valido, luego del proximo invalido
     
@@ -86,6 +125,7 @@ for i=1:size(marker,2)
     
     end
     
+    %%
 end    
 end
 
