@@ -133,14 +133,16 @@ Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1
  \label{discontinuidad_tracking}
 \end{figure}
 
-Se establece un umbral a partir del estudio de la distribucion de la aceleracion de cada marcador para encontrar la aceleracion que presenta un salto abrupto, 
-
-\begin{figure}[hbt]
-\begin{center}
-\includegraphics[scale=0.6]{img/Tracking/03_Distribucion_Aceleracion_Marker_13_8_07_100_200.png}
-\end{center}
-\caption{Funcion de distribucion de la Aceleracion, }
-\label{distribucion_aceleracion}
+Se establece un umbral a partir del estudio de la distribucion de la aceleracion de cada marcador (figura \ref{distribucion_aceleracion}) para encontrar la aceleracion que presenta un salto abrupto, y detectar los frames donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos, es el mismo que se verá al momento de inventario de trayectorias.
+\begin{figure}[H]
+ \centering
+  \subfloat[Funcion de distribucion de la Aceleracion]{
+	\label{distribucion_aceleracion}
+	\includegraphics[width=0.5\textwidth]{img/Tracking/03_Distribucion_Aceleracion_Marker_13_8_07_100_200.png}}
+  \subfloat[]{
+   \label{track_m13}
+    \includegraphics[width=0.5\textwidth]{img/Tracking/026_Salida_Tracking_Marker_13_8_07_100_200.png}}
+ \caption{}
 % Figura tomada de la reconstruccion 8_07_100_200
 \end{figure}
 
