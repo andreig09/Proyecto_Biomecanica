@@ -1,0 +1,134 @@
+\section{Base de datos}
+
+
+\subsection{Introducción}
+\label{}
+Mencionar que tipo de base de datos se necesita\\
+Con el fin de relevar distinta clase de actividades humanas, en particular la marcha, se pretende trabajar con una base de datos basada en marcadores, que contenga un cierto número de sujetos, realizando una variedad de movimientos predefinidos, donde para cada sujeto a estudiar, se tengan múltiples secuencias de videos 2D del movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado previamente acondicionado. Dicha base debe contar con el correspondiete ground truth 2D y 3D de los datos de movimiento relevados, en nuestro caso como nuestro sistema está basado en marcadores, dicha información consiste en obtener las coordenadas espaciales a lo largo del tiempo para cada marcador de interés. Así como la información de calibración.blablabla MEJORAR \\
+
+Mencionar porque se tuvo que generar una y que contiene a grandes rasgos.\\
+Se propone una estructura de datos para almacenar la información relevante del ground truth y  se cuenta con código de soporte que facilita la generación de nuevas secuencias así como la gestión de la información en la estructura de datos, evaluar resultados y realizar el  posterior análisis de performance.
+
+\subsection{Revisión de base de datos}
+\label{}
+En esta sección se muestra  resultados del relevamietno de bases de datos útiles para el análisis de la marcha.
+Inicialmente nuestro objetivo era obtener un sistema funcional para el caso de la marcha humana, aunque luego de la implementación del mismo se generalizaron sus usos. Por lo tanto una base de datos con este tipo de movimiento es el eje principal de la búsqueda.
+
+Se encontraron principalmente tres páginas web que a manera de compendio agrupan  bases de datos útiles en varias de las ramas de la visión por computadora.
+
+\paragraph{\textbf{CVonline}}
+
+	\begin{itemize}
+		\item \textbf{Comentario}: Bastante completa, no solo contiene enlaces a  varias bases de datos sino reune bibliografía e implementaciones útiles.
+		\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://homepages.inf.ed.ac.uk/rbf/CVonline}}}
+	\end{itemize}
+
+\paragraph{\textbf{Computer Vision Papers}}
+	\begin{itemize}
+		\item \textbf{Comentario}: Solo reúne enlaces de bases de datos.
+		\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{ http://www.cvpapers.com/datasets.html}}}
+	\end{itemize}
+	
+\paragraph{\textbf{Yet Another Computer Vision Index To Datasets (YACVID)}}		
+	\begin{itemize}
+		\item \textbf{Comentario}: Una característica importante es que la página contiene direcciones a bases de datos relativamente nuevas y resalta aquellas que son usadas con mayor frecuencia. 
+		\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://riemenschneider.hayko.at/vision/dataset/}}}
+	\end{itemize}
+
+Dentro de estas páginas se encuentra una gran variedad de bases de datos que tratan el caso particular de la marcha, a continuación se muestran algunas de las bases relevadas y sus características representativas, que permiten hacer una idea del panorama global encontrado a la hora de recopilar información en la web.  
+
+\paragraph{Motion Capture Lab}
+%\begin{itemize}
+%	\item \textbf{Cantidad de sujetos:} 
+%	\item \textbf{Nro. de Secuencias:} 
+%	\item \textbf{Entorno (interior, exterior, caminadora):} 
+%	\item \textbf{Datos de video.} 
+%	\begin{itemize}
+%		\item \textbf{Nro. de cámaras:}
+%		\item \textbf{Calibración disponible:}
+%	\end{itemize}
+%	\item \textbf{Movimientos disponibles:} 
+%	\item \textbf{Apariencia (traje Mocap, natural):} 
+%	\item \textbf{Ground truth:} 
+%	\item \textbf{Comentario:} 
+%	\item \textbf{Enlace}: http:/\!/
+%\end{itemize}
+\begin{itemize}
+	\item \textbf{Cantidad de sujetos:} 3
+	\item \textbf{Nro. de Secuencias:} 299
+	\item \textbf{Entorno (interior, exterior, caminadora):} Interior
+	\item \textbf{Datos de video.} 
+	\begin{itemize}
+		\item \textbf{Nro. de cámaras:} 1
+		\item \textbf{Calibración disponible:} No
+	\end{itemize}
+	\item \textbf{Movimientos disponibles:} Varios
+	\item \textbf{Apariencia (traje Mocap, natural):} traje Mocap
+	\item \textbf{Ground truth:} 3D a través de sistema Vicon
+	\item \textbf{Comentario:} Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos Mocap, inclusive el bvh.
+	\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}
+\end{itemize}
+
+
+\paragraph{Carnegie Mellon University Motion Capture Database}
+\begin{itemize}
+	\item \textbf{Cantidad de sujetos:} >100
+	\item \textbf{Nro. de Secuencias:} 2605
+	\item \textbf{Entorno (interior, exterior, caminadora):} Interior
+	\item \textbf{Datos de video.} 
+	\begin{itemize}
+		\item \textbf{Nro. de cámaras:} 1
+		\item \textbf{Calibración disponible:} No
+	\end{itemize}
+	\item \textbf{Movimientos disponibles:} Varios
+	\item \textbf{Apariencia (traje Mocap, natural):} traje Mocap
+	\item \textbf{Ground truth:} 3D a través de sistema Vicon
+	\item \textbf{Comentario:} El laboratorio que genera esta base de datos se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos Mocap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como del laboratorio. Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora.
+	\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}
+	\begin{itemize}
+			\item Secuencias bvh de CMU\\ \textcolor{blue}{\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}
+	\end{itemize}
+\end{itemize}
+%
+%\begin{itemize}
+%	\item \textbf{Cantidad de sujetos:} 3
+%	\item \textbf{Nro. de Secuencias:} 299
+%	\item \textbf{Entorno (interior, exterior, caminadora):} Interior
+%	\item \textbf{Datos de video.} 
+%	\begin{itemize}
+%		\item \textbf{Nro. de cámaras:} 1
+%		\item \textbf{Calibración disponible:} No
+%	\end{itemize}
+%	\item \textbf{Movimientos disponibles:} Varios
+%	\item \textbf{Apariencia (traje Mocap, natural):} traje Mocap
+%	\item \textbf{Ground truth:} 3D a través de sistema Vicon
+%	\item \textbf{Comentario:} Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos Mocap, inclusive el bvh.
+%	\item \textbf{Enlace}: {\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}
+%\end{itemize}
+%
+%\begin{itemize}
+%	\item \textbf{Cantidad de sujetos:} 3
+%	\item \textbf{Nro. de Secuencias:} 299
+%	\item \textbf{Entorno (interior, exterior, caminadora):} Interior
+%	\item \textbf{Datos de video.} 
+%	\begin{itemize}
+%		\item \textbf{Nro. de cámaras:} 1
+%		\item \textbf{Calibración disponible:} No
+%	\end{itemize}
+%	\item \textbf{Movimientos disponibles:} Varios
+%	\item \textbf{Apariencia (traje Mocap, natural):} traje Mocap
+%	\item \textbf{Ground truth:} 3D a través de sistema Vicon
+%	\item \textbf{Comentario:} Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos Mocap, inclusive el bvh.
+%	\item \textbf{Enlace}:{\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}
+%\end{itemize}
+%
+%\begin{center}
+%\begin{tabular}{||l||ccr||} \hline
+%Base de datos & Cantidad de sujetos & Nro. de secuencias & Entorno \\
+%Adams, Cynthia & E38 & N17 & 68 \\ \cline{2-4}
+%Williams, George & I25 & N7 & 123 \\
+%Williams, Joan & I13 & N38 & 72 \\ \hline
+%\end{tabular}
+%\end{center}
+
+FALTO PASAR ABUNDANTE MATERIAL QUE YA ESTA PROCESADO. SOBRE TODO LA ESTRUCTURA DEL CAPITULO 
