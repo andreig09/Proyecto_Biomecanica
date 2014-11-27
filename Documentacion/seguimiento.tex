@@ -115,12 +115,39 @@ La norma de este traslado es utilizada para evaluar los puntos cercanos al centr
 
 \subsubsection{Validación e Inventario de trayectorias}
 
-Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1] hereden las etiquetas de las trayectorias a las que pertencen, los enlaces deben ser validados en múltiples instancias:
+Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1] hereden las etiquetas de las trayectorias a las que pertenecen, los enlaces deben ser validados en múltiples instancias:
 
 \begin{itemize}
-\item Validación dentro del frame: verificar que los indices de la matriz de enlaces en [f+1] son unicos, asociados a una sola trayectoria. Si dos o mas trayectorias se enlazaron a un mismo punto en [f+1], se comparará la aceleracion con la que fueron enlazadas, validando aquella con menor aceleracion, y descartando las otras. En este punto , existe la posibilidad de haber agregado todas las trayectorias involucradas en la decision en vez de una sola trayectoria por marcador en [f+1], que mejor cumplia las condiciones para ese marcador. De haber elegido esta opcion, el descartar una trayectoria que podria haber sido elegida por menor variacion , daria paso a la siguiente mejor. Este caso sucedía mas en los casos que se aplico el seguimiento para trayectorias 2D, no tanto en 3D, por lo cual se terminó procediendo con solo una trayectoria por marcador, la cual en caso de ser invalida debe ser evaluada en la etapa de inventario de trayectorias  
-\item Validación en trayectoria: pueden existir puntos que fueron reconstruidos con leves errores que deben detectarse, corregirse y estimar un reemplazo. Estos puntos son detectados como enlazados correctamente, pero con posicion, velocidad, o acelerion que presenta una discontinuidad observable.
+\item Validación dentro del frame: verificar que los indices de la matriz de enlaces en [f+1] son únicos, asociados a una sola trayectoria. Si dos o mas trayectorias se enlazaron a un mismo punto en [f+1], se comparará la aceleración con la que fueron enlazadas, validando aquella con menor aceleración, y descartando las otras. En este punto , existe la posibilidad de haber agregado todas las trayectorias involucradas en la decisión en vez de una sola trayectoria por marcador en [f+1], que mejor cumplía las condiciones para ese marcador. De haber elegido esta opción, el descartar una trayectoria que podría haber sido elegida por menor variación , daría paso a la siguiente mejor. Este caso sucedía mas en los casos que se aplico el seguimiento para trayectorias 2D, no tanto en 3D, por lo cual se terminó procediendo con solo una trayectoria por marcador, la cual en caso de ser invalida debe ser evaluada en la etapa de inventario de trayectorias  
+\item Validación en trayectoria: pueden existir puntos que fueron reconstruidos con leves errores que deben detectarse, corregirse y estimar un reemplazo. Estos puntos son detectados como enlazados correctamente, pero con posición, velocidad, o aceleración que presenta una discontinuidad notoria, como puede observarse en el ejemplo de la figura \ref{discontinuidad_tracking} ,
+
+\begin{figure}[H]
+ \centering
+  \subfloat[Trayectoria]{
+   \label{track_m13}
+    \includegraphics[width=0.5\textwidth]{img/Tracking/025_Salida_Tracking_Marker_13_8_07_100_200.png}}
+  \subfloat[Velocidad,Aceleración,Variación Ac.]{
+   \label{vel_acc_vacc_m13}
+    \includegraphics[width=0.5\textwidth]{img/Tracking/020_Salida_Tracking_Marker_13_8_07_100_200.png}}
+ \caption{Ejemplo de discontinuidad en un marcador, por punto mal reconstruido. La figura \ref{track_m13} presenta en azul la trayectoria reconstruida, en rojo el ground truth}
+ \label{discontinuidad_tracking}
+\end{figure}
+
+Se establece un umbral a partir del estudio de la distribucion de la aceleracion de cada marcador para encontrar la aceleracion que presenta un salto abrupto, 
+
+\begin{figure}[hbt]
+\begin{center}
+\includegraphics[scale=0.6]{img/Tracking/03_Distribucion_Aceleracion_Marker_13_8_07_100_200.png}
+\end{center}
+\caption{Funcion de distribucion de la Aceleracion, }
+\label{distribucion_aceleracion}
+% Figura tomada de la reconstruccion 8_07_100_200
+\end{figure}
+
 \end{itemize}
+
+
+
 
 \subsection{Resultado y Analisis}
 
