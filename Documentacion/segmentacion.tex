@@ -3,11 +3,13 @@
 
 \subsection{Introducción}
 
-El término segmentar hace referencia, en rasgos generales, a la división de una imagen en múltiples secciones u objetos para su posterior análisis. En otras palabras, la segmentación se encarga de identificar los objetos de importancia dentro de la imagen, en este caso los marcadores. El nivel de detalle de esta división depende del problema a atacar.
+El término segmentar hace referencia, en rasgos generales, a la división de una imagen en múltiples secciones u objetos para su posterior análisis. En otras palabras, la segmentación se encarga de identificar los objetos de importancia dentro de la imagen, en este caso los marcadores. 
 
-Este proceso es uno de los más importantes dentro de un sistema de captura de movimiento ya que en base a los datos obtenidos aqui, se realizará tanto el tracking como la reconstrucción 3D por lo que un error en la detección de la posición de los marcadores será imposible de detectar en etapas posteriores y generará un seguimiento 3D erróneo del mismo. Más aun si se tiene en cuenta que el sistema será aplicado para la medicina, por lo que deberá tener una exactitud mayor que otros sistemas donde la precisión no juega un papel tan importante (como el Kinect de Microsoft\cite{kinect} por ejemplo).
+El nivel de detalle de esta división depende del problema a atacar. En este caso, la segmentación juega un papel muy importante dentro del sistema ya que en base a los datos obtenidos en ella, se realizará tanto el tracking como la reconstrucción 3D. Por otro lado, un error en la detección de la posición de los marcadores será imposible de detectar en etapas posteriores y generará un seguimiento 3D erróneo del mismo, por lo que es recomendable tener la mayor exactitud posible. Más aun si se tiene en cuenta que el sistema será aplicado para la medicina, por lo que deberá tener una presición mayor que otros sistemas donde el nivel de detalle no juega un papel tan importante (como el Kinect de Microsoft\cite{kinect} por ejemplo).
 
-Existen varios métodos a aplicar para realizar la segmentación, en esta sección se describirán los tipos más importantes asi como la elección realizada para la implementación de este sistema, además se explicará como funciona el bloque desarrollado.
+A pesar de lo dicho en el párrafo anterior, no hay que perder el foco de este proyecto en el cual se busca tener una primera versión del sistema de principio a fin con todos los bloques implementados, aunque esto signifique tener que implementar cada bloque con menor complejidad.
+
+Existen varios métodos a aplicar para realizar la segmentación, a continuación se describirán los tipos más importantes asi como la justificación de la elección realizada este sistema. Además se explicará como funciona el algoritmo implementado y los resultados obtenidos al procesar datos con el mismo.
 
 \subsection{Estado del arte}
 
@@ -371,16 +373,17 @@ En resumen, el \textit{algoritmo de Otsu} se puede implementar de la siguiente m
 
 
 \subsection{Justificación y explicación del algoritmo}
-% Explicar un poco más el tema de excentricidad, momentos, etc???
-% Explicar más el código?
-Debido a sus propiedades intuitivas, simplicidad en la implementación y a su rapidez computacional, para este sistema se eligió utilizar un método de umbral. En particular se eligió el método de Otsu\cite{otsu} de tres clases ya que ofrece un buen compromiso entre simplicidad y eficacia. 
 
-Para realizar esta elección se tuvo en cuenta que las capturas a procesar serán realizadas en un ambiente controlado por lo que no es necesario implementar un método de mayor complejidad que sea más robusto frente a ciertos tipos de ruidos o características que se pueden dar en otro tipo de capturas (iluminación, fondo, traje del paciente, etc.). 
-Como se explicó anteriormente, a partir del histograma de la imagen se pretende separar los pixeles de la imagen en 3 niveles y encontrar dos umbrales que los separen. Dado que en las capturas a procesar se tendrán marcadores blancos y el resto de la imagen lo más oscura posible, el umbral definitivo para la segmentación será el más alto de los dos obtenidos. Trabajar con tres clases permite obtener mejores resultados que al trabajar con dos ya que separa los pixeles en un nivel más y por lo tanto el umbral de intensidades calculado tendrá mayor exactitud. Esto permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color (ver figura \ref{peladoOriginal}).
+Debido a sus propiedades intuitivas, simplicidad en la implementación y a su rapidez computacional, se eligió utilizar un método de umbral para implementar el bloque de \emph{Segmentación}. En particular se eligió el método de Otsu\cite{otsu} de tres clases ya que ofrece un buen compromiso entre simplicidad y eficacia. 
+
+Para realizar esta elección se tuvo en cuenta que las capturas a procesar serán realizadas en un ambiente controlado por lo que no es necesario implementar un método de mayor complejidad que sea más robusto frente a ciertos tipos de ruidos o características que se pueden dar en otro tipo de capturas (iluminación, fondo, ropa del paciente, etc.). 
+Como se explicó anteriormente, a partir del histograma de la imagen se pretende separar los pixeles de la imagen en 3 niveles y encontrar dos umbrales que los separen. Trabajar con tres clases permite obtener mejores resultados que al trabajar con dos ya que separa los pixeles en un nivel más y por lo tanto el umbral de intensidades calculado tendrá mayor exactitud. Esto permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
 
 
 
 El bloque de segmentación de este sistema fue implementado en el lenguaje C++, utilizando las librerías de procesamiento de imágenes OpenCV\cite{opencv} y CVBlob\cite{cvblob}. 
+
+En el caso ideal, estos pixeles corresponden a los marcadores en el paciente. En la práctica, no todos los pixeles detectados corresponden a marcadores, por lo que luego de obtenidos los mismos debe hacerse una diferenciación entre los marcadores y el resto de los pixeles detectados.
 
 \subsubsection{Algoritmo}
 
@@ -394,7 +397,7 @@ El bloque de segmentación de este sistema fue implementado en el lenguaje C++, 
 
 En la figura \ref{diagramaSegmentacion} se presenta un diagrama donde se observa el flujo del algoritmo de segmentación realizado. Los nombres que aparecen entre paréntesis dentro de algunos bloques son los nombres de las funciones dentro del código que implementan cada bloque. 
 
-El algoritmo realiza la segmentación a través de los siguientes pasos:
+El algoritmo realiza la segmentación siguiendo el siguiente proceso:
 
 \begin{enumerate}
   \item Se recibe como entrada un video y este es separado en cada uno de sus cuadros a través del bloque \emph{Query Frame}.
@@ -410,10 +413,10 @@ El bloque \emph{Query Frame} es implementado mediante las funciones \emph{cvCapt
 
 
 Por otro lado, el bloque \emph{Get Threshold} contiene una implementación del algoritmo de Otsu\cite{otsu} de $N$ clases\cite{implementacionOtsu}, cedida por Matias Tailanian y Juan Cardelino, que es utilizada con $N=3$.
- Como se vió en la sección \ref{umbralSec}, este método devuelve 2 umbrales de los cuales se tomará el mayor de ellos, dado que las hipótesis del problema establecen que la adquisición de video debe realizarse sobre fondo oscuro y con el paciente utilizando ropa oscura, de forma tal que los marcadores sean los elementos más claros en la imagen.
+ Como se vió en la sección \ref{umbralSec}, este método devuelve 2 umbrales de los cuales se tomará el mayor de ellos, dado que las hipótesis del problema establecen que la adquisición de video debe realizarse sobre fondo oscuro y con el paciente utilizando ropa oscura, de forma tal que los marcadores (que son de color blanco) sean los elementos más claros en la imagen.
 
 
-En la figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el funcionamiento del bloque \emph{Filter}. Este bloque es el encargado de filtrar la imagen segun la intensidad de los pixeles y está implementado por la función \emph{FilterOtsu}, que recibe como parámetros de entrada una imagen (uno de los cuadros de la secuencia) y el umbral a utilizar para el filtrado. Primero se le aplica a la imagen un difuminado (\textit{smoothing}) con un filtro de mediana, con el objetivo de reducir el ruido. Luego se cambia el el espacio de colores de la imagen de RGB a HSV ya que este último es el más adecuado para realizar segmentación basada en la intensidad de los pixeles\cite{HSV}. Por último, se filtra la imagen con le umbral ingresado utlizando la función \emph{cvThreshold} de la librería OpenCV\cite{opencv}. Esta función compara la intensidad de cada pixel de la imagen con el valor del umbral estableciendo un nuevo valor para la intensidad: $0$\footnote{negro en el espacio HSV.} para los pixeles que originalmente tenían intensidad menor al umbral y $255$\footnote{blanco en el espacio HSV.} para los que originalmente presentaban intensidad mayor.
+En la figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el funcionamiento del bloque \emph{Filter}. Este bloque es el encargado de filtrar la imagen segun la intensidad de los pixeles y está implementado por la función \emph{FilterOtsu}, que recibe como parámetros de entrada una imagen (uno de los cuadros de la secuencia) y el umbral a utilizar para el filtrado. Primero se le aplica a la imagen un difuminado (\textit{smoothing}) con un filtro de mediana, con el objetivo de reducir el ruido. Luego se cambia el el espacio de colores de la imagen de RGB a HSV ya que este último es más adecuado para realizar segmentación basada en la intensidad de los pixeles\cite{HSV}. Por último, se filtra la imagen con le umbral ingresado utlizando la función \emph{cvThreshold} de la librería OpenCV\cite{opencv}. Esta función compara la intensidad de cada pixel de la imagen con el valor del umbral estableciendo un nuevo valor para la intensidad: $0$\footnote{negro en el espacio HSV.} para los pixeles que originalmente tenían intensidad menor al umbral y $255$\footnote{blanco en el espacio HSV.} para los que originalmente presentaban intensidad mayor.
 
 \begin{figure}[H]
 \begin{center}
@@ -423,7 +426,7 @@ En la figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el
 \label{diagramaumbralizacion}
 \end{figure}
 
-En la figura \ref{ejemploUmbralizacion}, se puede ver un ejemplo de los resultados de aplicar este bloque a una imagen sintética de la base de datos. Se puede ver que la intensidad de los pixeles azules y negros queda por debajo del umbral, mientras que los pixeles blancos quedan por encima. %SE PODRÍA PONER EL HISTOGRAMA
+En la figura \ref{ejemploUmbralizacion}, se puede ver un ejemplo de los resultados de procesar una imagen sintética de la base de datos, con el bloque \emph{Filter}. Se puede ver que la intensidad de los pixeles azules y negros queda por debajo del umbral, mientras que los pixeles blancos quedan por encima. %SE PODRÍA PONER EL HISTOGRAMA
 
 \begin{figure}[H]
         \centering
@@ -434,7 +437,9 @@ En la figura \ref{ejemploUmbralizacion}, se puede ver un ejemplo de los resultad
       \label{ejemploUmbralizacion}
 \end{figure}
 
-El funcionamiento del bloque \emph{Detect blobs} es descrito por el diagrama de la figura \ref{diagramadetectblobs}. Este bloque recibe como entrada la imagen previamente filtrada por el bloque \emph{Filter} y da como salida una imagen con los marcadores detectados e identificados. En primer lugar, se identifican todos los blobs\footnote{Binary Large Objects\cite{defBlob}} de la imagen filtrada con el bloque \emph{Find blobs}, que es implementado por la función \emph{cvLabel} de la librería CVBlobs\cite{cvblob}. Cuando se dice ``identificar todos los blobs'', básicamente se hace referencia a identificar cada grupo de pixeles blancos continuos de la imagen filtrada como un objeto (un blob) único. Luego, si se ingresó la opción para filtrar por área, los blobs\cite{defBlobs} detectados se filtran por area máxima y/o mínima mediante la función \emph{cvFilterByArea} perteneciente a la librería CVBlobs\cite{cvblob}. 
+El funcionamiento del bloque \emph{Detect blobs} es descrito por el diagrama de la figura \ref{diagramadetectblobs}. Este bloque recibe como entrada la imagen previamente filtrada por el bloque \emph{Filter} y da como salida una imagen con los marcadores detectados e identificados. En primer lugar, se identifican todos los blobs\footnote{Binary Large Objects\cite{defBlob}} de la imagen filtrada con el bloque \emph{Find blobs}, que es implementado por la función \emph{cvLabel} de la librería CVBlobs\cite{cvblob}. Cuando se dice ``identificar todos los blobs'', se hace referencia a identificar cada grupo de pixeles blancos continuos de la imagen filtrada como un objeto (un blob) único. En la figura \ref{peladoBlobs}, se ve el resultado de procesar la imagen \ref{peladoFiltro} con el bloque \emph{Detect blobs}. 
+
+Luego, si se ingresó la opción para filtrar por área, los blobs\cite{defBlob} detectados se filtran por area máxima y/o mínima mediante la función \emph{cvFilterByArea} perteneciente a la librería CVBlobs\cite{cvblob}. 
 
 \begin{figure}[H]
 \begin{center}
@@ -444,33 +449,79 @@ El funcionamiento del bloque \emph{Detect blobs} es descrito por el diagrama de 
 \label{diagramadetectblobs}
 \end{figure}
 
-Ya sea que se haya filtrado por área o no, la imagen con blobs pasa por el bloque \emph{Circular filter} donde se descartan los blobs que no tienen forma circular. Para ello, se usan dos propiedades de los blobs: momentos y excentricidad.
+Siguiendo el flujo, la imagen con blobs ingresa al bloque \emph{Circular filter}, se haya filtrado por área o no, donde se descartan los blobs que no tienen forma circular. Para ello, se realiza un cálculo basado en la excentricidad\footnote{Parámetro asociado con cada sección cónica. Es una buena medida de cuánto se diferencia dicha sección de ser circular. Así, un círculo tendrá excentricidad 0, una elipse entre 0 y 1, para una parábola valdrá 1 y para una hipérbola será mayor a 1\cite{excentricidad}. } de los objetos y en los momentos de la imagen. Estas propiedades se explican a continuación.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{10 mm}
+\textbf{Momentos y excentricidad}\cite{imageMoments}
 
-Finalmente, el bloque \emph{Write xml} es implementado mediante las funciones de $C++$ para escribir archivos, teniendo en cuenta la estructura de los archivos xml\cite{xml}.
+Los momentos geométricos son propiedades numéricas que se pueden obtener de una determinada imagen, proporcionan una alternativa interesante para la representación de la forma de un objeto. Tienen en cuenta todos los pixeles de la imagen, no solo los bordes y se pueden clasificar en:
 
-Luego de importar el video, realiza el cálculo de umbral de Otsu\cite{otsu} de tres niveles para cada cuadro, y luego obtiene los pixeles que se encuentran por encima de este umbral (ver figura \ref{peladoFiltro}). 
+\begin{itemize}
+\item Momentos simples
+\item Momentos centrales
+\item Momentos centrales normalizados
+\end{itemize}
 
-En el caso ideal, estos pixeles corresponden a los marcadores en el paciente. En la práctica, no todos los pixeles detectados corresponden a marcadores, por lo que luego de obtenidos los mismos, se detectan los objetos (conjuntos de pixeles detectados que están contiguos, ver figura \ref{peladoBlobs}) y se filtran los mismos según su área y su excentricidad obteniendo finalmente sólo los objetos de forma circular y de determinada área (ver figura \ref{peladoCircular}).
+Los \textit{momentos simples} se emplean para obtener otros momentos, pero tambien dan información por si mismos. El momento de orden $(p+q)$ se calcula como $$m_{pq}={\int}{\int}x^py^qf(x,y)dxdy$$ donde $f(x,y)$ es una función contínua. En el espacio discreto se calculan: $$M(p,q))={\sum}_x{\sum}_yx^py^qf(x,y)$$
+
+A partir de esta definición se puede ver, por ejemplo, que el momento simple de orden 0 representa el área de la figura en imagenes binarias, ya que es la suma de los valores de todos los píxeles: $$M(0,0) = {\sum}_x{\sum}_yf(x,y)$$
+
+Por otro lado, los \textit{momentos centrales} son utilizados para reconocer figuras dentro de una imagen, independientemente de su posición. Se calculan como $${\mu}_{pq}={\int}{\int}(x-X)^p(y-Y)^qf(x,y)$$ o para el espacio discreto como $${MC}_{pq}={\sum}{\sum}(x-X)^p(y-Y)^qf(x,y)$$ donde $(X,Y)$ corresponden al centro de masa de la figura (centroide) y se calcula con los momentos simples de orden $0$ y $1$: $$X=\frac{M(1,0)}{M(0,0)} \hspace{5 mm} Y=\frac{M(0,1)}{M(0,0)}$$
+
+Finalmente, los \textit{momentos centrales normalizados}, permiten reconocer figuras dentro de una imagen, independientemente de su posición y de su tamaño. Para ello, se normalizan los momentos centrales con el momento de orden $0$, obteniendo asi figuras independientes de la escala: $$MCN(p,q) = \frac{MC(p,q)}{MC^{\beta}(0,0)}$$ donde ${\beta}=\frac{p++q}{2}+1$.
+
+El reconocimiento de la forma de un objeto, se analiza a partir de los momentos de orden 2 (es decir, $p+q=2$). En ellos, la densidad de la figura se multiplica por distancias al cuadrado desde el centro de masas o centroide. Así por ejemplo, con los 3 momentos centrales de segundo orden ($MC(0,2)$, $MC(2,0)$, $MC(1,1)$) se forman las componentes del tensor de inercia o matríz de rotación. A partir de estas componentes, tambien se puede calcular el ángulo de rotación de la figura al rededor de su centro de masas y la excentricidad. Esta última, se calcula a partir de la ecuación \ref{excentec}, donde $n_{20}$, $n_{02}$ y $n_{11}$ son los momentos centrales normalizados de orden 2.
+
+\begin{equation}
+e = \sqrt{1-\frac{\frac{n_{20}+n_{02}}{2}-\sqrt{4n_{11}^2+\frac{(n_{20}-n_{02})^2}{2}}}{\frac{n_{20}+n_{02}}{2}+\sqrt{4n_{11}^2+\frac{(n_{20}-n_{02})^2}{2}}}}
+\label{excentec}
+\end{equation}
+
+\vspace{10 mm}
+
+Volviendo al análisis del bloque, de los blobs detectados en un cuadro, los que tendrán forma aproximadamente circular serán los que tengan el valor de la excentricidad más cercana a $0$. Observando la ecuación \ref{excentec}, se puede ver que $e{\rightarrow}0$ si $$\sqrt{4n_{11}^2+\frac{(n_{20}-n_{02})^2}{2}}\ {\rightarrow}\ 0$$, por lo que una buena medida de qué tan circular es un blob puede ser evaluar $n_{11}$ y $n_{20}-n_{02}$ y ver qué tan chico son sus valores en comparación con $n_{20}+n_{02}$.
+
+Precisamente, para la implementación del bloque \emph{Circular Filter}, se evalúa para cada blob $$\frac{n_{11}}{n_{20}+n_{02}}< A$$ y $$\frac{n_{20}-n_{02}}{n_{20}+n_{02}}< B$$ donde $A$ y $B$ son constantes, que cuanto más cercanas a $0$ sean más preciso harán el filtro. En la figura \ref{ejemplofiltrocirc} se observa un ejemplo para las constantes $A = 0.1$ y $B = 0.3$.
+
+\begin{figure}[H]
+        \centering
+        \subfloat[Entrada - Filtro circular.]{\includegraphics[scale=0.2]{img/blobsDetectados.png}\label{fig:entradafiltrocirc}}
+        \hspace{5 mm}
+        \subfloat[Salida - Filtro Circular.]{\includegraphics[scale=0.2]{img/circulosDetectados.png}\label{fig:salidafiltrocirc}}
+  \caption{Entrada y salida del bloque \emph{filtro circular} para las constantes $A = 0.1$ y $B = 0.3$.}
+      \label{ejemplofiltrocirc}
+\end{figure}
+
+Es importante destacar que si este filtro se realiza de forma muy selectiva (esto es, darle un valor muy pequeño a las constantes $A$ y $B$ ), no será posible detectar algunos marcadores ya que debido a varios factores -entre los que se encuentran: cacterísticas de la captura, tamaño de los marcadores en la imagen, iluminación, ruido, etc.- en la mayoría de los cuadros los marcadores no son círculos perfectos. Por esta misma razón se tuvo que descartar la utilización de un detector de círculos, como por ejemplo la \textit{transformada de Hough}\cite{hough}, para la implementación de este bloque. 
+
+En la figura \ref{peladoCircular} se ve el resultado de procesar la imagen \ref{peladoBlobs} con el bloque \emph{Circular Filter}.
+
+\begin{figure}[H]
+        \centering
+        \subfloat[Objetos detectados - Salida del bloque \emph{Detect blobs}.]{\includegraphics[scale=0.7]{img/peladoFondoAzul_blobs.png}\label{peladoBlobs}}
+         
+        \subfloat[Círculos detectados - Salida del bloque \emph{Circular Filter}.]{\includegraphics[scale=0.7]{img/peladoFondoAzul_circulos.png}\label{peladoCircular}}
+  \caption{Resultado de procesar la imagen \ref{peladoFiltro} con los bloques de detección de blobs y el filtro circular.}
+      \label{ejemplocircularfilter}
+\end{figure}
+
+Luego del filtro circular, se identifican los blobs que resultaron del filtrado mediante el bloque \emph{Number}, que utiliza la función \emph{cvPutText} de la librería  OpenCV\cite{opencv} para numerar cada blob de la imagen con su número de \textit{id}.
+
+\vspace{10 mm}
+Finalmente, volviendo al diagrama de flujo de segmentación (ver figura \ref{diagramaSegmentacion}), el bloque \emph{Write xml} escribe la posición $(x,y)$ de cada blob en el cuadro procesado, en un archivo XML\cite{xml}. Este bloque es implementado mediante funciones de C++ para escribir archivos, teniendo en cuenta la estructura de los archivos XML\cite{xml}.
+
+En la figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del bloque \emph{Write xml} que corresponde también a la salida del bloque de segmentación. Como se observa, es el resultado de analizar una secuencia de tres cuadros (frames 0,1 y 2) donde se detectan 3 marcadores en cada uno de ellos.
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.7]{img/peladoFondoAzul_blobs.png}
+\includegraphics[scale=0.9]{img/salidaXml.png}
 \end{center}
-\caption{Objetos detectados.}
-\label{peladoBlobs}
+\caption{Salida del bloque \emph{Segmentación}.}
+\label{salidaxml}
 \end{figure}
 
-\begin{figure}[H]
-\begin{center}
-\includegraphics[scale=0.7]{img/peladoFondoAzul_circulos.png}
-\end{center}
-\caption{Filtro de objetos circulares y de determinada área.}
-\label{peladoCircular}
-\end{figure}
 
-Finalmente, es de destacar que la salida de este bloque se expone en un archivo en formato xml, que contiene la posición del centroide de cada marcador, para cada cuadro. Se eligió el formato xml para exportar los resultados ya que es un formato conocido universalmente y fácil de importar en cualquier lenguaje, en particular Matlab contiene librerías para trabajar con el mismo.
+ Se eligió el formato XML\cite{xml} para exportar los resultados porque es un formato conocido universalmente y fácil de importar en cualquier lenguaje, en particular \emph{Matlab} contiene librerías para trabajar con el mismo.
 
 \subsection{Resultados y análisis}
 %hablar de las diferencias entre segmentación sintetica y la real, que pasa con la real respecto al ruido, iluminación, etc.
