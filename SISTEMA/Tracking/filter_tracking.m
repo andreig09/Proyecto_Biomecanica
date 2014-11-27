@@ -9,21 +9,21 @@ for i=1:size(marker,2)
     frames = frames(:,3:size(X_path,2));
     aceleracion = sum((-X_path(:,3:size(X_path,2))+2*X_path(:,2:size(X_path,2)-1)-X_path(:,1:size(X_path,2)-2)).^2).^(1/2);
     
-    p=90:0.01:100;
+    p=50:0.01:100;
     test = prctile(aceleracion,p);
     %figure
     %subplot(1,2,1)
-    %plot(p,test,'b.-')
-    %title(['Marker ' num2str(marker(i))]);
+    %plot(test,p,'b.-')
+    %title(['Distribucion Aceleracion - Marker ' num2str(marker(i))]);
     %subplot(1,2,2)
     p=p(2:size(p,2));
-    test=100*(test(2:size(test,2))-test(1:size(test,2)-1))./(test(1:size(test,2)-1));
+    test=(test(2:size(test,2))-test(1:size(test,2)-1))./(test(1:size(test,2)-1));
     %plot(p,test,'b.-')
     thr_i = prctile(aceleracion,p(find(test==max(test),1)));
     %title(num2str(thr_i))
     %subplot(1,2,1)
     %hold on
-    %plot([min(p),max(p)],thr_i*[1,1],'r--')
+    %plot(thr_i*[1,1],[min(p),max(p)],'r--');grid on;xlabel('Aceleracion');ylabel('Porcentaje')
     %pause
     %close(gcf)
     
