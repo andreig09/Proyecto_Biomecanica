@@ -1,0 +1,67 @@
+PRUEBAS PERFORMANCE RECONSTRUCCION (medidas del error promedio en cm, para ejecuciones con ruido aleatorio sobre Ground Cam, captura 8_07_100_200, 17 camaras, 14 marcadores fr.10-123)
+
+Ground Truth, 14 markers reconstruidos;7.8388e-011
+Ground Truth, 15 markers reconstruidos;7.8388e-011
+Ground Truth, 16 markers reconstruidos;7.8388e-011
+Ground Truth, 17 markers reconstruidos;7.8388e-011
+Ground Truth, 18 markers reconstruidos;7.8388e-011
+
+Ground Cam + 0.5 px, 14 markers reconstruidos;4.2696;4.4141;3.5855;3.1497;4.0817
+Ground Cam + 0.5 px, 15 markers reconstruidos;0.9242;1.157;0.8483;1.028;0.94687
+Ground Cam + 0.5 px, 16 markers reconstruidos;0.70746;0.61548;0.53787;0.54265;0.48248
+Ground Cam + 0.5 px, 17 markers reconstruidos;0.45707;0.54769;0.46528;0.45889;0.44104
+Ground Cam + 0.5 px, 18 markers reconstruidos;0.49665;0.45675;0.44614;0.49905;0.47235
+Ground Cam + 0.5 px, 20 markers reconstruidos;
+Ground Cam + 0.5 px, 25 markers reconstruidos;
+Ground Cam + 0.5 px, 30 markers reconstruidos;
+Ground Cam + 0.5 px, 35 markers reconstruidos;
+Ground Cam + 0.5 px, 40 markers reconstruidos;
+Ground Cam + 0.5 px, 45 markers reconstruidos;
+
+Ground Cam + 1 px, 14 markers reconstruidos;14.891;8.9048;9.1853;9.6846;8.3281
+Ground Cam + 1 px, 15 markers reconstruidos;2.2506;2.3746;2.4008;3.5205;2.4878
+Ground Cam + 1 px, 16 markers reconstruidos;1.2677;1.2477;1.6031;1.3659;1.4718
+Ground Cam + 1 px, 17 markers reconstruidos;0.89901;1.0249;1.0461;0.86481;0.92327
+Ground Cam + 1 px, 18 markers reconstruidos;0.92999;0.82575;0.85169;0.85712;0.90369
+Ground Cam + 1 px, 20 markers reconstruidos;
+Ground Cam + 1 px, 25 markers reconstruidos;
+Ground Cam + 1 px, 30 markers reconstruidos;
+Ground Cam + 1 px, 35 markers reconstruidos;
+Ground Cam + 1 px, 40 markers reconstruidos;
+Ground Cam + 1 px, 45 markers reconstruidos;
+
+Ground Cam + 2 px, 14 markers reconstruidos;
+Ground Cam + 2 px, 15 markers reconstruidos;6.225
+Ground Cam + 2 px, 16 markers reconstruidos;4.9061
+Ground Cam + 2 px, 17 markers reconstruidos;2.5899
+Ground Cam + 2 px, 18 markers reconstruidos;2.1536;2.146;2.0172;2.3166;1.9233
+Ground Cam + 2 px, 20 markers reconstruidos;1.3956
+Ground Cam + 2 px, 25 markers reconstruidos;1.2853
+Ground Cam + 2 px, 30 markers reconstruidos;1.2954;1.3123;1.2812
+Ground Cam + 2 px, 35 markers reconstruidos;1.3138;1.2899;1.3343
+Ground Cam + 2 px, 40 markers reconstruidos;1.3229;1.2968;1.3137
+Ground Cam + 2 px, 45 markers reconstruidos;1.3163;1.3053;1.3085
+
+Ground Cam + 4 px, 14 markers reconstruidos;45.6187;96.2538;28.6943
+Ground Cam + 4 px, 15 markers reconstruidos;16.1165;15.5357;25.5906
+Ground Cam + 4 px, 16 markers reconstruidos;9.496;11.6265;11.9366
+Ground Cam + 4 px, 17 markers reconstruidos;7.6005;7.4261;8.675
+Ground Cam + 4 px, 18 markers reconstruidos;6.1453;6.1386;6.2287;6.7094;6.864
+Ground Cam + 4 px, 20 markers reconstruidos;3.7757;4.255;4.5604
+Ground Cam + 4 px, 25 markers reconstruidos;2.5601;2.4086;2.4505
+Ground Cam + 4 px, 30 markers reconstruidos;2.2645;2.1861;2.1877
+Ground Cam + 4 px, 35 markers reconstruidos;2.1647;2.1099;2.2044
+Ground Cam + 4 px, 40 markers reconstruidos;2.1482;2.1482;2.1672
+Ground Cam + 4 px, 45 markers reconstruidos;2.1272;2.1702;2.1316
+
+Ground Cam + 8 px, 14 markers reconstruidos;83.7336;147.4474;53.9555
+Ground Cam + 8 px, 15 markers reconstruidos;30.6437;29.4436;24.0427
+Ground Cam + 8 px, 16 markers reconstruidos;20.0322;19.7177;18.3999
+Ground Cam + 8 px, 17 markers reconstruidos;17.5353;16.9943;16.1673;15.5703;16.5275
+Ground Cam + 8 px, 18 markers reconstruidos;14.1579;14.7007;14.3684;14.6626;14.8603
+Ground Cam + 8 px, 20 markers reconstruidos;11.6051;11.8431;11.5046
+Ground Cam + 8 px, 25 markers reconstruidos;7.2256;7.2991;7.7294
+Ground Cam + 8 px, 30 markers reconstruidos;5.5999;5.3404;5.4929
+Ground Cam + 8 px, 35 markers reconstruidos;4.5849;4.593;4.5385
+Ground Cam + 8 px, 40 markers reconstruidos;4.2074;4.061;4.0728
+Ground Cam + 8 px, 45 markers reconstruidos;3.8996;3.9084;3.8377
