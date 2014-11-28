@@ -4,7 +4,7 @@
 \subsection{Introducción}
 \label{}
 Mencionar que tipo de base de datos se necesita\\
-Con el fin de relevar distinta clase de actividades humanas, en particular la marcha, se pretende trabajar con una base de datos basada en marcadores, que contenga un cierto número de sujetos, realizando una variedad de movimientos predefinidos, donde para cada sujeto a estudiar, se tengan múltiples secuencias de videos 2D del movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado previamente acondicionado. Dicha base debe contar con el correspondiente ground truth 2D y 3D de los datos de movimiento relevados, en nuestro caso como nuestro sistema está basado en marcadores, dicha información consiste en obtener las coordenadas espaciales a lo largo del tiempo para cada marcador de interés. Así como la información de calibración.blablabla MEJORAR \\
+Con el fin de relevar distinta clases de actividades humanas y en particular la marcha, se pretende trabajar con una base de datos basada en marcadores, que contenga un cierto número de sujetos, realizando una variedad de movimientos predefinidos, donde para cada sujeto a estudiar, se tengan múltiples secuencias de videos 2D del movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado previamente acondicionado. Dicha base debe contar con el correspondiente ground truth 2D y 3D de los datos de movimiento relevados, en nuestro caso como nuestro sistema está basado en marcadores, dicha información consiste en obtener las coordenadas espaciales a lo largo del tiempo para cada marcador de interés. Así como la información de calibración.blablabla MEJORAR \\
 
 Mencionar porque se tuvo que generar una y que contiene a grandes rasgos.\\
 Se propone una estructura de datos para almacenar la información relevante del ground truth y  se cuenta con código de soporte que facilita la generación de nuevas secuencias así como la gestión de la información en la estructura de datos, evaluar resultados y realizar el  posterior análisis de performance.
@@ -14,26 +14,22 @@ Se propone una estructura de datos para almacenar la información relevante del 
 En esta sección se muestra  resultados del relevamiento de bases de datos útiles para el análisis de la marcha.
 Inicialmente nuestro objetivo era obtener un sistema funcional para el caso de la marcha humana, aunque luego de la implementación del mismo se generalizaron sus usos. Por lo tanto bases de datos con este tipo de movimiento fueron el eje central de la búsqueda.
 
-Se encontraron principalmente tres páginas web que a manera de compendio agrupan  bases de datos útiles en varias de las ramas de la visión por computadora.
+Se encontraron principalmente tres páginas web que a manera de compendio agrupan  bases de datos útiles en varias de las ramas de la visión por computadora.\\
 
-\paragraph{\textbf{CVonline}}
+\hspace{-0.7cm} \textbf{CVonline \footnote{\textcolor{blue}{\underline{\url{http://homepages.inf.ed.ac.uk/rbf/CVonline}}}} } 
 
-	\begin{itemize}
-		\item \textbf{Comentario}: Bastante completa, no solo contiene enlaces a  varias bases de datos sino reune bibliografía e implementaciones útiles.
-		\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://homepages.inf.ed.ac.uk/rbf/CVonline}}}
-	\end{itemize}
+Bastante completa, no solo contiene enlaces a  varias bases de datos sino reune bibliografía e implementaciones útiles.\\
 
-\paragraph{\textbf{Computer Vision Papers}}
-	\begin{itemize}
-		\item \textbf{Comentario}: Solo reúne enlaces de bases de datos.
-		\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{ http://www.cvpapers.com/datasets.html}}}
-	\end{itemize}
+
+\hspace{-0.7cm} \textbf{Computer Vision Papers \footnote{\textcolor{blue}{\underline{\url{ http://www.cvpapers.com/datasets.html}}}} } 
+
+	 Solo reúne enlaces de bases de datos.\\
+		
+
+\hspace{-0.7cm} \textbf{Yet Another Computer Vision Index To Datasets (YACVID)} \footnote{\textcolor{blue}{\underline{\url{http://riemenschneider.hayko.at/vision/dataset/}}} } 	
+
+Una característica importante es que la página contiene direcciones a bases de datos relativamente nuevas y resalta aquellas que son usadas con mayor frecuencia. \\
 	
-\paragraph{\textbf{Yet Another Computer Vision Index To Datasets (YACVID)}}		
-	\begin{itemize}
-		\item \textbf{Comentario}: Una característica importante es que la página contiene direcciones a bases de datos relativamente nuevas y resalta aquellas que son usadas con mayor frecuencia. 
-		\item \textbf{Enlace}: \textcolor{blue}{\underline{\url{http://riemenschneider.hayko.at/vision/dataset/}}}
-	\end{itemize}
 
 Dentro de estas páginas se encuentra una gran variedad de bases de datos que tratan el caso particular de la marcha, en la tabla \ref{Referencias} se muestran algunas de las bases relevadas y sus características representativas, que permiten hacer una idea del panorama global encontrado a la hora de recopilar información en la web.  
 
@@ -109,7 +105,7 @@ El Ground truth del movimiento fue capturado usando un sistema de captura de mov
 
 
 \paragraph{Carnegie Mellon University Motion Capture Database}
- El laboratorio que genera esta base de datos se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como del laboratorio. Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora.
+ Este laboratorio también se centra en obtener capturas de movimiento a través del sistema Vicon, y no está implementado para evaluaciones ópticas de las capturas. Solo maneja videos monoculares de baja resolución, por lo que no cuenta con secuencias de video adecuadas para nuestro proyecto. Sin embargo maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como del laboratorio. El sujeto a relevar se encuentra vestido con ropas finas y ajustadas, sobre la cual se colocan los marcadores, por lo tanto se puede despreciar las fluctuaciones de posición de marcadores debidas a la ropa, que si exhiben otros ambientes menos controlados  Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora y es por lejos la que dispone de mayor cantidad de capturas de movimiento de acceso público de las bases relevadas.
 
 \paragraph{Georgia Tech}
 Las cámaras están todas sobre un costado del caminante y la resolución es baja. No se cuidan las condiciones de laboratorio para trabajar de manera óptica.
