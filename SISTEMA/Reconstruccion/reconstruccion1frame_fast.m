@@ -23,6 +23,7 @@ n_markers_cam = ones(1, n_cams);
 %Obtengo informacion de las camaras
 for i=v_cams
     x_cam{i} = get_info(cam{i}, 'frame', frame, 'marker', 'coord'); %devuelve las coordenadas de todos los marcadores de la camara en el frame
+    %pixel_error = 2 ;x_cam{i} = [x_cam{i}(1:2,:)+pixel_error*randn(size(x_cam{i}(1:2,:)));x_cam{i}(3,:)]; % linea q agrega pixeles aleatorios a las camaras
     n_markers_cam(i) = size(x_cam{i}, 2); %numero de marcadores    
 end
 
