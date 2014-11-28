@@ -1,0 +1,27 @@
+\section{Medidas de Error}
+
+Tanto para el caso de la segmentación de los videos, como la reconstrucción de los marcadores, se tiene los verdaderos marcadores generados en la secuencia, por lo que es necesario establecer una medida de error sobre la salida de los algoritmos. Se eligió aplicar una metodologia basada en la distancia euclidea promedio, entre los marcadores de ambos conjuntos \cite{humaneva} . 
+
+Asumiendo que los conjuntos de datos de salida de algoritmos y ground truth, tienen sus cuadros sincronizados temporalmente, en un cuadro [f] dado se tienen $M$ marcadores en un conjunto $ \boldsymbol{x},\quad\{m_{i}(x)\},i=1,\ldots,M $ , donde $ m_{i}(x)\in{\mathbf{R}^{3}} $ ( o $ \mathbf{R}^{2} $ para el caso de las vistas de camaras individuales), y $ \boldsymbol{\tilde{x}} $ es el conjunto ground truth con la misma cantidad $M$ de marcadores alineados con $\boldsymbol{x}$ (el $i$-esimo marcador de $\boldsymbol{x}$ se corresponde con el  $i$-esimo marcador de $\boldsymbol{\tilde{x}}$), se calcula la distancia como
+
+\begin{equation}
+D(\boldsymbol{x_{f}},\boldsymbol{\tilde{x_{f}}})=\frac{1}{M}\sum_{i=1}^{M} \|m_{i}^{[f]}(\boldsymbol{x})-m_{i}^{[f]}(\boldsymbol{\tilde{x}})\|
+\label{distancia_vs_ground_basica}
+\end{equation}
+
+Sin embargo, el calculo debe ser modificado para contemplar para el caso en que la cantidad de marcadores a la salida del procesamiento es menor a $M$, se define un conjunto binario en cada frame $\Delta=\{\delta_1,\delta_2,\ldots,\delta_M\}$, donde $\delta_i$ indica con 1 si el $i$-esimo marcador de $\boldsymbol{\tilde{x}}$ fue detectado, 0 en caso contrario. La ecuacion \ref{distancia_vs_ground_basica} queda entonces
+
+\begin{equation}
+D(\boldsymbol{x_{f}},\boldsymbol{\tilde{x_{f}}},\Delta_{f})=\frac{1}{\sum_{j=1}^{M} \delta_j} \sum_{i=1}^{M} \delta_i.\|m_{i}^{[f]}(\boldsymbol{x})-m_{i}^{[f]}(\boldsymbol{\tilde{x}})\|
+\label{distancia_vs_ground_deteccion}
+\end{equation}
+
+Para una secuncia con $F$ frames, la performance promedio es calculada como el promedio de los errores en cada frame,
+
+\begin{equation}
+\mu_{secuencia} = \frac{1}{F}\sum_{f=1}^{F} D(\boldsymbol{x_{f}},\boldsymbol{\tilde{x_{f}}},\Delta_{f})
+\label{performance_secuencia}
+\end{equation}
+
+
+
