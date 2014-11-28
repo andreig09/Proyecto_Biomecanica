@@ -1,0 +1,165 @@
+%%%% OLIVIA GUTU: 2011 %%%%%%
+%%%% Universidad de Sonora %%
+
+\documentclass{article}
+%% Paquetes especiales para este artículo
+\usepackage[T1]{fontenc}
+\usepackage{paralist}
+\usepackage{geometry}
+\usepackage{hyperref} %%%%% PARA LA VERSIîN ELECTRîNICA
+\newcommand{\mm}{{\sc mm }}
+%%%%% PAQUETE Y COMANDOS PARA LA BILIOGRAFIA --> SE TIENE QUE ANEXAR A LA CLASE
+\usepackage[spanish]{babel}
+\usepackage[numbers]{natbib}
+\setlength{\bibsep}{0.5pt}
+\setcitestyle{bold} 
+\renewcommand*{\refname}{Referencias}
+\renewcommand{\bibfont}{\small}
+\renewcommand{\bibnumfmt}[1]{#1.}
+\renewcommand{\citenumfont}[1]{\textbf{#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{document}
+%% Encabezado
+\title{Uso del estilo {\sc Bib}\TeX: \verb"miscelanea.bst"}
+\author{Olivia Gutú}
+\date{\today}
+\maketitle
+
+
+
+%% Cuerpo principal
+
+El archivo \verb"miscelanea.bst" es el estilo {\sc Bib}\TeX~ para la revista {\it Miscel\'anea Matem\'atica} ({\sc mm}). El documento es el resultado de una modificaci\'on del archivo \verb"monthly.bst". Los cambios se hiceron en base al estilo  editorial propio del idioma espa\~nol seg\'un reglas de la Asociaci\'on de Academias de la Lengua Espa\~nola.
+
+\section*{Gu\'ia de uso}
+\begin{enumerate}[1$.^{\rm o}$]
+
+\item Editar el archivo \verb".tex" como de constumbre y llamar a las citas con el comando \verb"\cite", por ejemplo: \verb"\cite{axler}" o bien \verb"\cite[p. 448]{halmos}" para lograr <<\cite{axler}>> y <<\cite[p. 448]{halmos}>>, respectivamente. En la siguiente secci\'on se encuentran las abreviaturas de \mm  para citar dentro de los corchetes.
+
+\item El contenido de las referencias  se escriben en un archivo aparte con terminaci\'on \verb".bib" salvado con tu nombre favorito, por ejemplo \verb"MisReferencias.bib". En el archivo \verb".bib", cada referencia  tiene asociado   un c\'odigo  del siguiente tipo:
+
+\begin{verbatim}
+@Book{axler,
+author     = {Axler, S.},
+title 		    = {Linear algebra done right},
+publisher 	= {Springer},
+year 		     = {1996},
+edition		   = {2},
+}
+\end{verbatim}
+
+
+El archivo \verb".bib" se debe guardar en la misma carpeta donde se encuentra el archivo \verb".tex". En la siguiente secci\'on se encuentran las especificaciones sobre el tipo de referencias y campos para {\sc mm} (abrir el archivo \verb"bibliografiaejemplo.bib" para ver un ejemplo de cada tipo de referencia).   El archivo \verb".bib" puede tener m\'as referencias que las que se usan. En el achivo \verb".pdf" solo aparecer\'an aquellas que sean llamadas con el comando \verb"\cite" en el archivo  \verb".tex". 
+
+\item En el archivo \verb".tex", antes de la secuencia \verb"\end{document}" escribir el c\'odigo:
+\begin{verbatim}
+\bibliographystyle{miscelanea}
+\bibliography{MisReferencias.bib}
+\end{verbatim}
+
+\item Desde el archivo \verb".tex", se corre  \LaTeX~  al menos una vez  para general el archivo \verb".aux".
+
+\item Desde el archivo \verb".tex", se corre  {\sc Bib}\TeX~  al menos dos veces, {\it este paso es necesario solo cuando se modifica el archivo \verb".bib"}. El archivo \verb"miscelanea.bst" se debe encontrar en la misma carpeta que el archivo \verb".tex" y \verb".bib" y no se debe modificar (es el archivo encargado de ordenar y poner en formato \mm la bibliograf\'ia).
+
+\item Desde el archivo \verb".tex", se corre  de nuevo \LaTeX.
+
+\end{enumerate}
+
+\section*{Especificaciones}
+
+
+
+
+
+\subsection*{Descripci\'on de los campos para las referencias}
+
+\vspace{1cm}
+
+
+\begin{itemize}
+\item[\verb"address"] La ciudad correspondiente a la editorial.
+\item[\verb"author"] El nombre del autor o los autores. Si es m\'as de uno se separa con un \verb"and" y cada nombre se escribe siguiendo el formato \verb"Apellido(s), I. J." donde \verb"I." corresponde a la letra inicial del primer nombre y  \verb"J." a la del segundo nombre, si existe.  
+\item[\verb"booktitle"]El t\'itulo del libro. Solo si una parte de el libro se est\'a citando.
+\item[\verb"edition"]El n\'umero de la edici\'on. Solo se escribe si no es la primera.
+\item[\verb"editor"] El nombre o los nombre de los editores. Se llena este campo igual que \verb"author".
+\item[\verb"institution"] La instituci\'on 	que respalda la publicaci\'on, pero no necesariamente una casa editorial. Puede ser una universidad,  un instituto de investigaci\'on, etc.
+\item[\verb"journal"] El nombre de la revista en donde el art\'iculo ha sido publicado.
+\item[\verb"note"] Informaci\'on extra para referir documentos sin publicar: <<manuscrito>>, <<por publicarse>>, etc.
+\item[\verb"pages"] Es el n\'umero de p\'aginas que corresponden al art\'iculo o a la parte del libro. Se separan los n\'umeros por dos guiones, por  ejemplo \verb"234--345".
+\item[\verb"publisher"] El nombre de la editorial.
+\item[\verb"title"] El t\'itulo del trabajo. Excepto si corresponde al nombre de un libro, en el archivo \verb".pdf" aparecer\'a autom\'aticamente todo en min\'usculas salvo la primera letra de la primera palabra. Si se quiere conservar una may\'uscula se ha de escribir, por ejemplo:
+
+\begin{verbatim}
+F\'ormulas de tipo {W}eyl para dominios exteriores
+\end{verbatim}
+
+ para conseguir <<F\'ormulas de tipo Weyl para dominios exteriores>>.
+\item[\verb"series"] El nombre de la serie de la publicaci\'on o el nombre del congreso. 
+\item[\verb"school"] El nombre de la instituci\'on o universidad.
+\item[\verb"type"] El tipo de documento: notas de curso, reportes t\'ecnicos, etc.
+\item[\verb"volume"] El n\'umero del volumen de una revista o del tomo de un libro.
+\item[\verb"year"]El a\~no de publicaci\'on. Si no est\'a publicado, el a\~no de creaci\'on.
+\end{itemize}
+
+\newpage
+
+\subsection*{Tipos de referencias}
+
+\begin{table}[htdp]
+\begin{center}
+{\footnotesize
+\begin{tabular}{|c|l|l|c|}
+\hline
+{\sc Referencia}	& {\sc Tipo}						       & {\sc Campos para MM.}		                      & {\sc Ej.} \\
+\hline
+\verb"Article"      & Art\'iculo de una                        & \verb"author, title, journal, year, pages"       & \cite{daniel}\\
+ 					& revista t\'ecnica			               & y opcionales \verb"volume, address"     	          & \\
+\hline					
+\verb"Book"         & Libro                                    & \verb"author/editor, title, publisher, year"     & \cite{axler},\cite{apostol}\\
+                    &										   & adem\'as \verb"edition" si no es la primera edici\'on   & \\
+                	& 										   & y opcional \verb"volume"					      & \\
+\hline	
+\verb"Inbook"		& Parte de un libro sin 	               & \verb"author/editor, title, pages, year"         & \cite{halmos}\\ 
+                    & t\'itulo								   &												  & \\		
+\hline
+\verb"Incollection" & Cap\'itulo de libro  					   & \verb"author, title, booktitle, publisher, year" & \cite{juanantonio} \\
+\hline
+\verb"Inproceedings"& Art\'iculo en memorias                   & \verb"author, title, booktitle, year"    & \cite{fede}\\
+ 					& de congreso						       & y opcionales \verb"series, publisher"					  & \\
+\hline
+\verb"Mastersthesis"& Tesis de maestr\'ia					   & \verb"author, title, school, year"				  & \cite{olivia}\\
+\hline
+\verb"Misc"			& P\'agina de Internet					   & \verb"author, title, year, howpublished"         & \cite{bibtex}\\  
+\hline
+\verb"Phdthesis"	& Tesis de doctorado					   & \verb"author, title, school, year"				  & \cite{danieltesis}\\
+\hline
+\verb"Proceedings"  & Memorias de congreso					   & \verb"title, editor, year, address"			  & \cite{congreso}\\ 
+\hline	
+\verb"Techreport"   & Reporte publicado                        & \verb"author, title, institution, year"		  & \cite{edscott}\\ 
+ 					& en una instituci\'on			           & y opcional \verb"type"	    		          & \\
+\hline
+\verb"Unpublished"  & Documento con autor                      & \verb"author, title, note"     				  & \cite{choro}\\
+					& y t\'itulo pero sin estar                & y opcional \verb"year"						      & \\		
+					& formalmente publicado 				   &                                                  & \\		
+\hline					
+\end{tabular}
+}
+\end{center}
+\end{table}%
+
+%% bibliografia
+
+\section*{Ejemplo:}
+
+\bibliographystyle{miscelanea}
+\bibliography{bibliografiaejemplo}
+
+\end{document}
+
+
+
