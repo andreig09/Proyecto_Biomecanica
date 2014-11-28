@@ -112,7 +112,7 @@ int main(int argc, char *argv[]){
 	
 	
 	//Filtrar imagen
-    IplImage* imgThresh = filterOtsu(frame,thresh2);
+    IplImage* imgThresh = filterOtsu(frame,thresh2,oVideoWriter,guardar);
 	if (guardar){
 		oVideoWriter.write(imgThresh);
 	}
@@ -148,7 +148,7 @@ int main(int argc, char *argv[]){
 			}
 		   //cout << "max threshold: " << thresh << "\n" ;
 
-           imgThresh = filterOtsu(frame,thresh2); //Filtrar frame actual
+           imgThresh = filterOtsu(frame,thresh2,oVideoWriter,guardar); //Filtrar frame actual
 		   if (guardar){
 		   oVideoWriter.write(imgThresh); //writer the frame filtered
 		   }
@@ -158,7 +158,7 @@ int main(int argc, char *argv[]){
 		   XMLAddFrame(frameNum,detblobs.blobs,name); //Agregar los blobs de este frame en el xml
 		   			 
 		   //Mostrar video original		   
-		   //cvShowImage("Video", frame);
+		   cvShowImage("Video", frame);
            
            //Clean up used images
 		   //delete[] detblobs;

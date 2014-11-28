@@ -7,7 +7,7 @@ using namespace cv;
 using namespace std;
 
 //Filtra una imagen dada según determinado rango de color en formato HSV, devuelve una imagen en blanco y negro 
-IplImage* filterOtsu(IplImage *img, int thresh){
+IplImage* filterOtsu(IplImage *img, int thresh, VideoWriter oVideoWriter, bool guardar){
 
 	//cvNamedWindow("filtro");
 
@@ -30,7 +30,11 @@ IplImage* filterOtsu(IplImage *img, int thresh){
 	//smooth the thresholded image using Median kernel
     //cvSmooth(threshy,threshy,CV_MEDIAN,3,3);
 	
-	//cvShowImage("filtro",threshy);
+	cvShowImage("filtro",threshy);
+
+	if( (guardar) ){
+		oVideoWriter.write(threshy);
+	}
 	
 	//cvReleaseImage(&threshy);
 	cvReleaseImage(&hsvframe);
