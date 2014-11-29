@@ -31,14 +31,13 @@ Bastante completa, no solo contiene enlaces a  varias bases de datos sino reune 
 Una característica importante es que la página contiene direcciones a bases de datos relativamente nuevas y resalta aquellas que son usadas con mayor frecuencia. \\
 	
 
-Dentro de estas páginas se encuentra una gran variedad de bases de datos que tratan el caso particular de la marcha, en la tabla \ref{Referencias} se muestran algunas de las bases relevadas y sus características representativas, que permiten hacer una idea del panorama global encontrado a la hora de recopilar información en la web.  
+Dentro de estas páginas se encuentra una gran variedad de bases de datos que tratan el caso particular de la marcha, en la tabla \ref{bases_relevadas} se muestran algunas de las bases relevadas y sus características representativas, que permiten hacer una idea del panorama global encontrado a la hora de recopilar información en la web.  
 
 \begin{table}[h!]
 	\centering	
 	\caption{Comparación de algunas bases de datos disponibles y empleadas por la comunidad.}
 	\label{bases_relevadas}
-	\begin{minipage}{\textwidth}
-	\renewcommand{\thefootnote}{\arabic{\thempfootnote}} %por algún motivo el arabic no funciona, no me pone llamados a pie de página numericos
+	\begin{minipage}{\textwidth} %por algún motivo el arabic no funciona, no me pone llamados a pie de página numericos	
 	\begin{tabular}{||l|ccccc||} 
 \rowcolor[HTML]{CBCEFB} 
 \hline
@@ -82,25 +81,22 @@ Human ID &     Marcha    & Natural  & $\sim$ &  &       \\ \hline
 HumanEva &     Varios    & Natural  & 3D - Vicon & &   \\ \hline
 INRIA &       Varios    & Traje MoCap y            & 2D - MoCap &   &       \\
   &           & Natural            &   etiquetado manual  & &         \\ \hline
-  CMU Mobo &     5 tipos de marcha    & $\sim$           & Etiquetado Manual\footnote{Disponible en  \textcolor{blue}{\underline{\url{http://www.cs.cmu.edu/~zhangjy/\# Data}}}.} &         &        \\ \hline
+  CMU Mobo &     5 tipos de marcha    & $\sim$           & Etiquetado Manual \footnote{Disponible en  \textcolor{blue}{\underline{\url{http://www.cs.cmu.edu/~zhangjy/\# Data}}}.}&         &        \\ \hline
 CASIA &  Varias velocidades       &   Natural         & No  &         &      \\ 
  & de marcha        &            &   &         &      \\ \hline
 MHAD & Varios        & Traje MoCap            & 3D - Vicon    &   &       \\
-\hline\hline	 
+\hline
 
 	\end{tabular}
 	\end{minipage}
 	
 \end{table}
 
-Algunos comentarios que vale la pena resaltar sobre las bases anteriores, 
-El Ground truth del movimiento fue capturado usando un sistema de captura de movimiento (MoCap) de Vicon-Peak (agregar pie de página con http://www.vicon.com/)
-
-
+A continuación algunos comentarios que vale la pena resaltar sobre  las bases anteriores.
 
 
 \paragraph{Motion Capture Lab}
-	Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos MoCap, inclusive el bvh.
+	Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento tridimensionales a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos MoCap, inclusive el bvh.
 
 
 
@@ -130,9 +126,10 @@ Estudia la marcha humana, enfocada en la identificación Biométrica de humanos 
 Contiene 4 bases de datos, una incluye información de la presión de la planta de los pies al caminar. No contiene marcadores.
 
 \paragraph{Berkeley Multimodal Human Action Database (MHAD)}
-El objetivo de esta base de datos es reconocer el movimiento del cuerpo al realizar este distintas actividades. Tiene la información necesaria para efectuar sustracción de fondo, devuelven también información de Kinect y el sujeto posee un acelerómetro. El problema está en que los marcadores utilizados, únicamente recopilan información para el ground truth, con lo cual no se cuida de obtener una buena información óptica de los mismos.
+El objetivo de esta base de datos es reconocer el movimiento del cuerpo al realizar este distintas actividades. Tiene la información necesaria para efectuar sustracción de fondo, devuelven también información de Kinect y utilizan un acelerómetro sobre el sujeto a lo largo del movimiento. El problema está en que los marcadores utilizados, únicamente recopilan información para el ground truth, con lo cual no se cuida de obtener una buena información óptica de los mismos.
 
 
+TENGO QUE RESALTAR QUE NO SE ENCONTRARON BASES DE DATOS QUE CONTEMPLARAN NUESTRAS NECESIDADES. LAS DE EFECTUAR SEGUIMIENTO OPTICO DE MARCADORES.
 
 
 TENGO QUE ACTUALIZAR CON EL HARDWARE QUE SE UTILIZA EN LAS CAMARAS
