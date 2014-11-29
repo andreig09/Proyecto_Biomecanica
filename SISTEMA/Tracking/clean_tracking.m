@@ -1,4 +1,8 @@
 function X_out = clean_tracking(X_out)
+%% Limpieza de puntos con nula aceleracion, posterior al inicio
+
+X_out = (X_out(:,~(X_out(6,:)==0&X_out(4,:)>min(X_out(4,:)))));
+
 %% Limpieza de puntos no trackeados
 X_out = X_out(:,X_out(5,:)~=0);
 
