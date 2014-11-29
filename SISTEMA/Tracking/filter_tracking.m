@@ -30,7 +30,7 @@ for i=1:size(marker,2)
     
     thr = [thr;...
         marker(i),...
-        thr_i];
+        thr_i]
     
     %{
     %Filtro de "promedio"
@@ -51,11 +51,12 @@ for i=1:size(marker,2)
         
         
         % Marco los puntos a corregir
-        X_out(6:7,X_out(5,:)==marker(i)&X_out(6,:)>thr(thr(:,1)==marker(i),2)) = NaN*ones(size(X_out(6:7,X_out(5,:)==marker(i)&X_out(6,:)>thr(thr(:,1)==marker(i),2))));
+        X_out(6:7,X_out(5,:)==marker(i)&(isnan(X_out(6,:))|X_out(6,:)>thr(thr(:,1)==marker(i),2))) = NaN*ones(size(X_out(6:7,X_out(5,:)==marker(i)&(isnan(X_out(6,:))|X_out(6,:)>thr(thr(:,1)==marker(i),2)))));
+        
         
         % Busco el proximo invalido
         marker_i = X_out(:,find(isnan(X_out(7,:))==1&...
-            X_out(5,:)==marker(i),1));
+            X_out(5,:)==marker(i),1))
         
         if ~isempty(marker_i)
             
@@ -64,7 +65,7 @@ for i=1:size(marker,2)
             % Busco el primer valido, luego del proximo invalido
             marker_j = X_out(:,find(isnan(X_out(7,:))==0&...
                 X_out(5,:)==marker(i)&...
-                X_out(4,:)>marker_i(4),1));
+                X_out(4,:)>marker_i(4),1))
             
         end
         % Selecciono la cadena previa
@@ -81,28 +82,55 @@ for i=1:size(marker,2)
                     M1(eq,eq) = -1;
                     M1(eq,eq+1) = 1;
                 end
+                
+                M=[M1];
+                
             elseif size(X_path,2)==2
                 %X_path=X_path(:,size(X_path,2)-1:size(X_path,2));
+                
+                M2 = zeros(size(M1));
+                
                 for eq=1:size(M1,1)
                     M1(eq,eq) = 1;
                     M1(eq,eq+1) = -2;
                     M1(eq,eq+2) = 1;
+                    
+                    M2(eq,eq+1) = -1;
+                    M2(eq,eq+2) = 1;
                 end
+                
+                M=[M1;M2];
                 
             elseif size(X_path,2)>=3
                 
                 X_path=X_path(:,size(X_path,2)-2:size(X_path,2));
+                
+                M2 = zeros(size(M1));
+                
+                M3 = zeros(size(M1));
+                                
                 for eq=1:size(M1,1)
                     M1(eq,eq) = -1;
                     M1(eq,eq+1) = 3;
                     M1(eq,eq+2) = -3;
                     M1(eq,eq+3) = 1;
+                    
+                    M2(eq,eq+1) = 1;
+                    M2(eq,eq+2) = -2;
+                    M2(eq,eq+3) = 1;
+                    
+                    M3(eq,eq+2) = 1;
+                    M3(eq,eq+3) = -1;
+                    
                 end
+                
+                M = [M1;M2;M3];
+                
             end
             %X_path;
-            %M1;
-            A=M1(:,size(X_path,2)+1:size(M1,2)-1)
-            B=-M1(:,1:size(X_path,2))*X_path(1:3,:)'-M1(:,size(M1,2))*marker_j(1:3,:)'
+            
+            A=M(:,size(X_path,2)+1:size(M,2)-1);
+            B=-M(:,1:size(X_path,2))*X_path(1:3,:)'-M(:,size(M,2))*marker_j(1:3,:)';
             X_aux = [(inv(A'*A)*A'*B)';...
                 marker_i(4):marker_j(4)-1;...
                 marker_i(5)*ones(1,marker_j(4)-marker_i(4));...
@@ -115,7 +143,7 @@ for i=1:size(marker,2)
             
             % Busco el proximo invalido
             marker_i = X_out(:,find(isnan(X_out(7,:))==1&...
-                X_out(5,:)==marker(i),1));
+                X_out(5,:)==marker(i),1))
             
             % Busco el primer valido, luego del proximo invalido
             
@@ -125,7 +153,7 @@ for i=1:size(marker,2)
                 
                 marker_j = X_out(:,find(isnan(X_out(7,:))==0&...
                     X_out(5,:)==marker(i)&...
-                    X_out(4,:)>marker_i(4),1));
+                    X_out(4,:)>marker_i(4),1))
                 
             end
             

@@ -394,42 +394,49 @@ if size(X_path,2)==1
         M1(i,i) = -1;
         M1(i,i+1) = 1;
     end
+    
+    M = [M1];
+    
 elseif size(X_path,2)==2
+    
+    M2= zeros(size(M1));
+    
     for i=1:size(M1,1)
         M1(i,i) = 1;
         M1(i,i+1) = -2;
         M1(i,i+2) = 1;
+        
+        M1(i,i+1) = -1;
+        M1(i,i+2) = 1;
+        
     end
+    
+    M = [M1;M2];
+    
 elseif size(X_path,2)>=3
+    
+    M2 = zeros(size(M1));
+    
+    M3 = zeros(size(M1));
+    
     for i=1:size(M1,1)
         M1(i,i) = -1;
         M1(i,i+1) = 3;
         M1(i,i+2) = -3;
         M1(i,i+3) = 1;
+        
+        M2(i,i+1) = 1;
+        M2(i,i+2) = -2;
+        M2(i,i+3) = 1;
+        
+        M3(i,i+2) = -1;
+        M3(i,i+3) = 1;
+        
     end
+    
+    M = [M1;M2;M2];
+    
 end
-   
-
-%{
-M1 = zeros(diff_frames,diff_frames+3);
-
-
-M2 = zeros(diff_frames+1,diff_frames+3);
-
-for i=1:size(M2,1)
-    M2(i,i) = 1;
-    M2(i,i+1) = -2;
-    M2(i,i+2) = 1;
-end
-
-M3 = zeros(diff_frames+2,diff_frames+3);
-
-for i=1:size(M3,1)
-    M3(i,i) = -1;
-    M3(i,i+1) = 1;
-end
-%}
-M = [M1];
 
 A=M(:,size(M,2)-diff_frames+1:size(M,2)-1);
 B=-M(:,size(M,2))*X_f1_aux(1:3,:)'-M(:,1:size(M,2)-diff_frames)*X_path(1:3,max([size(X_path,2)-2,1]):size(X_path,2))';
