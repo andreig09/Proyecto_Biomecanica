@@ -72,36 +72,65 @@
 \clearpage
 \input{conclusiones.tex}
 \clearpage
-\begin{thebibliography}{1}
-\label{Referencias}
 
-\bibitem{herda} Herda L., Fua P., Plankers R., Boulic R. Using skeleton-based tracking to increase the reliability of optical motion capture.Human movement science, 20(3), 313-341, 2001.
-\bibitem{griegos} Malik N., Dracos T. \& Papantoniou D. (1993). Particle tracking in three-dimensional turbulent flows - Part II: Particle tracking, Experiments in Fluids, 15:279–294.
-\bibitem{faugueras} Faugeras o., Robert L. What can two images tell us about a third one. International Journal of Computer vision, 18(1), 485-492,1996.
-\bibitem{colombianos} C.A.Diaz, M.L.Toro, J.C.Forero, A.Torres Detección, rastreo y reconstrucción tridimensional de marcadores pasivos para análisis de movimiento humano. Cinemed iii
-Revista ingeniería Biomédica issn 1909-9762, volumen 3, número 6, julio-diciembre 2009, págs. 56-67 Escuela de Ingeniería de Antioquia-Universidad ces, Medellín, Colombia
-\bibitem{surveyThreshold} M.Sezgin,B.Sankur, “Survey over image thresholding techniques and quantitative performance evaluation”, Journal of Electronic Imaging 13(1), 146–165 (January 2004).
-\bibitem{histImgRef} http://deploy.virtual$\-$labs.ac.in/labs/cse19/theory.php?exp=segment
-\bibitem{Gonzalez} Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
-\bibitem{smooth} pág. 174, sección 3.5 Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
-\bibitem{tophat} pág. 692, sección 9.6.3 Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
-\bibitem{segment} pág. 760, sección 10.3 Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
-\bibitem{otsu} Nobuyuki Otsu (1979). "A threshold selection method from gray-level histograms". IEEE Trans. Sys., Man., Cyber.
-\bibitem{implementacionOtsu} Matías Tailanian, Juan Cardelino. https://github.com/martin-etchart/kde 24/11/2014.
-\bibitem{bayes} pág. 894, sección 12.2.2 Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
-\bibitem{procImg} D. Phillips; “Image Processing in C: Analyzing and Enhancing Digital Images”, RandD Publications, 1994
-\bibitem{opencv} http://opencv.org/
-\bibitem{cvblob} https://code.google.com/p/cvblob/
-\bibitem{betweenvarianze} sección 4.4.4, http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL{\_}COPIES/MORSE/threshold.pdf
-\bibitem{kinect} http://www.xbox.com/es-ES/Kinect
-\bibitem{xml} http://es.wikipedia.org/wiki/Extensible{\_}Markup{\_}Language
-\bibitem{HSV} Shamik Sural, Gang Qian and Sakti Pramanik (2002). "Segmentation And Histogram Generation Using The HSV Color Space For Image Retrieval". Michigan State University, USA.
-\bibitem{defBlob} http://en.wikipedia.org/wiki/Binary{\_}large{\_}object
-\bibitem{imageMoments} M. K. Hu, "Visual Pattern Recognition by Moment Invariants", IRE Trans. Info. Theory, vol. IT-8, pp.179–187, 1962
-\bibitem{excentricidad} Ayoub, Ayoub B., "The eccentricity of a conic section", The College Mathematics Journal 34(2), March 2003, 116-121.
-\bibitem{hough} Duda, R. O. and P. E. Hart, "Use of the Hough Transformation to Detect Lines and Curves in Pictures," Comm. ACM, Vol. 15, pp. 11–15 (January, 1972)
-\bibitem{humaneva} L. Sigal, A. Balan and M. J. Black. "HumanEva: Synchronized Video and Motion Capture Dataset and Baseline Algorithm for Evaluation of Articulated Human Motion", In International Journal of Computer Vision, Vol. 87 (1-2), 2010. 
 
-\end{thebibliography}
+%% BIBLIOGRAFIA CON BibTeX
+\nocite{*} %este comando permite mostrar toda la bibliografía puesta en los archivos .bib aunque no haya sido citada
+\bibliographystyle{miscelanea}
+\bibliography{documentacion}
+
+
+%
+%\begin{thebibliography}{1}
+%\label{Referencias}
+%
+%\bibitem{herda} Herda L., Fua P., Plankers R., Boulic R. Using skeleton-based tracking to increase the reliability of optical motion capture.Human movement science, 20(3), 313-341, 2001.
+%\bibitem{griegos} Malik N., Dracos T. \& Papantoniou D. (1993). Particle tracking in three-dimensional turbulent flows - Part II: Particle tracking, Experiments in Fluids, 15:279–294.
+%\bibitem{faugueras} Faugeras o., Robert L. What can two images tell us about a third one. International Journal of Computer vision, 18(1), 485-492,1996.
+%\bibitem{colombianos} C.A.Diaz, M.L.Toro, J.C.Forero, A.Torres Detección, rastreo y reconstrucción tridimensional de marcadores pasivos para análisis de movimiento humano. Cinemed iii
+%Revista ingeniería Biomédica issn 1909-9762, volumen 3, número 6, julio-diciembre 2009, págs. 56-67 Escuela de Ingeniería de Antioquia-Universidad ces, Medellín, Colombia
+
+%\bibitem{surveyThreshold} M.Sezgin,B.Sankur, “Survey over image thresholding techniques and quantitative performance evaluation”, Journal of Electronic Imaging 13(1), 146–165 (January 2004).
+
+%\bibitem{histImgRef} http://deploy.virtual$\-$labs.ac.in/labs/cse19/theory.php?exp=segment
+
+
+%\bibitem{Gonzalez} Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
+
+%\bibitem{smooth} pág. 174, sección 3.5 Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
+
+%\bibitem{tophat} pág. 692, sección 9.6.3 Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
+
+%\bibitem{segment} pág. 760, sección 10.3 Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
+
+%\bibitem{otsu} Nobuyuki Otsu (1979). "A threshold selection method from gray-level histograms". IEEE Trans. Sys., Man., Cyber.
+
+%\bibitem{implementacionOtsu} Matías Tailanian, Juan Cardelino. https://github.com/martin-etchart/kde 24/11/2014.
+
+%\bibitem{bayes} pág. 894, sección 12.2.2 Digital Image Processing. Rafael Gonzalez  \& Richard Woods.
+
+%\bibitem{procImg} D. Phillips; “Image Processing in C: Analyzing and Enhancing Digital Images”, RandD Publications, 1994
+
+%\bibitem{opencv} http://opencv.org/
+%\bibitem{cvblob} https://code.google.com/p/cvblob/
+%\bibitem{betweenvarianze} sección 4.4.4, http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL{\_}COPIES/MORSE/threshold.pdf
+
+%\bibitem{kinect} http://www.xbox.com/es-ES/Kinect
+
+%\bibitem{xml} http://es.wikipedia.org/wiki/Extensible{\_}Markup{\_}Language
+%\bibitem{HSV} Shamik Sural, Gang Qian and Sakti Pramanik (2002). "Segmentation And Histogram Generation Using The HSV Color Space For Image Retrieval". Michigan State University, USA.
+
+%\bibitem{defBlob} http://en.wikipedia.org/wiki/Binary{\_}large{\_}object
+
+%\bibitem{imageMoments} M. K. Hu, "Visual Pattern Recognition by Moment Invariants", IRE Trans. Info. Theory, vol. IT-8, pp.179–187, 1962
+
+%\bibitem{excentricidad} Ayoub, Ayoub B., "The eccentricity of a conic section", The College Mathematics Journal 34(2), March 2003, 116-121.
+
+%\bibitem{hough} Duda, R. O. and P. E. Hart, "Use of the Hough Transformation to Detect Lines and Curves in Pictures," Comm. ACM, Vol. 15, pp. 11–15 (January, 1972)
+
+%\bibitem{humaneva} L. Sigal, A. Balan and M. J. Black. "HumanEva: Synchronized Video and Motion Capture Dataset and Baseline Algorithm for Evaluation of Articulated Human Motion", In International Journal of Computer Vision, Vol. 87 (1-2), 2010. 
+
+%
+%\end{thebibliography}
 
 \end{document}
