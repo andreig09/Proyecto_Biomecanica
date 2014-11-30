@@ -148,9 +148,45 @@ Se establece un umbral a partir del estudio de la distribucion de la aceleracion
 \end{figure}
 \item \textbf{Inventario de Trayectorias}: Durante el enlazado en un frame, se tienen marcadores en [f] que no lograron enlazarse en [f+1], pero cuya trayectoria podría estar enlazada hasta este frame.
 Estos puntos deben ser identificados, mediante la comparacion de la segunda columna de la matriz de enlaces [f][f+1] (actual) y la tercer columna de la matriz de enlaces [f-1][f] (anterior), ya que ambas tienen informacion de los marcadores en el mismo frame, pero enlazan hacia atras y adelante.
-Los elementos que se encuentren en la matriz [f-1][f] , pero no hayan sido enlazados en [f][f+1], son agregados a una lista que  contiene hasta que frame se mantenía el enlace (ultima vez que se tuvo informacion de la trayectoria a la cual pertenece), y que indice de marcador tenia en ese momento (pasar de indice en un frame, a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de frame a frame)
+Los elementos que se encuentren en la matriz [f-1][f] , pero no hayan sido enlazados en [f][f+1], son agregados a una lista que  contiene hasta que momneto el frame mantenía el enlace (ultima vez que se tuvo informacion de la trayectoria a la cual pertenece), y que indice de marcador tenia en ese momento (pasar de indice en un frame, a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de frame a frame).
+
+Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben tratar de enlazar los puntos de [f+1] que no entraron en el enlazado regular, con las trayectorias perdidas hasta [f-1]. Todos los puntos que sobraron en el enlazado regular, son evaluados contra la lista de trayectorias perdidas, y se revisan dos condiciones:
+
+\begin{enumerate}
+  \item Distancia con respecto a una estimación lineal, prolongando el movimiento tomando el ultimo punto como inicio, y los ultimos frames de la trayectoria conocida como desplazamiento. El despalzamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces, como puede observarse en el ejemplo de la figure \ref{inventario_trayectoria direccional}. 
+  
+\begin{figure}[hbt]
+\begin{center}
+\includegraphics[scale=0.8]{img/Tracking/030_Inventario_trayectoria_direccional.png}
+\end{center}
+\caption{Trayectoria perdida en frame 104, con posible candidato de recuperacion en frame 106 por cercania con la estimacion por desplazamiento}
+\label{inventario_trayectoria direccional}
+% Figura tomada de la reconstruccion 8_07_100_200
+\end{figure}
+
+  
+  \item Distancia radial con respecto al ultimo punto conocido. En algunos casos, la perdida del enlazado puede suceder cuando la trayectoria está en reposo (por ejemplo, un pie apoyado antes de volver a despegarse del suelo), o en transicion (en el medio de una curva), por lo cual la estimacion lineal anterior es invalida. Para ello, es útil relevar la distancia entre el ultimo punto conocido de una trayectoria trunca, y los puntos que no se enlazaron en [f+1]. Esta distancia, en caso de una posible recuperacion, debera ser proporcional al ultimo traslado conocido, por la diferencia temporal de frames entre el ultimo punto, y el posible candidato.
+  
+\end{enumerate} 
 
 \end{itemize}
+
+Si se encuentra algún punto que cumpla alguna de estas condiciones, es considerado para continuar la trayectoria, y deben estimarse los puntos intermedios para completar la trayectoria.
+
+Esta estimación es realizada mediante minimos cuadrados, donde las condiciones iniciales dependen de cuantos puntos de la trayectoria se tenían hasta el momento, la condicion final es el punto encontrado en [f+1], las incognitas son los puntos intermedios que se quieren encontrar, y las multiples ecuaciones a cumplir son las planteadas en (\ref{track_var_acc}) y (\ref{track_acc}).
+
+Sea $X_{[f+1]}$ un punto candidato por las condiciones anteriores, y el ultimo punto conocido en [f-1] de un trayectoria que pretende continuar, verifica [f-1]$\geq$3, entonces las ecuaciones que el punto a estimar $\tilde{X}_{[f]}$ deberá cumplir,
+
+\begin{equation}
+\left\{
+\begin{matrix}
+X_{[f-3]} &-3.X_{[f-2]} &+3.X_{[f-1]} &-\tilde{X}_{[f]} & &=0 \\
+ &X_{[f-2]} &-3.X_{[f-1]} &+3.\tilde{X}_{[f]} &-X_{[f+1]} &=0 \\
+ &X_{[f-2]} &-2.X_{[f-1]} &+\tilde{X}_{[f]} & &=0 \\
+ & &-.X_{[f-1]} &+2.\tilde{X}_{[f]} &-X_{[f+1]} &=0 \\
+\end{matrix}
+\right.
+\end{equation}
 
 
 
