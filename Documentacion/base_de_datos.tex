@@ -3,11 +3,15 @@
 
 \subsection{Introducción}
 \label{}
-Mencionar que tipo de base de datos se necesita\\
+Mencionar que tipo de base de datos se necesita encontrar\\
 Con el fin de relevar distinta clases de actividades humanas y en particular la marcha, se pretende trabajar con una base de datos basada en marcadores, que contenga un cierto número de sujetos, realizando una variedad de movimientos predefinidos, donde para cada sujeto a estudiar, se tengan múltiples secuencias de videos 2D del movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado previamente acondicionado. Dicha base debe contar con el correspondiente ground truth 2D y 3D de los datos de movimiento relevados, en nuestro caso como nuestro sistema está basado en marcadores, dicha información consiste en obtener las coordenadas espaciales a lo largo del tiempo para cada marcador de interés. Así como la información de calibración.blablabla MEJORAR \\
 
 Mencionar porque se tuvo que generar una y que contiene a grandes rasgos.\\
 Se propone una estructura de datos para almacenar la información relevante del ground truth y  se cuenta con código de soporte que facilita la generación de nuevas secuencias así como la gestión de la información en la estructura de datos, evaluar resultados y realizar el  posterior análisis de performance.
+
+
+blablablabl
+Un ambiente controlado con cámaras ajustadas convenientemente provee un escenario ideal para obtener información óptica de los marcadores. El sujeto es condicionado a moverse sobre un espacio de captura determinado con una vestimenta particular; la elección adecuada de estos parámetros junto con las condiciones de iluminación y el tipo de fondo facilitan la recolección de información, el posterior análisis y sobre todo la performance del sistema completo.
 
 \subsection{Revisión de base de datos}
 \label{}
@@ -16,17 +20,17 @@ Inicialmente nuestro objetivo era obtener un sistema funcional para el caso de l
 
 Se encontraron principalmente tres páginas web que a manera de compendio agrupan  bases de datos útiles en varias de las ramas de la visión por computadora.\\
 
-\hspace{-0.7cm} \textbf{CVonline \footnote{\textcolor{blue}{\underline{\url{http://homepages.inf.ed.ac.uk/rbf/CVonline}}}} } 
+\hspace{-0.7cm} \textbf{CVonline \footnote{\textcolor{blue}{\underline{\url{http://homepages.inf.ed.ac.uk/rbf/CVonline}}}. Accedido 30-11-14.} } 
 
 Bastante completa, no solo contiene enlaces a  varias bases de datos sino reune bibliografía e implementaciones útiles.\\
 
 
-\hspace{-0.7cm} \textbf{Computer Vision Papers \footnote{\textcolor{blue}{\underline{\url{ http://www.cvpapers.com/datasets.html}}}} } 
+\hspace{-0.7cm} \textbf{Computer Vision Papers \footnote{\textcolor{blue}{\underline{\url{ http://www.cvpapers.com/datasets.html}}}. Accedido 30-11-14.} } 
 
 	 Solo reúne enlaces de bases de datos.\\
 		
 
-\hspace{-0.7cm} \textbf{Yet Another Computer Vision Index To Datasets (YACVID)} \footnote{\textcolor{blue}{\underline{\url{http://riemenschneider.hayko.at/vision/dataset/}}} } 	
+\hspace{-0.7cm} \textbf{Yet Another Computer Vision Index To Datasets (YACVID)} \footnote{\textcolor{blue}{\underline{\url{http://riemenschneider.hayko.at/vision/dataset/}}}. Accedido 30-11-14. } 	
 
 Una característica importante es que la página contiene direcciones a bases de datos relativamente nuevas y resalta aquellas que son usadas con mayor frecuencia. \\
 	
@@ -47,22 +51,22 @@ Dentro de estas páginas se encuentra una gran variedad de bases de datos que tr
 
 
 \hline \hline
-M.C.L. \footnote{Motion Capture Lab: \textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}.}  
+M.C.L. \footnote{Motion Capture Lab: \textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}. Accedido 30-11-14}  
  & 3 		& 		299	   & Interior&     1    &    No      \\ \hline
 C.M.U  \footnote{Carnegie Mellon University Motion Capture Database: 
-\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}.}	
-	}   & >100     &       2605   & Interior&      1   &    No       \\ \hline
-G.T \footnote{Georgia Tech: \textcolor{blue}{\underline{\url{http://www.cc.gatech.edu/cpl/projects/hid/index.html}}}.} &       20    & $\sim$100           & Interior y &   3      &  Si       \\ 
+\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}	
+	   & >100     &       2605   & Interior&      1   &    No       \\ \hline
+G.T \footnote{Georgia Tech: \textcolor{blue}{\underline{\url{http://www.cc.gatech.edu/cpl/projects/hid/index.html}}}. Accedido 30-11-14} &       20    & $\sim$100           & Interior y &   3      &  Si       \\ 
 		 &		 &					 & exterior        &         &    \\ \hline
-U.S. \footnote{University of Southampton Database, \textcolor{blue}{\underline{\url{http://www.gait.ecs.soton.ac.uk/database/large_db.php3 }}}.} &       >100    &     $\sim$       & Interior &   12      &  $\sim$      \\ \hline
-Human ID  \footnote{\textcolor{blue}{\underline{\url{http://marathon.csee.usf.edu/GaitBaseline/ }}}.} &     122    & 1870           & Exterior &   2      &$\sim$       \\ \hline
-HumanEva \footnote{\textcolor{blue}{\underline{\url{http://vision.cs.brown.edu/humaneva/index.html }}}.}&     4+2    & 56           & Interior &   4/7      &  Si       \\ \hline
-INRIA \footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home  }}}.} &       >11    & >40           & Interior &   $\geq$1      &  Si       \\ \hline
-CMU Mobo \footnote{CMU Motion of Body,  \textcolor{blue}{\underline{\url{http://www.ri.cmu.edu/publication_view.html?pub_id=3904 }}}.} &     25    & 100           & Caminadora &   6      &  $\sim$       \\ \hline
+U.S. \footnote{University of Southampton Database, \textcolor{blue}{\underline{\url{http://www.gait.ecs.soton.ac.uk/database}}}. Accedido 30-11-14} &       >100    &     $\sim$       & Interior &   12      &  $\sim$      \\ \hline
+Human ID  \footnote{\textcolor{blue}{\underline{\url{http://marathon.csee.usf.edu/GaitBaseline/ }}}. Accedido 30-11-14} &     122    & 1870           & Exterior &   2      &$\sim$       \\ \hline
+HumanEva \footnote{\textcolor{blue}{\underline{\url{http://vision.cs.brown.edu/humaneva/index.html }}}. Accedido 30-11-14}&     4+2    & 56           & Interior &   4/7      &  Si       \\ \hline
+INRIA \footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home  }}}. Accedido 30-11-14} &       >11    & >40           & Interior &   $\geq$1      &  Si       \\ \hline
+CMU Mobo \footnote{CMU Motion of Body,  \textcolor{blue}{\underline{\url{http://www.ri.cmu.edu/publication_view.html?pub_id=3904 }}}. Accedido 30-11-14} &     25    & 100           & Caminadora &   6      &  $\sim$       \\ \hline
 CASIA \footnote{ \textcolor{blue}{\underline{\url{http://www.cbsr.ia.ac.cn/english/Gait\%20Databases.asp
- }}}.}&     385    & $\sim$           & Interior y  &   >4      &  $\sim$       \\ 
+ }}}. Accedido 30-11-14}&     385    & $\sim$           & Interior y  &   >4      &  $\sim$       \\ 
  &         &            & exterior  &         &      \\ \hline
-MHAD \footnote{Berkeley Multimodal Human Action Database,\textcolor{blue}{\underline{\url{http://tele-immersion.citris-uc.org/berkeley_mhad\#dl  }}}.} & 12         & 660            & interior  & 12        & Si      \\ 
+MHAD \footnote{Berkeley Multimodal Human Action Database,\textcolor{blue}{\underline{\url{http://tele-immersion.citris-uc.org/berkeley_mhad\#dl  }}}. Accedido 30-11-14} & 12         & 660            & interior  & 12        & Si      \\ 
 \hline \hline
 
 
@@ -91,30 +95,33 @@ MHAD & Varios        & Traje MoCap            & 3D - Vicon    &   &       \\
 	\end{minipage}
 	
 \end{table}
+ 
+MODIFICAR EL PIE DE PÁGINA DE LA TABLA PARA QUE NO INCLUYA LOS LINKS, ESTOS ÚLTIMOS DEBEN ESTAR EN LOS PIES DE PÁGINA DONDE SE RESUMEN ALGUNAS CARACTERÍSTICAS DE LAS BASES DE DATOS RELEVADAS.
 
 A continuación algunos comentarios que vale la pena resaltar sobre  las bases anteriores.
 
 
 \paragraph{Motion Capture Lab}
-	Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento tridimensionales a través del sistema Vicon, por lo que no cuenta con secuencias de video adecuadas. Maneja múltiples formatos MoCap, inclusive el bvh.
+	Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento tridimensionales a través del sistema Vicon. Cuentan con un sistema Vicon 8i de 14 cámaras, dos videocámaras digitales Sony DSR-PD150 que llegan a 30 fps\footnote{\textcolor{blue}{\underline{\url{http://www.bhphotovideo.com/c/product/197878-REG/Sony_DSRPD150_DSR_PD150_Professional_1_3_DVCAM.html}}} ,Accedido 29-11-14 }, junto a un sistema de sincronización que permite integrar todas estas cámaras en el laboratorio. El video se utiliza únicamente como ayuda en los datos de captura para corregir y ver los marcadores,  por lo que \underline{no cuenta con secuencias de video adecuadas}. Cabe destacar que maneja múltiples formatos MoCap, inclusive el bvh. 
 
 
 
 \paragraph{Carnegie Mellon University Motion Capture Database}
- Este laboratorio también se centra en obtener capturas de movimiento a través del sistema Vicon, y no está implementado para evaluaciones ópticas de las capturas. Solo maneja videos monoculares de baja resolución, por lo que no cuenta con secuencias de video adecuadas para nuestro proyecto. Sin embargo maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como del laboratorio. El sujeto a relevar se encuentra vestido con ropas finas y ajustadas, sobre la cual se colocan los marcadores, por lo tanto se puede despreciar las fluctuaciones de posición de marcadores debidas a la ropa, que si exhiben otros ambientes menos controlados  Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora y es por lejos la que dispone de mayor cantidad de capturas de movimiento de acceso público de las bases relevadas.
+ Este laboratorio también se centra en obtener capturas de movimiento a través de un sistema Vicon, y no está implementado para evaluaciones ópticas de las capturas. Solo maneja videos monoculares de baja resolución, por lo que no cuenta con secuencias de video adecuadas para nuestro proyecto. Sin embargo maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como del laboratorio. El sujeto a relevar se encuentra vestido con ropas finas y ajustadas, sobre la cual se colocan los marcadores, por lo tanto se puede despreciar las fluctuaciones de posición de marcadores debidas a la ropa, que si exhiben otros ambientes menos controlados  Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora y es por lejos la que dispone de mayor cantidad de capturas de movimiento de acceso público de las bases relevadas en esta sección.
 
 \paragraph{Georgia Tech}
-Las cámaras están todas sobre un costado del caminante y la resolución es baja. No se cuidan las condiciones de laboratorio para trabajar de manera óptica.
+Se encuentra desarrollando maneras de identificar a los seres humanos a distancia a través del reconocimiento de la marcha. También llevan a cabo trabajos relacionados en la localización y seguimiento de rostros, la detección de oclusiones y actividades específicas de sustracción de fondo.
+Lamentablemente alguno las cámaras están todas sobre un costado del caminante, la resolución es baja y no todos los videos poseen marcadores. No se cuidan las condiciones de laboratorio para trabajar de manera óptica según nuestras necesidades.
 
 
 \paragraph{University of Southampton Database}
-Interesados en el reconocimiento de personas a través del seguimiento de la marcha. Poseen dos bases de datos, HiD gait database  (100 sujetos) y Biometric tunnel. El servidor donde se alojaba la base de datos está fuera de línea desde el 2004, el encargado de la página es Mark Nixon (\textcolor{blue}{\underline{\url{msn@ecs.soton.ac.uk}}}). Aparentemente se continúa actualmente el proyecto en \textcolor{blue}{\underline{\url{http://www.cspc.ecs.soton.ac.uk/gait}}}.  
+Interesados en el reconocimiento de personas a través del seguimiento de la marcha, relevantes sobre todo por ser pioneros en el estudio biomecánico de la marcha. Poseen dos bases de datos, HiD gait database  (100 sujetos) y Biometric tunnel. El servidor donde se alojaba la base de datos está fuera de línea desde el 2004, el encargado de la página es Mark Nixon (\textcolor{blue}{\underline{\url{msn@ecs.soton.ac.uk}}}). Aparentemente se continúa actualmente el proyecto en \textcolor{blue}{\underline{\url{http://www.cspc.ecs.soton.ac.uk/gait}}}\footnote{Accedido 30-11-14}. Si bien estas bases de datos no están basadas en marcadores, cabe resaltar que el fondo del espacio de captura del túnel biométrico contiene patrones asimétricos con colores saturados que facilitan no solo la extracción de fondo sino también la automatización del proceso de calibración.
 
 \paragraph{Human ID Gait Challenge Dataset}
-1.2 Tera bytes de información. Utilizada para el reconocimiento de la marcha,  no posee marcadores. Contiene en la secuencia imagenes de dameros para calibrar cámaras y las secuencias para un mismo sujeto modifican distintos tipos de factores como el terreno sobre el que se camina así como el tipo de calzado.
+Contiene 1.2 Tera bytes de información. Utilizada para el reconocimiento de la marcha,  no posee marcadores. Al igual que en la base de Southampton contiene en la secuencia imágenes de dameros convenientemente dispuestos, útiles para calibrar las cámaras. Las sucesivas secuencias tomadas para un mismo sujeto modifican distintos tipos de factores, como la calidad del terreno a recorrer, si el sujeto lleva o no un maletín y el  tipo de calzado utilizado. Tienen disponible junto a todas las secuencias de la base de datos las siluetas de los sujetos, obtenidas con un algoritmo base también propuesto y disponible. Lamentablemente el enlace que indica el protocolo seguido junto con la especificación del equipamiento está fuera de línea.
 
-\paragraph{HumanEva}
-13 Gigabit de información. Trabajo muy completo, incluye métricas de evaluación. El único inconveniente para las necesidades de nuestro proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas.
+\paragraph{HumanEva \cite{humaneva}}
+Con solo 13 Gigabit de información, el trabajo de este laboratorio es muy completo, incluye métricas de evaluación y un análisis importante de las necesidades actuales a la hora de generar una base de datos para relevar actividades humanas . El único inconveniente para cumplir los requisitos de nuestro proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas para nuestro propósito, incluso utilizan máscaras sobre las imágenes ópticas para cubrir los marcadores, estos últimos son utilizados solo para recopilar el ground truth a través de un sistema Vicon.  Dado que su motivación es obtener una imagen ``natural'' del sujeto que contenga la complejidad generada por el movimiento de la ropa, el ground truth que presentan  no es tan preciso como los obtenidos por métodos más tradicionales.  Contiene código para efectuar sustracción de fondo y la implementación de un algoritmo base, con un filtrado de partículas utilizado para el seguimiento de la pose del sujeto.  
 
 \paragraph{INRIA Perception, Multicam Dataset}
 No posee marcadores. 
@@ -131,8 +138,55 @@ El objetivo de esta base de datos es reconocer el movimiento del cuerpo al reali
 
 TENGO QUE RESALTAR QUE NO SE ENCONTRARON BASES DE DATOS QUE CONTEMPLARAN NUESTRAS NECESIDADES. LAS DE EFECTUAR SEGUIMIENTO OPTICO DE MARCADORES.
 
+TENGO QUE ACTUALIZAR LAS DESCRIPCIONES DE LAS BASES DESDE INRIA PARA ABAJO.
+\subsubsection{Conclusiones}
+Si bien la búsqueda se centró en blablabla no logró encontrar una base de datos que cumpliera las especificaciones de nuestro proyecto. Debido a blablabla.
+ De todas maneras se genera un relevamiento de bases de datos para el movimiento humano, se profundiza en las características usuales que presentan dichas bases de datos y se logra reunir un conjunto de conceptos y herramientas necesarios para introducirnos en el tema. 
 
-TENGO QUE ACTUALIZAR CON EL HARDWARE QUE SE UTILIZA EN LAS CAMARAS
 
 
-FALTO PASAR ABUNDANTE MATERIAL QUE YA ESTA PROCESADO. SOBRE TODO LA ESTRUCTURA DEL CAPITULO 
+\subsection{Características de un Laboratorio para un sistema de captura}
+\subsubsection{Variables}
+-tipo de cámara, fps (vs resolución temporal y tipo de movimiento)  y resolución (vs resolución espacial de datos de salida)\\
+-tipo de marcador\\
+-posición de marcadores\\
+-vestimenta\\
+-posición y tipo de luz\\
+-dimensiones del espacio de captura(relacionarlo con la posición de las cámaras y el tipo de movimiento)\\
+-fondo del espacio de captura\\
+-posición de cámaras (describir como depende del movimiento--marcha-rectilínea, movimiento libre--área circular)\\
+-facilidades para calibración\\
+-Sincronización\\
+-Formatos Mocap (terminología, ventajas, desventajas, formatos usuales)
+\\
+
+
+\textbf{ Entrada de sincronización}\footnote{http://en.wikipedia.org/wiki/Genlock, Accedido 29-11-14}
+El sincronizador (“Gen lock” –abreviatura del inglés “generator lock”) – es una forma de sincronizar varias videocámaras. Esto resulta esencial en las emisiones con conexiones en directo con varias cámaras, para garantizar que las imágenes de vídeo se mantienen estables incluso cuando se cambia de una cámara a otra.
+Una señal de sincronización, enviada a todas las videocámaras que participan en una grabación desde una fuente central, indica a cada una de ellas cuando deberán comenzar a grabar. La misma orden es enviada para cada fotograma y todas y cada una de las líneas escaneadas dentro del fotograma. El sincronizador ‘bloquea’ las videocámaras en la misma secuencia de escaneado.
+Si no se contara con una entrada de sincronización sería prácticamente imposible realizar una grabación con varias cámaras simultáneamente.
+
+
+RECORDATORIO: Aumentar el número de cámaras permite una mayor cobertura de volumen, lo que significa una mayor visibilidad del conjunto de marcadores. A su vez una mejor visibilidad del conjunto de marcadores está correlacionado con disminuir la posibilidad de que los datos importantes se pierdan.
+
+
+
+
+IR LLENANDO ESTA INFORMACIÓN ($2+2=4$)
+
+\subsubsection{Conclusiones}
+especificar los parámetros deseables en una base de datos que trabaje con información óptica basada en marcadores
+
+\subsection{Base de datos sintética}
+\subsubsection{Motivación}
+\subsubsection{Implementación}
+HABLAR SOBRE estructura de la base de datos\\
+HABLAR SOBRE estructura de los datos donde se guarda la información.\\
+\subsubsection{Conclusiones}
+sobre como quedo la base de datos, utilidad, potencial y posible expansión
+
+\subsection{Conclusiones}
+sobre todo el capitulo, resumen de conclusiones parciales
+
+
+
