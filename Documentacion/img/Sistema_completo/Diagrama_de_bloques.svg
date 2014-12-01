@@ -14,7 +14,7 @@
    id="svg3339"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Diagrama_de_bloques.eps">
+   sodipodi:docname="Diagrama_de_bloques.svg">
   <defs
      id="defs3341" />
   <sodipodi:namedview
@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="347.86281"
-     inkscape:cy="973.26103"
+     inkscape:zoom="2.8"
+     inkscape:cx="451.98778"
+     inkscape:cy="740.46124"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -43,7 +43,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -222,10 +222,32 @@
          xml:space="preserve"
          id="text6205"
          y="-1930.9985"
-         x="880.40088"><tspan
+         x="890.00531"><tspan
            id="tspan6207"
            y="-1930.9985"
-           x="880.40088">Segmentación</tspan></text>
+           x="890.00531">Detección de</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-weight:bold;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+         x="317.14285"
+         y="235.93361"
+         id="text3197"
+         sodipodi:linespacing="125%"
+         transform="matrix(4.8022076,0,0,4.8022076,-631.26013,-3084.2567)"><tspan
+           sodipodi:role="line"
+           id="tspan3199"
+           x="317.14285"
+           y="235.93361" /></text>
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:59.99999619px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+         xml:space="preserve"
+         id="text6205-38"
+         y="-1863.9767"
+         x="921.07056"><tspan
+           id="tspan6207-7"
+           y="-1863.9767"
+           x="921.07056">Marcadores</tspan></text>
     </g>
     <path
        inkscape:connector-curvature="0"
@@ -266,28 +288,24 @@
        style="fill:#f8a417;fill-opacity:1;stroke:#000000;stroke-width:1.51663458;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="path6161-2-4-9"
        d="m 204.6598,238.16069 -0.0728,42.48498 12.95584,0.0304 -21.85914,43.87452 -21.85918,-44.05233 12.76504,-0.0153 -0.20596,-42.20301 z" />
-    <g
-       id="g3946"
-       transform="matrix(0.32655763,0,0,0.32655763,-106.25091,740.00374)">
-      <rect
-         style="fill:#0093d6;fill-opacity:1;stroke:#000000;stroke-width:6.25758934;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect5339-4-0-4"
-         y="-1638.0873"
-         x="765.84399"
-         ry="44.395329"
-         height="186.04123"
-         width="322.36942" />
-      <text
-         sodipodi:linespacing="125%"
-         style="font-size:38.2604866px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
-         xml:space="preserve"
-         id="text6205-3"
-         y="-1537.1718"
-         x="926.88818"><tspan
-           id="tspan6207-8"
-           y="-1537.1718"
-           x="926.88818">Calibración</tspan></text>
-    </g>
+    <rect
+       width="105.27219"
+       height="60.753181"
+       ry="14.497633"
+       x="143.84129"
+       y="205.07384"
+       id="rect5339-4-0-4"
+       style="fill:#0093d6;fill-opacity:1;stroke:#000000;stroke-width:2.04346347;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       x="196.4315"
+       y="240.02858"
+       id="text6205-3"
+       xml:space="preserve"
+       style="font-size:12.49425411px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+       sodipodi:linespacing="125%"><tspan
+         x="196.4315"
+         y="240.02858"
+         id="tspan6207-8">Calibración</tspan></text>
     <path
        inkscape:connector-curvature="0"
        style="fill:#f8a417;fill-opacity:1;stroke:#000000;stroke-width:1.51695013;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
