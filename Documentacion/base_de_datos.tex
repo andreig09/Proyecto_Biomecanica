@@ -12,6 +12,10 @@ Se propone una estructura de datos para almacenar la información relevante del 
 
 blablablabl
 Un ambiente controlado con cámaras ajustadas convenientemente provee un escenario ideal para obtener información óptica de los marcadores. El sujeto es condicionado a moverse sobre un espacio de captura determinado con una vestimenta particular; la elección adecuada de estos parámetros junto con las condiciones de iluminación y el tipo de fondo facilitan la recolección de información, el posterior análisis y sobre todo la performance del sistema completo.
+\\COMBINAR LO ANTERIOR CON ESTO
+Necesitamos una base de datos para implementar, testear y comparar los distintos tipos de algoritmos desarrollados. Por lo tanto es de interés primario relevar las bases de datos existentes o en su defecto realizar una.\\
+Para ello en primera instancia se buscaron bases de datos en la web. La búsqueda se centro en encontrar secuencias de video de personas caminando donde, dada las características de nuestro proyecto, las mismas deben poseer marcadores claramente distinguibles. Las secuencias deben ser tomadas con varias cámaras ubicadas alrededor del sujeto y para obtener información 3D como mínimo la cantidad de cámaras deben ser dos. Además se debe tener el ground truth con la posición espacial de dichos marcadores para testear y comparar los distintos algoritmos de seguimiento aplicados sobre dichas secuencias
+
 
 \subsection{Revisión de base de datos}
 \label{}
@@ -43,8 +47,9 @@ Dentro de estas páginas se encuentra una gran variedad de bases de datos que tr
 	\label{bases_relevadas}
 	\begin{minipage}{\textwidth} %por algún motivo el arabic no funciona, no me pone llamados a pie de página numericos	
 	\begin{tabular}{||l|ccccc||} 
-\rowcolor[HTML]{CBCEFB} 
 \hline
+\rowcolor[HTML]{CBCEFB} 
+
 \textbf{Base}     & \textbf{Cantidad }  & \textbf{Nro. de }   & \textbf{Entorno} & \textbf{Número de} & \textbf{Calibración}\\
 \rowcolor[HTML]{CBCEFB} 
 \textbf{de datos} & \textbf{de sujetos} & \textbf{secuencias} &         & \textbf{cámaras }  &  \textbf{disponible} \\
@@ -53,56 +58,52 @@ Dentro de estas páginas se encuentra una gran variedad de bases de datos que tr
 \hline \hline
 M.C.L.\footnote{Motion Capture Lab}  & 3 		& 		299	   & Interior&     1    &    No      \\ \hline
 C.M.U  \footnote{Carnegie Mellon University Motion Capture Database}	
-	   & >100     &       2605   & Interior&      1   &    No       \\ \hline
+ & >100     &       2605   & Interior&      1   &    No       \\ \hline
 G.T \footnote{Georgia Tech} &       20    & $\sim$100           & Interior y &   3      &  Si       \\ 
-		 &		 &					 & exterior        &         &    \\ \hline
+	 &		 &					 & exterior        &         &    \\ \hline
 U.S. \footnote{University of Southampton Database} &       >100    &     $\sim$       & Interior &   12      &  $\sim$      \\ \hline
 Human ID  &     122    & 1870           & Exterior &   2      &$\sim$       \\ \hline
 HumanEva &     4+2    & 56           & Interior &   4/7      &  Si       \\ \hline
 INRIA \footnote{INRIA Perception, Multicam Dataset. } &       >11    & >40           & Interior &   $\geq$1      &  Si       \\ \hline
 CMU Mobo \footnote{CMU Motion of Body.} &     25    & 100           & Caminadora &   6      &  $\sim$       \\ \hline
 CASIA &     385    & $\sim$           & Interior y  &   >4      &  $\sim$       \\ 
- &         &            & exterior  &         &      \\ \hline
+&         &            & exterior  &         &      \\ \hline
 MHAD \footnote{Berkeley Multimodal Human Action Database.} & 12         & 660            & interior  & 12        & Si      \\ 
 \hline \hline
 
 
 \rowcolor[HTML]{CBCEFB}
-\textbf{Base}     & \textbf{Movimientos}  & \textbf{Apariencia}    & \textbf{Ground Truth} & & \\
+\textbf{Base}     & \textbf{Movimientos}  & \textbf{Apariencia}    & \textbf{Ground Truth} & \textbf{Tipo}  & \\
 \rowcolor[HTML]{CBCEFB}
-\textbf{de datos} & \textbf{disponibles} &               &           & & \\
+\textbf{de datos} & \textbf{disponibles} &               &           & \textbf{de acceso} & \\
 \hline \hline
-
-{M.C.L. }   & Varios    &  Traje MoCap & 3D-Vicon \footnote{ Esta notación indica que la captura considerada ground truth, se hizo con un sistema  de captura de movimiento (MoCap) de Vicon-Peak, \textcolor{blue}{\underline{\url{http://www.vicon.com/}}} } & & \\ \hline
+{M.C.L. }   & Varios    &  Traje MoCap & 3D-Vicon \footnote{ Esta notación indica que la captura considerada ground truth, se hizo con un sistema  de captura de movimiento (MoCap) de Vicon-Peak, \textcolor{blue}{\underline{\url{http://www.vicon.com/}}} } & Libre & \\ \hline
 {C.M.U }    & Varios    &  Traje MoCap & 3D-Vicon \footnote{Secuencias bvh de CMU, \textcolor{blue}{\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}.} & & \\ \hline
-{G.T} &     Marcha fuera&     Traje MoCap y       & 3D  en formato & & \\ 
-	 &	   de régimen  &  Natural   &   Maya & & \\ \hline
-U.S. &       Marcha    &  Natural    &  $\sim$ & &       \\	\hline
-Human ID &     Marcha    & Natural  & $\sim$ &  &       \\ \hline
-HumanEva &     Varios    & Natural  & 3D - Vicon & &   \\ \hline
-INRIA &       Varios    & Traje MoCap y            & 2D - MoCap &   &       \\
-  &           & Natural            &   etiquetado manual  & &         \\ \hline
-  CMU Mobo &     5 tipos de marcha    & $\sim$           & Etiquetado Manual \footnote{Disponible en  \textcolor{blue}{\underline{\url{http://www.cs.cmu.edu/~zhangjy/\# Data}}}.}&         &        \\ \hline
-CASIA &  Varias velocidades       &   Natural         & No  &         &      \\ 
- & de marcha        &            &   &         &      \\ \hline
-MHAD & Varios        & Traje MoCap            & 3D - Impulse \footnote{ Esta notación indica que la captura considerada ground truth, se hizo con un sistema  de captura de movimiento (MoCap) de Vicon-Peak, \textcolor{blue}{\underline{\url{http://www.vicon.com/}}} }    &   &       \\
+{G.T} &     Marcha fuera&     Traje MoCap y       & 3D  en formato & Libre & \\ 
+ &	   de régimen  &  Natural   &   Maya & & \\ \hline
+U.S. &       Marcha    &  Natural    &  $\sim$ & Libre&       \\	\hline
+Human ID &     Marcha    & Natural  & $\sim$ & Bajo  &       \\ 
+						 &        &   &  & solicitud &       \\ \hline
+HumanEva &     Varios    & Natural  & 3D - Vicon & Bajo  &       \\ 
+						 &        &   &  & solicitud &       \\ \hline
+INRIA &       Varios    & Traje MoCap y            & 2D - MoCap &  Libre &       \\
+&           & Natural            &   etiquetado manual  & &         \\ \hline
+CMU Mobo &     5 tipos de marcha    & $\sim$           & Etiquetado Manual \footnote{Disponible en  \textcolor{blue}{\underline{\url{http://www.cs.cmu.edu/~zhangjy/\# Data}}}.}& Bajo  &       \\ 
+ 							 &        &   &  & solicitud &       \\ \hline
+CASIA &  Varias velocidades       &   Natural         & No  &    Bajo     &      \\ 
+& de marcha        &            &   & solicitud        &      \\ \hline
+MHAD & Varios        & Traje MoCap            & 3D - Impulse \footnote{ Esta notación indica que la captura considerada ground truth, se hizo con un sistema  de captura de movimiento (MoCap) Impulse (PhaseSpace Inc., San Leandro, CA), \textcolor{blue}{\underline{\url{http://www.phasespace.com/}}} }    & Libre  &       \\
 \hline
-
 	\end{tabular}
-	\end{minipage}
-	
+	\end{minipage}	
 \end{table}
 
 A continuación algunos comentarios que vale la pena resaltar sobre  las bases anteriores.
 
-
 \paragraph{Motion Capture Lab.\footnote{\textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}. Accedido 30-11-14}} 
-		Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento tridimensionales a través del sistema Vicon. Cuentan con un sistema Vicon 8i de 14 cámaras, dos videocámaras digitales Sony DSR-PD150 que llegan a 30 fps\footnote{\textcolor{blue}{\underline{\url{http://www.bhphotovideo.com/c/product/197878-REG/Sony_DSRPD150_DSR_PD150_Professional_1_3_DVCAM.html}}} ,Accedido 29-11-14 }, junto a un sistema de sincronización que permite integrar todas estas cámaras en el laboratorio. El video se utiliza únicamente como ayuda en los datos de captura para corregir y ver los marcadores,  por lo que \underline{no cuenta con secuencias de video adecuadas}. Cabe destacar que maneja múltiples formatos MoCap, inclusive el bvh. 
-
-
+		Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento tridimensionales a través del sistema Vicon. Cuentan con un sistema Vicon 8i de 14 cámaras, dos videocámaras digitales Sony DSR-PD150 que llegan a 30 fps\footnote{\textcolor{blue}{\underline{\url{http://www.bhphotovideo.com/c/product/197878-REG/Sony_DSRPD150_DSR_PD150_Professional_1_3_DVCAM.html}}} ,Accedido 29-11-14 }, junto a un sistema de sincronización que permite integrar todas estas cámaras en el laboratorio. El video se utiliza únicamente como ayuda en los datos de captura para corregir y ver los marcadores,  por lo que \underline{no cuenta con secuencias de video adecuadas}. Cabe destacar que maneja múltiples formatos MoCap, inclusive el bvh.
 
 \paragraph{Carnegie Mellon University Motion Capture Database.\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}}
-
  Este laboratorio también se centra en obtener capturas de movimiento a través de un sistema Vicon, y no está implementado para evaluaciones ópticas de las capturas. Solo maneja videos monoculares de baja resolución, por lo que no cuenta con secuencias de video adecuadas para nuestro proyecto. Sin embargo maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como del laboratorio. El sujeto a relevar se encuentra vestido con ropas finas y ajustadas, sobre la cual se colocan los marcadores, por lo tanto se puede despreciar las fluctuaciones de posición de marcadores debidas a la ropa, que si exhiben otros ambientes menos controlados  Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora y es por lejos la que dispone de mayor cantidad de capturas de movimiento de acceso público de las bases relevadas en esta sección.
 
 \paragraph{Georgia Tech.\footnote{\textcolor{blue}{\underline{\url{http://www.cc.gatech.edu/cpl/projects/hid/index.html}}}. Accedido 30-11-14}}
@@ -117,11 +118,11 @@ Interesados en el reconocimiento de personas a través del seguimiento de la mar
 Contiene 1.2 Tera bytes de información. Utilizada para el reconocimiento de la marcha,  no posee marcadores. Al igual que en la base de Southampton contiene en la secuencia imágenes de dameros convenientemente dispuestos, útiles para calibrar las cámaras. Las sucesivas secuencias tomadas para un mismo sujeto modifican distintos tipos de factores, como la calidad del terreno a recorrer, si el sujeto lleva o no un maletín y el  tipo de calzado utilizado. Tienen disponible junto a todas las secuencias de la base de datos las siluetas de los sujetos, obtenidas con un algoritmo base también propuesto y disponible. Lamentablemente el enlace que indica el protocolo seguido junto con la especificación del equipamiento está fuera de línea.
 
 \paragraph{HumanEva.\footnote{\textcolor{blue}{\underline{\url{http://vision.cs.brown.edu/humaneva/index.html }}}. Accedido 30-11-14} \cite{humaneva} }
-Con solo 13 Gigabit de información, el trabajo de este laboratorio es muy completo, incluye métricas de evaluación y un análisis importante de las necesidades actuales a la hora de generar una base de datos para relevar actividades humanas. El único inconveniente para cumplir los requisitos de nuestro proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas para nuestro propósito, incluso utilizan máscaras sobre las imágenes ópticas para cubrir los marcadores, estos últimos son utilizados solo para recopilar el ground truth a través de un sistema Vicon.  Dado que su motivación es obtener una imagen ``natural'' del sujeto que contenga la complejidad generada por el movimiento de la ropa, el ground truth que presentan  no es tan preciso como los obtenidos por métodos más tradicionales.  Contiene código para efectuar sustracción de fondo y la implementación de un algoritmo base, con un filtrado de partículas utilizado para el seguimiento de la pose del sujeto. Para acceder a los datos se debe gestionar un permiso en la página de HumanEva. 
+Con solo 13 Gigabit de información, el trabajo de este laboratorio es muy completo, incluye métricas de evaluación y un análisis importante de las necesidades actuales a la hora de generar una base de datos para relevar actividades humanas. El único inconveniente para cumplir los requisitos de nuestro proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son escasos y demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas para nuestro propósito, incluso utilizan máscaras sobre las imágenes ópticas para cubrir los marcadores, estos últimos son utilizados solo para recopilar el ground truth a través de un sistema Vicon.  Dado que su motivación es obtener una imagen ``natural'' del sujeto que contenga la complejidad generada por el movimiento de la ropa, el ground truth que presentan  no es tan preciso como los obtenidos por métodos más tradicionales.  Contiene código para efectuar sustracción de fondo y la implementación de un algoritmo base, con un filtrado de partículas utilizado para el seguimiento de la pose del sujeto. Para acceder a los datos se debe gestionar un permiso en la página de HumanEva. 
 
-\paragraph{INRIA Perception, Multicam Dataset.\footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home  }}}. Accedido 30-11-14}} Efectúan las capturas con múltiples cámaras y también ofrecen la secuencia de malla de los sujetos reconstruidos a partir de las imágenes. Ofrecen un software que permite navegar en 4D, es decir, el espacio y el tiempo, sobre los modelos disponibles en su base de datos. Por lo que estos modelos se pueden ver desde cualquier ángulo de visión e inspeccionar congelándolos en cualquier instante de tiempo. Lamentablemente su captura no está basada en marcadores. 
+\paragraph{INRIA Perception, Multicam Dataset.\footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home}}}. Accedido 30-11-14}} Efectúan las capturas con múltiples cámaras y también ofrecen la secuencia de malla de los sujetos reconstruidos a partir de las imágenes. Ofrecen un software que permite navegar en 4D, es decir, el espacio y el tiempo, sobre los modelos disponibles en su base de datos. Por lo que estos modelos se pueden ver desde cualquier ángulo de visión e inspeccionar congelándolos en cualquier instante de tiempo. Lamentablemente su captura no está basada en marcadores. 
 
-\paragraph{CMU MoBo Dataset.\footnote{CMU Motion of Body,  \textcolor{blue}{\underline{\url{http://www.ri.cmu.edu/publication_view.html?pub_id=3904 }}}. Accedido 30-11-14}}
+\paragraph{CMU MoBo Dataset.\footnote{CMU Motion of Body,  \textcolor{blue}{\underline{\url{http://www.ri.cmu.edu/publication_view.html?pub_id=3904}}}. Accedido 30-11-14}}
 Estudia la marcha humana, enfocada en la identificación Biométrica de humanos a partir de sus características individuales. Los sujetos bajo estudio efectúan 4 tipos de caminata sobre una caminadora: marcha lenta, marcha rápida, marcha sobre plano inclinado y marcha sosteniendo un balón. Se utilizan 6 cámaras de alta resolución ubicadas alrededor de la caminadora que adquieren imagenes a 30 frames/s. Para acceder a la base de datos debe pedirse acceso comunicandose con \textcolor{blue}{\underline{\url{rgross@cs.cmu.edu }}}
 
 \paragraph{CASIA Gait Database.\footnote{ \textcolor{blue}{\underline{\url{http://www.cbsr.ia.ac.cn/english/Gait\%20Databases.asp
@@ -129,16 +130,21 @@ Estudia la marcha humana, enfocada en la identificación Biométrica de humanos 
 Contiene 4 bases de datos sobre la marcha, la primera se efectúa en exteriores y posee una sola cámara; la segunda es en interiores  y utiliza 11 cámaras sobre un lado del sujeto utilizada para extraer la silueta del sujeto bajo estudio; la tercera utiliza cámaras infrarrojas y cada sujeto efectúa tres tipo de marcha, lenta, rápida y con mochila; por último la cuarta combina la información de cámaras con una plataforma que registra la presión de la planta del pie a medida que el sujeto desarrolla el movimiento. Además de los archivos de vídeo, ofrecen las siluetas humanas extraídas de archivos de vídeo. Las capturas visuales no están basadas en marcadores.
 
 \paragraph{Berkeley Multimodal Human Action Database (MHAD).\footnote{\textcolor{blue}{\underline{\url{http://tele-immersion.citris-uc.org/berkeley_mhad\#dl  }}}. Accedido 30-11-14}}
-El objetivo de esta base de datos es reconocer el movimiento del cuerpo al realizar este distintas actividades. Tiene la información necesaria para efectuar sustracción de fondo, devuelven información desde múltiples fuentes, sistema con cámaras ópticas formado por 4 conjuntos de cámaras estéreo, dos sensores Kinect, 6 acelerómetros sobre el sujeto y 4 micrófonos a cada lado del espacio de captura.  El problema está en que los marcadores utilizados, únicamente recopilan información para el ground truth, con lo cual no se cuida de obtener una buena información óptica de los mismos.
+El objetivo de esta base de datos es reconocer el movimiento del cuerpo al realizar este distintas actividades. Tiene la información necesaria para efectuar sustracción de fondo, devuelven información desde múltiples fuentes:
+\begin{itemize}
+\item sistema con 12 cámaras ópticas agrupadas en 4 conjuntos de cámaras estéreo
+\item dos sensores Kinect
+\item 6 acelerómetros sobre el sujeto
+\item 4 micrófonos a cada lado del espacio de captura
+\end{itemize} Todas estas fuentes se encuentran sincronizadas. Esta base de datos es bastante completa en cuanto a los tipos de captura que realiza, pero los marcadores utilizados son leds y únicamente se utilizan para recabar información para el ground truth, con lo cual no se cuida de obtener una buena información óptica de los mismos. 
 
 
-TENGO QUE RESALTAR QUE NO SE ENCONTRARON BASES DE DATOS QUE CONTEMPLARAN NUESTRAS NECESIDADES. LAS DE EFECTUAR SEGUIMIENTO OPTICO DE MARCADORES.
-
-TENGO QUE ACTUALIZAR LAS DESCRIPCIONES DE LAS BASES DESDE INRIA PARA ABAJO.
 \subsubsection{Conclusiones}
-Si bien la búsqueda se centró en blablabla no logró encontrar una base de datos que cumpliera las especificaciones de nuestro proyecto. Debido a blablabla.
+Si bien la búsqueda se centró en blablabla no logró encontrar una base de datos que cumpliera las especificaciones de nuestro proyecto. Debido a blablabla SEGUIMIENTO OPTICO DE MARCADORES.
  De todas maneras se genera un relevamiento de bases de datos para el movimiento humano, se profundiza en las características usuales que presentan dichas bases de datos y se logra reunir un conjunto de conceptos y herramientas necesarios para introducirnos en el tema. 
 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %5
 
 
 \subsection{Características de un Laboratorio para un sistema de captura}
@@ -175,9 +181,66 @@ especificar los parámetros deseables en una base de datos que trabaje con infor
 
 \subsection{Base de datos sintética}
 \subsubsection{Motivación}
+ACLARAR QUE NO SE CONSIGUIÓ UNA BASE DE DATOS ADECUADA PERO ......RECICLAR LO QUE VIENE
+
+Por otro lado encontramos en el sistema Vicon otra posibilidad. Resulta que la web  ofrece fácilmente un gran número de bases de datos con la captura de movimiento (mocap) de personas realizando diferentes tipo de actividades. Dichas capturas se efectúan por lo general a través de un sistema Vicon, con lo cual se tiene información muy precisa sobre la ubicación 3D de los marcadores ubicados sobre el modelo. El problema radica en que no ofrecen también videos convencionales del modelo efectuando dichas actividades, o sea fácilmente podemos encontrar un ground truth pero no así la secuencia de video que la produce.\\
+Esto último tuvo una solución. Las bases de datos con capturas de movimiento son ampliamente utilizadas en animaciones 3D , pues se carga la información de la captura al modelo 3D de interés y este efectúa la acción esperada. Por lo que se vió el potencial que estás capturas de movimiento tienen en el desarrollo de una base de datos sintética.\\
+Continuando en esa dirección se trabajo con el programa de animación Blender, generando un modelo 3D con marcadores (el mismo se muestra en la figura \ref{macaco} ) al cual se pretende incorporar la información brindada por las bases de datos de captura de movimiento de interés.  
+
+La principal base de datos utilizada para este fin es CMU (Graphics Lab Motion Capture Database)\cite{CMU}, la cual brinda varias capturas de movimiento de sujetos efectuando la marcha, así como información y código para llevar los archivos mocap entre distintos formatos. El formato utilizado por Blender para importar el esqueleto con la captura de movimiento asociada es .bvh. Una vez asociado el movimiento al modelo 3D de Blender se introducen luces y cámaras con las características y posiciones deseadas y se efectúa un renderizado a través de la cámara elegida. Este proceso se repite para cada una de las cámaras obteniéndose de esta manera varias animaciones del modelo 3D listas para procesar con los algoritmos pertinentes. Todo este proceso se ha logrado llevar a un breve número de pasos, con lo cual cualquier persona que siga el procedimiento sin mucho conocimiento sobre animación o Blender, podrá obtener un resultado aceptable.
+
+PROVENIENTE DE OTRA FUENTE
+
+se cuenta con las herramientas necesarias para generar una base de datos sintética que sea robusta y completa. El corazón de la misma se compone de una extensa lista de capturas de movimiento de personas con marcadores realizando diferentes tipos de actividades. Dichas capturas se efectuaron a través de un sistema Vicon, cuya salida brinda información precisa sobre la ubicación 3D de los marcadores. Para obtener las secuencias de video las capturas de movimiento antedichas se asocian a un modelo virtual, para luego generar secuencias animadas, las cuales por último se renderizan sobre un cierto número de cámaras para generar secuencias de video conteniendo múltiples vistas del modelo original. 
+
+
+
+
 \subsubsection{Implementación}
-HABLAR SOBRE estructura de la base de datos\\
-HABLAR SOBRE estructura de los datos donde se guarda la información.\\
+
+
+
+
+
+\paragraph{HABLAR SOBRE estructura de la base de datos}
+
+Para este proyecto, el programa de animación utilizado es Blender. Dentro del mismo se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas un cierto número de cámaras, iluminación, color de fondo determinado y un modelo con marcadores sobre el cual cargar la captura de movimiento de interés. \\
+
+El procedimiento para generar las secuencias de video a partir de un archivo con la información de la captura de movimiento, se ha definido en detalle de manera que cualquier persona con mínimos conocimientos de Blender pueda generar una secuencia. 
+
+El formato elegido para manipular e importar a Blender las capturas de movimientos es el .bvh. Se cuenta de todas maneras con funciones en Matlab para llevar la información de movimiento contenida en estos archivos a varios de los formatos utilizados actualmente en  capturas de movimientos, así como también directamente a la obtención de las coordenadas 3D de cada marcador. 
+
+Si bien las secuencias de video obtenidas son lo único necesario para el análisis de video, al generar dichas secuencias a través de un entorno virtual controlado, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada frame, etc. Permitiendo contar con un ground truth sobre el cual validar los algoritmos de análisis de video. 
+
+Dado que Blender se encuentra implementado sobre Python, se ha creado un script que permite una vez generada la secuencia, automatizar la extracción de estos parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
+ 
+El potencial de este tipo de base de datos sintética es grande. En especial por la facilidad con la que se obtienen las diversas capturas de movimiento en la web, la flexibilidad de programas como Blender y la rápida obtención de secuencias de interés con casos particulares. \\
+\\
+\\
+
+COLOCAR UNA TABLA 
+\begin{table}[h!]
+	\centering	
+	\caption{Secuencias generadas para la base de datos sintética.}
+	\label{secuencias_gen}	
+	\begin{tabular}{@{}cccc@{}} 
+	\toprule		
+	\multicolumn{1}{l}{\textbf{Acción}} & \begin{tabular}[c]{@{}c@{}}\textbf{Nro. de}\\ \textbf{secuencia}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Longitud de secuencia}\\\textbf{(segundos)} \end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Espacio de captura}\\ \textbf{(metros)}\end{tabular}\\	
+	%\midrule
+	\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{HABLAR SOBRE estructura de los datos donde se guarda la información.}
+Se ha definido e implementado también una estructura de datos para almacenar la información tanto de ground truth como la generada a la hora de  trabajar en la etapa de análisis de video. La misma cuenta con funciones de acceso de entrada y salida implementadas en Matlab, permitiendo independizar la manera en que se guarda la información del uso que se le da a la misma. De manera que pueda modificarse o extenderse sin problemas, la forma en que se estructuran los datos.
+
+Actualmente las componentes principales de la estructura de datos se muestran en la figura \ref{fig:estructura_datos}
+
+En la misma se puede ver la conjunción de dos estructuras principales, una para almacenar información del esqueleto asociado al modelo y otra para almacenar la información de las cámaras con las que se efectúa la captura de video.
+
+Cabe destacar que este tipo de estructura es útil tanto para una base de datos sintética como una base de datos real. \\
+\\
+\\
 \subsubsection{Conclusiones}
 sobre como quedo la base de datos, utilidad, potencial y posible expansión
 
