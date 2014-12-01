@@ -153,17 +153,21 @@ Los elementos que se encuentren en la matriz [f-1][f] , pero no hayan sido enlaz
 Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben tratar de enlazar los puntos de [f+1] que no entraron en el enlazado regular, con las trayectorias perdidas hasta [f-1]. Todos los puntos que sobraron en el enlazado regular, son evaluados contra la lista de trayectorias perdidas, y se revisan dos condiciones:
 
 \begin{enumerate}
-  \item Distancia con respecto a una estimación lineal, prolongando el movimiento tomando el ultimo punto como inicio, y los ultimos frames de la trayectoria conocida como desplazamiento. El despalzamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces, como puede observarse en el ejemplo de la figure \ref{inventario_trayectoria direccional}. 
-  
-\begin{figure}[hbt]
-\begin{center}
-\includegraphics[scale=0.8]{img/Tracking/030_Inventario_trayectoria_direccional.png}
-\end{center}
+  \item Distancia con respecto a una estimación lineal, prolongando el movimiento tomando el ultimo punto como inicio, y los ultimos frames de la trayectoria conocida como desplazamiento. El despalzamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces, como puede observarse en el ejemplo de la figure \ref{track_m8_recover}. 
+ 
+\begin{figure}[H]
+ \centering
+  \subfloat[Salida de Codigo durante perdida y recuperación de trayectoria]{
+	\label{track_m8_recover_code}
+	\includegraphics[scale=0.7]{img/Tracking/035_Salida_Codigo_Recuperacion.png}}\hspace{3 mm}
+	
+  \subfloat[Trayectoria]{
+   \label{track_m8_recover}
+\includegraphics[scale=0.7]{img/Tracking/030_Inventario_trayectoria_direccional.png}}
 \caption{Trayectoria perdida en frame 104, con posible candidato de recuperacion en frame 106 por cercania con la estimacion por desplazamiento}
-\label{inventario_trayectoria direccional}
 % Figura tomada de la reconstruccion 8_07_100_200
-\end{figure}
-
+\label{inventario_trayectoria_direccional}
+\end{figure} 
   
   \item Distancia radial con respecto al ultimo punto conocido. En algunos casos, la perdida del enlazado puede suceder cuando la trayectoria está en reposo (por ejemplo, un pie apoyado antes de volver a despegarse del suelo), o en transicion (en el medio de una curva), por lo cual la estimacion lineal anterior es invalida. Para ello, es útil relevar la distancia entre el ultimo punto conocido de una trayectoria trunca, y los puntos que no se enlazaron en [f+1]. Esta distancia, en caso de una posible recuperacion, debera ser proporcional al ultimo traslado conocido, por la diferencia temporal de frames entre el ultimo punto, y el posible candidato.
   
@@ -175,17 +179,96 @@ Si se encuentra algún punto que cumpla alguna de estas condiciones, es consider
 
 Esta estimación es realizada mediante minimos cuadrados, donde las condiciones iniciales dependen de cuantos puntos de la trayectoria se tenían hasta el momento, la condicion final es el punto encontrado en [f+1], las incognitas son los puntos intermedios que se quieren encontrar, y las multiples ecuaciones a cumplir son las planteadas en (\ref{track_var_acc}) y (\ref{track_acc}).
 
-Sea $X_{[f+1]}$ un punto candidato por las condiciones anteriores, y el ultimo punto conocido en [f-1] de un trayectoria que pretende continuar, verifica [f-1]$\geq$3, entonces las ecuaciones que el punto a estimar $\tilde{X}_{[f]}$ deberá cumplir,
+Sea $X_{[f+1]}$ un punto candidato por las condiciones anteriores, y el ultimo punto conocido en [f-1] de un trayectoria que pretende continuar, verifica [f-1]$\geq$3, entonces las ecuaciones que el punto a estimar $\boldsymbol{\tilde{X}_{[f]}}$ deberá cumplir, (observar que las ecuaciones de variacion de aceleracion son combinacion lineal de las ecuaciones de aceleracion)
 
 \begin{equation}
 \left\{
 \begin{matrix}
-X_{[f-3]} &-3.X_{[f-2]} &+3.X_{[f-1]} &-\tilde{X}_{[f]} & &=0 \\
- &X_{[f-2]} &-3.X_{[f-1]} &+3.\tilde{X}_{[f]} &-X_{[f+1]} &=0 \\
- &X_{[f-2]} &-2.X_{[f-1]} &+\tilde{X}_{[f]} & &=0 \\
- & &-.X_{[f-1]} &+2.\tilde{X}_{[f]} &-X_{[f+1]} &=0 \\
+X_{[f-3]} &-3.X_{[f-2]} &+3.X_{[f-1]} &-\boldsymbol{\tilde{X}_{[f]}} & &=0 \\
+ &X_{[f-2]} &-3.X_{[f-1]} &+3.\boldsymbol{\boldsymbol{\tilde{X}_{[f]}}} &-X_{[f+1]} &=0 \\
+ &X_{[f-2]} &-2.X_{[f-1]} &+\boldsymbol{\boldsymbol{\tilde{X}_{[f]}}} & &=0 \\
+ & &X_{[f-1]} &-2.\boldsymbol{\boldsymbol{\tilde{X}_{[f]}}} &+X_{[f+1]} &=0 \\
 \end{matrix}
 \right.
+\label{ecuaciones_estimacion_01}
+\end{equation}
+
+, escribiendo de forma matricial, separando los datos en incognitas y condiciones,
+
+\begin{equation}
+\begin{split}
+&\begin{pmatrix}
+1 &-3 &3 &-1&0\\
+0 &1 &-3 &3 &-1\\
+0 &1 &-2 &1 &0\\
+0 &0 &1 &-2 &1\\
+\end{pmatrix}
+\begin{pmatrix}
+X_{[f-3]}\\
+X_{[f-2]}\\
+X_{[f-1]}\\
+\boldsymbol{\tilde{X}_{[f]}}\\
+X_{[f+1]}\\
+\end{pmatrix} =
+\begin{pmatrix}
+1 &-3 &3\\
+0 &1 &-3\\
+0 &1 &-2\\
+0 &0 &1\\
+\end{pmatrix}
+\begin{pmatrix}
+X_{[f-3]}\\
+X_{[f-2]}\\
+X_{[f-1]}\\
+\end{pmatrix}+
+\begin{pmatrix}
+-1\\
+3\\
+1\\
+-2\\
+\end{pmatrix}
+\boldsymbol{\tilde{X}_{[f]}}+
+\begin{pmatrix}
+0\\
+-1\\
+0\\
+1\\
+\end{pmatrix}
+X_{[f+1]} = 
+\begin{pmatrix}
+0\\
+0\\
+0\\
+0\\
+\end{pmatrix} \\
+&\Rightarrow
+\underbrace{
+\begin{pmatrix}
+-1\\
+3\\
+1\\
+-2\\
+\end{pmatrix}
+}_{A_{[f]}}\boldsymbol{\tilde{X}_{[f]}} = \underbrace{- \begin{pmatrix}
+1 &-3 &3\\
+0 &1 &-3\\
+0 &1 &-2\\
+0 &0 &1\\
+\end{pmatrix}
+\begin{pmatrix}
+X_{[f-3]}\\
+X_{[f-2]}\\
+X_{[f-1]}\\
+\end{pmatrix} - \begin{pmatrix}
+0\\
+-1\\
+0\\
+1\\
+\end{pmatrix}
+X_{[f+1]}}_{B_{[f]}} \\
+&\Rightarrow \boldsymbol{\tilde{X}_{[f]}} = \left( A_{[f]}^{t}.A_{[f]}\right)^{-1}.A_{[f]}^{t}.B_{[f]}
+\end{split}
+\label{matrices_estimacion_01}
 \end{equation}
 
 
