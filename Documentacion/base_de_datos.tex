@@ -139,7 +139,47 @@ El objetivo de esta base de datos es reconocer el movimiento del cuerpo al reali
 \end{itemize} Todas estas fuentes se encuentran sincronizadas. Esta base de datos es bastante completa en cuanto a los tipos de captura que realiza, pero los marcadores utilizados son leds y únicamente se utilizan para recabar información para el ground truth, con lo cual no se cuida de obtener una buena información óptica de los mismos. 
 
 
+
+\subsubsection{Contactos realizados y resultados}
+
+Hablar también de la gente del clínicas y de Patricia Polero
+JUSTIFICAR LA ELECCION DE LOS PEDIDOS
+Los pedidos fueron realizados el 17 de diciembre de 2013 aproximadamente.
+
+
+\begin{table}[h!]
+	\centering		
+	\begin{tabular}{@{}lr@{}} 
+	\toprule		
+	\multicolumn{1}{l}{\textbf{Base de datos}} & \textbf{Resultados }\\	
+	\midrule
+	HumanEva		&	concedida 27 julio 2014\\
+	CASIA			&	concedida 3 de mayo 2014\\
+	CMU Mobo		&	sin respuesta \\
+	\midrule
+	\multicolumn{1}{l}{\textbf{Escasas secuencias de video}} & \textbf{Resultados }\\
+	\begin{tabular}[l]{@{}l@{}}Darío Santos,\\ Depto. Fisiatría Y
+	Rehabilitación.\\ Hospital de Clínicas.\end{tabular}	&	concedida 29 julio 2014\\	
+	\bottomrule
+	\end{tabular}
+	\caption{Solicitudes de acceso gestionadas.}
+	\label{solicitudes}	
+\end{table}
+
+
+
 \subsubsection{Conclusiones}
+
+Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores. Son los factores más importantes.
+Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos en distinto tipo de movimientos, sobre todo en formatos Mocap.
+Estas consideraciones impulsaron la idea de recorrer el camino inverso, crear una base de datos sintética a partir del material Mocap disponible, para luego generar los videos en los cuales trabajar.  
+
+
+
+
+
+
+
 Si bien la búsqueda se centró en blablabla no logró encontrar una base de datos que cumpliera las especificaciones de nuestro proyecto. Debido a blablabla SEGUIMIENTO OPTICO DE MARCADORES.
  De todas maneras se genera un relevamiento de bases de datos para el movimiento humano, se profundiza en las características usuales que presentan dichas bases de datos y se logra reunir un conjunto de conceptos y herramientas necesarios para introducirnos en el tema. 
 
@@ -149,7 +189,7 @@ Si bien la búsqueda se centró en blablabla no logró encontrar una base de dat
 
 \subsection{Características de un Laboratorio para un sistema de captura}
 \subsubsection{Variables}
--tipo de cámara, fps (vs resolución temporal y tipo de movimiento)  y resolución (vs resolución espacial de datos de salida)\\
+-tipo de cámara, fps (vs resolución temporal y tipo de movimiento)  y resolución cámara  (vs resolución espacial de datos de salida)\\
 -tipo de marcador\\
 -posición de marcadores---modelado del cuerpo humano\\
 -vestimenta\\
@@ -197,8 +237,6 @@ se cuenta con las herramientas necesarias para generar una base de datos sintét
 
 
 \subsubsection{Implementación}
-
-
 
 
 
