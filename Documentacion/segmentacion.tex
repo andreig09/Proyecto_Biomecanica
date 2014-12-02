@@ -1,5 +1,5 @@
 \section{Detección de marcadores}
-
+\label{deteccionMarcadoresSec}
 \subsection{Introducción}
 
 Como se vio anteriormente, luego de realizada la captura del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es lograr reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo. Debido a las condiciones del laboratorio donde se realizarán las capturas (esto es, marcadores blancos sobre un paciente con ropa oscura, fondo oscuro, e iluminación controlada. ), el problema de la detección de marcadores puede explicarse en líneas generales como la detección de circulos blancos de un cierto tamaño sobre fondo oscuro.
@@ -502,15 +502,15 @@ En la figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del b
 Los resultados para cada marcador se pueden clasificar en 4 tipos:
 \begin{itemize}
 \item \textit{Verdadero positivo}. Se detecta un marcador donde hay un marcador realmente.
-\item \textit{Verdadero negativo}. Se detecta un marcador donde no hay un marcador en el cuadro original.
-\item \textit{Falso positivo}. No se detecta un marcador donde en realidad hay uno.
-\item \textit{Falso negativo}. No se detecta marcador donde no lo hay realmente.
+\item \textit{Verdadero negativo}. No se detecta un marcador donde no hay un marcador en el cuadro original.
+\item \textit{Falso positivo}. Se detecta un marcador donde en realidad no hay uno.
+\item \textit{Falso negativo}. No se detecta marcador donde hay uno realmente.
 \end{itemize}
 
 
-Viendo esto, se puede concluir que es deseable tener tanto verdaderos positivos como falsos negativos. El verdader negativo y el falso positivo corresponden a errores. 
+Viendo esto, se puede concluir que es deseable tener tanto verdaderos positivos como verdaderos negativos. El falso negativo y el falso positivo corresponden a errores. 
 
-En el desarrollo de sistemas de este tipo, normalemente se priorizan algunos errores frente a otros y se optimiza el sistema para reducir la probabilidad de que ocurran los más prioritarios. Uno de los errores más importantes en segmentación es el \textit{falso positivo}, lo que se traduce en una pérdida de un marcador, ya que si se pierde por muchos cuadros consecutivos es imposible recuperar su trayectoria. 
+En el desarrollo de sistemas de este tipo, normalemente se priorizan algunos errores frente a otros y se optimiza el sistema para reducir la probabilidad de que ocurran los más prioritarios. Uno de los errores más importantes en segmentación es el \textit{falso negativo}, lo que se traduce en una pérdida de un marcador, ya que si se pierde por muchos cuadros consecutivos es imposible recuperar su trayectoria. 
 
 Otro de los errores a priorizar es el cálculo del centroide de un marcador de forma incorrecta. Esto en general sucede porque al segmentar es complicado detectar el total de los pixeles en un marcador, casi siempre por problemas de iluminaciónm calidad de la filmación, etc.
 

@@ -2,7 +2,7 @@
 
 \subsection{Introducción}
 
-La salida del bloque de reconstrucción, son los puntos 3D generados a partir de los múltiples vídeos de cada vista, presentados en el orden que fueron validados en cada frame (figura \ref{reconstr_00}).
+La salida del bloque de reconstrucción, son los puntos 3D generados a partir de los múltiples vídeos de cada vista, presentados en el orden que fueron validados en cada frame (figura \ref{reconstr_00}). A su vez, los marcadores fueron reconstruidos a su vez toman como entrada los puntos obtenidos en las imágenes de la segmentación, no teniendo estos información alguna sobre el cuerpo, mas que el orden en el que son generados por la observación.
 
 Son presentados arbitrariamente para cada cuadro de la secuencia, y el objetivo del tracking o seguimiento, es identificarlos temporalmente, asignándoles una etiqueta constante para obtener las trayectorias 3D de cada marcador.
 
@@ -15,7 +15,24 @@ Son presentados arbitrariamente para cada cuadro de la secuencia, y el objetivo 
 % Figura tomada de la reconstruccion 8_07_100_200
 \end{figure}
 
-El procedimiento presentado \cite{herda} , es aplicar el tracking de partículas esbozado por Malik,Dracos,Papantoniou \cite{griegos} al seguimiento de marcadores. El mismo consiste en buscar el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros. 
+\subsection{Estado del Arte}
+
+El problema del seguimiento de marcadores espaciales a lo largo del tiempo presenta amplia bibliografía y distintos enfoques, entre ellos:
+
+\begin{itemize}
+
+\item Aplicación de restricciónes al movimiento, teniendo informacion previa de los marcadores a estudiar, como se mueven, y como se relacionan entre ellos. 
+
+\item Predictores Lineales o Estadisticos, teniendo informacion previa de una trayectoria para estimar el proximo elemento y confirmar o corregir la continacion de la secuencia.
+
+\end{itemize}
+
+Estos enfoques no son mutuamente excluyentes, pudiendo usar uno ,otro , o ambos complementarios para robustecer la generación de las trayectorias. Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se encentras en elementos que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma, sino sobre un lugar representativo sobre el cuerpo). Con estas distancias relevadas, y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o varián de forma continua (angulo de huesos), y la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo fisico, a los puntos obtenidos en la reconstrucción. 
+
+Uno de los algoritmos mas simples \cite{survey_tracking}, es continuar una secuencia buscando el marcador mas cercano al ultimo punto conocido ("greedy matching"), pero es suceptible a errores
+
+
+El procedimiento elegido \cite{herda} , es aplicar el tracking de partículas esbozado por Malik,Dracos,Papantoniou \cite{griegos} al seguimiento de marcadores. El mismo consiste en buscar el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
 
 La hipótesis principal de este procedimiento, es que el muestreo del movimiento capturado  es suficiente para que el desplazamiento entre cuadros sea mínimo en distancia, y la idea para predecir y buscar el desplazamiento entre [f] y [f+1], es utilizar la información que se tiene de la secuencia entre [f-1] y [f], y utilizar una segunda proyección entre [f+1] y [f+2] para confirmar el enlace encontrado en el caso que exista mas de una posibilidad (figura \ref{herda_00}). El muestreo se considera constante, por lo cual podemos realizar las derivadas discretas de las trayectorias.
 
@@ -108,7 +125,7 @@ La norma de este traslado es utilizada para evaluar los puntos cercanos al centr
 
 El enlazado final es similar a los presentado para regimen, pero en caso de multiples marcadores candidatos en el frame final [f+1], no se puede extender el movimiento, por lo que se elige mediante menor aceleracion en los ultimos tres frames con una sola busqueda desde [f] a [f+1], pero otra alternativa igualmente valida hubiera sido buscar sobre los ultimos cuatro frames. Se eligió la primer opcion debido a  ser un caso simplificado del enlazado en regimen ya implementada. 
 
-Sin embargo, el enlazado inicial presenta una situacion diferente, no se tiene informacion previa, y se está estableciendo los enlaces iniciales (CONTINUAR)
+Sin embargo, el enlazado inicial presenta una situacion diferente, no se tiene informacion previa, y deben establecerse las bases para el inicio del enlazado. Para ello se cargan todos los marcadores en los primeros 3 frames, se calculan todas las posibles combinaciones de trayectorias entre elementos
 
 
 \subsubsection{Validación e Inventario de trayectorias}
@@ -173,7 +190,9 @@ Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben 
 
 \end{itemize}
 
-Si se encuentra algún punto que cumpla alguna de estas condiciones, es considerado para continuar la trayectoria, y deben estimarse los puntos intermedios para completar la trayectoria.
+\subsubsection{Estimación de Marcadores Perdidos Durante Enlazado}
+
+Si se encuentra algún punto que cumpla alguna de las condiciones de recuperación de trayectorias, es considerado para continuar la trayectoria, y deben estimarse los puntos intermedios para completar la trayectoria.
 
 Esta estimación es realizada mediante mínimos cuadrados, donde las condiciones iniciales dependen de cuantos puntos de la trayectoria se tenían hasta el momento, la condición final es el punto encontrado en [f+1], las incógnitas son los puntos intermedios que se quieren encontrar, y las múltiples ecuaciones a cumplir son las planteadas en (\ref{track_var_acc}) y (\ref{track_acc}).
 
@@ -286,7 +305,10 @@ X_{[f_{i}-2]} &-3.X_{[f_{i}-1]} &+3.X_{[f_{i}]} &-\boldsymbol{\tilde{X}_{[f_{i}+
 
 En caso que la información previa a la perdida es menor, con $f_{i} \geq 2$, se plantea una ecuación menos, aquella que plantea la variación de aceleración de aceleración con el primer elemento incógnita que es la única que precisaría tres elementos previos, las otras ecuaciones no tienen problemas para plantearse.
 
-Esta metodología de estimación de puntos intermedios es retomada para la validación en trayectoria, donde las incógnitas pasan a ser lo puntos que deben ser regularizados
+Esta metodología de estimación de puntos intermedios es retomada para la validación en trayectoria, donde las incógnitas pasan a ser lo puntos que deben ser regularizados debido a presentar aceleracion excesiva y discontinua para el marcador ( como fue establecido al principio de esta sección).
+
+
+
 
 \subsection{Resultados y Análisis}
 
@@ -300,7 +322,7 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 \label{Tracking_Esqueleto_Trayectoria}
 \end{figure}
 
-El filtrado y validacion por trayectorias, permite reducir el error maximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar globalmente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleracion debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstruccion sobre videos sinteticos con 17 camaras, y con el filtrado de discontinuidades, se evitan grandes discontinuidades, teniendo errores locales menores a los 3 cm   
+El filtrado y validacion por trayectorias, permite reducir el error maximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar globalmente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleracion debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstruccion sobre videos sinteticos de la secuencia CMU-8-07-100-200 con 17 camaras, y con el filtrado de discontinuidades, se evitan grandes discontinuidades, teniendo errores locales menores a los 3 cm en cada trayectoria individual de marcadores   
 
 \begin{table}[H]
 \centering
@@ -346,6 +368,8 @@ El filtrado y validacion por trayectorias, permite reducir el error maximo y mej
 % Figura tomada de la reconstruccion 8_07_100_200
 \label{Tracking_Original_Filtrado_Errores}
 \end{figure}
+
+
 
 Al tener las etiquetas constantes para las trayectorias, es posible visualizar la relacion entre marcadores, quedando pendientes medidas adicionales para robustecer el sistema, como imponer restricciones al movimiento entre marcadores en un mismo miembro, o imponer no solo continuidad en aceleracion de marcadores sino angulos de articulaciones y huesos
 
