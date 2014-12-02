@@ -3,17 +3,17 @@ clc
 
 
 %path donde se encuentra el archivo bvh a cargar
-path_bvh = '/home/sun/Documentos/Fing/Blender/renders/CMU_8_03_hack/';
+path_bvh = '/home/sun/Documentos/Fing/Blender/renders/CMU_8_11_hack/';
 %nombre del archivo bvh a cargar
-name_bvh = 'CMU_8_03_blend_100-100.bvh';
+name_bvh = 'CMU_8_11_blend_100-100.bvh';
 %path donde se encuentra el archivo InfoCamBlender.m, el cual contiene la informacion de las camaras Blender
-path_info_blender = '/home/sun/Documentos/Fing/Blender/renders/CMU_8_03_hack/1600_600-100-100';
+path_info_blender = '/home/sun/Documentos/Fing/Blender/renders/CMU_8_11_hack/1600_600-100-100';
 %booleano que indica si se desea salvar o no la salida en un xml;
 save_vars = 1;
 %path donde se desea guardar los archivos xml
-path_save = '/home/sun/Documentos/Fing/Proyecto_Biomecanica/Archivos_mat/CMU_8_03_hack/1600_600-100-100/Ground_Truth';
+path_save = '/home/sun/Documentos/Fing/Proyecto_Biomecanica/Archivos_mat/CMU_8_11_hack/1600_600-100-100/Ground_Truth';
 %nombre del archivo xml
-name_save = 'CMU_8_03';
+name_save = 'CMU_8_11';
 %cell array de strings con los nombres de los marcadores con los cuales se desea trabajar, el resto son removidos
 % de las estructuras
 markers_name = {'LeftUpLeg', 'LeftLeg', 'LeftFoot', 'RightUpLeg', 'RightLeg', 'RightFoot', 'Head', 'LeftArm', 'LeftForeArm', 'LeftHand', 'RightArm', 'RightForeArm', 'RightHand', 'Spine'};
