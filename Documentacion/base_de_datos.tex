@@ -188,38 +188,92 @@ Si bien la búsqueda se centró en blablabla no logró encontrar una base de dat
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %5
 
 
-\subsection{Características de un Laboratorio para un sistema de captura}
+\subsection{Características de Laboratorio para un sistema de captura óptica basado en marcadores}
 \subsubsection{Variables}
  
-A continuación se enumeran un cierto número de variables que es necesario tener en cuenta a la hora de formar un Laboratorio adecuado para un sistema de captura, y se discute brevemente su impacto.
+A continuación se enumeran un cierto número de variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
 
 \paragraph{Cámaras} 
--tipo de cámara, fps (vs resolución temporal y tipo de movimiento)  y resolución cámara  (vs resolución espacial de datos de salida)\\
+Para la elección del tipo de cámaras es importante tener en cuenta los requerimientos de las secuencias a relevar. A continuación vamos a tratar dos variables básicas y generales que deben contemplarse, por un lado la cantidad de fotogramas, y por otro la resolución de la cámara.
+
+La cantidad de fotogramas por segundo de las secuencias de video condiciona la resolución temporal de los datos procesados a partir de dichas secuencias, así como también limita la velocidad de movimiento a realizar por el sujeto si se busca una captura aceptable.
+Basados en el relevamiento de las distintas bases de datos se puede afirmar que 30fps es un valor normal para trabajar el caso de la marcha, pudiendo obtener en este caso información de la posición de los marcadores solo cada 1/30 segundos.\\ 
+Hay que tener presente que si se efectúan movimientos de velocidades superiores a la marcha, manteniendo la cantidad de fotogramas anterior, aumenta la dificultad a la hora de vincular temporalmente los datos obtenidos, pudiendo bajar la performance del seguimiento de los marcadores. 
+
+Respecto a los tiempos de obturación, estos deben ser bastante cortos  para no producir efectos de desplazamiento nocivos a la hora de reconocer los marcadores.
+Una regla habitualmente utilizada que sirve de orientación es que el tiempo mínimo de disparo que asegura que no salga movida una imagen, es la inversa de la distancia focal utilizada. También se encuentran referencias que indican los tiempos de obturación recomendados según la actividad a relevar. \footnote{\textcolor{blue}{\underline{\url{http://es.wikipedia.org/wiki/Velocidad_de_obturación}}}}.
+\begin{itemize}
+\item $1 / 4000~ s$:  se utiliza para tomar fotografías nítidas de sujetos en rápido movimiento, como los atletas o vehículos, en condiciones de buena iluminación.
+\item $1 / 2000 ~s$ y $1/ 1000~s$: útil  para fotografías nítidas de sujetos en movimiento moderadamente rápido, bajo condiciones normales de iluminación.
+\item $1 / 500~s$ y $1/ 250~s$ :  para tomar fotografías nítidas de personas en movimiento en situaciones cotidianas.
+\end{itemize}
+ 
+ 
+ La resolución del sensor también juega un rol fundamental a la hora de cumplir requerimientos de resolución espacial en los datos de salida.
+ En la figura \ref{estimacion_resolucion} se hace un bosquejo que permite estimar la resolución espacial a medida que el sujeto se aleja de la cámara.
+ 
+\begin{figure}[H]
+  \centering
+  {\includegraphics[scale=0.5]{img/Base_Datos/camara_resolucion.eps}\label{peladoOriginalintro}}      
+  \caption{Estimación del la resolución espacial.}
+  \label{estimacion_resolucion}
+\end{figure} 
+
+Llamemos $x_s$ e $y_s$ a magnitudes sobre el sensor de la cámara, horizontal y vertical respectivamente, y sea $X$ e $Y$ las magnitudes a una distancia $d$ del centro $C$ de la cámara que producen respectivamente las proyecciones de magnitud $x$ e $y$ sobre el sensor.
+Se cumple la siguiente relación,
+\begin{alignat*}{1}
+X = \dfrac{d}{f}x_s&~, \quad \quad Y = \dfrac{d}{f}y_s
+\end{alignat*}
+
+Si el sensor\footnote{También referido como retina de la cámara.} tiene un largo $S_x$, píxeles cuadrados y resolución de $R_x\times R_y$ píxeles, resulta que la arista de un pixel es $l_p = S_x/R_x $ y el ancho del sensor es $S_y = S_x R_y/ R_x$. 
+
+A modo de ejemplo consideremos una cámara con las siguientes características $S_x = 0.032~m$, píxeles cuadrados, resolución de $1600\times600$ píxeles y una distancia focal de $32~mm$. Por lo tanto un error de un pixel es equivalente a $x = 0,032/1600~m = 0.02~mm$ sobre el sensor. Errores de 1, 2 y 3 píxeles se mapean a una distancia $d$ del centro de la cámara como se muestra en la tabla \ref{table_resolucion} 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|l|l|l|l|}
+\hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textbf{número} \\\textbf{ de píxeles}\end{tabular}} & \multicolumn{5}{c|}{\textbf{d (metros)}} \\ \cline{2-6} 
+                                                                              &\textbf{ 0,5}  &\textbf{ 1,0}  & \textbf{3,0}  & \textbf{5,0} & \textbf{10,0}\\ \hline
+\textbf{1}                                                                             &  0,03    &  0,06    &   0,19   &  0,31   & 0,63      \\ \hline
+\textbf{2}                                                                             &  0,06    &  0,12    &  0,38    &  0,62   &  1,26    \\ \hline
+\textbf{3}                                                                            &   0,09   &  0,18    &  0,57    & 0,93    &  1.89    \\ \hline
+\end{tabular}
+\caption{Resolución espacial en centímetros como función de la distancia al centro de la cámara}
+\label{table_resolucion}
+\end{table}
 
 
 \paragraph{Marcadores}
-
--tipo de marcador\\
--posición de marcadores---modelado del cuerpo humano\\
-
-\paragraph{Vestimenta}
--vestimenta\\
-
+A la hora de seleccionar el equipamiento se debe prestar especial atención y coordinar el tipo de marcador, la vestimenta del sujeto, el fondo del espacio de captura y el tipo de iluminación. Pues las características de estos elementos en conjunto pueden cambiar sensiblemente la performance del sistema de captura, sobre todo en sus primeras etapas tales como la detección de marcadores y calibración.
+Si se quiere facilitar la tarea de detección automática de marcadores, estos deben ser fácilmente distinguibles del resto del entorno, y visibles la mayor cantidad de tiempo para las cámaras. Para ello se debe tener marcadores que generen un alto contraste con el resto de los elementos dentro de la captura de video. 
+Su tamaño y forma también son importantes, por lo general se trabaja con marcadores esféricos, y un tamaño que dado cierto espacio de trabajo no condicione fuertemente la resolución necesaria de las cámaras. Una medida que se puede considerar aceptable con cámaras convencionales y movimientos a menos de 12 metros, son marcadores de $3~cm$ de diámetro.  
+Si el fondo del espacio de captura es negro, opaco, al igual que la vestimenta del sujeto a capturar, los marcadores pueden ser blancos, no pulidos de manera que su reflejo sea difuso, para no generar variación de tono sobre los mismos. 
+La disposición de los mismos sobre el sujeto responde a los intereses de lo que se quiera observar, pero se debe tener presente que al ser una captura óptica, para que un marcador sea útil, debe estar visibles buena parte del tiempo en la secuencia.
 
 \paragraph{Iluminación}
--posición y tipo de luz\\
+La iluminación debería ser preferiblemente uniforme, para no generar sombras que modifiquen los tonos del espacio de captura. La luz natural es una buena alternativa, en espacios cerrados lo que habitualmente se utilizan son pantallas delante de los focos lumínicos, en cuanto a la posición depende de la forma del espacio de captura, pero por lo general rodean al mismo, cuidando que los focos no sean capturados  directamente por las cámaras.
+
+\paragraph{Vestimenta}
+Es preferible que la vestimenta del sujeto a relevar, consista en ropas finas y ajustadas para despreciar fluctuaciones de la posición de marcadores debido al movimiento de la ropa. Como se menciona anteriormente al igual que el fondo, la elección del color y material debe contrastar con los marcadores.
 
 \paragraph{Espacio de captura}
+Las 
 -dimensiones del espacio de captura(relacionarlo con la posición de las cámaras y el tipo de movimiento)\\
 -fondo del espacio de captura\\
 -posición de cámaras (describir como depende del movimiento--marcha-rectilínea, movimiento libre--área circular)\\
 -facilidades para calibración\\
+Posibilidad: Fondo del espacio de captura con patrones asimeétricos con colores saturados que facilitan la extracción del fondo y la calibración automática.
 
-\paragraph{Sincronización}
--Sincronización\\
-\textbf{ Entrada de sincronización}\footnote{http://en.wikipedia.org/wiki/Genlock, Accedido 29-11-14}
-El sincronizador (“Gen lock” –abreviatura del inglés “generator lock”) – es una forma de sincronizar varias videocámaras. Esto resulta esencial en las emisiones con conexiones en directo con varias cámaras, para garantizar que las imágenes de vídeo se mantienen estables incluso cuando se cambia de una cámara a otra.
-Una señal de sincronización, enviada a todas las videocámaras que participan en una grabación desde una fuente central, indica a cada una de ellas cuando deberán comenzar a grabar. La misma orden es enviada para cada fotograma y todas y cada una de las líneas escaneadas dentro del fotograma. El sincronizador ‘bloquea’ las videocámaras en la misma secuencia de escaneado.
+
+
+RECORDATORIO: Aumentar el número de cámaras permite una mayor cobertura de volumen, lo que significa una mayor visibilidad del conjunto de marcadores. A su vez una mejor visibilidad del conjunto de marcadores está correlacionado con disminuir la posibilidad de que los datos importantes se pierdan.
+
+
+\paragraph{Sincronización \cite{canon}}
+
+Esto resulta esencial en las emisiones con conexiones en directo con varias cámaras, para garantizar que las imágenes de vídeo se mantienen estables incluso cuando se cambia de una cámara a otra.
+Se debe contar con un fuente central que envíe una señal de sincronización a todas las videocámaras que participan en una grabación, de esta manera se indica a cada una de ellas cuando deberán comenzar a grabar. La misma orden es enviada para cada fotograma y todas y cada una de las líneas escaneadas dentro del fotograma. El sincronizador ‘bloquea’ las videocámaras en la misma secuencia de escaneado.
 Si no se contara con una entrada de sincronización sería prácticamente imposible realizar una grabación con varias cámaras simultáneamente.
 
 \paragraph{Formatos Mocap}
@@ -228,17 +282,10 @@ Si no se contara con una entrada de sincronización sería prácticamente imposi
 
 
 
-
-
-RECORDATORIO: Aumentar el número de cámaras permite una mayor cobertura de volumen, lo que significa una mayor visibilidad del conjunto de marcadores. A su vez una mejor visibilidad del conjunto de marcadores está correlacionado con disminuir la posibilidad de que los datos importantes se pierdan.
-
-
-
-
-IR LLENANDO ESTA INFORMACIÓN ($2+2=4$)
-
 \subsubsection{Conclusiones}
 especificar los parámetros deseables en una base de datos que trabaje con información óptica basada en marcadores
+
+Notar que trabajando a 10 metros con resolución $1600\times600$ se obtienen incertidumbres de pixel de casi $1 ~cm $
 
 \subsection{Base de datos sintética}
 \subsubsection{Motivación}
