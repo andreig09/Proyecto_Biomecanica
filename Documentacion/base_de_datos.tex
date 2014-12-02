@@ -111,7 +111,7 @@ Se encuentra desarrollando maneras de identificar a los seres humanos a distanci
 Lamentablemente las cámaras están todas sobre un costado del caminante, la resolución es baja y no todos los videos poseen marcadores. No se cuidan las condiciones de laboratorio para trabajar de manera óptica según nuestras necesidades.
 
 
-\paragraph{University of Southampton Database.\footnote{ \textcolor{blue}{\underline{\url{http://www.gait.ecs.soton.ac.uk/database}}}. Accedido 30-11-14}}
+\paragraph{University of Southampton Database.\footnote{ \textcolor{blue}{\underline{\url{http://www.gait.ecs.soton.ac.uk/database}}}. Accedido 30-11-14}}\label{U.S.}
 Interesados en el reconocimiento de personas a través del seguimiento de la marcha, relevantes sobre todo por ser pioneros en el estudio biomecánico de la marcha. Poseen dos bases de datos, HiD gait database  (100 sujetos) y Biometric tunnel. El servidor donde se alojaba la base de datos está fuera de línea desde el 2004, el encargado de la página es Mark Nixon (\textcolor{blue}{\underline{\url{msn@ecs.soton.ac.uk}}}). Aparentemente se continúa actualmente el proyecto en \textcolor{blue}{\underline{\url{http://www.cspc.ecs.soton.ac.uk/gait}}}\footnote{Accedido 30-11-14}. Si bien estas bases de datos no están basadas en marcadores, cabe resaltar que el fondo del espacio de captura del túnel biométrico contiene patrones asimétricos con colores saturados que facilitan no solo la extracción de fondo sino también la automatización del proceso de calibración.
 
 \paragraph{Human ID Gait Challenge Dataset.\footnote{\textcolor{blue}{\underline{\url{http://marathon.csee.usf.edu/GaitBaseline/ }}}. Accedido 30-11-14} }
@@ -193,7 +193,7 @@ Si bien la búsqueda se centró en blablabla no logró encontrar una base de dat
  
 A continuación se enumeran un cierto número de variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
 
-\paragraph{Cámaras} 
+\paragraph{Cámaras}\label{parrafo_Camaras} 
 Para la elección del tipo de cámaras es importante tener en cuenta los requerimientos de las secuencias a relevar. A continuación vamos a tratar dos variables básicas y generales que deben contemplarse, por un lado la cantidad de fotogramas, y por otro la resolución de la cámara.
 
 La cantidad de fotogramas por segundo de las secuencias de video condiciona la resolución temporal de los datos procesados a partir de dichas secuencias, así como también limita la velocidad de movimiento a realizar por el sujeto si se busca una captura aceptable.
@@ -245,7 +245,7 @@ A modo de ejemplo consideremos una cámara con las siguientes características $
 
 
 \paragraph{Marcadores}
-A la hora de seleccionar el equipamiento se debe prestar especial atención y coordinar el tipo de marcador, la vestimenta del sujeto, el fondo del espacio de captura y el tipo de iluminación. Pues las características de estos elementos en conjunto pueden cambiar sensiblemente la performance del sistema de captura, sobre todo en sus primeras etapas tales como la detección de marcadores y calibración.
+A la hora de seleccionar el equipamiento se debe prestar especial atención y coordinar el tipo de marcador, la vestimenta del sujeto, el fondo del espacio de captura y el tipo de iluminación. Pues las características de estos elementos en conjunto pueden cambiar sensiblemente la performance del sistema de captura, sobre todo en sus primeras etapas tales como la detección de marcadores y la  calibración.
 Si se quiere facilitar la tarea de detección automática de marcadores, estos deben ser fácilmente distinguibles del resto del entorno, y visibles la mayor cantidad de tiempo para las cámaras. Para ello se debe tener marcadores que generen un alto contraste con el resto de los elementos dentro de la captura de video. 
 Su tamaño y forma también son importantes, por lo general se trabaja con marcadores esféricos, y un tamaño que dado cierto espacio de trabajo no condicione fuertemente la resolución necesaria de las cámaras. Una medida que se puede considerar aceptable con cámaras convencionales y movimientos a menos de 12 metros del centro de las cámaras, son marcadores de $3~cm$ de diámetro.  
 Si el fondo del espacio de captura es negro, opaco, al igual que la vestimenta del sujeto a capturar, los marcadores pueden ser blancos, no pulidos de manera que su reflejo sea difuso, para no generar variación de tono sobre los mismos. 
@@ -258,14 +258,31 @@ La iluminación debería ser preferiblemente uniforme, para no generar sombras q
 Es preferible que la vestimenta del sujeto a relevar, consista en ropas finas y ajustadas para despreciar fluctuaciones de la posición de marcadores debido al movimiento de la ropa. Como se menciona anteriormente al igual que el fondo, la elección del color y material debe contrastar con los marcadores.
 
 \paragraph{Espacio de captura}
-Las 
--dimensiones del espacio de captura(relacionarlo con la posición de las cámaras y el tipo de movimiento)\\
--fondo del espacio de captura\\
--posición de cámaras (describir como depende del movimiento--marcha-rectilínea, movimiento libre--área circular)\\
--facilidades para calibración\\
-Posibilidad: Fondo del espacio de captura con patrones asimeétricos con colores saturados que facilitan la extracción del fondo y la calibración automática.
+
+Ya se ha mencionado algunas características cualitativas relacionadas con el espacio de captura, como ser que el fondo debe contrastar con los marcadores. Un caso interesante a tener en cuenta es el del túnel biométrico de la Universidad de Southampton \ref{U.S.}, donde  utilizan patrones asimétricos con colores saturados para el fondo del espacio de captura, esto les permite agrupar dos etapas, logrando luego de un tratamiento sobre la secuencia, extraer el fondo del resto de la información y efectuar la calibración de las cámaras. De todas maneras si bien se mantienen relacionadas, las etapas mencionadas se manejan comúnmente por separado. Por lo que si se utilizan marcadores blancos, un fondo oscuro idealmente negro, y opaco es suficiente.\\
+
+En cuanto a las dimensiones del espacio de captura, el mismo depende principalmente del tipo de movimiento a relevar y las características de las cámaras utilizadas. A continuación se analiza posibles configuraciones para dos caso, la marcha rectilínea y marcha libre, en el último caso se permite al sujeto movilizarse sobre un área circular.
 
 
+\begin{figure}[H]
+  \centering
+  {\includegraphics[scale=0.2]{img/Base_Datos/Laboratorio.eps}\label{img_Laboratorio}}      
+  \caption{Laboratorio}
+  \label{estimacion_resolucion}
+\end{figure}  
+ 
+ 
+\begin{figure}[H]
+  \centering
+   \subfloat[Espacio de captura para marcha rectilínea.]{\includegraphics[scale=0.2]{img/Base_Datos/Lab_marcha1.eps}\label{img_marcha1}}\hspace{0.2cm}
+   \subfloat[Espacio de captura para marcha libre.] {\includegraphics[scale=0.2]{img/Base_Datos/Lab_marcha2.eps}\label{img_marcha2}}  \caption{Posibles espacios de captura.}
+  \label{img_espacio_capura}
+\end{figure} 
+ 
+En el caso de la marcha rectilínea puede verse que en principio con tan solo 4 cámaras dispuestas como en la figura \ref{img_marcha1} se genera un espacio de captura en forma de pasarela de aproximadamente $3\;m\times5\; m$. Si el sujeto restringe su movimiento sobre esta zona será visto en su totalidad por todas las cámaras simultáneamente. En el caso de marcha libre se disponen 8 cámaras intentando que el espacio de captura no tenga direcciones privilegiadas, con lo cual se genera una circunferencia la cual tiene en nuestro caso $5\;m$ de diámetro. \\
+Siguiendo el mismo proceso discutido anteriormente \ref{parrafo_Camaras}, se puede estimar la resolución esperada en los datos obtenidos a partir de las secuencias de video, si se cuenta en principio con información de la resolución de las cámaras y su distancia focal. Consideremos nuevamente cámaras con resolución de $1600\times600$ píxeles y distancia focal de $f=32\;mm$, la mayor distancia sobre la cual una cámara debe tener cobertura en nuestro caso de la marcha rectilínea es de $8 \;m$ mientras que en el caso de la marcha libre es de $9\;m$, con lo cual un error de un pixel en una cámara produce una incertidumbre de aproximadamente poco más de medio centímetro en ambos casos a la hora de efectuar la reconstrucción. 
+
+FALTA ALGUN DETALLE MAS PERO BASICAMENTE ESTÁ, HABLAR SOBRE EL NUMERO DE CAMARAS UTILIZADO POR LO GENERAL (8) Y SU DISTRIBUCIÓN
 
 RECORDATORIO: Aumentar el número de cámaras permite una mayor cobertura de volumen, lo que significa una mayor visibilidad del conjunto de marcadores. A su vez una mejor visibilidad del conjunto de marcadores está correlacionado con disminuir la posibilidad de que los datos importantes se pierdan.
 
@@ -284,6 +301,9 @@ Si no se contara con una entrada de sincronización sería prácticamente imposi
 
 \subsubsection{Conclusiones}
 especificar los parámetros deseables en una base de datos que trabaje con información óptica basada en marcadores
+
+
+A la hora de configurar un laboratorio no solo hay que integrar las distintas variables, sino también cuidar que esta integración se gestione de manera compatible y en justo equilibrio entre las partes, de lo contrario se estaría desaprovechando el potencial de las secuencias generadas por el sistema de captura en cuanto al procesamiento posterior se trata. Dificultando la tarea de obtención de datos a partir de las secuencias de video.
 
 Notar que trabajando a 10 metros con resolución $1600\times600$ se obtienen incertidumbres de pixel de casi $1 ~cm $
 
