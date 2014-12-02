@@ -290,34 +290,62 @@ Esta metodología de estimación de puntos intermedios es retomada para la valid
 
 \subsection{Resultados y Análisis}
 
-El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, presentarlos como trayectorias, y corregirlos si es necesario. Por esta razón, es esperable que para una misma secuencia, los resultados sean similares a la reconstrucción, siendo las únicas leves diferencias las correcciones realizadas sobre trayectorias particulares, y la posibilidad de medir el error por marcador individual ya que a esta altura del algoritmo ya estan identificados las distintas trayectorias
+El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, presentarlos como trayectorias, y corregirlos si es necesario. Por esta razón, es esperable que para una misma secuencia, los resultados sean similares a la reconstrucción, siendo las únicas leves diferencias las correcciones realizadas sobre trayectorias particulares, y la posibilidad de medir el error por marcador individual ya que a esta altura del algoritmo ya estan identificados las distintas trayectorias. Los siguientes resultados fueron probados sobre una captura sintetica de 113 frames, 14 marcadores, a lo largo de 17 camaras.
+
+\begin{figure}[hbt]
+\begin{center}
+\includegraphics[width=\linewidth]{img/Tracking/040_Salida_Tracking_Esqueleto_Trayectoria.png}
+\end{center}
+\caption{Tracking sobre captura sintetica, 113 frames, 17 camaras, 14 marcadores}
+\label{Tracking_Esqueleto_Trayectoria}
+\end{figure}
+
+El filtrado y validacion por trayectorias, permite reducir el error maximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar globalmente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleracion debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstruccion sobre videos sinteticos con 17 camaras, y con el filtrado de discontinuidades, se evitan grandes discontinuidades, teniendo errores locales menores a los 3 cm   
 
 \begin{table}[H]
 \centering
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline
     \begin{tabular}[c]{@{}c@{}}Marcador\\(Tracking)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Marcador\\  (G.Truth)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Error\\  Promedio(cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Percentil 99\%\\(cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Error Promedio\\  (filtrado)(cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Percentil 99\%\\(filtrado)(cm)\end{tabular} \\ \hline
-     14                 & 1                   & 0,3686              & 1,4138              & 0,3452                        & 0,463                         \\ \hline
-    4                   & 2                   & 0,3491              & 0,419               & 0,5236                        & 2,7257                        \\ \hline
-    6                   & 3                   & 0,3799              & 1,1911              & 0,3706                        & 0,9464                        \\ \hline
-    8                   & 4                   & 0,3872              & 1,6832              & 0,3577                        & 0,5195                        \\ \hline
-    12                  & 5                   & 0,3643              & 0,9919              & 0,5027                        & 2,4866                        \\ \hline
-    13                  & 6                   & 0,3891              & 1,258               & 0,4012                        & 1,4709                        \\ \hline
-    9                   & 7                   & 0,4065              & 0,9004              & 0,4017                        & 0,7312                        \\ \hline
-    3                   & 8                   & 0,4516              & 2,0111              & 0,4395                        & 1,5604                        \\ \hline
-    10                  & 9                   & 0,3587              & 0,6384              & 0,3635                        & 0,7866                        \\ \hline
-    2                   & 10                  & 0,3958              & 1,1202              & 0,4025                        & 1,2571                        \\ \hline
-    11                  & 11                  & 0,3765              & 0,7808              & 0,387                         & 1,2158                        \\ \hline
-    5                   & 12                  & 0,3796              & 1,3073              & 0,3635                        & 0,665                         \\ \hline
-    1                   & 13                  & 0,4564              & 4,2149              & 0,4218                        & 2,2031                        \\ \hline
-    7                   & 14                  & 0,4322              & 1,8281              & 0,4168                        & 1,3947                        \\ \hline
+     14                 & 1,LeftUpLeg                   & 0,3686              & 1,4138              & 0,3452                        & 0,463                         \\ \hline
+    4                   & 2,LeftLeg                   & 0,3491              & 0,419               & 0,5236                        & 2,7257                        \\ \hline
+    6                   & 3,LeftFoot                   & 0,3799              & 1,1911              & 0,3706                        & 0,9464                        \\ \hline
+    8                   & 4,RightUpLeg                   & 0,3872              & 1,6832              & 0,3577                        & 0,5195                        \\ \hline
+    12                  & 5,RightLeg                   & 0,3643              & 0,9919              & 0,5027                        & 2,4866                        \\ \hline
+    13                  & 6,RightFoot                   & 0,3891              & 1,258               & 0,4012                        & 1,4709                        \\ \hline
+    9                   & 7,Spine                   & 0,4065              & 0,9004              & 0,4017                        & 0,7312                        \\ \hline
+    3                   & 8,Head                   & 0,4516              & 2,0111              & 0,4395                        & 1,5604                        \\ \hline
+    10                  & 9,LeftArm                   & 0,3587              & 0,6384              & 0,3635                        & 0,7866                        \\ \hline
+    2                   & 10,LeftForeArm                  & 0,3958              & 1,1202              & 0,4025                        & 1,2571                        \\ \hline
+    11                  & 11,LeftHand                  & 0,3765              & 0,7808              & 0,387                         & 1,2158                        \\ \hline
+    5                   & 12,RightArm                  & 0,3796              & 1,3073              & 0,3635                        & 0,665                         \\ \hline
+    1                   & 13,RightForeArm                  & 0,4564              & 4,2149              & 0,4218                        & 2,2031                        \\ \hline
+    7                   & 14,RightHand                  & 0,4322              & 1,8281              & 0,4168                        & 1,3947                        \\ \hline
     \textbf{Secuencia}			& ~                   & \textbf{0,36381}             & \textbf{1,2681}              & \textbf{0,37718}                       & \textbf{1,5058}                        \\ \hline
     \end{tabular}
 \caption{Medida de error de tracking en captura de la base de datos sintética.}
-\label{tablaerrorseg}
+\label{tablaerrortrack}
 \end{table}
 
-(IMAGENES)
+\begin{figure}[H]
+ \centering
+  \subfloat[Trayectoria sin Corregir Por Aceleracion]{
+	\label{Salida_Tracking_Original}
+	\includegraphics[scale=0.5]{img/Tracking/036_Salida_Tracking_Original.png}}
+  \subfloat[Trayectoria Corregida Por Aceleracion]{
+   \label{Salida_Tracking_Filtrado}
+\includegraphics[scale=0.5]{img/Tracking/037_Salida_Tracking_Filtrado.png}}
+\hspace{3 mm}
+  \subfloat[Error de Marcador, sin Corregir]{
+	\label{Salida_Tracking_Original}
+	\includegraphics[scale=0.5]{img/Tracking/038_Salida_Tracking_Error_Marker_8_original.png}}
+  \subfloat[Error de Marcador, Corregido]{
+   \label{Salida_Tracking_Filtrado}
+\includegraphics[scale=0.5]{img/Tracking/039_Salida_Tracking_Error_Marker_8_filtrado.png}}
+\caption{Correcion por variacion de aceleracion, medidas de error antes y despues de corregir}
+% Figura tomada de la reconstruccion 8_07_100_200
+\label{Tracking_Original_Filtrado_Errores}
+\end{figure}
 
-El filtrado y validacion por trayectorias, permite reducir el error maximo de trayectorias especificas (marcadores 14, 6, 8, 9 , 3 , 5 , 1 , 7 ), pero al aplicar globalmente, es 
+Al tener las etiquetas constantes para las trayectorias, es posible visualizar la relacion entre marcadores, quedando pendientes medidas adicionales para robustecer el sistema, como imponer restricciones al movimiento entre marcadores en un mismo miembro, o imponer no solo continuidad en aceleracion de marcadores sino angulos de articulaciones y huesos
 
