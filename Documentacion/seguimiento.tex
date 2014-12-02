@@ -8,7 +8,7 @@ Son presentados arbitrariamente para cada cuadro de la secuencia, y el objetivo 
 
 \begin{figure}[hbt]
 \begin{center}
-\includegraphics[scale=0.8]{img/Tracking/00_Salida_Reconstruccion}
+\includegraphics[scale=0.8]{img/Tracking/00_Salida_Reconstruccion.png}
 \end{center}
 \caption{Salida de Reconstrucción para 4 frames. La etiqueta para cada marcador es el indice en la reconstrucción para un determinado frame}
 \label{reconstr_00}
@@ -52,9 +52,9 @@ En su trabajo\cite{herda}, Lorna Herda propone que realizar el seguimiento sobre
 
 Adicionalmente, la reconstrucción fue implementada de forma distinta a la propuesta por Herda, si bien es posible obtener los puntos proyectados en cada vista, no cumplen el mismo rol. 
 
-(Comparación Imagen de Tracking 2D, sobre 3D)
+(Comparación Imagen de Tracking 2D, sobre 3D ???)
 
-Finalmente, asumiendo que los puntos obtenidos directamente de las animaciones ,proyectados en cada cámara, son el mejor caso de puntos 2D, no presentaban grandes ventajas de trabajar el enlace en cada una de estas vistas 2D, sobre trabajar en 3D posteriormente a la reconstrucción, y no volver hacia atrás ya que la geometría entre vistas cumplió su cometido. Esto ultimo no se cumple para el caso que se evalúen medidas adicionales para robustecer la salida del tracking (ejemplo: validacion por visibilidad), como se estudiará en las conclusiones.
+Finalmente, asumiendo que los puntos obtenidos directamente de las animaciones ,proyectados en cada cámara, son el mejor caso de puntos 2D, no presentaban grandes ventajas de trabajar el enlace en cada una de estas vistas 2D, sobre trabajar en 3D posteriormente a la reconstrucción, y no volver hacia atrás ya que la geometría entre vistas cumplió su cometido. Esto ultimo no se cumple para el caso que se evalúen medidas adicionales para robustecer la salida del tracking (ejemplo: validacion por visibilidad).
 
 \subsection{Implementación}
 
@@ -77,7 +77,7 @@ Para el ejemplo presentado en la figura \ref{reconstr_00} , en frame $f=11$ el m
 
 Al final de cada iteración, la matriz de enlaces es consolidada para asignarle a cada nuevo marcador en [f+1] la etiqueta definida en el primer cuadro del enlazado, la cual puede ser inicializada como texto, si se le presenta la opción al usuario (en caso contrario, se utiliza el orden de los marcadores en el primer frame). Esta asignación será la que se utilice a lo largo de todo el seguimiento, por lo que todo marcador que no sea reconstruido en los primero frames, salvo de tomen medidas adicionales, no aparecerán en las trayectorias finales.
 
-\subsubsection{Enlazado en régimen}
+\subsubsection{Enlazado en régimen, inicial y final}
 
 Dado un frame [f], se cargan todos los marcadores de los frames [f-1],[f],[f+1],[f+2], los cuales son puntos en coordenadas cartesianas $X,Y,Z$ (si el seguimiento desea hacerse para una vista 2D, se establece la tercer coordenada de todos los puntos en 1) en unidades correspondiente al plano donde se trabaja (pixeles para vistas 2D, metros para espacio 3D). Dentro de cada frame, los marcadores son identificados según su indice en la reconstrucción, y los enlaces de cada marcador [f-1][f], son cargados a partir de la matriz de enlace del frame anterior (la segunda y tercer columna de la matriz de enlace de [f-1], presenta los mismos datos que la primer y segunda columna de la matriz de enlace en [f], salvo el orden en que es presentada que es asociado al frame en curso).
 
@@ -106,11 +106,9 @@ La norma de este traslado es utilizada para evaluar los puntos cercanos al centr
 \item No se encuentra ningún punto, tanto para la búsqueda en [f+1] como en [f+2]. En este caso, se presentan múltiples alternativas, en distintas etapas. La mas inmediata durante el enlazado frame a frame, es aumentar el radio de búsqueda (por ejemplo puede suceder con un punto acelerando y fuera del radio de búsqueda). Este aumento puede ser limitado, o indefinido hasta encontrar un punto aunque en una distancia mucho mayor a la esperada, por lo que deben ser validados posteriormente. Si el enlace pasa la validación dentro del frame, puede no pasar una validación posterior de trayectoria lo que se verá mas adelante
 \end{itemize}
 
+El enlazado final es similar a los presentado para regimen, pero en caso de multiples marcadores candidatos en el frame final [f+1], no se puede extender el movimiento, por lo que se elige mediante menor aceleracion en los ultimos tres frames con una sola busqueda desde [f] a [f+1], pero otra alternativa igualmente valida hubiera sido buscar sobre los ultimos cuatro frames. Se eligió la primer opcion debido a  ser un caso simplificado del enlazado en regimen ya implementada. 
 
-
-
-\subsubsection{Enlazado inicial y final}
-
+Sin embargo, el enlazado inicial presenta una situacion diferente, no se tiene informacion previa, y se está estableciendo los enlaces iniciales (CONTINUAR)
 
 
 \subsubsection{Validación e Inventario de trayectorias}
@@ -133,43 +131,43 @@ Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1
  \label{discontinuidad_tracking}
 \end{figure}
 
-Se establece un umbral a partir del estudio de la distribucion de la aceleracion de cada marcador (figura \ref{distribucion_aceleracion} ) para encontrar la aceleracion que presenta un salto abrupto, y detectar los frames donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos, es el mismo que se verá al momento de inventario de trayectorias.
+Se establece un umbral a partir del estudio de la distribución de la aceleración de cada marcador (figura \ref{distribucion_aceleracion} ) para encontrar la aceleración que presenta un salto abrupto, y detectar los frames donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos, es el mismo que se verá al momento de inventario de trayectorias.
 \begin{figure}[H]
  \centering
-  \subfloat[Funcion de distribucion de la Aceleracion]{
+  \subfloat[Función de distribución de la Aceleración]{
 	\label{distribucion_aceleracion}
 	\includegraphics[width=0.5\textwidth]{img/Tracking/03_Distribucion_Aceleracion_Marker_13_8_07_100_200.png}}
   \subfloat[]{
    \label{track_m13_fix}
     \includegraphics[width=0.5\textwidth]{img/Tracking/026_Salida_Tracking_Marker_13_8_07_100_200.png}}
- \caption{Ejemplo Resultado de Umbral y Correcion En Trayectoria}
+ \caption{Ejemplo Resultado de Umbral y Corrección En Trayectoria}
 % Figura tomada de la reconstruccion 8_07_100_200
 \label{distro_acc_track_m13_fix}
 \end{figure}
 \item \textbf{Inventario de Trayectorias}: Durante el enlazado en un frame, se tienen marcadores en [f] que no lograron enlazarse en [f+1], pero cuya trayectoria podría estar enlazada hasta este frame.
-Estos puntos deben ser identificados, mediante la comparacion de la segunda columna de la matriz de enlaces [f][f+1] (actual) y la tercer columna de la matriz de enlaces [f-1][f] (anterior), ya que ambas tienen informacion de los marcadores en el mismo frame, pero enlazan hacia atras y adelante.
-Los elementos que se encuentren en la matriz [f-1][f] , pero no hayan sido enlazados en [f][f+1], son agregados a una lista que  contiene hasta que momneto el frame mantenía el enlace (ultima vez que se tuvo informacion de la trayectoria a la cual pertenece), y que indice de marcador tenia en ese momento (pasar de indice en un frame, a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de frame a frame).
+Estos puntos deben ser identificados, mediante la comparación de la segunda columna de la matriz de enlaces [f][f+1] (actual) y la tercer columna de la matriz de enlaces [f-1][f] (anterior), ya que ambas tienen información de los marcadores en el mismo frame, pero enlazan hacia atrás y adelante.
+Los elementos que se encuentren en la matriz [f-1][f] , pero no hayan sido enlazados en [f][f+1], son agregados a una lista que  contiene hasta que momento el frame mantenía el enlace (ultima vez que se tuvo información de la trayectoria a la cual pertenece), y que indice de marcador tenia en ese momento (pasar de indice en un frame, a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de frame a frame).
 
 Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben tratar de enlazar los puntos de [f+1] que no entraron en el enlazado regular, con las trayectorias perdidas hasta [f-1]. Todos los puntos que sobraron en el enlazado regular, son evaluados contra la lista de trayectorias perdidas, y se revisan dos condiciones:
 
 \begin{enumerate}
-  \item Distancia con respecto a una estimación lineal, prolongando el movimiento tomando el ultimo punto como inicio, y los ultimos frames de la trayectoria conocida como desplazamiento. El despalzamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces, como puede observarse en el ejemplo de la figure \ref{track_m8_recover}. 
+  \item \textbf{Distancia con respecto a una estimación lineal}, prolongando el movimiento tomando el ultimo punto como inicio, y los últimos frames de la trayectoria conocida como desplazamiento. El desplazamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces, como puede observarse en el ejemplo de la figure \ref{track_m8_recover}. 
  
 \begin{figure}[H]
  \centering
-  \subfloat[Salida de Codigo durante perdida y recuperación de trayectoria]{
+  \subfloat[Salida de Código durante perdida y recuperación de trayectoria]{
 	\label{track_m8_recover_code}
 	\includegraphics[scale=0.7]{img/Tracking/035_Salida_Codigo_Recuperacion.png}}\hspace{3 mm}
 	
   \subfloat[Trayectoria]{
    \label{track_m8_recover}
 \includegraphics[scale=0.7]{img/Tracking/030_Inventario_trayectoria_direccional.png}}
-\caption{Trayectoria perdida en frame 104, con posible candidato de recuperacion en frame 106 por cercania con la estimacion por desplazamiento}
+\caption{Trayectoria perdida en frame 104, con posible candidato de recuperacion en frame 106 por cercanía con la estimación por desplazamiento}
 % Figura tomada de la reconstruccion 8_07_100_200
 \label{inventario_trayectoria_direccional}
 \end{figure} 
   
-  \item Distancia radial con respecto al ultimo punto conocido. En algunos casos, la perdida del enlazado puede suceder cuando la trayectoria está en reposo (por ejemplo, un pie apoyado antes de volver a despegarse del suelo), o en transicion (en el medio de una curva), por lo cual la estimacion lineal anterior es invalida. Para ello, es útil relevar la distancia entre el ultimo punto conocido de una trayectoria trunca, y los puntos que no se enlazaron en [f+1]. Esta distancia, en caso de una posible recuperacion, debera ser proporcional al ultimo traslado conocido, por la diferencia temporal de frames entre el ultimo punto, y el posible candidato.
+  \item \textbf{Distancia radial con respecto al ultimo punto conocido}. En algunos casos, la perdida del enlazado puede suceder cuando la trayectoria está en reposo (por ejemplo, un pie apoyado antes de volver a despegarse del suelo), o en transición (en el medio de una curva), por lo cual la estimación lineal anterior es invalida. Para ello, es útil relevar la distancia entre el ultimo punto conocido de una trayectoria trunca, y los puntos que no se enlazaron en [f+1]. Esta distancia, en caso de una posible recuperacion, deberá ser proporcional al ultimo traslado conocido, por la diferencia temporal de frames entre el ultimo punto, y el posible candidato.
   
 \end{enumerate} 
 
@@ -177,9 +175,9 @@ Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben 
 
 Si se encuentra algún punto que cumpla alguna de estas condiciones, es considerado para continuar la trayectoria, y deben estimarse los puntos intermedios para completar la trayectoria.
 
-Esta estimación es realizada mediante minimos cuadrados, donde las condiciones iniciales dependen de cuantos puntos de la trayectoria se tenían hasta el momento, la condicion final es el punto encontrado en [f+1], las incognitas son los puntos intermedios que se quieren encontrar, y las multiples ecuaciones a cumplir son las planteadas en (\ref{track_var_acc}) y (\ref{track_acc}).
+Esta estimación es realizada mediante mínimos cuadrados, donde las condiciones iniciales dependen de cuantos puntos de la trayectoria se tenían hasta el momento, la condición final es el punto encontrado en [f+1], las incógnitas son los puntos intermedios que se quieren encontrar, y las múltiples ecuaciones a cumplir son las planteadas en (\ref{track_var_acc}) y (\ref{track_acc}).
 
-Sea $X_{[f+1]}$ un punto candidato por las condiciones anteriores, y el ultimo punto conocido en [f-1] de un trayectoria que pretende continuar, verifica [f-1]$\geq$3, entonces las ecuaciones que el punto a estimar $\boldsymbol{\tilde{X}_{[f]}}$ deberá cumplir, (observar que las ecuaciones de variacion de aceleracion son combinacion lineal de las ecuaciones de aceleracion)
+Sea $X_{[f+1]}$ un punto candidato por las condiciones anteriores, y el ultimo punto conocido en [f-1] de un trayectoria que pretende continuar, verifica [f-1]$\geq$3, entonces las ecuaciones que el punto a estimar $\boldsymbol{\tilde{X}_{[f]}}$ deberá cumplir, (observar que las ecuaciones de variación de aceleración son combinación lineal de las ecuaciones de aceleración)
 
 \begin{equation}
 \left\{
@@ -193,7 +191,7 @@ X_{[f-3]} &-3.X_{[f-2]} &+3.X_{[f-1]} &-\boldsymbol{\tilde{X}_{[f]}} & &=0 \\
 \label{ecuaciones_estimacion_01}
 \end{equation}
 
-, escribiendo de forma matricial, separando los datos en incognitas y condiciones,
+, escribiendo de forma matricial, separando los datos en incógnitas y condiciones,
 
 \begin{equation}
 \begin{split}
@@ -271,9 +269,55 @@ X_{[f+1]}}_{B_{[f]}} \\
 \label{matrices_estimacion_01}
 \end{equation}
 
+El procedimiento presentado para aproximación de puntos es análogo para el caso de tener $n$ frames a estimar entre el ultimo momento $f_{i}$ de una trayectoria, y su posible continuación en $f_{j}$, con $n+1=f_{j}-f_{i}$. Si $f_{i} \geq 3$ , se plantearán $n+1$ ecuaciones para variación de aceleración, y $n+1$ ecuaciones para variación de velocidad (aceleración), las cuales se resuelven de la misma forma. 
 
+\begin{equation}
+\left\{
+\begin{matrix}
+X_{[f_{i}-2]} &-3.X_{[f_{i}-1]} &+3.X_{[f_{i}]} &-\boldsymbol{\tilde{X}_{[f_{i}+1]}} & & & &=0 \\
+& X_{[f_{i}-1]} &-3.X_{[f_{i}]} &+3.\boldsymbol{\tilde{X}_{[f_{i}+1]}} &-\boldsymbol{\tilde{X}_{[f_{i}+2]}} & & &=0 \\
+& & X_{[f_{i}]} &-3.\boldsymbol{\tilde{X}_{[f_{i}+1]}} &+3.\boldsymbol{\tilde{X}_{[f_{i}+2]}} &-\boldsymbol{\tilde{X}_{[f_{i}+3]}}& &=0 \\
+& & & \ddots & \ddots & \ddots & \ddots & \\
+& & & \boldsymbol{\tilde{X}_{[f_{j}-3]}} &-3.\boldsymbol{\tilde{X}_{[f_{i}-j]}} &+3.\boldsymbol{\tilde{X}_{[f_{j}-1]}} &-X_{[f_{j}]} &=0 \\
+\end{matrix}
+\right.
+\label{ecuaciones_estimacion_n}
+\end{equation}
 
+En caso que la información previa a la perdida es menor, con $f_{i} \geq 2$, se plantea una ecuación menos, aquella que plantea la variación de aceleración de aceleración con el primer elemento incógnita que es la única que precisaría tres elementos previos, las otras ecuaciones no tienen problemas para plantearse.
 
-\subsection{Resultado y Analisis}
+Esta metodología de estimación de puntos intermedios es retomada para la validación en trayectoria, donde las incógnitas pasan a ser lo puntos que deben ser regularizados
 
+\subsection{Resultados y Análisis}
+
+El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, presentarlos como trayectorias, y corregirlos si es necesario. Por esta razón, es esperable que para una misma secuencia, los resultados sean similares a la reconstrucción, siendo las únicas leves diferencias las correcciones realizadas sobre trayectorias particulares, y la posibilidad de medir el error por marcador individual ya que a esta altura del algoritmo ya estan identificados las distintas trayectorias
+
+\begin{table}[H]
+\centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \begin{tabular}[c]{@{}c@{}}Marcador\\(Tracking)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Marcador\\  (G.Truth)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Error\\  Promedio(cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Percentil 99\%\\(cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Error Promedio\\  (filtrado)(cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Percentil 99\%\\(filtrado)(cm)\end{tabular} \\ \hline
+     14                 & 1                   & 0,3686              & 1,4138              & 0,3452                        & 0,463                         \\ \hline
+    4                   & 2                   & 0,3491              & 0,419               & 0,5236                        & 2,7257                        \\ \hline
+    6                   & 3                   & 0,3799              & 1,1911              & 0,3706                        & 0,9464                        \\ \hline
+    8                   & 4                   & 0,3872              & 1,6832              & 0,3577                        & 0,5195                        \\ \hline
+    12                  & 5                   & 0,3643              & 0,9919              & 0,5027                        & 2,4866                        \\ \hline
+    13                  & 6                   & 0,3891              & 1,258               & 0,4012                        & 1,4709                        \\ \hline
+    9                   & 7                   & 0,4065              & 0,9004              & 0,4017                        & 0,7312                        \\ \hline
+    3                   & 8                   & 0,4516              & 2,0111              & 0,4395                        & 1,5604                        \\ \hline
+    10                  & 9                   & 0,3587              & 0,6384              & 0,3635                        & 0,7866                        \\ \hline
+    2                   & 10                  & 0,3958              & 1,1202              & 0,4025                        & 1,2571                        \\ \hline
+    11                  & 11                  & 0,3765              & 0,7808              & 0,387                         & 1,2158                        \\ \hline
+    5                   & 12                  & 0,3796              & 1,3073              & 0,3635                        & 0,665                         \\ \hline
+    1                   & 13                  & 0,4564              & 4,2149              & 0,4218                        & 2,2031                        \\ \hline
+    7                   & 14                  & 0,4322              & 1,8281              & 0,4168                        & 1,3947                        \\ \hline
+    \textbf{Secuencia}			& ~                   & \textbf{0,36381}             & \textbf{1,2681}              & \textbf{0,37718}                       & \textbf{1,5058}                        \\ \hline
+    \end{tabular}
+\caption{Medida de error de tracking en captura de la base de datos sintética.}
+\label{tablaerrorseg}
+\end{table}
+
+(IMAGENES)
+
+El filtrado y validacion por trayectorias, permite reducir el error maximo de trayectorias especificas (marcadores 14, 6, 8, 9 , 3 , 5 , 1 , 7 ), pero al aplicar globalmente, es 
 
