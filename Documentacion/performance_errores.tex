@@ -38,6 +38,39 @@ Una vez calculadas todas las distancias para un frame, se buscan aquellas pareja
 
 \subsection{Performance}
 
+\subsubsection{Capturas Sinteticas}
 
+Resultados multiples secuencias
+
+\begin{table}[h]
+\begin{tabular}{cccc|c|c|c|c|c|c|ll}
+\cline{5-10}
+                              &                                 &                             &         & SEGM.                                                   & SEGM.                                               & RECONS.                                                 & RECONS.                                             & TRACK.                                                  & TRACK.                                              &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{captura} & \multicolumn{1}{c|}{markers} & \multicolumn{1}{c|}{frames} & n.cams & \begin{tabular}[c]{@{}c@{}}Promedio\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{8,03,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{89}     & 17      & 1,1063                                                  & 3,6783                                              & 0,40778                                                 & 2,6384                                              & 0,4318                                                  & 2,9039                                              &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{8,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{62}     & 17      & 1,0871                                                  & 3,1172                                              & 0,34382                                                 & 1,806                                               & 0,34451                                                 & 1,806                                               &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{8,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{123}    & 17      & 1,0912                                                  & 3,3097                                              & 0,38736                                                 & 1,2681
+& 0,36381                                                 & 1,2681                                              &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{8,11}    & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{94}     & 17      & 1,074                                                   & 2,9042                                              & 0,38836                                                 & 2,8705                                              & 0,38836                                                 & 2,8705                                              &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{9,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{29}     & 17      & 1,1285                                                  & 3,3211                                              & 0,28016                                                 & 2,0401                                              & 0,28016                                                 & 2,0401                                              &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{9,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{57}     & 17      & 1,1404                                                  & 3,4476                                              & 0,34517                                                 & 1,9902                                              & 0,34517                                                 & 1,9902                                              &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{9,12,1}  & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{300}    & 15      & 1,0443                                                  & 2,118                                               & 0,39731                                                 & 1,4952                                              & 0,39741                                                 & 1,4952                                              &  &  \\ \cline{1-10}
+\end{tabular}
+\end{table}
+
+\subsubsection{Ruido En Segmentacion}
+
+Reconstruccion sobre Ground Cam + ruido en pixel
+
+Mas ruido implica mas incertidumbre en la reconstruccion, mientras mas ruidos, mas marcadores recontruidos se precisan en reconstruccion para cpmpensar la presicion. Para mayor cantidad de marcadores en reconstruccion, se hace inviable la identificacion de marcadores en tracking ?
+
+\subsubsection{Variacion Cantidad de Camaras}
+
+Reconstruccion con menos camaras
+
+Con menos camaras, segun que movieminto se está capturando indica que marcadores se ven afectados en reconstruccion
+
+
+Comportamiento caso real?
 
 

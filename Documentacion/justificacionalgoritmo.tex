@@ -72,11 +72,23 @@ A continuación, se explica como funciona el bloque de corrección:
 
 Una vez realizada la triangulación estéreo, se verifica que el número de marcadores reconstruidos sea igual a la cantidad de marcadores que efectivamente se estén usando en la adquisición de datos. Si esta condición no se verifica, se ejecuta un “bloque de corrección” para solucionarlo. El “bloque de corrección” a su vez, contiene  varios sub-bloques, los cuales pueden verse en la figura \ref{fig:bloqCorr}.
 
-En primer lugar, se efectúa la reconstrucción de marcadores utilizando en cada paso métodos con menor precisión y exigencia como la reconstrucción binocular y monocular, donde se usan dos o una cámara respectivamente, en lugar de tres cámaras (reconstrucción trinocular) como en la triangulación estéreo que se describe en la sección \ref{reconstruccion}.
+En primer lugar, se efectúa la reconstrucción de marcadores utilizando \emph{reconstrucción binocular} y \emph{monocular}. Estos métodos son de menor precisión y exigencia que la triangulación estéreo ya que usan dos o una cámara respectivamente en lugar de tres (reconstrucción trinocular).
 
- Si en la salida de cada uno de los bloques anteriores la condición aún no se cumple se pasa al siguiente, donde se asocian los marcadores 3D reconstruidos que aún no fueron identificados con aquellas articulaciones del modelo de esqueleto ajustado en la inicialización, que no tienen ningún marcador asociado. Para esto, se evalúan las distancias de los marcadores no identificados con la posición de las articulaciones del modelo en frames anteriores y se asocian aquellos marcadores que se encuentren a menor distancia a cada una de dichas articulaciones. Al tiempo que se realiza esto, se verifica que la distancia entre marcadores asociados a un mismo hueso del esqueleto se mantenga aproximadamente constante.
+ Si en la salida de cada uno de los bloques anteriores la condición de todos los marcadores reconstruidos aún no se cumple, se pasa al siguiente bloque, donde se asocian los marcadores 3D reconstruidos que aún no fueron identificados con aquellas articulaciones del modelo de esqueleto ajustado en la inicialización que no tienen ningún marcador asociado. Para esto, se evalúan las distancias de los marcadores no identificados con la posición de las articulaciones del modelo en frames anteriores y se asocian aquellos marcadores que se encuentren a menor distancia a cada una de dichas articulaciones. Al tiempo que se realiza esto, se verifica que la distancia entre marcadores asociados a un mismo hueso del esqueleto se mantenga aproximadamente constante.
  
-Por último si aún faltan marcadores sin reconstruirse, se estima su posición evaluando la aceleración del marcador en frames anteriores y verificando que dicha estimación sea coherente con el modelo de esqueleto.
+Por último si aún faltan marcadores sin reconstruirse, se utiliza como último recurso la estimación de la posición del marcador evaluando la aceleración del mismo en frames anteriores y verificando que dicha estimación sea coherente con el modelo de esqueleto.
 
 
-%%EXPLICAR QUE POR TEMAS TEMPORALES NO SE PUDO IMPLEMENTAR ESTO EXACTAMENTE Y EXPLICAR BIEN QUE FUE LO QUE SE IMPLEMENTÓ Y DECIR QUE PARA CADA BLOQUE SE EXPLICA EN UN CAPITULO
+Hasta acá se tiene la explicación del sistema diseñado. 
+
+No hay que pasar por alto que, si bien se intentó reproducir el sistema propuesto por Herda\cite{herda} tal cual se especificaba en su documentación, se presentaron diversos obstáculos que impidieron poder implementar los bloques de reconstrucción y tracking como se detalló anteriormente. El principal obstáculo fue el calendario, ya que la cantidad de módulos a implementar fue demasiado grande en comparación con el tiempo que se dispuso. Otro factor que influyó, como se mencionó anteriormente, fueron las ambigüedades presentadas en las especificaciones de los bloques en la documentación de Herda\cite{herda}, ya que retrasaron la etapa de estudio del sistema dado que en algunos bloques se tuvo que investigar e implementar métodos para poder superar estos vacíos que se presentaban en la teoría.
+
+ A raíz de esto, se decidió darle prioridad a los bloques principales del diagrama de forma tal de tener implementado un sistema de punta a punta, capaz de capturar la posición 3D de un sujeto realizando el movimiento de marcha a lo largo del tiempo. Estos bloques son:
+ \begin{itemize}
+ 	\item Détección de marcadores
+ 	\item Triangulación estéreo (Reconstrucción)
+ 	\item Tracking 3D
+ 	\item Calibración
+ \end{itemize}
+
+En los capítulos que siguen, se explicará el funcionamiento de estos bloques de forma detallada, asi como su implementación y el análisis de resultados.

@@ -84,14 +84,14 @@ x_{[f+1]}-x_{[f]}& = x_{[f]}-x_{[f-1]} \\
 
 En su trabajo\cite{herda}, Lorna Herda propone que realizar el seguimiento sobre la reconstrucción 3D presenta menos continuidad en las trayectorias , con respecto al seguimiento realizado sobre el conjunto de segmentación sumada a la proyección de los puntos reconstruidos 3D en cada vista 2D. Sin embargo, en nuestras pruebas, nos pareció mas coherente trabajar con el seguimiento en los puntos reconstruidos en 3D, ya que en caso de trayectorias que se cruzan en una vista 2D, son fácilmente separadas en 3D debido a la geometría.
 
-Adicionalmente, la reconstrucción fue implementada de forma distinta a la propuesta por Herda, si bien es posible obtener los puntos proyectados en cada vista, no cumplen el mismo rol. Sin implementar la re-proyeccion, en el tracking sobre una vista individual se pierden trayectorias cuando se pierden de vista como se observa en la figura \ref{tracking_2D_cam_07}.
+Adicionalmente, la reconstrucción fue implementada de forma distinta a la propuesta por Herda, si bien es posible obtener los puntos proyectados en cada vista, no cumplen el mismo rol. Sin implementar la re-proyeccion, en el tracking sobre una vista individual se pierden trayectorias cuando se pierden de vista como se observa en la figura \ref{tracking_2D_cam_07} .
 
 \begin{figure}[hbt]
 \begin{center}
 \includegraphics[scale=0.7]{img/Tracking/011_tracking_2D_camara_07.png}
 \end{center}
-\caption{}
-\label{Resultado de Aplicar el Seguimiento de marcadores a una vista 2D sin reproyeccion de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la camara 07 de la captura sintetica}
+\caption{Resultado de Aplicar el Seguimiento de marcadores a una vista 2D sin reproyeccion de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la camara 07 de la captura sintetica}
+\label{tracking_2D_cam_07}
 \end{figure}
 
 Finalmente, asumiendo que los puntos obtenidos directamente de las animaciones ,proyectados en cada cámara, son el mejor caso de puntos 2D, no presentaban grandes ventajas de trabajar el enlace en cada una de estas vistas 2D, sobre trabajar en 3D posteriormente a la reconstrucción, y no volver hacia atrás ya que la geometría entre vistas cumplió su cometido. Esto ultimo no se cumple para el caso que se evalúen medidas adicionales para robustecer la salida del tracking (por ejemplo, validación por visibilidad, un punto observado en la segmentación de una vista es descartado en caso de no ser físicamente posible ver ese punto entre el cuerpo y la cámara).
@@ -368,7 +368,7 @@ El filtrado y validación por trayectorias, permite reducir el error máximo y m
     5                   & 12,RightArm                  & 0,3796              & 1,3073              & 0,3635                        & 0,665                         \\ \hline
     1                   & 13,RightForeArm                  & 0,4564              & 4,2149              & 0,4218                        & 2,2031                        \\ \hline
     7                   & 14,RightHand                  & 0,4322              & 1,8281              & 0,4168                        & 1,3947                        \\ \hline
-    \textbf{Secuencia}			& ~                   & \textbf{0,36381}             & \textbf{1,2681}              & \textbf{0,37718}                       & \textbf{1,5058}                        \\ \hline
+    \textbf{Secuencia}			& ~                   & \textbf{0,38736}             & \textbf{1,3479}              & \textbf{0,37718}                       & \textbf{1,5058}                        \\ \hline
     \end{tabular}
 \caption{Medida de error de tracking en captura de la base de datos sintética.}
 \label{tablaerrortrack}
