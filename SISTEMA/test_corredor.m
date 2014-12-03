@@ -6,11 +6,11 @@ add_paths()
 
 frame_ini = 10;
 
-load 'D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Ground_Truth\Reconstruccion\skeleton.mat';
+load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Ground_Truth\Reconstruccion\skeleton.mat';
 
 skeleton_ground = skeleton_rec;
 n_frames = get_info(skeleton_rec,'n_frames');
-%n_frames = 40;
+%n_frames = 30;
 
 Yi = [];
 
@@ -21,10 +21,10 @@ end
 %}  
 
 
-load 'D:\Proyecto\Proyecto_Biomecanica_20141118\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Reconstruccion\skeleton.mat'
+load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Reconstruccion\skeleton.mat'
 
 n_frames = get_info(skeleton_rec,'n_frames');
-%n_frames = 40;
+%n_frames = 30;
 
 Xi = [];
 
@@ -41,9 +41,9 @@ end
 X_out = clean_tracking(X_out);
 
 %%
-[X_out,thr] = filter_tracking(X_out);
+[~,thr] = filter_tracking(X_out);
 %[X_out,thr] = filter_tracking(X_out);
-thr
+%thr
 %%
 
 %thr = histograma_tracking(X_out,99)
@@ -51,9 +51,12 @@ thr
 
 %[X_out,datos]=make_tracking(Xi,prctile(X_out(6,:),99.78));
 %X_out = clean_tracking(X_out);
-
+    
 n_paths = unique(X_out(5,:));
-n_paths = 13;
+
+n_paths = 1;
+
+marker_ground = 3;
 
 for n_path=1:size(n_paths,2)
     path = n_paths(n_path);
@@ -70,6 +73,7 @@ for n_path=1:size(n_paths,2)
     xlabel('X');ylabel('Y');zlabel('Z');
     grid on
     figure(2)
+    %{
     subplot(6,1,1)
     plot(X_path(4,:),X_path(1,:),'b.-')
     title(['Marker ' num2str(n_paths(n_path)) ' - X']);
@@ -79,21 +83,22 @@ for n_path=1:size(n_paths,2)
     subplot(6,1,3)
     plot(X_path(4,:),X_path(3,:),'b.-')
     title(['Marker ' num2str(n_paths(n_path)) ' - Z']);
-    subplot(6,1,4)
+    %}
+    subplot(3,1,1)
     velocidad = sum((X_path(1:3,2:size(X_path,2))-X_path(1:3,1:size(X_path,2)-1)).^2).^(1/2);
     plot(X_path(4,2:size(X_path,2)),velocidad,'b.-',...
-        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(velocidad,85:0.1:100))*[1,1],'r--')
+        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(velocidad,90:0.1:100))*[1,1],'r--')
     title(['Marker ' num2str(n_paths(n_path)) ' - Velocidad']);
     
-    subplot(6,1,5)
+    subplot(3,1,2)
     aceleracion = sum((-X_path(1:3,3:size(X_path,2))+2*X_path(1:3,2:size(X_path,2)-1)-X_path(1:3,1:size(X_path,2)-2)).^2).^(1/2);
     plot(X_path(4,3:size(X_path,2)),aceleracion,'b.-',...
-        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(aceleracion,85:0.1:100))*[1,1],'r--')
+        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],thr(thr(:,1)==path,2)*[1,1],'r--')
     title(['Marker ' num2str(n_paths(n_path)) ' - Aceleracion']);
-    subplot(6,1,6)
+    subplot(3,1,3)
     v_aceleracion = sum((-X_path(1:3,4:size(X_path,2))+3*X_path(1:3,3:size(X_path,2)-1)-3*X_path(1:3,2:size(X_path,2)-2)+X_path(1:3,1:size(X_path,2)-3)).^2).^(1/2);
     plot(X_path(4,4:size(X_path,2)),v_aceleracion,'b.-',...
-        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(v_aceleracion,85:0.1:100))*[1,1],'r--')
+        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(v_aceleracion,90:0.1:100))*[1,1],'r--')
 	title(['Marker ' num2str(n_paths(n_path)) ' - Var.Aceleracion']);
 
     if n_path<length(n_paths)
@@ -110,9 +115,9 @@ end;
 
 %% Testeo de Error de Tracking
 
-[promedio_error,errores,~,~,etiquetas_ground]=rmse_segmentacion_ground(X_out,Yi);
+[promedio_error,errores,~,~,etiquetas_ground,rmse_i_t]=rmse_segmentacion_ground(X_out,Yi);
 
-disp([ 'Promedio = ' num2str(promedio_error*100) ' cm' ])
+disp([ 'Promedio = ' num2str(mean(rmse_i_t(1,:))*100) ' cm' ])
 
 disp([ '99% = ' num2str(prctile(errores(1,:),99)*100) ' cm' ])
 
@@ -126,6 +131,8 @@ labels=[labels(etiquetas_ground(:,1))',etiquetas_ground];
 
 error_marker = [];
 
+label_ground = get_info(skeleton_ground,'frame', frame_ini,'marker','name');
+
 for i=min(errores(3,:)):max(errores(3,:)) 
     if ~isempty(labels(labels(:,3)==i,1))
         error_marker = [error_marker;...
@@ -133,29 +140,35 @@ for i=min(errores(3,:)):max(errores(3,:))
             i,...
             mean(errores(1,errores(3,:)==i))*100,...
             prctile(errores(1,errores(3,:)==i),99)*100];
+        disp([ num2str(i) ' - ' label_ground{i}]);
+        
     end
 end
 
 
 disp('marker_track marker_ground promedio prc_99')
-disp(sortrows(error_marker,4))
+disp(sortrows(error_marker,2))
 
 %%
 
 figure;
 subplot(1,2,1)
-hist(errores(1,:)*100,30);
+hist(errores(1,:)*100,20);
+xlabel('Error De Marcador (cm)');
+ylabel('Cantidad');
+title(['Histograma ( ' num2str(size(errores(1,:),2)) ' marcadores)']);
 subplot(1,2,2)
-plot(prctile(errores(1,:),95:0.01:100)*100,95:0.01:100,'b.-')
+plot(prctile(errores(1,:),90:0.01:100)*100,90:0.01:100,'b.-')
+xlabel('Error De Marcador (cm)');
+ylabel('Porcentaje (%)');
+title('Distribucion Acumulada');
 grid on;
-
-marker_ground = 1;
 
 marker_tracking = error_marker(error_marker(:,2)==marker_ground,1);
 
 
 X_1=X_out(:,X_out(5,:)==marker_tracking);
-X_2=Yi(:,Yi(5,:)==marker_ground);
+X_2=Yi(:,Yi(5,:)==marker_ground&Yi(4,:)<=max(X_out(4,:)));
 figure
 plot(X_out(4,X_out(5,:)==marker_tracking),100*(sum((X_1(1:3,:)-X_2(1:3,:)).^2)).^0.5,'.-')
 title([' Error - Tracking: ' num2str(marker_tracking) ' ,Ground: ' num2str(marker_ground)])

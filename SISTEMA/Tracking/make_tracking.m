@@ -90,7 +90,7 @@ for frame=f_ini:f_fin-1
         return;
     end
     
-    link_next=sortrows(link_next,size(link_next,2));
+    link_next=sortrows(link_next,size(link_next,2)-1);
     
     %disp(num2str(link_next,2));
     
@@ -161,12 +161,13 @@ for frame=f_ini:f_fin-1
                     ratio_radial = norm(X_f1(1:3,n_index_f1)-X_perdido)/paso_distancia;
                     
                     if ratio_direccional<10
-                        disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto: [' num2str(X_f1(1:3,n_index_f1)',3) '] ,dist: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_direccional: ' num2str(ratio_direccional,3)])
-                        
+                        disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto ' num2str(n_index_f1) '@ (' num2str(frame+1) ') [' num2str(X_f1(1:3,n_index_f1)',3) ']']);
+                        disp(['--->dist a estimacion_lineal: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_direccional: ' num2str(ratio_direccional,3)]);
                     end
                     
-                    if ratio_direccional<10
-                        disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto: [' num2str(X_f1(1:3,n_index_f1)',3) '] ,dist: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_radial: ' num2str(ratio_radial,3)])
+                    if ratio_radial<10
+                        disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto ' num2str(n_index_f1) '@ (' num2str(frame+1) ') [' num2str(X_f1(1:3,n_index_f1)',3) ']']);
+                        disp(['--->dist a ultimo conocido: ' num2str(norm(X_f1(1:3,n_index_f1)-X_perdido),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_radial: ' num2str(ratio_radial,3)]);
                     end
                     
                     
