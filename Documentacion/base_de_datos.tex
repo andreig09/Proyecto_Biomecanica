@@ -333,19 +333,18 @@ Notar que trabajando a 10 metros con resolución $1600\times600$ se obtienen inc
 
 \subsection{Base de datos sintética}
 \subsubsection{Motivación}
-ACLARAR QUE NO SE CONSIGUIÓ UNA BASE DE DATOS ADECUADA PERO ......RECICLAR LO QUE VIENE
-No se encontraron base de datos acorde a las necesidades de este proyecto, como se menciona en la sección  
-Por otro lado encontramos en los sistemas de captura utilizados para obtener el ground truth otra posibilidad. Resulta que la web  ofrece fácilmente un gran número de bases de datos con la captura de movimiento (mocap) de personas realizando diferentes tipo de actividades. Dichas capturas se efectúan por lo general a través de un sistema Vicon, con lo cual se tiene información muy precisa sobre la ubicación 3D de los marcadores ubicados sobre el modelo. El problema radica en que no ofrecen también videos convencionales del modelo efectuando dichas actividades, o sea fácilmente podemos encontrar un ground truth pero no así la secuencia de video que la produce.\\
-Esto último tuvo una solución. Las bases de datos con capturas de movimiento son ampliamente utilizadas en animaciones 3D , pues se carga la información de la captura al modelo 3D de interés y este efectúa la acción esperada. Por lo que se vió el potencial que estás capturas de movimiento tienen en el desarrollo de una base de datos sintética.\\
-Continuando en esa dirección se trabajo con el programa de animación Blender, generando un modelo 3D con marcadores (el mismo se muestra en la figura \ref{macaco} ) al cual se pretende incorporar la información brindada por las bases de datos de captura de movimiento de interés.  
 
-La principal base de datos utilizada para este fin es CMU (Graphics Lab Motion Capture Database)\cite{CMU}, la cual brinda varias capturas de movimiento de sujetos efectuando la marcha, así como información y código para llevar los archivos mocap entre distintos formatos. El formato utilizado por Blender para importar el esqueleto con la captura de movimiento asociada es .bvh. Una vez asociado el movimiento al modelo 3D de Blender se introducen luces y cámaras con las características y posiciones deseadas y se efectúa un renderizado a través de la cámara elegida. Este proceso se repite para cada una de las cámaras obteniéndose de esta manera varias animaciones del modelo 3D listas para procesar con los algoritmos pertinentes. Todo este proceso se ha logrado llevar a un breve número de pasos, con lo cual cualquier persona que siga el procedimiento sin mucho conocimiento sobre animación o Blender, podrá obtener un resultado aceptable.
-
-PROVENIENTE DE OTRA FUENTE
-
-se cuenta con las herramientas necesarias para generar una base de datos sintética que sea robusta y completa. El corazón de la misma se compone de una extensa lista de capturas de movimiento de personas con marcadores realizando diferentes tipos de actividades. Dichas capturas se efectuaron a través de un sistema Vicon, cuya salida brinda información precisa sobre la ubicación 3D de los marcadores. Para obtener las secuencias de video las capturas de movimiento antedichas se asocian a un modelo virtual, para luego generar secuencias animadas, las cuales por último se renderizan sobre un cierto número de cámaras para generar secuencias de video conteniendo múltiples vistas del modelo original. 
+No se encontraron base de datos acorde a las necesidades de este proyecto, como se menciona en la sección \ref{conclusiones_revision_base_datos} varios son los motivos, pero básicamente se debe a que ninguna se diseño para el análisis óptico  con marcadores y no ofrecen secuencias de video utilizables para nuestros fines. Por lo tanto se plantea la necesidad de construir una base de datos adecuada que permita desarrollar nuestro sistema.
 
 
+Una característica importante en muchas de las bases relevadas es la manera con la que habitualmente se obtiene el ground truth a partir de sistemas de captura de movimiento (MoCap), tales como Vicon o Impulse,
+estos sistemas devuelven información muy precisa sobre la ubicación 3D de marcadores ubicados sobre el sujeto a estudiar. Este tipo de base de datos con capturas de movimiento, se utilizan ampliamente en el ámbito de la animación por computadora, pues se carga la información de la captura al modelo 3D de interés y este efectúa la acción esperada con un alto nivel de realismo. 
+
+
+Dada la complejidad material y logística de implementar una base de datos, los tiempos necesarios para desarrollar las herramientas de análisis del proyecto y su necesidad de secuencias útiles, junto con el potencial de la información obtenida en el relevamiento de base de datos y sus usos en otros ámbitos, se decide generar una base de datos sintética utilizando el material MoCap utilizado como ground truth.
+
+
+Continuando en esta dirección al día de hoy, se cuenta con herramientas de código libre para generar una base de datos sintética que sea robusta, completa y extensible. Particularmente se trabajo con el programa de animación Blender\footnote{Agregar enlace a Blender}, generando un laboratorio en dicho entorno virtual. Para obtener las secuencias de video, se asocia a un modelo  virtual 3D la información de movimiento de interés obtenida a partir de sistemas MoCap, para luego generar secuencias animadas, las cuales por último se renderizan sobre un cierto número de cámaras para generar secuencias de video conteniendo múltiples vistas del modelo original. Estas secuencias son las que se utilizaron para el desarrollo de nuestro sistema y permitieron generar una base de datos sintética. 
 
 
 \subsubsection{Implementación}
