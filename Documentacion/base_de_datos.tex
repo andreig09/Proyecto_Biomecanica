@@ -189,11 +189,11 @@ Si bien la búsqueda se centró en blablabla no logró encontrar una base de dat
 
 
 \subsection{Características de Laboratorio para un sistema de captura óptica basado en marcadores}
-\subsubsection{Variables}
+
  
 A continuación se enumeran un cierto número de variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
 
-\paragraph{Cámaras}\label{parrafo_Camaras} 
+\subsubsection{Cámaras}\label{parrafo_Camaras} 
 Para la elección del tipo de cámaras es importante tener en cuenta los requerimientos de las secuencias a relevar. A continuación vamos a tratar dos variables básicas y generales que deben contemplarse, por un lado la cantidad de fotogramas, y por otro la resolución de la cámara.
 
 La cantidad de fotogramas por segundo de las secuencias de video condiciona la resolución temporal de los datos procesados a partir de dichas secuencias, así como también limita la velocidad de movimiento a realizar por el sujeto si se busca una captura aceptable.
@@ -244,20 +244,20 @@ A modo de ejemplo consideremos una cámara con las siguientes características $
 \end{table}
 
 
-\paragraph{Marcadores}
+\subsubsection{Marcadores}
 A la hora de seleccionar el equipamiento se debe prestar especial atención y coordinar el tipo de marcador, la vestimenta del sujeto, el fondo del espacio de captura y el tipo de iluminación. Pues las características de estos elementos en conjunto pueden cambiar sensiblemente la performance del sistema de captura, sobre todo en sus primeras etapas tales como la detección de marcadores y la  calibración.
 Si se quiere facilitar la tarea de detección automática de marcadores, estos deben ser fácilmente distinguibles del resto del entorno, y visibles la mayor cantidad de tiempo para las cámaras. Para ello se debe tener marcadores que generen un alto contraste con el resto de los elementos dentro de la captura de video. 
 Su tamaño y forma también son importantes, por lo general se trabaja con marcadores esféricos, y un tamaño que dado cierto espacio de trabajo no condicione fuertemente la resolución necesaria de las cámaras. Una medida que se puede considerar aceptable con cámaras convencionales y movimientos a menos de 12 metros del centro de las cámaras, son marcadores de $3~cm$ de diámetro.  
 Si el fondo del espacio de captura es negro, opaco, al igual que la vestimenta del sujeto a capturar, los marcadores pueden ser blancos, no pulidos de manera que su reflejo sea difuso, para no generar variación de tono sobre los mismos. 
 Su disposición sobre el sujeto responde a los intereses de lo que se quiera observar, pero se debe tener presente que al ser una captura óptica, para que un marcador sea útil, debe estar visibles buena parte del tiempo en la secuencia.
 
-\paragraph{Iluminación}
+\subsubsection{Iluminación}
 La iluminación debería ser preferiblemente uniforme, para no generar sombras que modifiquen los tonos del espacio de captura. La luz natural es una buena alternativa, en espacios cerrados lo que habitualmente se utilizan son pantallas delante de los focos lumínicos, la disposición de los focos depende de la forma del espacio de captura, pero por lo general rodean al mismo, cuidando que estos no sean capturados directamente por las cámaras, y generen falsos positivos en la detección de marcadores.
 
-\paragraph{Vestimenta}
+\subsubsection{Vestimenta}
 Es preferible que la vestimenta del sujeto a relevar, consista en ropas finas y ajustadas para despreciar fluctuaciones de la posición de marcadores debido al movimiento de la ropa. Como se menciona anteriormente al igual que el fondo, la elección del color y material debe contrastar con los marcadores.
 
-\paragraph{Espacio de captura}
+\subsubsection{Espacio de captura}
 
 Ya se ha mencionado algunas características cualitativas relacionadas con el espacio de captura, como ser que el fondo debe contrastar con los marcadores. Un caso interesante a tener en cuenta es el del túnel biométrico de la Universidad de Southampton \ref{U.S.}, donde para lograr esto último utilizan patrones asimétricos con colores saturados para el fondo del espacio de captura, esto les permite agrupar dos etapas, logrando luego de un tratamiento sobre la secuencia, extraer el fondo del resto de la información y efectuar la calibración de las cámaras. De todas maneras si bien se mantienen relacionadas, las etapas mencionadas se manejan comúnmente por separado. Por lo que si se utilizan marcadores blancos, un fondo oscuro idealmente negro, y opaco es suficiente.\\
 
@@ -285,14 +285,39 @@ Debe tenerse presente que estos son casos particulares, pero que permiten hacer 
 Aumentar el número de cámaras permite una mayor cobertura de volumen, lo que significa una mayor visibilidad del conjunto de marcadores. A su vez una mejor visibilidad del conjunto de marcadores está correlacionado con disminuir la posibilidad de que información importante se pierda en las etapas de análisis de datos posteriores.
 
 
-\paragraph{Sincronización \cite{canon}} 
+\subsubsection{Sincronización \cite{canon}} 
 
 Esto resulta esencial en las emisiones con conexiones en directo con varias cámaras, para garantizar que las imágenes de vídeo se mantienen estables incluso cuando se cambia de una cámara a otra.
 Se debe contar con un fuente central que envíe una señal de sincronización a todas las videocámaras que participan en una grabación, de esta manera se indica a cada una de ellas cuando deberán comenzar a grabar. La misma orden es enviada para cada fotograma y todas y cada una de las líneas escaneadas dentro del fotograma. El sincronizador ‘bloquea’ las videocámaras en la misma secuencia de escaneado.
 Si no se contara con una entrada de sincronización sería prácticamente imposible realizar una grabación con varias cámaras simultáneamente.
 
-\paragraph{Formatos Mocap}
-La captura de movimiento (Mocap), es un proceso bastante popular que permite generar animaciones humanas. Relevante en la mayoría de las bases de datos relevadas, incluso aquellas de análisis óptico, se utiliza  
+\subsubsection{Formatos Mocap}
+La captura de movimiento (Mocap), es una técnica de grabación del movimiento bastante popular en el cual se generan animaciones humanas o animales en ámbitos virtuales a partir de un modelos vivos. Este tipo de técnicas han sido utilizadas desde hace más de una década en el ámbito del entretenimiento, tales como el cine o los videojuegos e incluso en el ámbito deportivo y médico. 
+
+
+Importante en la mayoría de las bases de datos relevadas, incluso aquellas de análisis óptico, ya que los sistemas comerciales que efectúan este tipo de capturas devuelven datos con un alto nivel de precisión, por lo que se utilizan como ground truth y se comparan con datos obtenidos a partir de otros sistemas. La primer desventaja de todas estas prestaciones es su alto costo, bastante privativo en muchos ámbitos.
+
+En la actualidad el éxito de las capturas de movimiento ha dado lugar a una serie de casas de producción que pueden registrar y proporcionar datos de movimiento, sin embargo muchas de las empresas han desarrollado su propio formato de archivo. Esto significa que los formatos de archivo de los datos de captura de movimiento
+están lejos de unificarse en un estándar, sin embargo la naturaleza ASCII de muchos de los formatos, hace que sea razonablemente fácil decodificar y entender la información por simple inspección de los datos.
+
+\begin{table}[H]
+\caption{Formatos de archivo Mocap.}
+\label{tabla_Mocap_extensions}
+\begin{minipage}{\textwidth}
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Formatos Mocap} & \multicolumn{1}{c|}{\textbf{Compañia}}                                              \\ \hline
+ASF \& AMC              & Acclaim \footnote{\textcolor{blue}{\underline{\url{http://www.darwin3d.com/gamedev/acclaim.zip }}}. Accedido 30-11-14}                                                                            \\ \hline
+BVA \& BVH              & BioVision \footnote{\textcolor{blue}{\underline{\url{http://www.biovision.com/bvh.html }}}. Accedido 30-11-14}                                                                          \\ \hline
+BRD                     & LambSoft Magnetic Format \footnote{\textcolor{blue}{\underline{\url{http://www.dcs.shef.ac.uk/~mikem/fileformats/brd.html}}}. Accedido 30-11-14}                                                           \\ \hline
+C3D                     & \begin{tabular}[c]{@{}l@{}}Biomechanics, Animation and\\ Gait Analysis \footnote{\textcolor{blue}{\underline{\url{http://www.c3d.org/c3d_format.htm }}}. Accedido 30-11-14}\end{tabular} \\ \hline
+CSM                     & \begin{tabular}[c]{@{}l@{}}3D Studio Max, \\ Character Studio\footnote{\textcolor{blue}{\underline{\url{http://www.dcs.shef.ac.uk/~mikem/fileformats/csm.html}}}. Accedido 30-11-14}\end{tabular}          \\ \hline
+GTR, HTR \& TRC         & Motion Analysis \footnote{\textcolor{blue}{\underline{\url{http://research.cs.wisc.edu/graphics/Courses/cs-838-1999/Jeff/MoCapTOC.html}}}. Accedido 30-11-14}                                                                    \\ \hline
+\end{tabular}
+\end{minipage}
+\end{table}
+
 -Formatos Mocap (terminología, ventajas, desventajas, formatos usuales)
 \\
 
