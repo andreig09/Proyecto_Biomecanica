@@ -12,7 +12,7 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="Lab_marcha1.svg"
+   sodipodi:docname="Lab_marcha2.pdf"
    height="1080"
    width="1920"
    inkscape:version="0.48.4 r9939"
@@ -137,7 +137,7 @@
      inkscape:groupmode="layer"
      id="layer8"
      inkscape:label="v3"
-     style="display:inline">
+     style="display:none">
     <path
        style="opacity:0.53284673;fill:#004d16;fill-opacity:0.33858266;stroke:#000000;stroke-width:1.17669177;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:7.06015071, 1.17669179;stroke-dashoffset:0;display:inline"
        d="M 363.35393,468.59732 1291.6582,47.585872 1038.9525,1037.6198 C 1029.363,1029.0067 363.35393,468.59732 363.35393,468.59732 z"
@@ -214,7 +214,7 @@
      inkscape:groupmode="layer"
      id="layer14"
      inkscape:label="v9"
-     style="display:inline">
+     style="display:none">
     <path
        style="opacity:0.52999998;fill:#004d16;fill-opacity:0.33858266;stroke:#000000;stroke-width:1.16404819;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
        d="M 1082.3143,45.603872 1292.211,1039.1966 385.09453,615.57864 c -0.78702,1.2323 697.21977,-569.974768 697.21977,-569.974768 z"
@@ -239,7 +239,7 @@
      inkscape:groupmode="layer"
      id="layer16"
      inkscape:label="v11"
-     style="display:inline">
+     style="display:none">
     <path
        style="opacity:0.61678832;fill:#004d16;fill-opacity:0.33858266;stroke:#000000;stroke-width:1.17309976;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:7.03859944, 1.17309992;stroke-dashoffset:0;display:inline"
        d="M 1464.3045,606.13361 553.41568,1036.7962 794.41372,49.78441 c 9.56018,8.586703 669.89078,556.3492 669.89078,556.3492 z"
@@ -316,7 +316,7 @@
      inkscape:groupmode="layer"
      id="layer22"
      inkscape:label="v17"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <path
        style="opacity:0.52999998;fill:#004d16;fill-opacity:0.33858266;stroke:#000000;stroke-width:1.26743448;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
@@ -1254,7 +1254,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="Capa_medidas1"
-     style="display:none">
+     style="display:inline">
     <g
        transform="matrix(0,-6.8943512,6.8943512,0,-894.59641,2158.5747)"
        ns0:text="10 metros"
@@ -2198,7 +2198,7 @@
      inkscape:groupmode="layer"
      id="layer24"
      inkscape:label="Rectangulo"
-     style="display:inline">
+     style="display:none">
     <rect
        style="opacity:0.44160581;fill:#1f9f00;fill-opacity:1;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter6888)"
        id="rect6498"

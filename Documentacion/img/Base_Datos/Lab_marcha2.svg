@@ -12,7 +12,7 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="Lab_marcha1.svg"
+   sodipodi:docname="Lab_marcha2.svg"
    height="1080"
    width="1920"
    inkscape:version="0.48.4 r9939"
@@ -162,7 +162,7 @@
      inkscape:groupmode="layer"
      id="layer10"
      inkscape:label="v5"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <path
        style="opacity:0.53284673;fill:#004d16;fill-opacity:0.33858266;stroke:#000000;stroke-width:1.10823643;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6.64941844, 1.10823641;stroke-dashoffset:0;display:inline"
@@ -188,7 +188,7 @@
      inkscape:groupmode="layer"
      id="layer12"
      inkscape:label="v7"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <path
        style="opacity:0.53284673;fill:#004d16;fill-opacity:0.33858266;stroke:#000000;stroke-width:1.0629921;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6.37795276, 1.06299213;stroke-dashoffset:0;display:inline"
@@ -264,7 +264,7 @@
      inkscape:groupmode="layer"
      id="layer18"
      inkscape:label="v13"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <path
        style="opacity:0.53284673;fill:#004d16;fill-opacity:0.33858266;stroke:#000000;stroke-width:1.0629921;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6.37795276, 1.06299213;stroke-dashoffset:0;display:inline"
@@ -290,7 +290,7 @@
      inkscape:groupmode="layer"
      id="layer20"
      inkscape:label="v15"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <path
        style="opacity:0.53284673;fill:#004d16;fill-opacity:0.33858266;stroke:#000000;stroke-width:1.15814817;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6.94888915, 1.1581482;stroke-dashoffset:0;display:inline"
@@ -2198,7 +2198,7 @@
      inkscape:groupmode="layer"
      id="layer24"
      inkscape:label="Rectangulo"
-     style="display:inline">
+     style="display:none">
     <rect
        style="opacity:0.44160581;fill:#1f9f00;fill-opacity:1;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter6888)"
        id="rect6498"
@@ -2212,7 +2212,7 @@
      inkscape:groupmode="layer"
      id="layer23"
      inkscape:label="Circunferencia"
-     style="display:none">
+     style="display:inline">
     <path
        sodipodi:type="arc"
        style="opacity:0.37591242;fill:#1e9f00;fill-opacity:1;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline;filter:url(#filter6491)"
