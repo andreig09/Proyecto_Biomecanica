@@ -169,10 +169,10 @@ Los pedidos fueron realizados el 17 de diciembre de 2013 aproximadamente.
 
 
 
-\subsubsection{Conclusiones}
+\subsubsection{Conclusiones}\label{conclusiones_revision_base_datos}
 
 Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores. Son los factores más importantes.
-Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos en distinto tipo de movimientos, sobre todo en formatos Mocap.
+Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos 3D en distinto tipo de movimientos, sobre todo en formatos Mocap.
 Estas consideraciones impulsaron la idea de recorrer el camino inverso, crear una base de datos sintética a partir del material Mocap disponible, para luego generar los videos en los cuales trabajar.  
 
 
@@ -191,7 +191,7 @@ Si bien la búsqueda se centró en blablabla no logró encontrar una base de dat
 \subsection{Características de Laboratorio para un sistema de captura óptica basado en marcadores}
 
  
-A continuación se enumeran un cierto número de variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
+A continuación se enumeran algunas variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
 
 \subsubsection{Cámaras}\label{parrafo_Camaras} 
 Para la elección del tipo de cámaras es importante tener en cuenta los requerimientos de las secuencias a relevar. A continuación vamos a tratar dos variables básicas y generales que deben contemplarse, por un lado la cantidad de fotogramas, y por otro la resolución de la cámara.
@@ -292,7 +292,7 @@ Se debe contar con un fuente central que envíe una señal de sincronización a 
 Si no se contara con una entrada de sincronización sería prácticamente imposible realizar una grabación con varias cámaras simultáneamente.
 
 \subsubsection{Formatos Mocap}
-La captura de movimiento (Mocap), es una técnica de grabación del movimiento bastante popular en el cual se generan animaciones humanas o animales en ámbitos virtuales a partir de un modelos vivos. Este tipo de técnicas han sido utilizadas desde hace más de una década en el ámbito del entretenimiento, tales como el cine o los videojuegos e incluso en el ámbito deportivo y médico. 
+La captura de movimiento (Mocap), es una técnica de grabación del movimiento bastante popular en el cual se generan animaciones humanas o animales en ámbitos virtuales a partir de modelos reales. Este tipo de técnicas han sido utilizadas desde hace más de una década en el ámbito del entretenimiento, tales como el cine o los videojuegos e incluso en el ámbito deportivo y médico. 
 
 
 Importante en la mayoría de las bases de datos relevadas, incluso aquellas de análisis óptico, ya que los sistemas comerciales que efectúan este tipo de capturas devuelven datos con un alto nivel de precisión, por lo que se utilizan como ground truth y se comparan con datos obtenidos a partir de otros sistemas. La primer desventaja de todas estas prestaciones es su alto costo, bastante privativo en muchos ámbitos.
@@ -327,15 +327,15 @@ GTR, HTR \& TRC         & Motion Analysis \footnote{\textcolor{blue}{\underline{
 especificar los parámetros deseables en una base de datos que trabaje con información óptica basada en marcadores
 
 
-A la hora de configurar un laboratorio no solo hay que integrar las distintas variables, sino también cuidar que esta integración se gestione de manera compatible y en justo equilibrio entre las partes, de lo contrario se estaría desaprovechando el potencial de las secuencias generadas por el sistema de captura en cuanto al procesamiento posterior se trata. Dificultando la tarea de obtención de datos a partir de las secuencias de video.
+A la hora de configurar un laboratorio no solo hay que integrar las distintas variables, sino también cuidar que esta integración se gestione de manera compatible, de lo contrario se estaría desaprovechando el potencial de las secuencias generadas por el sistema de captura en cuanto al procesamiento posterior se trata. Dificultando la tarea de obtención de datos a partir de las secuencias de video.
 
 Notar que trabajando a 10 metros con resolución $1600\times600$ se obtienen incertidumbres de pixel de casi $1 ~cm $
 
 \subsection{Base de datos sintética}
 \subsubsection{Motivación}
 ACLARAR QUE NO SE CONSIGUIÓ UNA BASE DE DATOS ADECUADA PERO ......RECICLAR LO QUE VIENE
-
-Por otro lado encontramos en el sistema Vicon otra posibilidad. Resulta que la web  ofrece fácilmente un gran número de bases de datos con la captura de movimiento (mocap) de personas realizando diferentes tipo de actividades. Dichas capturas se efectúan por lo general a través de un sistema Vicon, con lo cual se tiene información muy precisa sobre la ubicación 3D de los marcadores ubicados sobre el modelo. El problema radica en que no ofrecen también videos convencionales del modelo efectuando dichas actividades, o sea fácilmente podemos encontrar un ground truth pero no así la secuencia de video que la produce.\\
+No se encontraron base de datos acorde a las necesidades de este proyecto, como se menciona en la sección  
+Por otro lado encontramos en los sistemas de captura utilizados para obtener el ground truth otra posibilidad. Resulta que la web  ofrece fácilmente un gran número de bases de datos con la captura de movimiento (mocap) de personas realizando diferentes tipo de actividades. Dichas capturas se efectúan por lo general a través de un sistema Vicon, con lo cual se tiene información muy precisa sobre la ubicación 3D de los marcadores ubicados sobre el modelo. El problema radica en que no ofrecen también videos convencionales del modelo efectuando dichas actividades, o sea fácilmente podemos encontrar un ground truth pero no así la secuencia de video que la produce.\\
 Esto último tuvo una solución. Las bases de datos con capturas de movimiento son ampliamente utilizadas en animaciones 3D , pues se carga la información de la captura al modelo 3D de interés y este efectúa la acción esperada. Por lo que se vió el potencial que estás capturas de movimiento tienen en el desarrollo de una base de datos sintética.\\
 Continuando en esa dirección se trabajo con el programa de animación Blender, generando un modelo 3D con marcadores (el mismo se muestra en la figura \ref{macaco} ) al cual se pretende incorporar la información brindada por las bases de datos de captura de movimiento de interés.  
 
