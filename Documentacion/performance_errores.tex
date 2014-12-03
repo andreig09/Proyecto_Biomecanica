@@ -1,4 +1,4 @@
-\section{Evaluacion}
+\section{Evaluación}
 
 \subsection{Medida de Error}
 
@@ -38,9 +38,9 @@ Una vez calculadas todas las distancias para un frame, se buscan aquellas pareja
 
 \subsection{Performance}
 
-\subsubsection{Capturas Sinteticas}
+\subsubsection{Capturas Sintéticas}
 
-Resultados multiples secuencias
+Resultados múltiples secuencias
 
 \begin{table}[h]
 \begin{tabular}{cccc|c|c|c|c|c|c|ll}
@@ -56,19 +56,41 @@ Resultados multiples secuencias
 \multicolumn{1}{|c|}{9,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{57}     & 17      & 1,1404                                                  & 3,4476                                              & 0,34517                                                 & 1,9902                                              & 0,34517                                                 & 1,9902                                              &  &  \\ \cline{1-10}
 \multicolumn{1}{|c|}{9,12,1}  & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{300}    & 15      & 1,0443                                                  & 2,118                                               & 0,39731                                                 & 1,4952                                              & 0,39741                                                 & 1,4952                                              &  &  \\ \cline{1-10}
 \end{tabular}
+\caption{Resultados de los bloques, para distintas capturas sintéticas}
+\label{resultados_distintas_capturas}
 \end{table}
 
-\subsubsection{Ruido En Segmentacion}
+\subsubsection{Ruido En Segmentación}
 
-Reconstruccion sobre Ground Cam + ruido en pixel
+Resultado Reconstrucción (cm) ,ingresando Cam + ruido en pixel
 
-Mas ruido implica mas incertidumbre en la reconstruccion, mientras mas ruidos, mas marcadores recontruidos se precisan en reconstruccion para cpmpensar la presicion. Para mayor cantidad de marcadores en reconstruccion, se hace inviable la identificacion de marcadores en tracking ?
+\begin{table}[h]
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Caso} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (px)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}14\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}18\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}30\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}46\\ Reconstr.\end{tabular}} \\ \hline
+Ground Cam    & 0                                                             & 7,84E-07                                                        & 7,84E-07                                                        & 7,84E-07                                                        & 7,84E-07                                                        \\ \hline
+Segmentación  & 0                                                             & 1,5792                                                          & 0,38556                                                         & 0,38556                                                         & 0,38556                                                         \\ \hline
+Ground Cam    & 0,5                                                           & 4,0817                                                          & 0,45675                                                         & 0,4453                                                          & 0,42607                                                         \\ \hline
+Segmentación  & 0,5                                                           & 13,6991                                                         & 0,61128                                                         & 0,61381                                                         & 0,60517                                                         \\ \hline
+Ground Cam    & 1                                                             & 16,9275                                                         & 0,82309                                                         & 0,72011                                                         & 0,73301                                                         \\ \hline
+Segmentación  & 1                                                             & 11,0847                                                         & 0,8557                                                          & 0,82286                                                         & 0,83073                                                         \\ \hline
+Ground Cam    & 2                                                             & 19,7131                                                         & 1,7649                                                          & 1,2152                                                          & 1,2027                                                          \\ \hline
+Segmentación  & 2                                                             & 15,9698                                                         & 1,9701                                                          & 1,3021                                                          & 1,2884                                                          \\ \hline
+Ground Cam    & 4                                                             & 28,6943                                                         & 6,1386                                                          & 2,1877                                                          & 2,0468                                                          \\ \hline
+Segmentación  & 4                                                             & 51,4025                                                         & 5,7738                                                          & 2,1484                                                          & 2,1335                                                          \\ \hline
+Ground Cam    & 8                                                             & 53,9555                                                         & 14,3684                                                         & 5,4929                                                          & 3,8377                                                          \\ \hline
+Segmentación  & 8                                                             & 264,8935                                                        & 13,1539                                                         & 4,7142                                                          & 3,7993                                                          \\ \hline
+\end{tabular}
+\caption{Resultados de Error Promedio (cm) en reconstrucción, para distintos caso de ruido en la segmentación, tanto resultados sobre vídeos como sobre ground truth}
+\end{table}
 
-\subsubsection{Variacion Cantidad de Camaras}
+Mas ruido implica mas incertidumbre en la reconstrucción, mientras mas ruidos, mas marcadores reconstruidos se precisan en reconstrucción para compensar la precision. Para mayor cantidad de marcadores en reconstrucción, se hace inviable la identificación de marcadores en tracking ?
 
-Reconstruccion con menos camaras
+\subsubsection{Variación Cantidad de Cámaras}
 
-Con menos camaras, segun que movieminto se está capturando indica que marcadores se ven afectados en reconstruccion
+Reconstrucción con menos cámaras
+
+Con menos cámaras, según que movimiento se está capturando indica que marcadores se ven afectados en reconstrucción
 
 
 Comportamiento caso real?
