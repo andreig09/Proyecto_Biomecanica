@@ -623,7 +623,15 @@ Por otro lado, en la figura \ref{peladoCircularsint} puede verse que el filtro c
 \end{figure}
 
 \subsubsection{Medida de error}
-Como se mencionó anteriormente, una de las ventajas de tener una base de datos sintética, es poder tener un \textit{ground truth} contra el cual comparar los resultados obtenidos con el sistema implementado.
+Como se mencionó anteriormente, una de las ventajas de tener una base de datos sintética, es poder tener un \textit{ground truth} contra el cual comparar los resultados obtenidos con el sistema implementado. En la figura \ref{ejMedErr}, se observa la comparación de la segmentación de una secuencia contra su ground truth para un sujeto moviéndose de izquierda a derecha.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.6]{img/imagen_segmentacion_cam7_8_07_100_200.png}
+\end{center}
+\caption{Segmentación de cámara 7 y ground truth.}
+\label{ejMedErr}
+\end{figure}
 
 En el cuadro \ref{tablaerrorseg} se puede observar una medida de error para una secuencia sintética estándar de la base. En ella se observa, para cada cámara, el porcentaje de detección de marcadores en toda la captura, el error promedio en píxeles y el percentil 99\footnote{Valor del error en píxeles por debajo del cual se encuenta el 99\% de los marcadores.} también en pixeles. Se realizaron estas medidas para varias secuencias distintas y los valores se mantienen aproximadamente en este mismo rango.
 
