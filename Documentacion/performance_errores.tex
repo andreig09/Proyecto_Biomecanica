@@ -40,48 +40,50 @@ Una vez calculadas todas las distancias para un frame, se buscan aquellas pareja
 
 \subsubsection{Capturas Sintéticas}
 
-Resultados múltiples secuencias
+Las multiples secuencias sinteticas generadas en Blender como fue establecido en (??? REFERENCIA BASE DE DATOS) son ingresadas al sistema, utilizando los parametros de calibracion de las camaras simuladas y los videos generados para las 17 camaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en ( ??? REFERENCIA BLOQUES SISTEMA COMPLETO) y comparado con el ground truth obtenido por Blender junto a los videos utilizando la metodologia establecida en ( ??? REFERENCIA MEDIDA ERROR ) para medir los resultados a la salida de cada bloque. Se realizaron las pruebas para 5 secuencias, 2 de las cuales fueron probadas con distinta adquisicion, indicadas en la tabla \ref{resultados_distintas_capturas} como $X,YY,Z$ donde $Z=1,2$ corresponden a dos tasas de muestreo diferentes.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{cccc|c|c|c|c|c|c|ll}
 \cline{5-10}
-                              &                                 &                             &         & SEGM.                                                   & SEGM.                                               & RECONS.                                                 & RECONS.                                             & TRACK.                                                  & TRACK.                                              &  &  \\ \cline{1-10}
+& & & & SEGM. & SEGM. & RECONS. & RECONS. & TRACK. & TRACK. &  &  \\ \cline{1-10}
 \multicolumn{1}{|c|}{captura} & \multicolumn{1}{c|}{markers} & \multicolumn{1}{c|}{frames} & n.cams & \begin{tabular}[c]{@{}c@{}}Promedio\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{8,03,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{89}     & 17      & 1,1063                                                  & 3,6783                                              & 0,40778                                                 & 2,6384                                              & 0,4318                                                  & 2,9039                                              &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{8,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{62}     & 17      & 1,0871                                                  & 3,1172                                              & 0,34382                                                 & 1,806                                               & 0,34451                                                 & 1,806                                               &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{8,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{123}    & 17      & 1,0912                                                  & 3,3097                                              & 0,38736                                                 & 1,2681
-& 0,36381                                                 & 1,2681                                              &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{8,11}    & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{94}     & 17      & 1,074                                                   & 2,9042                                              & 0,38836                                                 & 2,8705                                              & 0,38836                                                 & 2,8705                                              &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{9,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{29}     & 17      & 1,1285                                                  & 3,3211                                              & 0,28016                                                 & 2,0401                                              & 0,28016                                                 & 2,0401                                              &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{9,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{57}     & 17      & 1,1404                                                  & 3,4476                                              & 0,34517                                                 & 1,9902                                              & 0,34517                                                 & 1,9902                                              &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{9,12,1}  & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{300}    & 15      & 1,0443                                                  & 2,118                                               & 0,39731                                                 & 1,4952                                              & 0,39741                                                 & 1,4952                                              &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{8,03,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{89}     & 17      & 1,1063 & 3,6783  & 0,40778     & 2,6384  & 0,4318 & 2,9039  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{8,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{62}     & 17      & 1,0871 & 3,1172  & 0,34382     & 1,806   & 0,34451     & 1,806   &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{8,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{123}    & 17      & 1,0912 & 3,3097  & 0,38736     & 1,2681
+& 0,36381     & 1,2681  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{8,11}    & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{94}     & 17      & 1,074  & 2,9042  & 0,38836     & 2,8705  & 0,38836     & 2,8705  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{9,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{29}     & 17      & 1,1285 & 3,3211  & 0,28016     & 2,0401  & 0,28016     & 2,0401  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{9,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{57}     & 17      & 1,1404 & 3,4476  & 0,34517     & 1,9902  & 0,34517     & 1,9902  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{9,12,1}  & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{300}    & 15      & 1,0443 & 2,118   & 0,39731     & 1,4952  & 0,39741     & 1,4952  &  &  \\ \cline{1-10}
 \end{tabular}
 \caption{Resultados de los bloques, para distintas capturas sintéticas}
 \label{resultados_distintas_capturas}
 \end{table}
 
+Los resultados para 17 camaras arrojan resultados similares en distintas capturas para el caso de amplia disponibilidad de camaras, y confirman los resultados y rendimientos presentados para los distintos bloques en las hipotesis planteadas para las capturas sinteticas. La segmentacion de los videos presenta errores promedios alrededor del pixel y errores maximos del entorno de los 4 pixeles. La reconstruccion y el tracking presentan resultados similares, siendo la diferencia conceptual entre ambas el etiquetado de trayectorias, y presentan resultados con error medio menor a los 0.5 cm, y errores maximos por debajo de 5 cm para el caso de reconstruccion con 17 camaras, y exceso de marcadores en reconstruccion (se establece como parametro de puntos reconstruidos una cantidad mayor a la esperada) 
+
 \subsubsection{Ruido En Segmentación}
 
-Resultado Reconstrucción (cm) ,ingresando Cam + ruido en pixel
+La prueba consiste en relevar el error promedio en reconstruccion, contra el ground truth 3D para distintas instancias de informacion de multiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los videos segmentados, son la visibilidad de los marcadores estimada en un 70\% por camara y el error de segmentacion estimada en 1 pixel, el ruido es inyectado entre la segmentacion y la reconstuccion siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de (??? REFERENCIA MEDIDA ERROR ) 
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 \textbf{Caso} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (px)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}14\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}18\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}30\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}46\\ Reconstr.\end{tabular}} \\ \hline
-Ground Cam    & 0                                                             & 7,84E-07                                                        & 7,84E-07                                                        & 7,84E-07                                                        & 7,84E-07                                                        \\ \hline
-Segmentación  & 0                                                             & 1,5792                                                          & 0,38556                                                         & 0,38556                                                         & 0,38556                                                         \\ \hline
-Ground Cam    & 0,5                                                           & 4,0817                                                          & 0,45675                                                         & 0,4453                                                          & 0,42607                                                         \\ \hline
-Segmentación  & 0,5                                                           & 13,6991                                                         & 0,61128                                                         & 0,61381                                                         & 0,60517                                                         \\ \hline
-Ground Cam    & 1                                                             & 16,9275                                                         & 0,82309                                                         & 0,72011                                                         & 0,73301                                                         \\ \hline
-Segmentación  & 1                                                             & 11,0847                                                         & 0,8557                                                          & 0,82286                                                         & 0,83073                                                         \\ \hline
-Ground Cam    & 2                                                             & 19,7131                                                         & 1,7649                                                          & 1,2152                                                          & 1,2027                                                          \\ \hline
-Segmentación  & 2                                                             & 15,9698                                                         & 1,9701                                                          & 1,3021                                                          & 1,2884                                                          \\ \hline
-Ground Cam    & 4                                                             & 28,6943                                                         & 6,1386                                                          & 2,1877                                                          & 2,0468                                                          \\ \hline
-Segmentación  & 4                                                             & 51,4025                                                         & 5,7738                                                          & 2,1484                                                          & 2,1335                                                          \\ \hline
-Ground Cam    & 8                                                             & 53,9555                                                         & 14,3684                                                         & 5,4929                                                          & 3,8377                                                          \\ \hline
-Segmentación  & 8                                                             & 264,8935                                                        & 13,1539                                                         & 4,7142                                                          & 3,7993                                                          \\ \hline
+Ground Cam    & 0 & 7,84E-07       & 7,84E-07       & 7,84E-07       & 7,84E-07       \\ \hline
+Segmentación  & 0 & 1,5792         & 0,38556        & 0,38556        & 0,38556        \\ \hline
+Ground Cam    & 0,5          & 4,0817         & 0,45675        & 0,4453         & 0,42607        \\ \hline
+Segmentación  & 0,5          & 13,6991        & 0,61128        & 0,61381        & 0,60517        \\ \hline
+Ground Cam    & 1 & 16,9275        & 0,82309        & 0,72011        & 0,73301        \\ \hline
+Segmentación  & 1 & 11,0847        & 0,8557         & 0,82286        & 0,83073        \\ \hline
+Ground Cam    & 2 & 19,7131        & 1,7649         & 1,2152         & 1,2027         \\ \hline
+Segmentación  & 2 & 15,9698        & 1,9701         & 1,3021         & 1,2884         \\ \hline
+Ground Cam    & 4 & 28,6943        & 6,1386         & 2,1877         & 2,0468         \\ \hline
+Segmentación  & 4 & 51,4025        & 5,7738         & 2,1484         & 2,1335         \\ \hline
+Ground Cam    & 8 & 53,9555        & 14,3684        & 5,4929         & 3,8377         \\ \hline
+Segmentación  & 8 & 264,8935       & 13,1539        & 4,7142         & 3,7993         \\ \hline
 \end{tabular}
 \caption{Resultados de Error Promedio (cm) en reconstrucción, para distintos caso de ruido en la segmentación, tanto resultados sobre vídeos como sobre ground truth}
 \end{table}

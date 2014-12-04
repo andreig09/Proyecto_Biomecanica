@@ -173,7 +173,10 @@ Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1
  \label{discontinuidad_tracking}
 \end{figure}
 
-Se establece un umbral a partir del estudio de la distribución de la aceleración de cada marcador (figura \ref{distribucion_aceleracion} ) para encontrar la aceleración que presenta un salto abrupto, y detectar los frames donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos, es el mismo que se verá al momento de inventario de trayectorias.
+Se establece un umbral a partir del estudio de la distribución de la aceleración de cada marcador (figura \ref{distribucion_aceleracion} ) para encontrar la aceleración que presenta un salto abrupto, y detectar los frames donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos, es el mismo que se verá al momento de inventario de trayectorias. 
+
+Como opción mas global, se implementó una alternativa que en vez de calcular un umbral para cada trayectoria, establece un umbral global, el cual es util para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se implementó mediante una ejecución en dos instancias del seguimiento, una primera instancia sin limites globales de aceleracion en en enlazado, y una segunda con un limite establecido a un porcentaje de la distribución de la aceleracion, asumiendo un nivel a priori para perdidas (en nuestras pruebas, se estableció que filtrar al nivel que cumplan el 99\% de las aceleraciones de todos los marcadores enlazados arroja buenos resultados). Si durante la segunda instancia, un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
+
 \begin{figure}[H]
  \centering
   \subfloat[Función de distribución de la Aceleración]{
@@ -210,6 +213,9 @@ Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben 
 \end{figure} 
   
   \item \textbf{Distancia radial con respecto al ultimo punto conocido}. En algunos casos, la perdida del enlazado puede suceder cuando la trayectoria está en reposo (por ejemplo, un pie apoyado antes de volver a despegarse del suelo), o en transición (en el medio de una curva), por lo cual la estimación lineal anterior es invalida. Para ello, es útil relevar la distancia entre el ultimo punto conocido de una trayectoria trunca, y los puntos que no se enlazaron en [f+1]. Esta distancia, en caso de una posible recuperación, deberá ser proporcional al ultimo traslado conocido, por la diferencia temporal de frames entre el ultimo punto, y el posible candidato.
+ 
+El procedimiento de validación indica que marcadores son invalidos, tanto usando el umbral global, como el individual, pero esta validacion puede truncar una trayectoria durante el enlazado que luego debe ser estimada en caso de recuperacion, o debe ser filtrado para el caso de post-procesamiento. Se debe establecer un procedimiento para tratar de recuperar estos marcadores, tratando de cumplir con las restricciones impuestas.
+ 
   
 \end{enumerate} 
 
