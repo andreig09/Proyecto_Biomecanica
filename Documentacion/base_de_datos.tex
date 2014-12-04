@@ -103,7 +103,7 @@ A continuación algunos comentarios que vale la pena resaltar sobre  las bases a
 \paragraph{Motion Capture Lab.\footnote{\textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}. Accedido 30-11-14}} 
 		Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento tridimensionales a través del sistema Vicon. Cuentan con un sistema Vicon 8i de 14 cámaras, dos videocámaras digitales Sony DSR-PD150 que llegan a 30 fps\footnote{\textcolor{blue}{\underline{\url{http://www.bhphotovideo.com/c/product/197878-REG/Sony_DSRPD150_DSR_PD150_Professional_1_3_DVCAM.html}}} ,Accedido 29-11-14 }, junto a un sistema de sincronización que permite integrar todas estas cámaras en el laboratorio. El video se utiliza únicamente como ayuda en los datos de captura para corregir y ver los marcadores,  por lo que \underline{no cuenta con secuencias de video adecuadas}. Cabe destacar que maneja múltiples formatos MoCap, inclusive el bvh.
 
-\paragraph{Carnegie Mellon University Motion Capture Database.\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}}
+\paragraph{Carnegie Mellon University Motion Capture Database.\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}}\label{CMU}
  Este laboratorio también se centra en obtener capturas de movimiento a través de un sistema Vicon, y no está implementado para evaluaciones ópticas de las capturas. Solo maneja videos monoculares de baja resolución, por lo que no cuenta con secuencias de video adecuadas para nuestro proyecto. Sin embargo maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como de la configuración del laboratorio. El sujeto a relevar se encuentra vestido con ropas finas y ajustadas, sobre la cual se colocan los marcadores, por lo tanto se puede despreciar las fluctuaciones de posición de marcadores debidas a la ropa, que si exhiben otros ambientes menos controlados  Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora y es por lejos la que dispone de mayor cantidad de capturas de movimiento de acceso público de las bases relevadas en esta sección.
 
 \paragraph{Georgia Tech.\footnote{\textcolor{blue}{\underline{\url{http://www.cc.gatech.edu/cpl/projects/hid/index.html}}}. Accedido 30-11-14}}
@@ -191,7 +191,7 @@ Si bien la búsqueda se centró en blablabla no logró encontrar una base de dat
 \subsection{Características de Laboratorio para un sistema de captura óptica basado en marcadores}
 
  
-A continuación se enumeran algunas variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
+A continuación se enumeran algunas variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura óptica basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
 
 \subsubsection{Cámaras}\label{parrafo_Camaras} 
 Para la elección del tipo de cámaras es importante tener en cuenta los requerimientos de las secuencias a relevar. A continuación vamos a tratar dos variables básicas y generales que deben contemplarse, por un lado la cantidad de fotogramas, y por otro la resolución de la cámara.
@@ -225,10 +225,9 @@ Se cumple la siguiente relación,
 X = \dfrac{d}{f}x_s&~, \quad \quad Y = \dfrac{d}{f}y_s
 \end{alignat*}
 
-Si el sensor\footnote{También referido como retina de la cámara.} tiene un largo $S_x$, píxeles cuadrados y resolución de $R_x\times R_y$ píxeles, resulta que la arista de un pixel es $l_p = S_x/R_x $ y el ancho del sensor es $S_y = S_x R_y/ R_x$. 
+Si el sensor\footnote{También referido como retina de la cámara.} tiene un largo $S_x$ y ancho $S_y$ y resolución de $R_x\times R_y$ píxeles, resulta que el largo de un pixel es $l_x = S_x/R_x $ y el ancho $l_y = S_y/ R_y$. 
 
-A modo de ejemplo consideremos una cámara con las siguientes características $S_x = 0.032~m$, píxeles cuadrados, resolución de $1600\times600$ píxeles y una distancia focal de $32~mm$. Por lo tanto el error de un pixel es equivalente a $x = 0,032/1600~m = 0.02~mm$ sobre el sensor. Errores de 1, 2 y 3 píxeles se mapean a una distancia $d$ del centro de la cámara como se muestra en la tabla \ref{table_resolucion} 
-
+A modo de ejemplo consideremos una cámara con las siguientes características $S_x = 0.032\;m$ y $S_y = 0.010\; m$, resolución de $1600\times600$ píxeles y una distancia focal de $32~mm$. Por lo tanto el error de un píxel se mapea sobre el sensor como $x = 0,032/1600\;m = 0.020\;mm$ a lo largo, e $y = 0.010/600\;m= 0.016\;mm$ a lo ancho. La tabla \ref{table_resolucion} muestra como  errores de 1, 2 y 3 píxeles en el sensor se propagan sobre el espacio a una distancia $d$ del centro de la cámara.
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|l|l|l|l|l|}
@@ -369,23 +368,50 @@ El formato BVH proviene del formato BVA de BioVision con la notable adición de 
 
 La sección jerárquica del archivo empieza con las dos primeras líneas conteniendo las palabras HIERARCHY y ROOT respectivamente, seguidas del nombre del hueso que es la raíz de la estructura jerárquica y a continuación la estructura restante del esqueleto definida de manera recursiva conteniendo la información del origen de cada hueso y el orden en que las variables del hueso se modifican en la segunda sección. La sección de movimiento empieza con la palabra clave MOTION, contiene la cantidad de cuadros en la secuencia, el tiempo entre cuadros y la  información completa de la posición de cada hueso del esqueleto en cada cuadro de la secuencia. Por más detalles del formato consultar el artículo de M. Meredith y S.Maddock \cite{meredith2001motion}.  
 
+Si bien en principio cualquier fuente de archivos BVH con capturas de movimiento es válida, se decide trabajar en este proyecto con las fuentes BVH de la base de datos \textit{MotionBuilder-friendly version} ofrecidas por cgspeed\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
+ que provienen de las capturas de Carnegie Mellon University Motion Capture Database\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}. 
+ Como se menciona anteriormente en la sección \ref{CMU}, CMU dispone de un gran número de capturas de movimiento de acceso público, varias utilidades de software que permiten llevar a otros formatos y es utilizado ampliamente en el ámbito de la animación por computadora.
+
 
 
 
 \subsubsection{Blender} SECCION EN CONSTRUCCION\\
 Describir de que manera se utilizo Blender y  Python para generar las secuencias\\
+
+
+
+Blender es una suite de animación 3D gratuita y de código abierto, la misma cuenta con las herramientas necesarias para trabajar en todas las etapas de desarrollo de un proyecto de animación 3D. Por otro lado posee una interfaz de programación de aplicaciones muy fexible y potente que permite extender su funcionalidad a través de programas en lenguaje Python. Estas cualidades son muy útiles para generar nuestra base de datos por lo que se decidió desarrollar la misma sobre esta herramienta.
+
+Se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas un cierto número de cámaras, iluminación, color de fondo determinado y un modelo con marcadores sobre el cual cargar la captura de movimiento de interés. También se han implementado programas en Python para facilitar múltiples tareas:
+
+\begin{itemize}
+\item  ayudar en  el ajuste de las capturas provenientes de archivos BVH al esqueleto del modelo virtual,
+\item	generar las secuencias de video a partir de archivos .blend  con el modelo virtual desarrollando el movimiento de interés,
+\item	exportar la información de calibración de las cámaras en un archivo .m para levantar la información rápidamente desde Matlab.
+\end{itemize}
+
+
+Describir como está armado el laboratorio (meter dos fotos una con las cámaras numeradas, otra con el entorno blender y el macaco). Explicar en que layers se dejan las cámaras\\
+Describir como está armado el macaco, que colores se le pusieron, etc.\\
+Describir como se importa un esqueleto al blender. Pasos previos, uso del programa bvhacker\\
+Describir como se generan los marcadores y se ajusta el esqueleto. Explicar que como lo que se conoce son las posiciones de las intersecciones entre huesos del esqueleto se debe ajustar el modelo Blender de manera especial y poner los marcadores sobre dichas intersecciones.\\
+Informar sobre el problema que se encontró al utilizar el programa de ajuste de esqueleto.\\
+Exportación del ground truth desde Blender.\\
+
+
+
+
+
+
+
+
 MATERIAL PARA RECICLAR\\
-Para este proyecto, el programa de animación utilizado es Blender. Dentro del mismo se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas un cierto número de cámaras, iluminación, color de fondo determinado y un modelo con marcadores sobre el cual cargar la captura de movimiento de interés. \\
-
-El procedimiento para generar las secuencias de video a partir de un archivo con la información de la captura de movimiento, se ha definido en detalle de manera que cualquier persona con mínimos conocimientos de Blender pueda generar una secuencia. 
-
 
 
 Si bien las secuencias de video obtenidas son lo único necesario para el análisis de video, al generar dichas secuencias a través de un entorno virtual controlado, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada frame, etc. Permitiendo contar con un ground truth sobre el cual validar los algoritmos de análisis de video. 
 
 Dado que Blender se encuentra implementado sobre Python, se ha creado un script que permite una vez generada la secuencia, automatizar la extracción de estos parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
  
-El potencial de este tipo de base de datos sintética es grande. En especial por la facilidad con la que se obtienen las diversas capturas de movimiento en la web, la flexibilidad de programas como Blender y la rápida obtención de secuencias de interés con casos particulares. \\
 
 \subsubsection{Implementación}SECCION EN CONSTRUCCION\\
 
