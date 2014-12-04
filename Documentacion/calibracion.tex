@@ -11,14 +11,14 @@ Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D
 
 De la relación entre estos sistemas de coordenadas se obtienen los parámetros de las cámaras. Dichos parámetros se clasifican en intrínsecos y extrínsecos. Los primeros son aquellos que describen las propiedades geométricas y ópticas de la cámara, es decir, las características internas de la cámara. Por otra parte, los parámetros extrínsecos son los que describen la posición y orientación de la cámara respecto al sistema de coordenadas del espacio.\\
 
-Para realizar esto es necesario establecer un modelo que describa el sistema de óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo “pinhole” de las cámaras. 
-El modelo "pinhole" se basa en la implementación mas simple de una cámara real, la cámara estenopeica.En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la pantalla de la cámara como se muestra en la figura \ref{pinhole_camara}.\\
+Para realizar esto es necesario establecer un modelo que describa el sistema de óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo \textit{pinhole} de las cámaras. 
+El modelo \textit{pinhole} se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la pantalla de la cámara como se muestra en la figura \ref{pinhole_camara}.\\
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.5]{img/calibracion/pinhole_camara.png}
 \end{center}
-\caption{Cámara estenopeica .(referencia libro faugueras)}
+\caption{Cámara estenopeica .\cite{faugueras_libro}}
 \label{pinhole_camara}
 \end{figure}
 
@@ -37,7 +37,7 @@ En dicho modelo, una cámara se representa por un punto $C$, foco de la cámara,
 
 
 
-Si las coordenadas del punto 3D $M$ y las del punto 3D $m$ son las siguientes:\\
+Si las coordenadas del punto  $M$ y las del punto $m$ son las siguientes:\\
 
  $m = \begin{bmatrix}
 u \\ 
@@ -63,7 +63,7 @@ Z \\
 1
 \end{bmatrix} $\\
 
-Tomando el modelo pinhole de la cámara, la relación entre un punto $M$ y su proyección $m$ es:
+Tomando el modelo \textit{pinhole} de la cámara, la relación entre un punto $M$ y su proyección $m$ es:
 \begin{equation}
 s\tilde{m} = A [R \quad t]\tilde{M}
 \label{proyeccion}
@@ -85,7 +85,7 @@ Por lo tanto estos puntos se relacionan a través de la matriz $P = A [R \quad t
 
 La matriz $P$ se compone a su vez de la matriz $A$ que representa los parámetros intrínsecos de la cámara, y la matriz $[R \quad t]$ que representa los parámetros extrínsecos.\\
 
-La matriz $[R \quad t]$ está formada por la rotación y traslación que relaciona sistema de coordenadas del espacio con el sistema de coordenadas de la cámara. La matriz $A$ está formada por los parámetros intrínsecos de la cámara:\\
+La matriz $[R \quad t]$ está formada por la rotación y traslación que relaciona el sistema de coordenadas del espacio con el sistema de coordenadas de la cámara. La matriz $A$ está formada por los parámetros intrínsecos de la cámara:\\
 
 
 
@@ -146,16 +146,23 @@ Este caso se utiliza objetos planos con figuras de patrones determinados, por ej
 
 \item Autocalibración\\
 
-Este método consiste en obtener la información necesaria a través de la captura de varias imágenes de un escena estática, prescindiendo de objetos para calibrar. Esta método es más flexible que  los anteriores aunque suele ser menos preciso.
+Este método consiste en obtener la información necesaria a través de la captura de varias imágenes de un escena estática, prescindiendo de objetos para calibrar. Esta método es más flexible que  los anteriores aunque suele ser menos preciso.\\
 
 \end{itemize}
 
 
+Algunas soluciones comerciales, como por ejemplo Vicon(referencia), utiliza como objeto de calibración una vara con leds, ver figura \ref{vicon}. 
 
+\begin{figure}[H]
+        \centering
+        
+        \subfloat{\includegraphics[scale=1.8]{img/calibracion/vicon1.png}\label{peladoOriginalintro}}
+        \subfloat{\includegraphics[scale=0.08]{img/calibracion/vicon2.jpg}\label{peladocirculosintro}}
+  \caption{Calibración Vicon}
+      \label{vicon}
+\end{figure}
 
-
-
-
+En este caso la calibración se realiza moviendo el objeto de calibración a través del espacio de trabajo. Este método resulta muy flexible para la calibración de un conjunto de varias cámaras simultáneamente.
 
 
 
