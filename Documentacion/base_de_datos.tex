@@ -1,12 +1,12 @@
 \section{Base de datos}
 
 
-\subsection{Introducción}
+\subsection{Introducción} SECCION EN CONSTRUCCION\\
 \label{}
-Mencionar que tipo de base de datos se necesita encontrar\\
+MENCIONAR QUE TIPO DE BASE DE DATOS SE NECESITA ENCONTRAR\\
 Con el fin de relevar distinta clases de actividades humanas y en particular la marcha, se pretende trabajar con una base de datos basada en marcadores, que contenga un cierto número de sujetos, realizando una variedad de movimientos predefinidos, donde para cada sujeto a estudiar, se tengan múltiples secuencias de videos 2D del movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado previamente acondicionado. Dicha base debe contar con el correspondiente ground truth 2D y 3D de los datos de movimiento relevados, en nuestro caso como nuestro sistema está basado en marcadores, dicha información consiste en obtener las coordenadas espaciales a lo largo del tiempo para cada marcador de interés. Así como la información de calibración.blablabla MEJORAR \\
 
-Mencionar porque se tuvo que generar una y que contiene a grandes rasgos.\\
+MENCIONAR PORQUE SE TUVO QUE GENERAR UNA Y QUE CONTIENE A GRANDES RASGOS\\
 Se propone una estructura de datos para almacenar la información relevante del ground truth y  se cuenta con código de soporte que facilita la generación de nuevas secuencias así como la gestión de la información en la estructura de datos, evaluar resultados y realizar el  posterior análisis de performance.
 
 
@@ -140,7 +140,7 @@ El objetivo de esta base de datos es reconocer el movimiento del cuerpo al reali
 
 
 
-\subsubsection{Contactos realizados y resultados}
+\subsubsection{Contactos realizados y resultados} SECCION EN CONSTRUCCION\\
 
 En el ámbito local hemos estado en contacto con magister Patricia Polero y xxxxx del hospital de clínicas, quienes actualmente poseen un sistema de captura de movimiento basado eb xxx el cual han adquirido recientemente. Explicar porque no lo usamos!!!!
 Hablar también de la gente del clínicas y de Patricia Polero
@@ -169,7 +169,7 @@ Los pedidos fueron realizados el 17 de diciembre de 2013 aproximadamente.
 
 
 
-\subsubsection{Conclusiones}\label{conclusiones_revision_base_datos}
+\subsubsection{Conclusiones}\label{conclusiones_revision_base_datos} SECCION EN CONSTRUCCION\\
 
 Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores. Son los factores más importantes.
 Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos 3D en distinto tipo de movimientos, sobre todo en formatos Mocap.
@@ -245,7 +245,7 @@ A modo de ejemplo consideremos una cámara con las siguientes características $
 
 
 \subsubsection{Marcadores}
-A la hora de seleccionar el equipamiento se debe prestar especial atención y coordinar el tipo de marcador, la vestimenta del sujeto, el fondo del espacio de captura y el tipo de iluminación. Pues las características de estos elementos en conjunto pueden cambiar sensiblemente la performance del sistema de captura, sobre todo en sus primeras etapas tales como la detección de marcadores y la  calibración.
+A la hora de seleccionar el equipamiento se debe prestar especial atención y coordinar el tipo de marcador, la vestimenta del sujeto, el fondo del espacio de captura y el tipo de iluminación. Pues las características de estos elementos en conjunto pueden cambiar sensiblemente la performance del sistema que procesa computacionalmente la captura, sobre todo en sus primeras etapas tales como la detección de marcadores y la  calibración.
 Si se quiere facilitar la tarea de detección automática de marcadores, estos deben ser fácilmente distinguibles del resto del entorno, y visibles la mayor cantidad de tiempo para las cámaras. Para ello se debe tener marcadores que generen un alto contraste con el resto de los elementos dentro de la captura de video. 
 Su tamaño y forma también son importantes, por lo general se trabaja con marcadores esféricos, y un tamaño que dado cierto espacio de trabajo no condicione fuertemente la resolución necesaria de las cámaras. Una medida que se puede considerar aceptable con cámaras convencionales y movimientos a menos de 12 metros del centro de las cámaras, son marcadores de $3~cm$ de diámetro.  
 Si el fondo del espacio de captura es negro, opaco, al igual que la vestimenta del sujeto a capturar, los marcadores pueden ser blancos, no pulidos de manera que su reflejo sea difuso, para no generar variación de tono sobre los mismos. 
@@ -279,8 +279,10 @@ En cuanto a las dimensiones del espacio de captura, el mismo depende principalme
   \label{img_espacio_capura}
 \end{figure} 
  
-En el caso de la marcha rectilínea puede verse que en principio con tan solo 4 cámaras dispuestas como en la figura \ref{img_marcha1} se genera un espacio de captura útil de aproximadamente $3\;m\times5\; m$ en forma de pasarela. Si el sujeto restringe su movimiento sobre esta zona, dado que la misma se ubica dentro de la intersección de los campos visuales, será visto en su totalidad por todas las cámaras de manera simultánea. En el caso de marcha libre se disponen 8 cámaras intentando que el espacio de captura no tenga direcciones privilegiadas, con lo cual se genera una circunferencia, que en nuestro caso es de aproximadamente $5\;m$ de diámetro. \\
-Siguiendo el proceso discutido anteriormente \ref{parrafo_Camaras}, se puede estimar la resolución esperada en los datos obtenidos a partir de las secuencias de video, si se cuenta en principio con información de la resolución de las cámaras y su distancia focal. Consideremos nuevamente cámaras con resolución de $1600\times600$ píxeles y distancia focal de $f=32\;mm$, la mayor distancia sobre la cual una cámara debe tener cobertura en nuestro caso de la marcha rectilínea es de $8 \;m$ mientras que en el caso de la marcha libre es de $9\;m$, con lo cual un error de un pixel en una cámara produce una incertidumbre de aproximadamente poco más de medio centímetro en ambos casos, a la hora de efectuar la reconstrucción con las secuencias de video obtenidas. 
+En el caso de la marcha rectilínea puede verse que en principio con tan solo 4 cámaras dispuestas como en la figura \ref{img_marcha1} se genera un espacio de captura útil de aproximadamente $3\;m\times5\; m$ en forma de pasarela. Si el sujeto restringe su movimiento sobre esta zona, dado que la misma se ubica dentro de la intersección de los campos visuales, será visto en su totalidad por todas las cámaras de manera simultánea. En el caso de marcha libre se disponen 8 cámaras intentando que el espacio de captura no tenga direcciones privilegiadas, con lo cual se genera una circunferencia, que en nuestro caso es de aproximadamente $5\;m$ de diámetro. 
+
+
+Siguiendo el proceso discutido anteriormente \ref{parrafo_Camaras}, se puede estimar la resolución esperada en los datos obtenidos a partir de las secuencias de video, si se cuenta en principio con información de la resolución de las cámaras y su distancia focal. Consideremos nuevamente cámaras con resolución de $1600\times600$ píxeles y distancia focal de $f=32\;mm$, la mayor distancia sobre la cual una cámara debe tener cobertura en la pasarela de la figura \ref{img_marcha1} es de $8 \;m$, mientras que en la figura  \ref{img_marcha2}, caso de la marcha libre, es de $9\;m$, con lo cual un error de un pixel en una cámara produce una incertidumbre de aproximadamente poco más de medio centímetro en ambos casos, a la hora de efectuar la reconstrucción con las secuencias de video obtenidas. 
 Debe tenerse presente que estos son casos particulares, pero que permiten hacer una idea de las consideraciones a tener en cuenta para cumplir algunos de los requerimientos del sistema. 
 Aumentar el número de cámaras permite una mayor cobertura de volumen, lo que significa una mayor visibilidad del conjunto de marcadores. A su vez una mejor visibilidad del conjunto de marcadores está correlacionado con disminuir la posibilidad de que información importante se pierda en las etapas de análisis de datos posteriores.
 
@@ -292,13 +294,11 @@ Se debe contar con un fuente central que envíe una señal de sincronización a 
 Si no se contara con una entrada de sincronización sería prácticamente imposible realizar una grabación con varias cámaras simultáneamente.
 
 
--Formatos Mocap (terminología, ventajas, desventajas, formatos usuales)
-\\
 
 
 
-\subsubsection{Conclusiones}
-especificar los parámetros deseables en una base de datos que trabaje con información óptica basada en marcadores
+\subsubsection{Conclusiones} SECCION EN CONSTRUCCION\\
+-->especificar los parámetros deseables en una base de datos que trabaje con información óptica basada en marcadores
 
 
 A la hora de configurar un laboratorio no solo hay que integrar las distintas variables, sino también cuidar que esta integración se gestione de manera compatible, de lo contrario se estaría desaprovechando el potencial de las secuencias generadas por el sistema de captura en cuanto al procesamiento posterior se trata. Dificultando la tarea de obtención de datos a partir de las secuencias de video.
@@ -359,25 +359,22 @@ El formato BVH proviene del formato BVA de BioVision con la notable adición de 
 \begin{figure}[H]
   \centering
  
-   \subfloat{\includegraphics[scale=0.25]{img/Base_Datos/Estructura_esqueleto1.pdf}\label{img_Esqueleto_1}}\hspace{0.2cm}   
-  \subfloat{\includegraphics[scale=0.4]{img/Base_Datos/Estructura_bvh.png}\label{img_estructura_bvh}}  
-   \caption{Estructura Jerárquica para una figura humana}
+   \subfloat[Esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Estructura_esqueleto1.pdf}\label{img_Esqueleto_1}}
+   \subfloat[Estructura jerárquica]{\includegraphics[scale=0.4]{img/Base_Datos/Estructura_bvh.png}\label{img_estructura_bvh}}\hspace{0.1cm}   
+   \subfloat[Sección de jerarquía]{\includegraphics[scale=0.2]{img/Base_Datos/BVH_Encabezado.png}\label{img_BVH_Encabezado}}\hspace{0.01cm}   
+   \subfloat[Sección de movimiento]{\includegraphics[scale=0.2]{img/Base_Datos/BVH_Motion.png}\label{img_BVH_Motion}}  
+   \caption{Información contenida en archivos BVH.}
   \label{img_espacio_capura}
 \end{figure}   
 
+La sección jerárquica del archivo empieza con las dos primeras líneas conteniendo las palabras HIERARCHY y ROOT respectivamente, seguidas del nombre del hueso que es la raíz de la estructura jerárquica y a continuación la estructura restante del esqueleto definida de manera recursiva conteniendo la información del origen de cada hueso y el orden en que las variables del hueso se modifican en la segunda sección. La sección de movimiento empieza con la palabra clave MOTION, contiene la cantidad de cuadros en la secuencia, el tiempo entre cuadros y la  información completa de la posición de cada hueso del esqueleto en cada cuadro de la secuencia. Por más detalles del formato consultar el artículo de M. Meredith y S.Maddock \cite{meredith2001motion}.  
 
 
 
 
-
-\subsubsection{Blender}
-
-\subsubsection{Implementación}
-
-
-
-\paragraph{HABLAR SOBRE estructura de la base de datos}
-
+\subsubsection{Blender} SECCION EN CONSTRUCCION\\
+Describir de que manera se utilizo Blender y  Python para generar las secuencias\\
+MATERIAL PARA RECICLAR\\
 Para este proyecto, el programa de animación utilizado es Blender. Dentro del mismo se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas un cierto número de cámaras, iluminación, color de fondo determinado y un modelo con marcadores sobre el cual cargar la captura de movimiento de interés. \\
 
 El procedimiento para generar las secuencias de video a partir de un archivo con la información de la captura de movimiento, se ha definido en detalle de manera que cualquier persona con mínimos conocimientos de Blender pueda generar una secuencia. 
@@ -389,8 +386,17 @@ Si bien las secuencias de video obtenidas son lo único necesario para el análi
 Dado que Blender se encuentra implementado sobre Python, se ha creado un script que permite una vez generada la secuencia, automatizar la extracción de estos parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
  
 El potencial de este tipo de base de datos sintética es grande. En especial por la facilidad con la que se obtienen las diversas capturas de movimiento en la web, la flexibilidad de programas como Blender y la rápida obtención de secuencias de interés con casos particulares. \\
-\\
-\\
+
+\subsubsection{Implementación}SECCION EN CONSTRUCCION\\
+
+
+
+\paragraph{HABLAR SOBRE estructura de la base de datos}
+
+Describir el tipo de información,como está guardada y como se gestiona.\\
+Introducción de nuevas secuencias\\
+Programas Python utilizados y exportaciones a otras formatos\\
+
 
 COLOCAR UNA TABLA 
 \begin{table}[h!]
@@ -406,6 +412,14 @@ COLOCAR UNA TABLA
 \end{table}
 
 \paragraph{HABLAR SOBRE estructura de los datos donde se guarda la información.}
+
+Porque se necesita\\
+Que forma tiene\\
+Cual es su alcance\\
+Como se gestiona\\
+
+
+RECICLAR\\
 Se ha definido e implementado también una estructura de datos para almacenar la información tanto de ground truth como la generada a la hora de  trabajar en la etapa de análisis de video. La misma cuenta con funciones de acceso de entrada y salida implementadas en Matlab, permitiendo independizar la manera en que se guarda la información del uso que se le da a la misma. De manera que pueda modificarse o extenderse sin problemas, la forma en que se estructuran los datos.
 
 Actualmente las componentes principales de la estructura de datos se muestran en la figura \ref{fig:estructura_datos}
@@ -415,10 +429,10 @@ En la misma se puede ver la conjunción de dos estructuras principales, una para
 Cabe destacar que este tipo de estructura es útil tanto para una base de datos sintética como una base de datos real. \\
 \\
 \\
-\subsubsection{Conclusiones}
+\subsubsection{Conclusiones} SECCION EN CONSTRUCCION\\
 sobre como quedo la base de datos, utilidad, potencial y posible expansión
 
-\subsection{Conclusiones}
+\subsection{Conclusiones} SECCION EN CONSTRUCCION\\
 sobre todo el capitulo, resumen de conclusiones parciales
 
 
