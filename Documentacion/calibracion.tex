@@ -1,11 +1,10 @@
 
 
 
-
-\subsection{Calibración}
+\section{Calibración}
 \label{calibracion}
 
-\subsubsection{Introducción}
+\subsection{Introducción}
 Para poder obtener la posición en tres dimensiones de los marcadores a partir de las imágenes capturadas es necesario que las cámaras estén previamente calibradas. El objetivo de la calibración consiste en determinar un conjunto de parámetros tal que pueda establecerse una relación entre el espacio 3D y las coordenadas 2D de las imágenes.\\
 
 Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D. A su vez, los puntos capturados en las imagenes pueden referenciarse respecto a un sistema de coordenadas 2D en píxeles. Si se quiere determinar la posición de un punto en el espacio en función de las correspondientes proyecciones de dicho punto en las imágenes capturadas por las cámaras, es necesario determinar las ecuaciones que vinculan al sistema de coordenadas del espacio con el sistema de coordenadas en píxeles de las cámaras.\\
@@ -129,11 +128,29 @@ Siendo $(\check{x},\check{y})$ las coordenadas distorsionadas y $(\delta_x, \del
 \end{equation}
 
 Siendo $d_x$ y $d_y$ las distancias entre pixeles adyacentes en las direcciones horizontal y vertical, respectivamente.\\
+\end{itemize}
 
-\subsubsection{Métodos de calibración}
 
+\subsection{Métodos de calibración}
+
+(referencia). De acuerdo a los objetos utilizados para realizar la calibración, los métodos pueden clasificarse de la siguiente manera.\\
+
+\begin{itemize}
+\item Calibración mediante objetos 3D\\
+
+La calibración mediante este método es realizada capturando la imágen de un objeto de calibración cuyas dimensiones y geometría son conocidas. Los objetos de calibración suelen ser planos colocados otrogonalmente. También pueden utilizarse estructuras con marcadores de dimensiones conocidas.Estos objetos se le aplica traslaciones en el espacio logrando más cantidad de puntos de referencia para calibrar. La ventaja de este método es su precisión aunque se requiere de objetos más costosos y procedimientos más elaborados.\\
+
+\item Calibración mediante objetos 2D\\
+
+Este caso se utiliza objetos planos con figuras de patrones determinados, por ejemplo dameros. Estos objetos son colocados en varias posiciones delante de la cámara de manera de capturar varias imágenes del objeto. Esta metodología ofrece más flexibilidad para calibrar.\\
+
+\item Autocalibración\\
+
+Este método consiste en obtener la información necesaria a través de la captura de varias imágenes de un escena estática, prescindiendo de objetos para calibrar. Esta método es más flexible que  los anteriores aunque suele ser menos preciso.
 
 \end{itemize}
+
+
 
 
 
