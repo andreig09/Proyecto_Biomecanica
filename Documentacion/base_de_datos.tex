@@ -189,7 +189,7 @@ Si bien la búsqueda se centró en blablabla no logró encontrar una base de dat
 
 
 \subsection{Características de Laboratorio para un sistema de captura óptica basado en marcadores}
-
+\label{seccion_Caracteristicas_Laboratorio}
  
 A continuación se enumeran algunas variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura óptica basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
 
@@ -251,7 +251,7 @@ Si el fondo del espacio de captura es negro, opaco, al igual que la vestimenta d
 Su disposición sobre el sujeto responde a los intereses de lo que se quiera observar, pero se debe tener presente que al ser una captura óptica, para que un marcador sea útil, debe estar visibles buena parte del tiempo en la secuencia.
 
 \subsubsection{Iluminación}
-La iluminación debería ser preferiblemente uniforme, para no generar sombras que modifiquen los tonos del espacio de captura. La luz natural es una buena alternativa, en espacios cerrados lo que habitualmente se utilizan son pantallas delante de los focos lumínicos, la disposición de los focos depende de la forma del espacio de captura, pero por lo general rodean al mismo, cuidando que estos no sean capturados directamente por las cámaras, y generen falsos positivos en la detección de marcadores.
+La iluminación debería ser preferiblemente uniforme, para no generar sombras que modifiquen los tonos del espacio de captura. La luz natural es una buena alternativa, en espacios cerrados lo que habitualmente se utilizan son pantallas delante de los focos lumínicos para hacerlos más difusos, reduciendo así el riesgo de generar imágenes especulares en los objetos. La disposición de los focos depende de la forma del espacio de captura, pero por lo general rodean al mismo, cuidando que estos no sean capturados directamente por las cámaras, y generen falsos positivos en la detección de marcadores. Si bien esto último puede ser solucionado parcialmente en la etapa de  post-procesamiento efectuando convenientemente sustracción de fondo, es recomendable tratarlo en las primeras etapas, a nivel del sistema de captura. 
 
 \subsubsection{Vestimenta}
 Es preferible que la vestimenta del sujeto a relevar, consista en ropas finas y ajustadas para despreciar fluctuaciones de la posición de marcadores debido al movimiento de la ropa. Como se menciona anteriormente al igual que el fondo, la elección del color y material debe contrastar con los marcadores.
@@ -267,7 +267,7 @@ En cuanto a las dimensiones del espacio de captura, el mismo depende principalme
   \centering
   {\includegraphics[scale=0.2]{img/Base_Datos/Laboratorio.pdf}\label{img_Laboratorio}}      
   \caption{Toma superior del Laboratorio.\\ Todas las cámaras se encuentran a $1\;m$ del suelo.}
-  \label{estimacion_resolucion}
+  \label{img_estimacion_resolucion}
 \end{figure}  
  
  
@@ -356,8 +356,7 @@ El formato BVH proviene del formato BVA de BioVision con la notable adición de 
  
  
 \begin{figure}[H]
-  \centering
- 
+  \centering 
    \subfloat[Esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Estructura_esqueleto1.pdf}\label{img_Esqueleto_1}}
    \subfloat[Estructura jerárquica]{\includegraphics[scale=0.4]{img/Base_Datos/Estructura_bvh.png}\label{img_estructura_bvh}}\hspace{0.1cm}   
    \subfloat[Sección de jerarquía]{\includegraphics[scale=0.2]{img/Base_Datos/BVH_Encabezado.png}\label{img_BVH_Encabezado}}\hspace{0.01cm}   
@@ -380,15 +379,47 @@ Describir de que manera se utilizo Blender y  Python para generar las secuencias
 
 
 
-Blender es una suite de animación 3D gratuita y de código abierto, la misma cuenta con las herramientas necesarias para trabajar en todas las etapas de desarrollo de un proyecto de animación 3D. Por otro lado posee una interfaz de programación de aplicaciones muy fexible y potente que permite extender su funcionalidad a través de programas en lenguaje Python. Estas cualidades son muy útiles para generar nuestra base de datos por lo que se decidió desarrollar la misma sobre esta herramienta.
+Blender es una suite de animación 3D gratuita y de código abierto, la misma cuenta con las herramientas necesarias para trabajar en todas las etapas de desarrollo de un proyecto de animación 3D. Por otro lado posee una interfaz de programación de aplicaciones muy fexible y potente que permite extender su funcionalidad a través de programas en lenguaje Python. Estas cualidades son muy útiles para generar nuestra base de datos por lo que se decidió desarrollar la misma utilizando las herramienta de esta aplicación.
 
 Se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas un cierto número de cámaras, iluminación, color de fondo determinado y un modelo con marcadores sobre el cual cargar la captura de movimiento de interés. También se han implementado programas en Python para facilitar múltiples tareas:
 
 \begin{itemize}
 \item  ayudar en  el ajuste de las capturas provenientes de archivos BVH al esqueleto del modelo virtual,
 \item	generar las secuencias de video a partir de archivos .blend  con el modelo virtual desarrollando el movimiento de interés,
-\item	exportar la información de calibración de las cámaras en un archivo .m para levantar la información rápidamente desde Matlab.
+\item	exportar la información de calibración de las cámaras en un archivo .m para usar la misma desde Matlab.
 \end{itemize}
+
+
+\begin{figure}[H]
+  \centering 
+   \includegraphics[scale=0.3]{img/Base_Datos/Entorno_Blender.pdf}
+   \caption{Entorno de trabajo en Blender.}
+  \label{img_Entorno_Blender}
+\end{figure}   
+
+
+\paragraph{Disposición del laboratorio}
+El laboratorio generado posee 17 cámaras dispuestas en un ambiente rectangular de $10\times15\;m $ como se muestran en las figuras \ref{img_estimacion_resolucion} y \ref{img_Entorno_Blender}. La configuración de las mismas permite probar diferentes combinaciones de captura a la hora de generar secuencias. Se diseñaron las cámaras para que sus parámetros fuesen similares a cámaras convencionales
+ encontradas en el mercado y utilizadas en las bases de datos relevadas. 
+ Las posiciones y valores característicos de las cámaras pueden verse en detalle en el apéndice  
+ (PONER AQUI LA REFERNECIA AL APENDICE DONDE SE MUESTRA LA SALIDA DE INFOCAMBLENDER). Para iluminar el laboratorio se dispusieron $8$ focos puntuales de luz omnidireccional sobres los límites del mismo, rodeando la escena y a un nivel de 3 metros de altura. De esta manera se garantiza que ninguno de los focos sea tomado directamente por las cámaras y los marcadores se iluminan correctamente.
+ 
+
+\paragraph{Modelo virtual}  
+El modelo virtual utilizado se basa en un maniquí de madera convencional, la elección del mismo responde a la facilidad con la que se puede ajustar el mismo a una posición particular, siendo cada miembro fácilmente correlacionado con un hueso específico, sin perder las particularidades propia de un sujeto real. Cabe destacar que la relevancia del modelo en las capturas es simular las oclusiones de marcadores debida a los miembros del sujeto en una captura real.  
+
+Para la elección del material aplicado al modelo virtual, se toman en cuenta las consideraciones planteadas en la sección \ref{seccion_Caracteristicas_Laboratorio}, dado que los marcadores que se van a utilizar son de color difuso blanco, se decide aplicar sobre el modelo un material difuso negro con especularidad baja, de manera que no se generen brillos indeseados debido a la iluminación en el momento de la captura. De esta manera la configuración recomendada es utilizar un fondo también oscuro.
+
+\paragraph{Esqueleto}
+En cuanto a el esqueleto con la información de movimiento, el mismo se obtuvo de la base de datos \textit{MotionBuilder-friendly version} (de aquí en más MotionBuilder) ofrecidas por cgspeed\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
+ donde se cuenta con las fuentes BVH que provienen de las capturas de movimiento de CMU (sección \ref{CMU}). Si bien cgspeed ofrece otras bases más nuevas, donde la jerarquía del esqueleto en los archivos BVH a sido reducida con el fin de facilitar el ajuste a modelos virtuales, se ha trabajado con la base original antes mencionada. Aparentemente el procesamiento aplicado para producir las nuevas bases, introdujo ruido sobre algunos cuadros en las secuencias originales, esto se a constatado al importar en Blender dichas secuencias.
+      
+ Con el fin de normalizar las secuencias BVH provenientes de MotionBuilder se a utilizado la herramienta de edición de archivos BVH bvhacker\footnote{bvhacker: The free bvh file editing tool. \textcolor{blue}{\underline{\url{ http://davedub.co.uk/bvhacker/}}}. Accedido 5-12-14} La misma permite centrar las secuencias sobre un mismo punto y los offset
+ CONTINUAR EL PROCESO, YA TENGO ARMADAS LAS FOTOS, 
+ AHORA ES CUESTA ABAJO!!!! 
+
+ 
+    
 
 
 Describir como está armado el laboratorio (meter dos fotos una con las cámaras numeradas, otra con el entorno blender y el macaco). Explicar en que layers se dejan las cámaras\\
@@ -405,13 +436,7 @@ Exportación del ground truth desde Blender.\\
 
 
 
-MATERIAL PARA RECICLAR\\
 
-
-Si bien las secuencias de video obtenidas son lo único necesario para el análisis de video, al generar dichas secuencias a través de un entorno virtual controlado, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada frame, etc. Permitiendo contar con un ground truth sobre el cual validar los algoritmos de análisis de video. 
-
-Dado que Blender se encuentra implementado sobre Python, se ha creado un script que permite una vez generada la secuencia, automatizar la extracción de estos parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
- 
 
 \subsubsection{Implementación}SECCION EN CONSTRUCCION\\
 
@@ -457,6 +482,18 @@ Cabe destacar que este tipo de estructura es útil tanto para una base de datos 
 \\
 \subsubsection{Conclusiones} SECCION EN CONSTRUCCION\\
 sobre como quedo la base de datos, utilidad, potencial y posible expansión
+
+
+
+
+MATERIAL PARA RECICLAR\\
+
+
+Si bien las secuencias de video obtenidas son lo único necesario para el análisis de video, al generar dichas secuencias a través de un entorno virtual controlado, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada frame, etc. Permitiendo contar con un ground truth sobre el cual validar los algoritmos de análisis de video. 
+
+Dado que Blender se encuentra implementado sobre Python, se ha creado un script que permite una vez generada la secuencia, automatizar la extracción de estos parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
+ 
+
 
 \subsection{Conclusiones} SECCION EN CONSTRUCCION\\
 sobre todo el capitulo, resumen de conclusiones parciales
