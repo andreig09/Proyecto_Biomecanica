@@ -34,7 +34,9 @@ d_{i,j}^{[f]} = \{\|m_{i}^{[f]}(\boldsymbol{x})-|m_{j}^{[f]}(\boldsymbol{\tilde{
 \label{distancia_algoritmo_ground}
 \end{equation}
 
-Una vez calculadas todas las distancias para un frame, se buscan aquellas parejas que presenta la menor distancia, relevando la pareja $(i,j)$  para la cual se verifica. Una vez obtenida esta distancia, los marcadores $(i,j)$ quedan descartados de la matriz, volviendo a buscar la siguiente pareja con distancia mínima, hasta que ya no queden elementos para emparejar (lo cual sucede en caso que se generen menos marcadores que en el ground truth como puede suceder en segmentación, o si todos los marcadores de ground truth ya fueron emparejados y sobran marcadores, como sucede en reconstrucción). Trabajar con las parejas en todos los grames de la secuencia, es análogo a trabajar con la ecuación (\ref{error_vs_ground_deteccion}) .
+Una vez calculadas todas las distancias para un frame, se buscan aquellas parejas que presenta la menor distancia, relevando la pareja $(i,j)$  para la cual se verifica. Una vez obtenida esta distancia, los marcadores $(i,j)$ quedan descartados de la matriz, volviendo a buscar la siguiente pareja con distancia mínima, hasta que ya no queden elementos para emparejar (lo cual sucede en caso que se generen menos marcadores que en el ground truth como puede suceder en segmentación, o si todos los marcadores de ground truth ya fueron emparejados y sobran marcadores, como sucede en reconstrucción). Trabajar con las parejas en todos los grames de la secuencia, es análogo a trabajar con la ecuación (\ref{error_vs_ground_deteccion}).
+
+Para las medidas de los distintos bloques, se trabajará no solo con el promedio de error de secuencia, sino también con la magnitud que cumple que el 99\% de los puntos o marcadores, estén por debajo de esa magnitud. Se decidió elegir esta representación, en vez de la desviación estándar debido a que el error en la distancia no presenta una distribución gaussiana, sino euclidiana, donde todos los errores están entre cero e infinito (en este caso, no se tiene error infinito ya que los coeficientes binarios de deteccion se anulan), donde el error promedio es aquel percentíl que la mayoría de los puntos está situado, y el 99\% es afín al error máximo esperado.
 
 \subsection{Performance}
 
@@ -65,30 +67,31 @@ Los resultados para 17 camaras arrojan resultados similares en distintas captura
 
 \subsubsection{Ruido En Segmentación}
 
-La prueba consiste en relevar el error promedio en reconstruccion, contra el ground truth 3D para distintas instancias de informacion de multiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los videos segmentados, son la visibilidad de los marcadores estimada en un 70\% por camara y el error de segmentacion estimada en 1 pixel, el ruido es inyectado entre la segmentacion y la reconstuccion siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de (??? REFERENCIA MEDIDA ERROR ) 
+La prueba consiste en relevar el error promedio en reconstruccion, contra el ground truth 3D para distintas instancias de informacion de multiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los videos segmentados, son la visibilidad de los marcadores estimada en un 70\% por camara y el error de segmentacion estimada en 1 pixel, el ruido es inyectado entre la segmentacion y la reconstuccion siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de (??? REFERENCIA MEDIDA ERROR ) . En la tabla \ref{table_resolucion} de la seccion de Base de Datos, se estimo el impacto en metros del error en pixel cuya magnitud es relevada en el caso de la secuencia sintetica.
 
 \begin{table}[h]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|}
-\hline
-\textbf{Caso} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (px)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}14\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}18\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}30\\ Reconstr.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}46\\ Reconstr.\end{tabular}} \\ \hline
-Ground Cam    & 0 & 7,84E-07       & 7,84E-07       & 7,84E-07       & 7,84E-07       \\ \hline
-Segmentación  & 0 & 1,5792         & 0,38556        & 0,38556        & 0,38556        \\ \hline
-Ground Cam    & 0,5          & 4,0817         & 0,45675        & 0,4453         & 0,42607        \\ \hline
-Segmentación  & 0,5          & 13,6991        & 0,61128        & 0,61381        & 0,60517        \\ \hline
-Ground Cam    & 1 & 16,9275        & 0,82309        & 0,72011        & 0,73301        \\ \hline
-Segmentación  & 1 & 11,0847        & 0,8557         & 0,82286        & 0,83073        \\ \hline
-Ground Cam    & 2 & 19,7131        & 1,7649         & 1,2152         & 1,2027         \\ \hline
-Segmentación  & 2 & 15,9698        & 1,9701         & 1,3021         & 1,2884         \\ \hline
-Ground Cam    & 4 & 28,6943        & 6,1386         & 2,1877         & 2,0468         \\ \hline
-Segmentación  & 4 & 51,4025        & 5,7738         & 2,1484         & 2,1335         \\ \hline
-Ground Cam    & 8 & 53,9555        & 14,3684        & 5,4929         & 3,8377         \\ \hline
-Segmentación  & 8 & 264,8935       & 13,1539        & 4,7142         & 3,7993         \\ \hline
+\begin{tabular}{cc|c|c|c|c|c|c|}
+\cline{3-8}
+\textbf{} & \textbf{} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}14 marcadores\\ reconstruidos\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}18 marcadores\\ reconstruidos\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}30 marcadores\\ reconstruidos\end{tabular}}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Conjunto}} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (pixels)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} \\ \hline
+\multicolumn{1}{|c|}{Ground Cam} & 0 & 1,27E-10 & 1,01E-09 & 1,27E-10 & 1,01E-09 & 1,27E-10 & 1,01E-09 \\ \hline
+\multicolumn{1}{|c|}{Segmentacion} & 0 & 0,38553 & 1,6915 & 0,38553 & 1,6915 & 0,38305 & 1,6747 \\ \hline
+\multicolumn{1}{|c|}{Ground Cam} & 0,5 & 1,0404 & 3,0757 & 0,5535 & 2,0504 & 0,53616 & 2,1104 \\ \hline
+\multicolumn{1}{|c|}{Segmentacion} & 0,5 & 0,76172 & 2,8548 & 0,70514 & 2,096 & 0,69771 & 2,0234 \\ \hline
+\multicolumn{1}{|c|}{Ground Cam} & 1 & 1,6511 & 13,184 & 1,1398 & 5,1215 & 1,0356 & 3,7874 \\ \hline
+\multicolumn{1}{|c|}{Segmentacion} & 1 & 1,3948 & 9,2686 & 1,1158 & 3,8027 & 1,145 & 3,8481 \\ \hline
+\multicolumn{1}{|c|}{Ground Cam} & 2 & 4,8746 & 59,8172 & 3,4818 & 53,3151 & 1,7094 & 7,4023 \\ \hline
+\multicolumn{1}{|c|}{Segmentacion} & 2 & 6,3302 & 49,8491 & 3,348 & 45,4941 & 2,0409 & 8,0023 \\ \hline
+\multicolumn{1}{|c|}{Ground Cam} & 4 & 12,7279 & 131,2929 & 13,9006 & 121,5673 & 3,17 & 21,153 \\ \hline
+\multicolumn{1}{|c|}{Segmentacion} & 4 & 10,7759 & 67,2878 & 11,2504 & 102,6039 & 4,5432 & 40,5608 \\ \hline
+\multicolumn{1}{|c|}{Ground Cam} & 8 & 22,6934 & 136,0204 & 21,8413 & 143,0939 & 8,7161 & 42,9549 \\ \hline
+\multicolumn{1}{|c|}{Segmentacion} & 8 & 25,7256 & 187,2483 & 24,2908 & 158,6828 & 8,6034 & 41,6941 \\ \hline
 \end{tabular}
-\caption{Resultados de Error Promedio (cm) en reconstrucción, para distintos caso de ruido en la segmentación, tanto resultados sobre vídeos como sobre ground truth}
+\caption{Resultados de Error en reconstrucción, para distintos caso de ruido agregado a la segmentación, tanto resultados sobre vídeos como sobre ground truth}
 \end{table}
 
-Mas ruido implica mas incertidumbre en la reconstrucción, mientras mas ruidos, mas marcadores reconstruidos se precisan en reconstrucción para compensar la precision. Para mayor cantidad de marcadores en reconstrucción, se hace inviable la identificación de marcadores en tracking ?
+Las pruebas confirman los resultados estimados en \ref{table_resolucion} en la secuencia dada , con camaras no alejadas mas de 10 metros del sujeto, hasta los 2 pixeles (recordar que el conjunto de segmentacion ya ingresa un cierto error propio al cual se le agrega el ruido) el error promedio se mantiene en el orden de los pocos centimetros con instancias de error maximo incrementalmente mayores. Con el agregado que la reconstruccion es implementada con una cantidad variable de marcadores, la cual permite buscar de reconstruir una mayor cantidad de marcadores a los del sujeto para encontrar la mayor cantidad de posibilidades. A mayor cantidad de marcadores reconstruidos, se obtienen mejores resultados en los casos de mayor ruido.
 
 \subsubsection{Variación Cantidad de Cámaras}
 
