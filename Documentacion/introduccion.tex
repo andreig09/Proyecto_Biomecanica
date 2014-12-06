@@ -90,6 +90,8 @@ Cada uno de estos bloques realiza una actividad bien definida:
 \item Por último, se relaciona cada marcador en un cuadro de la secuencia con su correspondiente en el resto de los cuadros, obteniendo asi la trayectoria de cada punto a lo largo del tiempo. Esto se realiza en el bloque \emph{seguimiento} (ver figura \ref{peladoetrackingintro}).
 \end{itemize}
 
+Cabe destacar que estos bloques se implementaron independientemente unos de otros, de esta forma se pueden realizar modifcaciones en uno de ellos sin afectar el funcionamiento de los otros. Este aspecto toma gran relevancia en etapas futuras, si se necesita optimizar alguno de estos bloques en particular, o agrear alguna característica para procesar datos de algun caso de uso determinado. De no presentar esta particularidad, la modificación de un bloque podría afectar negativamente el funcionamiento del sistema entero.
+
 \begin{figure}[H]
         \centering
         \subfloat[Captura original]{\includegraphics[scale=0.4]{img/peladoFondoAzul.png}\label{peladoOriginalintrointro}}\hspace{3 mm}
