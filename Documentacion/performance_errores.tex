@@ -1,6 +1,7 @@
 \section{Evaluación}
 
 \subsection{Medida de Error}
+\label{subsec:medida_error}
 
 Tanto para el caso de la segmentación de los vídeos como la reconstrucción de los marcadores, se tiene los verdaderos marcadores generados en la secuencia, por lo que es necesario establecer una medida de error sobre la salida de los algoritmos. Se eligió aplicar una metodología basada en la distancia euclidiana promedio, entre los marcadores de ambos conjuntos \cite{humaneva} . 
 
@@ -42,7 +43,7 @@ Para las medidas de los distintos bloques, se trabajará no solo con el promedio
 
 \subsubsection{Capturas Sintéticas}
 
-Las multiples secuencias sinteticas generadas en Blender como fue establecido en (??? REFERENCIA BASE DE DATOS) son ingresadas al sistema, utilizando los parametros de calibracion de las camaras simuladas y los videos generados para las 17 camaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en ( ??? REFERENCIA BLOQUES SISTEMA COMPLETO) y comparado con el ground truth obtenido por Blender junto a los videos utilizando la metodologia establecida en ( ??? REFERENCIA MEDIDA ERROR ) para medir los resultados a la salida de cada bloque. Se realizaron las pruebas para 5 secuencias, 2 de las cuales fueron probadas con distinta adquisicion, indicadas en la tabla \ref{resultados_distintas_capturas} como $X,YY,Z$ donde $Z=1,2$ corresponden a dos tasas de muestreo diferentes.
+Las multiples secuencias sinteticas generadas en Blender como fue establecido en (??? REFERENCIA BASE DE DATOS) son ingresadas al sistema, utilizando los parametros de calibracion de las camaras simuladas y los videos generados para las 17 camaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en la sección~\ref{sec:implementacion_bloques_sistema} y comparado con el ground truth obtenido por Blender junto a los videos utilizando la metodologia establecida en la sección~\ref{subsec:medida_error} para medir los resultados a la salida de cada bloque. Se realizaron las pruebas para 5 secuencias, 2 de las cuales fueron probadas con distinta adquisicion, indicadas en la tabla \ref{resultados_distintas_capturas} como $X,YY,Z$ donde $Z=1,2$ corresponden a dos tasas de muestreo diferentes.
 
 \begin{table}[h]
 \centering
@@ -67,7 +68,7 @@ Los resultados para 17 camaras arrojan resultados similares en distintas captura
 
 \subsubsection{Ruido En Segmentación}
 
-La prueba consiste en relevar el error promedio en reconstruccion, contra el ground truth 3D para distintas instancias de informacion de multiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los videos segmentados, son la visibilidad de los marcadores estimada en un 70\% por camara y el error de segmentacion estimada en 1 pixel, el ruido es inyectado entre la segmentacion y la reconstuccion siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de (??? REFERENCIA MEDIDA ERROR ) . En la tabla \ref{table_resolucion} de la seccion de Base de Datos, se estimo el impacto en metros del error en pixel cuya magnitud es relevada en el caso de la secuencia sintetica.
+La prueba consiste en relevar el error promedio en reconstruccion, contra el ground truth 3D para distintas instancias de informacion de multiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los videos segmentados, son la visibilidad de los marcadores estimada en un 70\% por camara y el error de segmentacion estimada en 1 pixel, el ruido es inyectado entre la segmentacion y la reconstuccion siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de la sección~\ref{subsec:medida_error} . En la tabla \ref{table_resolucion} de la seccion de Base de Datos, se estimo el impacto en metros del error en pixel cuya magnitud es relevada en el caso de la secuencia sintetica.
 
 \begin{table}[h]
 \centering
