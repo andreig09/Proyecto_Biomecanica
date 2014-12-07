@@ -6,7 +6,7 @@ add_paths()
 
 frame_ini = 10;
 
-load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Ground_Truth\Reconstruccion\skeleton.mat';
+load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_03_hack\1600_600-100-100\Ground_Truth\Reconstruccion\skeleton.mat';
 
 skeleton_ground = skeleton_rec;
 n_frames = get_info(skeleton_rec,'n_frames');
@@ -18,10 +18,10 @@ for frame=frame_ini:n_frames
     yi = get_info(skeleton_rec,'frame', frame, 'marker', 'coord');
     Yi=[Yi,[yi;frame*ones(1,size(yi,2));1:size(yi,2)]];
 end
-%}  
+%}
 
 
-load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Reconstruccion\skeleton.mat'
+load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_03_hack\1600_600-100-100\Reconstruccion\skeleton.mat'
 
 n_frames = get_info(skeleton_rec,'n_frames');
 %n_frames = 30;
@@ -40,10 +40,17 @@ end
 [X_out,datos_aux]=make_tracking(Xi,Inf);
 X_out = clean_tracking(X_out);
 
-%%
-[~,thr] = filter_tracking(X_out);
-%[X_out,thr] = filter_tracking(X_out);
-%thr
+%% FILTRADO GLOBAL
+
+%[X_out,datos_aux]=make_tracking(Xi,prctile(X_out(7,:),99));
+%X_out = clean_tracking(X_out);
+
+
+%% FILTRADO INDIVIDUAL
+
+%[~,thr] = filter_tracking(X_out);
+[X_out,thr] = filter_tracking(X_out);
+
 %%
 
 %thr = histograma_tracking(X_out,99)
@@ -51,65 +58,8 @@ X_out = clean_tracking(X_out);
 
 %[X_out,datos]=make_tracking(Xi,prctile(X_out(6,:),99.78));
 %X_out = clean_tracking(X_out);
-    
-n_paths = unique(X_out(5,:));
 
-n_paths = 1;
-
-marker_ground = 3;
-
-for n_path=1:size(n_paths,2)
-    path = n_paths(n_path);
-    X_path = X_out(:,X_out(5,:)==path);
-    figure(1)
-   	plot3(X_out(1,:),X_out(2,:),X_out(3,:),'.b',...
-        X_path(1,:),X_path(2,:),X_path(3,:),'o-g',...
-        X_out(1,isnan(X_out(6,:))),X_out(2,isnan(X_out(6,:))),X_out(3,isnan(X_out(6,:))),'rs');
-    axis equal;
-    axis([min(X_out(1,X_out(7,:)~=0)),max(X_out(1,X_out(7,:)~=0)),...
-        min(X_out(2,X_out(7,:)~=0)),max(X_out(2,X_out(7,:)~=0)),...
-        min(X_out(3,X_out(7,:)~=0)),max(X_out(3,X_out(7,:)~=0)),]);
-    title([ 'Trayectoria ' num2str(path)]);
-    xlabel('X');ylabel('Y');zlabel('Z');
-    grid on
-    figure(2)
-    %{
-    subplot(6,1,1)
-    plot(X_path(4,:),X_path(1,:),'b.-')
-    title(['Marker ' num2str(n_paths(n_path)) ' - X']);
-    subplot(6,1,2)
-    plot(X_path(4,:),X_path(2,:),'b.-')
-    title(['Marker ' num2str(n_paths(n_path)) ' - Y']);
-    subplot(6,1,3)
-    plot(X_path(4,:),X_path(3,:),'b.-')
-    title(['Marker ' num2str(n_paths(n_path)) ' - Z']);
-    %}
-    subplot(3,1,1)
-    velocidad = sum((X_path(1:3,2:size(X_path,2))-X_path(1:3,1:size(X_path,2)-1)).^2).^(1/2);
-    plot(X_path(4,2:size(X_path,2)),velocidad,'b.-',...
-        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(velocidad,90:0.1:100))*[1,1],'r--')
-    title(['Marker ' num2str(n_paths(n_path)) ' - Velocidad']);
-    
-    subplot(3,1,2)
-    aceleracion = sum((-X_path(1:3,3:size(X_path,2))+2*X_path(1:3,2:size(X_path,2)-1)-X_path(1:3,1:size(X_path,2)-2)).^2).^(1/2);
-    plot(X_path(4,3:size(X_path,2)),aceleracion,'b.-',...
-        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],thr(thr(:,1)==path,2)*[1,1],'r--')
-    title(['Marker ' num2str(n_paths(n_path)) ' - Aceleracion']);
-    subplot(3,1,3)
-    v_aceleracion = sum((-X_path(1:3,4:size(X_path,2))+3*X_path(1:3,3:size(X_path,2)-1)-3*X_path(1:3,2:size(X_path,2)-2)+X_path(1:3,1:size(X_path,2)-3)).^2).^(1/2);
-    plot(X_path(4,4:size(X_path,2)),v_aceleracion,'b.-',...
-        [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(v_aceleracion,90:0.1:100))*[1,1],'r--')
-	title(['Marker ' num2str(n_paths(n_path)) ' - Var.Aceleracion']);
-
-    if n_path<length(n_paths)
-        pause
-    end
-end
-%{
-for i=1:size(n_paths,2)
-    disp([n_paths(i),sum(isnan(X_out(6,X_out(5,:)==n_paths(i))))*100/length(isnan(X_out(6,X_out(5,:)==n_paths(i))))]);
-end;
-%}
+marker_ground = 6;
 
 %animar_tracking(X_out)
 
@@ -133,7 +83,7 @@ error_marker = [];
 
 label_ground = get_info(skeleton_ground,'frame', frame_ini,'marker','name');
 
-for i=min(errores(3,:)):max(errores(3,:)) 
+for i=min(errores(3,:)):max(errores(3,:))
     if ~isempty(labels(labels(:,3)==i,1))
         error_marker = [error_marker;...
             labels(labels(:,3)==i,1),...
@@ -181,3 +131,63 @@ plot3(X_out(1,X_out(5,:)==marker_tracking),X_out(2,X_out(5,:)==marker_tracking),
 grid on;
 title([' Trayectorias - Tracking: ' num2str(marker_tracking) ' ,Ground: ' num2str(marker_ground)]);
 xlabel('X (m)');ylabel('Y (m)');zlabel('Z (m)')
+
+
+n_paths = unique(X_out(5,:));
+
+n_paths = marker_tracking;
+
+for n_path=1:size(n_paths,2)
+    path = n_paths(n_path);
+    X_path = X_out(:,X_out(5,:)==path);
+    if ~isempty(X_path)
+        figure
+        plot3(X_out(1,:),X_out(2,:),X_out(3,:),'.b',...
+            X_path(1,:),X_path(2,:),X_path(3,:),'o-g',...
+            X_out(1,isnan(X_out(6,:))),X_out(2,isnan(X_out(6,:))),X_out(3,isnan(X_out(6,:))),'rs');
+        axis equal;
+        axis([min(X_out(1,X_out(7,:)~=0)),max(X_out(1,X_out(7,:)~=0)),...
+            min(X_out(2,X_out(7,:)~=0)),max(X_out(2,X_out(7,:)~=0)),...
+            min(X_out(3,X_out(7,:)~=0)),max(X_out(3,X_out(7,:)~=0)),]);
+        title([ 'Trayectoria ' num2str(path)]);
+        xlabel('X');ylabel('Y');zlabel('Z');
+        grid on
+        figure
+        %{
+    subplot(6,1,1)
+    plot(X_path(4,:),X_path(1,:),'b.-')
+    title(['Marker ' num2str(n_paths(n_path)) ' - X']);
+    subplot(6,1,2)
+    plot(X_path(4,:),X_path(2,:),'b.-')
+    title(['Marker ' num2str(n_paths(n_path)) ' - Y']);
+    subplot(6,1,3)
+    plot(X_path(4,:),X_path(3,:),'b.-')
+    title(['Marker ' num2str(n_paths(n_path)) ' - Z']);
+        %}
+        subplot(3,1,1)
+        velocidad = sum((X_path(1:3,2:size(X_path,2))-X_path(1:3,1:size(X_path,2)-1)).^2).^(1/2);
+        plot(X_path(4,2:size(X_path,2)),velocidad,'b.-',...
+            [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(velocidad,90:0.1:100))*[1,1],'r--')
+        title(['Marker ' num2str(n_paths(n_path)) ' - Velocidad']);
+        
+        subplot(3,1,2)
+        aceleracion = sum((-X_path(1:3,3:size(X_path,2))+2*X_path(1:3,2:size(X_path,2)-1)-X_path(1:3,1:size(X_path,2)-2)).^2).^(1/2);
+        plot(X_path(4,3:size(X_path,2)),aceleracion,'b.-',...
+            [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],thr(thr(:,1)==path,2)*[1,1],'r--')
+        title(['Marker ' num2str(n_paths(n_path)) ' - Aceleracion']);
+        subplot(3,1,3)
+        v_aceleracion = sum((-X_path(1:3,4:size(X_path,2))+3*X_path(1:3,3:size(X_path,2)-1)-3*X_path(1:3,2:size(X_path,2)-2)+X_path(1:3,1:size(X_path,2)-3)).^2).^(1/2);
+        plot(X_path(4,4:size(X_path,2)),v_aceleracion,'b.-',...
+            [min(X_path(4,3:size(X_path,2))),max(X_path(4,3:size(X_path,2)))],median(prctile(v_aceleracion,90:0.1:100))*[1,1],'r--')
+        title(['Marker ' num2str(n_paths(n_path)) ' - Var.Aceleracion']);
+        
+        if n_path<length(n_paths)
+            pause
+        end
+    end
+end
+%{
+for i=1:size(n_paths,2)
+    disp([n_paths(i),sum(isnan(X_out(6,X_out(5,:)==n_paths(i))))*100/length(isnan(X_out(6,X_out(5,:)==n_paths(i))))]);
+end;
+%}

@@ -17,33 +17,33 @@ Son presentados sin orden definido para cada cuadro de la secuencia, y el objeti
 
 \subsection{Estado del Arte}
 
-El problema del seguimiento de marcadores espaciales a lo largo del tiempo es estudiado ampliamente con distintos enfoques, entre ellos:
+El problema del seguimiento de marcadores espaciales a lo largo del tiempo es un tema de estudio habitual con distintos enfoques, entre ellos:
 
 \begin{itemize}
 
-\item Aplicación de restricciónes al movimiento, teniendo informacion previa de los marcadores a estudiar, como se mueven, y como se relacionan entre ellos. 
+\item Aplicación de restricciones al movimiento, teniendo información previa de los marcadores a estudiar, como se mueven, y como se relacionan entre ellos. 
 
-\item Predictores Lineales o Estadisticos, teniendo informacion previa de una trayectoria para estimar el proximo elemento y confirmar o corregir la continuación de la secuencia.
+\item Predictores Lineales o Estadísticos, teniendo información previa de una trayectoria para estimar el próximo elemento y confirmar o corregir la continuación de la secuencia.
 
 \end{itemize}
 
-Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios para robustecer la generación de las trayectorias. Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma, sino sobre un lugar representativo sobre el cuerpo como se oberva en el ajuste presentado en la figura \ref{skeleton_fitting_herda} , del ajuste planteado en el trabajo \cite{herda}. ). Con estas distancias relevadas y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o varían de forma continua (angulo de huesos), donde la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo físico a los puntos obtenidos en la reconstrucción. 
+Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios para robustecer la generación de las trayectorias. Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma, sino sobre un lugar representativo sobre el cuerpo como se observa en el ajuste presentado en la figura \ref{skeleton_fitting_herda} , del ajuste planteado en el trabajo \cite{herda}. ). Con estas distancias relevadas y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o varían de forma continua (angulo de huesos), donde la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo físico a los puntos obtenidos en la reconstrucción. 
 
 \begin{figure}[hbt]
 \begin{center}
 \includegraphics[scale=0.5]{img/Tracking/01_skeleton_fitting_Herda.png}
 \end{center}
-\caption{Inicializacion de esqueleto, y ajuste a los marcadores encontrados. Cada marcador representa una articulacion y se ajusta en una esfera de cercania centrada en la articulacion del esqueleto}
+\caption{Inicializacion de esqueleto, y ajuste a los marcadores encontrados. Cada marcador representa una articulación y se ajusta en una esfera de cercanía centrada en la articulación del esqueleto}
 \label{skeleton_fitting_herda}
 \end{figure}.
 
-Uno de los algoritmos mas simples \cite{survey_tracking}, es continuar una secuencia buscando el marcador mas cercano al ultimo punto conocido imponiendo la restriccion que el traslado es minimo ("greedy matching"), pero es suceptible a errores para casos muy simples, como se observa en el ejemplo de la figura \ref{greedy_matching} .
+Uno de los algoritmos mas simples \cite{survey_tracking}, es continuar una secuencia buscando el marcador mas cercano al ultimo punto conocido imponiendo la restricción que el traslado es mínimo ("greedy matching"), pero es susceptible a errores para casos muy simples, como se observa en el ejemplo de la figura \ref{greedy_matching} .
 
 \begin{figure}[hbt]
 \begin{center}
 \includegraphics[scale=0.8]{img/Tracking/01_Greedy_Matching.png}
 \end{center}
-\caption{Dos marcadores moviendose en cuatro frames, Izquierda corresponde al resultado de aplicar enlazado por elemento mas proximo \cite{survey_tracking} , Derecha al elegir el camino con variacion mas suave}
+\caption{Dos marcadores moviéndose en cuatro frames, Izquierda corresponde al resultado de aplicar enlazado por elemento mas próximo \cite{survey_tracking} , Derecha al elegir el camino con variación mas suave}
 \label{greedy_matching}
 \end{figure}.
 
@@ -84,13 +84,13 @@ x_{[f+1]}-x_{[f]}& = x_{[f]}-x_{[f-1]} \\
 
 En su trabajo\cite{herda}, Lorna Herda propone que realizar el seguimiento sobre la reconstrucción 3D presenta menos continuidad en las trayectorias , con respecto al seguimiento realizado sobre el conjunto de segmentación sumada a la proyección de los puntos reconstruidos 3D en cada vista 2D. Sin embargo, en nuestras pruebas, nos pareció mas coherente trabajar con el seguimiento en los puntos reconstruidos en 3D, ya que en caso de trayectorias que se cruzan en una vista 2D, son fácilmente separadas en 3D debido a la geometría.
 
-Adicionalmente, la reconstrucción fue implementada de forma distinta a la propuesta por Herda, si bien es posible obtener los puntos proyectados en cada vista, no cumplen el mismo rol. Sin implementar la re-proyeccion, en el tracking sobre una vista individual se pierden trayectorias cuando se pierden de vista como se observa en la figura \ref{tracking_2D_cam_07} .
+Adicionalmente, la reconstrucción fue implementada de forma distinta a la propuesta por Herda, si bien es posible obtener los puntos proyectados en cada vista, no cumplen el mismo rol. Sin implementar la re-proyección, en el tracking sobre una vista individual se pierden trayectorias cuando se pierden de vista como se observa en la figura \ref{tracking_2D_cam_07} .
 
 \begin{figure}[hbt]
 \begin{center}
 \includegraphics[scale=0.7]{img/Tracking/011_tracking_2D_camara_07.png}
 \end{center}
-\caption{Resultado de Aplicar el Seguimiento de marcadores a una vista 2D sin reproyeccion de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la camara 07 de la captura sintetica}
+\caption{Resultado de Aplicar el Seguimiento de marcadores a una vista 2D sin reproyección de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la cámara 07 de la captura sintética}
 \label{tracking_2D_cam_07}
 \end{figure}
 
@@ -175,7 +175,7 @@ Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1
 
 Se establece un umbral a partir del estudio de la distribución de la aceleración de cada marcador (figura \ref{distribucion_aceleracion} ) para encontrar la aceleración que presenta un salto abrupto, y detectar los frames donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos, es el mismo que se verá al momento de inventario de trayectorias. 
 
-Como opción mas global, se implementó una alternativa que en vez de calcular un umbral para cada trayectoria, establece un umbral global, el cual es util para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se implementó mediante una ejecución en dos instancias del seguimiento, una primera instancia sin limites globales de aceleracion en en enlazado, y una segunda con un limite establecido a un porcentaje de la distribución de la aceleracion, asumiendo un nivel a priori para perdidas (en nuestras pruebas, se estableció que filtrar al nivel que cumplan el 99\% de las aceleraciones de todos los marcadores enlazados arroja buenos resultados). Si durante la segunda instancia, un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
+Como opción mas global, se implementó una alternativa que en vez de calcular un umbral para cada trayectoria, establece un umbral global, el cual es útil para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se implementó mediante una ejecución en dos instancias del seguimiento, una primera instancia sin limites globales de aceleración en en enlazado, y una segunda con un limite establecido a un porcentaje de la distribución de la aceleración, asumiendo un nivel a priori para perdidas (en nuestras pruebas, se estableció que filtrar al nivel que cumplan el 99\% de las aceleraciones de todos los marcadores enlazados arroja buenos resultados). Si durante la segunda instancia, un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
 
 \begin{figure}[H]
  \centering
@@ -214,7 +214,7 @@ Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben 
   
   \item \textbf{Distancia radial con respecto al ultimo punto conocido}. En algunos casos, la perdida del enlazado puede suceder cuando la trayectoria está en reposo (por ejemplo, un pie apoyado antes de volver a despegarse del suelo), o en transición (en el medio de una curva), por lo cual la estimación lineal anterior es invalida. Para ello, es útil relevar la distancia entre el ultimo punto conocido de una trayectoria trunca, y los puntos que no se enlazaron en [f+1]. Esta distancia, en caso de una posible recuperación, deberá ser proporcional al ultimo traslado conocido, por la diferencia temporal de frames entre el ultimo punto, y el posible candidato.
  
-El procedimiento de validación indica que marcadores son invalidos, tanto usando el umbral global, como el individual, pero esta validacion puede truncar una trayectoria durante el enlazado que luego debe ser estimada en caso de recuperacion, o debe ser filtrado para el caso de post-procesamiento. Se debe establecer un procedimiento para tratar de recuperar estos marcadores, tratando de cumplir con las restricciones impuestas.
+El procedimiento de validación indica que marcadores son inválidos, tanto usando el umbral global, como el individual, pero esta validación puede truncar una trayectoria durante el enlazado que luego debe ser estimada en caso de recuperación, o debe ser filtrado para el caso de post-procesamiento. Se debe establecer un procedimiento para tratar de recuperar estos marcadores, tratando de cumplir con las restricciones impuestas.
  
   
 \end{enumerate} 
@@ -353,7 +353,7 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 \label{Tracking_Esqueleto_Trayectoria}
 \end{figure}
 
-El filtrado y validación por trayectorias, permite reducir el error máximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar global mente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200 con 17 cámaras, y con el filtrado por aceleracion individual de marcadores. En otras capturas, los comportamientos son similares con promedios inferiores a 0.5 cm, y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras.Mas adelante se estudiará el impacto de cambiar los conjunto de cámaras en marcadores   
+El filtrado y validación por trayectorias, permite reducir el error máximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar global mente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200 con 17 cámaras, y con el filtrado por aceleración individual de marcadores. En otras capturas, los comportamientos son similares con promedios inferiores a 0.5 cm, y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras.Mas adelante se estudiará el impacto de cambiar los conjunto de cámaras en marcadores   
 
 \begin{table}[h]
 \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -400,6 +400,16 @@ El filtrado y validación por trayectorias, permite reducir el error máximo y m
 \end{figure}
 
 
+Al tener las etiquetas constantes para las trayectorias, es posible visualizar la relación entre marcadores, quedando pendientes medidas adicionales para robustecer el sistema, como imponer restricciones al movimiento entre marcadores en un mismo miembro, por imponer no solo continuidad en aceleración de marcadores sino ángulos de articulaciones y huesos. Esta continuidad debe tener cierta tolerancia debido a que los marcadores son representativos de articulaciones, y no se mueven completamente solidarios por lo que existen leves variaciones en las distancias entre marcadores, como se observa en la figura \ref{distancia_angulo_marcadores_piernas} , correspondiente a los marcadores asociados a la pierna en la captura 8\_03\_100\_100. En este caso se observa la continuidad y periodicidad de el angulo entre marcadores así como la constancia de la distancia, salvo momentos ocasionales, asociados a momentos específicos de la captura (cuando el pie rompe el reposo por ejemplo, antes de dar otro paso) ,sin ser mayor a los pocos centímetros en momentos puntuales y recuperables en régimen.
 
-Al tener las etiquetas constantes para las trayectorias, es posible visualizar la relación entre marcadores, quedando pendientes medidas adicionales para robustecer el sistema, como imponer restricciones al movimiento entre marcadores en un mismo miembro, o imponer no solo continuidad en aceleración de marcadores sino ángulos de articulaciones y huesos
-
+\begin{figure}[H]
+ \centering
+  \subfloat[Trayectorias de marcadores de pierna]{
+	\includegraphics[scale=0.5]{img/Tracking/050_Salida_Tracking_13_14_10.png}}
+	\label{trayectorias_marcadores_piernas}  
+  \subfloat[Distancia y Angulo entre marcadores de la pierna]{
+\includegraphics[scale=0.5]{img/Tracking/051_Salida_Angulo_Distancia_13_14_10.png}}
+\label{distancia_angulo_marcadores_piernas}
+\caption{CCC}
+\label{CCCC}
+\end{figure}
