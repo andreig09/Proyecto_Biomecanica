@@ -415,7 +415,7 @@ En cuanto a el esqueleto con la información de movimiento, el mismo se obtuvo d
       
  Con el fin de normalizar las secuencias BVH provenientes de MotionBuilder se a utilizado la herramienta de edición de archivos BVH bvhacker\footnote{bvhacker: The free bvh file editing tool. \textcolor{blue}{\underline{\url{ http://davedub.co.uk/bvhacker/}}}. Accedido 5-12-14}. La misma permite centrar las secuencias sobre un mismo punto en el primer frame  removiendo los offset globales.
  Una vez gestionado lo anterior se importa en Blender la secuencia BVH y se procede a generar los marcadores en las articulaciones del esqueleto, dado que se tiene la posición exacta del origen de cada hueso en el esqueleto y la articulación es la unión entre dos huesos consecutivos, se puede obtener la posición exacta de los marcadores a partir de la secuencia BVH.
- La generación de los marcadores y el enlazado del esqueleto al modelo se realiza a través de un código python, \textit{acoplar\_modelo.py}, realizado para tal fin. El mismo genera marcadores esféricos de material difuso blanco levemente poroso, con $2,8 \;cm$ de diámetro y baja especularidad, centrados en las articulaciones definidas previamente en una lista, como se muestra en la figura \ref{img_esqueleto_marcador} y luego enlaza cada miembro del modelo a su correspondiente hueso. De está manera para finalizar la creación del modelo con marcadores solo resta que el usuario realice ajuste mínimos de tamaño y posición sobre el modelo. Es importante resaltar que los marcadores se ubican sobre puntos del esqueleto de los cuales se conoce la posición 3D en cada cuadro. y que el modelo es necesario debido a que el esqueleto no se puede renderizar. 
+ La generación de los marcadores y el enlazado del esqueleto al modelo se realiza a través de un código python, \texttt{acoplar\_modelo.py}, realizado para tal fin. El mismo genera marcadores esféricos de material difuso blanco levemente poroso, con $2,8 \;cm$ de diámetro y baja especularidad, centrados en las articulaciones definidas previamente en una lista, como se muestra en la figura \ref{img_esqueleto_marcador} y luego enlaza cada miembro del modelo a su correspondiente hueso. De está manera para finalizar la creación del modelo con marcadores solo resta que el usuario realice ajuste mínimos de tamaño y posición sobre el modelo. Es importante resaltar que los marcadores se ubican sobre puntos del esqueleto de los cuales se conoce la posición 3D en cada cuadro. y que el modelo es necesario debido a que el esqueleto no se puede renderizar. 
  
  \begin{figure}[H]
    \centering 
@@ -428,7 +428,7 @@ Una ves finalizado el proceso, figura \ref{img_modelo_marcador},  el modelo pued
 
 \paragraph{Renderizado} 
 
-Ya se dispone de la secuencia de movimiento en el entorno virtual de Blender, lo que resta es renderizar dicha secuencia sobre las cámaras del laboratorio. Para ello se implementó un código en python, \textit{render.py},  que automatiza todo el proceso, dispone los videos obtenidos en cada render con nombres y ubicaciones predefinidas en la base de datos y genera un código Matlab con la información ground truth de cada cámara. 
+Ya se dispone de la secuencia de movimiento en el entorno virtual de Blender, lo que resta es renderizar dicha secuencia sobre las cámaras del laboratorio. Para ello se implementó un código en python, \texttt{render.py},  que automatiza todo el proceso, dispone los videos obtenidos en cada render con nombres y ubicaciones predefinidas en la base de datos y genera un código Matlab con la información ground truth de cada cámara. 
 
 
  \begin{figure}[H]
@@ -449,7 +449,7 @@ Para contar con el ground truth final de la secuencia animada se debe exportar d
 \paragraph{Mocap Tools}
 
 Existe una herramienta en Blender que permite manipular y copiar la información de movimiento entre dos esqueletos, denominada \textit{Mocap Tools} . La misma no viene activada por defecto y se debe habilitar desde el menú de preferencias. Para la creación de secuencias utilizando esta herramienta, se debe tener un esqueleto ya enlazado al modelo virtual con marcadores, luego se importa la secuencia BVH de interés que a su vez genera otro esqueleto. Utilizando las opciones de \textit{Mocap Tools}  se copia el movimiento del esqueleto BVH al esqueleto ya definido inicialmente, de esta manera se evitan los ajustes posteriores del modelo virtual y se tiene una secuencia lista para renderizar. 
-El problema surge al momento de obtener el ground truth, pues la exportación del esqueleto que se utiliza para mover al modelo no es precisa en este caso, se detectaron fallas en este sentido por parte de Blender, solo se exportan los movimientos relativos de los huesos y no la traslación del centro de masa del esqueleto. El motivo fundamental es el mecanismo utilizado por \textit{Mocap Tools} para enlazar los dos esqueletos, el BVH y el del modelo virtual. Dado que la información de traslación no se incluye en el esqueleto de destino sino que se condiciona a que este último se traslade según un hueso particular externo (stride bone)  cuya información de movimiento no puede ser exportada en un BVH por Blender. Con lo cual, si bien al trabajar con esta herramienta se generan secuencias visualmente aceptables para un proceso de animación, en nuestro caso impide obtener el ground truth necesario para las etapas de performance y desarrollo, por lo que no se utiliza.
+El problema surge al momento de obtener el ground truth, pues la exportación del esqueleto que se utiliza para mover al modelo no es precisa en este caso, se detectaron fallas en este sentido por parte de Blender, solo se exportan los movimientos relativos de los huesos y no la traslación del centro de masa del esqueleto. El motivo fundamental es el mecanismo utilizado por \textit{Mocap Tools} para enlazar los dos esqueletos, el BVH y el del modelo virtual. Dado que la información de traslación no se incluye en el esqueleto de destino sino que se condiciona a que este último se traslade según un hueso particular externo (\textsf{stride bone})  cuya información de movimiento no puede ser exportada en un BVH por Blender. Con lo cual, si bien al trabajar con esta herramienta se generan secuencias visualmente aceptables para un proceso de animación, en nuestro caso impide obtener el ground truth necesario para las etapas de performance y desarrollo, por lo que no se utiliza.
  
     
 
@@ -464,17 +464,7 @@ El problema surge al momento de obtener el ground truth, pues la exportación de
 
 
 
-
-
-
-
-
-
-\subsubsection{Implementación}SECCION EN CONSTRUCCION\\
-
-
-
-\paragraph{Base de datos}
+\subsubsection{Estructura de la base de datos}
 
 El prototipo de base de datos, actualmente contiene 5 secuencias sintéticas descriptas en la tabla \ref{tabla_secuencias_gen}, las mismas fueron generadas a partir de las secuencias BVH provenientes la 
 base de datos \textit{MotionBuilder-friendly version} ofrecidas por cgspeed\cite{cgspeed}, cuyo origen son las capturas de movimiento de CMU (sección \ref{CMU}). 
@@ -502,24 +492,84 @@ Marcha libre                                                                    
 \end{table}
 
 
+La estructura utilizada para los directorios de la base de datos es la siguiente:
+\begin{description}
+\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Datos\_Imagen/}}}] \hfill \\
+Contiene los datos de videos de las secuencias de movimiento.\vspace{-0.2cm}
+	\begin{description}
+	\item[{\small\textbf{\textsf{cam<nro\_cámara>.dvd}}}] - nombre de los videos con compresión mpeg.
+	\end{description} 
+	% % % % % % % % % % % % % % % % % % % % % % % % %
+\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Ground\_Truth/}}}] \hfill \\
+Contiene tres carpetas con el ground truth de cada sección del sistema de procesamiento. \vspace{-0.2cm}
+	\begin{description}
+	\item[{\small\textbf{\textsf{Deteccion/}}}] \hfill \\\vspace{-0.5cm}
+		\begin{description}
+			\item[{\small\textbf{\textsf{cam.xml}}}] - archivo con la información de posición 2D de los marcadores sobre cada retina obtenida a partir de los ground truth de posición 3D y calibración. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
+			\item[{\small\textbf{\textsf{cam.mat}}}] - posee la misma información que {\small\textbf{\textsf{cam.xml}}} pero contenida en una variable matlab.
+		\end{description} 			
+	\item[{\small\textbf{\textsf{Reconstruccion}}}/] \hfill \\ \vspace{-0.5cm}		
+		\begin{description}
+			\item[{\small\textbf{\textsf{skeleton.xml}}}] -  archivo que contiene la posición 3D de los marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
+			\item[{\small\textbf{\textsf{skeleton.mat}}}] -  posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable matlab.
+		\end{description}
+	\item[{\small\textbf{\textsf{Seguimiento}}}/] \hfill \\ \vspace{-0.5cm}
+		\begin{description}
+				\item[{\small\textbf{\textsf{skeleton.xml}}}] - archivo que contiene las trayectorias 3D de los marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
+				\item[{\small\textbf{\textsf{skeleton.mat}}}] -  posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable matlab.
+		\end{description}
+	\end{description}
+% % % % % % % % % % % % % % % % % % % % % % %	
+\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Datos\_Procesados/}}}] \hfill \\
+Contiene tres carpetas con la información de cada sección del sistema de procesamiento. \vspace{-0.2cm}
+	\begin{description}
+	\item[{\small\textbf{\textsf{Deteccion}}}/] \hfill \\\vspace{-0.5cm}
+		\begin{description}			
+			\item[{\small\textbf{\textsf{cam.xml}}}] - archivo con la información de posición 2D de los marcadores sobre cada retina obtenida a partir del bloque de detección de marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}. La calibración es del ground truth.  
+			\item[{\small\textbf{\textsf{cam.mat}}}] - posee la misma información que {\small\textbf{\textsf{cam.xml}}} pero contenida en una variable matlab.
+		\end{description} 			
+	\item[{\small\textbf{\textsf{Reconstruccion}}}/] \hfill \\ \vspace{-0.5cm}		
+		\begin{description}
+			\item[{\small\textbf{\textsf{skeleton.xml}}}] -  archivo que contiene la posición 3D de los marcadores obtenida a la salida del bloque de reconstrucción. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.
+			\item[{\small\textbf{\textsf{skeleton.mat}}}] - posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable matlab.
+		\end{description}
+	\item[{\small\textbf{\textsf{Seguimiento}}}/] \hfill \\ \vspace{-0.5cm}
+		\begin{description}
+				\item[{\small\textbf{\textsf{skeleton.xml}}}] - archivo que contiene las trayectorias 3D de los marcadores obtenida a partir del bloque de seguimiento. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}. 
+				\item[{\small\textbf{\textsf{skeleton.mat}}}] - posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable matlab.
+		\end{description}
+	\end{description}
+% % % % % % % % % % % % % % % % % % % % % % %
+\item[{\small\textbf{\textsf{Calibracion/Datos\_Imagen}}}] \hfill \\
+VER CON GUILLERMO CUANTAS FORMAS DE CALIBRAR TENEMOS \vspace{-0.2cm}
+\item[{\small\textbf{\textsf{Calibracion/Ground\_Truth}}}] 
+\item[{\small\textbf{\textsf{Calibracion/Datos\_Procesados}}}] 
+\end{description}
+% % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % %
 
-\paragraph{HABLAR SOBRE estructura de los datos donde se guarda la información.}
-
-Porque se necesita\\
-Que forma tiene\\
-Cual es su alcance\\
-Como se gestiona\\
+Dentro de cada <...>  ~designar el nombre de la variable que se indica.
 
 
-RECICLAR\\
-Se ha definido e implementado también una estructura de datos para almacenar la información tanto de ground truth como la generada a la hora de  trabajar en la etapa de análisis de video. La misma cuenta con funciones de acceso de entrada y salida implementadas en Matlab, permitiendo independizar la manera en que se guarda la información del uso que se le da a la misma. De manera que pueda modificarse o extenderse sin problemas, la forma en que se estructuran los datos.
+\subsubsection{Estructura de datos.}
+\label{section_Estructura_de_datos}
+Para poder trabajar a lo largo de todo el sistema de procesamiento se debe contar con una estructura de datos que mantenga y soporte toda la información de interés a lo largo proceso. También es deseable que los procesos utilicen dicha estructura sin quedar condicionados a futuras modificaciones de la misma, esta independencia funcional requiere la existencia de funciones de acceso de entrada y salida a la estructura.  
 
-Actualmente las componentes principales de la estructura de datos se muestran en la figura \ref{fig:estructura_datos}
+
+
+Con este fin se ha diseñado e implementado la estructura de datos de la figura (XXXXXX).
+La misma permite almacenar tanto la información de ground truth como la generada a la hora de  trabajar en las etapas de análisis de video. Se han implementado funciones de acceso de entrada y salida en Matlab, así como varias herramientas de gestión. Que permiten entre otras cosas blablablabla
+
 
 En la misma se puede ver la conjunción de dos estructuras principales, una para almacenar información del esqueleto asociado al modelo y otra para almacenar la información de las cámaras con las que se efectúa la captura de video.
 
 Cabe destacar que este tipo de estructura es útil tanto para una base de datos sintética como una base de datos real. \\
 \\
+
+Porque se necesita\\
+Que forma tiene\\
+Cual es su alcance\\
+Como se gestiona\\
 \\
 \subsubsection{Conclusiones} SECCION EN CONSTRUCCION\\
 sobre como quedo la base de datos, utilidad, potencial y posible expansión
@@ -539,5 +589,6 @@ Dado que Blender se encuentra implementado sobre Python, se ha creado un script 
 \subsection{Conclusiones} SECCION EN CONSTRUCCION\\
 sobre todo el capitulo, resumen de conclusiones parciales
 
-
+\textbf{\textsf{hola}}\\
+\textsf{hola}
 
