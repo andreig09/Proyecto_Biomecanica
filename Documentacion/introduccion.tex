@@ -45,7 +45,7 @@ De acuerdo a lo planteado por el cliente y a las hipótesis que se establecieron
 
 Por otro lado, la salida del sistema debe ser la posición en el espacio de cada marcador colocado en el cuerpo del paciente, para cada instante de tiempo en la captura. Además cada marcador debe estar identificado en cada cuadro. A estos requerimientos, se le suman otros de caracter académico, como la importancia de tener una base de datos con sets de prueba y una método de evaluación de performance establecido. Estos dos aspectos toman gran relevancia en etapas futuras del proyecto, ya que realizando pruebas de las nuevas implementaciones con los mismos datos y midiendo los resultados de la misma forma, se puede tener un buen punto de referencia sobre el cual comparar y poder evaluar cuánto se mejora el sistema.
 
-En resumen, el sistema a crear pretende bajo ciertas condiciones controladas, obtener las coordenadas espaciales de un número de puntos de interés sobre una paciente. Una de las formas de realizar esto es colocando a la persona un traje negro con marcadores, en un ambiente con iluminación adecuada, se le filma con varias cámaras a lo largo del tiempo, se adquiere esta información en la computadora y mediante un posterior procesamiento se obtiene la posición 3D de cada uno de los puntos de interés (los marcadores) a lo largo de toda la secuencia.
+En resumen, el sistema creado pretende bajo ciertas condiciones controladas, obtener las coordenadas espaciales de un número de puntos de interés sobre una paciente. Una de las formas de realizar esto es colocando a la persona un traje negro con marcadores, en un ambiente con iluminación adecuada, se le filma con varias cámaras a lo largo del tiempo, se adquiere esta información en la computadora y mediante un posterior procesamiento se obtiene la posición 3D de cada uno de los puntos de interés (los marcadores) a lo largo de toda la secuencia.
 
 \begin{figure}[H]
 \begin{center}
@@ -55,7 +55,7 @@ En resumen, el sistema a crear pretende bajo ciertas condiciones controladas, ob
 \label{abuela2}
 \end{figure}
 
-Dicho de otra forma, la aplicación a desarrollar recibe como entrada imágenes de video desde varias cámaras capturando el movimiento de una persona desde distintos ángulos. Dichas cámaras deben estar previamente calibradas. A partir de las imágenes obtenidas se detectan distintos puntos de referencia del cuerpo según el estudio particular que se desee realizar. Posteriormente, con la información de las múltiples cámaras se reconstruye la posición 3D de cada punto en cada cuadro del video, y de esta manera se obtiene la trayectoria de cada punto de interés a lo largo de la secuencia. Luego, a partir del procesamiento de la posición 3D de los puntos se obtendrán otros datos estadísticos de interés para el usuario.
+Dicho de otra forma, la aplicación recibe como entrada imágenes de video desde varias cámaras capturando el movimiento de una persona desde distintos ángulos. Dichas cámaras deben estar previamente calibradas. A partir de las imágenes obtenidas se detectan distintos puntos de referencia del cuerpo según el estudio particular que se desee realizar. Posteriormente, con la información de las múltiples cámaras se reconstruye la posición 3D de cada punto en cada cuadro del video, y de esta manera se obtiene la trayectoria de cada punto de interés a lo largo de la secuencia. Luego, a partir del procesamiento de la posición 3D de los puntos se obtendrán otros datos estadísticos de interés para el usuario.
 
 \begin{figure}[H]
 \begin{center}
@@ -103,7 +103,9 @@ Cabe destacar que estos bloques se implementaron independientemente unos de otro
       \label{ejemplotutiintro}
 \end{figure}
 
-A continuación, se presenta una breve revisión del estado del arte de los sistemas de captura de movimiento. Luego, la documentación continúa con la explicación de la base de datos generada y la justificación e implementación de cada bloque del sistema mencionado anteriormente. Finalmente se realiza un análisis de los resultados obtenidos y de la performance del sistema en general.
+Por otro lado, se elaboró una interfaz gráfica de usuario básica de forma tal de facilitar la ejecución del software para sus usuarios.
+
+A continuación se presenta una breve revisión del estado del arte de los sistemas de captura de movimiento. Una descripción más detallada y más técnica se realizará en la sección \ref{invBiblio}. Luego, la documentación continúa con la explicación de la base de datos generada y la justificación e implementación de cada bloque del sistema mencionado anteriormente. Finalmente se realiza un análisis de los resultados obtenidos y de la performance del sistema en general.
 
 \subsection{Estado del arte}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
