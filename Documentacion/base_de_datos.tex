@@ -373,8 +373,8 @@ Si bien en principio cualquier fuente de archivos BVH con capturas de movimiento
 
 
 
-\subsubsection{Blender} SECCION EN CONSTRUCCION\\
-Describir de que manera se utilizo Blender y  Python para generar las secuencias\\
+\subsubsection{Blender} %SECCION EN CONSTRUCCION\\
+En esta sección se describe de que manera se utiliza Blender y Python para generar las secuencias de video de la base de datos. Los parámetros de las distintas componentes así como los detalles de procesos enumerados en esta sección se encuentran en el apéndice (COLOCAR AQUI LA REFERENCIA PARA EL APENDICE).
 
 
 
@@ -415,7 +415,7 @@ En cuanto a el esqueleto con la información de movimiento, el mismo se obtuvo d
       
  Con el fin de normalizar las secuencias BVH provenientes de MotionBuilder se a utilizado la herramienta de edición de archivos BVH bvhacker\footnote{bvhacker: The free bvh file editing tool. \textcolor{blue}{\underline{\url{ http://davedub.co.uk/bvhacker/}}}. Accedido 5-12-14}. La misma permite centrar las secuencias sobre un mismo punto en el primer frame  removiendo los offset globales.
  Una vez gestionado lo anterior se importa en Blender la secuencia BVH y se procede a generar los marcadores en las articulaciones del esqueleto, dado que se tiene la posición exacta del origen de cada hueso en el esqueleto y la articulación es la unión entre dos huesos consecutivos, se puede obtener la posición exacta de los marcadores a partir de la secuencia BVH.
- La generación de los marcadores y el enlazado del esqueleto al modelo se realiza a través de un código python, realizado para tal fin. El mismo genera marcadores esféricos de material difuso blanco levemente poroso, con $2,8 \;cm$ de diámetro y baja especularidad, centrados en las articulaciones definidas previamente en una lista, como se muestra en la figura \ref{img_esqueleto_marcador} y luego enlaza cada miembro del modelo a su correspondiente hueso. De está manera para finalizar la creación del modelo con marcadores solo resta que el usuario realice ajuste mínimos de tamaño y posición sobre el modelo. Es importante resaltar que los marcadores se ubican sobre puntos del esqueleto de los cuales se conoce la posición 3D en cada cuadro. 
+ La generación de los marcadores y el enlazado del esqueleto al modelo se realiza a través de un código python, \textit{acoplar\_modelo.py}, realizado para tal fin. El mismo genera marcadores esféricos de material difuso blanco levemente poroso, con $2,8 \;cm$ de diámetro y baja especularidad, centrados en las articulaciones definidas previamente en una lista, como se muestra en la figura \ref{img_esqueleto_marcador} y luego enlaza cada miembro del modelo a su correspondiente hueso. De está manera para finalizar la creación del modelo con marcadores solo resta que el usuario realice ajuste mínimos de tamaño y posición sobre el modelo. Es importante resaltar que los marcadores se ubican sobre puntos del esqueleto de los cuales se conoce la posición 3D en cada cuadro. y que el modelo es necesario debido a que el esqueleto no se puede renderizar. 
  
  \begin{figure}[H]
    \centering 
@@ -425,30 +425,41 @@ En cuanto a el esqueleto con la información de movimiento, el mismo se obtuvo d
  \end{figure}  
  
 Una ves finalizado el proceso, figura \ref{img_modelo_marcador},  el modelo puede realizar el movimiento contenido en la secuencia BVH y solo resta renderizar. 
- 
 
 \paragraph{Renderizado} 
 
-Ya se dispone de la secuencia de movimiento en el entorno virtual de Blender, lo que resta es renderizar dicha secuencia sobre las cámaras del laboratorio. Para ello se implementó un código en python automatiza todo el proceso, dispone los videos obtenidos en cada render con nombres y ubicaciónes predefinidas en la base de datos a generar y genera un código Matlab con la información ground truth de cada cámara. 
- 
- Para el ajuste se utiliza 
- CONTINUAR EL PROCESO, YA TENGO ARMADAS LAS FOTOS, 
- AHORA ES CUESTA ABAJO!!!! 
+Ya se dispone de la secuencia de movimiento en el entorno virtual de Blender, lo que resta es renderizar dicha secuencia sobre las cámaras del laboratorio. Para ello se implementó un código en python, \textit{render.py},  que automatiza todo el proceso, dispone los videos obtenidos en cada render con nombres y ubicaciones predefinidas en la base de datos y genera un código Matlab con la información ground truth de cada cámara. 
+
+
+ \begin{figure}[H]
+   \centering 
+   \subfloat[Importación de secuencia BVH y generación de marcadores]{\includegraphics[scale=0.25]{img/Base_Datos/Esqueleto_Render.pdf}} \hspace{1.0cm}
+   \subfloat[Modelo enlazado al esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Modelo_Render.pdf}}
+   \hspace{1.3cm}
+   \subfloat[Imagen renderizada]{\includegraphics[scale=0.205]{img/Base_Datos/Modelo_Render2.png}}
+   \caption{Creación de secuencias en Blender.}   
+ \end{figure} 
+
 
  
- 
- 
-\paragraph{Exportación del Ground truth} 
+\paragraph{Ground truth} 
+
+Para contar con el ground truth final de la secuencia animada se debe exportar desde Blender la información del esqueleto en un BVH, cuidando que se mantenga la misma escala de tiempos que en el momento del renderizado. De esta manera se tienen sincronizados los videos y el ground truth 3D.
+
+\paragraph{Mocap Tools}
+
+Existe una herramienta en Blender que permite manipular y copiar la información de movimiento entre dos esqueletos, denominada \textit{Mocap Tools} . La misma no viene activada por defecto y se debe habilitar desde el menú de preferencias. Para la creación de secuencias utilizando esta herramienta, se debe tener un esqueleto ya enlazado al modelo virtual con marcadores, luego se importa la secuencia BVH de interés que a su vez genera otro esqueleto. Utilizando las opciones de \textit{Mocap Tools}  se copia el movimiento del esqueleto BVH al esqueleto ya definido inicialmente, de esta manera se evitan los ajustes posteriores del modelo virtual y se tiene una secuencia lista para renderizar. 
+El problema surge al momento de obtener el ground truth, pues la exportación del esqueleto que se utiliza para mover al modelo no es precisa en este caso, se detectaron fallas en este sentido por parte de Blender, solo se exportan los movimientos relativos de los huesos y no la traslación del centro de masa del esqueleto. El motivo fundamental es el mecanismo utilizado por \textit{Mocap Tools} para enlazar los dos esqueletos, el BVH y el del modelo virtual. Dado que la información de traslación no se incluye en el esqueleto de destino sino que se condiciona a que este último se traslade según un hueso particular externo (stride bone)  cuya información de movimiento no puede ser exportada en un BVH por Blender. Con lo cual, si bien al trabajar con esta herramienta se generan secuencias visualmente aceptables para un proceso de animación, en nuestro caso impide obtener el ground truth necesario para las etapas de performance y desarrollo, por lo que no se utiliza.
  
     
 
 
-Describir como está armado el laboratorio (meter dos fotos una con las cámaras numeradas, otra con el entorno blender y el macaco). Explicar en que layers se dejan las cámaras\\
-Describir como está armado el macaco, que colores se le pusieron, etc.\\
-Describir como se importa un esqueleto al blender. Pasos previos, uso del programa bvhacker\\
-Describir como se generan los marcadores y se ajusta el esqueleto. Explicar que como lo que se conoce son las posiciones de las intersecciones entre huesos del esqueleto se debe ajustar el modelo Blender de manera especial y poner los marcadores sobre dichas intersecciones.\\
-Informar sobre el problema que se encontró al utilizar el programa de ajuste de esqueleto.\\
-Exportación del ground truth desde Blender.\\
+%Describir como está armado el laboratorio (meter dos fotos una con las cámaras numeradas, otra con el entorno blender y el macaco). Explicar en que layers se dejan las cámaras\\
+%Describir como está armado el macaco, que colores se le pusieron, etc.\\
+%Describir como se importa un esqueleto al blender. Pasos previos, uso del programa bvhacker\\
+%Describir como se generan los marcadores y se ajusta el esqueleto. Explicar que como lo que se conoce son las posiciones de las intersecciones entre huesos del esqueleto se debe ajustar el modelo Blender de manera especial y poner los marcadores sobre dichas intersecciones.\\
+%Informar sobre el problema que se encontró al utilizar el programa de ajuste de esqueleto.\\
+%Exportación del ground truth desde Blender.\\
 
 
 
@@ -463,25 +474,34 @@ Exportación del ground truth desde Blender.\\
 
 
 
-\paragraph{HABLAR SOBRE estructura de la base de datos}
+\paragraph{Base de datos}
 
-Describir el tipo de información,como está guardada y como se gestiona.\\
-Introducción de nuevas secuencias\\
-Programas Python utilizados y exportaciones a otras formatos\\
+El prototipo de base de datos, actualmente contiene 5 secuencias sintéticas descriptas en la tabla \ref{tabla_secuencias_gen}, las mismas fueron generadas a partir de las secuencias BVH provenientes la 
+base de datos \textit{MotionBuilder-friendly version} ofrecidas por cgspeed\cite{cgspeed}, cuyo origen son las capturas de movimiento de CMU (sección \ref{CMU}). 
 
 
-COLOCAR UNA TABLA 
+%Describir el tipo de información,como está guardada y como se gestiona.\\
+%Introducción de nuevas secuencias\\
+%Programas Python utilizados y exportaciones a otras formatos\\
+
+
+
 \begin{table}[h!]
-	\centering	
-	\caption{Secuencias generadas para la base de datos sintética.}
-	\label{secuencias_gen}	
-	\begin{tabular}{@{}cccc@{}} 
-	\toprule		
-	\multicolumn{1}{l}{\textbf{Acción}} & \begin{tabular}[c]{@{}c@{}}\textbf{Nro. de}\\ \textbf{secuencia}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Longitud de secuencia}\\\textbf{(segundos)} \end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Espacio de captura}\\ \textbf{(metros)}\end{tabular}\\	
-	%\midrule
-	\bottomrule
-	\end{tabular}
+\centering
+\caption{Secuencias generadas para la base de datos sintética.}
+\label{tabla_secuencias_gen}
+\begin{tabular}{|l|c|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Acción}}                                            & \textbf{\begin{tabular}[c]{@{}c@{}}Nro. de\\ secuencia\\ CMU\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Longitud \\ de secuencia\\ (segundos)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Cuadros por\\ segundo\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Espacio \\de captura\\ (metros)\end{tabular}} \\ \hline
+Marcha rectilínea                                                                & 08\_03                     & 2.5                                                                                    & 30                           & 1,5$\times$ 5,5                                                                            \\ \hline
+\begin{tabular}[c]{@{}l@{}}Marcha rectilínea, \\ zancada exagerada\end{tabular}  & 08\_07                     & 2.6                                                                                    & 24 y 48                      & 1,5$\times $5,5                                                                            \\ \hline
+\begin{tabular}[c]{@{}l@{}}Marcha rectilínea\\ lenta, zancada ancha\end{tabular} & 08\_11                     & 3.8                                                                                    & 30                           &1,5$\times $5                                                                            \\ \hline
+Corriendo                                                                        & 09\_07                     & 1.2                                                                                    & 24 y 48                      &1,5$\times $5                                                                              \\ \hline
+Marcha libre                                                                     & 09\_12                     & 12.5                                                                                   & 24                           &3$\times $5                                                                              \\ \hline
+\end{tabular}
 \end{table}
+
+
 
 \paragraph{HABLAR SOBRE estructura de los datos donde se guarda la información.}
 
