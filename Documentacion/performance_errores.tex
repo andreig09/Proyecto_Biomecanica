@@ -37,13 +37,13 @@ d_{i,j}^{[f]} = \{\|m_{i}^{[f]}(\boldsymbol{x})-|m_{j}^{[f]}(\boldsymbol{\tilde{
 
 Una vez calculadas todas las distancias para un frame, se buscan aquellas parejas que presenta la menor distancia, relevando la pareja $(i,j)$  para la cual se verifica. Una vez obtenida esta distancia, los marcadores $(i,j)$ quedan descartados de la matriz, volviendo a buscar la siguiente pareja con distancia mínima, hasta que ya no queden elementos para emparejar (lo cual sucede en caso que se generen menos marcadores que en el ground truth como puede suceder en segmentación, o si todos los marcadores de ground truth ya fueron emparejados y sobran marcadores, como sucede en reconstrucción). Trabajar con las parejas en todos los grames de la secuencia, es análogo a trabajar con la ecuación (\ref{error_vs_ground_deteccion}).
 
-Para las medidas de los distintos bloques, se trabajará no solo con el promedio de error de secuencia, sino también con la magnitud que cumple que el 99\% de los puntos o marcadores, estén por debajo de esa magnitud. Se decidió elegir esta representación, en vez de la desviación estándar debido a que el error en la distancia no presenta una distribución gaussiana, sino euclidiana, donde todos los errores están entre cero e infinito (en este caso, no se tiene error infinito ya que los coeficientes binarios de deteccion se anulan), donde el error promedio es aquel percentíl que la mayoría de los puntos está situado, y el 99\% es afín al error máximo esperado.
+Para las medidas de los distintos bloques, se trabajará no solo con el promedio de error de secuencia, sino también con la magnitud que cumple que el 99\% de los puntos o marcadores, estén por debajo de esa magnitud. Se decidió elegir esta representación, en vez de la desviación estándar debido a que el error en la distancia no presenta una distribución gaussiana, sino euclidiana, donde todos los errores están entre cero e infinito (en este caso, no se tiene error infinito ya que los coeficientes binarios de detección se anulan), donde el error promedio es aquel percentíl que la mayoría de los puntos está situado, y el 99\% es afín al error máximo esperado.
 
 \subsection{Performance}
 
 \subsubsection{Capturas Sintéticas}
 
-Las multiples secuencias sinteticas generadas en Blender como fue establecido en (??? REFERENCIA BASE DE DATOS) son ingresadas al sistema, utilizando los parametros de calibracion de las camaras simuladas y los videos generados para las 17 camaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en la sección~\ref{sec:implementacion_bloques_sistema} y comparado con el ground truth obtenido por Blender junto a los videos utilizando la metodologia establecida en la sección~\ref{subsec:medida_error} para medir los resultados a la salida de cada bloque. Se realizaron las pruebas para 5 secuencias, 2 de las cuales fueron probadas con distinta adquisicion, indicadas en la tabla \ref{resultados_distintas_capturas} como $X,YY,Z$ donde $Z=1,2$ corresponden a dos tasas de muestreo diferentes.
+Las múltiples secuencias sintéticas generadas en Blender como fue establecido en (??? REFERENCIA BASE DE DATOS) son ingresadas al sistema, utilizando los parámetros de calibración de las cámaras simuladas y los vídeos generados para las 17 cámaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en la sección~\ref{sec:implementacion_bloques_sistema} y comparado con el ground truth obtenido por Blender junto a los vídeos utilizando la metodología establecida en la sección~\ref{subsec:medida_error} para medir los resultados a la salida de cada bloque. Se realizaron las pruebas para 5 secuencias, 2 de las cuales fueron probadas con distinta adquisición, indicadas en la tabla \ref{resultados_distintas_capturas} como $X,YY,Z$ donde $Z=1,2$ corresponden a dos tasas de muestreo diferentes.
 
 \begin{table}[h]
 \centering
@@ -64,11 +64,11 @@ Las multiples secuencias sinteticas generadas en Blender como fue establecido en
 \label{resultados_distintas_capturas}
 \end{table}
 
-Los resultados para 17 camaras arrojan resultados similares en distintas capturas para el caso de amplia disponibilidad de camaras, y confirman los resultados y rendimientos presentados para los distintos bloques en las hipotesis planteadas para las capturas sinteticas. La segmentacion de los videos presenta errores promedios alrededor del pixel y errores maximos del entorno de los 4 pixeles. La reconstruccion y el tracking presentan resultados similares, siendo la diferencia conceptual entre ambas el etiquetado de trayectorias, y presentan resultados con error medio menor a los 0.5 cm, y errores maximos por debajo de 5 cm para el caso de reconstruccion con 17 camaras, y exceso de marcadores en reconstruccion (se establece como parametro de puntos reconstruidos una cantidad mayor a la esperada) 
+Los resultados para 17 cámaras arrojan resultados similares en distintas capturas para el caso de amplia disponibilidad de cámaras, y confirman los resultados y rendimientos presentados para los distintos bloques en las hipótesis planteadas para las capturas sintéticas. La segmentación de los vídeos presenta errores promedios alrededor del pixel y errores máximos del entorno de los 4 pixeles. La reconstrucción y el tracking presentan resultados similares, siendo la diferencia conceptual entre ambas el etiquetado de trayectorias, y presentan resultados con error medio menor a los 0.5 cm, y errores máximos por debajo de 5 cm para el caso de reconstrucción con 17 cámaras, y exceso de marcadores en reconstrucción (se establece como parámetro de puntos reconstruidos una cantidad mayor a la esperada) 
 
 \subsubsection{Ruido En Segmentación}
 
-La prueba consiste en relevar el error promedio en reconstruccion, contra el ground truth 3D para distintas instancias de informacion de multiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los videos segmentados, son la visibilidad de los marcadores estimada en un 70\% por camara y el error de segmentacion estimada en 1 pixel, el ruido es inyectado entre la segmentacion y la reconstuccion siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de la sección~\ref{subsec:medida_error} . En la tabla \ref{table_resolucion} de la seccion de Base de Datos, se estimo el impacto en metros del error en pixel cuya magnitud es relevada en el caso de la secuencia sintetica.
+La prueba consiste en relevar el error promedio en reconstrucción, contra el ground truth 3D para distintas instancias de información de múltiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los vídeos segmentados, son la visibilidad de los marcadores estimada en un 70\% por cámara y el error de segmentación estimada en 1 pixel, el ruido es inyectado entre la segmentación y la reconstrucción siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de la sección~\ref{subsec:medida_error} . En la tabla \ref{table_resolucion} de la sección (??? REFERENCIA BASE DE DATOS), se estimo el impacto en metros del error en pixel cuya magnitud es relevada en el caso de la secuencia sintética.
 
 \begin{table}[h]
 \centering
@@ -77,34 +77,32 @@ La prueba consiste en relevar el error promedio en reconstruccion, contra el gro
 \textbf{} & \textbf{} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}14 marcadores\\ reconstruidos\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}18 marcadores\\ reconstruidos\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}30 marcadores\\ reconstruidos\end{tabular}}} \\ \hline
 \multicolumn{1}{|c|}{\textbf{Conjunto}} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (pixels)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 0 & 1,27E-10 & 1,01E-09 & 1,27E-10 & 1,01E-09 & 1,27E-10 & 1,01E-09 \\ \hline
-\multicolumn{1}{|c|}{Segmentacion} & 0 & 0,38553 & 1,6915 & 0,38553 & 1,6915 & 0,38305 & 1,6747 \\ \hline
+\multicolumn{1}{|c|}{Segmentación} & 0 & 0,38553 & 1,6915 & 0,38553 & 1,6915 & 0,38305 & 1,6747 \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 0,5 & 1,0404 & 3,0757 & 0,5535 & 2,0504 & 0,53616 & 2,1104 \\ \hline
-\multicolumn{1}{|c|}{Segmentacion} & 0,5 & 0,76172 & 2,8548 & 0,70514 & 2,096 & 0,69771 & 2,0234 \\ \hline
+\multicolumn{1}{|c|}{Segmentación} & 0,5 & 0,76172 & 2,8548 & 0,70514 & 2,096 & 0,69771 & 2,0234 \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 1 & 1,6511 & 13,184 & 1,1398 & 5,1215 & 1,0356 & 3,7874 \\ \hline
-\multicolumn{1}{|c|}{Segmentacion} & 1 & 1,3948 & 9,2686 & 1,1158 & 3,8027 & 1,145 & 3,8481 \\ \hline
+\multicolumn{1}{|c|}{Segmentación} & 1 & 1,3948 & 9,2686 & 1,1158 & 3,8027 & 1,145 & 3,8481 \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 2 & 4,8746 & 59,8172 & 3,4818 & 53,3151 & 1,7094 & 7,4023 \\ \hline
-\multicolumn{1}{|c|}{Segmentacion} & 2 & 6,3302 & 49,8491 & 3,348 & 45,4941 & 2,0409 & 8,0023 \\ \hline
+\multicolumn{1}{|c|}{Segmentación} & 2 & 6,3302 & 49,8491 & 3,348 & 45,4941 & 2,0409 & 8,0023 \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 4 & 12,7279 & 131,2929 & 13,9006 & 121,5673 & 3,17 & 21,153 \\ \hline
-\multicolumn{1}{|c|}{Segmentacion} & 4 & 10,7759 & 67,2878 & 11,2504 & 102,6039 & 4,5432 & 40,5608 \\ \hline
+\multicolumn{1}{|c|}{Segmentación} & 4 & 10,7759 & 67,2878 & 11,2504 & 102,6039 & 4,5432 & 40,5608 \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 8 & 22,6934 & 136,0204 & 21,8413 & 143,0939 & 8,7161 & 42,9549 \\ \hline
-\multicolumn{1}{|c|}{Segmentacion} & 8 & 25,7256 & 187,2483 & 24,2908 & 158,6828 & 8,6034 & 41,6941 \\ \hline
+\multicolumn{1}{|c|}{Segmentación} & 8 & 25,7256 & 187,2483 & 24,2908 & 158,6828 & 8,6034 & 41,6941 \\ \hline
 \end{tabular}
 \caption{Resultados de Error en reconstrucción, para distintos caso de ruido agregado a la segmentación, tanto resultados sobre vídeos como sobre ground truth}
 \end{table}
 
-Las pruebas confirman los resultados estimados en \ref{table_resolucion} en la secuencia dada , con camaras no alejadas mas de 10 metros del sujeto, hasta los 2 pixeles (recordar que el conjunto de segmentacion ya ingresa un cierto error propio al cual se le agrega el ruido) el error promedio se mantiene en el orden de los pocos centimetros con instancias de error maximo incrementalmente mayores. Con el agregado que la reconstruccion es implementada con una cantidad variable de marcadores, la cual permite buscar de reconstruir una mayor cantidad de marcadores a los del sujeto para encontrar la mayor cantidad de posibilidades. A mayor cantidad de marcadores reconstruidos, se obtienen mejores resultados en los casos de mayor ruido.
+Las pruebas confirman los resultados estimados en \ref{table_resolucion} en la secuencia dada , con cámaras no alejadas mas de 10 metros del sujeto, hasta los 2 pixeles (recordar que el conjunto de segmentación ya ingresa un cierto error propio al cual se le agrega el ruido) el error promedio se mantiene en el orden de los pocos centímetros con instancias de error máximo mayores. Con el agregado que la reconstrucción es implementada con una cantidad variable de marcadores, la cual permite buscar de reconstruir una mayor cantidad de marcadores a los del sujeto para encontrar la mayor cantidad de posibilidades. A mayor cantidad de marcadores reconstruidos, se obtienen mejores resultados en los casos de mayor ruido.
 
 \subsubsection{Variación Cantidad de Cámaras}
 
-Reconstrucción con menos cámaras
-
-Con menos cámaras, según que movimiento se está capturando indica que marcadores se ven afectados en reconstrucción
+Hasta ahora todas las pruebas realizadas para los bloques presentados en la sección~\ref{sec:implementacion_bloques_sistema} , fueron realizadas sobre el conjunto entero de cámaras presentadas en la sección (??? REFERENCIA BASE DE DATOS), con 17 puntos de vistas distintos en el espacio de captura de la figura \ref{img_espacio_capura}. Las pruebas de rendimiento con conjuntos reducidos de cámaras son realizadas sobre los últimos dos bloques de reconstrucción y tracking, debido a que no afectan el error en el bloque de segmentación, solo afecta la cantidad de videos para segmentar.
 
 \begin{table}[h]
 \centering
-\begin{tabular}{|c|l|}
+\begin{tabular}{|c|c|}
 \hline
-\textbf{CONJUNTO} & \multicolumn{1}{c|}{\textbf{CAMARAS}} \\ \hline
+\textbf{CONJUNTO} & \textbf{CAMARAS} \\ \hline
 C17 & 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 \\ \hline
 C15 & 3,4,5,6,7,8,9,11,12,13,14,15,16,17 \\ \hline
 C8 & 3,5,7,9,11,13,15,17 \\ \hline
@@ -117,12 +115,14 @@ C5.2 & 1,4,8,12,16 \\ \hline
 C4.1 & 4,8,12,16 \\ \hline
 C4.2 & 3,9,11,17 \\ \hline
 \end{tabular}
-\caption{Distintas Combinaciones de Camaras del laboratorio sintetico, numeradas segun la figura \ref{img_espacio_capura} }
+\caption{Distintas Combinaciones de Amaras del laboratorio sintético, numeradas según la figura \ref{img_espacio_capura} presentada en (??? REFERENCIA DE BASE DE DATOS)}
 \end{table}
 
-\begin{itemize}
+Las pruebas son realizadas sobre dos secuencias en particular, de distintas características de uso del espacio de captura de movimiento.
 
-\item Captura de Marcha, 8\_07\_100\_200
+\paragraph{Captura de Marcha, Secuencia 8\_07\_100\_200}
+
+En el movimiento de marcha de la captura 8\_07, muestreada al 200\% (48 frames por segundo), el sujeto se mueve en el espacio de captura desde el lugar de la figura \ref{img_espacio_capura} desde donde se encuentra la cámara 2 hasta donde está la cámara 10, caminando de forma rectilinea.
 
 \begin{table}[h]
 \centering
@@ -146,7 +146,11 @@ C4.2 & 3,9,11,17 \\ \hline
 \multicolumn{1}{|c|}{14} & RightHand & 0,3816 & 0,7728 & 0,3637 & 0,4884 \\ \hline
 \multicolumn{1}{|c|}{\textbf{}} & \textbf{Secuencia} & \textbf{0,35686} & \textbf{0,81266} & \textbf{0,33603} & \textbf{0,53412} \\ \hline
 \end{tabular}
+\label{error_captura_marcha_17_8_camaras}
+\caption{Error de Marcadores en Tracking para conjuntos de 17 y 8 cámaras en el caso de Marcha}
 \end{table}
+
+Con la maxima cantidad de cámaras, todos los marcadores son reconstruidos y sus trayectorias seguidas a lo largo de la secuencia, con las medidas de error ya encontradas hasta el momento, de error de marcador menor al centimentro, y errores maximos puntuales del orden de los pocos centimetros. Si se reduce el conjunto de cámaras, para tener una "visión doble" desde cada una de las esquinas en el espacio de captura, se mantiene el buen rendimiento del sistema, con errores similares a los obtenidos anteriormente,    obteniendo leves mejoras en algunos marcadores pero tambien leves incrementos en el error para otros.  
 
 \begin{table}[h]
 \centering
@@ -170,7 +174,11 @@ C4.2 & 3,9,11,17 \\ \hline
 \multicolumn{1}{|c|}{14} & RightHand & 0,4799 & 7,4024 & 0,6051 & 14,0673 \\ \hline
  & \textbf{Secuencia} & \textbf{1,0095} & \textbf{24,3404} & \textbf{0,71806} & \textbf{17,1131} \\ \cline{2-6} 
 \end{tabular}
+\label{error_captura_marcha_61_62_camaras}
+\caption{Error de Marcadores en Tracking para algunos conjuntos de 6 cámaras en el caso de Marcha}
 \end{table}
+
+Reduciendo el conjunto a 6 cámaras, 
 
 \begin{table}[h]
 \centering
@@ -194,6 +202,8 @@ C4.2 & 3,9,11,17 \\ \hline
 \multicolumn{1}{|c|}{14} & RightHand & 0,617 & 14,0623 & 0,7186 & 11,8042 \\ \hline
  & \textbf{Secuencia} & \textbf{0,51182} & \textbf{6,9322} & \textbf{0,5512} & \textbf{7,4726} \\ \cline{2-6} 
 \end{tabular}
+\label{error_captura_marcha_63_64_camaras}
+\caption{Error de Marcadores en Tracking para algunos conjuntos alternativos de 6 cámaras en el caso de Marcha}
 \end{table}
 
 \begin{table}[h]
@@ -218,6 +228,8 @@ C4.2 & 3,9,11,17 \\ \hline
 \multicolumn{1}{|c|}{14} & RightHand & 1,906 & 38,9179 & PERDIDO & PERDIDO \\ \hline
  & \textbf{Secuencia} & \textbf{3,0121} & \textbf{40,035} & \textbf{1,0513} & \textbf{20,5912} \\ \cline{2-6} 
 \end{tabular}
+\label{error_captura_marcha_5_camaras}
+\caption{Error de Marcadores en Tracking para conjuntos de 5 cámaras en el caso de Marcha}
 \end{table}
 
 \begin{table}[h]
@@ -242,17 +254,11 @@ C4.2 & 3,9,11,17 \\ \hline
 \multicolumn{1}{|c|}{14} & RightHand & 0,9646 & 22,845 & PERDIDO & PERDIDO \\ \hline
  & \textbf{Secuencia} & \textbf{1,3662} & \textbf{23,0206} & \textbf{1,1976} & \textbf{22,5326} \\ \cline{2-6} 
 \end{tabular}
+\label{error_captura_marcha_4_camaras}
+\caption{Error de Marcadores en Tracking para conjuntos de 4 cámaras en el caso de Marcha}
 \end{table}
 
-\item Captura de Movimiento Libre, 9\_12\_100\_100
-
-\begin{figure}[H]
-  \centering
-   \subfloat[Trayectorias Movimiento Libre.]{\includegraphics[scale=0.4]{img/Performance/00_Trayectorias_Tracking.png}\label{tracking_movimiento_libre}}\hspace{3 mm}
-   \subfloat[Trayectoria Marcador, y Esqueleto reconstruido.]{\includegraphics[scale=0.4]{img/Performance/00_Animacion_Tracking.png}}  
-   \caption{Trayectorias obtenidas para Movimiento Libre.}
-  \label{captura_movimiento_libre}
-\end{figure} 
+\paragraph{Captura de Movimiento Libre, 9\_12\_100\_100}
 
 \begin{table}[h]
 \centering
@@ -275,6 +281,8 @@ C4.2 & 3,9,11,17 \\ \hline
 \multicolumn{1}{|c|}{13} & RightHand & 0,3866 & 1,1216 & 0,3528 & 0,7263 \\ \hline
  & \textbf{Secuencia} & \textbf{0,39741} & \textbf{1,4952} & \textbf{0,37824} & \textbf{1,2867} \\ \cline{2-6} 
 \end{tabular}
+\label{error_captura_libre_15_8_camaras}
+\caption{Error de Marcadores en Tracking para algunos conjuntos de 15 y 8 cámaras en el caso de Movimiento Libre}
 \end{table}
 
 \begin{table}[h]
@@ -298,9 +306,19 @@ C4.2 & 3,9,11,17 \\ \hline
 \multicolumn{1}{|c|}{13} & RightHand & 0,3492 & 0,6748 & PERDIDO & PERDIDO \\ \hline
  & \textbf{Secuencia} & \textbf{0,43212} & \textbf{2,4391} & \textbf{1,8061} & \textbf{25,7332} \\ \cline{2-6} 
 \end{tabular}
+\label{error_captura_libre_6_4}
+\caption{Error de Marcadores en Tracking para algunos conjuntos de 6 y 4 cámaras en el caso de Movimiento Libre}
 \end{table}
 
-\end{itemize}
+\begin{figure}[H]
+  \centering
+   \subfloat[Trayectorias Movimiento Libre.]{\includegraphics[scale=0.45]{img/Performance/00_Trayectorias_Tracking.png}\label{tracking_movimiento_libre}}\hspace{3 mm}
+   \subfloat[Trayectoria Marcador, y Esqueleto reconstruido.]{\includegraphics[scale=0.45]{img/Performance/00_Animacion_Tracking.png}}  
+   \caption{Trayectorias obtenidas para Movimiento Libre.}
+  \label{captura_movimiento_libre}
+\end{figure} 
+
+
 
 Comportamiento caso real?
 
