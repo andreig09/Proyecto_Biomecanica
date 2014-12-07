@@ -2,7 +2,11 @@
 \label{deteccionMarcadoresSec}
 \subsection{Introducción}
 
-Como se vio anteriormente, una vez realizada la captura del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo. Debido a las condiciones del laboratorio donde se realizarán las capturas (esto es, marcadores blancos sobre un paciente con ropa oscura, fondo oscuro, e iluminación controlada. ), el problema de la detección de marcadores puede explicarse en líneas generales, como la detección de circulos blancos de un cierto tamaño sobre fondo oscuro.
+Como se vio anteriormente, una vez realizada la captura del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo. 
+
+La gran diferencia entre el sistema a implementar y los softwares modernos es que, por temas presupuestales, no se utilizarán sensores infrarrojos u otro tipo de tecnología que facilite (o evite) la etapa de segmentación. En lugar de esto se realizará la segmentación por métodos ópticos, es decir, por métodos basados en el estudio de los píxeles de la imagen. 
+
+Debido a las condiciones del laboratorio donde se realizarán las capturas (esto es, marcadores blancos sobre un paciente con ropa oscura, fondo oscuro, e iluminación controlada. ), el problema de la detección de marcadores puede explicarse en líneas generales, como la detección de circulos blancos de un cierto tamaño sobre fondo oscuro.
 
 \begin{figure}[H]
         \centering
