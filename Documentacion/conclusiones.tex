@@ -34,22 +34,40 @@ A continuación, se plantean las conclusiones específicas de las etapas princip
 	\end{itemize}
 	\item Reconstrucción
 	\item Segumiento
+	
+	\begin{itemize}
+	
+	\item Los puntos reconstruidos en la reconstrucción son correctamente identificados y etiquetados en trayectorias, mediante la implementacion de un algoritmo simple de seguimiento combinando búsqueda de marcadores mas próximos con una estimación lineal determinada por la información previa de trayectoria	hasta el momento.
+	
+	\item Las perdidas de marcadores en pocos frames son detectadas, y estimadas al recuperar la trayectoria mediante predicciones lineales y radiales. Los marcadores recuperados cumplen las ecuaciones de continuidad de velocidad y aceleración.
+	
+	\item Las trayectorias obtenidas son evaluadas para encontrar grandes saltos en aceleracion, detectar marcadores a corregir, e implementando correcciones que cumplan las hipotesis establecidas en el movimiento.
+	
+	\end{itemize}		
+	
 	\item Medida de performance
 	\begin{itemize}
-		\item Se obtuvo una precisión en la detección de los marcadores, del orden del centímetro.
-		\item El máximo error no superó los 5 cm.
+		\item Se obtuvo una precisión en la detección de los marcadores, con errores del orden centímetro.
+		\item El máximo error por marcador no superó los 5 cm.
 		\item Se obtuvieron muy buenos resultados, logrando reconstruir todos los marcadores en toda la secuencia hasta con un mínimo de 6 cámaras. Con menos cámaras se pierden marcadores ocasionalmente.
-		\item Para el caso de 6 cámaras, la correcta detección del movimiento depende de la posición que tengan estas en el espacio.
+		\item Para el caso de 6 cámaras, la correcta detección del movimiento depende de la posición y la disposición entre ellas que tengan en el espacio.
 	\end{itemize}
 \end{itemize}
 
-Cabe destacar que por temas de cronograma y de presupuesto, en muchos aspectos no se utilizó la tecnología más moderna (por ejemplo sensores infrarrojos, cámaras de mejor calidad, etc.) que de haberlas utilizado se hubiesen logrado mejores resultados. Si bien esta primera versión del sistema no está a la altura de los sistemas comerciales vistos en este documento, se logró dar el primer paso y se dejaron todas las condiciones necesarias para poder continuar con el proyecto y llevar el mismo al nivel de las otras herramientas.
+Por temas de cronograma y de presupuesto, en muchos aspectos no se utilizó la tecnología más moderna (por ejemplo sensores infrarrojos, cámaras de mejor calidad, etc.) que de haberlas utilizado se hubiesen logrado mejores resultados. Si bien esta primera versión del sistema no está a la altura de los sistemas comerciales vistos en este documento, se logró dar el primer paso y se dejaron todas las condiciones necesarias para poder continuar con el proyecto y llevar el mismo al nivel de las otras herramientas.
 
 Quedan como tareas pendientes para etapas futuras:
 \begin{itemize}
-	\item Probar el sistema en un laboratorio con las características definidas en este proyecto y con más de 6 cámaras previamente calibradas.
+	\item Probar el sistema en un laboratorio con las características definidas en este proyecto y con 6 o más cámaras previamente calibradas.
 	\item Adaptar el sistema para otros casos de uso además de la marcha.
 	\item Robustecer la segmentación, ya sea agregando algoritmos que complementen la umbralización de Otsu\cite{otsu} o cambiando la umbralización por un algoritmo más complejo.
+	
+	\item Implementar un algoritmo alternativo de reconstrucción que funcione de forma mas robusta para el caso real
+	
+	\item Probar otros algoritmos de seguimiento de marcadores, e implementar restricciones de esqueleto y movimiento angular
+	
+	\item Establecer la realimentacion entre el bloque de reconstruccion y seguimiento para robustecer ambos bloques 	
+	
 	\item Mejorar la interfáz gráfica de usuario, haciéndola más amigable e intuitiva, de forma tal que el especialista pueda utilizarla como una aplicación de usuario.
 	\item Realizar un manual de usuario.
 \end{itemize}

@@ -43,7 +43,7 @@ Para las medidas de los distintos bloques, se trabajará no solo con el promedio
 
 \subsubsection{Capturas Sintéticas}
 
-Las múltiples secuencias sintéticas generadas en Blender como fue establecido en (??? REFERENCIA BASE DE DATOS) son ingresadas al sistema, utilizando los parámetros de calibración de las cámaras simuladas y los vídeos generados para las 17 cámaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en la sección~\ref{sec:implementacion_bloques_sistema} y comparado con el ground truth obtenido por Blender junto a los vídeos utilizando la metodología establecida en la sección~\ref{subsec:medida_error} para medir los resultados a la salida de cada bloque. Se realizaron las pruebas para 5 secuencias, 2 de las cuales fueron probadas con distinta adquisición, indicadas en la tabla \ref{resultados_distintas_capturas} como $X,YY,Z$ donde $Z=1,2$ corresponden a dos tasas de muestreo diferentes.
+Las múltiples secuencias sintéticas generadas en Blender como fue establecido en la sección\label{seccion_Base_Datos_Sintetica} son ingresadas al sistema, utilizando los parámetros de calibración de las cámaras simuladas y los vídeos generados para las 17 cámaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en la sección~\ref{sec:implementacion_bloques_sistema} y comparado con el ground truth obtenido por Blender junto a los vídeos utilizando la metodología establecida en la sección~\ref{subsec:medida_error} para medir los resultados a la salida de cada bloque. Se realizaron las pruebas para 5 secuencias, 2 de las cuales fueron probadas con distinta adquisición, indicadas en la tabla \ref{resultados_distintas_capturas} como $X,YY,Z$ donde $Z=1,2$ corresponden a dos tasas de muestreo diferentes.
 
 \begin{table}[h]
 \centering
@@ -68,7 +68,7 @@ Los resultados para 17 cámaras arrojan resultados similares en distintas captur
 
 \subsubsection{Ruido En Segmentación}
 
-La prueba consiste en relevar el error promedio en reconstrucción, contra el ground truth 3D para distintas instancias de información de múltiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los vídeos segmentados, son la visibilidad de los marcadores estimada en un 70\% por cámara y el error de segmentación estimada en 1 pixel, el ruido es inyectado entre la segmentación y la reconstrucción siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de la sección~\ref{subsec:medida_error} . En la tabla \ref{table_resolucion} de la sección (??? REFERENCIA BASE DE DATOS), se estimo el impacto en metros del error en pixel cuya magnitud es relevada en el caso de la secuencia sintética.
+La prueba consiste en relevar el error promedio en reconstrucción, contra el ground truth 3D para distintas instancias de información de múltiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los vídeos segmentados, son la visibilidad de los marcadores estimada en un 70\% por cámara y el error de segmentación estimada en 1 pixel, el ruido es inyectado entre la segmentación y la reconstrucción siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de la sección~\ref{subsec:medida_error} . En la tabla \ref{table_resolucion} de la sección\label{seccion_Base_Datos_Sintetica}, se estimo el impacto en metros del error en pixel cuya magnitud es relevada en el caso de la secuencia sintética.
 
 \begin{table}[h]
 \centering
@@ -96,7 +96,7 @@ Las pruebas confirman los resultados estimados en \ref{table_resolucion} en la s
 
 \subsubsection{Variación Cantidad de Cámaras}
 
-Hasta ahora todas las pruebas realizadas para los bloques presentados en la sección~\ref{sec:implementacion_bloques_sistema} , fueron realizadas sobre el conjunto entero de cámaras presentadas en la sección (??? REFERENCIA BASE DE DATOS), con 17 puntos de vistas distintos en el espacio de captura de la figura \ref{img_espacio_capura}. Las pruebas de rendimiento con conjuntos reducidos de cámaras son realizadas sobre los últimos dos bloques de reconstrucción y tracking, debido a que no afectan el error en el bloque de segmentación, solo afecta la cantidad de videos para segmentar.
+Hasta ahora todas las pruebas realizadas para los bloques presentados en la sección~\ref{sec:implementacion_bloques_sistema} , fueron realizadas sobre el conjunto entero de cámaras presentadas en la sección\label{seccion_Base_Datos_Sintetica}, con 17 puntos de vistas distintos en el espacio de captura de la figura \ref{img_espacio_capura}. Las pruebas de rendimiento con conjuntos reducidos de cámaras son realizadas sobre los últimos dos bloques de reconstrucción y tracking, debido a que no afectan el error en el bloque de segmentación, solo afecta la cantidad de videos para segmentar.
 
 \begin{table}[h]
 \centering
@@ -115,7 +115,7 @@ C5.2 & 1,4,8,12,16 \\ \hline
 C4.1 & 4,8,12,16 \\ \hline
 C4.2 & 3,9,11,17 \\ \hline
 \end{tabular}
-\caption{Distintas Combinaciones de Amaras del laboratorio sintético, numeradas según la figura \ref{img_espacio_capura} presentada en (??? REFERENCIA DE BASE DE DATOS)}
+\caption{Distintas Combinaciones de Amaras del laboratorio sintético, numeradas según la figura \ref{img_espacio_capura} presentada en la sección sección\label{seccion_Base_Datos_Sintetica} }
 \end{table}
 
 Las pruebas son realizadas sobre dos secuencias en particular, de distintas características de uso del espacio de captura de movimiento.
@@ -150,7 +150,7 @@ En el movimiento de marcha de la captura 8\_07, muestreada al 200\% (48 frames p
 \caption{Error de Marcadores en Tracking para conjuntos de 17 y 8 cámaras en el caso de Marcha}
 \end{table}
 
-Con la maxima cantidad de cámaras, todos los marcadores son reconstruidos y sus trayectorias seguidas a lo largo de la secuencia, con las medidas de error ya encontradas hasta el momento, de error de marcador menor al centimentro, y errores maximos puntuales del orden de los pocos centimetros. Si se reduce el conjunto de cámaras, para tener una "visión doble" desde cada una de las esquinas en el espacio de captura, se mantiene el buen rendimiento del sistema, con errores similares a los obtenidos anteriormente,    obteniendo leves mejoras en algunos marcadores pero tambien leves incrementos en el error para otros.  
+Con la maxima cantidad de cámaras, todos los marcadores son reconstruidos y sus trayectorias seguidas a lo largo de la secuencia, con las medidas de error ya encontradas hasta el momento, de error de marcador menor al centimentro, y errores maximos puntuales del orden de los pocos centimetros. Si se reduce el conjunto de cámaras, para tener una "visión doble" desde cada una de las esquinas en el espacio de captura, se mantiene el buen rendimiento del sistema, con errores similares a los obtenidos anteriormente,    obteniendo leves mejoras en algunos marcadores pero tambien leves incrementos en el error para otros, ambas situaciones equilibrán el promedio de la secuencia. Ambos casos son presentados en la tabla \ref{error_captura_marcha_17_8_camaras} ,
 
 \begin{table}[h]
 \centering
@@ -178,7 +178,7 @@ Con la maxima cantidad de cámaras, todos los marcadores son reconstruidos y sus
 \caption{Error de Marcadores en Tracking para algunos conjuntos de 6 cámaras en el caso de Marcha}
 \end{table}
 
-Reduciendo el conjunto a 6 cámaras, 
+Reduciendo el conjunto a 6 cámaras, comienza a influir no solo la cantidad sinó la ubicación de las mismas. En la tabla \ref{error_captura_marcha_61_62_camaras} el conjunto 6.1 tiene 3 camaras laterales sobre una misma pared en cada lado del "pasillo" donde camina el sujeto, y permite reconstruir la mitad de los marcadores sin problemas, pero la otra mitas presenta errores promedios altos, y picos de errores mas altos aún. El otro conjunto 6.2 presenta una distribución "hexagonal" rodeando al sujeto de captura, pero los resultados son similares al conjunto anterior.
 
 \begin{table}[h]
 \centering
@@ -206,6 +206,8 @@ Reduciendo el conjunto a 6 cámaras,
 \caption{Error de Marcadores en Tracking para algunos conjuntos alternativos de 6 cámaras en el caso de Marcha}
 \end{table}
 
+En la tabla \ref{error_captura_marcha_63_64_camaras}, se presentan los resultados de una combinacion de camaras usualemente ensayado en la bibliografia relevada ( \cite{gross2001cmu} , \cite{humaneva} ). El mismo consiste en no tener todas las camaras espacialmente distribuidas de forma similar como en el conjunto 6.1 o 6.2, sino tener un conjunto de 2 agrupadas y una tercer separada por cada lado, y cada lado tiene su conjunto de 2 camaras del lado opuesto. Combinaciones de camaras con esta geometria presentan resultados notoriamente mejores a las otras combinaciones de 6 camaras ensayadas anteriormente.
+
 \begin{table}[h]
 \centering
 \begin{tabular}{c|c|c|c|c|c|}
@@ -231,6 +233,8 @@ Reduciendo el conjunto a 6 cámaras,
 \label{error_captura_marcha_5_camaras}
 \caption{Error de Marcadores en Tracking para conjuntos de 5 cámaras en el caso de Marcha}
 \end{table}
+
+Finalmente, los conjuntos de 5 camaras ( tabla \ref{error_captura_marcha_5_camaras} ) son solidarios a los conjuntos de 4 camaras ( tabla \ref{error_captura_marcha_4_camaras} ), donde solo los marcadores de los pies, hombros y cabeza lográn buenos resultados. La unica diferencia entre ambos conjuntos, es la cámara superior.
 
 \begin{table}[h]
 \centering
@@ -258,7 +262,17 @@ Reduciendo el conjunto a 6 cámaras,
 \caption{Error de Marcadores en Tracking para conjuntos de 4 cámaras en el caso de Marcha}
 \end{table}
 
-\paragraph{Captura de Movimiento Libre, 9\_12\_100\_100}
+\paragraph{Captura de Movimiento Libre, 9\_12\_100\_100} 
+
+La secuencia 9\_12 muestreada al 100\% (24fps), presenta un sujeto en movimiento libre caminando en circulos, hacia adelante y atras en todo el espacio de captura. Debido a que en algunos momentos de la captura se perdían todos los marcadores en algunas camaras (1, 2, 10) , y la reconstruccion no pueden procesar una camara cuando no tiene marcadores en un momento dado, se decidio solo trabajar con las cámaras que tiene marcadores en todos los cuadros de la secuencia de 300 frames. Las trayectorias obtenidas en tracking y reconstruccion se observan en la figura \ref{captura_movimiento_libre} .
+
+\begin{figure}[H]
+  \centering
+   \subfloat[Trayectorias Movimiento Libre.]{\includegraphics[scale=0.45]{img/Performance/00_Trayectorias_Tracking.png}\label{tracking_movimiento_libre}}\hspace{3 mm}
+   \subfloat[Trayectoria Marcador, y Esqueleto reconstruido.]{\includegraphics[scale=0.45]{img/Performance/00_Animacion_Tracking.png}}  
+   \caption{Trayectorias obtenidas para Movimiento Libre.}
+  \label{captura_movimiento_libre}
+\end{figure} 
 
 \begin{table}[h]
 \centering
@@ -285,6 +299,8 @@ Reduciendo el conjunto a 6 cámaras,
 \caption{Error de Marcadores en Tracking para algunos conjuntos de 15 y 8 cámaras en el caso de Movimiento Libre}
 \end{table}
 
+Para el caso de todas las camaras, o dos camaras por esquina cuyos resultados son relevados en la tabla  \ref{error_captura_libre_15_8_camaras} , se confirman los resultados obtenidos en la captura de marcha de buenos resultados para todos los marcadores.
+
 \begin{table}[h]
 \centering
 \begin{tabular}{c|c|c|c|c|c|}
@@ -310,16 +326,8 @@ Reduciendo el conjunto a 6 cámaras,
 \caption{Error de Marcadores en Tracking para algunos conjuntos de 6 y 4 cámaras en el caso de Movimiento Libre}
 \end{table}
 
-\begin{figure}[H]
-  \centering
-   \subfloat[Trayectorias Movimiento Libre.]{\includegraphics[scale=0.45]{img/Performance/00_Trayectorias_Tracking.png}\label{tracking_movimiento_libre}}\hspace{3 mm}
-   \subfloat[Trayectoria Marcador, y Esqueleto reconstruido.]{\includegraphics[scale=0.45]{img/Performance/00_Animacion_Tracking.png}}  
-   \caption{Trayectorias obtenidas para Movimiento Libre.}
-  \label{captura_movimiento_libre}
-\end{figure} 
+Utilizando los conjuntos de 6 camaras asimetricas lateralmente estudiado anteriormente, la tabla \ref{error_captura_libre_6_4} muestra que es posible tener un buen rendimiento para casi todos los marcadores. El unico marcador con problemas, presenta un buen promedio de error pero un pico de error maximo a corregir. Finalmente el caso de 4 marcadores presenta malos resultados, con promedios aceptables, pero grandes errores maximos, y trayectorias que no se lográn seguir en la totalidad de la secuencia.
 
 
-
-Comportamiento caso real?
 
 
