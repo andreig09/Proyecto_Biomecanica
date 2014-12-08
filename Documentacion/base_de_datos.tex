@@ -148,7 +148,7 @@ JUSTIFICAR LA ELECCION DE LOS PEDIDOS
 Los pedidos fueron realizados el 17 de diciembre de 2013 aproximadamente.
 
 
-\begin{table}[h!]
+\begin{table}[h]
 	\centering		
 	\begin{tabular}{@{}lr@{}} 
 	\toprule		
@@ -263,15 +263,15 @@ Ya se ha mencionado algunas características cualitativas relacionadas con el es
 En cuanto a las dimensiones del espacio de captura, el mismo depende principalmente del tipo de movimiento a relevar y las características de las cámaras utilizadas. A continuación se analiza posibles configuraciones para dos caso, la marcha rectilínea y marcha libre, en el último caso se permite al sujeto movilizarse sobre un área circular.
 
 
-\begin{figure}[H]
+\begin{figure}[!ht]
   \centering
-  {\includegraphics[scale=0.2]{img/Base_Datos/Laboratorio.pdf}\label{img_Laboratorio}}      
+  {\includegraphics[scale=0.2]{img/Base_Datos/Laboratorio.pdf}}      
   \caption{Toma superior del Laboratorio.\\ Todas las cámaras se encuentran a $1\;m$ del suelo.}
-  \label{img_estimacion_resolucion}
+  \label{img_Laboratorio}
 \end{figure}  
  
  
-\begin{figure}[H]
+\begin{figure}[!ht]
   \centering
    \subfloat[Espacio de captura para marcha rectilínea.]{\includegraphics[scale=0.2]{img/Base_Datos/Lab_marcha1.pdf}\label{img_marcha1}}\hspace{0.2cm}
    \subfloat[Espacio de captura para marcha libre.] {\includegraphics[scale=0.2]{img/Base_Datos/Lab_marcha2.pdf}\label{img_marcha2}}  \caption{Posibles espacios de captura.}
@@ -399,7 +399,7 @@ Se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas u
 
 
 \paragraph{Disposición del laboratorio}
-El laboratorio generado posee 17 cámaras dispuestas en un ambiente rectangular de $10\times15\;m $ como se muestran en las figuras \ref{img_estimacion_resolucion} y \ref{img_Entorno_Blender}. La configuración de las mismas permite probar diferentes combinaciones de captura a la hora de generar secuencias. Se diseñaron las cámaras para que sus parámetros fuesen similares a cámaras convencionales
+El laboratorio generado posee 17 cámaras dispuestas en un ambiente rectangular de $10\times15\;m $ como se muestran en las figuras \ref{img_Laboratorio} y \ref{img_Entorno_Blender}. La configuración de las mismas permite probar diferentes combinaciones de captura a la hora de generar secuencias. Se diseñaron las cámaras para que sus parámetros fuesen similares a cámaras convencionales
  encontradas en el mercado y utilizadas en las bases de datos relevadas. 
  Las posiciones y valores característicos de las cámaras pueden verse en detalle en el apéndice  
  (PONER AQUI LA REFERNECIA AL APENDICE DONDE SE MUESTRA LA SALIDA DE INFOCAMBLENDER). Para iluminar el laboratorio se dispusieron $8$ focos puntuales de luz omnidireccional sobres los límites del mismo, rodeando la escena y a un nivel de 3 metros de altura. De esta manera se garantiza que ninguno de los focos sea tomado directamente por las cámaras y los marcadores se iluminan correctamente.

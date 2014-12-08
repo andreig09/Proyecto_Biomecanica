@@ -215,10 +215,12 @@ A continuación, se presentan algunos conceptos básicos necesarios para entende
 \begin{center}
 \includegraphics[scale=0.7]{img/otsu2.png}
 \end{center}
-\caption{Histograma de intensidad de una imagen\cite{histImgRef}.}
+\caption{Histograma de intensidad de una imagen \footnotemark.}
 \label{otsuFruta}
 \end{figure}
 
+
+\footnotetext{\textcolor{blue}{\underline{\url{ http://deploy.virtual-labs.ac.in/labs/cse19/theory.php?exp=segment}}}}
 Considerando la figura \ref{otsuFruta} como el histograma de intensidad de una imagen, $f(x,y)$, se puede apreciar que la misma está compuesta por un objeto u objetos iluminados de aproximadamente la misma intensidad y un fondo oscuro. De esta manera, se definen en este histograma dos campanas bien determinadas. La manera más obvia de extraer los objetos del fondo es seleccionando un umbral $T$ que separe estas dos campanas y por lo tanto cualquier punto $(x,y)$ de la imagen que cumpla $f(x,y) > T$ será un punto perteneciente al objeto mientras que el resto son puntos pertenecientes al fondo. De acuerdo a lo anterior, la imagen segmentada puede definirse de la siguiente manera.
 
 \begin{equation}

@@ -39,7 +39,7 @@ Para explicar el algoritmo de reconstrucción es necesario describir brevemente 
 
  Como se muestra en la figura \ref{fig: geometria_epipolar}, se tiene el caso en que dos cámaras observan un mismo punto 3D en el espacio, el punto $X$. Para esto se considera el modelo \textit{pinhole} de la cámara  descrito en la sección \ref{calibracion}. En ese caso los puntos $O_1$ y $O_2$ son los centros o focos de las cámaras.\\
  
-  El punto $X$ se proyecta en dichas cámaras en los puntos $x$ y $x’$. Es decir, $x$ pertenece a la intersección de la retina de la cámara 1, con la recta $\overline{O_1X}$, análogamente el punto $x'$ pertenece a la intersección de la retina de la cámara 2 con la recta $\overline{O_2X}$. A su vez, los focos de ambas cámaras $O_1$ y $O_2$ definen una recta que corta a las retinas de las cámaras en los puntos $e$ y $e'$, llamados epipolos.\\
+  El punto $X$ se proyecta en dichas cámaras en los puntos $x$ y $x'$. Es decir, $x$ pertenece a la intersección de la retina de la cámara 1, con la recta $\overline{O_1X}$, análogamente el punto $x'$ pertenece a la intersección de la retina de la cámara 2 con la recta $\overline{O_2X}$. A su vez, los focos de ambas cámaras $O_1$ y $O_2$ definen una recta que corta a las retinas de las cámaras en los puntos $e$ y $e'$, llamados epipolos.\\
   
   Si el punto $X$ varia sobre el espacio 3D, se tienen múltiples rectas que pasan por dicho punto y el foco de la cámara 1, el punto $O_1$. Dado que $O_1$ se proyecta en la cámara 2 como el punto $e'$ en el plano imagen, todas las rectas  $\overline{O_1X}$ se proyectan en dicha cámara como rectas que se intersectan en el punto $e'$, a estas rectas se le denominan rectas epipolares. Análogamente las rectas 3D $\overline{O_2X}$ se proyectan sobre la cámara 1 como rectas epipolares que se intersectan en el punto $e$. De esta manera se tiene que los puntos $X$, $O_1$ y $O_2$ forman un plano, llamado plano epipolar,  que intersecta a los planos imagen en las rectas epipolares.\\
   
@@ -85,7 +85,7 @@ Algunas propiedades básicas de esta matriz es que si $F$ es la matriz fundament
 
 \subsection{Algoritmo propuesto por Herda }
 
-Como se explicó anteriormente, se inicia la implementación de este bloque a partir del algoritmo propuesto por Herda \cite{Herda}. Este algoritmo en algunos aspectos no es descripto con el detalle suficiente tal que pueda ser replicado fielmente. Por esta razón su implementación se ha realizado tomando algunas libertades en los casos en que su interpretación pueda ser algo ambigua.\\
+Como se explicó anteriormente, se inicia la implementación de este bloque a partir del algoritmo propuesto por Herda \cite{herda}. Este algoritmo en algunos aspectos no es descripto con el detalle suficiente tal que pueda ser replicado fielmente. Por esta razón su implementación se ha realizado tomando algunas libertades en los casos en que su interpretación pueda ser algo ambigua.\\
 
 Por otra parte este algoritmo plantea utilizar la información del esqueleto, como por ejemplo la posición de articulaciones, distancias entre marcadores, etc.\\ (ver que el uso de información del esqueleto haya quedado bien claro en la descripción general del algoritmo).\\ Dado que este aspecto del algoritmo no fue implementado resultó necesario robustecer el proceso de reconstrucción en las partes del algoritmo donde no se utiliza esta información.\\
 
@@ -157,6 +157,14 @@ Una de las condiciones evaluadas en un principio fue la de exigir que el marcado
 
 \subsubsection{Reconstrucción 3D y validación}
 
+
+Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reconstruirlas. Estas reconstrucciones deben ser validadas, para ello se utiliza el siguiente criterio, se considera que una reconstrucción proveniente de dos cámaras es válida, si al proyectar sobre una tercer cámara existe al menos un punto de esta última que diste menos de un cierto valor umbral. Si efectivamente se encuentra al menos un punto, se asocia con los dos puntos que generaron la reconstrucción y se repite el proceso con el resto de las cámaras. Una vez finalizada la iteración, se retiran tanto a la pareja que genera la reconstrucción como a todos los puntos del resto de las cámaras que lograron validar, y se itera nuevamente desde el inicio con la siguiente mejor pareja asociada entre dos cámaras.  
+
+
+El algoritmo desarrollado si bien conceptualmente es similar, se implementa desde una óptica diferente computacionalmente más eficiente.
+En lugar de llevar en cada iteración la información 3D a cada cámara, se procede a llevar la información de las cámaras una sola vez al espacio 3D y trabajar en cada iteración sobre el mismo. La información que contiene un punto en una retina se mapea en el espacio 3D sobre una recta que contiene a dicho punto y al centro de la cámara correspondiente. Supongamos que tenemos las rectas en el espacio 3D de todos los puntos contenidos en las retinas, sea $x_1$ un punto en la cámara 1 de centro $O_1$ y $x_2$ punto en la cámara 2 de centro $O_2$, como se muestra en la figura \ref{img_reconstruccion_validacion}, consideremos que $x_1$ y $x_2$ se encuentran asociados y reconstruyen al punto $X_{12}$. Idealmente $X_{12}$ se genera al interceptar las rectas asociadas a los puntos $x_1$ y $x_2$, pero debido a incertidumbres en la detección de marcadores o la calibración, comúnmente las rectas se van a cruzar. Por lo tanto la reconstrucción $X_12$ se genera en el punto medio del segmento perpendicular a ambas rectas.
+
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.7]{img/Reconstruccion/validacion.pdf}
@@ -164,11 +172,8 @@ Una de las condiciones evaluadas en un principio fue la de exigir que el marcado
 \label{img_reconstruccion_validacion}
 \end{figure}
 
-Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reconstruirlas. Estas reconstrucciones deben ser validadas, para ello se utiliza el siguiente criterio, se considera que una reconstrucción proveniente de dos cámaras es válida, si al proyectar sobre una tercer cámara existe al menos un punto de esta última que diste menos de un cierto valor umbral. Si efectivamente se encuentra al menos un punto, se asocia con los dos puntos que generaron la reconstrucción y se repite el proceso con el resto de las cámaras. Una vez finalizada la iteración, se retiran tanto a la pareja que genera la reconstrucción como a todos los puntos del resto de las cámaras que lograron validar, y se itera nuevamente desde el inicio con la siguiente mejor pareja asociada entre dos cámaras.  
 
-
-El algoritmo desarrollado si bien conceptualmente es similar, se implementa desde una óptica diferente, computacionalmente más eficiente.
-En lugar de llevar en cada iteración la información 3D a cada cámara, se procede a llevar la información de las cámaras una sola vez al espacio 3D y trabajar en cada iteración sobre el espacio 3D. La información que contiene un punto en una retina se mapea en el espacio 3D sobre una recta, supongamos que tenemos las rectas en el espacio 3D de todos los puntos contenidos en las retinas, sea $x_1$ y $x_2$ puntos de las cámaras 1 y 2 respectivamente que se encuentran asociados y $X_{12}$ su reconstrucción. Las rectas que atraviesen una esfera centrada en $X_{12}$ y \textbf{radio la mitad del valor umbral}, pertenecen a puntos que validan dicha reconstrucción.  Supongamos que la recta perteneciente el punto $x_3$ atraviesa la esfera centrada en $X_{12}$, si asociamos $x_1$, $x_2$ y $x_3$ la reconstrucción resultante seguro va a estar dentro de la esfera de centro $X_{12}$ y radio la mitad del valor umbral  predefinido, más aún si reconstruimos utilizando solamente los puntos $x_1$ y $x_3$ su reconstrucción $X_{13}$ también va a pertenecer al interior de la esfera de centro $X_{12}$ y radio la mitad del valor umbral. 
+Las rectas que atraviesen una esfera centrada en $X_{12}$ y \textbf{radio la mitad del valor umbral}, pertenecen a puntos que validan dicha reconstrucción.  Supongamos que la recta perteneciente el punto $x_3$ atraviesa la esfera centrada en $X_{12}$, si asociamos $x_1$, $x_2$ y $x_3$ la reconstrucción resultante seguro va a estar dentro de la esfera de centro $X_{12}$ y radio la mitad del valor umbral  predefinido, más aún si reconstruimos utilizando solamente los puntos $x_1$ y $x_3$ su reconstrucción $X_{13}$ también va a pertenecer al interior de la esfera de centro $X_{12}$ y radio la mitad del valor umbral. 
 Esto último puede demostrarse teniendo presente las siguientes consideraciones,
 \begin{itemize}
 \item el punto reconstruido a partir de dos rectas se encuentra en la mitad del segmento perpendicular a dichas rectas
