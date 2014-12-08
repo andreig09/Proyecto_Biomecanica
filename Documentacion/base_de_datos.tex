@@ -61,7 +61,7 @@ C.M.U  \footnote{Carnegie Mellon University Motion Capture Database}
  & >100     &       2605   & Interior&      1   &    No       \\ \hline
 G.T \footnote{Georgia Tech} &       20    & $\sim$100           & Interior y &   3      &  Si       \\ 
 	 &		 &					 & exterior        &         &    \\ \hline
-U.S. \footnote{University of Southampton Database} &       >100    &     $\sim$       & Interior &   12      &  $\sim$      \\ \hline
+U.S. \footnote{University of Southampton Database} &       >100    &     $\sim$ \footnote{El símbolo $\sim$ indica que no se cuenta con información al respecto.}  & Interior &   12      &  $\sim$      \\ \hline
 Human ID  &     122    & 1870           & Exterior &   2      &$\sim$       \\ \hline
 HumanEva &     4+2    & 56           & Interior &   4/7      &  Si       \\ \hline
 INRIA \footnote{INRIA Perception, Multicam Dataset. } &       >11    & >40           & Interior &   $\geq$1      &  Si       \\ \hline
@@ -81,7 +81,7 @@ MHAD \footnote{Berkeley Multimodal Human Action Database.} & 12         & 660   
 {C.M.U }    & Varios    &  Traje MoCap & 3D-Vicon \footnote{Secuencias bvh de CMU, \textcolor{blue}{\underline{\url{http://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}.} & & \\ \hline
 {G.T} &     Marcha fuera&     Traje MoCap y       & 3D  en formato & Libre & \\ 
  &	   de régimen  &  Natural   &   Maya & & \\ \hline
-U.S. &       Marcha    &  Natural    &  $\sim$ & Libre&       \\	\hline
+U.S. &       Marcha    &  Natural    &  $\sim$ Libre&       \\	\hline
 Human ID &     Marcha    & Natural  & $\sim$ & Bajo  &       \\ 
 						 &        &   &  & solicitud &       \\ \hline
 HumanEva &     Varios    & Natural  & 3D - Vicon & Bajo  &       \\ 
@@ -286,10 +286,11 @@ Debe tenerse presente que estos son casos particulares, pero que permiten hacer 
 Aumentar el número de cámaras permite una mayor cobertura de volumen, lo que significa una mayor visibilidad del conjunto de marcadores. A su vez una mejor visibilidad del conjunto de marcadores está correlacionado con disminuir la posibilidad de que información importante se pierda en las etapas de análisis de datos posteriores.
 
 
-\subsubsection{Sincronización \cite{canon}} 
+\subsubsection{Sincronización} 
 
 Esto resulta esencial en las emisiones con conexiones en directo con varias cámaras, para garantizar que las imágenes de vídeo se mantienen estables incluso cuando se cambia de una cámara a otra.
-Se debe contar con un fuente central que envíe una señal de sincronización a todas las videocámaras que participan en una grabación, de esta manera se indica a cada una de ellas cuando deberán comenzar a grabar. La misma orden es enviada para cada fotograma y todas y cada una de las líneas escaneadas dentro del fotograma. El sincronizador ‘bloquea’ las videocámaras en la misma secuencia de escaneado.
+Se debe contar con un fuente central que envíe una señal de sincronización a todas las videocámaras que participan en una grabación, de esta manera se indica a cada una de ellas cuando deberán comenzar a grabar. 
+Esta señal de sincronización puede consistir en eventos sonoros o visuales que permitan sincronizar en etapas de post-procesamiento, pero lo más recomendable si se dispone de equipamiento adecuado es directamente enviar una señal a las cámaras vía hardware.
 Si no se contara con una entrada de sincronización sería prácticamente imposible realizar una grabación con varias cámaras simultáneamente.
 
 
@@ -304,7 +305,7 @@ A la hora de configurar un laboratorio no solo hay que integrar las distintas va
 
 Notar que trabajando a 10 metros con resolución $1600\times600$ se obtienen incertidumbres de pixel de casi $1 ~cm $
 
-\subsection{Base de datos sintética}
+\subsection{Base de datos sintética}\label{seccion_Base_Datos_Sintetica}
 \subsubsection{Motivación}
 
 No se encontraron base de datos acorde a las necesidades de este proyecto, como se menciona en la sección \ref{conclusiones_revision_base_datos} varios son los motivos, pero básicamente se debe a que ninguna se diseño para el análisis óptico  con marcadores y no ofrecen secuencias de video utilizables para nuestros fines. Por lo tanto se plantea la necesidad de construir una base de datos adecuada que permita desarrollar nuestro sistema.
@@ -556,20 +557,34 @@ Dentro de cada <...>  ~designar el nombre de la variable que se indica.
 Para poder trabajar a lo largo de todo el sistema de procesamiento se debe contar con una estructura de datos que mantenga y soporte toda la información de interés a lo largo proceso. También es deseable que los procesos utilicen dicha estructura sin quedar condicionados a futuras modificaciones de la misma, esta independencia funcional requiere la existencia de funciones de acceso de entrada y salida a la estructura.  
 
 
+Con este fin se ha diseñado e implementado las estructuras de datos de las figuras \ref{img_estructura_skeleton} y \ref{img_estructura_cam}.
+Las mismas permiten almacenar tanto la información de ground truth como la generada a la hora de  trabajar en las etapas de análisis de video. Se han implementado funciones de acceso de entrada y salida en Matlab, así como varias herramientas de gestión. Que permiten entre otras cosas blablablabla
 
-Con este fin se ha diseñado e implementado la estructura de datos de la figura (XXXXXX).
-La misma permite almacenar tanto la información de ground truth como la generada a la hora de  trabajar en las etapas de análisis de video. Se han implementado funciones de acceso de entrada y salida en Matlab, así como varias herramientas de gestión. Que permiten entre otras cosas blablablabla
 
-
-En la misma se puede ver la conjunción de dos estructuras principales, una para almacenar información del esqueleto asociado al modelo y otra para almacenar la información de las cámaras con las que se efectúa la captura de video.
+Básicamente se tienen dos estructuras principales, una para almacenar información del esqueleto asociado al modelo y otra para almacenar la información de las cámaras con las que se efectúa la captura de video.
 
 Cabe destacar que este tipo de estructura es útil tanto para una base de datos sintética como una base de datos real. \\
 \\
 
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.6]{img/Base_Datos/Estructura_datos_skeleton.pdf}
+   \caption{Estructura de datos para esqueletos.}  
+   \label{img_estructura_skeleton} 
+ \end{figure} 
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.6]{img/Base_Datos/Estructura_datos_cam.pdf}
+   \caption{Estructura de datos para cámaras.}
+   \label{img_estructura_cam}    
+ \end{figure} 
+
 Porque se necesita\\
 Que forma tiene\\
 Cual es su alcance\\
-Como se gestiona\\
+Como se gestiona (tengo que hablar de las funciones que manejan la base de datos, al menos globalmente que se puede hacer....ufffffff
+, acordarse que están diseñadas para una fácil exportación a xml)\\
 \\
 \subsubsection{Conclusiones} SECCION EN CONSTRUCCION\\
 sobre como quedo la base de datos, utilidad, potencial y posible expansión
