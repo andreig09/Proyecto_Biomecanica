@@ -472,7 +472,7 @@ En la figura \ref{peladoCircular} se ve el resultado de procesar la imagen \ref{
       \label{ejemplocircularfilter}
 \end{figure}
 
-Luego del filtro circular, se identifican los blobs que resultaron del filtrado mediante el bloque \emph{Number}, que utiliza la función \emph{cvPutText} de la librería  OpenCV\cite{opencv} para numerar cada blob de la imagen con su número de \textit{id}.
+Luego del filtro circular, se identifican los blobs que resultaron del filtrado mediante el bloque \emph{Number}, que utiliza la función \emph{cvPutText} de la librería  OpenCV\cite{opencv} para numerar cada blob de la imagen con su número de \textit{id}. Esta numeración se hace de izquierda a derecha y de arriba hacia abajo.
 
 \vspace{10 mm}
 Finalmente, volviendo al diagrama de flujo del bloque general (ver figura \ref{diagramaSegmentacion}), el bloque \emph{Write xml} escribe la posición $(x,y)$ de cada blob en el cuadro procesado, en un archivo XML\cite{xml}. Este bloque es implementado mediante funciones de C++ para escribir archivos, teniendo en cuenta la estructura de los archivos XML\cite{xml}.
