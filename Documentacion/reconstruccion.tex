@@ -155,4 +155,26 @@ Una de las condiciones evaluadas en un principio fue la de exigir que el marcado
 \label{fig: Etapa de validación}
 \end{figure}
 
+\subsubsection{Reconstrucción 3D y validación}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{img/Reconstruccion/validacion.pdf}
+\caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3.}
+\label{img_reconstruccion_validacion}
+\end{figure}
+
+Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reconstruirlas. Estas reconstrucciones deben ser validadas, para ello se utiliza el siguiente criterio, se considera que una reconstrucción proveniente de dos cámaras es válida, si al proyectar sobre una tercer cámara existe al menos un punto de esta última que diste menos de un cierto valor umbral. Si efectivamente se encuentra al menos un punto, se asocia con los dos puntos que generaron la reconstrucción y se repite el proceso con el resto de las cámaras. Una vez finalizada la iteración, se retiran tanto a la pareja que genera la reconstrucción como a todos los puntos del resto de las cámaras que lograron validar, y se itera nuevamente desde el inicio con la siguiente mejor pareja asociada entre dos cámaras.  
+
+
+El algoritmo desarrollado si bien conceptualmente es similar, se implementa desde una óptica diferente, computacionalmente más eficiente.
+En lugar de llevar en cada iteración la información 3D a cada cámara, se procede a llevar la información de las cámaras una sola vez al espacio 3D y trabajar en cada iteración sobre el espacio 3D. La información que contiene un punto en una retina se mapea en el espacio 3D sobre una recta, supongamos que tenemos las rectas en el espacio 3D de todos los puntos contenidos en las retinas, sea $x_1$ y $x_2$ puntos de las cámaras 1 y 2 respectivamente que se encuentran asociados y $X_{12}$ su reconstrucción. Las rectas que atraviesen una esfera centrada en $X_{12}$ y \textbf{radio la mitad del valor umbral}, pertenecen a puntos que validan dicha reconstrucción.  Supongamos que la recta perteneciente el punto $x_3$ atraviesa la esfera centrada en $X_{12}$, si asociamos $x_1$, $x_2$ y $x_3$ la reconstrucción resultante seguro va a estar dentro de la esfera de centro $X_{12}$ y radio la mitad del valor umbral  predefinido, más aún si reconstruimos utilizando solamente los puntos $x_1$ y $x_3$ su reconstrucción $X_{13}$ también va a pertenecer al interior de la esfera de centro $X_{12}$ y radio la mitad del valor umbral. 
+Esto último puede demostrarse teniendo presente las siguientes consideraciones,
+\begin{itemize}
+\item el punto reconstruido a partir de dos rectas se encuentra en la mitad del segmento perpendicular a dichas rectas
+\item la mínima distancia entre dos rectas se encuentra entre la perpendicular que las une
+\item la distancia entre dos puntos de una esfera siempre es menor o igual que dos veces su radio
+\end{itemize}
+
+ FALTA LIQUIDAR DEMOSTRACION 
 
