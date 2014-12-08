@@ -5,14 +5,14 @@ En esta sección se evaluarán las conclusiones obtenidas a partir de lo realiza
 
 Como conclusiones generales se presentan las siguientes:
 \begin{itemize}
-\item Se cumplió el objetivo principal: se logró obtener un sistema completo que a partir de las capturas de video de una persona en un ambiente de laboratorio con las condiciones adecuadas, obtiene la posición 3D de  los marcadores presentes en el cuerpo de dicha persona, logrando representar su movimiento con una presición del orden del centímetro.
+\item Se cumplió el objetivo principal: se logró obtener un sistema completo que a partir de las capturas de video de una persona en un ambiente de laboratorio con las condiciones adecuadas, obtiene la posición 3D de  los marcadores presentes en el cuerpo de dicha persona, logrando representar su movimiento con una precisión del orden del centímetro.
 \item Se logró relevar la literatura existente, y se realizó una clasificación de los documentos de acuerdo a la relevancia que prestan para construir un sistema de estas características. 
-\item Se relevó el software existente, y se buscaron implementaciones en matlab, C/C++ y otros lenguajes, pero no se encontró un software Open Source que se adaptara a las características necesarias para utilizar de base en este proyecto. Debido a esto, se decidió implementar los bloques por cuenta propia, utilizando algunos algoritmos básicos de procesamiento de imagenes ya implementados o realizados especificamente para este proyecto. Esta etapa por momentos tuvo un carácter más de investigación científica que de proyecto ingenieril.
+\item Se relevó el software existente, y se buscaron implementaciones en matlab, C/C++ y otros lenguajes, pero no se encontró un software Open Source que se adaptara a las características necesarias para utilizar de base en este proyecto. Debido a esto, se decidió implementar los bloques por cuenta propia, utilizando algunos algoritmos básicos de procesamiento de imágenes ya implementados o realizados específicamente para este proyecto. Esta etapa por momentos tuvo un carácter más de investigación científica que de proyecto ingenieril.
 \item Se identificaron los distintos casos de uso, y se decidió implementar el sistema en base al caso de uso de marcha.
 \item Se lograron implementar los 4 grupos de algoritmos principales que componen la aplicación: calibración, detección de marcadores, estimación de pose (o reconstrucción) y seguimiento.
 \item Se generó un sistema que integra los 4 bloques nombrados en el punto anterior, y que dada la entrada definida obtiene la salida esperada.
 \item Se elaboró una interfaz gráfica de usuario (GUI) básica para que el sistema pueda ser utilizado de una forma más práctica y amigable por el usuario.
-\item Se buscaron bases de datos que se encuentren dentro de las hipótesis del problema, de forma tal de probar el mismo para diferentes casos y evaluar su rendiemiento. Debido a que no se encontró ninguna base de datos disponible que cumpla con las características deseadas, se elaboró una en base a secuencias sintéticas generadas en Blender.
+\item Se buscaron bases de datos que se encuentren dentro de las hipótesis del problema, de forma tal de probar el mismo para diferentes casos y evaluar su rendimiento. Debido a que no se encontró ninguna base de datos disponible que cumpla con las características deseadas, se elaboró una en base a secuencias sintéticas generadas en Blender.
 \item Se generó un conjunto de benchmarks\footnote{Herramientas de evaluación de performance.}, capaces de obtener una buena medida del rendimiento del sistema. 
 \end{itemize}
 
@@ -27,13 +27,13 @@ A continuación, se plantean las conclusiones específicas de las etapas princip
 	\item Detección de marcadores
 	\begin{itemize}
 		\item Se logró implementar un conjunto de algoritmos capaces de detectar la posición 2D de los marcadores en el cuerpo del paciente para todo instante de tiempo y exponer los resultados en un archivo XML. 
-		\item Los resultados correspondientes a las pruebas con secuencias cintéticas fueron muy buenos, logrando un error que en la mayoría de los casos se ubicó por debajo de los 4 píxeles.
-		\item Por el lado del procesamiento de secuencias reales, no se consiguieron secuencias que estén exactamente en las hipótesis del probelma. Aún asi, se realizaron pruebas con secuencias que se asemejaban a las condiciones necesarias obteniendo buenos resultados al extraer el fondo de la captura.
-		\item Se observó que para ambientes donde las condiciones se mantienen constantes a lo largo del tiempo (como por ejemplo en un laboratorio), el umbral no cambia significativamente su valor, pudiendose utilzar un valor constante en el para toda una secuencia. Esto permite ahorrar tiempo de procesamiento y reduce el costo computacional de la detección.
-		\item Se observó que se puede mejorar la detección, ajustando los valores de las constantes $A$ y $B$ del filtro circular (ver seccióm \ref{implementSegment}) de forma tal de hacer el filtro más selectivo o menos.
+		\item Los resultados correspondientes a las pruebas con secuencias sintéticas fueron muy buenos, logrando un error que en la mayoría de los casos se ubicó por debajo de los 4 píxeles.
+		\item Por el lado del procesamiento de secuencias reales, no se consiguieron secuencias que estén exactamente en las hipótesis del problema. Aún así, se realizaron pruebas con secuencias que se asemejaban a las condiciones necesarias obteniendo buenos resultados al extraer el fondo de la captura.
+		\item Se observó que para ambientes donde las condiciones se mantienen constantes a lo largo del tiempo (como por ejemplo en un laboratorio), el umbral no cambia significativamente su valor, pudiéndose utilizar un valor constante en el para toda una secuencia. Esto permite ahorrar tiempo de procesamiento y reduce el costo computacional de la detección.
+		\item Se observó que se puede mejorar la detección, ajustando los valores de las constantes $A$ y $B$ del filtro circular (ver sección \ref{implementSegment}) de forma tal de hacer el filtro más selectivo o menos.
 	\end{itemize}
 	\item Reconstrucción
-	\item Segumiento
+	\item Seguimiento
 	
 	\begin{itemize}
 	
@@ -41,7 +41,7 @@ A continuación, se plantean las conclusiones específicas de las etapas princip
 	
 	\item Las perdidas de marcadores en pocos frames son detectadas, y estimadas al recuperar la trayectoria mediante predicciones lineales y radiales. Los marcadores recuperados cumplen las ecuaciones de continuidad de velocidad y aceleración.
 	
-	\item Las trayectorias obtenidas son evaluadas para encontrar grandes saltos en aceleracion, detectar marcadores a corregir, e implementando correcciones que cumplan las hipotesis establecidas en el movimiento.
+	\item Las trayectorias obtenidas son evaluadas para encontrar grandes saltos en aceleración, detectar marcadores a corregir, e implementando correcciones que cumplan las hipótesis establecidas en el movimiento.
 	
 	\end{itemize}		
 	
@@ -66,8 +66,8 @@ Quedan como tareas pendientes para etapas futuras:
 	
 	\item Probar otros algoritmos de seguimiento de marcadores, e implementar restricciones de esqueleto y movimiento angular
 	
-	\item Establecer la realimentacion entre el bloque de reconstruccion y seguimiento para robustecer ambos bloques 	
+	\item Establecer la realimentacion entre el bloque de reconstrucción y seguimiento para robustecer ambos bloques 	
 	
-	\item Mejorar la interfáz gráfica de usuario, haciéndola más amigable e intuitiva, de forma tal que el especialista pueda utilizarla como una aplicación de usuario.
+	\item Mejorar la interfaz gráfica de usuario, haciéndola más amigable e intuitiva, de forma tal que el especialista pueda utilizarla como una aplicación de usuario.
 	\item Realizar un manual de usuario.
 \end{itemize}
