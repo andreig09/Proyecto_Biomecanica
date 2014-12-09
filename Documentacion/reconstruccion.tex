@@ -141,11 +141,12 @@ A su vez se realiza el mismo procedimiento a la inversa, esto es, de la cámara 
 
 \subsubsection*{Mejor asociación}
 
-Del resultado del bloque anterior resulta necesario seleccionar aquella asociación entre puntos de dos de las vistas que tenga mayores posibilidades de correponder a la proyección en esas dos vistas de uno de los marcadores en el espacio.\\
+Del resultado del bloque anterior resulta necesario seleccionar aquella asociación entre puntos de dos vistas, que posea mayor probabilidad de conformar la pareja de imágenes correspondiente a la proyección de un marcador en el espacio sobre dichas vistas.\\
+%corresponder a la proyección en esas dos vistas de uno de los marcadores en el espacio.\\
 
 Del bloque anterior, se tiene entonces, por cada punto en una cámara, un conjunto de puntos en otra cámara ordenadas según su distancia a la recta epipolar correspondiente al primer punto. De ese conjunto de puntos se toma el más cercano a la recta y que a la vez sea válido. Más adelante se define cuales son los puntos válidos.\\
 
-De esta forma cada punto de una cámara es asociado, si existen puntos válidos, con otro punto en otra de las cámaras. Luego para evaluar cuales de estos pares de puntos tienen mayores posibilidades de corresponder a la proyección de un punto 3D, se proyectan sus rectas 3D, ver figura \ref{fig: geometria_epipolar}. En este caso se tiene asociados los puntos $x$ y $x'$ que posiblemente puedan corresponder con un punto $X$. En un caso ideal las rectas de proyección se intersectarían en $X$, en el caso real la distancia entre dichas rectas sería próxima a cero. Por lo tanto para cada par de puntos asociados $x \leftrightarrow x'$ en dos cámaras se evalúa la distancia de sus rectas de proyección.\\
+De esta forma cada punto de una cámara es asociado, si existen puntos válidos, con otro punto en otra de las cámaras. Luego para evaluar cuales de estos pares de puntos tienen mayores posibilidades de corresponder a la proyección de un punto 3D, se proyectan sus rectas 3D, ver figura \ref{fig: geometria_epipolar}. En este caso se tiene asociados los puntos $x$ y $x'$ que posiblemente puedan corresponder con un punto $X$. En un caso ideal las rectas de proyección se interceptarían en $X$, en el caso real la distancia entre dichas rectas sería próxima a cero. Por lo tanto para cada par de puntos asociados $x \leftrightarrow x'$ en dos cámaras se evalúa la distancia de sus rectas de proyección.\\
 
 De todas las asociaciones en las distintas cámaras se selecciona aquella cuyas rectas de proyección tengan la menor distancia entre sí.
 
@@ -163,11 +164,11 @@ En lugar de llevar en cada iteración la información 3D a cada cámara, se proc
 \centering
 \captionsetup{justification=centering,margin=2.8cm}
 \includegraphics[scale=0.7]{img/Reconstruccion/validacion.pdf}
-\caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3. \\ ~~El punto $x_3$ de la cámara 3 valida la reconstrucción.}
+\caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3. \\ ~~El punto $x_3$ de la cámara 3 valida la reconstrucción, no así el punto $\tilde{x}_3$.}
 \label{img_reconstruccion_validacion}
 \end{figure}
 
-El algoritmo implementado asume que un punto en una cámara valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Notar que la elección anterior de $x_1$ sobre $x_2$ es indiferente para nuestros propósitos. Si bien este criterio difiere del postulado original, en cierta manera se considera más robusto, pues en el postulado original basta con que dos puntos en una retina se encuentran lo suficientemente cerca para obtener una validación, pero esto no implica necesariamente que provengan de puntos 3D cercanos, sin embargo bajo el nuevo criterio si dos puntos 3D se encuentran cerca, entonces es válido afirmar que sus proyecciones sobre las distintas retinas también deben estarlo. Otra ventaja es que los umbrales bajo los cuales se considera que dos puntos están "cerca'' difieren en cada una de las cámaras debido al distinto mapeo de distancias, sin embargo en el espacio 3D manejar un único umbral resulta suficiente.       
+El algoritmo implementado asume que un punto en una cámara valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Notar que la elección anterior de $x_1$ sobre $x_2$ es indiferente para nuestros propósitos. Si bien este criterio difiere del postulado original, en cierta manera se considera más robusto, pues en el postulado original basta con que dos puntos en una retina se encuentren lo suficientemente cerca para obtener una validación, pero esto no implica necesariamente que provengan de puntos 3D cercanos, sin embargo bajo el nuevo criterio si dos puntos 3D se encuentran cerca, entonces es válido afirmar que sus proyecciones sobre las distintas retinas también deben estarlo. Otra ventaja es que los umbrales bajo los cuales se considera que dos puntos están ``cerca'' difieren en cada una de las cámaras debido al distinto mapeo de distancias, sin embargo en el espacio 3D manejar un único umbral resulta suficiente.       
 
 \subsubsection{Actualizar asociaciones}
 
