@@ -1,7 +1,7 @@
 \section{Revisión bibliográfica}
 \label{invBiblio}
 
-Como se mencionó en la introducción, la primer etapa a realizarse en el proyecto fue una revisión bibliográfica sobre los sistemas de captura de movimiento. Con esta primera investigación se logró obtener una idea de los diferentes procesos que componen un sistema de captura de movimiento. Estos son:
+Como se menciona en la introducción, la primer etapa realizada en el proyecto fue la revisión bibliográfica de sistemas de captura de movimiento. Esta primera etapa permite obtener una idea de los distintos procesos que conforman un sistema de captura de movimiento. Estos son:
 
 \begin{itemize}
 	\item Calibración.
@@ -11,12 +11,11 @@ Como se mencionó en la introducción, la primer etapa a realizarse en el proyec
 	\item Estimación de pose (Reconstrucción).
 \end{itemize}
 
-Dado que no se encontraron diseños de sistemas completos que verifiquen las hipótesis de este proyecto, o que puedan utilizarse como base para realizarlo, se decidió implementar uno. A partir de esto se realizó una búsqueda bibliográfica detallada, asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. Esta etapa del proyecto, por momentos tomó un carácter más apropiado para una investigación científica que para un proyecto ingenieril. 
+Al no encontrar detalles sobre el diseño de sistemas que verifiquen las hipótesis de este proyecto, o que puedan reutilizarse como base, se decide implementar uno de manera integra, realizando una búsqueda bibliográfica detallada y asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. Esta etapa del proyecto, por momentos tomó carácter de investigación científica más que de proyecto ingenieril. 
+En el apéndice I (capítulo \ref{tablabiblio}), se muestra una tabla con toda la bibliografía relevante, ordenada según las categorías antes mencionadas.
 
-En el apéndice I (capítulo \ref{tablabiblio}), se muestra una tabla con la clasificación realizada.
 
-
-En total se clasificaron 18 documentos, dentro de los que se encuentran artículos, papers, y publicaciones en general. Entre ellos, se pueden destacar en cada grupo de la clasificación:
+En total se clasificaron 18 documentos, dentro de los cuales se encuentran artículos, papers, y publicaciones en general. Los más destacados dentro de cada grupo son:
 
 \begin{itemize}
 	\item Calibración.
@@ -57,4 +56,4 @@ Se puede ver, que en varios casos un mismo artículo contiene información de va
 
 A partir de esta etapa se definieron ciertos aspectos de vital importancia para el proyecto, en particular, se pudo seleccionar para el bloque de detección de marcadores el método de segmentación por umbral dinámico de Otsu\cite{otsu}. Este método fue elegido por tener el mejor compromiso entre simplicidad y eficacia.
 
-Para los bloques de seguimiento y estimación de pose de se decidió implementar el sistema propuesto por Lorna Herda en sus tesis de doctorado\cite{herda}. Se decidió por esta metodología por ser aquella que presenta todo lo necesario para un sistema de captura de movimiento de forma más compacta, con mayor cantidad de menciones y amplia documentación (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por este equipo de proyecto (uso en fisioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos.
+En los bloques de seguimiento y estimación de pose se decide basar el desarrollo en las ideas del sistema propuesto por Lorna Herda en sus tesis de doctorado\cite{herda}. Dicha elección se debe a que el estudio de Herda contiene las ideas principales para implementar un sistema de captura de movimiento de manera compacta y general, posee una gran cantidad de menciones siendo un referente en el tema y la documentación disponible es amplia (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por este equipo de proyecto (uso en fisioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos.
