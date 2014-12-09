@@ -11,9 +11,49 @@ Como se mencionó en la introducción, la primer etapa a realizarse en el proyec
 	\item Estimación de pose (Reconstrucción).
 \end{itemize}
 
-A partir de esto se realizó una búsqueda bibliográfica detallada, asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. En el apéndice I (capítulo \ref{tablabiblio}), se muestra una tabla con la clasificación realizada.
+Dado que no se encontraron diseños de sistemas completos que verifiquen las hipótesis de este proyecto, o que puedan utilizarse como base para realizarlo, se decidió implementar uno. A partir de esto se realizó una búsqueda bibliográfica detallada, asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. Esta etapa del proyecto, por momentos tomó un carácter más apropiado para una investigación científica que para un proyecto ingenieril. 
 
-En total se clasificaron 18 documentos, dentro de los que se encuentran artículos, papers, y publicaciones en general. 
+En el apéndice I (capítulo \ref{tablabiblio}), se muestra una tabla con la clasificación realizada.
+
+
+En total se clasificaron 18 documentos, dentro de los que se encuentran artículos, papers, y publicaciones en general. Entre ellos, se pueden destacar en cada grupo de la clasificación:
+
+\begin{itemize}
+	\item Calibración.
+	\begin{itemize}
+		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and Realtime Data Processing}.
+	\end{itemize}
+	\item Detección de marcadores (Segmentación).
+	\begin{itemize}
+		\item \emph{Simple and robust hard cut detection using interframe differences}. En esta investigación se propone un posible algoritmo de segmentación para utilizar en la etapa de detección de marcadores, utilizando un método de detección de bordes. Por motivos que se verán más adelante, estos tipos de algoritmos se descataron para utilizar en segmentación (\textit{ver sección \ref{deteccionMarcadoresSec}}).
+		\item \emph{Threshold survey}\cite{surveyThreshold}. Se listan 40 algoritmos de segmentación mediante métodos de umbral. Se evalúan los mismos y se muestran ventajas y desventajas de cada uno. Entre ellos se encuentra el método de umbral de Otsu\cite{otsu}, el cual fue el elegido para implementar en este sistema (\textit{ver sección \ref{deteccionMarcadoresSec}}).
+	\end{itemize}
+	\item Seguimiento.
+	\begin{itemize}
+		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion}\cite{herda}.
+		\item \emph{Simple and robust hard cut detection using interframe differences}.
+		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views}.
+		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data}.
+		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing}.
+		\item \emph{Resolving Motion Correspondence for Densely Moving Points}.
+	\end{itemize}
+	\item Estimación de pose (Reconstrucción).
+	\begin{itemize}
+		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion}\cite{herda}.
+		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views}.
+		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data}.
+		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing}.
+		\item \emph{What can two images tell us about a third one?}.
+	\end{itemize}
+	\item Sistemas completos
+	\begin{itemize}
+		\item \emph{Detección, rastreo y reconstrucción tridimensional de marcadores pasivos para análisis de movimiento humano}.
+		\item \emph{Marker Detection and trayectory generation algorithms for a multicamera based gait analysis system}.
+		\item \emph{Analisis de video para estimacion del movimiento humano}.
+	\end{itemize}
+\end{itemize}
+
+Se puede ver, que en varios casos un mismo artículo contiene información de valor sobre varias etapas del sistema. Además se encontraron algunos documentos con diseños de sistemas completos.
 
 A partir de esta etapa se definieron ciertos aspectos de vital importancia para el proyecto, en particular, se pudo seleccionar para el bloque de detección de marcadores el método de segmentación por umbral dinámico de Otsu\cite{otsu}. Este método fue elegido por tener el mejor compromiso entre simplicidad y eficacia.
 
