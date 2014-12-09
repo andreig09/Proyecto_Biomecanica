@@ -3,7 +3,7 @@
 % requerimientos,Hacer como una sinopsis.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-En este documento se describen las tareas realizadas en el marco del proyecto de fin de carrera ``Análisis de Video en Biomecánica'' realizado en la Facultad de Ingeniería, Udelar. En este capítulo, se tiene una introducción con la problemática encontrada, en función de esta se plantea el objetivo para el proyecto y se realiza 
+Este documento presenta las tareas realizadas en el marco del proyecto de fin de carrera ``Análisis de Video en Biomecánica'' realizado en la Facultad de Ingeniería, Udelar. En este capítulo, se presenta una introducción con la problemática encontrada, en función de la cual se plantea el objetivo para el proyecto y luego presentar 
 una breve descripción de las soluciones actualmente disponibles.
 \vspace{5 mm}
 
@@ -26,14 +26,14 @@ Los ejemplos mencionados anteriormente definen distintos casos de uso con caract
 
 Al  día  de  hoy,  las  soluciones  de  software  disponibles que  podrían  asistir al especialista en su tarea, son mayormente comerciales. Las pocas alternativas de código abierto, carecen de las características necesarias para el especialista o están enfocadas hacia otras áreas de aplicación. Contar con este tipo de herramientas es fundamental para las necesidades de los equipos de profesionales, cuya alternativa son productos comerciales de alto costo.
 
-En virtud de estas necesidades este proyecto busca \emph{relevar y caracterizar los distintos casos de uso para un sistema de captura de movimiento,  seleccionar uno que sea representativo y suficientemente general para poder realizar una aplicación básica y funcional de código abierto de análisis de video, que de solución a las necesidades que se describieron ya sea utilizando como base algún  proyecto  de  software  libre  existente,  o en su defecto, desarrollando un prototipo de software básico en su totalidad que abarque el problema en forma general, para luego estudiar extender la aplicación hacia otros casos de uso}.
+En virtud de estas necesidades este proyecto busca \emph{relevar y caracterizar los distintos casos de uso para un sistema de captura de movimiento,  seleccionar uno que sea representativo y suficientemente general para poder realizar una aplicación básica y funcional de código abierto de análisis de video, que proporcione solución a las necesidades que se describieron ya sea utilizando como base algún  proyecto  de  software  libre  existente,  o en su defecto, desarrollando un prototipo de software básico completo que abarque el problema en forma general, para luego estudiar extender la aplicación hacia otros casos de uso}.
 
 Es importante resaltar la importancia de \textbf{tener una primer versión del sistema de principio a fin}, con todas las etapas implementadas de forma tal de abarcar todos los procesos que la captura de movimiento implica.  Esto tiene como ventaja que se tendrá un panorama general del estado del arte de cada etapa del sistema, y 
 sentará las bases para que proyectos futuros puedan optimizar individualmente dichas etapas acorde a las necesidades del cliente.
 
-Los requerimientos para la implementación de este sistema provienen de Patricia Polero, investigadora del Departamento de Biofísica de la facultad de medicina de la Udelar, esto implica que estaremos enfocados en el área asistencial, particularmente en el estudio del movimiento de las personas.
+Los requerimientos para la implementación de este sistema provienen de Patricia Polero, investigadora del Departamento de Biofísica de la facultad de medicina de la Udelar, lo que implica que el proyecto se enfoca hacia el área asistencial, particularmente el estudio del movimiento de las personas.
 
-De acuerdo a lo planteado por el cliente y a las hipótesis que se establecieron en conjunto, se pueden realizar los siguientes supuestos relativos a la apariencia del laboratorio:
+De acuerdo a lo planteado por el cliente y a las hipótesis que se establecieron en conjunto, se plantean los siguientes supuestos relativos a la apariencia del laboratorio:
 \begin{itemize}
 \item Las capturas de movimiento del paciente se realizan en un ambiente controlado:\vspace{-0.2cm}
 	\begin{itemize}
@@ -49,13 +49,13 @@ De acuerdo a lo planteado por el cliente y a las hipótesis que se establecieron
 En cuanto al movimiento se asume que:
 \begin{itemize}
 \item El paciente permanece dentro del área de captura.\vspace{-0.1cm}
-\item Existe oclusión de marcadores.\vspace{-0.1cm}
-\item Las cámaras se mantiene fijas.
+\item Existe oclusión de marcadores en vistas dadas.\vspace{-0.1cm}
+\item Las cámaras se mantienen fijas.
 \end{itemize}
 
-Por otro lado, se requiere que la salida del sistema sea la posición en el espacio 3D de los marcadores, ubicados en el cuerpo del paciente, en cada instante de la captura, así como la correcta identificación de dichos marcadores en cada cuadro. A estos requerimientos, se le suman otros de carácter académico, como la importancia de tener una base de datos con un cierto número de secuencias y una método de evaluación de performance establecido. Estos dos aspectos toman gran relevancia en etapas futuras, de ampliación de este proyecto, ya que al realizar pruebas  de nuevas implementaciones sobre los mismos datos y evaluar los resultados con iguales métricas, se tiene un punto de referencia sobre el cual evaluar posibles mejoras del sistema.
+Por otro lado, se requiere que la salida del sistema sea la posición en el espacio 3D de los marcadores, ubicados en el cuerpo del paciente, en cada instante de la captura, con la correcta identificación de dichos marcadores en cada cuadro. A estos requerimientos, se le suman otros de carácter académico, como la importancia de tener una base de datos con un cierto número de secuencias y una método de evaluación de performance establecido. Estos dos aspectos toman gran relevancia en etapas futuras, de ampliación de este proyecto, ya que al realizar pruebas  de nuevas implementaciones sobre los mismos datos y evaluar los resultados con iguales métricas, se tiene un punto de referencia sobre el cual evaluar posibles mejoras del sistema.
 
-En resumen, el sistema creado pretende bajo ciertas condiciones controladas, obtener las coordenadas espaciales de un número de puntos de interés sobre una paciente. Una de las formas de realizar esto es colocando a la persona un traje negro con marcadores, en un ambiente con iluminación adecuada, se le filma con varias cámaras a lo largo del tiempo, se adquiere esta información en la computadora y mediante un posterior procesamiento se obtiene la posición 3D de cada uno de los puntos de interés (los marcadores) a lo largo de toda la secuencia.
+En resumen, el sistema creado pretende bajo ciertas condiciones controladas, obtener las coordenadas espaciales de un número de puntos de interés sobre una paciente. Una de las formas de obtener esto y la estudiada en este trabajo, es colocar al sujeto con traje negro con marcadores, en un ambiente con iluminación adecuada, filmar con varias cámaras a lo largo del tiempo, se adquiere esta información en la computadora y mediante un posterior procesamiento se obtiene la posición 3D de cada uno de los puntos de interés (los marcadores) a lo largo de toda la secuencia.
 
 \begin{figure}[H]
 \begin{center}
@@ -65,7 +65,7 @@ En resumen, el sistema creado pretende bajo ciertas condiciones controladas, obt
 \label{abuela2}
 \end{figure}
 
-La aplicación recibe como entrada imágenes de video provenientes de varias cámaras, las cuales capturan el movimiento de una persona desde distintos ángulos. Se implementan métodos que permiten obtener la calibración de las cámaras. Con esta información y a partir de las imágenes obtenidas se detectan distintos puntos de referencia del cuerpo según el estudio particular que se desee realizar. Posteriormente, a partir de la información de las múltiples cámaras se reconstruye la posición 3D de los puntos en cada cuadro, para luego efectuar la identificación de trayectorias de los puntos de interés a lo largo de la secuencia. A partir del procesamiento de la posición 3D de los puntos se obtendrán otros datos estadísticos de interés para el usuario.
+La aplicación recibe como entrada imágenes de video provenientes de varias cámaras, las cuales capturan el movimiento de una persona desde distintos ángulos. Se implementan métodos que permiten obtener información sobre las cámaras y su disposición en el espacio mediante la calibración. Con esta información y a partir de las imágenes obtenidas se detectan distintos puntos de referencia del cuerpo según el estudio particular que se desee realizar. Posteriormente, a partir de la información de las múltiples cámaras se reconstruye la posición 3D de los puntos en cada cuadro, para luego efectuar la identificación de trayectorias de los puntos de interés a lo largo de la secuencia. A partir del procesamiento de la posición 3D de los puntos se obtendrán otros datos estadísticos de interés para el usuario.
 
 \begin{figure}[H]
 \begin{center}
@@ -78,13 +78,13 @@ La aplicación recibe como entrada imágenes de video provenientes de varias cá
 \vspace{5 mm}
 
 %SINOPSIS
-El proyecto se inicia con una profunda investigación y revisión bibliográfica. Se buscaron diseños provenientes de sistemas de captura de movimiento ya implementados, así como  detalles sobre la implementación parcial o total de cada funcionalidad de interés. 
+El proyecto se inicia con investigación y revisión bibliográfica sobre la temática, buscando diseños provenientes de sistemas de captura de movimiento ya implementados, así como  detalles sobre la implementación parcial o total de cada funcionalidad de interés. 
 
-Rápidamente se procuró obtener una base de datos con secuencias, ya sean reales o sintéticas, para el desarrollo de la implementación. Si bien esta búsqueda no aportó los resultados esperados
+Rápidamente se procuró obtener una base de datos con secuencias, ya sean reales o sintéticas, sobre los cuales implementar la aplicación y sus distintos bloques. Si bien esta búsqueda no aportó los resultados esperados
 %no obtuvo buenos resultados %ME QUERES MATAR ANDREI!!!!
-, ya que no se encontraron bases de datos acorde a las necesidades del proyecto, se implementa un prototipo de base de datos sintética con un número reducido de secuencias como alternativa, finalmente se concluye que dicha base es flexible, con gran potencial y fácilmente expansible.
+, debido no se encontraron bases de datos acorde a las necesidades del proyecto, se implementa un prototipo de base de datos sintética con un número reducido de secuencias como alternativa tomando algunos conceptos de los que se encontraron al relevar, generando una base es flexible, con potencial para futuros estudios y fácilmente expansible.
 
- Luego se definió la metodología a implementar y tras un análisis de la bibliografía consultada, se optó por implementar el sistema integrando 4 bloques principales mostrados en la figura \ref{bloquesSistintro}. 
+ Luego de análisis sobre la bibliografía consultada y definir la metodología, se optó por implementar el sistema integrando 4 bloques principales mostrados en la figura \ref{bloquesSistintro}. 
 
  \begin{figure}[H]
 \begin{center}
@@ -94,16 +94,16 @@ Rápidamente se procuró obtener una base de datos con secuencias, ya sean reale
 \label{bloquesSistintro}
 \end{figure}
 
-Cada uno de estos bloques realiza una actividad bien definida:
+Cada uno de estos bloques cumple un objetivo definido:
 \begin{itemize}
-\item El bloque de \emph{calibración}, es el encargado de obtener los parámetros internos y externos de las múltiples cámaras utilizadas en la captura, permitiendo establecer la relación entre el espacio ambiente y la imagen sobre cada cámara. Esto último entre otras cosas permite realizar una correcta reconstrucción de los puntos.
-\item El bloque \emph{detección de marcadores}, es el encargado de identificar cada marcador en las imágenes obteniendo la posición 2D de cada uno de ellos a lo largo de la secuencia de captura en cada cámara (ver figura \ref{peladocirculosintrointro}).
-\item Con información de posición 2D de los marcadores, proveniente de múltiples vistas, el bloque de \emph{reconstrucción} (ver figura \ref{peladoewconstruidointro}) se encarga de obtener la posición 3D de cada marcador.
+\item El bloque de \emph{calibración}, es el encargado de obtener los parámetros internos y externos de las múltiples cámaras utilizadas en la captura, permitiendo establecer la relación entre el espacio ambiente y la imagen sobre cada cámara. Esto bloque releva información previa necesaria para realizar una correcta reconstrucción de los puntos.
+\item El bloque \emph{detección de marcadores}, identifica los marcadores en las imágenes obteniendo la posición 2D de cada uno de ellos a lo largo de la secuencia de captura en cada cámara (ver figura \ref{peladocirculosintrointro}).
+\item Con información de posición 2D de los marcadores proveniente de múltiples vistas de la segmentación, y los parámetros relevados en calibración, el bloque de \emph{reconstrucción} (ver figura \ref{peladoewconstruidointro}) se encarga de obtener la posición 3D de cada marcador.
 \item Por último, el bloque de \emph{seguimiento} (ver figura \ref{peladoetrackingintro})
-relaciona cada marcador en determinado cuadro de la secuencia con su correspondiente en el resto de los cuadros, obteniendo así la trayectoria de cada marcador a lo largo del tiempo.
+(o \"tracking\") relaciona cada marcador en determinado cuadro de la secuencia con los que le siguen en el resto de los cuadros, obteniendo así la trayectoria de cada marcador a lo largo del tiempo.
 \end{itemize}
 
-Cabe destacar que estos bloques se implementaron de manera independiente, lo cual permite realizar modificaciones sobre uno de ellos sin afectar el funcionamiento de los otros. Este aspecto cobra relevancia en etapas futuras, donde bajo la necesidad de optimizar algún bloque en particular o agregar alguna nueva característica que permita procesar datos provenientes de nuevos casos de uso, se deba modificar el sistema. De no presentar esta particularidad, la modificación de un bloque podría afectar negativamente el funcionamiento del sistema completo, requiriendo una posible re-ingeniería de la estructura llegado el momento.
+Cabe destacar que estos bloques se implementaron de manera independiente, para poder realizar modificaciones sobre uno de ellos sin afectar el funcionamiento de los otros. Este aspecto cobra relevancia en etapas futuras, donde bajo la necesidad de optimizar algún bloque en particular o agregar alguna nueva característica que permita procesar datos provenientes de nuevos casos de uso, se deba modificar el sistema. De no presentar esta particularidad, la modificación de un bloque podría afectar negativamente el funcionamiento del sistema completo, requiriendo una posible re-ingeniería de la estructura.
 
 \begin{figure}[H]
         \centering
@@ -117,18 +117,18 @@ Cabe destacar que estos bloques se implementaron de manera independiente, lo cua
       \label{ejemplotutiintro}
 \end{figure}
 
-Por otro lado, se elaboró una interfaz gráfica de usuario básica de forma tal de facilitar la ejecución del software para sus usuarios.
+Por otro lado, fue elaborada una interfaz gráfica básica de forma tal de facilitar la ejecución del software para los usuarios sin tener que trabajar directamente con el código.
 
-A continuación se presenta una breve revisión del estado del arte de los sistemas de captura de movimiento disponibles. Una descripción más detallada y más técnica se realizará en la sección \ref{invBiblio}. A continuación la documentación continúa con la descripción de la base de datos generada y la justificación e implementación de cada bloque del sistema mencionado anteriormente. Finalmente se realiza un análisis de los resultados obtenidos y se muestra la performance del sistema en general.
+A continuación se presenta una breve revisión del estado del arte de los sistemas de captura de movimiento disponibles. Una descripción más detallada y más técnica se realizará en la sección \ref{invBiblio}. La documentación del proyecto continuará con la descripción de la base de datos generada y la implementación de cada bloque del sistema mencionado anteriormente. Finalmente se realiza un análisis de los resultados obtenidos en cada sección y la performance del sistema global desde la captura de video, hasta las trayectorias 3D.
 
 \subsection{Estado del arte}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 %qué opciones tengo para hacerlo? por qué hay estas opciones? para qué se usan?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Al día de hoy existen varios sistemas de captura de movimiento, desafortunadamente los mejores son sistemas bajo costo de licenciamiento. 
+Al día de hoy existen varios sistemas de captura de movimiento, sin embargo los mas usados debido a su buena performance y soporte presentan costos de licenciamiento. 
 
-Como se mencionó anteriormente, los más populares actualmente son los que se utilizan en la industria del cine o del diseño de videojuegos. En este contexto, se almacenan las acciones de actores humanos y se usa esta información para animar modelos digitales de personajes en animación 3D.
+Como se mencionó anteriormente, los más populares en la actualidad son los que se utilizan en la industria del cine o del diseño de videojuegos. En este contexto, se almacenan las acciones de actores humanos y se usa esta información para animar modelos digitales de personajes en animación 3D.
 
 Algunos ejemplos de sistemas de captura de movimiento bajo licencia son:
 
@@ -141,11 +141,15 @@ Algunos ejemplos de sistemas de captura de movimiento bajo licencia son:
 \item \emph{PhaseSpace}\footnote{ \textcolor{blue}{\underline{\url{http://www.phasespace.com/}}}. Accedido 9-12-14}.
 \end{itemize}
 
-Los sistemas anteriores, y la mayoría de los sistemas modernos que efectúan capturas de movimiento, utilizan sensores infrarrojos o leds para efectuar el seguimiento de puntos. Esto último facilita de gran forma la etapa de detección de marcadores en cada cámara, mientras que para el caso de los sensores infrarrojos no se tiene una etapa de detección ya que los mismos ofrecen la información de posición directamente.
+Los sistemas anteriores, y la mayoría de los sistemas modernos que efectúan capturas de movimiento, utilizan sensores infrarrojos o LEDs para efectuar el seguimiento de puntos. Los segundos facilitan la etapa de detección de marcadores en cada cámara, mientras que los primeros no tienen una etapa de detección en cada vista ni reconstrucción ya que los mismos ofrecen la información de posición directamente.
 
-Como se menciona anteriormente la gran desventaja de los sistemas anteriores es su alto costo. A modo de ejemplo, un sistema Vicon de 10 cámaras tiene un valor que ronda los U\$S\;70.000 \footnote{Este precio depende fuertemente del tipo de cámara que se utilice, los precios de las mismas se encuentran a partir de los U\$S\;3.000 por unidad.}.
+La gran desventaja de los sistemas anteriores es su alto costo. A modo de ejemplo, un sistema Vicon de 10 cámaras tiene un valor que ronda los U\$S\;70.000 \footnote{Este precio depende fuertemente del tipo de cámara que se utilice, los precios de las mismas se encuentran a partir de los U\$S\;3.000 por unidad.}.
+
+Otra alternativa sobre la que se investigó inicialmente es DVIDEOW \cite{figueroa2003flexible}, que presenta varios conceptos teoricos como primer acercamiento al problema, pero la implementación presentaba perdidas de marcadores que requerian correcciones constantes , y salvo los trabajos que presentaban los fundamentos teoricos, la la aplicacion misma no está disponible desde el 2009.
 
 Por otro lado, también existen programas de captura de movimiento de código libre, un ejemplo de ello es el programa Kinovea
 \footnote{ \textcolor{blue}{\underline{\url{http://www.kinovea.org/}}}. Accedido 9-12-14}. Enfocado principalmente en el ámbito deportivo, permite analizar y mejorar la técnica de los atletas a través del procesamiento de secuencias de video. Posee algunas características interesantes como la posibilidad de efectuar medición de distancias, ángulos y tiempos manualmente, así como la utilización de seguimiento semi-automático de puntos en tiempo real para obtener su trayectoria. La gran desventaja que presenta frente a otros sistemas es que efectúa únicamente análisis sobre dos dimensiones.
+
+Es por esto que este proyecto estudia el problema de captura de movimiento y sus distintas componentes, para desarrollar un conjunto de datos y presentar nuestro estudio sobre captura de movimiento.  
 
 %Dada las características de este proyecto otro antecedente relevante a tener en cuenta en el área, es el de un grupo de investigadores del Hospital de Clínicas que junto al grupo de Tratamiento de Imágenes de la Facultad de Ingeniería han estudiado previamente la marcha de las personas a los efectos de reconocer en ellas patrones de movimiento. Dicho proyecto recibe el nombre “Cíclope”.

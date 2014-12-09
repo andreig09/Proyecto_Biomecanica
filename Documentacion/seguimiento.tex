@@ -47,7 +47,7 @@ Uno de los algoritmos mas simples \cite{survey_tracking}, es continuar una secue
 \label{greedy_matching}
 \end{figure}.
 
-Para el caso de algoritmos de predicción, algunas soluciones implementadas para el tracking de marcadores son el filtro de Kalman \cite{kalman}, y sus variantes los cuales requieren inicializar y ajustar parámetros internos. Estos fueron implementados en las primeras instancias del estudio del problema, pero se decidió implementar otro procedimiento que sepa corregir los errores del método mas simple, no requerir estudio de parámetros internos para el filtrado, e ingrese alguna restricción a las trayectorias enlazadas.
+Para el caso de algoritmos de predicción, algunas soluciones implementadas para el tracking de marcadores en desarrollos similares como el DVIDEOW \cite{figueroa2003flexible} son el filtro de Kalman \cite{kalman}, y sus variantes los cuales requieren inicializar y ajustar parámetros internos. Estos fueron implementados en las primeras instancias del estudio del problema, pero se decidió implementar otro procedimiento que sepa corregir los errores del método mas simple, no requerir estudio de parámetros internos para el filtrado, e ingrese alguna restricción a las trayectorias enlazadas.
 
 El procedimiento elegido es el presentado por Lorna Herda\cite{herda} , y consiste en aplicar el tracking de partículas esbozado por Malik,Dracos,Papantoniou \cite{griegos} al seguimiento de marcadores. Este consiste en buscar el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
 
