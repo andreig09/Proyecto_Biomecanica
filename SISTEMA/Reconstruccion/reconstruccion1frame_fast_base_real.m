@@ -3,8 +3,9 @@
 
 
 
-function Xrec = reconstruccion1frame_fast_dist4(cam, v_cams, P, inv_P, foco, frame, umbral, tot_markers, umbral_dist)
+function Xrec = reconstruccion1frame_fast_dist4(cam, v_cams, P, inv_P, foco, frame, umbral, tot_markers)
 
+umbral_dist = inf;
 
 
 n_cams = length(v_cams);    %num de cámaras
