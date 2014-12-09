@@ -1,2 +1,20 @@
 \section{Revisión bibliográfica}
 \label{invBiblio}
+
+Como se mencionó en la introducción, la primer etapa a realizarse en el proyecto fue una revisión bibliográfica sobre los sistemas de captura de movimiento. Con esta primera investigación se logró obtener una idea de los diferentes procesos que componen un sistema de captura de movimiento. Estos son:
+
+\begin{itemize}
+	\item Calibración.
+	\item Adquisición.
+	\item Detección de marcadores (Segmentación).
+	\item Seguimiento.
+	\item Estimación de pose (Reconstrucción).
+\end{itemize}
+
+A partir de esto se realizó una búsqueda bibliográfica detallada, asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. En el apéndice I (capítulo \ref{tablabiblio}), se muestra una tabla con la clasificación realizada.
+
+En total se clasificaron 18 documentos, dentro de los que se encuentran artículos, papers, y publicaciones en general. 
+
+A partir de esta etapa se definieron ciertos aspectos de vital importancia para el proyecto, en particular, se pudo seleccionar para el bloque de detección de marcadores el método de segmentación por umbral dinámico de Otsu\cite{otsu}. Este método fue elegido por tener el mejor compromiso entre simplicidad y eficacia.
+
+Para los bloques de seguimiento y estimación de pose de se decidió implementar el sistema propuesto por Lorna Herda en sus tesis de doctorado\cite{herda}. Se decidió por esta metodología por ser aquella que presenta todo lo necesario para un sistema de captura de movimiento de forma más compacta, con mayor cantidad de menciones y amplia documentación (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por este equipo de proyecto (uso en fisioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos.
