@@ -10,7 +10,7 @@ Se propone una estructura de datos para almacenar la información relevante del 
 
 
 blablablabl
-Un ambiente controlado con cámaras ajustadas convenientemente provee un escenario ideal para obtener información óptica de los marcadores. El sujeto es condicionado a moverse sobre un espacio de captura determinado con una vestimenta particular; la elección adecuada de estos parámetros junto con las condiciones de iluminación y el tipo de fondo facilitan la recolección de información, el posterior análisis y sobre todo la performance del sistema completo.
+Un ambiente controlado con cámaras ajustadas convenientemente provee un escenario ideal para obtener información óptica de los marcadores. El sujeto es condicionado a moverse sobre un espacio de captura determinado con una vestimenta particular; la elección adecuada de estos parámetros junto con las condiciones de iluminación y el tipo de fondo facilitan la recolección de información, el posterior análisis y sobre todo aumentan la performance del sistema completo.
 \\COMBINAR LO ANTERIOR CON ESTO
 Necesitamos una base de datos para implementar, testear y comparar los distintos tipos de algoritmos desarrollados. Por lo tanto es de interés primario relevar las bases de datos existentes o en su defecto realizar una.\\
 Para ello en primera instancia se buscaron bases de datos en la web. La búsqueda se centro en encontrar secuencias de video de personas caminando donde, dada las características de nuestro proyecto, las mismas deben poseer marcadores claramente distinguibles. Las secuencias deben ser tomadas con varias cámaras ubicadas alrededor del sujeto y para obtener información 3D como mínimo la cantidad de cámaras deben ser dos. Además se debe tener el ground truth con la posición espacial de dichos marcadores para testear y comparar los distintos algoritmos de seguimiento aplicados sobre dichas secuencias
@@ -139,12 +139,11 @@ El objetivo de esta base de datos es reconocer el movimiento del cuerpo al reali
 
 
 
-\subsubsection{Contactos realizados y resultados} SECCION EN CONSTRUCCION\\
+\subsubsection{Contactos realizados y resultados} 
+En el ámbito local hemos estado en contacto con la magister Patricia Polero, quien nos ha brindado su experiencia previa en el tema de capturas ópticas de movimiento basadas en marcadores así como ayudado a definir los requerimientos mínimos del sistema a implementar  en las etapas iniciales. También se han generado reuniones con Darío Santos, Fisioterapeuta en el Hospital de Clínicas, quien actualmente ¿dirije? un laboratorio que posee un sistema de captura de movimiento basado XXXX el cual han adquirido recientemente. Si bien dicho sistema pudo haber sido primordial para generar una base de datos con secuencias reales, no se pudo coordinar debidamente su uso. De todas maneras en estas reuniones, se obtiene un reducido número de secuencias relativamente útiles. Cabe destacar que las mismas no poseen la calidad deseada, por pertenecer a versiones previas del laboratorio cuando aún no disponían del sistema actual, así como tampoco cumplen la totalidad de supuestos sobre las condiciones de captura planteados al inicio del proyecto. 
 
-En el ámbito local hemos estado en contacto con magister Patricia Polero y xxxxx del hospital de clínicas, quienes actualmente poseen un sistema de captura de movimiento basado eb xxx el cual han adquirido recientemente. Explicar porque no lo usamos!!!!
-Hablar también de la gente del clínicas y de Patricia Polero
-JUSTIFICAR LA ELECCION DE LOS PEDIDOS
-Los pedidos fueron realizados el 17 de diciembre de 2013 aproximadamente.
+
+Los pedidos se realizan a partir del 17 de diciembre de 2013 aproximadamente. En los mismos se intenta gestionar el acceso a las bases de datos de acceso restringido, que entendimos poseen características útiles en el desarrollo de nuestro sistema. En la tabla \ref{tabla_solicitudes} se muestran los contactos realizados y los resultados obtenidos.
 
 
 \begin{table}[h]
@@ -163,7 +162,7 @@ Los pedidos fueron realizados el 17 de diciembre de 2013 aproximadamente.
 	\bottomrule
 	\end{tabular}
 	\caption{Solicitudes de acceso gestionadas.}
-	\label{solicitudes}	
+	\label{tabla_solicitudes}	
 \end{table}
 
 
@@ -355,7 +354,7 @@ La mayoría de los formatos mostrados son soportados por Blender, sin embargo da
 El formato BVH proviene del formato BVA de BioVision con la notable adición de una estructura de datos jerárquica que representa los huesos\footnote{Entidad básica en la representación del esqueleto. Cada hueso representa el segmento más pequeña dentro del movimiento sujeto a cambios de traslación y rotación. } del esqueleto\footnote{Entidad global que representa el movimiento. Un esqueleto está formado por huesos.}. Se compone de dos partes, la primera sección detalla la jerarquía y la pose inicial del esqueleto y la segunda sección el movimiento del mismo, describiendo la información temporal del esqueleto cuadro a cuadro.
  
  
-\begin{figure}[H]
+\begin{figure}[!ht]
   \centering 
    \subfloat[Esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Estructura_esqueleto1.pdf}\label{img_Esqueleto_1}}
    \subfloat[Estructura jerárquica]{\includegraphics[scale=0.4]{img/Base_Datos/Estructura_bvh.png}\label{img_estructura_bvh}}\hspace{0.1cm}   
@@ -603,6 +602,4 @@ Dado que Blender se encuentra implementado sobre Python, se ha creado un script 
 \subsection{Conclusiones} SECCION EN CONSTRUCCION\\
 sobre todo el capitulo, resumen de conclusiones parciales
 
-\textbf{\textsf{hola}}\\
-\textsf{hola}
 
