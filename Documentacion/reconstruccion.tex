@@ -12,7 +12,7 @@ En la figura \ref{fig: esquema_reconstruccion} se muestra un ejemplo de reconstr
 \includegraphics[scale=0.20]{img/Reconstruccion/ejemplo_reconstruccion.png}
 
 \end{center}
-\caption{Reconstruccion con dos camaras}
+\caption{Reconstrucción con dos camaras}
 \label{fig: esquema_reconstruccion}
 \end{figure}
 
@@ -33,21 +33,21 @@ El proceso de reconstrucción implementado consiste en tres pasos fundamentales:
 
 \subsection{Geometría epipolar}
 
-Referencias al zisserman y al cyganek
 
-Para explicar el algoritmo de reconstrucción es necesario describir brevemente algunos conceptos fundamentales de la geometría epipolar.  Dicha geometría es la que se presenta cuando dos cámaras en distintas posiciones se encuentran capturando el mismo espacio 3D. El análisis de esta situación permite obtener relaciones entre los puntos 3D con sus correspondientes proyecciones en las cámaras, así como las relaciones entre los propios puntos proyectados en las distintas cámaras.\\
+
+Para explicar el algoritmo de reconstrucción es necesario describir brevemente algunos conceptos fundamentales de la geometría epipolar.  Dicha geometría es la que se presenta cuando dos cámaras en distintas posiciones se encuentran capturando el mismo espacio 3D. El análisis de esta situación permite obtener relaciones entre los puntos 3D con sus correspondientes proyecciones en las cámaras, así como las relaciones entre los propios puntos proyectados en las distintas cámaras\cite{cyganek}\cite{hartley}. \\
 
  Como se muestra en la figura \ref{fig: geometria_epipolar}, se tiene el caso en que dos cámaras observan un mismo punto 3D en el espacio, el punto $X$. Para esto se considera el modelo \textit{pinhole} de la cámara  descrito en la sección \ref{calibracion}. En ese caso los puntos $O_1$ y $O_2$ son los centros o focos de las cámaras.\\
  
   El punto $X$ se proyecta en dichas cámaras en los puntos $x$ y $x'$. Es decir, $x$ pertenece a la intersección de la retina de la cámara 1, con la recta $\overline{O_1X}$, análogamente el punto $x'$ pertenece a la intersección de la retina de la cámara 2 con la recta $\overline{O_2X}$. A su vez, los focos de ambas cámaras $O_1$ y $O_2$ definen una recta que corta a las retinas de las cámaras en los puntos $e$ y $e'$, llamados epipolos.\\
   
-  Si el punto $X$ varia sobre el espacio 3D, se tienen múltiples rectas que pasan por dicho punto y el foco de la cámara 1, el punto $O_1$. Dado que $O_1$ se proyecta en la cámara 2 como el punto $e'$ en el plano imagen, todas las rectas  $\overline{O_1X}$ se proyectan en dicha cámara como rectas que se intersectan en el punto $e'$, a estas rectas se le denominan rectas epipolares. Análogamente las rectas 3D $\overline{O_2X}$ se proyectan sobre la cámara 1 como rectas epipolares que se intersectan en el punto $e$. De esta manera se tiene que los puntos $X$, $O_1$ y $O_2$ forman un plano, llamado plano epipolar,  que intersecta a los planos imagen en las rectas epipolares.\\
+  Si el punto $X$ varía sobre el espacio 3D, se tienen múltiples rectas que pasan por dicho punto y el foco de la cámara 1, el punto $O_1$. Dado que $O_1$ se proyecta en la cámara 2 como el punto $e'$ en el plano imagen, todas las rectas  $\overline{O_1X}$ se proyectan en dicha cámara como rectas que se intersectan en el punto $e'$, a estas rectas se le denominan rectas epipolares. Análogamente las rectas 3D $\overline{O_2X}$ se proyectan sobre la cámara 1 como rectas epipolares que se intersectan en el punto $e$. De esta manera se tiene que los puntos $X$, $O_1$ y $O_2$ forman un plano, llamado plano epipolar,  que intersecta a los planos imagen en las rectas epipolares.\\
   
 De lo anterior se observa que si se conoce la proyección $x$ de un punto $X$ sobre una de la cámara 1, también se conoce la recta epipolar $\overline{e'x'}$ y el punto $X$ se proyecta en la cámara 2 en un punto $x'$ situado en dicha recta epipolar. Esto implica que por cada punto visto en una retina en la otra se observa como una línea.\\
  
 Si los puntos $x$ y $x'$ son conocidos, sus proyecciones son también conocidas y si estos puntos corresponden a un mismo punto 3D su lineas de proyección deben intersectarse en $X$. Por lo tanto las coordenadas del punto X pueden derivarse a partir de las coordenadas de sus puntos imagen.\\
  
-Para el caso de cámaras reales se tienen distorsiones de ruido, imperfecciones en las lentes de las cámaras, etc que producen que las proyecciones sean tal que el punto 3D, su proyección en la cámara y el foco de la misma no sean colineales debido a imperfecciones de las cámaras, la proyección real de un punto 3D va a ser aproximadamente el punto ideal de su proyección. \\
+Para el caso de cámaras reales se tienen distorsiones de ruido, imperfecciones en las lentes de las cámaras, etc. que producen que las proyecciones sean tal que el punto 3D, su proyección en la cámara y el foco de la misma no sean colineales, por lo tanto la proyección real de un punto 3D va a ser aproximadamente el punto ideal de su proyección. \\
 
 \subsubsection{Matriz Fundamental}
 
@@ -57,7 +57,7 @@ La matriz fundamental es la representación algebraica de la geometría epipolar
 (x')^T F x = 0
 \label{ec: matriz fundamental}
 \end{equation}
-siendo  $F$ la matriz fundamental y $x$, $x'$ están en coordenadas homogéneas.\\
+si  $F$ la matriz fundamental y $x$, $x'$ están en coordenadas homogéneas.\\
 
 Si se tienen, de la cámara 1, la matriz de proyección $P$ y $x$, el punto $X$ se encuentra en la recta de proyección, que puede describirse en forma parametrica:
 
@@ -81,16 +81,16 @@ F=e' \times P'P^+
 
 Si los puntos imagen se corresponden $x \leftrightarrow x'$, entonces $x'$ se encuentra en la recta epipolar $l'=Fx$ correspondiente al punto $x$, que implica que se cumpla $0=(x')^Tl'$ y por lo tanto se verifica la condición de la ecuación \ref{ec: matriz fundamental}. Como se explicó anteriormente esto se cumple en condiciones ideales pero no para cámaras reales en las que aparecen los efectos del ruido, etc. por lo tanto debe esperase que si se tiene un punto $x$ y su correspondiente $x'$, la ecuación \ref{ec: matriz fundamental} no verifique pero en cambio de un valor próximo a cero.\\
 
-Algunas propiedades básicas de esta matriz es que si $F$ es la matriz fundamental del par de cámaras con matrices de proyección ($P,P'$), entonces $F^T$ es la matriz fundamental del par de cámaras en sentido opuesto: ($P',P$). Por otra parte si se tiene el punto $x$ en la imagen de una cámara, su recta correspondiente recta epipolar en otra cámara es $l'=Fx$. Análogamente $l=F^Tx'$ representa la línea epipolar a x' en la segunda cámara.
+Algunas propiedades básicas de esta matriz son que si $F$ es la matriz fundamental del par de cámaras con matrices de proyección ($P,P'$), entonces $F^T$ es la matriz fundamental del par de cámaras en sentido opuesto: ($P',P$). Por otra parte si se tiene el punto $x$ en la imagen de una cámara, su recta epipolar correspondiente en otra cámara es $l'=Fx$. Análogamente $l=F^Tx'$ representa la línea epipolar a x' en la segunda cámara.
 
 \subsection{Algoritmo propuesto por Herda }
 
 Como se explicó anteriormente, se inicia la implementación de este bloque a partir del algoritmo propuesto por Herda \cite{herda}. Este algoritmo en algunos aspectos no es descripto con el detalle suficiente tal que pueda ser replicado fielmente. Por esta razón su implementación se ha realizado tomando algunas libertades en los casos en que su interpretación pueda ser algo ambigua.\\
 
-Por otra parte este algoritmo plantea utilizar la información del esqueleto, como por ejemplo la posición de articulaciones, distancias entre marcadores, etc.\\ (ver que el uso de información del esqueleto haya quedado bien claro en la descripción general del algoritmo).\\ Dado que este aspecto del algoritmo no fue implementado resultó necesario robustecer el proceso de reconstrucción en las partes del algoritmo donde no se utiliza esta información.\\
+Por otra parte este algoritmo plantea utilizar la información del esqueleto, como por ejemplo la posición de articulaciones, distancias entre marcadores, etc. Dado que este aspecto del algoritmo no fue implementado resultó necesario robustecer el proceso de reconstrucción en las partes del algoritmo donde no se utiliza esta información.\\
 
 
-El algoritmo implementado por Herda utiliza la triangulación estéreo para recosntruir un punto 3D a partir de los puntos 2D detectados en las distintas vistas. La correspondencia entre distintas vistas se establece mediante la matriz fundamental, cuyos conceptos fueron explicados anteriormente. Esta matriz fundamental se obtiene mediante el proceso de calibración.\\
+El algoritmo implementado por Herda utiliza la triangulación estéreo para reconstruir un punto 3D a partir de los puntos 2D detectados en las distintas vistas. La correspondencia entre distintas vistas se establece mediante la matriz fundamental, cuyos conceptos fueron explicados anteriormente. Esta matriz fundamental se obtiene mediante el proceso de calibración.\\
 
 Los pasos que sigue el algoritmo se describen a continuación:\
 
@@ -99,9 +99,9 @@ Los pasos que sigue el algoritmo se describen a continuación:\
 
 \item Las coordenadas 3D reconstruidas se reproyectan en las cámaras restantes. Los puntos 2D encontrados en esa reproyección son asociados al punto 3D. De esta forma se tiene por cada punto 3D , sus correspondientes puntos 2D asociados en las distintas vistas.\
 
-\item Se considera que un marcador 3D está correctamente reconstruido si se reproyecta en al menos una cámara. A este tipo de reconstrucción se le llama \textit{recontrucción trinocular}.\\
+\item Se considera que un marcador 3D está correctamente reconstruido si se reproyecta en al menos una cámara. A este tipo de reconstrucción se le llama \textit{reconstrucción trinocular}.\\
 
-\item Si el número de marcadores reconstruidos es inferior al número de marcadores que están colocados en la persona, entonces se realiza una segunda asociación entre dos vistas. En este caso la reconstrucción se realiza solamente con dos vistas.\\
+\item Si el número de marcadores reconstruidos es inferior al número de marcadores que están colocados en la persona, entonces se realiza una segunda asociación entre dos vistas. En este caso la reconstrucción se realiza solamente con dos vistas \textit{reconstrucción binocular}.\\
 
 \end{itemize}
 
@@ -135,9 +135,7 @@ Este bloque recibe como entrada las coordenadas de los puntos detectados en cada
 \label{fig: cam2cam }
 \end{figure}
 
-En primer lugar se seleccionan dos cámaras y para un punto en una de las cámaras, tomemos como ejemplo el punto $x$ de la imágen, se evalúa la ecuación \ref{ec: matriz fundamental} para cada punto en la cámara 2. Se asume que los puntos de la cámara 2 que tengan mayor posibilidad de corresponder con el punto $x$, son aquellos que al ser evaluados por la ecuación se obtengan valores próximos a cero. Esto es equivalente proyectar la recta epipolar $l'$ sobre la cámara 2 correspondiente al punto $x$ y tomar las distancias de los puntos detectados en la cámara 2 a la recta $l'$. Se demuestra que dicha distancia difiere a menos de un factor de escala respecto al valor obtenido al evaluar la ecuación \ref{ec: matriz fundamental}. De esta manera se obtiene para cada punto de la cámara 1 un conjunto de puntos de la cámara 2 ordenados según su distancia a la recta epipolar correspondiente.\\
-
-Por lo tanto, si se seleccionan las cámaras $i$ y $j$, se consideran $N_{i}$ y $N_{j}$ el número de marcadores detectados en cada una de las cámaras respectivamente. Los marcadores detectados en dichas cámaras son los puntos de coordenadas 2D que le llamamos $m_i^r$ y $m_j^s$ para las cámaras $i$ y $j$ respectivamente\\
+En primer lugar se seleccionan dos cámaras y se considera un punto en una de ellas, tomemos como ejemplo el punto $x$ de la imagen, luego se evalúa la ecuación \ref{ec: matriz fundamental} para cada punto en la cámara 2. Se asume que los puntos de la cámara 2 que tengan mayor posibilidad de corresponder con el punto $x$, son aquellos que al ser evaluados por la ecuación se obtengan valores próximos a cero. Esto es equivalente a proyectar la recta epipolar $l'$ sobre la cámara 2 correspondiente al punto $x$ y tomar las distancias de los puntos detectados en la cámara 2 a la recta $l'$. Se demuestra que dicha distancia difiere a menos de un factor de escala respecto al valor obtenido al evaluar la ecuación \ref{ec: matriz fundamental}. De esta manera se obtiene para cada punto de la cámara 1 un conjunto de puntos de la cámara 2 ordenados según su distancia a la recta epipolar correspondiente.\\
 
 A su vez se realiza el mismo procedimiento a la inversa, esto es, de la cámara 2 a la cámara 1. Para cada punto de la cámara 2 se ordenan los puntos de la cámara 1 según su proximidad a la recta epipolar correspondiente a ese punto. Este procedimiento se repite para otros pares de cámaras. Respecto a la elección de los pares de cámaras se han considerado dos casos. El primero de ellos se evalúa cada cámara respecto a todas las restantes. La segunda fue considerando la disposición de las cámaras en el espacio. Ver la figura \ref{img_Laboratorio}. En ese caso se evalúa las cámaras con las que están más próximas la cámara $i$ con la cámara $i+1$. Más adelante se demuestra que este segundo procedimiento da mejores resultados. \\
 
@@ -145,15 +143,11 @@ A su vez se realiza el mismo procedimiento a la inversa, esto es, de la cámara 
 
 Del resultado del bloque anterior resulta necesario seleccionar aquella asociación entre puntos de dos de las vistas que tenga mayores posibilidades de correponder a la proyección en esas dos vistas de uno de los marcadores en el espacio.\\
 
-Una de las condiciones evaluadas en un principio fue la de exigir que el marcador detectado en la cámara $i$
+Del bloque anterior, se tiene entonces, por cada punto en una cámara, un conjunto de puntos en otra cámara ordenadas según su distancia a la recta epipolar correspondiente al primer punto. De ese conjunto de puntos se toma el más cercano a la recta y que a la vez sea válido. Más adelante se define cuales son los puntos válidos.\\
 
-\begin{figure}[H]
-\begin{center}
-\includegraphics[scale=0.7]{img/Reconstruccion/validacion.png}
-\end{center}
-\caption{Geometría epipolar}
-\label{fig: Etapa de validación}
-\end{figure}
+De esta forma cada punto de una cámara es asociado, si existen puntos válidos, con otro punto en otra de las cámaras. Luego para evaluar cuales de estos pares de puntos tienen mayores posibilidades de corresponder a la proyección de un punto 3D, se proyectan sus rectas 3D, ver figura \ref{fig: geometria_epipolar}. En este caso se tiene asociados los puntos $x$ y $x'$ que posiblemente puedan corresponder con un punto $X$. En un caso ideal las rectas de proyección se intersectarían en $X$, en el caso real la distancia entre dichas rectas sería próxima a cero. Por lo tanto para cada par de puntos asociados $x \leftrightarrow x'$ en dos cámaras se evalúa la distancia de sus rectas de proyección.\\
+
+De todas las asociaciones en las distintas cámaras se selecciona aquella cuyas rectas de proyección tengan la menor distancia entre sí.
 
 \subsubsection{Reconstrucción 3D y validación}
 
@@ -175,4 +169,16 @@ En lugar de llevar en cada iteración la información 3D a cada cámara, se proc
 
 El algoritmo implementado asume que un punto en una cámara valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Notar que la elección anterior de $x_1$ sobre $x_2$ es indiferente para nuestros propósitos. Si bien este criterio difiere del postulado original, en cierta manera se considera más robusto, pues en el postulado original basta con que dos puntos en una retina se encuentran lo suficientemente cerca para obtener una validación, pero esto no implica necesariamente que provengan de puntos 3D cercanos, sin embargo bajo el nuevo criterio si dos puntos 3D se encuentran cerca, entonces es válido afirmar que sus proyecciones sobre las distintas retinas también deben estarlo. Otra ventaja es que los umbrales bajo los cuales se considera que dos puntos están "cerca'' difieren en cada una de las cámaras debido al distinto mapeo de distancias, sin embargo en el espacio 3D manejar un único umbral resulta suficiente.       
 
+\subsubsection{Actualizar asociaciones}
+
+Del bloque anterior se tiene, un punto $X$ reconstruido y sus correspondientes proyecciones en cada una de las cámaras. Dichas proyecciones no deben ser consideradas en próximas iteraciones, por tanto estos puntos 2D no se consideran puntos válidos.\\
+
+
+
+Finalmente el proceso iterativo se detiene cuando no hay más marcadores para reconstruir, lo que implica que se cumplan cualquiera de las siguientes condiciones:\\
+\begin{itemize}
+\item el número de marcadores reconstruidos es igual al número de marcadores que tiene colocada la persona, o al número de marcadores que se desee reconstruir.
+
+\item No existen puntos 2D válidos tal que pueda establecerse una asociación entre puntos de distintas vistas.
+\end{itemize}
 
