@@ -4,8 +4,36 @@
 En esta sección se evaluarán las conclusiones obtenidas a partir de lo realizado en el proyecto. Las mismas se pueden separar en conclusiones generales, y en particulares de los capítulos vistos anteriormente.
 
 Como conclusiones generales se presentan las siguientes:
+
+INICIO DIVAGUE GONZALO
+
+La aplicación desarrollada logra a partir de las capturas de múltiples vídeos de un sujeto en movimiento, detectar los marcadores en cada toma, junto a la información de las cámaras reconstruir la posición de los marcadores en el espacio , y poder identificar cada marcador a lo largo de la secuencia temporal.
+\\ 
+
+El relevo de bibliografía sobre el tema permitió observar los distintos enfoques del problema en distintos ámbitos, sus diferentes aplicaciones, y múltiples alternativas para solucionarlo, eligiendo un poco de cada lado para presentar nuestra propia solución, además de un conjunto propio de capturas sintéticas lo suficientemente ilustrativas para estudiar las nociones que se quisieron desarrollar, pero al mismo tiempo simples para poder generar múltiples conjuntos de datos en distintas situaciones. Sin embargo, esta simpleza no implica que nuestro conjunto de datos es completamente ideal, se modelan problemas que se van a encontrar en la realidad como la no visibilidad de marcadores en ciertas tomas y ciertos momentos.
+\\ 
+
+La detección de marcadores en tomas individuales es lograda mediante segmentación, y con el apoyo de la extracción de fondo, presenta poco error para calcular los centros de los marcadores y se considera exitosa para el caso sintético y funcional en el caso real. El ajuste de los parámetros internos a la segmentación permite variar los resultados para poder descartar figuras extrañas a los marcadores que queremos detectar
+\\ 
+
+El bloque de calibración de las cámaras es tan variable como las cámaras que se pretenden utilizar, pero se presenta una metodología propia si bien distinta a los casos observados para poder obtener los parámetros intrínsecos y extrínsecos de las cámaras del laboratorio de captura. Esta información es correctamente relevada , y permite medir como están relacionados los puntos en dos o mas vistas, lo cual es el corazón de la reconstrucción. Con esta información del espacio de captura, y los puntos segmentados en las múltiples vistas, los resultados del pasaje al espacio que logra el bloque en reconstrucción está  fuertemente atado al volumen de información que viene de las cámaras. La reconstrucción permite generar los puntos en el espacio siempre que se tenga información para emparejar puntos en dos vistas y confirmar  la relación. En las condiciones aceptables, la reconstruccion cumple con su cometido de generar los puntos con errores del orden del centímetro, lo cual se considera aceptable para un sistema de captura de movimiento. La dificultad de tener una calibración distinta a la propuesta, y pocas cámaras con las cuales trabajar, no permitió un estudio profundo en el caso real proporcionado por Darío Santos,(Hospital de Clínicas), obtenidas cuando el proyecto ya estaba muy avanzado. Sin embargo, se trabajó en una implementacion que tuviera en cuenta las restricciones del caso real, la cual no pudo ser probada exhaustivamente.
+\\ 
+
+Con los puntos generados en el espacio para todos los instantes de la secuencia, solo queda seguir e identificar las trayectorias de cada uno de los marcadores. Para esto se implemento un algoritmo de seguimiento basado en restricciones de velocidad y trayectorias, basada en la hipótesis de correcto muestreo de la secuencia , y que la reconstrucción logro reconstruir puntos en la mayoría de los casos. Si las perdidas son puntuales y no se mantienen en el tiempo, hay implementadas medidas para recuperar trayectorias de forma de continuar el movimiento. Los resultados de performance de seguimiento son los mismos que los de reconstruccion, pero se puede medir los errores de forma mas fina, teniendo para cada marcador el mismo buen rendimiento que para el conjunto entero, y toda posible discontinuidad puede ser detectada y reparada para forzar la continuidad. 
+\\ 
+
+Al no estar implementada la re-alimentación entre bloques que proponía Lorna Herda, se pudo desarrollar los bloques de forma independiente pero no se pudo medir si hubiera mejorado los resultados, sobretodo en el caso real que faltó probar, por no disponer de datos que cumplieran las hipótesis, no haberlos podido generar nosotros mismos ,o cuando nos fueron proporcionados se dispuso de poco tiempo para procesarlos.
+\\
+
+El proyecto tardó en comenzar a definir todo lo aquí presentado en este documento, la búsqueda de bibliografía y de un sistema que presentara de forma comprensible el problema con nuestros conocimientos al momento de comenzar, se tomó más tiempo de lo estimado, y cuando se comenzó a implementar el sistema se encontraron algunos problemas puntuales que necesitaron de la atención de todos los miembros del grupo para poder ser solucionados. La prorroga solicitada de 2 meses fue utilizada para terminar de solucionar los problemas, y se comenzó a documentar los resultados finales solo cuando todas las partes del sistema lograron funcionar. Con estos problemas puntuales solucionados, se logró concluir con los objetivos de comprender el sistema y presentar los distintos pasos para poder obtener resultados que muestran que la comprensión e interpretación de todo aquello que se relevo fue correcta.
+
+(HABLAR ALGO DE POSIBLES MEJORAS)
+
+FIN DIVAGUE GONZALO
+
+
 \begin{itemize}
-\item Se cumplió el objetivo principal: se logró obtener un sistema completo que a partir de las capturas de video de una persona en un ambiente de laboratorio con las condiciones adecuadas, obtiene la posición 3D de  los marcadores presentes en el cuerpo de dicha persona, logrando representar su movimiento con una precisión del orden del centímetro. El sistema completo se encuentra publicado en un repositorio de Github\footnote{https://github.com/} y se puede acceder a él mediante el siguiente link: \emph{https://github.com/andreig09/Proyecto\_Biomecanica.git}.
+\item Se cumplió el objetivo principal: se logró obtener un sistema completo que a partir de las capturas de video de una persona en un ambiente de laboratorio con las condiciones adecuadas, obtiene la posición 3D de  los marcadores presentes en el cuerpo de dicha persona, logrando representar su movimiento con una precisión del orden del centímetro.
 \item Se logró relevar la literatura existente, y se realizó una clasificación de los documentos de acuerdo a la relevancia que prestan para construir un sistema de estas características. 
 \item Se relevó el software existente, y se buscaron implementaciones en matlab, C/C++ y otros lenguajes, pero no se encontró un software Open Source que se adaptara a las características necesarias para utilizar de base en este proyecto. Debido a esto, se decidió implementar los bloques por cuenta propia, utilizando algunos algoritmos básicos de procesamiento de imágenes ya implementados o realizados específicamente para este proyecto. Esta etapa por momentos tuvo un carácter más de investigación científica que de proyecto ingenieril.
 \item Se identificaron los distintos casos de uso, y se decidió implementar el sistema en base al caso de uso de marcha.
