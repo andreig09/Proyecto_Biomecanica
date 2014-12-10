@@ -552,11 +552,14 @@ Dentro de cada <...>  ~designar el nombre de la variable que se indica.
 
 \subsubsection{Estructura de datos.}
 \label{section_Estructura_de_datos}
-Para poder trabajar a lo largo de todo el sistema de procesamiento se debe contar con una estructura de datos que mantenga y soporte toda la información de interés a lo largo proceso. También es deseable que los procesos utilicen dicha estructura sin quedar condicionados a futuras modificaciones de la misma, esta independencia funcional requiere la existencia de funciones de acceso de entrada y salida a la estructura.  
+Para poder trabajar a lo largo de todo el sistema de procesamiento se debe contar con una estructura de datos que mantenga y soporte toda la información de interés a lo largo proceso. También es deseable que los procesos utilicen dicha estructura sin quedar condicionados a futuras modificaciones de la misma, esta independencia requiere la existencia de funciones de acceso de entrada y salida a la estructura.  
 
 
 Con este fin se ha diseñado e implementado las estructuras de datos de las figuras \ref{img_estructura_skeleton} y \ref{img_estructura_cam}.
-Las mismas permiten almacenar tanto la información de ground truth como la generada a la hora de  trabajar en las etapas de análisis de video. Se han implementado funciones de acceso de entrada y salida en Matlab, así como varias herramientas de gestión. Que permiten entre otras cosas blablablabla
+Las mismas permiten almacenar tanto la información de ground truth como la generada a la hora de  trabajar en las etapas de análisis de video. Se han implementado funciones de acceso de entrada y salida en Matlab, así como varias herramientas de gestión. Que permiten entre otras cosas inicializar las estructuras, obtener o modificar cualquier parámetro, efect 
+
+
+exportación e importación a xml, 
 
 
 Básicamente se tienen dos estructuras principales, una para almacenar información del esqueleto asociado al modelo y otra para almacenar la información de las cámaras con las que se efectúa la captura de video.

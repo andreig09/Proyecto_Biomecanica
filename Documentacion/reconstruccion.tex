@@ -125,7 +125,12 @@ A continuación se describe el funcionamiento de cada uno de los bloques:
 
 \subsubsection*{Asociar puntos 2D}
 
-Este bloque recibe como entrada las coordenadas de los puntos detectados en cada una de las cámaras, además de los datos de las cámaras como sus matrices de proyección. Basándose en lo explicado anteriormente el proceso puede ejemplificarse en la figura \ref{fig: cam2cam }. \\
+Este bloque recibe como entrada las coordenadas de los puntos detectados en cada una de las cámaras, además de los datos de las cámaras como sus matrices de proyección.
+
+CUAL ES LA SALIDA?\\
+
+
+ Basándose en lo explicado anteriormente el proceso puede ejemplificarse en la figura \ref{fig: cam2cam }. \\
 
 \begin{figure}[H]
 \begin{center}
@@ -144,7 +149,9 @@ A su vez se realiza el mismo procedimiento a la inversa, esto es, de la cámara 
 Del resultado del bloque anterior resulta necesario seleccionar aquella asociación entre puntos de dos vistas, que posea mayor probabilidad de conformar la pareja de imágenes correspondiente a la proyección de un marcador en el espacio sobre dichas vistas.\\
 %corresponder a la proyección en esas dos vistas de uno de los marcadores en el espacio.\\
 
-Del bloque anterior, se tiene entonces, por cada punto en una cámara, un conjunto de puntos en otra cámara ordenadas según su distancia a la recta epipolar correspondiente al primer punto. De ese conjunto de puntos se toma el más cercano a la recta y que a la vez sea válido. Más adelante se define cuales son los puntos válidos.\\
+Del bloque anterior, se tiene entonces, por cada punto en una cámara, un conjunto de puntos en otra cámara ordenadas según su distancia a la recta epipolar correspondiente al primer punto. De ese conjunto de puntos se toma el más cercano a la recta 
+SE DEBE EXPLICAR CON CLARIDAD ESTA FRASE (DE LAS TALBAS DISPONIBLES SE TOMA AQUELLA ASOCIACION QUE QUE POSEA UNA MENOR DISTANCIA)
+y que a la vez sea válido. Más adelante se define cuales son los puntos válidos.\\REFERENCIAR QUE SIGNIFICA SER UN PUNTO VALIDO
 
 De esta forma cada punto de una cámara es asociado, si existen puntos válidos, con otro punto en otra de las cámaras. Luego para evaluar cuales de estos pares de puntos tienen mayores posibilidades de corresponder a la proyección de un punto 3D, se proyectan sus rectas 3D, ver figura \ref{fig: geometria_epipolar}. En este caso se tiene asociados los puntos $x$ y $x'$ que posiblemente puedan corresponder con un punto $X$. En un caso ideal las rectas de proyección se interceptarían en $X$, en el caso real la distancia entre dichas rectas sería próxima a cero. Por lo tanto para cada par de puntos asociados $x \leftrightarrow x'$ en dos cámaras se evalúa la distancia de sus rectas de proyección.\\
 
@@ -182,4 +189,43 @@ Finalmente el proceso iterativo se detiene cuando no hay más marcadores para re
 
 \item No existen puntos 2D válidos tal que pueda establecerse una asociación entre puntos de distintas vistas.
 \end{itemize}
+
+
+->Reconstrucción con base de datos sintética
+\\
+HABLAR Y MOSTRAR RESULTADOS DE La performance DE LA BASE DE DATOS AL UTILIZAR LAS DOS RAMIFICACIONES\\
+PROCEDIMIENTO DE ASOCIACIONES DEL TIPO TODO CONTRA TODO, Y ASOCIACIONES CON CAMARAS CONSECUTIVAS.\\
+JUSTIFICAR POR LO TANTO QUE OFICIALMENTE NOS QUEDAMOS CON EL CASO DE ASOCIACIONES ENTRE CAMARAS CONSECUTIVAS
+\\
+-----\\
+->CASO REAL
+\\
+\begin{itemize}
+\item introduccion: SE PRUEBA SOBRE LO QUE SE TIENE DEL SISTEMA Y NO ANDA POR TAL Y TAL MOTIVO. pUES LA CALIBRACION ES DIFERENTE NO SE OBTIENE RESULTADOS ACEPTABLES.
+
+\item EXPLICAR AJUSTE REALIZADOS, GENERACION DE MINI-SISTEMA DONDE CORREN SECUENCIAS REALES.AQUI DEBE ESTAR EL NUEVO ALGORITMO DE RECONSTRUCCION
+\begin{itemize}
+\item para todos los puntos contenidos en las retinas se trazan las correspondientes rectas de proyección 3D
+\item BLOQUE ASOCIACION 3D: se asocian las rectas utilizando una métrica de distancia euclidea. Las rectas de proyección que se encuentran a menor distancia entre si quedan asociadas.
+\item BLOQUE MEJOR ASOCIACION: se elijen las n mejores asociaciones entre rectas 3D
+\item BLOQUE RECONSTRUCCION: se reconstruyen los puntos 3D provenientes de las asociaciones anteriores 
+\end{itemize}
+
+\item EN DICHO MINI-SISTEMA SE SIMULA EN BLENDER EL CASO REAL Y SE INTENTA TENER ALGO MODERADAMENTE FUNCIONAL
+
+\item RESULTADOS -->ALGORITMO DE RECONSTRUCCION OFICIAL(CASO ASOCIACION ENTRE CAMARAS CONSECUTIVAS) -->NO TUVO BUENOS RESULTADOS 
+\item CONSECUENCIA SE GENERA NUEVO ALGORITMO DE RECONSTRUCCION QUE HACE TAL Y TAL COSA.
+\item CON ESTE NUEVO ALGORITMO SE OBTIENEN RESULTADOS ACEPTABLES SOBRE LAS SIMULACIONES DEL CASO REAL
+SE PRUEBA DICHO ALGORITMO SOBRE LOS DATOS REALES Y SE OBTIENEN RESULTADOS ACEPTABLES.
+\item JUSTIFICAR QUE LAS DIFERENCIAS SON DEBIDAS A CALIBRACION (REAL VS SINTETICA) Y LA SEGMENTACION (REAL VS SINTETICA).
+\item ¿CUALITATIVAMENTE SE PUEDE DECIR CUAL ES EL FACTOR QUE PERJUDICA EN MAYOR MEDIDA LOS RESULTADOS en la secuencia real RESPECTO AL CASO DE SIMULACION SINTETICA?. Si la segmentación es lo que perjudica más, por tal y tal motivo.
+\end{itemize}
+
+\textbf{HABLAR DE LA INTEGRACION DE ESTE NUEVO ALGORITMO EN EL SISTEMA COMPLETO.\\}
+\begin{itemize}
+\item para muchas cámaras (mas de 5 o 6, ver las pruebas de gonzalo) el sistema funciona razonablemente con la reconstruccion ``original''. Principalmente debido a que se cuenta con información redundante de los marcadores.
+\item para pocas cámaras se utiliza el nuevo algoritmo de reconstrucción, permite trabajar con la secuencia real disponible. con muchas cámaras el algoritmo puede ser computacionalmente complejo.
+\item explicar bien cual es la frontera entre uno y otro caso (5 o 6 cámaras?)
+\end{itemize}
+
 
