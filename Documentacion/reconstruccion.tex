@@ -9,7 +9,8 @@ En la figura \ref{fig: esquema_reconstruccion} se muestra un ejemplo de reconstr
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=0.20]{img/Reconstruccion/ejemplo_reconstruccion.png}
+%\includegraphics[scale=0.20]{img/Reconstruccion/ejemplo_reconstruccion.png}
+\includegraphics[scale=0.20]{img/Reconstruccion/reconstruccion}
 
 \end{center}
 \caption{Reconstrucción con dos camaras}
@@ -136,23 +137,38 @@ Basándose en lo explicado anteriormente el proceso  se puede ejemplificar  en l
 \label{fig: cam2cam }
 \end{figure}
 
-En primer lugar se seleccionan dos cámaras y se considera un punto en una de ellas, tomemos por ejemplo el punto $x$ de la cámara 1, y evaluemos la ecuación \ref{ec: matriz fundamental} para cada punto en la cámara 2. Esto equivale a proyectar la recta epipolar $l'$ sobre la cámara 2 correspondiente al punto $x$ y tomar las distancias de los puntos detectados en la cámara 2 a la recta $l'$. Se demuestra que dicha distancia difiere a menos de un factor de escala respecto al valor obtenido al evaluar la ecuación \ref{ec: matriz fundamental}. Se asume que los puntos de la cámara 2 que tengan mayor posibilidad de corresponder con el punto $x$, son aquellos que al ser evaluados por la ecuación obtienen valores próximos a cero.
-De esta manera se obtiene para cada punto de la cámara 1 un conjunto de puntos de la cámara 2 ordenados según su distancia a la recta epipolar correspondiente.\\
+En primer lugar se seleccionan dos cámaras y se considera un punto en una de ellas, tomemos por ejemplo el punto $x$ de la cámara 1, y evaluemos la ecuación \ref{ec: matriz fundamental} para cada punto en la cámara 2. Esto equivale a proyectar la recta epipolar $l'$ correspondiente al punto $x$ sobre la cámara 2  y tomar las distancias de los puntos detectados en la cámara 2 a la recta $l'$. Se demuestra que dicha distancia difiere a menos de un factor de escala respecto al valor obtenido al evaluar la ecuación \ref{ec: matriz fundamental}. Se asume que los puntos de la cámara 2 que tengan mayor posibilidad de corresponder con el punto $x$, son aquellos que al ser evaluados por la ecuación obtienen valores próximos a cero.
+De esta manera se obtiene para cada punto en la cámara 1 un conjunto de puntos en la cámara 2 ordenados según su distancia a la recta epipolar correspondiente.
+Repitiendo el procedimiento de manera inversa, esto es, de la cámara 2 a la cámara 1, se obtiene igualmente para cada punto de la cámara 2  los puntos de la cámara 1 ordenados según su proximidad a la recta epipolar correspondiente. A continuación se toman otros pares de cámaras y se vuelve a iterar. 
 
-A su vez se realiza el mismo procedimiento a la inversa, esto es, de la cámara 2 a la cámara 1. Para cada punto de la cámara 2 se ordenan los puntos de la cámara 1 según su proximidad a la recta epipolar correspondiente a ese punto. Este procedimiento se repite para otros pares de cámaras. Respecto a la elección de los pares de cámaras se han considerado dos casos. El primero de ellos se evalúa cada cámara respecto a todas las restantes. La segunda fue considerando la disposición de las cámaras en el espacio. Ver la figura \ref{img_Laboratorio}. En ese caso se evalúa las cámaras con las que están más próximas la cámara $i$ con la cámara $i+1$. Más adelante se demuestra que este segundo procedimiento da mejores resultados. \\
+Es importante resaltar que para la elección de los pares de cámaras se han considerado dos casos.
+El primero de ellos evalúa cada cámara respecto a todas las restantes y el segundo considera la disposición de las cámaras en el espacio y empareja las cámaras adyacentes de manera consecutiva. Ver la figura \ref{img_asociacion}. Más adelante se demuestra que este segundo procedimiento da mejores resultados.ACA SE DEBE REFERENCIAR BIEN DONDE ESTA ESA DEMOSTRACION \\
+
+ \begin{figure}[!ht]
+   \centering 
+    \subfloat[Cada cámara con las restantes]{\includegraphics[scale=0.13]{img/Reconstruccion/enlazado_general}}\hspace{2cm}
+    \subfloat[Cada cámara con su adyacente]{\includegraphics[scale=0.13]{img/Reconstruccion/enlazado_adyacente}}
+   \caption{Métodos utilizados para generar pares de cámaras.}  
+   \label{img_asociacion} 
+ \end{figure} 
+
+
+
+
 
 \subsubsection*{Mejor asociación}
 
-Del resultado del bloque anterior resulta necesario seleccionar aquella asociación entre puntos de dos vistas, que posea mayor probabilidad de conformar la pareja de imágenes correspondiente a la proyección de un marcador en el espacio sobre dichas vistas.\\
+A partir de la lista con asociaciones entre puntos de dos vistas generada anteriormente, es necesario elegir aquella que posea mayor probabilidad de conformar la pareja de imágenes correspondiente a la proyección de un marcador 3D sobre dichas vistas.
 %corresponder a la proyección en esas dos vistas de uno de los marcadores en el espacio.\\
 
-Del bloque anterior, se tiene entonces, por cada punto en una cámara, un conjunto de puntos en otra cámara ordenadas según su distancia a la recta epipolar correspondiente al primer punto. De ese conjunto de puntos se toma el más cercano a la recta 
-SE DEBE EXPLICAR CON CLARIDAD ESTA FRASE (DE LAS TALBAS DISPONIBLES SE TOMA AQUELLA ASOCIACION QUE QUE POSEA UNA MENOR DISTANCIA)
-y que a la vez sea válido. Más adelante se define cuales son los puntos válidos.\\REFERENCIAR QUE SIGNIFICA SER UN PUNTO VALIDO
 
-De esta forma cada punto de una cámara es asociado, si existen puntos válidos, con otro punto en otra de las cámaras. Luego para evaluar cuales de estos pares de puntos tienen mayores posibilidades de corresponder a la proyección de un punto 3D, se proyectan sus rectas 3D, ver figura \ref{fig: geometria_epipolar}. En este caso se tiene asociados los puntos $x$ y $x'$ que posiblemente puedan corresponder con un punto $X$. En un caso ideal las rectas de proyección se interceptarían en $X$, en el caso real la distancia entre dichas rectas sería próxima a cero. Por lo tanto para cada par de puntos asociados $x \leftrightarrow x'$ en dos cámaras se evalúa la distancia de sus rectas de proyección.\\
+Recordando que todas las asociaciones de puntos entre pares de cámaras se encuentran ordenadas por distancia, se toma aquella asociación que posea la menor distancia y contenga puntos válidos, descartando las restantes. Un punto se considera válido si en iteraciones anteriores no se a podido asociar a ningún punto 3D reconstruido, ver \ref{actualizar_asociaciones}.
+De esta forma cada punto de una cámara es asociado, si existen puntos válidos, con un punto en otra de las cámaras.
 
-De todas las asociaciones en las distintas cámaras se selecciona aquella cuyas rectas de proyección tengan la menor distancia entre sí.
+
+ Supongamos en la figura \ref{fig: geometria_epipolar} que los puntos $x$ y $x'$ son la mejor asociación entre la cámara 1 y la cámara 2, y efectivamente son imágenes de un mismo punto 3D, idealmente los rayos de proyección se interceptarían en $X$, pero debido a incertidumbres en los procesos de calibración y segmentación la distancia entre dichos rayos no es nula, en el mejor de los casos solo es próxima a cero. 
+Considerando esto último el procedimiento utilizado, para evaluar cual entre los pares de puntos asociados disponibles posee mayor posibilidad de corresponder a la proyección de un punto 3D, es proyectar todas los rayos de proyección y tomar aquella pareja de puntos que genere rayos de proyección con la menor distancia entre sí.
+
 
 \subsubsection{Reconstrucción 3D y validación}
 
@@ -161,7 +177,8 @@ Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reco
 
 
 El algoritmo desarrollado si bien conceptualmente es similar, se implementa desde una óptica diferente computacionalmente más eficiente.
-En lugar de llevar en cada iteración la información 3D a cada cámara, se procede a llevar la información de las cámaras una sola vez al espacio 3D y trabajar en cada iteración sobre el mismo. La información que contiene un punto en una retina se mapea en el espacio 3D sobre una recta de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Supongamos que tenemos las rectas de proyección en el espacio 3D de todos los puntos contenidos en las retinas, sea $x_1$ un punto en la cámara 1 de centro $O_1$ y $x_2$ punto en la cámara 2 de centro $O_2$, como se muestra en la figura \ref{img_reconstruccion_validacion}, consideremos que $x_1$ y $x_2$ se encuentran asociados y reconstruyen al punto $X_{12}$. Idealmente $X_{12}$ se genera al interceptar las rectas de proyección de los puntos $x_1$ y $x_2$, pero debido a incertidumbres en la detección de marcadores o la calibración, comúnmente las rectas se van a cruzar. Por lo tanto la reconstrucción $X_{12}$ se genera en el punto medio del segmento perpendicular a ambas rectas.
+En lugar de llevar en cada iteración la información 3D a cada cámara, se procede a llevar la información de las cámaras una sola vez al espacio 3D y trabajar en cada iteración sobre el mismo. La información que contiene un punto en una retina se mapea en el espacio 3D sobre el rayo de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Supongamos que tenemos los rayos de proyección en el espacio 3D de todos los puntos contenidos en las retinas, sea $x_1$ un punto en la cámara 1 de centro $O_1$ y $x_2$ punto en la cámara 2 de centro $O_2$, como se muestra en la figura \ref{img_reconstruccion_validacion}, consideremos que $x_1$ y $x_2$ se encuentran asociados y reconstruyen al punto $X_{12}$. Idealmente $X_{12}$ se genera al interceptar los rayos de proyección de los puntos $x_1$ y $x_2$, pero debido a incertidumbres en la detección de marcadores o la calibración, comúnmente los rayos se van a cruzar. La reconstrucción, se estima como el punto del espacio de menor distancia a ambos rayos, por lo que
+$X_{12}$ se encuentra en el punto medio del segmento perpendicular a ambos rayos.
 
 
 \begin{figure}[h!]
@@ -174,7 +191,7 @@ En lugar de llevar en cada iteración la información 3D a cada cámara, se proc
 
 El algoritmo implementado asume que un punto en una cámara valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Notar que la elección anterior de $x_1$ sobre $x_2$ es indiferente para nuestros propósitos. Si bien este criterio difiere del postulado original, en cierta manera se considera más robusto, pues en el postulado original basta con que dos puntos en una retina se encuentren lo suficientemente cerca para obtener una validación, pero esto no implica necesariamente que provengan de puntos 3D cercanos, sin embargo bajo el nuevo criterio si dos puntos 3D se encuentran cerca, entonces es válido afirmar que sus proyecciones sobre las distintas retinas también deben estarlo. Otra ventaja es que los umbrales bajo los cuales se considera que dos puntos están ``cerca'' difieren en cada una de las cámaras debido al distinto mapeo de distancias, sin embargo en el espacio 3D manejar un único umbral resulta suficiente.       
 
-\subsubsection{Actualizar asociaciones}
+\subsubsection{Actualizar asociaciones}\label{actualizar_asociaciones}
 
 Del bloque anterior se tiene, un punto $X$ reconstruido y sus correspondientes proyecciones en cada una de las cámaras. Dichas proyecciones no deben ser consideradas en próximas iteraciones, por tanto estos puntos 2D no se consideran puntos válidos.\\
 
@@ -182,10 +199,13 @@ Del bloque anterior se tiene, un punto $X$ reconstruido y sus correspondientes p
 
 Finalmente el proceso iterativo se detiene cuando no hay más marcadores para reconstruir, lo que implica que se cumplan cualquiera de las siguientes condiciones:\\
 \begin{itemize}
-\item el número de marcadores reconstruidos es igual al número de marcadores que tiene colocada la persona, o al número de marcadores que se desee reconstruir.
+\item el número de marcadores reconstruidos es igual al número de marcadores que tiene colocada la persona, o igual al número máximo de marcadores  reconstruidos que se haya indicado.
 
 \item No existen puntos 2D válidos tal que pueda establecerse una asociación entre puntos de distintas vistas.
 \end{itemize}
+
+
+
 
 
 ->Reconstrucción con base de datos sintética
