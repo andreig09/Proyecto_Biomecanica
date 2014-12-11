@@ -125,12 +125,8 @@ A continuación se describe el funcionamiento de cada uno de los bloques:
 
 \subsubsection*{Asociar puntos 2D}
 
-Este bloque recibe como entrada las coordenadas de los puntos detectados en cada una de las cámaras, además de los datos de las cámaras como sus matrices de proyección.
-
-CUAL ES LA SALIDA?\\
-
-
- Basándose en lo explicado anteriormente el proceso puede ejemplificarse en la figura \ref{fig: cam2cam }. \\
+Este bloque recibe como entrada las coordenadas de los puntos detectados en cada una de las cámaras, parámetros de las mismas tales como sus matrices de proyección y devuelve para cada punto una lista ordenada por relevancia, de las asociaciones existentes con puntos en otras cámaras.
+Basándose en lo explicado anteriormente el proceso  se puede ejemplificar  en la figura \ref{fig: cam2cam }. \\
 
 \begin{figure}[H]
 \begin{center}
@@ -140,7 +136,8 @@ CUAL ES LA SALIDA?\\
 \label{fig: cam2cam }
 \end{figure}
 
-En primer lugar se seleccionan dos cámaras y se considera un punto en una de ellas, tomemos como ejemplo el punto $x$ de la imagen, luego se evalúa la ecuación \ref{ec: matriz fundamental} para cada punto en la cámara 2. Se asume que los puntos de la cámara 2 que tengan mayor posibilidad de corresponder con el punto $x$, son aquellos que al ser evaluados por la ecuación se obtengan valores próximos a cero. Esto es equivalente a proyectar la recta epipolar $l'$ sobre la cámara 2 correspondiente al punto $x$ y tomar las distancias de los puntos detectados en la cámara 2 a la recta $l'$. Se demuestra que dicha distancia difiere a menos de un factor de escala respecto al valor obtenido al evaluar la ecuación \ref{ec: matriz fundamental}. De esta manera se obtiene para cada punto de la cámara 1 un conjunto de puntos de la cámara 2 ordenados según su distancia a la recta epipolar correspondiente.\\
+En primer lugar se seleccionan dos cámaras y se considera un punto en una de ellas, tomemos por ejemplo el punto $x$ de la cámara 1, y evaluemos la ecuación \ref{ec: matriz fundamental} para cada punto en la cámara 2. Esto equivale a proyectar la recta epipolar $l'$ sobre la cámara 2 correspondiente al punto $x$ y tomar las distancias de los puntos detectados en la cámara 2 a la recta $l'$. Se demuestra que dicha distancia difiere a menos de un factor de escala respecto al valor obtenido al evaluar la ecuación \ref{ec: matriz fundamental}. Se asume que los puntos de la cámara 2 que tengan mayor posibilidad de corresponder con el punto $x$, son aquellos que al ser evaluados por la ecuación obtienen valores próximos a cero.
+De esta manera se obtiene para cada punto de la cámara 1 un conjunto de puntos de la cámara 2 ordenados según su distancia a la recta epipolar correspondiente.\\
 
 A su vez se realiza el mismo procedimiento a la inversa, esto es, de la cámara 2 a la cámara 1. Para cada punto de la cámara 2 se ordenan los puntos de la cámara 1 según su proximidad a la recta epipolar correspondiente a ese punto. Este procedimiento se repite para otros pares de cámaras. Respecto a la elección de los pares de cámaras se han considerado dos casos. El primero de ellos se evalúa cada cámara respecto a todas las restantes. La segunda fue considerando la disposición de las cámaras en el espacio. Ver la figura \ref{img_Laboratorio}. En ese caso se evalúa las cámaras con las que están más próximas la cámara $i$ con la cámara $i+1$. Más adelante se demuestra que este segundo procedimiento da mejores resultados. \\
 
