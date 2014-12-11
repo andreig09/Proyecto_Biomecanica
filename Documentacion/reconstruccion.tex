@@ -207,42 +207,77 @@ Finalmente el proceso iterativo se detiene cuando no hay más marcadores para re
 
 
 
+\subsection{Resultados sobre secuencias sintéticas}
 
-->Reconstrucción con base de datos sintética
-\\
-HABLAR Y MOSTRAR RESULTADOS DE La performance DE LA BASE DE DATOS AL UTILIZAR LAS DOS RAMIFICACIONES\\
-PROCEDIMIENTO DE ASOCIACIONES DEL TIPO TODO CONTRA TODO, Y ASOCIACIONES CON CAMARAS CONSECUTIVAS.\\
-JUSTIFICAR POR LO TANTO QUE OFICIALMENTE NOS QUEDAMOS CON EL CASO DE ASOCIACIONES ENTRE CAMARAS CONSECUTIVAS
-\\
------\\
-->CASO REAL
-\\
-\begin{itemize}
-\item introduccion: SE PRUEBA SOBRE LO QUE SE TIENE DEL SISTEMA Y NO ANDA POR TAL Y TAL MOTIVO. pUES LA CALIBRACION ES DIFERENTE NO SE OBTIENE RESULTADOS ACEPTABLES.
+Se ha probado el algoritmo descrito anteriormente con secuencias capturadas en Blender. Para la configuración de 17 cámaras se han obtenido resultados aceptables,  con errores promedio menores a $0.5\,cm$ (CHEQUEAR ESTO EN LA PARTE DE GONZALO). En la sección citar(pruebas de performance), se define la medida de error  y se evalúa el desempeño del algoritmo respecto a dicha medida. En dichas pruebas se observan resultados aceptables aún utilizando 6 cámaras(CHEQUEAR ESTO)
 
-\item EXPLICAR AJUSTE REALIZADOS, GENERACION DE MINI-SISTEMA DONDE CORREN SECUENCIAS REALES.AQUI DEBE ESTAR EL NUEVO ALGORITMO DE RECONSTRUCCION
-\begin{itemize}
-\item para todos los puntos contenidos en las retinas se trazan las correspondientes rectas de proyección 3D
-\item BLOQUE ASOCIACION 3D: se asocian las rectas utilizando una métrica de distancia euclidea. Las rectas de proyección que se encuentran a menor distancia entre si quedan asociadas.
-\item BLOQUE MEJOR ASOCIACION: se elijen las n mejores asociaciones entre rectas 3D
-\item BLOQUE RECONSTRUCCION: se reconstruyen los puntos 3D provenientes de las asociaciones anteriores 
-\end{itemize}
+\begin{figure}[h!]
+\centering
+\captionsetup{justification=centering,margin=2.8cm}
+\includegraphics[scale=0.5]{img/Reconstruccion/Reconstruccion_3_camaras2.jpg}
+\caption{Resultado de la reconstrucción. Lo marcadores totalmente negros son los que se pudieron reconstruir utilizando información de las cámaras 2, 3 y 5.}
+\end{figure}
 
-\item EN DICHO MINI-SISTEMA SE SIMULA EN BLENDER EL CASO REAL Y SE INTENTA TENER ALGO MODERADAMENTE FUNCIONAL
 
-\item RESULTADOS -->ALGORITMO DE RECONSTRUCCION OFICIAL(CASO ASOCIACION ENTRE CAMARAS CONSECUTIVAS) -->NO TUVO BUENOS RESULTADOS 
-\item CONSECUENCIA SE GENERA NUEVO ALGORITMO DE RECONSTRUCCION QUE HACE TAL Y TAL COSA.
-\item CON ESTE NUEVO ALGORITMO SE OBTIENEN RESULTADOS ACEPTABLES SOBRE LAS SIMULACIONES DEL CASO REAL
-SE PRUEBA DICHO ALGORITMO SOBRE LOS DATOS REALES Y SE OBTIENEN RESULTADOS ACEPTABLES.
-\item JUSTIFICAR QUE LAS DIFERENCIAS SON DEBIDAS A CALIBRACION (REAL VS SINTETICA) Y LA SEGMENTACION (REAL VS SINTETICA).
-\item ¿CUALITATIVAMENTE SE PUEDE DECIR CUAL ES EL FACTOR QUE PERJUDICA EN MAYOR MEDIDA LOS RESULTADOS en la secuencia real RESPECTO AL CASO DE SIMULACION SINTETICA?. Si la segmentación es lo que perjudica más, por tal y tal motivo.
-\end{itemize}
+Como se mencionó previamente se han realizado dos implementaciones distintas del bloque  “Asociar puntos 2D”. Uno de ellos considera las asociaciones de marcadores posibles entre pares de cámaras, evaluando cada una de las cámaras respecto a todas las restantes.  La segunda implementación toma en cuenta  la configuración circular de las cámaras en el espacio y se evalúa cada cámara con la que se encuentra inmediatamente más cercana  recorriendo las cámaras en algún sentido.\\
 
-\textbf{HABLAR DE LA INTEGRACION DE ESTE NUEVO ALGORITMO EN EL SISTEMA COMPLETO.\\}
-\begin{itemize}
-\item para muchas cámaras (mas de 5 o 6, ver las pruebas de gonzalo) el sistema funciona razonablemente con la reconstruccion ``original''. Principalmente debido a que se cuenta con información redundante de los marcadores.
-\item para pocas cámaras se utiliza el nuevo algoritmo de reconstrucción, permite trabajar con la secuencia real disponible. con muchas cámaras el algoritmo puede ser computacionalmente complejo.
-\item explicar bien cual es la frontera entre uno y otro caso (5 o 6 cámaras?)
-\end{itemize}
+PONER TABLA
+
+
+En la tabla xxx se muestra una comparación de resultados. En la misma se observa que en el segundo algoritmo implementado el error promedio mejora ligeramente respecto al primer algoritmo. En cambio se observa además  el error considerando el 99\% de los marcadores (TIENE SENTIDO ESTO?) donde la mejora del segundo algoritmo es más significativa. Por esta razón se ha elegido las segunda de las implementaciones.
+Una de las razones por las cuales puede suceder esto es que en el primero de los algoritmos se realizan búsquedas de asociaciones entre marcadores detectados, en pares de cámaras donde la probabilidad de que un mismo marcador sea visto por ambas cámaras  puede ser muy baja. El ejemplo más representativo es cuando se consideran cámaras que están  ubicadas en posiciones diametralmente opuestas. En este caso las asociaciones que se encuentren tienen mayores posibilidades de ser asociaciones incorrectas influyendo negativamente sobre el desempeño global del algoritmo. 
+
+
+
+\subsection{Reconstrucción de marcadores a partir de secuencias reales}
+
+Para probar la reconstrucción con secuencias reales se realizó la calibración según lo explicado en la sección , por otra parte fue necesario robustecer el algoritmo de detección de marcadores como se explica en la sección….. Las pruebas del algoritmo presentado anteriormente realizadas sobre esta secuencia no han dado resultados aceptables, en este caso la mayoría de los marcadores se reconstruyen erróneamente. Con el fin de encontrar donde falla el sistema, se genera una secuencia sintética con tres cámaras en posiciones relativas que simula el caso real y se prueba sobre el sistema.  En este caso los resultados tampoco han sido aceptables. Tras varias pruebas se llega  a la conclusión de que la deficiencia del sistema es que el algoritmo de reconstrucción no es lo suficientemente robusto para el caso en que se utilizan pocas cámaras.\\
+
+Poner UNA FIGURA DEL RESULTADO MOSTRANDO QUE TAN MALO ES.
+
+Esta situación ha motivado el desarrollo de mejoras sobre el algoritmo de reconstrucción. Los cambios se realizaron con la idea de lograr un desempeño aceptable sin tener que modificar la estructura global del sistema, por lo que se parte de la implementación ya realizada del algoritmo.
+
+Se hicieron pruebas sobre la base sintética, nuevamente simulando la situación del caso real. Aíslando los errores provenientes de la calibración y de la detección de marcadores.
+El algoritmo que se implementó en este caso tiene la misma estructura que el formulado anteriormente, (referenciar al diagrama anterior), aunque algunos bloques modifican su funcionamiento, fundamentalmente el primer bloque,   “Asociar puntos 2D”.
+
+
+%
+%
+%->Reconstrucción con base de datos sintética
+%\\
+%HABLAR Y MOSTRAR RESULTADOS DE La performance DE LA BASE DE DATOS AL UTILIZAR LAS DOS RAMIFICACIONES\\
+%PROCEDIMIENTO DE ASOCIACIONES DEL TIPO TODO CONTRA TODO, Y ASOCIACIONES CON CAMARAS CONSECUTIVAS.\\
+%JUSTIFICAR POR LO TANTO QUE OFICIALMENTE NOS QUEDAMOS CON EL CASO DE ASOCIACIONES ENTRE CAMARAS CONSECUTIVAS
+%\\
+%-----\\
+%->CASO REAL
+%\\
+%\begin{itemize}
+%\item introduccion: SE PRUEBA SOBRE LO QUE SE TIENE DEL SISTEMA Y NO ANDA POR TAL Y TAL MOTIVO. pUES LA CALIBRACION ES DIFERENTE NO SE OBTIENE RESULTADOS ACEPTABLES.
+%
+%\item EXPLICAR AJUSTE REALIZADOS, GENERACION DE MINI-SISTEMA DONDE CORREN SECUENCIAS REALES.AQUI DEBE ESTAR EL NUEVO ALGORITMO DE RECONSTRUCCION
+%\begin{itemize}
+%\item para todos los puntos contenidos en las retinas se trazan las correspondientes rectas de proyección 3D
+%\item BLOQUE ASOCIACION 3D: se asocian las rectas utilizando una métrica de distancia euclidea. Las rectas de proyección que se encuentran a menor distancia entre si quedan asociadas.
+%\item BLOQUE MEJOR ASOCIACION: se elijen las n mejores asociaciones entre rectas 3D
+%\item BLOQUE RECONSTRUCCION: se reconstruyen los puntos 3D provenientes de las asociaciones anteriores 
+%\end{itemize}
+%
+%\item EN DICHO MINI-SISTEMA SE SIMULA EN BLENDER EL CASO REAL Y SE INTENTA TENER ALGO MODERADAMENTE FUNCIONAL
+%
+%\item RESULTADOS -->ALGORITMO DE RECONSTRUCCION OFICIAL(CASO ASOCIACION ENTRE CAMARAS CONSECUTIVAS) -->NO TUVO BUENOS RESULTADOS 
+%\item CONSECUENCIA SE GENERA NUEVO ALGORITMO DE RECONSTRUCCION QUE HACE TAL Y TAL COSA.
+%\item CON ESTE NUEVO ALGORITMO SE OBTIENEN RESULTADOS ACEPTABLES SOBRE LAS SIMULACIONES DEL CASO REAL
+%SE PRUEBA DICHO ALGORITMO SOBRE LOS DATOS REALES Y SE OBTIENEN RESULTADOS ACEPTABLES.
+%\item JUSTIFICAR QUE LAS DIFERENCIAS SON DEBIDAS A CALIBRACION (REAL VS SINTETICA) Y LA SEGMENTACION (REAL VS SINTETICA).
+%\item ¿CUALITATIVAMENTE SE PUEDE DECIR CUAL ES EL FACTOR QUE PERJUDICA EN MAYOR MEDIDA LOS RESULTADOS en la secuencia real RESPECTO AL CASO DE SIMULACION SINTETICA?. Si la segmentación es lo que perjudica más, por tal y tal motivo.
+%\end{itemize}
+%
+%\textbf{HABLAR DE LA INTEGRACION DE ESTE NUEVO ALGORITMO EN EL SISTEMA COMPLETO.\\}
+%\begin{itemize}
+%\item para muchas cámaras (mas de 5 o 6, ver las pruebas de gonzalo) el sistema funciona razonablemente con la reconstruccion ``original''. Principalmente debido a que se cuenta con información redundante de los marcadores.
+%\item para pocas cámaras se utiliza el nuevo algoritmo de reconstrucción, permite trabajar con la secuencia real disponible. con muchas cámaras el algoritmo puede ser computacionalmente complejo.
+%\item explicar bien cual es la frontera entre uno y otro caso (5 o 6 cámaras?)
+%\end{itemize}
 
 
