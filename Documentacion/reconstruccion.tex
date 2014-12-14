@@ -170,7 +170,7 @@ De esta forma cada punto de una cámara es asociado, si existen puntos válidos,
 Considerando esto último el procedimiento utilizado, para evaluar cual entre los pares de puntos asociados disponibles posee mayor posibilidad de corresponder a la proyección de un punto 3D, es proyectar todas los rayos de proyección y tomar aquella pareja de puntos que genere rayos de proyección con la menor distancia entre sí.
 
 
-\subsubsection{Reconstrucción 3D y validación}
+\subsubsection{Reconstrucción 3D y validación}\label{seccion_reconstruccion3D_validacion}
 
 
 Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reconstruirlas. Estas reconstrucciones deben ser validadas, para ello en principio se utiliza el  criterio propuesto por Herda \cite{herda}, se considera que una reconstrucción proveniente de dos cámaras es válida, si al proyectar sobre una tercer cámara existe al menos un punto de esta última que diste menos de un cierto valor umbral. Si efectivamente se encuentra al menos un punto, se asocia con los dos puntos que generaron la reconstrucción y se repite el proceso con el resto de las cámaras. Una vez finalizada la iteración, se retira a la pareja que genera la reconstrucción así como también a los puntos que lograron validarla, y se itera nuevamente repitiendo el proceso con la siguiente mejor pareja asociada entre dos cámaras.  
@@ -280,9 +280,30 @@ En cada par de cámaras seleccionado se consideran todos los rayos de proyecció
 
 Se repite el procedimiento hasta que sean comparadas todos los pares de cámaras consecutivas. De esta forma se obtiene una matriz de distancias entre rayos de proyección 3D para los diferentes pares de cámaras considerados.
 
-
+AGREGAR FIGURA\\
+ 
 \subsubsection{Mejor asociación}
 
+
+Este bloque mantiene su funcionalidad, encontrar la pareja de puntos entre dos vistas, con mayor probabilidad de corresponder a la proyección de un punto 3D.
+La diferencia fundamental con su implementación anterior es la gestión de las matrices de entrada, pues el ordenamiento por distancia de dichas matrices es diferente. En la primera implementación las distancias que producen el ordenamiento son generadas entre rectas epipolares y puntos, o sea distancias sobre un plano, mientras que en esta implementación las distancias son entre rayos en el espacio 3D.
+
+
+Manteniendo el criterio original para implementar este bloque, el cual consiste en tomar la pareja de puntos que genere rayos de proyección con la menor distancia entre sí. 
+La nueva entrada proporcionada por “Asociar puntos 2D” simplifica la nueva implementación.
+
+
+Una vez que se tiene la matriz de distancias con todas las asociaciones de puntos entre los pares de cámaras considerados. Este bloque simplemente toma de entre todas las asociaciones disponibles de puntos válidos, aquel par de puntos que posea menor distancia asociada.
+Recordar que un punto se considera válido si en iteraciones anteriores no se ha podido asociar a ningún punto 3D reconstruido.
+
+\subsubsection{Resto de los bloques}
+
+Los bloques de reconstrucción 3D y validación, y el de actualizar asociaciones realizan el mismo funcionamiento y tiene igual implementación que los utilizados en el algoritmo anterior. Ver las secciones \ref{seccion_reconstruccion3D_validacion} y \ref{actualizar_asociaciones}.
+
+  Asimismo la condición que debe cumplirse para detener el proceso iterativo es la misma.
+  
+  
+\subsection{Resultados}  
 
 %
 %
