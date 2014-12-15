@@ -142,7 +142,7 @@ De esta manera se obtiene para cada punto en la cámara 1 un conjunto de puntos 
 Repitiendo el procedimiento de manera inversa, esto es, de la cámara 2 a la cámara 1, se obtiene igualmente para cada punto de la cámara 2  los puntos de la cámara 1 ordenados según su proximidad a la recta epipolar correspondiente. A continuación se toman otros pares de cámaras y se vuelve a iterar. 
 
 Es importante resaltar que para la elección de los pares de cámaras se han considerado dos casos.
-El primero de ellos evalúa cada cámara respecto a todas las restantes y el segundo considera la disposición de las cámaras en el espacio y empareja las cámaras adyacentes de manera consecutiva. Ver la figura \ref{img_asociacion}. Más adelante se demuestra que este segundo procedimiento da mejores resultados.ACA SE DEBE REFERENCIAR BIEN DONDE ESTA ESA DEMOSTRACION \\
+El primero de ellos evalúa cada cámara respecto a todas las restantes y el segundo considera la disposición de las cámaras en el espacio y empareja las cámaras adyacentes de manera consecutiva. Ver la figura \ref{img_asociacion}. %Más adelante se demuestra que este segundo procedimiento da mejores resultados.ACA SE DEBE REFERENCIAR BIEN DONDE ESTA ESA DEMOSTRACION \\
 
  \begin{figure}[!ht]
    \centering 
@@ -209,7 +209,7 @@ Finalmente el proceso iterativo se detiene cuando no hay más marcadores para re
 
 \subsection{Resultados de reconstrucción sobre secuencias sintéticas}
 
-Se ha probado el algoritmo descrito anteriormente con secuencias capturadas en Blender. Para la configuración de 17 cámaras se han obtenido resultados aceptables,  con errores promedio menores a $0.5\,cm$ (CHEQUEAR ESTO EN LA PARTE DE GONZALO). En la sección citar(pruebas de performance), se define la medida de error  y se evalúa el desempeño del algoritmo respecto a dicha medida. En dichas pruebas se observan resultados aceptables aún utilizando 6 cámaras(CHEQUEAR ESTO)
+Se ha probado el algoritmo descrito anteriormente con secuencias capturadas en Blender. Para la configuración de 17 cámaras se han obtenido resultados aceptables,  con errores promedio menores a $0.5\,cm$. En la sección \ref{seccion_performance}, se define la medida de error  y se evalúa el desempeño del algoritmo respecto a dicha medida. En dichas pruebas se observan resultados aceptables aún utilizando 6 cámaras.
 
 \begin{figure}[h!]
 \centering
@@ -314,12 +314,17 @@ Se prueba el nuevo algoritmo para una secuencia sintética de 3 cámaras en las 
 Los resultados muestran una mejora significativa respecto al algoritmo original
 aunque no se llega a tener un desempeño ideal. 
 De 20 cuadros relevados en 11 de ellos se logra reconstruir de manera aceptable los 14 marcadores, en 6 de los cuadros se tiene 1 marcador incorrectamente reconstruido y en los 3 restantes se tiene 2 marcadores incorrectamente reconstruidos.
-En la figura XXX se muestra el resultado de la reconstrucción para un cuadro  determinado de la secuencia sintética.\\
+En la figura \ref{img_reconstruccion_sintetica} se muestra el resultado de la reconstrucción para un cuadro  determinado de la secuencia sintética.\\
 
-COLOCAR IMAGEN QUE ME DEBE PASAR GUILLERMO DEL ALGORITMO 2 SOBRE SECUENCIA SINTÉTICA\\
-
-
-
+\begin{figure}[!ht]
+   \centering 
+    \subfloat[Vista derecha]{\includegraphics[scale=1.70]{img/Reconstruccion/50_derecha_sintetica.png}}\hspace{0.5cm}
+    \subfloat[Vista  izquierda]{\includegraphics[scale=1.70]{img/Reconstruccion/50_izquierda_sintetica.png}}\hspace{2cm}
+    \subfloat[Vista de atras]{\includegraphics[scale=0.90]{img/Reconstruccion/50_atras_sintetica2.png}} \hspace{1.8cm}
+    \subfloat[Resultado de la reconstrucción]{\includegraphics[scale=0.7]{img/Reconstruccion/50_matlab_sintetica.pdf}}    
+   \caption{Reconstrucción de una secuencia sintética. Los asteriscos rojos indican los marcadores detectados.} 
+   \label{img_reconstruccion_sintetica}    
+\end{figure} 
 
 Por último el nuevo algoritmo fue probado con secuencias reales. Si bien se reconstruyen varios marcadores mejorando la performance que se tenía con el algoritmo de reconstrucción inicial, los resultados no son tan alentadores como los obtenidos para las secuencias sintéticas. En cierta manera es esperable dado que en este caso se adicionan errores provenientes de las etapas de detección de marcadores y de calibración. En la figura \ref{img_reconstruccion_real2} se muestra el resultado obtenido para un cuadro de la secuencia real. 
 
@@ -365,7 +370,7 @@ De lo expuesto se desprenden fundamentalmente dos cosas,
 El análisis en biomecánica exige restricciones sobre precisión espacial en los resultados de la reconstrucción, por lo que resulta necesario optimizar esta etapa. 
 
 De lo visto en la bibliografía existente podría proponerse el uso de la información de esqueleto, que impone restricciones sobre las posiciones de los marcadores. Si bien este tipo de análisis se menciona en el algoritmo propuesto por Herda, se decide en este trabajo generar un algoritmo en principio más generales y no se incorpora la información de esqueleto. \\
-VER CON GUILLERMO QUE QUISO PONER EN UNOS COMENTARIOS QUE ME PASO
+%VER CON GUILLERMO QUE QUISO PONER EN UNOS COMENTARIOS QUE ME PASO
  
  
  
