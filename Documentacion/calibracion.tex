@@ -1,7 +1,6 @@
 
 
 
-
 \section{Calibración}
 \label{calibracion}
 
@@ -13,7 +12,7 @@ Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D
 De la relación entre estos sistemas de coordenadas se obtienen los parámetros de las cámaras. Dichos parámetros se clasifican en intrínsecos y extrínsecos. Los primeros son aquellos que describen las propiedades geométricas y ópticas de la cámara, es decir, las características internas de la cámara. Por otra parte, los parámetros extrínsecos son los que describen la posición y orientación de la cámara respecto al sistema de coordenadas del espacio.\\
 
 Para realizar esto es necesario establecer un modelo que describa el sistema de óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo \textit{pinhole} de las cámaras. 
-El modelo \textit{pinhole} se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la pantalla de la cámara como se muestra en la figura \ref{pinhole_camara}.\\
+El modelo \textit{pinhole} se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la pantalla de la cámara como se muestra en la figura \ref{pinhole_camara}.
 
 \begin{figure}[h!]
 \begin{center}
@@ -149,14 +148,14 @@ Este método consiste en obtener la información necesaria a través de la captu
 \end{itemize}
 
 
-Algunas soluciones comerciales, como por ejemplo Vicon \footnote{\textcolor{blue}{\underline{\url{www.vicon.com}}. Accedido 3-12-14.}} , utiliza como objeto de calibración una vara con leds, ver figura \ref{vicon}. 
+Algunas soluciones comerciales, como por ejemplo Vicon \footnote{\textcolor{blue}{\underline{\url{http://www.vicon.com}}. Accedido 3-12-14.}} , utiliza como objeto de calibración una vara con leds, ver figura \ref{vicon}. 
 
 \begin{figure}[H]
         \centering
         
-        \subfloat{\includegraphics[scale=1.8]{img/calibracion/vicon1.png}\label{peladoOriginalintro}}
+        \subfloat{\includegraphics[scale=1.8]{img/calibracion/vicon1.png}}
         \hspace{1.8cm}
-        \subfloat{\includegraphics[scale=0.08]{img/calibracion/vicon2.jpg}\label{peladocirculosintro}}
+        \subfloat{\includegraphics[scale=0.08]{img/calibracion/vicon2.jpg}}
   \caption{Calibración Vicon}
       \label{vicon}
 \end{figure}
@@ -164,7 +163,271 @@ Algunas soluciones comerciales, como por ejemplo Vicon \footnote{\textcolor{blue
 En este caso la calibración se realiza moviendo el objeto de calibración a través del espacio de trabajo. Este método resulta muy flexible para la calibración de un conjunto de varias cámaras simultáneamente.
 
 
+\subsection{Calibración en el entorno Blender}
 
+Una vez establecida la configuración de las cámaras en  Blender, según lo descrito en la sección \ref{seccion_base_de_datos}, es posible conocer las matrices de proyección de cada una de ellas, es decir, que es posible saber la calibración de las cámaras a través de la información proporcionada por el propio programa de ciertos parámetros de las cámaras. Esto permite tener la calibración \textit{real} de las cámaras con lo cual es posible medir el desempeño de algunos bloques del sistema.\\
+
+Si se conocen las coordenadas de un punto 3D en el espacio de trabajo de Blender y además se saben las matrices de proyección de las cámaras, es posible determinar las coordenadas 2D de dicho punto proyectado en cada una de las cámaras. De esta manera se tiene el \textit{ground truth} de la detección de marcadores, permitiendo comparar el desempeño de dicho bloque respecto  a la posición real de los marcadores en las vistas 2D. Análogamente teniendo estos datos se pueden evaluar los bloques siguientes del sistema. Por ejemplo es posible además evaluar el desempeño del bloque de reconstrucción sabiendo la posición 2D real de los marcadores, por lo cual se puede evaluar los errores que son producto solamente de este bloque del sistema.\\
+
+A continuación se describe cómo se deducen las matrices de proyección a partir de ciertos parámetros proporcionados por el programa.\\
+
+La posición de una cámara se establecen respecto a un sistema de coordenadas determinado, al que se le puede llamar el sistema de coordenadas del mundo. Por lo cual posible rotación y traslación que es necesario aplicar al sistema de coordenadas del mundo para obtener el sistema de coordenadas solidario a la cámara. Los parámetros que se pueden obtener de Blender son los ángulos de rotación $(\theta, \phi, \psi )$ respecto a los ejes $(x,y, z)$ del sistema de coordenadas del mundo, así como el orden en que se ejecutan dichas rotaciones. Si el orden establecido es \textit{XYZ Euler}, lo que implica que primero se rota respecto al eje $x$, luego al $y$ y al $z$, se obtiene la matriz de rotación:
+
+\[R=R_{(z,\psi)}R_{(y,\phi)}R_{(x,\theta)}
+= \begin{pmatrix}
+		r_{11} & r_{12} & r_{13}\\
+		r_{21} & r_{22} & r_{23}\\
+		r_{31} & r_{32} & r_{33}\\ 
+\end{pmatrix}= 
+\begin{pmatrix}
+			R_1 \\
+			R_2 \\
+			R_3 \\
+		\end{pmatrix}
+\]
+ 
+ Donde,
+ \[R_{(x,\theta)} = \begin{pmatrix}
+		1 &   0         &  0\\
+		0 & cos\,\theta & -sen\,\theta\\
+		0 & sen\,\theta & cos\,\theta\\ 
+\end{pmatrix}, ~
+R_{(y,\phi)}=\begin{pmatrix}
+		cos\,\phi  & 0 & sen\,\phi\\
+		0          & 1 & 0\\
+		-sen\,\phi &0  & cos\,\phi\\ 
+\end{pmatrix}, ~
+R_{(z,\psi)}\begin{pmatrix}
+		cos\,\psi & -sen\,\psi & 0\\
+		sen\,\psi & cos\,\psi  & 0\\
+		 0          & 0            & 1\\ 
+\end{pmatrix}\]
+
+A su vez también es posible obtener el vector de traslación $T$ que es necesario aplicar al sistema de coordenadas del mundo para obtener el sistema solidario a la cámara. De esta manera se obtiene la matriz de parámetros extrínsecos:
+\[
+		M_{ext}=\begin{pmatrix}
+			r_{11} & r_{12} & r_{13} &-R^t_1 T\\
+			r_{21} & r_{22} & r_{23} &-R^t_2 T\\
+			r_{31} & r_{32} & r_{33} &-R^t_3 T\\
+		\end{pmatrix}
+\] 
+
+Para hallar la matriz de parámetros intrínsecos se necesitan saber los siguientes parámetros que son proporcionados por Blender: 
+\begin{itemize}
+\item $f$, distancia focal
+\item $(o_x, o_y)$, coordenadas del punto principal
+\item $(s_x,s_y)$, tamaño efectivo de los píxeles de la retina en píxeles/milímetro.
+\end{itemize}
+
+con estos parámetros se obtiene la matriz de parámetros intrínsecos:
+
+\[M_{int}=\begin{pmatrix}
+			-f/s_x & 0      & o_x\\
+			0      & -f/s_y & o_y\\
+			0      & 0      & 1\\
+		\end{pmatrix} \]
+ 
+
+En el apéndice \ref{apendice_calibracion_blender} se describe en detalle cómo se obtienen los parámetros necesarios en Blender.\\
+
+\subsection{Calibración para secuencias reales}
+
+Por intermedio del Lic. Darío Santos (REFERENCIASR BIEN), hemos podido tener acceso a secuencias de vídeo de análisis del movimiento de la marcha que se han realizado en el Hospital de Clínicas (REFERENCIAR DEPARTAMENTO). Dichas secuencias han sido obtenidas por un grupo de médicos e investigadores con el objetivo analizar el movimiento de pacientes, es decir, con fines terapéuticos o con un objetivo esencialmente de investigación, en particular del estudio de la marcha humana desde el punto de vista de la biomecánica.\\
+
+DEBERIA ACLARARSE QUE ESTO SE HACIA ANTES, CREO QUE TIPO POR 2009 Y AHORA USAN VICON.
+
+La metodología utilizada consiste en el uso de tres cámaras de vídeo convencionales de 25 fps y resolución  720 x 576 píxeles. Dichas cámaras se disponen como se muestra en la figura \ref{fig: lab_real}, alrededor de una alfombra o cinta sobre la que se le pide al paciente que camine.
+
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.5]{img/calibracion/lab_real.pdf}
+\end{center}
+\caption{Laboratorio del Hospital de Clínicas}
+\label{fig: lab_real}
+\end{figure}
+
+La persona que se desea evaluar debe tener colocados marcadores, fundamentalmente en las articulaciones del cuerpo, y debe desplazarse sobre la alfombra dispuesta para esto. En la figura \ref{fig: persona con marcadores}, se observa a un individuo caminando con los marcadores colocados.
+
+\begin{figure}[H]
+        \centering
+        
+        \subfloat[Persona con marcadores]{\includegraphics[scale=0.3]{img/calibracion/captura_real.png}\label{fig: persona con marcadores}}
+        \hspace{0.2cm}
+        \subfloat[Objeto de calibración]{\includegraphics[trim = 20mm 0mm 40mm 0mm, clip, scale=0.3]{img/calibracion/calibrador.png}\label{fig: calibrador}}
+  \caption{Captura de secuencia real}
+      \label{fig: captura real}
+\end{figure}
+
+Antes de la captura del movimiento se emite una señal acústica con la cual se sincronizan las tres vistas una vez obtenidos los vídeos. El software con el cual este grupo de médicos han analizado el movimiento es el \textit{Dvideow} (REFERENCIAR). Dicho software realiza la detección, seguimiento y reconstrucción de los marcadores. No hemos podido tener acceso a este software por lo cual tampoco pudimos evaluar su desempeño y compararlo con el desarrollado por nosotros.\\
+
+Para calibrar este sistema se utiliza el objeto de calibración, o calibrador, como se muestra en la figura \ref{fig: calibrador} que consiste en marcadores colocados sobre una estructura de dimensiones conocidas. Dicho objeto se coloca sobre distintos puntos marcados sobre la alfombra, por lo que las traslaciones realizadas son de distancias conocidas. De esta manera se calibra con más puntos sobre el volumen de trabajo.\\
+
+
+El método implementado requiere que cada marcador del calibrador, en cada una de las vistas, sea seleccionado manualmente en un orden tal que permita establecerse una correspondencia entre las proyecciones de un mismo marcador en las tres vistas. En la figura \ref{fig: vistas_calibrador} se muestra a uno de los marcadores seleccionado en cada una de las vistas.\\
+
+
+\begin{figure}[H]
+        \centering        
+        \subfloat[Vista cámara 1]{\includegraphics[trim = 59mm 0mm 41mm 0mm, clip,scale=0.47]{img/calibracion/calibrador_cam1.png}}
+                \hspace{0.1cm}
+        \subfloat[Vista cámara 2]{\includegraphics[trim = 50mm 0mm 50mm 0mm, clip,scale=0.47]{img/calibracion/calibrador_cam2.png}}     	
+  \hspace{0.1cm}
+        \subfloat[Vista cámara 3]{\includegraphics[trim = 32mm 0mm 68mm 0mm, clip,scale=0.47]{img/calibracion/calibrador_cam3.png}}
+      
+      \caption{Uno de los marcadores de calibrador seleccionado en cada una de las cámaras}
+      \label{fig: vistas_calibrador}
+      
+\end{figure}
+
+
+Por otra parte la posición de los marcadores en el espacio 3D es conocida ya que se saben las medidas del calibrador, ver figura \ref{fig: medidas_calibrador}. Dichas posiciones pueden ser referidas un punto que puede elegirse arbitrariamente, así como los ejes de coordenadas $(x,y,z)$.
+
+\begin{figure}[H]
+        \centering
+     {\includegraphics[scale=0.4]{img/calibracion/medidas_calibrador.pdf}\label{fig: medidas_calibrador}}
+     \caption{Coordenadas de los marcadores del calibrador}
+     
+\end{figure}
+
+   De esta forma se tiene asociados las coordenadas 3D de los marcadores en el espacio con sus correspondientes coordenadas 2D en píxeles en cada una de las cámaras, $X_i \leftrightarrow x_i$. Si se tiene una cantidad suficiente de puntos, entonces las matrices de proyección $P$ pueden ser estimadas tal que $x_i=PX_i$. Para esto se utiliza el algoritmo \textit{DLT}\\
+   
+   Para cada asociación de puntos $X_i \leftrightarrow x_i$ se cumple que REFERENCIA ZISSERMAN:
+   
+   \[
+   \begin{pmatrix}
+   0^T & -w_iX_i^T & y_iX_i^T \\
+   w_iX_i^T & 0^T & -x_iX_i^T
+   \end{pmatrix}
+   \begin{pmatrix}
+    P^1 \\
+    P^2 \\
+    P^3
+   \end{pmatrix}
+   = 0
+   \]
+   
+ siendo $P^{iT}$ las columnas $i$-ésimas de $P$. Dicha matriz se obtiene resolviendo un conjunto de ecuaciones del tipo $Ap=0$.  Dado que por cada punto se tiene 2 ecuaciones y que la matriz $P$ tiene 12 entradas y 11 grados de libertad, ignorando el factor de escala, resulta que son necesarios conocer al menos 6 correspondencias $X_i \leftrightarrow x_i$.\\
+ 
+ Tanto a los puntos imagen 2D como a los 3D se les aplica una normalización. Para los puntos 2D de cada vista se traslada el origen de coordenadas dicha vista al centroide de los puntos y se aplica un escalado tal que la distancia promedio de los puntos al origen sea $\sqrt{2}$. Para los puntos 3D el mismo procedimiento excepto que escalado que se aplica tal que la distancia promedio al originen sea $\sqrt{3}$. De esta manera se tiene dos matrices que realizan esta transformación, la matriz $T_{3D}$ tal que $\tilde{X_i} = T_{3D}^{}X_i$ para los puntos en el espacio, siendo $\tilde{X_i}$ los puntos normalizados. Análogamente para los 2D imagen se tiene la matriz $T_{2D}^{}$ tal que $\tilde{x_i} = T_{3D}^{}x_i$. \\
+ 
+ Dado que las coordenadas de los puntos 2D están afectadas por el ruido y que se tienen más de 6 correspondencias $X_i \leftrightarrow x_i$ no existe una solución exacta a las ecuaciones $Ap=0$. Por lo tanto la solución se obtiene minimizando un error, en este se busca $p$ tal que minimice $||Ap||$. Para esto se utiliza la descomposición en valores singulares (SVD), donde se obtiene del vector singular asociado al menor valor singular. De esta manera se obtiene la matriz de proyección $\tilde{P}$. Por último debe descomponerse la normalización, por lo tanto la matriz de proyección $P = T_{2D}^{-1} \tilde{P} T_{3D}^{}$.
+ 
+ \subsection{Calibración simulada en Blender}
+ 
+ Con el objetivo de establecer una metodología que fuera válida para la configuración de cámaras con las que se diseño la base de datos, se probaron implementaciones existentes que pudieran calibrar dicha base de datos elaborada en Blender. Para esto se evaluaron los siguientes toolbox elaborados en Matlab.\\ 
+ 
+  \subsubsection{Toolbox Multi-Camera Self-Calibration \footnote{\textcolor{blue}{\underline{http://cmp.felk.cvut.cz/~svoboda/SelfCal/}. Accedido 3-12-14.}}}
+ 
+ Este toolbox está especialmente pensado para la calibración simultánea de un conjunto de varias cámaras. El procedimiento consiste en capturar con todas las cámaras, el movimiento de una fuente puntual de luz que se mueve a lo largo de todo el volumen de trabajo. por tanto para cada frame se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección si dicho punto es visible desde esa cámara. Para esto debe asegurarse que exista un contraste suficiente de la luz respecto al laboratorio. Puede usarse para esto, por ejemplo una lámpara led y que en el laboratorio exista poca o nula luz ambiente.\\
+ 
+ 
+ Si se tienen $m$ cámaras y $n$ puntos 3D  
+$\mathbf{X_j} = [X_j, Y_j, Z_j,1]^T$ con $j=1,\ldots,n$. La proyección de dichos puntos en los puntos imagen $u_j^i$:
+\[ \lambda_j^i
+\begin{bmatrix}
+u_j^i \\
+v_j^i \\
+1
+\end{bmatrix} 
+ = \lambda_j^i u_j^i = P^i \mathbf{X_j}
+\]
+
+siendo $P^i$ la matriz de proyección de la $i$-ésima cámara y $u,v$ las coordenadas en píxeles de los puntos imagen. Las coordenadas de dichas proyecciones deben ser detectadas para cada frame y para cada cámara. El objetivo de la calibración es hallar los factores de escala $\lambda_j^i$ y las matrices de proyección $P^i$. Pueden expresarse todos los puntos y las matrces de proyección en una sola matriz $W_s$:
+
+\[
+W_s =
+\begin{bmatrix}
+
+	\lambda_1^1
+	\begin{bmatrix}
+	u_1^1 \\
+	v_1^1 \\
+	1
+	\end{bmatrix} &
+	
+	\ldots &
+	
+	\lambda_n^1
+	\begin{bmatrix}
+	u_n^1 \\
+	v_n^1 \\
+	1
+	\end{bmatrix} \\
+	
+	\vdots & \ddots & \vdots \\
+	
+	
+	\lambda_1^m
+	\begin{bmatrix}
+	u_1^m \\
+	v_1^m \\
+	1
+	\end{bmatrix} &
+	
+	\ldots &
+	
+	\lambda_n^m
+	\begin{bmatrix}
+	u_n^m \\
+	v_n^m \\
+	1
+	\end{bmatrix} \\
+
+\end{bmatrix}
+= 
+\begin{bmatrix}
+P^1 \\
+\vdots \\
+P^m
+\end{bmatrix}_{3m\text{x}4}
+\quad
+[\mathbf{X_1} \ldots \mathbf{X_n}]_{4\text{x}n}
+\]
+Por lo tanto se puede expresar:
+\[ W_s = PX\]
+
+donde $P = [P^1 \ldots P^m]^T$ y $X = [\mathbf{X_1} \ldots \mathbf{X_n}]$
+
+Si son detectados una cantidad suficiente de puntos no ruidosos ($u_j^i, v_j^i$) y se conocen los $\lambda_j^i$, entonces $W_s$ tiene rango 4 puede factorizarse en $P$ y $X$.\\
+
+El número mínimo de cámaras para una correcta calibración depende del número de parámetros conocidos de las cámaras o del número de parámetros que o se conocen pero son los mismos para todas las cámaras. 3 cámaras son suficientes si se conocen todos los puntos principales o si los parámetros internos de las cámaras no se conocen pero son los mismo para todas ellas.\\
+
+La simulación en Blender se logra creando un punto 3D que toma para cada frame distintas posiciones en forma aleatoria dentro del volumen de trabajo. Para cada frame se \textit{renderiza} su posición en las 17 cámaras. En este caso se han tomado 500 posiciones distintas. En la figura \ref{fig: blender toolbox laser} se muestra en Blender la distintas posiciones que toma en un punto dentro del volumen de trabajo.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.22]{img/calibracion/blender_toolbox_laser.png}
+\end{center}
+\caption{Posiciones de un punto 3D dentro del volumen de trabajo}
+\label{fig: blender toolbox laser}
+\end{figure}
+
+En la figura \ref{fig: camaras blender} se muestra la configuración de las 17 cámaras en el espacio 3D de Blender. En la figura \ref{fig: camaras calibracion} se muestra, con círculos en azul, la posición de las cámaras obtenidas del resultado de la calibración. Se observa además, en rojo, la reconstrucción de las posiciones del punto 3D en el espacio.
+
+
+\begin{figure}[H]
+        \centering        
+        \subfloat[Blender]{\includegraphics[trim = 0mm 0mm 0mm 0mm, clip,scale=0.25]{img/calibracion/camaras_blender.png}\label{fig: camaras blender}}
+                \hspace{0.1cm}                
+        \subfloat[Calibración]{\includegraphics[trim = 0mm 20mm 10mm 20mm, clip,scale=0.47]{img/calibracion/camaras_calibracion.png}\label{fig: camaras calibracion}}
+        
+      
+      \caption{Configuración de las cámaras en el espacio 3D de Blender y la misma configuración hallada mediante la calibración}
+      \label{fig: configuracion camaras}
+      
+\end{figure}
+
+En la figura \ref{fig: error reproyección} se muestra e promedio y la desviación del error de reproyección estándar obtenido para cada una de las caḿaras.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.4]{img/calibracion/reprerrors.pdf}
+\end{center}
+\caption{Promedio y desviación  del error de reproyección en todas las cámaras }
+\label{fig: error reproyección}
+\end{figure}
+  
 
 
 
