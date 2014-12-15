@@ -8,6 +8,7 @@ una breve descripción de las soluciones actualmente disponibles.
 \vspace{5 mm}
 
 Especialistas de distintos ámbitos académicos o profesionales se encuentran habitualmente en la necesidad de realizar estudios del movimiento del cuerpo humano. Esta tarea implica registrar la posición de miembros o articulaciones en el espacio y su correspondiente evolución en el tiempo.
+\\ 
 
 Algunos ejemplos correspondientes a distintas áreas que ilustran estas necesidades son:
 
@@ -19,19 +20,26 @@ Algunos ejemplos correspondientes a distintas áreas que ilustran estas necesida
 \end{itemize}
 
 En este contexto, el análisis de video  es  una  herramienta  fundamental para la recolección y estudio de datos. El seguimiento de puntos de referencia se utiliza para el cálculo de posición y otras variables asociadas como son la velocidad, la aceleración y por ende desplazamientos. Trabajar con video, permite además estudiar secuencialmente situaciones estáticas en el tiempo. El seguimiento de dichos puntos resultaría tedioso si se hiciera manualmente por lo que resulta necesario contar con una herramienta que realice esta tarea automáticamente.
+\\ 
 
 A raíz de esto, se crean los \emph{sistemas de captura de movimiento}, que se definen como un conjunto de dispositivos y software que a partir de la grabación del movimiento de una persona (o cualquier otra cosa), es capaz de trasladar dicho movimiento a un modelo digital para diferentes fines.
+\\ 
 
 Los ejemplos mencionados anteriormente definen distintos casos de uso con características disímiles, de manera que la búsqueda de una solución única que abarque las necesidades particulares de todos ellos resulta compleja. Por ejemplo, en el ámbito deportivo la velocidad del movimiento es una variable importante a tener en cuenta para desarrollar una solución, de esta variable, depende la elección tanto del sistema de adquisición como de los algoritmos más eficaces para el registro del movimiento.  De igual manera definir la portabilidad del sistema depende de si la actividad a relevar es en condiciones de laboratorio controladas o al aire libre, debido a la protección y transporte de equipos o las variaciones en las condiciones de iluminación, ruido, etc..
+\\ 
 
 Al  día  de  hoy,  las  soluciones  de  software  disponibles que  podrían  asistir al especialista en su tarea, son mayormente comerciales. Las pocas alternativas de código abierto, carecen de las características necesarias para el especialista o están enfocadas hacia otras áreas de aplicación. Contar con este tipo de herramientas es fundamental para las necesidades de los equipos de profesionales, cuya alternativa son productos comerciales de alto costo.
+\\ 
 
 En virtud de estas necesidades este proyecto busca \emph{relevar y caracterizar los distintos casos de uso para un sistema de captura de movimiento,  seleccionar uno que sea representativo y suficientemente general para poder realizar una aplicación básica y funcional de código abierto de análisis de video, que proporcione solución a las necesidades que se describieron ya sea utilizando como base algún  proyecto  de  software  libre  existente,  o en su defecto, desarrollando un prototipo de software básico completo que abarque el problema en forma general, para luego estudiar extender la aplicación hacia otros casos de uso}.
+\\ 
 
 Es importante resaltar la importancia de \textbf{tener una primer versión del sistema de principio a fin}, con todas las etapas implementadas de forma tal de abarcar todos los procesos que la captura de movimiento implica.  Esto tiene como ventaja que se tendrá un panorama general del estado del arte de cada etapa del sistema, y 
 sentará las bases para que proyectos futuros puedan optimizar individualmente dichas etapas acorde a las necesidades del cliente.
+\\ 
 
 Los requerimientos para la implementación de este sistema provienen de Patricia Polero, investigadora del Departamento de Biofísica de la facultad de medicina de la Udelar, lo que implica que el proyecto se enfoca hacia el área asistencial, particularmente el estudio del movimiento de las personas.
+\\ 
 
 De acuerdo a lo planteado por el cliente y a las hipótesis que se establecieron en conjunto, se plantean los siguientes supuestos relativos a la apariencia del laboratorio:
 \begin{itemize}
@@ -54,6 +62,7 @@ En cuanto al movimiento se asume que:
 \end{itemize}
 
 Por otro lado, se requiere que la salida del sistema sea la posición en el espacio 3D de los marcadores, ubicados en el cuerpo del paciente, en cada instante de la captura, con la correcta identificación de dichos marcadores en cada cuadro. A estos requerimientos, se le suman otros de carácter académico, como la importancia de tener una base de datos con un cierto número de secuencias y una método de evaluación de performance establecido. Estos dos aspectos toman gran relevancia en etapas futuras, de ampliación de este proyecto, ya que al realizar pruebas  de nuevas implementaciones sobre los mismos datos y evaluar los resultados con iguales métricas, se tiene un punto de referencia sobre el cual evaluar posibles mejoras del sistema.
+\\ 
 
 En resumen, el sistema creado pretende bajo ciertas condiciones controladas, obtener las coordenadas espaciales de un número de puntos de interés sobre una paciente. Una de las formas de obtener esto y la estudiada en este trabajo, es colocar al sujeto con traje negro con marcadores, en un ambiente con iluminación adecuada, filmar con varias cámaras a lo largo del tiempo, se adquiere esta información en la computadora y mediante un posterior procesamiento se obtiene la posición 3D de cada uno de los puntos de interés (los marcadores) a lo largo de toda la secuencia.
 
@@ -79,10 +88,12 @@ La aplicación recibe como entrada imágenes de video provenientes de varias cá
 
 %SINOPSIS
 El proyecto se inicia con investigación y revisión bibliográfica sobre la temática, buscando diseños provenientes de sistemas de captura de movimiento ya implementados, así como  detalles sobre la implementación parcial o total de cada funcionalidad de interés. 
+\\ 
 
 Rápidamente se procuró obtener una base de datos con secuencias, ya sean reales o sintéticas, sobre los cuales implementar la aplicación y sus distintos bloques. Si bien esta búsqueda no aportó los resultados esperados
 %no obtuvo buenos resultados %ME QUERES MATAR ANDREI!!!!
 , debido no se encontraron bases de datos acorde a las necesidades del proyecto, se implementa un prototipo de base de datos sintética con un número reducido de secuencias como alternativa tomando algunos conceptos de los que se encontraron al relevar, generando una base es flexible, con potencial para futuros estudios y fácilmente expansible.
+\\ 
 
  Luego de análisis sobre la bibliografía consultada y definir la metodología, se optó por implementar el sistema integrando 4 bloques principales mostrados en la figura \ref{bloquesSistintro}. 
 
@@ -111,13 +122,14 @@ Cabe destacar que estos bloques se implementaron de manera independiente, para p
         }\hspace{3 mm}
         \subfloat[Detección de marcadores]{\includegraphics[scale=0.4]{img/peladoFondoAzul_circulos.png}\label{peladocirculosintrointro}}
 
-        \subfloat[Recontrucción 3D]{\includegraphics[scale=0.17]{img/Reconstruccion/reconstruccion1.png}\label{peladoewconstruidointro}}
-    	\subfloat[Seguimiento]{\includegraphics[scale=0.3]{img/Tracking/track1.png}\label{peladoetrackingintro}}  
+        \subfloat[Recontrucción 3D]{\includegraphics[scale=0.15]{img/Reconstruccion/reconstruccion1.png}\label{peladoewconstruidointro}}
+    	\subfloat[Seguimiento]{\includegraphics[scale=0.24]{img/Tracking/track1.png}\label{peladoetrackingintro}}  
   \caption{Salidas de los bloques principales del sistema.}
       \label{ejemplotutiintro}
 \end{figure}
 
 Por otro lado, fue elaborada una interfaz gráfica básica de forma tal de facilitar la ejecución del software para los usuarios sin tener que trabajar directamente con el código.
+\\ 
 
 A continuación se presenta una breve revisión del estado del arte de los sistemas de captura de movimiento disponibles. Una descripción más detallada y más técnica se realizará en la sección \ref{invBiblio}. La documentación del proyecto continuará con la descripción de la base de datos generada y la implementación de cada bloque del sistema mencionado anteriormente. Finalmente se realiza un análisis de los resultados obtenidos en cada sección y la performance del sistema global desde la captura de video, hasta las trayectorias 3D.
 
@@ -127,8 +139,10 @@ A continuación se presenta una breve revisión del estado del arte de los siste
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Al día de hoy existen varios sistemas de captura de movimiento, sin embargo los mas usados debido a su buena performance y soporte presentan costos de licenciamiento. 
+\\ 
 
 Como se mencionó anteriormente, los más populares en la actualidad son los que se utilizan en la industria del cine o del diseño de videojuegos. En este contexto, se almacenan las acciones de actores humanos y se usa esta información para animar modelos digitales de personajes en animación 3D.
+\\ 
 
 Algunos ejemplos de sistemas de captura de movimiento bajo licencia son:
 
@@ -142,10 +156,13 @@ Algunos ejemplos de sistemas de captura de movimiento bajo licencia son:
 \end{itemize}
 
 Los sistemas anteriores, y la mayoría de los sistemas modernos que efectúan capturas de movimiento, utilizan sensores infrarrojos o LEDs para efectuar el seguimiento de puntos. Los segundos facilitan la etapa de detección de marcadores en cada cámara, mientras que los primeros no tienen una etapa de detección en cada vista ni reconstrucción ya que los mismos ofrecen la información de posición directamente.
+\\ 
 
 La gran desventaja de los sistemas anteriores es su alto costo. A modo de ejemplo, un sistema Vicon de 10 cámaras tiene un valor que ronda los U\$S\;70.000 \footnote{Este precio depende fuertemente del tipo de cámara que se utilice, los precios de las mismas se encuentran a partir de los U\$S\;3.000 por unidad.}.
+\\ 
 
 Otra alternativa sobre la que se investigó inicialmente es DVIDEOW \cite{figueroa2003flexible}, que presenta varios conceptos teoricos como primer acercamiento al problema, pero la implementación presentaba perdidas de marcadores que requerian correcciones constantes , y salvo los trabajos que presentaban los fundamentos teoricos, la aplicacion misma no está disponible desde el 2009.
+\\ 
 
 Por otro lado, también existen programas de captura de movimiento de código libre, un ejemplo de ello es el programa Kinovea
 \footnote{ \textcolor{blue}{\underline{\url{http://www.kinovea.org/}}}. Accedido 9-12-14}. Enfocado principalmente en el ámbito deportivo, permite analizar y mejorar la técnica de los atletas a través del procesamiento de secuencias de video. Posee algunas características interesantes como la posibilidad de efectuar medición de distancias, ángulos y tiempos manualmente, así como la utilización de seguimiento semi-automático de puntos en tiempo real para obtener su trayectoria. La gran desventaja que presenta frente a otros sistemas es que efectúa únicamente análisis sobre dos dimensiones.

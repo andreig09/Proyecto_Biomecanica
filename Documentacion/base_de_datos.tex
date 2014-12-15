@@ -117,7 +117,7 @@ Interesados en el reconocimiento de personas a través del seguimiento de la mar
 Contiene 1.2 Tera bytes de información. Utilizada para el reconocimiento de la marcha,  no posee marcadores. Al igual que en la base de Southampton contiene en la secuencia imágenes de dameros convenientemente dispuestos, útiles para calibrar las cámaras. Las sucesivas secuencias tomadas para un mismo sujeto modifican distintos tipos de factores, como la calidad del terreno a recorrer, si el sujeto lleva o no un maletín y el  tipo de calzado utilizado. Tienen disponible junto a todas las secuencias de la base de datos las siluetas de los sujetos, obtenidas con un algoritmo base también propuesto y disponible. Lamentablemente el enlace que indica el protocolo seguido para obtener secuencias, junto con la especificación del equipamiento, está fuera de línea.
 
 \paragraph{HumanEva.\footnote{\textcolor{blue}{\underline{\url{http://vision.cs.brown.edu/humaneva/index.html }}}. Accedido 30-11-14} \cite{humaneva} }
-Con solo 13 Gigabit de información, el trabajo de este laboratorio es muy completo, incluye métricas de evaluación y un análisis importante de las necesidades actuales a la hora de generar una base de datos para relevar actividades humanas. El único inconveniente para cumplir los requisitos de nuestro proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son escasos y demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas para nuestro propósito, incluso utilizan máscaras sobre las imágenes ópticas para cubrir los marcadores, estos últimos son utilizados solo para recopilar el ground truth a través de un sistema Vicon.  Dado que su motivación es obtener una imagen ``natural'' del sujeto que contenga la complejidad generada por el movimiento de la ropa, el ground truth que presentan  no es tan preciso como los obtenidos por métodos más tradicionales.  Contiene código para efectuar sustracción de fondo y la implementación de un algoritmo base, con un filtrado de partículas utilizado para el seguimiento de la pose del sujeto. Para acceder a los datos se debe gestionar un permiso en la página de HumanEva. 
+Con 1.6 Gigabytes de información, el trabajo de este laboratorio es muy completo, incluye métricas de evaluación y un análisis importante de las necesidades actuales a la hora de generar una base de datos para relevar actividades humanas. El único inconveniente para cumplir los requisitos de nuestro proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son escasos y demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas para nuestro propósito, incluso utilizan máscaras sobre las imágenes ópticas para cubrir los marcadores, estos últimos son utilizados solo para recopilar el ground truth a través de un sistema Vicon.  Dado que su motivación es obtener una imagen ``natural'' del sujeto que contenga la complejidad generada por el movimiento de la ropa, el ground truth que presentan  no es tan preciso como los obtenidos por métodos más tradicionales.  Contiene código para efectuar sustracción de fondo y la implementación de un algoritmo base, con un filtrado de partículas utilizado para el seguimiento de la pose del sujeto. Para acceder a los datos se debe gestionar un permiso en la página de HumanEva. 
 
 \paragraph{INRIA Perception, Multicam Dataset.\footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home}}}. Accedido 30-11-14}} Efectúan las capturas con múltiples cámaras y también ofrecen la secuencia de malla de los sujetos reconstruidos a partir de las imágenes. Ofrecen un software que permite navegar en 4D, es decir, el espacio y el tiempo, sobre los modelos disponibles en su base de datos. Por lo que estos modelos se pueden ver desde cualquier ángulo de visión e inspeccionar congelándolos en cualquier instante de tiempo. Lamentablemente su captura no está basada en marcadores. 
 
@@ -140,7 +140,7 @@ El objetivo de esta base de datos es reconocer el movimiento del cuerpo al reali
 
 
 \subsubsection{Contactos realizados y resultados} 
-En el ámbito local hemos estado en contacto con la magister Patricia Polero, quien nos ha brindado su experiencia previa en el tema de capturas ópticas de movimiento basadas en marcadores así como ayudado a definir los requerimientos mínimos del sistema a implementar  en las etapas iniciales. También se han generado reuniones con Darío Santos, Fisioterapeuta en el Hospital de Clínicas, quien actualmente ¿dirije? un laboratorio que posee un sistema de captura de movimiento basado XXXX el cual han adquirido recientemente. Si bien dicho sistema pudo haber sido primordial para generar una base de datos con secuencias reales, no se pudo coordinar debidamente su uso. De todas maneras en estas reuniones, se obtiene un reducido número de secuencias relativamente útiles. Cabe destacar que las mismas no poseen la calidad deseada, por pertenecer a versiones previas del laboratorio cuando aún no disponían del sistema actual, así como tampoco cumplen la totalidad de supuestos sobre las condiciones de captura planteados al inicio del proyecto. 
+En el ámbito local hemos estado en contacto con la magister Patricia Polero, quien nos ha brindado su experiencia previa en el tema de capturas ópticas de movimiento basadas en marcadores así como ayudado a definir los requerimientos mínimos del sistema a implementar  en las etapas iniciales. También se han generado reuniones con Darío Santos, Fisioterapeuta en el Hospital de Clínicas, quien actualmente dirije un laboratorio que posee un sistema de captura de movimiento de Vicon-Peak, el cual han adquirido recientemente. Si bien dicho sistema pudo haber sido primordial para generar una base de datos con secuencias reales, no se pudo coordinar debidamente su uso. De todas maneras en estas reuniones, se obtiene un reducido número de secuencias relativamente útiles. Cabe destacar que las mismas no poseen la calidad deseada, por pertenecer a versiones previas del laboratorio cuando aún no disponían del sistema actual, así como tampoco cumplen la totalidad de supuestos sobre las condiciones de captura planteados al inicio del proyecto. 
 
 
 Los pedidos se realizan a partir del 17 de diciembre de 2013 aproximadamente. En los mismos se intenta gestionar el acceso a las bases de datos de acceso restringido, que entendimos poseen características útiles en el desarrollo de nuestro sistema. En la tabla \ref{tabla_solicitudes} se muestran los contactos realizados y los resultados obtenidos.
@@ -167,20 +167,19 @@ Los pedidos se realizan a partir del 17 de diciembre de 2013 aproximadamente. En
 
 
 
-\subsubsection{Conclusiones}\label{conclusiones_revision_base_datos} SECCION EN CONSTRUCCION\\
+\subsubsection{Conclusiones}\label{conclusiones_revision_base_datos} 
 
 Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores. Son los factores más importantes.
+
+
 Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos 3D en distinto tipo de movimientos, sobre todo en formatos Mocap.
+
+
+
 Estas consideraciones impulsaron la idea de recorrer el camino inverso, crear una base de datos sintética a partir del material Mocap disponible, para luego generar los videos en los cuales trabajar.  
 
 
-
-
-
-
-
-Si bien la búsqueda se centró en blablabla no logró encontrar una base de datos que cumpliera las especificaciones de nuestro proyecto. Debido a blablabla SEGUIMIENTO OPTICO DE MARCADORES.
- De todas maneras se genera un relevamiento de bases de datos para el movimiento humano, se profundiza en las características usuales que presentan dichas bases de datos y se logra reunir un conjunto de conceptos y herramientas necesarios para introducirnos en el tema. 
+De todas maneras cabe destacar que se genera un relevamiento de bases de datos para el movimiento humano, se profundiza en las características usuales que presentan dichas bases de datos y se logra reunir un conjunto de conceptos y herramientas necesarios para introducirnos en el tema. 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %5
@@ -373,7 +372,14 @@ Si bien en principio cualquier fuente de archivos BVH con capturas de movimiento
 
 
 \subsubsection{Blender} %SECCION EN CONSTRUCCION\\
-En esta sección se describe de que manera se utiliza Blender y Python para generar las secuencias de video de la base de datos. Los parámetros de las distintas componentes así como los detalles de procesos enumerados en esta sección se encuentran en el apéndice (COLOCAR AQUI LA REFERENCIA PARA EL APENDICE).
+En esta sección se describe de que manera se utiliza Blender y Python para generar las secuencias de video de la base de datos.
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%Los parámetros de las distintas componentes así como los detalles de procesos enumerados en esta sección se encuentran en el apéndice (COLOCAR AQUI LA REFERENCIA PARA EL APENDICE).
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % % % % %DESCOMENTAR AL HACER APENDICE
+
 
 
 
@@ -399,8 +405,13 @@ Se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas u
 \paragraph{Disposición del laboratorio}
 El laboratorio generado posee 17 cámaras dispuestas en un ambiente rectangular de $10\times15\;m $ como se muestran en las figuras \ref{img_Laboratorio} y \ref{img_Entorno_Blender}. La configuración de las mismas permite probar diferentes combinaciones de captura a la hora de generar secuencias. Se diseñaron las cámaras para que sus parámetros fuesen similares a cámaras convencionales
  encontradas en el mercado y utilizadas en las bases de datos relevadas. 
- Las posiciones y valores característicos de las cámaras pueden verse en detalle en el apéndice  
- (PONER AQUI LA REFERNECIA AL APENDICE DONDE SE MUESTRA LA SALIDA DE INFOCAMBLENDER). Para iluminar el laboratorio se dispusieron $8$ focos puntuales de luz omnidireccional sobres los límites del mismo, rodeando la escena y a un nivel de 3 metros de altura. De esta manera se garantiza que ninguno de los focos sea tomado directamente por las cámaras y los marcadores se iluminan correctamente.
+ % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %5
+ % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Las posiciones y valores característicos de las cámaras pueden verse en detalle en el apéndice  
+% (PONER AQUI LA REFERNECIA AL APENDICE DONDE SE MUESTRA LA SALIDA DE INFOCAMBLENDER). 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %DESCOMENTAR AL HACER APENDICE
+Para iluminar el laboratorio se dispusieron $8$ focos puntuales de luz omnidireccional sobres los límites del mismo, rodeando la escena y a un nivel de 3 metros de altura. De esta manera se garantiza que ninguno de los focos sea tomado directamente por las cámaras y los marcadores se iluminan correctamente.
  
 
 \paragraph{Modelo virtual}  
@@ -539,10 +550,48 @@ Contiene tres carpetas con la información de cada sección del sistema de proce
 		\end{description}
 	\end{description}
 % % % % % % % % % % % % % % % % % % % % % % %
-\item[{\small\textbf{\textsf{Calibracion/Datos\_Imagen}}}] \hfill \\
-VER CON GUILLERMO CUANTAS FORMAS DE CALIBRAR TENEMOS \vspace{-0.2cm}
-\item[{\small\textbf{\textsf{Calibracion/Ground\_Truth}}}] 
-\item[{\small\textbf{\textsf{Calibracion/Datos\_Procesados}}}] 
+\item[{\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}] \hfill \\
+Contiene dos carpetas con imágenes disponibles para efectuar pruebas de calibración.\vspace{-0.2cm}
+	\begin{description}			
+			\item[{\small\textbf{\textsf{Tablero/}}}]\hfill \\ \vspace{-0.5cm}		
+			\begin{description}
+					\item[{\small\textbf{\textsf{cam<Nro\_primer\_cámara>\_<Nro\_segunda\_cámara>/cam<Nro\_cámara>/}}}] \hfill \\ \vspace{-0.5cm}
+								\begin{description}
+									\item[{\small\textbf{\textsf{<Nro\_imagen>.tiff}}}] - archivo que posee la imagen de un tablero de ajedrez de $2\,m  \times 2\,m$, con cierta posición particular en el espacio 3D numerada como {\small\textbf{\textsf{<Nro\_imagen>}}}. 
+									 El  \;{\small\textbf{\textsf{<Nro\_cámara> }}} del nombre de la carpeta puede ser 
+									  \;{\small\textbf{\textsf{<Nro\_primer\_cámara> }}} o \;{\small\textbf{\textsf{<Nro\_segunda\_cámara>}}}. Y la numeración de la posición del tablero  \;{\small\textbf{\textsf{<Nro\_imagen>}}},  se comparte únicamente para la primer y segunda cámaras indicadas en el nombre de la carpeta.
+								\end{description} 
+					\item[{\small\textbf{\textsf{tablero.blend}}}] - archivo fuente con el modelo 3D del tablero y las cámaras utilizadas.						 
+			\end{description}
+				    					
+   		 	
+			\item[{\small\textbf{\textsf{Punto\_Luminico/}}}]  \hfill \\ \vspace{-0.5cm} 
+			\begin{description}
+					\item[{\small\textbf{\textsf{<Nro\_cámara>/}}}] \hfill \\ \vspace{-0.5cm}
+					\begin{description}
+							\item[{\small\textbf{\textsf{cam<Nro\_cámara>\_<Nro\_cuadro>.tiff}}}] - archivo que posee la imagen de un punto luminoso. La posición del punto luminosos en el espacio 3D en el frame {\small\textbf{\textsf{<Nro\_cuadro>}}} es la misma para todas las cámaras.
+					\end{description} 
+					\item[{\small\textbf{\textsf{punto\_luminoso.blend}}}] - archivo fuente con el modelo 3D del punto luminoso y las cámaras utilizadas.						 
+			\end{description}
+	\end{description} 	
+ 
+\item[{\small\textbf{\textsf{Calibracion/Ground\_Truth}}}] \hfill \\
+Contiene un archivo xml {\small\textbf{\textsf{calibracion.xml}}} con el ground truth de las cámaras utilizadas en la carpeta {\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}
+\item[{\small\textbf{\textsf{Calibracion/Datos\_Procesados}}}] \hfill \\
+Contiene dos carpetas con datos de calibración relevados a partir de las imágenes de la carpeta {\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}
+	\begin{description}
+	\item[{\small\textbf{\textsf{Tablero/}}}] \hfill \\ \vspace{-0.5cm}
+						\begin{description}
+								\item[{\small\textbf{\textsf{calibracion.xml}}}] - archivo con los resultados de la calibración a partir del método descripto en {\small\textbf{\textsf{Metodo.txt}}}
+								\item[{\small\textbf{\textsf{Metodo.txt}}}] - archivo de texto que indica el método utilizado
+								
+						\end{description} 
+	\item[{\small\textbf{\textsf{Punto\_Luminico/}}}] \hfill \hfill \\ \vspace{-0.5cm}
+							\begin{description}
+									\item[{\small\textbf{\textsf{calibracion.xml}}}] - archivo con los resultados de la calibración a partir del método descripto en {\small\textbf{\textsf{Metodo.txt}}}
+									\item[{\small\textbf{\textsf{Metodo.txt}}}] - archivo de texto que indica el método utilizado									
+							\end{description} 
+	\end{description} 
 \end{description}
 % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % %
@@ -556,10 +605,7 @@ Para poder trabajar a lo largo de todo el sistema de procesamiento se debe conta
 
 
 Con este fin se ha diseñado e implementado las estructuras de datos de las figuras \ref{img_estructura_skeleton} y \ref{img_estructura_cam}.
-Las mismas permiten almacenar tanto la información de ground truth como la generada a la hora de  trabajar en las etapas de análisis de video. Se han implementado funciones de acceso de entrada y salida en Matlab, así como varias herramientas de gestión. Que permiten entre otras cosas inicializar las estructuras, obtener o modificar cualquier parámetro, efect 
-
-
-exportación e importación a xml, 
+Las mismas permiten almacenar tanto la información de ground truth como la generada a la hora de  trabajar en las etapas de análisis de video. Se han implementado funciones de acceso de entrada y salida en Matlab, así como varias herramientas de gestión. Que permiten entre otras cosas inicializar las estructuras, obtener o modificar cualquier parámetro, efectuar exportación e importación a xml y visualizar la información de manera interactiva, generando para ello gráficas 2D o 3D. 
 
 
 Básicamente se tienen dos estructuras principales, una para almacenar información del esqueleto asociado al modelo y otra para almacenar la información de las cámaras con las que se efectúa la captura de video.
