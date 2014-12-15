@@ -172,20 +172,20 @@ Los pedidos se realizan a partir del 17 de diciembre de 2013 aproximadamente. En
 
 
 
-\subsubsection{Conclusiones}\label{conclusiones_revision_base_datos} 
-
-Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores. Son los factores más importantes.
-
-
-Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos 3D en distinto tipo de movimientos, sobre todo en formatos Mocap.
-
-
-
-Estas consideraciones impulsaron la idea de recorrer el camino inverso, crear una base de datos sintética a partir del material Mocap disponible, para luego generar los videos en los cuales trabajar.  
-
-
-De todas maneras cabe destacar que se genera un relevamiento de bases de datos para el movimiento humano, se profundiza en las características usuales que presentan dichas bases de datos y se logra reunir un conjunto de conceptos y herramientas necesarios para introducirnos en el tema. 
-
+%\subsubsection{Conclusiones}\label{conclusiones_revision_base_datos} 
+%
+%Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores. Son los factores más importantes.
+%
+%
+%Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos 3D en distinto tipo de movimientos, sobre todo en formatos Mocap.
+%
+%
+%
+%Estas consideraciones impulsaron la idea de recorrer el camino inverso, crear una base de datos sintética a partir del material Mocap disponible, para luego generar los videos en los cuales trabajar.  
+%
+%
+%De todas maneras cabe destacar que se genera un relevamiento de bases de datos para el movimiento humano, se profundiza en las características usuales que presentan dichas bases de datos y se logra reunir un conjunto de conceptos y herramientas necesarios para introducirnos en el tema. 
+%
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %5
 
@@ -297,28 +297,28 @@ Si no se contara con una entrada de sincronización sería prácticamente imposi
 
 
 
-
-
-\subsubsection{Conclusiones} 
-
-
-A la hora de configurar un laboratorio no solo hay que integrar las distintas variables, sino también cuidar que esta integración se gestione de manera compatible, de lo contrario se estaría desaprovechando el potencial de las secuencias generadas por el sistema de captura en cuanto al procesamiento posterior se trata. Dificultando la tarea de obtención de datos a partir de las secuencias de video.
-En esta sección se logra tratar algunos parámetros claves y se discute las relaciones que estos deben tener para generar capturas de movimiento con información óptica basada en marcadores de bueno calidad.
-
-
-A continuación se enumeran consideraciones de parámetros importantes para generar capturas en el caso de la marcha.
-
-Es deseable para una buena resolución temporal poseer cámaras que permitan capturar 30 cuadros por segundo, con tiempos de obturación de al menos $1/2000\, s$, esto último permite evitar efectos de distorsión debidos a falta de nitidez. La resolución espacial de los datos en el procesamiento condiciona la resolución de la cámara. Se concluye que trabajando a 10 metros con resolución $1600\times600$ se obtienen incertidumbres de pixel de casi $1 ~cm $. 
-
-
-El color de los  marcadores debe contrastar claramente con la vestimenta y el fondo del espacio de captura, se recomienda una forma esférica. En capturas con cámaras ubicadas a menos de 12 metros del movimiento a relevar, un tamaño aceptable para el marcadores es de $3\,cm$ de diámetro.
-
-La vestimenta debe ser ajustada, para despreciar fluctuaciones en la posición de los marcadores. Y preferiblemente de igual color que el fondo.  
-
-En cuanto a la iluminación, la misma debe ser uniforme, por ello si se utiliza iluminación artificial con focos puntuales es habitual colocar pantallas delante de los focos.
-
-El espacio de captura debe contrastar con los marcadores, y sus dimensiones varían según el tipo de marcha a relevar. En caso de marcha rectilínea sobre una plataforma de $3\,m \times 5 \,m$ se encuentra que 4 son el mínimo número de cámaras que permiten relevar el movimiento de manera satisfactoria. Mientras  que en el caso de la marcha libre sobre una plataforma circular de $5\,m$ de diámetro, se recomienda la utilización de 8 cámaras. Una posible disposición de las mismas se muestra en la figura \ref{img_espacio_capura}.
-
+%
+%
+%\subsubsection{Conclusiones} 
+%
+%
+%A la hora de configurar un laboratorio no solo hay que integrar las distintas variables, sino también cuidar que esta integración se gestione de manera compatible, de lo contrario se estaría desaprovechando el potencial de las secuencias generadas por el sistema de captura en cuanto al procesamiento posterior se trata. Dificultando la tarea de obtención de datos a partir de las secuencias de video.
+%En esta sección se logra tratar algunos parámetros claves y se discute las relaciones que estos deben tener para generar capturas de movimiento con información óptica basada en marcadores de bueno calidad.
+%
+%
+%A continuación se enumeran consideraciones de parámetros importantes para generar capturas en el caso de la marcha.
+%
+%Es deseable para una buena resolución temporal poseer cámaras que permitan capturar 30 cuadros por segundo, con tiempos de obturación de al menos $1/2000\, s$, esto último permite evitar efectos de distorsión debidos a falta de nitidez. La resolución espacial de los datos en el procesamiento condiciona la resolución de la cámara. Se concluye que trabajando a 10 metros con resolución $1600\times600$ se obtienen incertidumbres de pixel de casi $1 ~cm $. 
+%
+%
+%El color de los  marcadores debe contrastar claramente con la vestimenta y el fondo del espacio de captura, se recomienda una forma esférica. En capturas con cámaras ubicadas a menos de 12 metros del movimiento a relevar, un tamaño aceptable para el marcadores es de $3\,cm$ de diámetro.
+%
+%La vestimenta debe ser ajustada, para despreciar fluctuaciones en la posición de los marcadores. Y preferiblemente de igual color que el fondo.  
+%
+%En cuanto a la iluminación, la misma debe ser uniforme, por ello si se utiliza iluminación artificial con focos puntuales es habitual colocar pantallas delante de los focos.
+%
+%El espacio de captura debe contrastar con los marcadores, y sus dimensiones varían según el tipo de marcha a relevar. En caso de marcha rectilínea sobre una plataforma de $3\,m \times 5 \,m$ se encuentra que 4 son el mínimo número de cámaras que permiten relevar el movimiento de manera satisfactoria. Mientras  que en el caso de la marcha libre sobre una plataforma circular de $5\,m$ de diámetro, se recomienda la utilización de 8 cámaras. Una posible disposición de las mismas se muestra en la figura \ref{img_espacio_capura}.
+%
 
 
 \subsection{Base de datos sintética} \label{seccion_Base_Datos_Sintetica}
@@ -647,24 +647,79 @@ Cabe destacar que este tipo de estructura es útil tanto para una base de datos 
  \end{figure} 
 
 
-\subsubsection{Conclusiones} 
-Se logra implementar un prototipo de base de datos lo suficientemente general y útil para trabajar con sistemas de captura de movimiento basada en marcadores.
-Las características de las herramientas utilizadas permiten generar secuencias de movimiento sintéticas, con relativa facilidad.
-Si bien las secuencias de video obtenidas son lo único necesario para el análisis posterior, al generar dichas secuencias a través de un entorno virtual controlado como lo es Blender, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada cuadro, etc. Permitiendo contar con un ground truth sobre el cual validar los algoritmos en cada etapa del sistema de procesamiento. 
-
-Dado que Blender se encuentra implementado sobre Python, se ha creado múltiples scripts que permite una vez generada la secuencia, automatizar la extracción de estos parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
-
-
-sobre como quedo la base de datos, utilidad, potencial y posible expansión
-
-
-
-
+%\subsubsection{Conclusiones} 
+%
+%Al investigar los diferentes formatos de captura de movimiento (MoCap) disponibles en las distintas bases de datos relevadas, surge naturalmente el formato BVH como el propicio para importar la información de la captura de movimiento al entorno virtual y a Matlab, su relativa sencilles y extendido uso facilitan sobremanera dicho pasaje. 
+%
+%Se decide trabajar en este proyecto con las fuentes BVH de la base de datos \textit{MotionBuilder-friendly version} ofrecidas por cgspeed\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
+% que provienen de las capturas de Carnegie Mellon University Motion Capture Database\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}. Alguno de los factores que justifican esta elección son que C.M.U. dispone de un gran número de capturas de movimiento de acceso público, varias utilidades de software que permiten llevar a otros formatos y es utilizado ampliamente en el ámbito de la animación por computadora.
+% 
+% Utilizando una suite de animación 3D gratuita y de código abierto como lo es Blender, se genera un laboratorio de captura de movimiento virtual, donde logra obtenerse 5 secuencias sintéticas dentro de los cuales cuatro son movimientos de marcha y una de corrida, con sus respectivos videos.  Si bien las secuencias de video obtenidas son lo único necesario para el análisis posterior, al generar dichas secuencias a través de un entorno virtual controlado como lo es Blender, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada cuadro, etc. Permitiendo contar con un ground truth tanto del movimiento como de la calibración de las cámaras, sobre el cual validar los algoritmos en cada etapa del sistema de procesamiento. 
+% 
+%   
+%Blender cuenta con una interfaz de programación de aplicaciones flexible, que permite extender su funcionalidad a través de programas en Python. Con el objetivo de automatizar varias etapas en el desarrollo de nuevas secuencias, así como gestionar la exportación de información desde Blender a otros lenguajes, se han creado múltiples scripts. En particular se posee un programa Python que automatiza la extracción de párametros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
+%
+%
+%La estructura de datos implementada cuenta con lo necesario para mantener y dar soporte a la información de interés a lo largo del proyecto. Cabe destacar que también soporta información de secuencias reales.
+%
+%
+%
+%Se logra implementar un prototipo de base de datos lo suficientemente general y útil para trabajar con sistemas de captura de movimiento basada en marcadores. Las características de las herramientas utilizadas permiten generar secuencias de movimiento sintéticas, con relativa facilidad. El potencial actual y la posible expansión de la base de datos permiten afirmar que la misma es una herramienta a tener en cuenta en futuros proyectos de captura de movimiento.
 
  
 
 
-\subsection{Conclusiones} SECCION EN CONSTRUCCION\\
-sobre todo el capitulo, resumen de conclusiones parciales
+\subsection{Conclusiones} 
+
+Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores. Son los factores más importantes.
 
 
+Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos 3D en distinto tipo de movimientos, sobre todo en formatos Mocap.
+
+
+
+Estas consideraciones impulsaron la idea de recorrer el camino inverso, crear una base de datos sintética a partir del material Mocap disponible, para luego generar los videos en los cuales trabajar.  
+
+
+De todas maneras cabe destacar que se genera un relevamiento de bases de datos para el movimiento humano, se profundiza en las características usuales que presentan dichas bases de datos y se logra reunir un conjunto de conceptos y herramientas necesarios para introducirnos en el tema. \\
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+A la hora de configurar un laboratorio no solo hay que integrar las distintas variables, sino también cuidar que esta integración se gestione de manera compatible, de lo contrario se estaría desaprovechando el potencial de las secuencias generadas por el sistema de captura en cuanto al procesamiento posterior se trata. Dificultando la tarea de obtención de datos a partir de las secuencias de video.
+En esta sección se logra tratar algunos parámetros claves y se discute las relaciones que estos deben tener para generar capturas de movimiento con información óptica basada en marcadores de bueno calidad.
+
+
+A continuación se enumeran consideraciones de parámetros importantes para generar capturas en el caso de la marcha.
+
+Es deseable para una buena resolución temporal poseer cámaras que permitan capturar 30 cuadros por segundo, con tiempos de obturación de al menos $1/2000\, s$, esto último permite evitar efectos de distorsión debidos a falta de nitidez. La resolución espacial de los datos en el procesamiento condiciona la resolución de la cámara. Se concluye que trabajando a 10 metros con resolución $1600\times600$ se obtienen incertidumbres de pixel de casi $1 ~cm $. 
+
+
+El color de los  marcadores debe contrastar claramente con la vestimenta y el fondo del espacio de captura, se recomienda una forma esférica. En capturas con cámaras ubicadas a menos de 12 metros del movimiento a relevar, un tamaño aceptable para el marcadores es de $3\,cm$ de diámetro.
+
+La vestimenta debe ser ajustada, para despreciar fluctuaciones en la posición de los marcadores. Y preferiblemente de igual color que el fondo.  
+
+En cuanto a la iluminación, la misma debe ser uniforme, por ello si se utiliza iluminación artificial con focos puntuales es habitual colocar pantallas delante de los focos.
+
+El espacio de captura debe contrastar con los marcadores, y sus dimensiones varían según el tipo de marcha a relevar. En caso de marcha rectilínea sobre una plataforma de $3\,m \times 5 \,m$ se encuentra que 4 son el mínimo número de cámaras que permiten relevar el movimiento de manera satisfactoria. Mientras  que en el caso de la marcha libre sobre una plataforma circular de $5\,m$ de diámetro, se recomienda la utilización de 8 cámaras. Una posible disposición de las mismas se muestra en la figura \ref{img_espacio_capura}. \\
+% % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % %
+
+Al investigar los diferentes formatos de captura de movimiento (MoCap) disponibles en las distintas bases de datos relevadas, surge naturalmente el formato BVH como el propicio para importar la información de la captura de movimiento al entorno virtual y a Matlab, su relativa sencilles y extendido uso facilitan sobremanera dicho pasaje. 
+
+Se decide trabajar en este proyecto con las fuentes BVH de la base de datos \textit{MotionBuilder-friendly version} ofrecidas por cgspeed\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
+ que provienen de las capturas de Carnegie Mellon University Motion Capture Database\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}. Alguno de los factores que justifican esta elección son que C.M.U. dispone de un gran número de capturas de movimiento de acceso público, varias utilidades de software que permiten llevar a otros formatos y es utilizado ampliamente en el ámbito de la animación por computadora.
+ 
+ Utilizando una suite de animación 3D gratuita y de código abierto como lo es Blender, se genera un laboratorio de captura de movimiento virtual, donde logra obtenerse 5 secuencias sintéticas dentro de los cuales cuatro son movimientos de marcha y una de corrida, con sus respectivos videos.  Si bien las secuencias de video obtenidas son lo único necesario para el análisis posterior, al generar dichas secuencias a través de un entorno virtual controlado como lo es Blender, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada cuadro, etc. Permitiendo contar con un ground truth tanto del movimiento como de la calibración de las cámaras, sobre el cual validar los algoritmos en cada etapa del sistema de procesamiento. 
+ 
+   
+Blender cuenta con una interfaz de programación de aplicaciones flexible, que permite extender su funcionalidad a través de programas en Python. Con el objetivo de automatizar varias etapas en el desarrollo de nuevas secuencias, así como gestionar la exportación de información desde Blender a otros lenguajes, se han creado múltiples scripts. En particular se posee un programa Python que automatiza la extracción de párametros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
+
+
+La estructura de datos implementada cuenta con lo necesario para mantener y dar soporte a la información de interés a lo largo del proyecto. Cabe destacar que también soporta información de secuencias reales.
+
+
+
+Se logra implementar un prototipo de base de datos lo suficientemente general y útil para trabajar con sistemas de captura de movimiento basada en marcadores. Las características de las herramientas utilizadas permiten generar secuencias de movimiento sintéticas, con relativa facilidad. El potencial actual y la posible expansión de la base de datos permiten afirmar que la misma es una herramienta a tener en cuenta en futuros proyectos de captura de movimiento.
+
+% % % % % % % % % % % % % % % % % % % % %
