@@ -11,11 +11,11 @@ Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D
 De la relación entre estos sistemas de coordenadas se obtienen los parámetros de las cámaras. Dichos parámetros se clasifican en intrínsecos y extrínsecos. Los primeros son aquellos que describen las propiedades geométricas y ópticas de la cámara, es decir, las características internas de la cámara. Por otra parte, los parámetros extrínsecos son los que describen la posición y orientación de la cámara respecto al sistema de coordenadas del espacio.\\
 
 Para realizar esto es necesario establecer un modelo que describa el sistema óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo \textit{pinhole} de las cámaras. 
-El modelo \textit{pinhole} se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la pantalla de la cámara como se muestra en la figura \ref{pinhole_camara}. El modelo de esta cámara se describe en la figura \ref{pinhole_modelo}.\\
+El modelo \textit{pinhole} se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la retina de la cámara como se muestra en la figura \ref{pinhole_camara}. El modelo de esta cámara se describe en la figura \ref{pinhole_modelo}.\\
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.5]{img/calibracion/pinhole_camara.png}
+\includegraphics[scale=0.5]{img/calibracion/pinhole_camara}
 \end{center}
 \caption{Cámara estenopeica .\cite{faugeras_libro}}
 \label{pinhole_camara}
@@ -25,7 +25,7 @@ El modelo \textit{pinhole} se basa en la implementación mas simple de una cáma
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[scale=0.7]{img/calibracion/pinhole_modelo.png}
+\includegraphics[scale=0.7]{img/calibracion/pinhole_modelo}
 \end{center}
 \caption{Modelo "pinhole" de una cámara.\cite{zhang_libro}}
 \label{pinhole_modelo}
@@ -166,7 +166,7 @@ En este caso la calibración se realiza moviendo el objeto de calibración a tra
 
 \subsection{Calibración en el entorno Blender}
 
-Una vez establecida la configuración de las cámaras en  Blender, según lo descrito en la sección \ref{seccion_base_de_datos}, es posible conocer las matrices de proyección de cada una de ellas a través de la información proporcionada por el propio programa de ciertos parámetros de las cámaras. Esto permite tener la calibración \textit{real} de las cámaras con lo cual es posible medir el desempeño de algunos bloques del sistema.\\
+Una vez establecida la configuración de las cámaras en  Blender, según lo descrito en la sección \ref{section_base_de_datos}, es posible conocer las matrices de proyección de cada una de ellas a través de la información proporcionada por el propio programa de ciertos parámetros de las cámaras. Esto permite tener la calibración \textit{real} de las cámaras con lo cual es posible medir el desempeño de algunos bloques del sistema.\\
 
 Si se conocen las coordenadas de un punto 3D en el espacio de trabajo de Blender y además se saben las matrices de proyección de las cámaras, es posible determinar las coordenadas 2D de dicho punto proyectado en cada una de las cámaras. De esta manera se tiene el \textit{ground truth} de la detección de marcadores, permitiendo comparar el desempeño de dicho bloque respecto  a la posición real de los marcadores en las vistas 2D. Análogamente teniendo estos datos se pueden evaluar los bloques siguientes del sistema. Por ejemplo, es posible además evaluar el desempeño del bloque de reconstrucción sabiendo la posición 2D real de los marcadores, por lo cual se puede evaluar los errores que son producto solamente de este bloque del sistema.\\
 
