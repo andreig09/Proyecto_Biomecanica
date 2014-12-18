@@ -13,7 +13,7 @@ En la figura \ref{fig: esquema_reconstruccion} se muestra un ejemplo de reconstr
 \includegraphics[scale=0.20]{img/Reconstruccion/reconstruccion}
 
 \end{center}
-\caption{Reconstrucción con dos camaras}
+\caption{Reconstrucción con dos cámaras}
 \label{fig: esquema_reconstruccion}
 \end{figure}
 
@@ -98,9 +98,9 @@ Los pasos que sigue el algoritmo se describen a continuación:\
 \begin{itemize}
 \item Se toman dos vistas y se realiza el test de la condición epipolar. Si existe una asociación no ambigua se reconstruyen  las coordenadas 3D a partir de las coordenadas 2D.
 
-\item Las coordenadas 3D reconstruidas se reproyectan en las cámaras restantes. Los puntos 2D encontrados en esa reproyección son asociados al punto 3D. De esta forma se tiene por cada punto 3D , sus correspondientes puntos 2D asociados en las distintas vistas.\
+\item Las coordenadas 3D reconstruidas se re-proyectan en las cámaras restantes. Los puntos 2D encontrados en esa re-proyección son asociados al punto 3D. De esta forma se tiene por cada punto 3D , sus correspondientes puntos 2D asociados en las distintas vistas.\
 
-\item Se considera que un marcador 3D está correctamente reconstruido si se reproyecta en al menos una cámara. A este tipo de reconstrucción se le llama \textit{reconstrucción trinocular}.\\
+\item Se considera que un marcador 3D está correctamente reconstruido si se re-proyecta en al menos una cámara. A este tipo de reconstrucción se le llama \textit{reconstrucción trinocular}.\\
 
 \item Si el número de marcadores reconstruidos es inferior al número de marcadores que están colocados en la persona, entonces se realiza una segunda asociación entre dos vistas. En este caso la reconstrucción se realiza solamente con dos vistas \textit{reconstrucción binocular}.\\
 
@@ -142,7 +142,7 @@ De esta manera se obtiene para cada punto en la cámara 1 un conjunto de puntos 
 Repitiendo el procedimiento de manera inversa, esto es, de la cámara 2 a la cámara 1, se obtiene igualmente para cada punto de la cámara 2  los puntos de la cámara 1 ordenados según su proximidad a la recta epipolar correspondiente. A continuación se toman otros pares de cámaras y se vuelve a iterar. 
 
 Es importante resaltar que para la elección de los pares de cámaras se han considerado dos casos.
-El primero de ellos evalúa cada cámara respecto a todas las restantes y el segundo considera la disposición de las cámaras en el espacio y empareja las cámaras adyacentes de manera consecutiva. Ver la figura \ref{img_asociacion}. %Más adelante se demuestra que este segundo procedimiento da mejores resultados.ACA SE DEBE REFERENCIAR BIEN DONDE ESTA ESA DEMOSTRACION \\
+El primero de ellos evalúa cada cámara respecto a todas las restantes y el segundo considera la disposición de las cámaras en el espacio y empareja las cámaras adyacentes de manera consecutiva. Ver la figura \ref{img_asociacion}. %Más adelante se demuestra que este segundo procedimiento da mejores resultados.ACÁ SE DEBE REFERENCIAR BIEN DONDE ESTA ESA DEMOSTRACIÓN \\
 
  \begin{figure}[!ht]
    \centering 
@@ -379,36 +379,36 @@ De lo visto en la bibliografía existente podría proponerse el uso de la inform
 %->Reconstrucción con base de datos sintética
 %\\
 %HABLAR Y MOSTRAR RESULTADOS DE La performance DE LA BASE DE DATOS AL UTILIZAR LAS DOS RAMIFICACIONES\\
-%PROCEDIMIENTO DE ASOCIACIONES DEL TIPO TODO CONTRA TODO, Y ASOCIACIONES CON CAMARAS CONSECUTIVAS.\\
-%JUSTIFICAR POR LO TANTO QUE OFICIALMENTE NOS QUEDAMOS CON EL CASO DE ASOCIACIONES ENTRE CAMARAS CONSECUTIVAS
+%PROCEDIMIENTO DE ASOCIACIONES DEL TIPO TODO CONTRA TODO, Y ASOCIACIONES CON CÁMARAS CONSECUTIVAS.\\
+%JUSTIFICAR POR LO TANTO QUE OFICIALMENTE NOS QUEDAMOS CON EL CASO DE ASOCIACIONES ENTRE CÁMARAS CONSECUTIVAS
 %\\
 %-----\\
 %->CASO REAL
 %\\
 %\begin{itemize}
-%\item introduccion: SE PRUEBA SOBRE LO QUE SE TIENE DEL SISTEMA Y NO ANDA POR TAL Y TAL MOTIVO. pUES LA CALIBRACION ES DIFERENTE NO SE OBTIENE RESULTADOS ACEPTABLES.
+%\item introducción: SE PRUEBA SOBRE LO QUE SE TIENE DEL SISTEMA Y NO ANDA POR TAL Y TAL MOTIVO. pUES LA CALIBRACIÓN ES DIFERENTE NO SE OBTIENE RESULTADOS ACEPTABLES.
 %
-%\item EXPLICAR AJUSTE REALIZADOS, GENERACION DE MINI-SISTEMA DONDE CORREN SECUENCIAS REALES.AQUI DEBE ESTAR EL NUEVO ALGORITMO DE RECONSTRUCCION
+%\item EXPLICAR AJUSTE REALIZADOS, GENERACIÓN DE MINI-SISTEMA DONDE CORREN SECUENCIAS REALES.AQUÍ DEBE ESTAR EL NUEVO ALGORITMO DE RECONSTRUCCIÓN
 %\begin{itemize}
 %\item para todos los puntos contenidos en las retinas se trazan las correspondientes rectas de proyección 3D
-%\item BLOQUE ASOCIACION 3D: se asocian las rectas utilizando una métrica de distancia euclidea. Las rectas de proyección que se encuentran a menor distancia entre si quedan asociadas.
-%\item BLOQUE MEJOR ASOCIACION: se elijen las n mejores asociaciones entre rectas 3D
-%\item BLOQUE RECONSTRUCCION: se reconstruyen los puntos 3D provenientes de las asociaciones anteriores 
+%\item BLOQUE ASOCIACIÓN 3D: se asocian las rectas utilizando una métrica de distancia euclídea Las rectas de proyección que se encuentran a menor distancia entre si quedan asociadas.
+%\item BLOQUE MEJOR ASOCIACIÓN: se elijen las n mejores asociaciones entre rectas 3D
+%\item BLOQUE RECONSTRUCCIÓN: se reconstruyen los puntos 3D provenientes de las asociaciones anteriores 
 %\end{itemize}
 %
 %\item EN DICHO MINI-SISTEMA SE SIMULA EN BLENDER EL CASO REAL Y SE INTENTA TENER ALGO MODERADAMENTE FUNCIONAL
 %
-%\item RESULTADOS -->ALGORITMO DE RECONSTRUCCION OFICIAL(CASO ASOCIACION ENTRE CAMARAS CONSECUTIVAS) -->NO TUVO BUENOS RESULTADOS 
-%\item CONSECUENCIA SE GENERA NUEVO ALGORITMO DE RECONSTRUCCION QUE HACE TAL Y TAL COSA.
+%\item RESULTADOS -->ALGORITMO DE RECONSTRUCCIÓN OFICIAL(CASO ASOCIACIÓN ENTRE CÁMARAS CONSECUTIVAS) -->NO TUVO BUENOS RESULTADOS 
+%\item CONSECUENCIA SE GENERA NUEVO ALGORITMO DE RECONSTRUCCIÓN QUE HACE TAL Y TAL COSA.
 %\item CON ESTE NUEVO ALGORITMO SE OBTIENEN RESULTADOS ACEPTABLES SOBRE LAS SIMULACIONES DEL CASO REAL
 %SE PRUEBA DICHO ALGORITMO SOBRE LOS DATOS REALES Y SE OBTIENEN RESULTADOS ACEPTABLES.
-%\item JUSTIFICAR QUE LAS DIFERENCIAS SON DEBIDAS A CALIBRACION (REAL VS SINTETICA) Y LA SEGMENTACION (REAL VS SINTETICA).
-%\item ¿CUALITATIVAMENTE SE PUEDE DECIR CUAL ES EL FACTOR QUE PERJUDICA EN MAYOR MEDIDA LOS RESULTADOS en la secuencia real RESPECTO AL CASO DE SIMULACION SINTETICA?. Si la segmentación es lo que perjudica más, por tal y tal motivo.
+%\item JUSTIFICAR QUE LAS DIFERENCIAS SON DEBIDAS A CALIBRACIÓN (REAL VS SINTÉTICA) Y LA SEGMENTACIÓN (REAL VS SINTÉTICA).
+%\item ¿CUALITATIVAMENTE SE PUEDE DECIR CUAL ES EL FACTOR QUE PERJUDICA EN MAYOR MEDIDA LOS RESULTADOS en la secuencia real RESPECTO AL CASO DE SIMULACIÓN SINTÉTICA?. Si la segmentación es lo que perjudica más, por tal y tal motivo.
 %\end{itemize}
 %
-%\textbf{HABLAR DE LA INTEGRACION DE ESTE NUEVO ALGORITMO EN EL SISTEMA COMPLETO.\\}
+%\textbf{HABLAR DE LA INTEGRACIÓN DE ESTE NUEVO ALGORITMO EN EL SISTEMA COMPLETO.\\}
 %\begin{itemize}
-%\item para muchas cámaras (mas de 5 o 6, ver las pruebas de gonzalo) el sistema funciona razonablemente con la reconstruccion ``original''. Principalmente debido a que se cuenta con información redundante de los marcadores.
+%\item para muchas cámaras (mas de 5 o 6, ver las pruebas de gonzalo) el sistema funciona razonablemente con la reconstrucción ``original''. Principalmente debido a que se cuenta con información redundante de los marcadores.
 %\item para pocas cámaras se utiliza el nuevo algoritmo de reconstrucción, permite trabajar con la secuencia real disponible. con muchas cámaras el algoritmo puede ser computacionalmente complejo.
 %\item explicar bien cual es la frontera entre uno y otro caso (5 o 6 cámaras?)
 %\end{itemize}

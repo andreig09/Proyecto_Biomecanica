@@ -12,13 +12,13 @@ Asumiendo que los conjuntos de datos de salida de algoritmos y ground truth, tie
 D(\boldsymbol{x_{f}},\boldsymbol{\tilde{x}_{f}})=\frac{1}{M}\sum_{i=1}^{M} \|m_{i}^{[f]}(\boldsymbol{x})-m_{i}^{[f]}(\boldsymbol{\tilde{x}})\|
 \end{equation}
 
-Sin embargo, el cálculo debe ser modificado para contemplar el caso en que la cantidad de marcadores a la salida del procesamiento es menor a $M$, se define un conjunto binario en cada frame $\Delta=\{\delta_1,\delta_2,\ldots,\delta_M\}$, donde $\delta_i$ indica con 1 si el $i$-ésimo marcador de $\boldsymbol{\tilde{x}}$ fue detectado, $0$ en caso contrario. La ecuación \eqref{error_vs_ground_basica} queda entonces
+Sin embargo, el cálculo debe ser modificado para contemplar el caso en que la cantidad de marcadores a la salida del procesamiento es menor a $M$, se define un conjunto binario en cada cuadro $\Delta=\{\delta_1,\delta_2,\ldots,\delta_M\}$, donde $\delta_i$ indica con 1 si el $i$-ésimo marcador de $\boldsymbol{\tilde{x}}$ fue detectado, $0$ en caso contrario. La ecuación \eqref{error_vs_ground_basica} queda entonces
 
 \begin{equation}\label{error_vs_ground_deteccion}
 D(\boldsymbol{x_{f}},\boldsymbol{\tilde{x}_{f}},\Delta_{f})=\frac{1}{\sum_{j=1}^{M} \delta_j} \sum_{i=1}^{M} \delta_i.\|m_{i}^{[f]}(\boldsymbol{x})-m_{i}^{[f]}(\boldsymbol{\tilde{x}})\|
 \end{equation}
 
-En una secuencia con $F$ frames, la performance promedio es calculada como el promedio de los errores en cada frame,
+En una secuencia con $F$ cuadros, la performance promedio es calculada como el promedio de los errores en cada cuadro,
 
 \begin{equation} \label{performance_secuencia}
 \mu_{secuencia} = \frac{1}{F}\sum_{f=1}^{F} D(\boldsymbol{x_{f}},\boldsymbol{\tilde{x}_{f}},\Delta_{f})
@@ -27,16 +27,16 @@ En una secuencia con $F$ frames, la performance promedio es calculada como el pr
 Para poder trabajar con los datos a la salida de la segmentación y reconstrucción de las secuencias, es necesario obtener datos adicionales y entonces aplicar la ecuación \eqref{performance_secuencia}. Específicamente, las parejas entre marcadores obtenidos y aquellos en el ground truth , que permite alinear y comparar los marcadores, y definir cuales fueron detectados.
 \\ 
 
-El emparejamiento es realizado frame a frame, calculando en una matriz la distancia euclidiana entre todos los pares $\{i,j\}$, donde $i=1,\ldots,M_{x}$ es un marcador del conjunto $\boldsymbol{x}$ obtenido mediante algoritmo en un frame [f], y $j=1,\ldots,M_{\tilde{x}}$ es un marcador del conjunto $\boldsymbol{\tilde{x}}$ de ground truth,
+El emparejamiento es realizado cuadro a cuadro, calculando en una matriz la distancia euclidiana entre todos los pares $\{i,j\}$, donde $i=1,\ldots,M_{x}$ es un marcador del conjunto $\boldsymbol{x}$ obtenido mediante algoritmo en un cuadro [f], y $j=1,\ldots,M_{\tilde{x}}$ es un marcador del conjunto $\boldsymbol{\tilde{x}}$ de ground truth,
 
 \begin{equation} \label{distancia_algoritmo_ground}
 d_{i,j}^{[f]} = \{\|m_{i}^{[f]}(\boldsymbol{x})-|m_{j}^{[f]}(\boldsymbol{\tilde{x}})\|\}
 \end{equation}
 
-Una vez calculadas todas las distancias para un frame, se buscan aquellas parejas que presenta la menor distancia, relevando la pareja $(i,j)$  para la cual se verifica. Una vez obtenida esta distancia, los marcadores $(i,j)$ quedan descartados de la matriz, volviendo a buscar la siguiente pareja con distancia mínima, hasta que ya no queden elementos para emparejar (lo cual sucede en caso que se generen menos marcadores que en el ground truth como puede suceder en segmentación, o si todos los marcadores de ground truth ya fueron emparejados y sobran marcadores, como sucede en reconstrucción). Trabajar con las parejas en todos los frames de la secuencia, es análogo a trabajar con la ecuación (\ref{error_vs_ground_deteccion}).
+Una vez calculadas todas las distancias para un cuadro, se buscan aquellas parejas que presenta la menor distancia, relevando la pareja $(i,j)$  para la cual se verifica. Una vez obtenida esta distancia, los marcadores $(i,j)$ quedan descartados de la matriz, volviendo a buscar la siguiente pareja con distancia mínima, hasta que ya no queden elementos para emparejar (lo cual sucede en caso que se generen menos marcadores que en el ground truth como puede suceder en segmentación, o si todos los marcadores de ground truth ya fueron emparejados y sobran marcadores, como sucede en reconstrucción). Trabajar con las parejas en todos los cuadros de la secuencia, es análogo a trabajar con la ecuación (\ref{error_vs_ground_deteccion}).
 \\ 
 
-Para las medidas de los distintos bloques, se trabajará no solo con el promedio de error de secuencia, sino también con la magnitud que cumple que el 99\% de los puntos o marcadores, estén por debajo de esa magnitud. Se decidió elegir esta representación, en vez de la desviación estándar debido a que el error en la distancia no presenta una distribución gaussiana, sino euclidiana, donde todos los errores están entre cero e infinito (en este caso, no se tiene error infinito ya que los coeficientes binarios de detección se anulan), donde el error promedio es aquel percentíl que la mayoría de los puntos está situado, y el 99\% es afín al error máximo esperado.
+Para las medidas de los distintos bloques, se trabajará no solo con el promedio de error de secuencia, sino también con la magnitud que cumple que el 99\% de los puntos o marcadores, estén por debajo de esa magnitud. Se decidió elegir esta representación, en vez de la desviación estándar debido a que el error en la distancia no presenta una distribución gaussiana, sino euclidiana, donde todos los errores están entre cero e infinito (en este caso, no se tiene error infinito ya que los coeficientes binarios de detección se anulan), donde el error promedio es aquel percentil que la mayoría de los puntos está situado, y el 99\% es afín al error máximo esperado.
 
 \subsection{Performance}\label{seccion_performance}
 
@@ -49,7 +49,7 @@ Las múltiples secuencias sintéticas generadas en Blender como fue establecido 
 \begin{tabular}{cccc|c|c|c|c|c|c|ll}
 \cline{5-10}
 & & & & SEGM. & SEGM. & RECONS. & RECONS. & TRACK. & TRACK. &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{captura} & \multicolumn{1}{c|}{markers} & \multicolumn{1}{c|}{frames} & n.cams & \begin{tabular}[c]{@{}c@{}}Promedio\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{captura} & \multicolumn{1}{c|}{markers} & \multicolumn{1}{c|}{cuadros} & n.cams & \begin{tabular}[c]{@{}c@{}}Promedio\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} &  &  \\ \cline{1-10}
 \multicolumn{1}{|c|}{8,03,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{89}     & 17      & 1,1063 & 3,6783  & 0,40778     & 2,6384  & 0,4318 & 2,9039  &  &  \\ \cline{1-10}
 \multicolumn{1}{|c|}{8,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{62}     & 17      & 1,0871 & 3,1172  & 0,34382     & 1,806   & 0,34451     & 1,806   &  &  \\ \cline{1-10}
 \multicolumn{1}{|c|}{8,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{123}    & 17      & 1,0912 & 3,3097  & 0,38736     & 1,2681
@@ -63,18 +63,18 @@ Las múltiples secuencias sintéticas generadas en Blender como fue establecido 
 \label{resultados_distintas_capturas}
 \end{table}
 
-Los resultados para 17 cámaras arrojan resultados similares en distintas capturas para el caso de amplia disponibilidad de cámaras, y confirman los resultados y rendimientos presentados para los distintos bloques en las hipótesis planteadas para las capturas sintéticas. La segmentación de los vídeos presenta errores promedios alrededor del pixel y errores máximos del entorno de los 4 pixeles. La reconstrucción y el tracking presentan resultados similares, siendo la diferencia conceptual entre ambas el etiquetado de trayectorias, y presentan resultados con error medio menor a los 0.5 cm, y errores máximos por debajo de 5 cm para el caso de reconstrucción con 17 cámaras, y exceso de marcadores en reconstrucción (se establece como parámetro de puntos reconstruidos una cantidad mayor a la esperada) 
+Los resultados para 17 cámaras arrojan resultados similares en distintas capturas para el caso de amplia disponibilidad de cámaras, y confirman los resultados y rendimientos presentados para los distintos bloques en las hipótesis planteadas para las capturas sintéticas. La segmentación de los vídeos presenta errores promedios alrededor del píxel y errores máximos del entorno de los 4 píxeles La reconstrucción y el tracking presentan resultados similares, siendo la diferencia conceptual entre ambas el etiquetado de trayectorias, y presentan resultados con error medio menor a los 0.5 cm, y errores máximos por debajo de 5 cm para el caso de reconstrucción con 17 cámaras, y exceso de marcadores en reconstrucción (se establece como parámetro de puntos reconstruidos una cantidad mayor a la esperada) 
 
 \subsubsection{Ruido En Segmentación}
 
-La prueba consiste en relevar el error promedio en reconstrucción, contra el ground truth 3D para distintas instancias de información de múltiples vistas bajo ruido aleatorio de distintas magnitudes en pixeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los vídeos segmentados, son la visibilidad de los marcadores estimada en un 70\% por cámara y el error de segmentación estimada en 1 pixel, el ruido es inyectado entre la segmentación y la reconstrucción siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de la sección~\ref{subsec:medida_error} . En la tabla \ref{table_resolucion} de la sección\ref{seccion_Base_Datos_Sintetica}, se estimo el impacto en metros del error en pixel cuya magnitud es relevada en el caso de la secuencia sintética.
+La prueba consiste en relevar el error promedio en reconstrucción, contra el ground truth 3D para distintas instancias de información de múltiples vistas bajo ruido aleatorio de distintas magnitudes en píxeles en las coordenadas $X,Y$. Recordando que la diferencia entre las proyecciones 2D y los vídeos segmentados, son la visibilidad de los marcadores estimada en un 70\% por cámara y el error de segmentación estimada en 1 píxel, el ruido es inyectado entre la segmentación y la reconstrucción siendo evaluada la salida de reconstrucción contra el ground truth 3D con el procedimiento de la sección~\ref{subsec:medida_error} . En la tabla \ref{table_resolucion} de la sección\ref{seccion_Base_Datos_Sintetica}, se estimo el impacto en metros del error en píxel cuya magnitud es relevada en el caso de la secuencia sintética.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{cc|c|c|c|c|c|c|}
 \cline{3-8}
 \textbf{} & \textbf{} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}14 marcadores\\ reconstruidos\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}18 marcadores\\ reconstruidos\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}30 marcadores\\ reconstruidos\end{tabular}}} \\ \hline
-\multicolumn{1}{|c|}{\textbf{Conjunto}} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (pixels)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Conjunto}} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (pieleros)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 0 & 1,27E-10 & 1,01E-09 & 1,27E-10 & 1,01E-09 & 1,27E-10 & 1,01E-09 \\ \hline
 \multicolumn{1}{|c|}{Segmentación} & 0 & 0,38553 & 1,6915 & 0,38553 & 1,6915 & 0,38305 & 1,6747 \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 0,5 & 1,0404 & 3,0757 & 0,5535 & 2,0504 & 0,53616 & 2,1104 \\ \hline
@@ -91,7 +91,7 @@ La prueba consiste en relevar el error promedio en reconstrucción, contra el gr
 \caption{Resultados de Error en reconstrucción, para distintos caso de ruido agregado a la segmentación, tanto resultados sobre vídeos como sobre ground truth}
 \end{table}
 
-Las pruebas confirman los resultados estimados en \ref{table_resolucion} en la secuencia dada , con cámaras no alejadas mas de 10 metros del sujeto, hasta los 2 pixeles (recordar que el conjunto de segmentación ya ingresa un cierto error propio al cual se le agrega el ruido) el error promedio se mantiene en el orden de los pocos centímetros con instancias de error máximo mayores. Con el agregado que la reconstrucción es implementada con una cantidad variable de marcadores, la cual permite buscar de reconstruir una mayor cantidad de marcadores a los del sujeto para encontrar la mayor cantidad de posibilidades. A mayor cantidad de marcadores reconstruidos, se obtienen mejores resultados en los casos de mayor ruido.
+Las pruebas confirman los resultados estimados en \ref{table_resolucion} en la secuencia dada , con cámaras no alejadas mas de 10 metros del sujeto, hasta los 2 píxeles (recordar que el conjunto de segmentación ya ingresa un cierto error propio al cual se le agrega el ruido) el error promedio se mantiene en el orden de los pocos centímetros con instancias de error máximo mayores. Con el agregado que la reconstrucción es implementada con una cantidad variable de marcadores, la cual permite buscar de reconstruir una mayor cantidad de marcadores a los del sujeto para encontrar la mayor cantidad de posibilidades. A mayor cantidad de marcadores reconstruidos, se obtienen mejores resultados en los casos de mayor ruido.
 
 \subsubsection{Variación Cantidad de Cámaras}
 
@@ -101,7 +101,7 @@ Hasta ahora todas las pruebas realizadas para los bloques presentados en la secc
 \centering
 \begin{tabular}{|c|c|}
 \hline
-\textbf{CONJUNTO} & \textbf{CAMARAS} \\ \hline
+\textbf{CONJUNTO} & \textbf{CÁMARAS} \\ \hline
 C17 & 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 \\ \hline
 C15 & 3,4,5,6,7,8,9,11,12,13,14,15,16,17 \\ \hline
 C8 & 3,5,7,9,11,13,15,17 \\ \hline
@@ -121,7 +121,7 @@ Las pruebas son realizadas sobre dos secuencias en particular, de distintas cara
 
 \paragraph{Captura de Marcha, Secuencia 8\_07\_100\_200}
 
-En el movimiento de marcha de la captura 8\_07, muestreada al 200\% (48 frames por segundo), el sujeto se mueve en el espacio de captura desde el lugar de la figura \ref{img_espacio_capura} desde donde se encuentra la cámara 2 hasta donde está la cámara 10, caminando de forma rectilínea.
+En el movimiento de marcha de la captura 8\_07, muestreada al 200\% (48 cuadros por segundo), el sujeto se mueve en el espacio de captura desde el lugar de la figura \ref{img_espacio_capura} desde donde se encuentra la cámara 2 hasta donde está la cámara 10, caminando de forma rectilínea.
 
 \begin{table}[h]
 \centering
@@ -212,7 +212,7 @@ Finalmente, los conjuntos de 5 cámaras ( Apéndice ,tabla \ref{error_captura_ma
 
 \paragraph{Captura de Movimiento Libre, 9\_12\_100\_100} 
 
-La secuencia 9\_12 muestreada al 100\% (24fps), presenta un sujeto en movimiento libre caminando en círculos, hacia adelante y atrás en todo el espacio de captura. Debido a que en algunos momentos de la captura se perdían todos los marcadores en algunas cámaras (1, 2, 10) , y la reconstrucción no pueden procesar una cámara cuando no tiene marcadores en un momento dado, se decidió solo trabajar con las cámaras que tiene marcadores en todos los cuadros de la secuencia de 300 frames. Las trayectorias obtenidas en tracking y reconstrucción se observan en la figura \ref{captura_movimiento_libre} .
+La secuencia 9\_12 muestreada al 100\% (24fps), presenta un sujeto en movimiento libre caminando en círculos, hacia adelante y atrás en todo el espacio de captura. Debido a que en algunos momentos de la captura se perdían todos los marcadores en algunas cámaras (1, 2, 10) , y la reconstrucción no pueden procesar una cámara cuando no tiene marcadores en un momento dado, se decidió solo trabajar con las cámaras que tiene marcadores en todos los cuadros de la secuencia de 300 cuadros. Las trayectorias obtenidas en tracking y reconstrucción se observan en la figura \ref{captura_movimiento_libre} .
 
 \begin{figure}[H]
   \centering

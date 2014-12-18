@@ -6,7 +6,7 @@
 \subsection{Introducción}
 Para poder obtener la posición en tres dimensiones de los marcadores a partir de las imágenes capturadas es necesario que las cámaras estén previamente calibradas. El objetivo de la calibración consiste en determinar un conjunto de parámetros tal que pueda establecerse una relación entre el espacio 3D y las coordenadas 2D de las imágenes.\\
 
-Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D. A su vez, los puntos capturados en las imagenes pueden referenciarse respecto a un sistema de coordenadas 2D en píxeles. Si se quiere determinar la posición de un punto en el espacio en función de las correspondientes proyecciones de dicho punto en las imágenes capturadas por las cámaras, es necesario determinar las ecuaciones que vinculan al sistema de coordenadas del espacio con el sistema de coordenadas en píxeles de las cámaras.\\
+Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D. A su vez, los puntos capturados en las imágenes pueden referenciarse respecto a un sistema de coordenadas 2D en píxeles. Si se quiere determinar la posición de un punto en el espacio en función de las correspondientes proyecciones de dicho punto en las imágenes capturadas por las cámaras, es necesario determinar las ecuaciones que vinculan al sistema de coordenadas del espacio con el sistema de coordenadas en píxeles de las cámaras.\\
 
 De la relación entre estos sistemas de coordenadas se obtienen los parámetros de las cámaras. Dichos parámetros se clasifican en intrínsecos y extrínsecos. Los primeros son aquellos que describen las propiedades geométricas y ópticas de la cámara, es decir, las características internas de la cámara. Por otra parte, los parámetros extrínsecos son los que describen la posición y orientación de la cámara respecto al sistema de coordenadas del espacio.\\
 
@@ -51,7 +51,7 @@ Z
 
 Notando con $\tilde{x}$ a los vectores en coordenadas homogéneas se tiene:
 
-% ANEXO EXPLICANDO COORDENADAS HOMOGENEAS??
+% ANEXO EXPLICANDO COORDENADAS HOMOGÉNEAS??
 
 \[\tilde{m} = \begin{bmatrix}
 u \\ 
@@ -108,7 +108,7 @@ Por lo tanto la proyección de un punto 3D sobre la retina se compone de los sig
 \begin{equation}
 [X \ Y \ Z] = [X_w \ Y_w \ Z_w]^T + t
 \end{equation}
-\item Se proyecta el punto 3D respecto a las coordenadas de la cámara sobre las coordenadas imágen de la retina $(x,y)$.
+\item Se proyecta el punto 3D respecto a las coordenadas de la cámara sobre las coordenadas imagen de la retina $(x,y)$.
 \begin{equation}
 x=f \dfrac{X}{Z} \qquad y = \dfrac{Y}{Z}
 \end{equation}
@@ -125,7 +125,7 @@ Siendo $(\check{x},\check{y})$ las coordenadas distorsionadas y $(\delta_x, \del
 \check{u} + d_x ^{-1}\check{x} + u_0 \qquad \check{v} + d_y ^{-1}\check{y} + v_0
 \end{equation}
 
-Siendo $d_x$ y $d_y$ las distancias entre pixeles adyacentes en las direcciones horizontal y vertical, respectivamente.\\
+Siendo $d_x$ y $d_y$ las distancias entre píxeles adyacentes en las direcciones horizontal y vertical, respectivamente.\\
 \end{itemize}
 
 
@@ -136,13 +136,13 @@ De acuerdo a los objetos utilizados para realizar la calibración, los métodos 
 \begin{itemize}
 \item Calibración mediante objetos 3D\\
 
-La calibración mediante este método es realizada capturando la imágen de un objeto de calibración cuyas dimensiones y geometría son conocidas. Los objetos de calibración suelen ser planos colocados ortogonalmente. También pueden utilizarse estructuras con marcadores de dimensiones conocidas. A estos objetos se les aplica traslaciones en el espacio logrando más cantidad de puntos de referencia para calibrar. La ventaja de este método es su precisión aunque se requiere de objetos más costosos y procedimientos más elaborados.\\
+La calibración mediante este método es realizada capturando la imagen de un objeto de calibración cuyas dimensiones y geometría son conocidas. Los objetos de calibración suelen ser planos colocados ortogonalmente. También pueden utilizarse estructuras con marcadores de dimensiones conocidas. A estos objetos se les aplica traslaciones en el espacio logrando más cantidad de puntos de referencia para calibrar. La ventaja de este método es su precisión aunque se requiere de objetos más costosos y procedimientos más elaborados.\\
 
 \item Calibración mediante objetos 2D\\
 
 Este caso se utiliza objetos planos con figuras de patrones determinados, por ejemplo dameros. Estos objetos son colocados en varias posiciones delante de la cámara de manera de capturar varias imágenes del objeto. Esta metodología ofrece más flexibilidad para calibrar.\\
 
-\item Autocalibración\\
+\item Auto calibración\\
 
 Este método consiste en obtener la información necesaria a través de la captura de varias imágenes de un escena estática, prescindiendo de objetos para calibrar. Esta método es más flexible que  los anteriores aunque suele ser menos preciso.\\
 
@@ -228,7 +228,7 @@ con estos parámetros se obtiene la matriz de parámetros intrínsecos:
 			0      & 0      & 1\\
 		\end{pmatrix} \]
  
-%%%%%%%%APENDICE%%%%%%%%%%%%%%%%%%%55
+%%%%%%%%APÉNDICE%%%%%%%%%%%%%%%%%%%55
 %En el apéndice \ref{apendice_calibracion_blender} se describe en detalle cómo se obtienen los parámetros necesarios en Blender.\\
 
 \subsection{Calibración para secuencias reales}
@@ -236,11 +236,11 @@ con estos parámetros se obtiene la matriz de parámetros intrínsecos:
 \label{seccion_calibracion_secuencias_reales}
 
 %%%%%%%%%%%%REFERENCIAS%%%%%%%%%%%%%%%%%
-% LIC DARIO SANTOS, HOSPITAL DE CLINICAS
+% LIC DARIO SANTOS, HOSPITAL DE CLÍNICAS
 
 Por intermedio del Lic. Darío Santos, hemos podido tener acceso a secuencias de vídeo de análisis del movimiento de la marcha que se han realizado en el Hospital de Clínicas. Dichas secuencias han sido obtenidas por un grupo de médicos e investigadores con el objetivo de analizar el movimiento de pacientes, es decir, con fines terapéuticos o con un objetivo esencialmente de investigación, en particular del estudio de la marcha humana desde el punto de vista de la biomecánica.\\
 
-%DEBERIA ACLARARSE QUE ESTO SE HACIA ANTES, CREO QUE TIPO POR 2009 Y AHORA USAN VICON.
+%DEBERÍA ACLARARSE QUE ESTO SE HACIA ANTES, CREO QUE TIPO POR 2009 Y AHORA USAN VICON.
 
 La metodología utilizada consiste en el uso de tres cámaras de vídeo convencionales de 25 fps y resolución  720 x 576 píxeles. Dichas cámaras se disponen como se muestra en la figura \ref{fig: lab_real}, alrededor de una alfombra o cinta sobre la que se le pide al paciente que camine.
 
@@ -328,7 +328,7 @@ Por otra parte la posición de los marcadores en el espacio 3D es conocida ya qu
  
   \subsubsection{Toolbox Multi-Camera Self-Calibration \footnote{\textcolor{blue}{\underline{http://cmp.felk.cvut.cz/~svoboda/SelfCal/}. Accedido 3-12-14.}}}
  
- Este toolbox está especialmente pensado para la calibración simultánea de un conjunto de varias cámaras. El procedimiento consiste en capturar con todas las cámaras, el movimiento de una fuente puntual de luz que se mueve a lo largo de todo el volumen de trabajo. por tanto para cada frame se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección si dicho punto es visible desde esa cámara. Para esto debe asegurarse que exista un contraste suficiente de la luz respecto al laboratorio. Puede usarse para esto, por ejemplo una lámpara led y que en el laboratorio exista poca o nula luz ambiente.\\
+ Este toolbox está especialmente pensado para la calibración simultánea de un conjunto de varias cámaras. El procedimiento consiste en capturar con todas las cámaras, el movimiento de una fuente puntual de luz que se mueve a lo largo de todo el volumen de trabajo. por tanto para cada cuadro se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección si dicho punto es visible desde esa cámara. Para esto debe asegurarse que exista un contraste suficiente de la luz respecto al laboratorio. Puede usarse para esto, por ejemplo una lámpara led y que en el laboratorio exista poca o nula luz ambiente.\\
  
  
  Si se tienen $m$ cámaras y $n$ puntos 3D  
@@ -342,7 +342,7 @@ v_j^i \\
  = \lambda_j^i u_j^i = P^i \mathbf{X_j}
 \]
 
-siendo $P^i$ la matriz de proyección de la $i$-ésima cámara y $u,v$ las coordenadas en píxeles de los puntos imagen. Las coordenadas de dichas proyecciones deben ser detectadas para cada frame y para cada cámara. El objetivo de la calibración es hallar los factores de escala $\lambda_j^i$ y las matrices de proyección $P^i$. Pueden expresarse todos los puntos y las matrces de proyección en una sola matriz $W_s$:
+siendo $P^i$ la matriz de proyección de la $i$-ésima cámara y $u,v$ las coordenadas en píxeles de los puntos imagen. Las coordenadas de dichas proyecciones deben ser detectadas para cada cuadro y para cada cámara. El objetivo de la calibración es hallar los factores de escala $\lambda_j^i$ y las matrices de proyección $P^i$. Pueden expresarse todos los puntos y las matrices de proyección en una sola matriz $W_s$:
 
 \[
 W_s =
@@ -398,11 +398,11 @@ Por lo tanto se puede expresar:
 
 donde $P = [P^1 \ldots P^m]^T$ y $X = [\mathbf{X_1} \ldots \mathbf{X_n}]$
 
-Si son detectados una cantidad suficiente de puntos no ruidosos ($u_j^i, v_j^i$) y se conocen los $\lambda_j^i$, entonces $W_s$ tiene rango 4 puede factorizarse en $P$ y $X$.\\
+Si son detectados una cantidad suficiente de puntos no ruidosos ($u_j^i, v_j^i$) y se conocen los $\lambda_j^i$, entonces $W_s$ tiene rango 4  y se puede factorizar en $P$ y $X$.\\
 
 El número mínimo de cámaras para una correcta calibración depende del número de parámetros conocidos de las cámaras o del número de parámetros que se conocen pero son los mismos para todas las cámaras. 3 cámaras son suficientes si se conocen todos los puntos principales o si los parámetros internos de las cámaras no se conocen pero son los mismo para todas ellas.\\
 
-La simulación en Blender se logra creando un punto 3D que toma para cada frame distintas posiciones en forma aleatoria dentro del volumen de trabajo. Para cada frame se \textit{renderiza} su posición en las 17 cámaras. En este caso se han tomado 500 posiciones distintas. En la figura \ref{fig: blender toolbox laser} se muestra en Blender la distintas posiciones que toma en un punto dentro del volumen de trabajo.
+La simulación en Blender se logra creando un punto 3D que toma para cada cuadro distintas posiciones en forma aleatoria dentro del volumen de trabajo. Para cada cuadro se \textit{renderiza} su posición en las 17 cámaras. En este caso se han tomado 500 posiciones distintas. En la figura \ref{fig: blender toolbox laser} se muestra en Blender la distintas posiciones que toma en un punto dentro del volumen de trabajo.
 
 \begin{figure}[ht]
 \begin{center}
@@ -427,14 +427,14 @@ En la figura \ref{fig: camaras blender} se muestra la configuración de las 17 c
       
 \end{figure}
 
-En la figura \ref{fig: error reproyeccion} se muestra e promedio y la desviación del error de reproyección estándar obtenido para cada una de las cámaras.
+En la figura \ref{fig: error reproyeccion} se muestra e promedio y la desviación del error de re-proyección estándar obtenido para cada una de las cámaras.
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[scale=0.4]{img/calibracion/reprerrors.pdf}
 \end{center}
 
-\caption{Promedio y desviación  del error de reproyección en todas las cámaras }
+\caption{Promedio y desviación  del error de re-proyección en todas las cámaras }
 \label{fig: error reproyeccion}
 \end{figure}
   
