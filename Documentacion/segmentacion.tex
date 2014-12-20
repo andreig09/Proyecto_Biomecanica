@@ -2,11 +2,11 @@
 \label{deteccionMarcadoresSec}
 \subsection{Introducción}
 
-Como se vio anteriormente, una vez realizada la captura del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo. 
+Como se vio anteriormente, una vez realizada la captura de video del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo. 
 
-La gran diferencia entre el sistema a implementar y los softwares modernos es que, por temas de presupuesto, no se utilizarán sensores infrarrojos u otro tipo de tecnología que facilite (o evite) la etapa de segmentación. En lugar de esto se realizará la segmentación por métodos ópticos, es decir, por métodos basados en el estudio de los píxeles de la imagen. 
+La gran diferencia entre el sistema a implementar y los sistemas modernos es que, por temas de presupuesto, no se utilizarán sensores infrarrojos u otro tipo de tecnología que facilite (o evite) la etapa de segmentación. En lugar de esto se realizará la segmentación por métodos ópticos, es decir, por métodos basados en el estudio de los píxeles de la imagen. 
 
-Debido a las condiciones del laboratorio donde se realizarán las capturas (esto es, marcadores blancos sobre un paciente con ropa oscura, fondo oscuro, e iluminación controlada. ), el problema de la detección de marcadores puede explicarse en líneas generales, como la detección de círculos blancos de un cierto tamaño sobre fondo oscuro.
+Debido a las condiciones del laboratorio donde se realizarán las capturas (esto es, marcadores blancos sobre un paciente con ropa oscura, fondo oscuro, e iluminación controlada), el problema de la detección de marcadores puede explicarse en líneas generales, como la detección de círculos blancos de un cierto tamaño sobre fondo oscuro.
 
 \begin{figure}[H]
         \centering
@@ -20,7 +20,7 @@ Debido a las condiciones del laboratorio donde se realizarán las capturas (esto
       \label{ejemplotodointro}
 \end{figure}
 
-El bloque de detección de marcadores, se puede dividir en dos partes bien definidas: la \textbf{segmentación} y el \textbf{filtrado de objetos hasta obtener los marcadores}. En la figura \ref{ejemplotodointro} se muestra el resultado del procesamiento de cada parte.
+El bloque de detección de marcadores, se puede dividir en dos partes bien definidas: la \textbf{segmentación} y el \textbf{filtrado de objetos hasta obtener los marcadores}. En la Figura \ref{ejemplotodointro} se muestra el resultado del procesamiento de cada parte.
 
 El término segmentar hace referencia, en rasgos generales, a la división de una imagen en múltiples secciones u objetos para su posterior análisis. En otras palabras, la segmentación se encarga de identificar los objetos de importancia dentro de la imagen. 
 
@@ -39,7 +39,7 @@ El nivel de detalle de este proceso depende del problema a atacar. En este caso 
 
 A pesar de lo dicho, no hay que perder el foco que este proyecto busca \textbf{tener una primera versión del sistema de principio a fin con todos los bloques implementados}, aunque esto signifique tener que realizar cada bloque con menor complejidad.
 
-Existen varios métodos a aplicar para realizar la segmentación. Siguiendo lo aclarado en el párrafo anterior se comenzaron probando los más simples y se fue aumentando el nivel de complejidad hasta encontrar un método que se ajuste a los requerimientos. A continuación se describirán dos de los más destacados, entre ellos la generación de umbrales con el método de Otsu\cite{otsu}, que fue el elegido para este sistema. Además se explicará por qué se seleccionó este método en lugar de los otros y cómo funciona el algoritmo implementado. Por último, se mostrarán algunos resultados obtenidos al procesar imágenes sintéticas y reales con este bloque.
+Existen varios métodos a aplicar para realizar la segmentación. Siguiendo lo aclarado en el párrafo anterior se comenzaron probando los más simples y se fue aumentando el nivel de complejidad hasta encontrar un método que se ajuste a los requerimientos. A continuación se describirán dos de los más destacados, entre ellos la generación de umbrales con el método de Otsu \cite{otsu}, que fue el elegido para este sistema. Además se explicará por qué se seleccionó este método en lugar de los otros y cómo funciona el algoritmo implementado. Por último, se mostrarán algunos resultados obtenidos al procesar imágenes sintéticas y reales con este bloque.
 
 \subsection{Estado del arte}%pag 711, Gonzalez 3º ed
 \label{segEstArt}
@@ -55,7 +55,7 @@ A continuación se explican los algoritmos mencionados.
 \subsubsection{Detección de bordes}
 \label{detecbordeSec}
 
-De los dos métodos nombrados anteriormente, este es el más complejo y pesado operacional-mente Básicamente se trata de la detección de líneas o transiciones en una imagen mediante el procesamiento de los píxeles que la componen. En lo que sigue se explica el detalle de este método, tal como se menciona en el libro \textit{Digital Image Processing de Rafael Gonzalez y Richard Woods}\cite{Gonzalez}.
+Conciste básicamente en la detección de líneas o transiciones en una imagen mediante el procesamiento de los píxeles que la componen. En lo que sigue se explica el detalle de este método, tal como se menciona en el libro \textit{Digital Image Processing de Rafael Gonzalez y Richard Woods} \cite{Gonzalez}.
 
 Así como el difuminado en una imagen (que equivale a hacer un promedio de los píxeles en una zona) puede realizarse mediante la integración, los cambios de intensidad abruptos entre píxeles continuos pueden detectarse utilizando derivadas. Las derivadas de primer y segundo orden son en particular las más indicadas para este propósito.
 
@@ -134,7 +134,7 @@ En la figura \ref{gonz2} se observaba una imagen de 6x6 píxeles y su representa
 \label{gonz6}
 \end{figure}
 
- Este método se puede combinar con otros para mejorar los resultados. Una posibilidad es someter la imagen a un proceso de \textit{smooth}\cite{smooth} -o suavizado- previo a la detección, de esta forma se descartan los bordes pequeños que en general son considerados como ruido. Otra posible combinación para realizar una detección más selectiva es la aplicación de un umbral luego del cálculo del gradiente. Cuando el interés recae tanto en destacar los bordes principales de una imagen como en obtener la mayor conectividad posible, es común que se aplique smoothing y umbral a la vez.
+ Este método se puede combinar con otros para mejorar los resultados. Una posibilidad es someter la imagen a un proceso de \textit{smooth} \cite{smooth} -o suavizado- previo a la detección, de esta forma se descartan los bordes pequeños que en general son considerados como ruido. Otra posible combinación para realizar una detección más selectiva es la aplicación de un umbral luego del cálculo del gradiente. Cuando el interés recae tanto en destacar los bordes principales de una imagen como en obtener la mayor conectividad posible, es común que se aplique suavizado y umbral a la vez.
 
 \subsubsection{Métodos de umbral} %pag 760 del Gonzalez
 \label{umbralSec}
@@ -167,7 +167,7 @@ Cuando la distribución de las intensidades entre objeto y fondo se encuentran l
 \item Repetir los pasos 2 a 4 hasta que la diferencia entre los umbrales $T$ de sucesivas iteraciones sea menor a un ${\Delta}T$ definido anteriormente.
 \end{enumerate}
 
-Los principales métodos existentes para obtener el valor del umbral están listados en el survey de Mehmet Sezgin\cite{surveyThreshold}, en el cual se clasifica estos métodos en las siguientes categorías:
+Los principales métodos existentes para obtener el valor del umbral están listados en el survey de Mehmet Sezgin \cite{surveyThreshold}, en el cual se clasifica estos métodos en las siguientes categorías:
 \begin{itemize}
 \item Basados en la forma del histograma.
 \item Basados en agrupamiento.
@@ -186,22 +186,24 @@ Entre los cuarenta métodos exhibidos en este paper, se encuentra el método de 
 
 \subsection{Justificación del algoritmo elegido}
 
-En un principio, se manejaba la idea de tomar como base una implementación ya hecha y adaptarla para el propósito de este proyecto. Sin embargo, en la etapa de investigación se encontró que no hay muchos sistemas de código abierto disponibles, y los que se encontraron necesitaban muchos ajustes para adaptarlo a este sistema. Por esta razón se decidió implementar un algoritmo propio, que en el fondo, consiste en llevar el setup experimental a la teoría explicada en la sección \ref{segEstArt}.
+En un principio, se manejó la idea de tomar como base una implementación existente y adaptarla para el propósito de este proyecto. Sin embargo, en la etapa de investigación se encontró que no hay muchos sistemas de código abierto disponibles, y los que se encontraron necesitan muchos ajustes para llegar a cubrir las necesidades de este trabajo. En particular, para la segmentación se encontraron varias implementaciones de algoritmos, pero ninguna se ajusta a los requerimientos del proyecto. Por esta razón se decidió implementar un algoritmo conocido, que aplique la teoría de la sección \ref{segEstArt}.
 
-Como se mencionaba en la sección anterior, los métodos de detección de bordes son más complejos de implementar computacionalmente que los de umbral, además presentan problemas (por ejemplo que los bordes usualmente quedan desconectados e integrarlos es bastante costoso) que la umbralización no presenta. Por esto, y debido a sus propiedades intuitivas, simplicidad en la implementación y a su rapidez computacional, se eligió utilizar un método de umbral para implementar el bloque de \emph{Segmentación}. En particular se eligió el método de Otsu\cite{otsu} de tres clases ya que ofrece un buen compromiso entre simplicidad y eficacia, como se verá más adelante. 
+De los métodos nombrados en la sección anterior, si se piensa en los requerimentos del sistema, la detección de bordes presenta alguna desventajas frente a la detección por umbral. En primer lugar, si bien en los objetos a detectar hay bordes, los mismos no son tan nítidos debido al difuminanado natural que impone la forma esférica de los marcadores. Este aspecto puede afectar negativamente la detección de bordes ya que el contraste entre un pixel y su vecino no es tán pronunciado, sin embargo en la segmentación por umbral, esta característica simplemente afectaría el tamaño de la esfera segmentada en función del valor del umbral impuesto. Además la detección de bordes presenta otros problemas que la umbralización no, y que a efectos de este proyecto es mejor evitar, por ejemplo, los bordes detectados usualmente quedan desconectados al aplicar detección de bordes e integrarlos es bastante costoso. Por esto, y debido a sus propiedades intuitivas, simplicidad en la implementación y a su rapidez computacional, se eligió utilizar un método de umbral para implementar el bloque de \emph{Segmentación}. En particular se eligió el método de Otsu \cite{otsu} de tres clases ya que ofrece un buen compromiso entre simplicidad y eficacia como se verá más adelante. 
+
+Para la elección del número de clases se tuvo en cuenta las características de la captura de video a procesar. Usar el número de clases incorrecto afecta en gran medida la segmentacióm. En un principio se podría suponer que cuánto mayor es el número de clases más precisa será la segmentación, sin embargo esto no es correcto. Un error típico al usar un número mayor al adecuado de clases es tener un único objeto segmentado en varios más pequeños. Por otro lado, utilizar un número menor de clases también es causa de errores. Por ejemplo, al utilizar 2 clases, se está asumiendo que el fondo es uniforme lo que, como se verá más adelante, no sucede en las capturas de video de este sistema.
 
 Para realizar esta elección se tuvo en cuenta que las capturas a procesar serán realizadas en un ambiente controlado y, siguiendo con la filosofía de priorizar la completitud del sistema frente a la eficacia del mismo, no se tuvo como prioridad para esta primera etapa implementar un método de mayor complejidad que sea más robusto frente a ciertos tipos de ruidos o características que se pueden dar en otro tipo de capturas (iluminación, fondo, ropa del paciente, etc.). 
 
-Con el método de Otsu\cite{otsu} se pretende, a partir del histograma de la imagen, separar los píxeles de la misma en 3 niveles encontrando dos umbrales que los separen. Trabajar con tres clases permite obtener mejores resultados que al trabajar con dos ya que separa los píxeles en un nivel más y por lo tanto el umbral de intensidades calculado tendrá mayor exactitud. Esto permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
+Con el método de Otsu \cite{otsu} se pretende, a partir del histograma de la imagen, separar los píxeles de la misma en 3 niveles encontrando dos umbrales que los separen. Trabajar con tres clases permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
 
-El bloque de segmentación de este sistema fue implementado en el lenguaje C++, debido a que es uno de los lenguajes de programación que cuenta con mayor cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron las librerías OpenCV\cite{opencv} y CVBlob\cite{cvblob} ya que funcionan para las plataformas principales de PC y dispositivos móviles, y están diseñadas para tener una gran eficiencia computacional en las implementaciones. Además, estas librerías son de las más populares dentro de las de código abierto con estas características, lo que implica tener una comunidad activa de usuarios muy grande.
+El bloque de segmentación de este sistema fue implementado en el lenguaje C++, debido a que es uno de los lenguajes de programación que cuenta con mayor cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron las librerías OpenCV \cite{opencv} y CVBlob \cite{cvblob} ya que funcionan para las plataformas principales de PC y dispositivos móviles, y están diseñadas para tener una gran eficiencia computacional en las implementaciones. Además, estas librerías son de las más populares dentro de las de código abierto con estas características, lo que implica tener una comunidad activa de usuarios muy grande.
 
 Por otro lado, C++ es un lenguaje relativamente antiguo por lo que implementar el algoritmo con el mismo implicó más esfuerzo (por ejemplo, en el manejo de la memoria) que de haber utilizado un lenguaje más nuevo. Esto contribuyó a impedir la implementación de un algoritmo más complejo.
 
 Finalmente, la justificación de la realización del algoritmo para el bloque de segmentación puede entenderse desde dos puntos de vista: 
 \begin{itemize}
- \item Por un lado, se elaboró un algoritmo de una complejidad relativamente baja como se estableció en los requerimientos, pero que cubre todas las características necesarias para esta clase de sistema. En la sección \ref{resultadosyanalisissegmentacion} se verá que los resultados obtenidos son buenos y el error cometido no es significativo si se tienen en cuenta los errores cometidos en el resto de los bloques.
- \item Por otro lado, en Uruguay no hay mucha experiencia industrial en procesamiento de imágenes, por lo que implementar una primera versión del sistema con este algoritmo de segmentación no está muy alejado de los que se usan actualmente. Nuevamente, es importante aclarar que este bloque (como el resto de los bloques) está implementado de forma tal que en un futuro se pueda optimizar tanto como se quiera, sin afectar el resto de los bloques del sistema. Esto da la posibilidad de poder modificar el sistema no solo para mejorar la segmentación sino también para robustecerla permitiendo, entre otras cosas, realizar capturas fuera de las condiciones del laboratorio como puede ser en la práctica de algún deporte.
+ \item Por un lado, se elaboró un algoritmo de una complejidad relativamente baja como se estableció en los requerimientos, pero que cubre todas las características necesarias para esta clase de sistema. En la sección \ref{resultadosyanalisissegmentacion} se verá que los resultados obtenidos son buenos y el error cometido está dentro de los márgenes que aseguran el buen funcionamiento del sistema.
+ \item Por otro lado, a pesar de que el estado del arte de segmentación presenta una gran cantidad de algoritmos, el estado del arte ``industrial'' está bastante más atrasado del estado del arte referente a investigaciones debido al tiempo que implica realizar una nueva implementación o la dificultad para conseguir una. Por esto, implementar una primera versión del sistema con el algoritmo de segmentación elegido no está muy alejado de los que se usan actualmente. Nuevamente, es importante aclarar que este bloque (como el resto de los bloques) está implementado de forma tal que en un futuro se pueda optimizar tanto como se quiera, sin afectar el resto de los bloques del sistema. Esto da la posibilidad de poder modificar el sistema no solo para mejorar la segmentación sino también para robustecerla permitiendo, entre otras cosas, realizar capturas fuera de las condiciones del laboratorio como puede ser en la práctica de algún deporte.
 \end{itemize}
 
 
@@ -240,7 +242,7 @@ Si $T$ toma un valor constante en toda la imagen, al proceso se le llama \textit
 \begin{center}
 \includegraphics[scale=0.4]{img/hist3clases.png}
 \end{center}
-\caption{Histograma de intensidad de tres clases\cite{segment}.}
+\caption{Histograma de intensidad de tres clases \cite{segment}.}
 \label{hist3class}
 \end{figure}
 
@@ -268,15 +270,15 @@ Observando los histogramas anteriores, puede verse que la efectividad de la umbr
 \item La uniformidad de las propiedades de reflexión de la imagen.
 \end{itemize}
 
-Es de destacar que, si bien no resulta tan evidente como pasa con el ruido de la imagen, la iluminación y las propiedades de reflexión juegan un papel clave para obtener una segmentación efectiva y por lo tanto controlar estos parámetros debe ser prioridad si se quiere obtener una buena segmentación. Cuando no es posible controlarlos, existen tres aproximaciones básicas que se pueden realizar para mejorar los resultados: corregir el patrón de sombras directamente, corregirlo mediante algún proceso ya establecido (por ejemplo utilizando la transformada top-hat\cite{tophat}) o aplicar un umbral variable tal como fue mencionado anteriormente.
+Es de destacar que, si bien no resulta tan evidente como pasa con el ruido de la imagen, la iluminación y las propiedades de reflexión juegan un papel clave para obtener una segmentación efectiva y por lo tanto controlar estos parámetros debe ser prioridad si se quiere obtener una buena segmentación. Cuando no es posible controlarlos, existen tres aproximaciones básicas que se pueden realizar para mejorar los resultados: corregir el patrón de sombras directamente, corregirlo mediante algún proceso ya establecido (por ejemplo utilizando la transformada top-hat \cite{tophat}) o aplicar un umbral variable tal como fue mencionado anteriormente.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \vspace{10 mm}
 \textbf{Umbral de Otsu}
 
-El método de Otsu\cite{otsu} calcula el valor umbral de forma tal que la dispersión dentro de cada segmento sea lo más pequeña posible, pero al mismo tiempo sea lo más alta posible entre segmentos diferentes. Para ello se calcula el cociente entre ambas varianzas (para el caso de dos clases) y se busca un valor umbral para que este cociente sea máximo.
+El método de Otsu \cite{otsu} calcula el valor umbral de forma tal que la dispersión dentro de cada segmento sea lo más pequeña posible, pero al mismo tiempo sea lo más alta posible entre segmentos diferentes. Para ello se calcula el cociente entre ambas varianzas (para el caso de dos clases) y se busca un valor umbral para que este cociente sea máximo.
 
-Dicho de otra modo, se puede ver al proceso de umbralización como un problema estadístico cuyo objetivo es minimizar el error promedio que se produce al asignar los píxeles de la imagen a dos o más clases. La solución a este problema es conocida como \textit{regla de decisión de Bayes\cite{bayes}}. Sin embargo aplicar esta regla no es tan sencillo, ya que estimar la densidad de probabilidad de cada clase no es simple. El método de Otsu\cite{otsu} es considerado una de las mejores aproximaciones a esta solución, ya que maximiza la ``varianza intermedia entre clases'' (\textit{between class variance}\footnote{diferencia entre la varianza total y la suma de las varianzas de cada clase\cite{betweenvarianze}}) que es una medida muy utilizada en problemas de discriminación estática, lo que permite obtener un umbral óptimo. A esto se le suma la ventaja de que todos los cálculos realizados en el método se realizan sobre el histograma de intensidades que es muy fácil de obtener.
+Dicho de otra modo, se puede ver al proceso de umbralización como un problema estadístico cuyo objetivo es minimizar el error promedio que se produce al asignar los píxeles de la imagen a dos o más clases. La solución a este problema es conocida como \textit{regla de decisión de Bayes \cite{bayes}}. Sin embargo aplicar esta regla no es tan sencillo, ya que estimar la densidad de probabilidad de cada clase no es simple. El método de Otsu es considerado una de las mejores aproximaciones a esta solución, ya que maximiza la ``varianza intermedia entre clases'' (\textit{between class variance}\footnote{diferencia entre la varianza total y la suma de las varianzas de cada clase\cite{betweenvarianze}}) que es una medida muy utilizada en problemas de discriminación estática, lo que permite obtener un umbral óptimo. A esto se le suma la ventaja de que todos los cálculos realizados en el método se realizan sobre el histograma de intensidades que es muy fácil de obtener.
 
 
 La ``varianza intermedia entre clases'' puede escribirse como
@@ -349,13 +351,13 @@ En resumen, el \textit{algoritmo de Otsu} se puede implementar de la siguiente m
  \item Realizar el histograma de la imagen, donde cada componente corresponde a un nivel de intensidad (con un total de $L$ niveles)
  \item Calcular la probabilidad $P_1(k)$ con la ecuación \ref{peuno} para $k=0,1,2,...,L-1$.
  \item Calcular la media $m(k)$ con la ecuación \ref{mediacumulativa} para $k=0,1,2,...,L-1$.
- \item Calcular la media global $m_G$ con la ecuación \ref{mediaglobal}.
+ \item Calcular la media global $m_G$ con la Ecuación \ref{mediaglobal}.
  \item Calcular la ``varianza intermedia entre clases'' (\textit{between-class variance}), ${\sigma}_B^2(k)$, como se muestra en la ecuación \ref{betvarec2} (o \ref{betvarec3})  para $k=0,1,2,...,L-1$.
  \item A partir del punto anterior, obtener el umbral de Otsu $k^*$ como el valor de $k$ (o los valores de $k_k$ para el caso de múltiples clases) que maximiza ${\sigma}_B^2(k)$.
 \end{enumerate}
 
 \vspace{8 mm}
-\textbf{Momentos y excentricidad}\cite{imageMoments}
+\textbf{Momentos y excentricidad} \cite{imageMoments}
 
 Los momentos geométricos son propiedades numéricas que se pueden obtener de una determinada imagen, los cuales proporcionan una alternativa interesante para la representación de la forma de un objeto. Tienen en cuenta todos los píxeles de la imagen, no sólo los bordes y se pueden clasificar en:
 
@@ -405,14 +407,14 @@ El algoritmo realiza la segmentación siguiendo el siguiente proceso:
 \end{enumerate}
 
 
-El bloque \emph{Query Frame} es implementado mediante las funciones \emph{cvCaptureFromAVI} y \emph{cvQueryFrame}, las cuales pertenecen a la librería \emph{OpenCV}\cite{opencv}.
+El bloque \emph{Query Frame} es implementado mediante las funciones \emph{cvCaptureFromAVI} y \emph{cvQueryFrame}, las cuales pertenecen a la librería \emph{OpenCV} \cite{opencv}.
 
 
-Por otro lado, el bloque \emph{Get Threshold} contiene una implementación del algoritmo de Otsu\cite{otsu} de $N$ clases\cite{implementacionOtsu}, cedida por Matías Tailanian y Juan Cardelino, que es utilizada con $N=3$. Se utilizó esta implementación ya que la implementación que hay en la librería OpenCV\cite{opencv} es de dos clases y tampoco se encontraron otras implementaciones del algoritmo para 3 clases en internet.
+Por otro lado, el bloque \emph{Get Threshold} contiene una implementación del algoritmo de Otsu de $N$ clases \cite{implementacionOtsu}, cedida por Matías Tailanian y Juan Cardelino, que es utilizada con $N=3$. Se utilizó esta implementación ya que la implementación que hay en la librería OpenCV es de dos clases y tampoco se encontraron otras implementaciones del algoritmo para 3 clases en internet.
 
  Como se vio en la sección \ref{umbralSec}, este método devuelve 2 umbrales de los cuales se tomará el mayor de ellos, dado que las hipótesis del problema establecen que la adquisición de video debe realizarse sobre fondo oscuro y con el paciente utilizando ropa oscura, de forma tal que los marcadores (que son de color blanco) sean los elementos más claros en la imagen.
 
-En la figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el funcionamiento del bloque \emph{Filter}. Este bloque es el encargado de filtrar la imagen según la intensidad de los píxeles y está implementado por la función \emph{FilterOtsu}, que recibe como parámetros de entrada una imagen (uno de los cuadros de la secuencia) y el umbral a utilizar para el filtrado. Primero se le aplica a la imagen un difuminado (\textit{smoothing}) con un filtro de mediana, con el objetivo de reducir el ruido. Luego se cambia el el espacio de colores de la imagen de RGB a HSV ya que este último es más adecuado para realizar segmentación basada en la intensidad de los píxeles\cite{HSV}. Por último, se filtra la imagen con el umbral ingresado, utilizando la función \emph{cvThreshold} de la librería OpenCV\cite{opencv}. Esta función compara la intensidad de cada píxel de la imagen con el valor del umbral estableciendo un nuevo valor de intensidad: $0$\footnote{negro en el espacio HSV.} para los píxeles que originalmente tenían intensidad menor al umbral y $255$\footnote{blanco en el espacio HSV.} para los que originalmente presentaban intensidad mayor.
+En la figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el funcionamiento del bloque \emph{Filter}. Este bloque es el encargado de filtrar la imagen según la intensidad de los píxeles y está implementado por la función \emph{FilterOtsu}, que recibe como parámetros de entrada una imagen (uno de los cuadros de la secuencia) y el umbral a utilizar para el filtrado. Primero se le aplica a la imagen un difuminado (\textit{smoothing}) con un filtro de mediana, con el objetivo de reducir el ruido. Luego se cambia el el espacio de colores de la imagen de RGB a HSV ya que este último es más adecuado para realizar segmentación basada en la intensidad de los píxeles \cite{HSV}. Por último, se filtra la imagen con el umbral ingresado, utilizando la función \emph{cvThreshold} de la librería OpenCV. Esta función compara la intensidad de cada píxel de la imagen con el valor del umbral estableciendo un nuevo valor de intensidad: $0$\footnote{negro en el espacio HSV.} para los píxeles que originalmente tenían intensidad menor al umbral y $255$\footnote{blanco en el espacio HSV.} para los que originalmente presentaban intensidad mayor.
 
 \begin{figure}[H]
 \begin{center}
@@ -435,9 +437,9 @@ En la figura \ref{ejemploUmbralizacion}, se puede ver un ejemplo de los resultad
 
 Como se ve en la figura \ref{peladoFiltro}, para el caso ideal todos los píxeles resultantes del filtrado corresponden a los marcadores en el paciente. En la práctica, no siempre sucede esto, por lo que luego de obtenidos los mismos debe hacerse una diferenciación entre los marcadores y el resto de los píxeles detectados.
 
-El funcionamiento del bloque \emph{Detect blobs} es descrito por el diagrama de la figura \ref{diagramadetectblobs}. Este bloque recibe como entrada la imagen previamente filtrada por el bloque \emph{Filter} y da como salida una imagen con los marcadores detectados e identificados. En primer lugar, se identifican todos los blobs\footnote{Binary Large Objects\cite{defBlob}} de la imagen filtrada con el bloque \emph{Find blobs}, que es implementado por la función \emph{cvLabel} de la librería CVBlob\cite{cvblob}. Cuando se hace referencia a ``identificar todos los blobs'', se refiere a identificar cada grupo de píxeles blancos continuos de la imagen filtrada como un objeto (un blob) único. En la figura \ref{peladoBlobs}, se ve el resultado de procesar la imagen \ref{peladoFiltro} con el bloque \emph{Detect blobs}. 
+El funcionamiento del bloque \emph{Detect blobs} es descrito por el diagrama de la figura \ref{diagramadetectblobs}. Este bloque recibe como entrada la imagen previamente filtrada por el bloque \emph{Filter} y da como salida una imagen con los marcadores detectados e identificados. En primer lugar, se identifican todos los blobs\footnote{Binary Large Objects \cite{defBlob}} de la imagen filtrada con el bloque \emph{Find blobs}, que es implementado por la función \emph{cvLabel} de la librería CVBlob \cite{cvblob}. Cuando se hace referencia a ``identificar todos los blobs'', se refiere a identificar cada grupo de píxeles blancos continuos de la imagen filtrada como un objeto (un blob) único. En la figura \ref{peladoBlobs}, se ve el resultado de procesar la imagen \ref{peladoFiltro} con el bloque \emph{Detect blobs}. 
 
-Luego, si se ingresó la opción para filtrar por área, los blobs\cite{defBlob} detectados se filtran por área máxima y/o mínima mediante la función \emph{cvFilterByArea} perteneciente a la librería CVBlobs\cite{cvblob}. 
+Luego, si se ingresó la opción para filtrar por área, los blobs \cite{defBlob} detectados se filtran por área máxima y/o mínima mediante la función \emph{cvFilterByArea} perteneciente a la librería CVBlobs \cite{cvblob}. 
 
 \begin{figure}[H]
 \begin{center}
@@ -447,7 +449,7 @@ Luego, si se ingresó la opción para filtrar por área, los blobs\cite{defBlob}
 \label{diagramadetectblobs}
 \end{figure}
 
-Siguiendo el flujo, la imagen con blobs ingresa al bloque \emph{Circular filter}, se haya filtrado por área o no, donde se descartan los blobs que no tienen forma circular. Para ello, se realiza un cálculo basado en la excentricidad\footnote{Parámetro asociado con cada sección cónica. Es una buena medida de cuánto se diferencia dicha sección de ser circular. Así, un círculo tendrá excentricidad 0, una elipse entre 0 y 1, para una parábola valdrá 1 y para una hipérbola será mayor a 1\cite{excentricidad}. } de los objetos y en los momentos de la imagen. Estas propiedades se explicaron en la sección \ref{fundamentoteoseg}.
+Siguiendo el flujo, la imagen con blobs ingresa al bloque \emph{Circular filter}, se haya filtrado por área o no, donde se descartan los blobs que no tienen forma circular. Para ello, se realiza un cálculo basado en la excentricidad\footnote{Parámetro asociado con cada sección cónica. Es una buena medida de cuánto se diferencia dicha sección de ser circular. Así, un círculo tendrá excentricidad 0, una elipse entre 0 y 1, para una parábola valdrá 1 y para una hipérbola será mayor a 1 \cite{excentricidad}. } de los objetos y en los momentos de la imagen. Estas propiedades se explicaron en la sección \ref{fundamentoteoseg}.
 
 De los blobs detectados en un cuadro, los que tendrán forma aproximadamente circular serán los que tengan el valor de la excentricidad más cercana a $0$. Observando la ecuación \ref{excentec}, se puede ver que $e{\rightarrow}0$ si $$\sqrt{4n_{11}^2+\frac{(n_{20}-n_{02})^2}{2}}\ {\rightarrow}\ 0$$ por lo que una buena medida de qué tan circular es un blob puede ser evaluar $n_{11}$ y $n_{20}-n_{02}$ y ver qué tan chico son sus valores en comparación con $n_{20}+n_{02}$.
 
@@ -462,7 +464,7 @@ Precisamente, para la implementación del bloque \emph{Circular Filter}, se eval
       \label{ejemplofiltrocirc}
 \end{figure}
 
-Es importante destacar que si este filtro se realiza de forma muy selectiva (esto es, darle un valor muy pequeño a las constantes $A$ y $B$ ), no será posible detectar algunos marcadores ya que debido a varios factores -entre los que se encuentran: características de la captura, tamaño de los marcadores en la imagen, iluminación, ruido, etc.- en la mayoría de los cuadros los marcadores no son círculos perfectos. Por esta misma razón se tuvo que descartar la utilización de un detector de círculos, cómo por ejemplo la \textit{transformada de Hough}\cite{hough}, para la implementación de este bloque. 
+Es importante destacar que si este filtro se realiza de forma muy selectiva (esto es, darle un valor muy pequeño a las constantes $A$ y $B$ ), no será posible detectar algunos marcadores ya que debido a varios factores -entre los que se encuentran: características de la captura, tamaño de los marcadores en la imagen, iluminación, ruido, etc.- en la mayoría de los cuadros los marcadores no son círculos perfectos. Por esta misma razón se tuvo que descartar la utilización de un detector de círculos, cómo por ejemplo la \textit{transformada de Hough} \cite{hough}, para la implementación de este bloque. 
 
 En la figura \ref{peladoCircular} se ve el resultado de procesar la imagen \ref{peladoBlobs} con el bloque \emph{Circular Filter}.
 
@@ -474,10 +476,10 @@ En la figura \ref{peladoCircular} se ve el resultado de procesar la imagen \ref{
       \label{ejemplocircularfilter}
 \end{figure}
 
-Luego del filtro circular, se identifican los blobs que resultaron del filtrado mediante el bloque \emph{Number}, que utiliza la función \emph{cvPutText} de la librería  OpenCV\cite{opencv} para numerar cada blob de la imagen con su número de \textit{id}. Esta numeración se hace de izquierda a derecha y de arriba hacia abajo.\\
+Luego del filtro circular, se identifican los blobs que resultaron del filtrado mediante el bloque \emph{Number}, que utiliza la función \emph{cvPutText} de la librería  OpenCV para numerar cada blob de la imagen con su número de \textit{id}. Esta numeración se hace de izquierda a derecha y de arriba hacia abajo.\\
 
 
-Finalmente, volviendo al diagrama de flujo del bloque general (ver figura \ref{diagramaSegmentacion}), el bloque \emph{Write xml} escribe la posición $(x,y)$ de cada blob en el cuadro procesado, en un archivo XML\cite{xml}. Este bloque es implementado mediante funciones de C++ para escribir archivos, teniendo en cuenta la estructura de los archivos XML\cite{xml}.
+Finalmente, volviendo al diagrama de flujo del bloque general (ver figura \ref{diagramaSegmentacion}), el bloque \emph{Write xml} escribe la posición $(x,y)$ de cada blob en el cuadro procesado, en un archivo XML \cite{xml}. Este bloque es implementado mediante funciones de C++ para escribir archivos, teniendo en cuenta la estructura de los archivos XML.
 
 En la figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del bloque \emph{Write xml} que corresponde también a la salida del bloque de segmentación. Cómo se observa, es el resultado de analizar una secuencia de tres cuadros (frames 0,1 y 2) donde se detectan 3 marcadores en cada uno de ellos.
 
@@ -490,7 +492,7 @@ En la figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del b
 \end{figure}
 
 
- Se eligió el formato XML\cite{xml} para exportar los resultados porque es un formato conocido universalmente y fácil de importar en cualquier lenguaje, en particular \emph{Matlab} contiene librerías para trabajar con el mismo.
+ Se eligió el formato XML para exportar los resultados porque es un formato conocido universalmente y fácil de importar en cualquier lenguaje, en particular \emph{Matlab} contiene librerías para trabajar con el mismo.
 
  Resta comentar que, además de los videos a procesar, el algoritmo tiene como entradas opcionales un conjunto de argumentos que establecen distintos parámetros para el procesamiento. Estos argumentos se presentan a continuación:
 
@@ -525,7 +527,7 @@ A continuación, se presentan los resultados de distintas pruebas realizadas en 
 
 Para el bloque de umbralización de este sistema se observó que el resultado obtenido, como era de esperarse, depende fuertemente de las condiciones de captura y obviamente del umbral calculado. 
 
-Para el caso sintético, cómo el que se muestra en la figura \ref{resUmbralizacion}, dónde se imponen las condiciones de captura como es deseable, los resultados fueron muy buenos. Esto es razonable ya que como se vio anteriormente, el método de Otsu\cite{otsu} calcula el umbral óptimo, por lo que mientras en la imagen se presenten los marcadores cómo los objetos más brillantes y se aprecie un alto contraste entre los mismos y el resto de los elementos (fondo, paciente, etc.), la segmentación será muy efectiva.
+Para el caso sintético, cómo el que se muestra en la figura \ref{resUmbralizacion}, dónde se imponen las condiciones de captura como es deseable, los resultados fueron muy buenos. Esto es razonable ya que como se vio anteriormente, el método de Otsu calcula el umbral óptimo, por lo que mientras en la imagen se presenten los marcadores cómo los objetos más brillantes y se aprecie un alto contraste entre los mismos y el resto de los elementos (fondo, paciente, etc.), la segmentación será muy efectiva.
 
 \begin{figure}[H]
         \centering
@@ -548,7 +550,7 @@ Sin embargo, al probar con capturas reales los resultados cambian. En la figura 
 
 Se puede observar que los objetos resultantes de la segmentación no solamente son los que corresponden a los marcadores, sino que también se presentan otro tipo de objetos de igual o mayor intensidad luminosa. De todos modos, en principio esto no sería un problema, ya que con los filtros que se aplican a continuación de este bloque se podría eliminar el resto de los objetos. Sin embargo ocurre otro problema, que se explicará más adelante.
 
-Otra alternativa para eliminar los objetos detectados que no son marcadores, directamente en esta etapa, es eliminar el fondo mediante un extractor de fondo. En la imagen \ref{abelvideosf} se muestra el cuadro de la figura \ref{abelvideo} luego de extraerle el fondo con un programa de la base de datos \emph{Humaneva}\cite{humanevaBase} implementado en \emph{Matlab}. En la figura \ref{abelfiltrosf} se observan los resultados de aplicarle umbralización a dicha imagen.
+Otra alternativa para eliminar los objetos detectados que no son marcadores, directamente en esta etapa, es eliminar el fondo mediante un extractor de fondo. En la imagen \ref{abelvideosf} se muestra el cuadro de la figura \ref{abelvideo} luego de extraerle el fondo con un programa de la base de datos \emph{Humaneva} \cite{humanevaBase} implementado en \emph{Matlab}. En la figura \ref{abelfiltrosf} se observan los resultados de aplicarle umbralización a dicha imagen.
 
 \begin{figure}[H]
         \centering
@@ -562,7 +564,7 @@ Se observa que, si bien se siguen detectando objetos que no corresponden a los m
 
 \subsubsection{Detección de marcadores}
 
-Como se mencionó en la explicación del algoritmo, tanto la función para detectar objetos cómo la función para filtrar los mismos por su tamaño son funciones pertenecientes a la librería OpenCV\cite{opencv}, por lo que no sería necesario probarlas individualmente. En consecuencia, para la detección de marcadores será necesario realizar pruebas más que nada en el filtro circular.
+Como se mencionó en la explicación del algoritmo, tanto la función para detectar objetos cómo la función para filtrar los mismos por su tamaño son funciones pertenecientes a la librería OpenCV, por lo que no sería necesario probarlas individualmente. En consecuencia, para la detección de marcadores será necesario realizar pruebas más que nada en el filtro circular.
 
 En la figura \ref{ejemplofiltrocirc} se mostraba un ejemplo de funcionamiento de este filtro, dónde se puede ver que a grandes rasgos el filtro funciona correctamente. 
 
