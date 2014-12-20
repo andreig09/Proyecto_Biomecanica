@@ -1,6 +1,6 @@
-\section{Detección de marcadores}
+\chapter{Detección de marcadores}
 \label{deteccionMarcadoresSec}
-\subsection{Introducción}
+\section{Introducción}
 
 Como se vio anteriormente, una vez realizada la captura de video del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo. 
 
@@ -41,7 +41,7 @@ A pesar de lo dicho, no hay que perder el foco que este proyecto busca \textbf{t
 
 Existen varios métodos a aplicar para realizar la segmentación. Siguiendo lo aclarado en el párrafo anterior se comenzaron probando los más simples y se fue aumentando el nivel de complejidad hasta encontrar un método que se ajuste a los requerimientos. A continuación se describirán dos de los más destacados, entre ellos la generación de umbrales con el método de Otsu \cite{otsu}, que fue el elegido para este sistema. Además se explicará por qué se seleccionó este método en lugar de los otros y cómo funciona el algoritmo implementado. Por último, se mostrarán algunos resultados obtenidos al procesar imágenes sintéticas y reales con este bloque.
 
-\subsection{Estado del arte}%pag 711, Gonzalez 3º ed
+\section{Estado del arte}%pag 711, Gonzalez 3º ed
 \label{segEstArt}
 
 Dado que la segmentación es la parte más compleja de este bloque, se detallará su estado del arte. Como se mencionó anteriormente, existen varios métodos para realizar la segmentación, en particular los algoritmos para tratar imágenes monocromáticas generalmente se clasifican en dos grupos basados en la intensidad de los píxeles: discontinuidad y similaridad. 
@@ -52,7 +52,7 @@ Por otro lado, en los algoritmos basados en similaridad, se busca dividir la ima
 
 A continuación se explican los algoritmos mencionados.
 
-\subsubsection{Detección de bordes}
+\subsection{Detección de bordes}
 \label{detecbordeSec}
 
 Conciste básicamente en la detección de líneas o transiciones en una imagen mediante el procesamiento de los píxeles que la componen. En lo que sigue se explica el detalle de este método, tal como se menciona en el libro \textit{Digital Image Processing de Rafael Gonzalez y Richard Woods} \cite{Gonzalez}.
@@ -136,7 +136,7 @@ En la figura \ref{gonz2} se observaba una imagen de 6x6 píxeles y su representa
 
  Este método se puede combinar con otros para mejorar los resultados. Una posibilidad es someter la imagen a un proceso de \textit{smooth} \cite{smooth} -o suavizado- previo a la detección, de esta forma se descartan los bordes pequeños que en general son considerados como ruido. Otra posible combinación para realizar una detección más selectiva es la aplicación de un umbral luego del cálculo del gradiente. Cuando el interés recae tanto en destacar los bordes principales de una imagen como en obtener la mayor conectividad posible, es común que se aplique suavizado y umbral a la vez.
 
-\subsubsection{Métodos de umbral} %pag 760 del Gonzalez
+\subsection{Métodos de umbral} %pag 760 del Gonzalez
 \label{umbralSec}
 
 Los métodos del valor umbral son un grupo de algoritmos cuya finalidad es segmentar los objetos de una imagen en función de un rango de valores. La pertenencia de un píxel a cierto segmento se decide mediante la comparación de alguna propiedad unidimensional del mismo (por ejemplo su nivel de gris o nivel de luminosidad) con cierto valor umbral. Dado que esta comparación de valores se realiza individualmente para cada píxel, al método del valor umbral se le considera un método de segmentación orientado a píxeles.
@@ -184,7 +184,7 @@ Entre los cuarenta métodos exhibidos en este paper, se encuentra el método de 
 %Como se comentó en la sección \ref{detecbordeSec}, es común utilizar métodos de smoothing y umbral en simultáneo para mejorar el proceso de segmentación ya que el smoothing es una buena técnica para eliminar el ruido previo a aplicar el umbral. De hecho, cuanto más alto sea el nivel de \textit{smoothing} en una imagen, más errores en los bordes se anticiparán al segmentar.
 
 
-\subsection{Justificación del algoritmo elegido}
+\section{Justificación del algoritmo elegido}
 
 En un principio, se manejó la idea de tomar como base una implementación existente y adaptarla para el propósito de este proyecto. Sin embargo, en la etapa de investigación se encontró que no hay muchos sistemas de código abierto disponibles, y los que se encontraron necesitan muchos ajustes para llegar a cubrir las necesidades de este trabajo. En particular, para la segmentación se encontraron varias implementaciones de algoritmos, pero ninguna se ajusta a los requerimientos del proyecto. Por esta razón se decidió implementar un algoritmo conocido, que aplique la teoría de la sección \ref{segEstArt}.
 
@@ -207,9 +207,9 @@ Finalmente, la justificación de la realización del algoritmo para el bloque de
 \end{itemize}
 
 
-\subsection{Algoritmo}
+\section{Algoritmo}
 
-\subsubsection{Fundamento teórico }
+\subsection{Fundamento teórico }
 \label{fundamentoteoseg}
 
 A continuación, se presentan algunos conceptos básicos necesarios para entender la implementación de un algoritmo con segmentación por umbral:
@@ -273,8 +273,8 @@ Observando los histogramas anteriores, puede verse que la efectividad de la umbr
 Es de destacar que, si bien no resulta tan evidente como pasa con el ruido de la imagen, la iluminación y las propiedades de reflexión juegan un papel clave para obtener una segmentación efectiva y por lo tanto controlar estos parámetros debe ser prioridad si se quiere obtener una buena segmentación. Cuando no es posible controlarlos, existen tres aproximaciones básicas que se pueden realizar para mejorar los resultados: corregir el patrón de sombras directamente, corregirlo mediante algún proceso ya establecido (por ejemplo utilizando la transformada top-hat \cite{tophat}) o aplicar un umbral variable tal como fue mencionado anteriormente.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\vspace{10 mm}
-\textbf{Umbral de Otsu}
+%\vspace{10 mm}
+\subsubsection{Umbral de Otsu}
 
 El método de Otsu \cite{otsu} calcula el valor umbral de forma tal que la dispersión dentro de cada segmento sea lo más pequeña posible, pero al mismo tiempo sea lo más alta posible entre segmentos diferentes. Para ello se calcula el cociente entre ambas varianzas (para el caso de dos clases) y se busca un valor umbral para que este cociente sea máximo.
 
@@ -356,8 +356,8 @@ En resumen, el \textit{algoritmo de Otsu} se puede implementar de la siguiente m
  \item A partir del punto anterior, obtener el umbral de Otsu $k^*$ como el valor de $k$ (o los valores de $k_k$ para el caso de múltiples clases) que maximiza ${\sigma}_B^2(k)$.
 \end{enumerate}
 
-\vspace{8 mm}
-\textbf{Momentos y excentricidad} \cite{imageMoments}
+%\vspace{8 mm}
+\subsubsection{Momentos y excentricidad \cite{imageMoments}} 
 
 Los momentos geométricos son propiedades numéricas que se pueden obtener de una determinada imagen, los cuales proporcionan una alternativa interesante para la representación de la forma de un objeto. Tienen en cuenta todos los píxeles de la imagen, no sólo los bordes y se pueden clasificar en:
 
@@ -382,7 +382,7 @@ e = \sqrt{1-\frac{\frac{n_{20}+n_{02}}{2}-\sqrt{4n_{11}^2+\frac{(n_{20}-n_{02})^
 \label{excentec}
 \end{equation}
 
-\subsubsection{Implementación}
+\subsection{Implementación}
 \label{implementSegment}
 
 \begin{figure}[H]
@@ -503,7 +503,7 @@ En la figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del b
 \item \textbf{s} guarda los videos que resultan de la salida de los bloques de umbralización y detección de blobs.
  \end{itemize}
 
-\subsection{Resultados y análisis}
+\section{Resultados y análisis}
 \label{resultadosyanalisissegmentacion}
 %hablar de las diferencias entre segmentación sintética y la real, que pasa con la real respecto al ruido, iluminación, etc.
 Los resultados para cada marcador se pueden clasificar en 4 tipos:
@@ -523,7 +523,7 @@ Otro de los errores a priorizar es el cálculo del centroide de un marcador de f
 
 A continuación, se presentan los resultados de distintas pruebas realizadas en los bloques más críticos que integran la segmentación y detección de marcadores.
 
-\subsubsection{Umbralización}
+\subsection{Umbralización}
 
 Para el bloque de umbralización de este sistema se observó que el resultado obtenido, como era de esperarse, depende fuertemente de las condiciones de captura y obviamente del umbral calculado. 
 
@@ -562,7 +562,7 @@ Otra alternativa para eliminar los objetos detectados que no son marcadores, dir
 
 Se observa que, si bien se siguen detectando objetos que no corresponden a los marcadores, el ruido en la imagen filtrada es mucho menor y los marcadores están mejor detectados que en la imagen \ref{abelfiltro}.
 
-\subsubsection{Detección de marcadores}
+\subsection{Detección de marcadores}
 
 Como se mencionó en la explicación del algoritmo, tanto la función para detectar objetos cómo la función para filtrar los mismos por su tamaño son funciones pertenecientes a la librería OpenCV, por lo que no sería necesario probarlas individualmente. En consecuencia, para la detección de marcadores será necesario realizar pruebas más que nada en el filtro circular.
 
@@ -628,7 +628,8 @@ Por otro lado, en la figura \ref{peladoCircularsint} puede verse que el filtro c
       \label{detectMarcadoresSinteticos}
 \end{figure}
 
-\subsubsection{Medida de error}
+\subsection{Medida de error}
+
 Como se mencionó anteriormente, una de las ventajas de tener una base de datos sintética, es poder tener un \textit{ground truth} contra el cual comparar los resultados obtenidos con el sistema implementado. En la figura \ref{ejMedErr}, se observa la comparación de la segmentación de una secuencia contra su ground truth para un sujeto moviéndose de izquierda a derecha.
 \vspace{-3mm}
 \begin{figure}[H]
