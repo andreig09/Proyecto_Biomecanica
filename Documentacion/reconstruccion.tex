@@ -224,6 +224,7 @@ Como se mencionó previamente se han realizado dos implementaciones distintas de
 
 \begin{table}[h]
 \hspace{-1cm}
+\resizebox{15cm}{!} {
 \begin{tabular}{cc|c|c|c|c|}
 \cline{3-6}
                                                                               &                                                       & \multicolumn{2}{l|}{\textbf{Primera implementación}}                                                                                             & \multicolumn{2}{l|}{\textbf{Segunda implementación}}                                                                                            \\ \hline
@@ -244,6 +245,7 @@ Como se mencionó previamente se han realizado dos implementaciones distintas de
 \multicolumn{1}{|l|}{14}                                                      & RightHand                                             & 0.4545                                                           & 2.4782                                                        & 0.3816                                                          & 0.7728                                                        \\ \hline
 \multicolumn{1}{l|}{}                                                         & \textbf{Secuencia }                                            & \textbf{0.38556 }                                                         & \textbf{1.7907    }                                                    & \textbf{0.35686}                                                         &\textbf{ 0.81266}                                                       \\ \cline{2-6} 
 \end{tabular}
+}
 \caption{Performance de los algoritmos implementados en reconstrucción. }
 \label{table_performance_reconstruccion}
 \end{table}
@@ -330,12 +332,12 @@ En la figura \ref{img_reconstruccion_sintetica} se muestra el resultado de la re
 Por último el nuevo algoritmo fue probado con secuencias reales. Si bien se reconstruyen varios marcadores mejorando la performance que se tenía con el algoritmo de reconstrucción inicial, los resultados no son tan alentadores como los obtenidos para las secuencias sintéticas. En cierta manera es esperable dado que en este caso se adicionan errores provenientes de las etapas de detección de marcadores y de calibración. En la figura \ref{img_reconstruccion_real2} se muestra el resultado obtenido para un cuadro de la secuencia real. 
 
 \begin{figure}[!ht]
-   \centering 
-    \subfloat[Vista derecha]{\includegraphics[scale=0.50]{img/Reconstruccion/22_derecha.png}}\hspace{0.8cm}
-    \subfloat[Vista de atrás]{\includegraphics[scale=0.50]{img/Reconstruccion/22_atras.png}}\hspace{2cm}
-    \subfloat[Vista izquierda]{\includegraphics[scale=0.50]{img/Reconstruccion/22_izquierda.png}}\hspace{0.5cm}
-    \subfloat[Resultado de la reconstrucción]{\includegraphics[scale=0.23]{img/Reconstruccion/frame22_esqueleto_armado.pdf}}
-   \caption{Reconstrucción de una secuencia real.\\ Los asteriscos rojos indican los marcadores detectados.} 
+   \hspace{-1cm}
+    \subfloat[Vista derecha]{\includegraphics[scale=0.47]{img/Reconstruccion/22_derecha.png}}\hspace{0.3cm}
+    \subfloat[Vista de atrás]{\includegraphics[scale=0.47]{img/Reconstruccion/22_atras.png}}\hspace{2cm}
+    \subfloat[Vista izquierda]{\includegraphics[scale=0.47]{img/Reconstruccion/22_izquierda.png}}\hspace{0.5cm}
+    \subfloat[Resultado de la reconstrucción]{\includegraphics[scale=0.20]{img/Reconstruccion/frame22_esqueleto_armado.pdf}}
+   \caption{Reconstrucción de una secuencia real. Los asteriscos rojos indican los marcadores detectados.} 
    \label{img_reconstruccion_real2}    
 \end{figure} 
 
