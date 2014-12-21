@@ -1,5 +1,5 @@
 \chapter{Seguimiento}
-
+\label{seguimiento}
 \section{Introducción}
 
 La salida del bloque de reconstrucción, son los puntos 3D generados a partir de los múltiples vídeos de cada vista, presentados en el orden que fueron validados en cada cuadro (Figura \ref{reconstr_00}). A su vez, los marcadores fueron reconstruidos tomando como entrada los puntos obtenidos en las imágenes de la segmentación, no teniendo estos información alguna sobre el cuerpo, mas que el orden en el que son generados al segmentar.
@@ -198,7 +198,6 @@ Como opción general, se implementó una alternativa que en vez de calcular un u
 \item \textbf{Inventario de Trayectorias}: Durante el enlazado en un cuadro, se tienen marcadores en [f] que no lograron enlazarse en [f+1], pero cuya trayectoria podría estar enlazada hasta este cuadro.
 Estos puntos deben ser identificados, mediante la comparación de la segunda columna de la matriz de enlaces [f][f+1] (actual) y la tercer columna de la matriz de enlaces [f-1][f] (anterior), ya que ambas tienen información de los marcadores en el mismo cuadro, pero enlazan hacia atrás y adelante.
 Los elementos que se encuentren en la matriz [f-1][f] , pero no hayan sido enlazados en [f][f+1], son agregados a una lista que  contiene hasta que momento el cuadro mantenía el enlace (ultima vez que se tuvo información de la trayectoria a la cual pertenece), y que índice de marcador tenia en ese momento (pasar de índice en un cuadro, a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de cuadro a cuadro).
-
 Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben tratar de enlazar los puntos de [f+1] que no entraron en el enlazado regular, con las trayectorias perdidas hasta [f-1]. Todos los puntos que sobraron en el enlazado regular, son evaluados contra la lista de trayectorias perdidas, y se revisan dos condiciones:
 
 \begin{enumerate}
@@ -265,7 +264,7 @@ X_{[f-2]}\\
 X_{[f-1]}\\
 \boldsymbol{\tilde{X}_{[f]}}\\
 X_{[f+1]}\\
-\end{pmatrix} =
+\end{pmatrix} = 
 \begin{pmatrix}
 1 &-3 &3\\
 0 &1 &-3\\

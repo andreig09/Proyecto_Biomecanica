@@ -166,6 +166,28 @@ Otra alternativa sobre la que se investigó inicialmente es DVIDEOW \cite{figuer
 Por otro lado, también existen programas de captura de movimiento de código libre, un ejemplo de ello es el programa Kinovea
 \footnote{ \textcolor{blue}{\underline{\url{http://www.kinovea.org/}}}. Accedido 9-12-14}. Enfocado principalmente en el ámbito deportivo, permite analizar y mejorar la técnica de los atletas a través del procesamiento de secuencias de video. Posee algunas características interesantes como la posibilidad de efectuar medición de distancias, ángulos y tiempos manualmente, así como la utilización de seguimiento semi-automático de puntos en tiempo real para obtener su trayectoria. La gran desventaja que presenta frente a otros sistemas es que efectúa únicamente análisis sobre dos dimensiones.
 
-Es por esto que este proyecto estudia el problema de captura de movimiento y sus distintas componentes, para desarrollar un conjunto de datos y presentar nuestro estudio sobre captura de movimiento.  
+\section{Objetivo del Proyecto}
+
+Este proyecto estudia el problema de captura de movimiento y sus distintas componentes, para desarrollar un conjunto de datos y presentar nuestro estudio sobre la temática. 
+\\
+
+En este capitulo se presentó el objetivo general del proyecto y un breve estado del arte de la temática que será desarrollado mas profundamente en el Capitulo~\ref{invBiblio}, junto a un planteo en la Figura~\ref{bloquesSistintro} de los bloques que se estudiaran a lo largo de nuestro estudio. 
+\\
+
+El Capitulo~\ref{section_base_de_datos} presentará estudio de bases de datos disponibles y como fueron generadas capturas experimentales propias sobre las cuales trabajar, luego el Capitulo~\ref{sec:implementacion_bloques_sistema} presentará detalles sobre el procedimiento de la Figura~\ref{bloquesSistintro} a partir de los datos experimentales generados. 
+\\
+
+Luego en sucesivos capítulos se presentará como fue estudiado e implementado cada bloque ,Segmentación en el Capitulo~\ref{deteccionMarcadoresSec} para la detección de la posición de los marcadores en cada video , Calibración en el Capitulo~\ref{calibracion} donde se mostrará como de genera la información del espacio de captura necesaria para luego en el Capitulo~\ref{reconstruccion} sobre Reconstrucción, mostrar como se combina la información de los bloques anteriores para calcular la posición en el espacio de los marcadores. 
+\\
+
+Posteriormente, el Capitulo~\ref{seguimiento} sobre Seguimiento propone un método de identificación de marcadores reconstruidos. 
+\\
+
+Finalmente se presenta como fue evaluado cada bloque y múltiples pruebas sobre el sistema completo en el Capitulo~\ref{evaluacion} para luego presentar nuestras conclusiones en el Capitulo~\ref{conclusiones}.
+
+
+ 
+  
+
 
 %Dada las características de este proyecto otro antecedente relevante a tener en cuenta en el área, es el de un grupo de investigadores del Hospital de Clínicas que junto al grupo de Tratamiento de Imágenes de la Facultad de Ingeniería han estudiado previamente la marcha de las personas a los efectos de reconocer en ellas patrones de movimiento. Dicho proyecto recibe el nombre “Cíclope”.
