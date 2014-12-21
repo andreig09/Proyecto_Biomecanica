@@ -1,7 +1,7 @@
-\section{Base de datos} \label{section_base_de_datos}
+\chapter{Base de datos} \label{section_base_de_datos}
 
 
-\subsection{Introducción} 
+\section{Introducción} 
 Con el fin de relevar distinta clases de actividades humanas y en particular la marcha, se pretende trabajar con una base de datos basada en marcadores. La misma debe contener un cierto número de sujetos realizando una variedad de movimientos predefinidos, donde para cada sujeto a estudiar, se tengan múltiples secuencias de videos 2D de movimiento, obtenidas a partir de cámaras situadas en un entorno 3D cerrado previamente acondicionado. Dicha base debe contar con el correspondiente ground truth 2D y 3D de los datos de movimiento relevados, en nuestro caso dado que el  sistema está basado en marcadores, la información consiste en brindar las coordenadas espaciales a lo largo del tiempo para cada marcador de interés. Así como la información de calibración de las cámaras utilizadas para efectuar las capturas.
 
 
@@ -21,7 +21,7 @@ Se propone una estructura de datos para almacenar la información relevante del 
 
 Por último se hace un resumen con las conclusiones generadas en todo el capitulo
 
-\subsection{Revisión de base de datos}
+\section{Revisión de base de datos}
 \label{seccion_revision_base_datos}
 En esta sección se muestra  resultados del relevamiento de bases de datos útiles para el análisis de la marcha.
 Inicialmente nuestro objetivo era obtener un sistema funcional para el caso de la marcha humana, aunque luego de la implementación del mismo se generalizaron sus usos, las bases de datos con este tipo de movimiento fueron el eje central de la búsqueda.
@@ -42,10 +42,10 @@ Bastante completa, no solo contiene enlaces a  varias bases de datos sino reúne
 
 Una característica importante es que la página contiene direcciones a bases de datos relativamente nuevas y resalta aquellas que son usadas con mayor frecuencia. \\
 	
-
+	
 Dentro de estas páginas se encuentra una gran variedad de bases de datos que tratan el caso particular de la marcha, en la tabla \ref{bases_relevadas} se muestran algunas de las bases relevadas y sus características representativas, que permiten hacer una idea del panorama global encontrado a la hora de recopilar información en la web.  
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering	
 	\caption{Comparación de algunas bases de datos disponibles y empleadas por la comunidad.}
 	\label{bases_relevadas}
@@ -104,36 +104,36 @@ MHAD & Varios        & Traje MoCap            & 3D - Impulse \footnote{ Esta not
 
 A continuación algunos comentarios que vale la pena resaltar sobre  las bases anteriores.
 
-\paragraph{Motion Capture Lab.\footnote{\textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}. Accedido 30-11-14}} 
+\textbf{Motion Capture Lab.\footnote{\textcolor{blue}{\underline{\url{http://accad.osu.edu/research/mocap/mocap_home.htm}}}. Accedido 30-11-14} } 
 		Como describe el nombre, este laboratorio se centra en obtener capturas de movimiento tridimensionales a través del sistema Vicon. Cuentan con un sistema Vicon 8i de 14 cámaras, dos videocámaras digitales Sony DSR-PD150 que llegan a 30 fps\footnote{\textcolor{blue}{\underline{\url{http://www.bhphotovideo.com/c/product/197878-REG/Sony_DSRPD150_DSR_PD150_Professional_1_3_DVCAM.html}}} ,Accedido 29-11-14 }, junto a un sistema de sincronización que permite integrar todas estas cámaras en el laboratorio. El video se utiliza únicamente como ayuda en los datos de captura para corregir y ver los marcadores,  por lo que \underline{no cuenta con secuencias de video adecuadas}. Cabe destacar que maneja múltiples formatos MoCap, inclusive el bvh.
 
-\paragraph{Carnegie Mellon University Motion Capture Database.\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}}\label{CMU}
+\textbf{Carnegie Mellon University Motion Capture Database.\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}}\label{CMU}
  Este laboratorio también se centra en obtener capturas de movimiento a través de un sistema Vicon, y no está implementado para evaluaciones ópticas de las capturas. Solo maneja videos monoculares de baja resolución, por lo que no cuenta con secuencias de video adecuadas para nuestro proyecto. Sin embargo maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como de la configuración del laboratorio. El sujeto a relevar se encuentra vestido con ropas finas y ajustadas, sobre la cual se colocan los marcadores, por lo tanto se puede despreciar las fluctuaciones de posición de marcadores debidas a la ropa, que si exhiben otros ambientes menos controlados  Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora y es por lejos la que dispone de mayor cantidad de capturas de movimiento de acceso público de las bases relevadas en esta sección.
 
-\paragraph{Georgia Tech.\footnote{\textcolor{blue}{\underline{\url{http://www.cc.gatech.edu/cpl/projects/hid/index.html}}}. Accedido 30-11-14}}
+\textbf{Georgia Tech.\footnote{\textcolor{blue}{\underline{\url{http://www.cc.gatech.edu/cpl/projects/hid/index.html}}}. Accedido 30-11-14}}
 Se encuentra desarrollando maneras de identificar a los seres humanos a distancia a través del reconocimiento de la marcha. También llevan a cabo trabajos relacionados en la localización y seguimiento de rostros, la detección de oclusiones y actividades específicas de sustracción de fondo.
 Lamentablemente las cámaras están todas sobre un costado del caminante, la resolución es baja y no todos los videos poseen marcadores. No se cuidan las condiciones de laboratorio para trabajar de manera óptica según nuestras necesidades.
 
 
-\paragraph{University of Southampton Database.\footnote{ \textcolor{blue}{\underline{\url{http://www.gait.ecs.soton.ac.uk/database}}}. Accedido 30-11-14}}\label{U.S.}
+\textbf{University of Southampton Database.\footnote{ \textcolor{blue}{\underline{\url{http://www.gait.ecs.soton.ac.uk/database}}}. Accedido 30-11-14}}\label{U.S.}
 Interesados en el reconocimiento de personas a través del seguimiento de la marcha, relevantes sobre todo por ser pioneros en el estudio biomecánico de la marcha. Poseen dos bases de datos, HiD gait database  (100 sujetos) y Biometric tunnel. El servidor donde se alojaba la base de datos está fuera de línea desde el 2004, el encargado de la página es Mark Nixon (\textcolor{blue}{\underline{\url{msn@ecs.soton.ac.uk}}}). Aparentemente se continúa actualmente el proyecto en \textcolor{blue}{\underline{\url{http://www.cspc.ecs.soton.ac.uk/gait}}}\footnote{Accedido 30-11-14}. Si bien estas bases de datos no están basadas en marcadores, cabe resaltar que el fondo del espacio de captura del túnel biométrico contiene patrones asimétricos con colores saturados que facilitan no solo la extracción de fondo sino también la automatización del proceso de calibración.
 
-\paragraph{Human ID Gait Challenge Dataset.\footnote{\textcolor{blue}{\underline{\url{http://marathon.csee.usf.edu/GaitBaseline/ }}}. Accedido 30-11-14} }
+\textbf{Human ID Gait Challenge Dataset.\footnote{\textcolor{blue}{\underline{\url{http://marathon.csee.usf.edu/GaitBaseline/ }}}. Accedido 30-11-14} }
 Contiene 1.2 Tera bytes de información. Utilizada para el reconocimiento de la marcha,  no posee marcadores. Al igual que en la base de Southampton contiene en la secuencia imágenes de dameros convenientemente dispuestos, útiles para calibrar las cámaras. Las sucesivas secuencias tomadas para un mismo sujeto modifican distintos tipos de factores, como la calidad del terreno a recorrer, si el sujeto lleva o no un maletín y el  tipo de calzado utilizado. Tienen disponible junto a todas las secuencias de la base de datos las siluetas de los sujetos, obtenidas con un algoritmo base también propuesto y disponible. Lamentablemente el enlace que indica el protocolo seguido para obtener secuencias, junto con la especificación del equipamiento, está fuera de línea.
 
-\paragraph{HumanEva.\footnote{\textcolor{blue}{\underline{\url{http://vision.cs.brown.edu/humaneva/index.html }}}. Accedido 30-11-14} \cite{humaneva} }
+\textbf{HumanEva.\footnote{\textcolor{blue}{\underline{\url{http://vision.cs.brown.edu/humaneva/index.html }}}. Accedido 30-11-14} \cite{humaneva} }
 Con 1.6 Gigabytes de información, el trabajo de este laboratorio es muy completo, incluye métricas de evaluación y un análisis importante de las necesidades actuales a la hora de generar una base de datos para relevar actividades humanas. El único inconveniente para cumplir los requisitos de nuestro proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son escasos y demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas para nuestro propósito, incluso utilizan máscaras sobre las imágenes ópticas para cubrir los marcadores, estos últimos son utilizados solo para recopilar el ground truth a través de un sistema Vicon.  Dado que su motivación es obtener una imagen ``natural'' del sujeto que contenga la complejidad generada por el movimiento de la ropa, el ground truth que presentan  no es tan preciso como los obtenidos por métodos más tradicionales.  Contiene código para efectuar sustracción de fondo y la implementación de un algoritmo base, con un filtrado de partículas utilizado para el seguimiento de la pose del sujeto. Para acceder a los datos se debe gestionar un permiso en la página de HumanEva. 
 
-\paragraph{INRIA Perception, Multicam Dataset.\footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home}}}. Accedido 30-11-14}} Efectúan las capturas con múltiples cámaras y también ofrecen la secuencia de malla de los sujetos reconstruidos a partir de las imágenes. Ofrecen un software que permite navegar en 4D, es decir, el espacio y el tiempo, sobre los modelos disponibles en su base de datos. Por lo que estos modelos se pueden ver desde cualquier ángulo de visión e inspeccionar congelándolos en cualquier instante de tiempo. Lamentablemente su captura no está basada en marcadores. 
+\textbf{INRIA Perception, Multicam Dataset.\footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home}}}. Accedido 30-11-14}} Efectúan las capturas con múltiples cámaras y también ofrecen la secuencia de malla de los sujetos reconstruidos a partir de las imágenes. Ofrecen un software que permite navegar en 4D, es decir, el espacio y el tiempo, sobre los modelos disponibles en su base de datos. Por lo que estos modelos se pueden ver desde cualquier ángulo de visión e inspeccionar congelándolos en cualquier instante de tiempo. Lamentablemente su captura no está basada en marcadores. 
 
-\paragraph{CMU MoBo Dataset.\footnote{CMU Motion of Body,  \textcolor{blue}{\underline{\url{http://www.ri.cmu.edu/publication_view.html?pub_id=3904}}}. Accedido 30-11-14}}
+\textbf{CMU MoBo Dataset.\footnote{CMU Motion of Body,  \textcolor{blue}{\underline{\url{http://www.ri.cmu.edu/publication_view.html?pub_id=3904}}}. Accedido 30-11-14}}
 Estudia la marcha humana, enfocada en la identificación Biométrica de humanos a partir de sus características individuales. Los sujetos bajo estudio efectúan 4 tipos de caminata sobre una caminadora: marcha lenta, marcha rápida, marcha sobre plano inclinado y marcha sosteniendo un balón. Se utilizan 6 cámaras de alta resolución ubicadas alrededor de la caminadora que adquieren imágenes a 30 cuadros/s. Para acceder a la base de datos debe pedirse acceso comunicándose con \textcolor{blue}{\underline{\url{rgross@cs.cmu.edu }}}
 
-\paragraph{CASIA Gait Database.\footnote{ \textcolor{blue}{\underline{\url{http://www.cbsr.ia.ac.cn/english/Gait\%20Databases.asp
+\textbf{CASIA Gait Database.\footnote{ \textcolor{blue}{\underline{\url{http://www.cbsr.ia.ac.cn/english/Gait\%20Databases.asp
  }}}. Accedido 30-11-14}} 
 Contiene 4 bases de datos sobre la marcha, la primera se efectúa en exteriores y posee una sola cámara; la segunda es en interiores  y posee 11 cámaras sobre un lado del sujeto; la tercera utiliza cámaras infrarrojas y cada sujeto efectúa tres tipo de marcha, lenta, rápida y con mochila; por último la cuarta combina la información de cámaras de captura con una plataforma que registra la presión de la planta del pie a medida que el sujeto desarrolla el movimiento. Además de los archivos de vídeo, ofrecen las siluetas humanas a partir de sus secuencias de vídeo. Las capturas visuales no están basadas en marcadores.
 
-\paragraph{Berkeley Multimodal Human Action Database (MHAD).\footnote{\textcolor{blue}{\underline{\url{http://tele-immersion.citris-uc.org/berkeley_mhad\#dl  }}}. Accedido 30-11-14}}
+\textbf{Berkeley Multimodal Human Action Database (MHAD).\footnote{\textcolor{blue}{\underline{\url{http://tele-immersion.citris-uc.org/berkeley_mhad\#dl  }}}. Accedido 30-11-14}}
 El objetivo de esta base de datos es reconocer el movimiento del cuerpo al realizar este distintas actividades. Tiene la información necesaria para efectuar sustracción de fondo, devuelven información desde múltiples fuentes:
 \begin{itemize}
 \item sistema con 12 cámaras ópticas agrupadas en 4 conjuntos de cámaras estéreo
@@ -144,14 +144,14 @@ El objetivo de esta base de datos es reconocer el movimiento del cuerpo al reali
 
 
 
-\subsubsection{Contactos realizados y resultados} 
+\section{Contactos realizados y resultados} 
 En el ámbito local hemos estado en contacto con la magíster Patricia Polero, quien nos ha brindado su experiencia previa en el tema de capturas ópticas de movimiento basadas en marcadores así como ayudado a definir los requerimientos mínimos del sistema a implementar  en las etapas iniciales. También se han generado reuniones con Darío Santos, Fisioterapeuta en el Hospital de Clínicas, quien actualmente dirige un laboratorio que posee un sistema de captura de movimiento de Vicon-Peak, el cual han adquirido recientemente. Si bien dicho sistema pudo haber sido primordial para generar una base de datos con secuencias reales, no se pudo coordinar debidamente su uso. De todas maneras en estas reuniones, se obtiene un reducido número de secuencias relativamente útiles. Cabe destacar que las mismas no poseen la calidad deseada, por pertenecer a versiones previas del laboratorio cuando aún no disponían del sistema actual, así como tampoco cumplen la totalidad de supuestos sobre las condiciones de captura planteados al inicio del proyecto. 
 
 
 Los pedidos se realizan a partir del 17 de diciembre de 2013 aproximadamente. En los mismos se intenta gestionar el acceso a las bases de datos de acceso restringido, que entendimos poseen características útiles en el desarrollo de nuestro sistema. En la tabla \ref{tabla_solicitudes} se muestran los contactos realizados y los resultados obtenidos.
 
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering		
 	\begin{tabular}{@{}lr@{}} 
 	\toprule		
@@ -190,12 +190,12 @@ Los pedidos se realizan a partir del 17 de diciembre de 2013 aproximadamente. En
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %5
 
 
-\subsection{Características de Laboratorio para un sistema de captura óptica basado en marcadores}
+\section{Características de Laboratorio para un sistema de captura óptica basado en marcadores}
 \label{seccion_Caracteristicas_Laboratorio}
  
 A continuación se enumeran algunas variables que es necesario tener en cuenta a la hora de diseñar un Laboratorio, adecuado para un sistema de captura óptica basado en marcadores. También se discute brevemente el posible impacto de estás variables en el tratamiento posterior de las secuencias.
 
-\subsubsection{Cámaras}\label{parrafo_Camaras} 
+\subsection{Cámaras}\label{parrafo_Camaras} 
 Para la elección del tipo de cámaras es importante tener en cuenta los requerimientos de las secuencias a relevar. A continuación vamos a tratar dos variables básicas y generales que deben contemplarse, por un lado la cantidad de fotogramas, y por otro la resolución de la cámara.
 
 La cantidad de fotogramas por segundo de las secuencias de video condiciona la resolución temporal de los datos procesados a partir de dichas secuencias, así como también limita la velocidad de movimiento a realizar por el sujeto si se busca una captura aceptable.
@@ -230,7 +230,7 @@ X = \dfrac{d}{f}x_s&~, \quad \quad Y = \dfrac{d}{f}y_s
 Si el sensor\footnote{También referido como retina de la cámara.} tiene un largo $S_x$ y ancho $S_y$ y resolución de $R_x\times R_y$ píxeles, resulta que el largo de un píxel es $l_x = S_x/R_x $ y el ancho $l_y = S_y/ R_y$. 
 
 A modo de ejemplo consideremos una cámara con las siguientes características $S_x = 0.032\;m$ y $S_y = 0.010\; m$, resolución de $1600\times600$ píxeles y una distancia focal de $32~mm$. Por lo tanto el error de un píxel se mapea sobre el sensor como $x = 0,032/1600\;m = 0.020\;mm$ a lo largo, e $y = 0.010/600\;m= 0.016\;mm$ a lo ancho. La tabla \ref{table_resolucion} muestra como  errores de 1, 2 y 3 píxeles en el sensor se propagan sobre el espacio a una distancia $d$ del centro de la cámara.
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|l|l|l|l|l|}
 \hline
@@ -245,20 +245,20 @@ A modo de ejemplo consideremos una cámara con las siguientes características $
 \end{table}
 
 
-\subsubsection{Marcadores}
+\subsection{Marcadores}
 A la hora de seleccionar el equipamiento se debe prestar especial atención y coordinar el tipo de marcador, la vestimenta del sujeto, el fondo del espacio de captura y el tipo de iluminación. Pues las características de estos elementos en conjunto pueden cambiar sensiblemente la performance del sistema que procesa computacionalmente la captura, sobre todo en sus primeras etapas tales como la detección de marcadores y la  calibración.
 Si se quiere facilitar la tarea de detección automática de marcadores, estos deben ser fácilmente distinguibles del resto del entorno, y visibles la mayor cantidad de tiempo para las cámaras. Para ello se debe tener marcadores que generen un alto contraste con el resto de los elementos dentro de la captura de video. 
 Su tamaño y forma también son importantes, por lo general se trabaja con marcadores esféricos, y un tamaño que dado cierto espacio de trabajo no condicione fuertemente la resolución necesaria de las cámaras. Una medida que se puede considerar aceptable con cámaras convencionales y movimientos a menos de 12 metros del centro de las cámaras, son marcadores de $3~cm$ de diámetro.  
 Si el fondo del espacio de captura es negro, opaco, al igual que la vestimenta del sujeto a capturar, los marcadores pueden ser blancos, no pulidos de manera que su reflejo sea difuso, para no generar variación de tono sobre los mismos. 
 Su disposición sobre el sujeto responde a los intereses de lo que se quiera observar, pero se debe tener presente que al ser una captura óptica, para que un marcador sea útil, debe estar visibles buena parte del tiempo en la secuencia.
 
-\subsubsection{Iluminación}
+\subsection{Iluminación}
 La iluminación debería ser preferiblemente uniforme, para no generar sombras que modifiquen los tonos del espacio de captura. La luz natural es una buena alternativa, en espacios cerrados lo que habitualmente se utilizan son pantallas delante de los focos lumínicos para hacerlos más difusos, reduciendo así el riesgo de generar imágenes especulares en los objetos. La disposición de los focos depende de la forma del espacio de captura, pero por lo general rodean al mismo, cuidando que estos no sean capturados directamente por las cámaras, y generen falsos positivos en la detección de marcadores. Si bien esto último puede ser solucionado parcialmente en la etapa de  post-procesamiento efectuando convenientemente sustracción de fondo, es recomendable tratarlo en las primeras etapas, a nivel del sistema de captura. 
 
-\subsubsection{Vestimenta}
+\subsection{Vestimenta}
 Es preferible que la vestimenta del sujeto a relevar, consista en ropas finas y ajustadas para despreciar fluctuaciones de la posición de marcadores debido al movimiento de la ropa. Como se menciona anteriormente al igual que el fondo, la elección del color y material debe contrastar con los marcadores.
 
-\subsubsection{Espacio de captura}
+\subsection{Espacio de captura}
 
 Ya se ha mencionado algunas características cualitativas relacionadas con el espacio de captura, como ser que el fondo debe contrastar con los marcadores. Un caso interesante a tener en cuenta es el del túnel biométrico de la Universidad de Southampton \ref{U.S.}, donde para lograr esto último utilizan patrones asimétricos con colores saturados para el fondo del espacio de captura, esto les permite agrupar dos etapas, logrando luego de un tratamiento sobre la secuencia, extraer el fondo del resto de la información y efectuar la calibración de las cámaras. De todas maneras si bien se mantienen relacionadas, las etapas mencionadas se manejan comúnmente por separado. Por lo que si se utilizan marcadores blancos, un fondo oscuro idealmente negro, y opaco es suficiente.\\
 
@@ -267,7 +267,7 @@ En cuanto a las dimensiones del espacio de captura, el mismo depende principalme
 
 \begin{figure}[!ht]
   \centering
-  {\includegraphics[scale=0.2]{img/Base_Datos/Laboratorio.pdf}}      
+  {\includegraphics[scale=0.16]{img/Base_Datos/Laboratorio.pdf}}      
   \caption{Toma superior del Laboratorio.\\ Todas las cámaras se encuentran a $1\;m$ del suelo.}
   \label{img_Laboratorio}
 \end{figure}  
@@ -275,8 +275,9 @@ En cuanto a las dimensiones del espacio de captura, el mismo depende principalme
  
 \begin{figure}[!ht]
   \centering
-   \subfloat[Espacio de captura para marcha rectilínea.]{\includegraphics[scale=0.2]{img/Base_Datos/Lab_marcha1.pdf}\label{img_marcha1}}\hspace{0.2cm}
-   \subfloat[Espacio de captura para marcha libre.] {\includegraphics[scale=0.2]{img/Base_Datos/Lab_marcha2.pdf}\label{img_marcha2}}  \caption{Posibles espacios de captura.}
+  \hspace{-1cm}
+   \subfloat[Espacio de captura para marcha rectilínea.]{\includegraphics[scale=0.16]{img/Base_Datos/Lab_marcha1.pdf}\label{img_marcha1}}\hspace{0.3cm}
+   \subfloat[Espacio de captura para marcha libre.] {\includegraphics[scale=0.16]{img/Base_Datos/Lab_marcha2.pdf}\label{img_marcha2}}  \caption{Posibles espacios de captura.}
   \label{img_espacio_capura}
 \end{figure} 
  
@@ -288,7 +289,7 @@ Debe tenerse presente que estos son casos particulares, pero que permiten hacer 
 Aumentar el número de cámaras permite una mayor cobertura de volumen, lo que significa una mayor visibilidad del conjunto de marcadores. A su vez una mejor visibilidad del conjunto de marcadores está correlacionado con disminuir la posibilidad de que información importante se pierda en las etapas de análisis de datos posteriores.
 
 
-\subsubsection{Sincronización} 
+\subsection{Sincronización} 
 
 Esto resulta esencial en las emisiones con conexiones en directo con varias cámaras, para garantizar que las imágenes de vídeo se mantienen estables incluso cuando se cambia de una cámara a otra.
 Se debe contar con un fuente central que envíe una señal de sincronización a todas las videocámaras que participan en una grabación, de esta manera se indica a cada una de ellas cuando deberán comenzar a grabar. 
@@ -321,8 +322,8 @@ Si no se contara con una entrada de sincronización sería prácticamente imposi
 %
 
 
-\subsection{Base de datos sintética} \label{seccion_Base_Datos_Sintetica}
-\subsubsection{Motivación}
+\section{Base de datos sintética} \label{seccion_Base_Datos_Sintetica}
+\subsection{Motivación}
 
 No se encontraron base de datos acorde a las necesidades de este proyecto, como se menciona en la sección \ref{seccion_revision_base_datos} varios son los motivos, pero básicamente se debe a que ninguna se diseño para el análisis óptico  con marcadores y no ofrecen secuencias de video utilizables para nuestros fines. Por lo tanto se plantea la necesidad de construir una base de datos adecuada que permita desarrollar nuestro sistema.
 
@@ -338,7 +339,7 @@ Dada la complejidad material y logística de implementar una base de datos, los 
 Continuando en esta dirección al día de hoy, se cuenta con herramientas de código libre para generar una base de datos sintética que sea robusta, completa y extensible. Particularmente se trabajo con la suite de animación 3D Blender\footnote{ Blender Foundation \textcolor{blue}{\underline{\url{http://www.blender.org/}}}}, generando un laboratorio en dicho entorno virtual. Para obtener las secuencias de video, se asocia a un modelo  virtual 3D la información de movimiento de interés obtenida a partir de sistemas MoCap, para luego generar secuencias animadas, las cuales por último se renderizan sobre un cierto número de cámaras para generar secuencias de video conteniendo múltiples vistas del modelo original. Estas secuencias son las que se utilizaron para el desarrollo de nuestro sistema y permitieron generar una base de datos sintética. 
 
 
-\subsubsection{Formatos Mocap}
+\subsection{Formatos Mocap}
 La captura de movimiento (Mocap), es una técnica de grabación del movimiento bastante popular en el cual se generan animaciones humanas o animales en ámbitos virtuales a partir de modelos reales. Este tipo de técnicas han sido utilizadas desde hace más de una década en el ámbito del entretenimiento, tales como el cine o los videojuegos e incluso en el ámbito deportivo y médico. 
 
 
@@ -374,8 +375,9 @@ El formato BVH proviene del formato BVA de BioVision con la notable adición de 
  
 \begin{figure}[!ht]
   \centering 
-   \subfloat[Esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Estructura_esqueleto1.pdf}\label{img_Esqueleto_1}}
-   \subfloat[Estructura jerárquica]{\includegraphics[scale=0.4]{img/Base_Datos/Estructura_bvh.png}\label{img_estructura_bvh}}\hspace{0.1cm}   
+  \hspace{0.5cm}  
+   \subfloat[Esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Estructura_esqueleto1.pdf}\label{img_Esqueleto_1}}\hspace{2.5cm}  
+   \subfloat[Estructura jerárquica]{\includegraphics[scale=0.4]{img/Base_Datos/Estructura_bvh.png}\label{img_estructura_bvh}}\hspace{0.2cm}   
    \subfloat[Sección de jerarquía]{\includegraphics[scale=0.2]{img/Base_Datos/BVH_Encabezado.png}\label{img_BVH_Encabezado}}\hspace{0.01cm}   
    \subfloat[Sección de movimiento]{\includegraphics[scale=0.2]{img/Base_Datos/BVH_Motion.png}\label{img_BVH_Motion}}  
    \caption{Información contenida en archivos BVH.}  
@@ -390,7 +392,7 @@ Si bien en principio cualquier fuente de archivos BVH con capturas de movimiento
 
 
 
-\subsubsection{Blender} %SECCIÓN EN CONSTRUCCIÓN\\
+\subsection{Blender} %SECCIÓN EN CONSTRUCCIÓN\\
 En esta sección se describe de que manera se utiliza Blender y Python para generar las secuencias de video de la base de datos.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -414,14 +416,15 @@ Se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas u
 
 
 \begin{figure}[!ht]
-  \centering 
-   \includegraphics[scale=0.3]{img/Base_Datos/Entorno_Blender.pdf}
+  %\centering 
+  \hspace{-1.0cm}
+   \includegraphics[scale=0.28]{img/Base_Datos/Entorno_Blender.pdf}
    \caption{Entorno de trabajo en Blender.}
   \label{img_Entorno_Blender}
 \end{figure}   
 
 
-\paragraph{Disposición del laboratorio}
+\subsubsection*{Disposición del laboratorio}
 El laboratorio generado posee 17 cámaras dispuestas en un ambiente rectangular de $10\times15\;m $ como se muestran en las figuras \ref{img_Laboratorio} y \ref{img_Entorno_Blender}. La configuración de las mismas permite probar diferentes combinaciones de captura a la hora de generar secuencias. Se diseñaron las cámaras para que sus parámetros fuesen similares a cámaras convencionales
  encontradas en el mercado y utilizadas en las bases de datos relevadas. 
  % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %5
@@ -433,12 +436,12 @@ El laboratorio generado posee 17 cámaras dispuestas en un ambiente rectangular 
 Para iluminar el laboratorio se dispusieron $8$ focos puntuales de luz omnidireccional sobres los límites del mismo, rodeando la escena y a un nivel de 3 metros de altura. De esta manera se garantiza que ninguno de los focos sea tomado directamente por las cámaras y los marcadores se iluminan correctamente.
  
 
-\paragraph{Modelo virtual}  
+\subsubsection*{Modelo virtual}  
 El modelo virtual utilizado se basa en un maniquí de madera convencional, la elección del mismo responde a la facilidad con la que se puede ajustar el mismo a una posición particular, siendo cada miembro fácilmente correlacionado con un hueso específico, sin perder las particularidades propia de un sujeto real. Cabe destacar que la relevancia del modelo en las capturas es simular las oclusiones de marcadores debida a los miembros del sujeto en una captura real.  
 
 Para la elección del material aplicado al modelo virtual, se toman en cuenta las consideraciones planteadas en la sección \ref{seccion_Caracteristicas_Laboratorio}, dado que los marcadores que se van a utilizar son de color difuso blanco, se decide aplicar sobre el modelo un material difuso negro con especularidad baja, de manera que no se generen brillos indeseados debido a la iluminación en el momento de la captura. De esta manera la configuración recomendada es utilizar un fondo también oscuro.
 
-\paragraph{Esqueleto}
+\subsubsection*{Esqueleto}
 En cuanto a el esqueleto con la información de movimiento, el mismo se obtuvo de la base de datos \textit{MotionBuilder-friendly versión} (de aquí en más MotionBuilder) ofrecidas por cgspeed\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
  donde se cuenta con las fuentes BVH que provienen de las capturas de movimiento de CMU (sección \ref{CMU}). Si bien cgspeed ofrece otras bases más nuevas, donde la jerarquía del esqueleto en los archivos BVH a sido reducida con el fin de facilitar el ajuste a modelos virtuales, se ha trabajado con la base original antes mencionada. Aparentemente el procesamiento aplicado para producir las nuevas bases, introdujo ruido sobre algunos cuadros en las secuencias originales, esto se a constatado al importar en Blender dichas secuencias.
       
@@ -446,36 +449,37 @@ En cuanto a el esqueleto con la información de movimiento, el mismo se obtuvo d
  Una vez gestionado lo anterior se importa en Blender la secuencia BVH y se procede a generar los marcadores en las articulaciones del esqueleto, dado que se tiene la posición exacta del origen de cada hueso en el esqueleto y la articulación es la unión entre dos huesos consecutivos, se puede obtener la posición exacta de los marcadores a partir de la secuencia BVH.
  La generación de los marcadores y el enlazado del esqueleto al modelo se realiza a través de un código python, \texttt{acoplar\_modelo.py}, realizado para tal fin. El mismo genera marcadores esféricos de material difuso blanco levemente poroso, con $2,8 \;cm$ de diámetro y baja especularidad, centrados en las articulaciones definidas previamente en una lista, como se muestra en la figura \ref{img_esqueleto_marcador} y luego enlaza cada miembro del modelo a su correspondiente hueso. De está manera para finalizar la creación del modelo con marcadores solo resta que el usuario realice ajuste mínimos de tamaño y posición sobre el modelo. Es importante resaltar que los marcadores se ubican sobre puntos del esqueleto de los cuales se conoce la posición 3D en cada cuadro. y que el modelo es necesario debido a que el esqueleto no se puede renderizar. 
  
- \begin{figure}[H]
-   \centering 
-   \subfloat[Creación de marcadores]{\includegraphics[scale=0.25]{img/Base_Datos/Esqueleto_Marcador.pdf}\label{img_esqueleto_marcador}} \hspace{0.6cm}
-   \subfloat[Ajuste de modelo]{\includegraphics[scale=0.25]{img/Base_Datos/Modelo_Marcador.pdf}\label{img_modelo_marcador}}
+ \begin{figure}[ht!]
+   
+   \hspace{-1.0cm}
+   \subfloat[Creación de marcadores]{\includegraphics[scale=0.23]{img/Base_Datos/Esqueleto_Marcador.pdf}\label{img_esqueleto_marcador}} \hspace{0.6cm}
+   \subfloat[Ajuste de modelo]{\includegraphics[scale=0.23]{img/Base_Datos/Modelo_Marcador.pdf}\label{img_modelo_marcador}}
    \caption{Generación de marcadores sobre el modelo virtual.}   
  \end{figure}  
  
 Una ves finalizado el proceso, figura \ref{img_modelo_marcador},  el modelo puede realizar el movimiento contenido en la secuencia BVH y solo resta renderizar. 
 
-\paragraph{Renderizado} 
+\subsubsection*{Renderizado} 
 
 Ya se dispone de la secuencia de movimiento en el entorno virtual de Blender, lo que resta es renderizar dicha secuencia sobre las cámaras del laboratorio. Para ello se implementó un código en python, \texttt{render.py},  que automatiza todo el proceso, dispone los videos obtenidos en cada render con nombres y ubicaciones predefinidas en la base de datos y genera un código Matlab con la información ground truth de cada cámara. 
 
 
- \begin{figure}[H]
-   \centering 
-   \subfloat[Importación de secuencia BVH y generación de marcadores]{\includegraphics[scale=0.25]{img/Base_Datos/Esqueleto_Render.pdf}} \hspace{1.0cm}
+ \begin{figure}[ht!]
+   \hspace{-1cm}
+   \subfloat[Importación de secuencia BVH y generación de marcadores]{\includegraphics[scale=0.25]{img/Base_Datos/Esqueleto_Render.pdf}} \hspace{0.3cm}
    \subfloat[Modelo enlazado al esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Modelo_Render.pdf}}
-   \hspace{1.3cm}
+   \hspace{0.3cm}
    \subfloat[Imagen renderizada]{\includegraphics[scale=0.205]{img/Base_Datos/Modelo_Render2.png}}
    \caption{Creación de secuencias en Blender.}   
  \end{figure} 
 
 
  
-\paragraph{Ground truth} 
+\subsubsection*{Ground truth} 
 
 Para contar con el ground truth final de la secuencia animada se debe exportar desde Blender la información del esqueleto en un BVH, cuidando que se mantenga la misma escala de tiempos que en el momento del renderizado. De esta manera se tienen sincronizados los videos y el ground truth 3D.
 
-\paragraph{Mocap Tools}
+\subsubsection*{Mocap Tools}
 
 Existe una herramienta en Blender que permite manipular y copiar la información de movimiento entre dos esqueletos, denominada \textit{Mocap Tools} . La misma no viene activada por defecto y se debe habilitar desde el menú de preferencias. Para la creación de secuencias utilizando esta herramienta, se debe tener un esqueleto ya enlazado al modelo virtual con marcadores, luego se importa la secuencia BVH de interés que a su vez genera otro esqueleto. Utilizando las opciones de \textit{Mocap Tools}  se copia el movimiento del esqueleto BVH al esqueleto ya definido inicialmente, de esta manera se evitan los ajustes posteriores del modelo virtual y se tiene una secuencia lista para renderizar. 
 El problema surge al momento de obtener el ground truth, pues la exportación del esqueleto que se utiliza para mover al modelo no es precisa en este caso, se detectaron fallas en este sentido por parte de Blender, solo se exportan los movimientos relativos de los huesos y no la traslación del centro de masa del esqueleto. El motivo fundamental es el mecanismo utilizado por \textit{Mocap Tools} para enlazar los dos esqueletos, el BVH y el del modelo virtual. Dado que la información de traslación no se incluye en el esqueleto de destino sino que se condiciona a que este último se traslade según un hueso particular externo (\textsf{stride bone})  cuya información de movimiento no puede ser exportada en un BVH por Blender. Con lo cual, si bien al trabajar con esta herramienta se generan secuencias visualmente aceptables para un proceso de animación, en nuestro caso impide obtener el ground truth necesario para las etapas de performance y desarrollo, por lo que no se utiliza.
@@ -493,7 +497,7 @@ El problema surge al momento de obtener el ground truth, pues la exportación de
 
 
 
-\subsubsection{Estructura de la base de datos}
+\section{Estructura de la base de datos}
 
 El prototipo de base de datos, actualmente contiene 5 secuencias sintéticas descriptas en la tabla \ref{tabla_secuencias_gen}, las mismas fueron generadas a partir de las secuencias BVH provenientes la 
 base de datos \textit{MotionBuilder-friendly version} ofrecidas por cgspeed\cite{cgspeed}, cuyo origen son las capturas de movimiento de CMU (sección \ref{CMU}). 
@@ -505,7 +509,7 @@ base de datos \textit{MotionBuilder-friendly version} ofrecidas por cgspeed\cite
 
 
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \caption{Secuencias generadas para la base de datos sintética.}
 \label{tabla_secuencias_gen}
@@ -618,7 +622,7 @@ Contiene dos carpetas con datos de calibración relevados a partir de las imáge
 Dentro de cada <...>  ~designar el nombre de la variable que se indica.
 
 
-\subsubsection{Estructura de datos.}
+\section{Estructura de datos.}
 \label{section_Estructura_de_datos}
 Para poder trabajar a lo largo de todo el sistema de procesamiento se debe contar con una estructura de datos que mantenga y soporte toda la información de interés a lo largo proceso. También es deseable que los procesos utilicen dicha estructura sin quedar condicionados a futuras modificaciones de la misma, esta independencia requiere la existencia de funciones de acceso de entrada y salida a la estructura.  
 
@@ -632,15 +636,15 @@ Básicamente se tienen dos estructuras principales, una para almacenar informaci
 Cabe destacar que este tipo de estructura es útil tanto para una base de datos sintética como una base de datos real. \\
 \\
 
-\begin{figure}[H]
-   \centering 
+\begin{figure}[]
+   \hspace{-1cm}
    \includegraphics[scale=0.6]{img/Base_Datos/Estructura_datos_skeleton.pdf}
    \caption{Estructura de datos para esqueletos.}  
    \label{img_estructura_skeleton} 
  \end{figure} 
 
 \begin{figure}[H]
-   \centering 
+   \hspace{-1cm}
    \includegraphics[scale=0.6]{img/Base_Datos/Estructura_datos_cam.pdf}
    \caption{Estructura de datos para cámaras.}
    \label{img_estructura_cam}    
@@ -669,7 +673,7 @@ Cabe destacar que este tipo de estructura es útil tanto para una base de datos 
  
 
 
-\subsection{Conclusiones} 
+\section{Conclusiones} 
 
 Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores. Son los factores más importantes.
 

@@ -1,110 +1,257 @@
-\documentclass[11pt,a4paper,titlepage,spanish]{article}
-\usepackage[left=1.5cm,top=2.5cm,right=1.5cm,bottom=2.5cm]{geometry} 
-\usepackage[utf8]{inputenc}
-\usepackage[spanish, es-tabla]{babel} %esto es para que aparezca "tabla" en lugar de "cuadro" al poner título a una tabla
-\usepackage[T1]{fontenc}
-\usepackage{booktabs}
-%\usepackage{bbm}
-\usepackage{amsthm,amsmath,mathrsfs}
-\usepackage[hidelinks]{hyperref}
-\usepackage[usenames]{color}
-\usepackage{subfig}
-\usepackage{float}
-\usepackage{verbatim}
-\usepackage{datetime}
-
-\usepackage{multirow} % paquete que sirve para la generación de tablas, en especial permite ingresar múltiples filas
-\usepackage[table, xcdraw]{xcolor} %para que las celdas de las tablas puedan ser de colores
-\usepackage{booktabs} %permite ingresar un formato especial de tablas, es bastante prolijo
-\usepackage[stable]{footmisc} %permite poner footnote en los títulos de las secciones
-
-\usepackage[pdftex]{graphicx}
-\usepackage{epstopdf}
-\DeclareGraphicsExtensions{.pdf,.png,.jpg,.bmp}
-\usepackage{pdfpages}
-
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% $Id: thesis.tex 973 2012-03-14 18:15:22Z fefo $
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\documentclass[a4paper,12pt,master]{iietesis}
+%\documentclass[a4paper,12pt,doctorado]{iietesis}
+\documentclass[a4paper,12pt,proyecto]{iietesis}
 
 
+\title{Análisis de video en Biomecánica}
+\author{Andréi Guchin, Gonzalo Pereira, Guillermo Ottado, Mauricio Ramos.} % Nombre del autor o los autores
+\date{\today} % Fecha de la defensa
+\email{proyecto.iie.biomecanica@gmail.com} % email de contacto
+\location{Montevideo} %
+\documenturl{http://iie.fing.edu.uy/} 
 
-% --- Para el encabezado
-%\usepackage{fancyhdr}
-%\fancyhead[L]{Preguntas teoricas} \fancyfoot[C]{\thepage}
-%\pagestyle{fancy}
-% -------------------------------------------------------- %
-%opening
-\title{Proyecto de grado\\ ``Análisis de video en Biomecánica''}
-\author{Andréi Guchin, Gonzalo Pereira, Guillermo Ottado, Mauricio Ramos. \\
-Tutor: Juan Cardelino}
-\date{\today~\currenttime}
+\TutorNombreA{Juan Cardelino}
+\TutorAfiliacionA{Universidad de la Rep\'ublica}
+%\TutorNombreB{Otro Nombre}
+%\TutorAfiliacionB{Universidad de Acá}
+\TribunalNombreA{Fulano Efe}
+\TribunalAfiliacionA{Universidad 1}
+\TribunalNombreB{Mengano Eme}
+\TribunalAfiliacionB{Universidad 2}
+\TribunalNombreC{Perengano Pe}
+\TribunalAfiliacionC{Universidad 3}
+%\TribunalNombreD{Sultano Ese}
+%\TribunalAfiliacionD{Universidad 4}
+%\TribunalNombreE{Otro Fulano (Revisor)}
+%\TribunalAfiliacionE{Otra Universidad}
+%\TribunalNombreF{Otro Mengano (Revisor)}
+%\TribunalAfiliacionF{Otra Universidad}
+\DAcademicoNombre{NombreDA}
+\DAcademicoAfiliacion{Universidad de la Rep\'ublica}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
+% Generar la tapa
 \maketitle
 
-\newpage
-\tableofcontents
-%\printindex
-\newpage
+% Lo del principio
+\frontmatter
 
-\begin{abstract}
-\begin{center}
-\begin{minipage}{.8\textwidth}
-\input{resumen.tex}
-\end{minipage}
-\end{center}
-\end{abstract}
-
-\newpage\null\thispagestyle{empty}\newpage
-
-\clearpage
-\vspace*{\fill}
-\begin{center}
-\begin{minipage}{.8\textwidth}
-\input{agradecimientos.tex}
-\end{minipage}
-\end{center}
-\vfill % equivalent to \vspace{\fill}
-
-\newpage\null\thispagestyle{empty}\newpage
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % El acta y la nota del revisor externo
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newpage\addcontentsline{toc} {chapter} {Acta de Defensa}%
+% \input{acta}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Quotes and proverbs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{quotes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Agradecimientos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{agradecimientos}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dedicatoria
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\include{dedicatoria}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Resumen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{resumen}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Prefacio
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{prefacio}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Reviews
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\include{reviews}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tabla de Contenidos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tableofcontents %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% El contenido
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{introduccion.tex}
-\clearpage
 \input{revisionbibliografica.tex}
-\clearpage
 \input{base_de_datos.tex}
-\clearpage
 \input{justificacionalgoritmo.tex}
-\clearpage
 \input{segmentacion.tex}
-\clearpage
 \input{calibracion.tex}
-\clearpage
 \input{reconstruccion.tex}
-\clearpage
 \input{seguimiento.tex}
-\clearpage
 \input{performance_errores.tex}
-%\clearpage
-%\input{discusion.tex}
-\clearpage
+\input{discusion.tex}
 \input{conclusiones.tex}
-\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Apéndices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newpage\addcontentsline{toc} {chapter} {Apéndices}%
+\appendix
 \input{apendice_bibliografia.tex}
-\clearpage
 \input{gui.tex}
-\clearpage
 \input{apendice_performance.tex}
-\clearpage
 
 
-%% BIBLIOGRAFÍA CON BibTeX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lo del final
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\backmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliografía
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \nocite{*} %este comando permite mostrar toda la bibliografía puesta en los archivos .bib aunque no haya sido citada
 \bibliographystyle{unsrt}
-\bibliography{documentacion}
+\newpage\addcontentsline{toc}{chapter}{Referencias}%
+\bibliography{referencias}
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % Glosario
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \printglossary %
+%% \addcontentsline{toc} {chapter} {Glosario}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lista de tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage\addcontentsline{toc} {chapter} {\'Indice de tablas}%
+\listoftables %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lista de figuras
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage\newpage\addcontentsline{toc} {chapter} {\'Indice de figuras}%
+\listoffigures %
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % Contenido del CD
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \newpage\addcontentsline{toc} {chapter} {Contenido del CD}%
+%% \input{contenidodelcd}
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % Índice de contenidos
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \newpage\addcontentsline{toc} {chapter} {Índice de temas}%
+%% \printindex 
+
+
+% Una hoja más
+\lastpage
 
 \end{document}
+
+
+%\documentclass[11pt,a4paper,titlepage,spanish]{article}
+%\usepackage[left=1.5cm,top=2.5cm,right=1.5cm,bottom=2.5cm]{geometry} 
+%\usepackage[utf8]{inputenc}
+%\usepackage[spanish, es-tabla]{babel} %esto es para que aparezca "tabla" en lugar de "cuadro" al poner título a una tabla
+%\usepackage[T1]{fontenc}
+%\usepackage{booktabs}
+%%\usepackage{bbm}
+%\usepackage{amsthm,amsmath,mathrsfs}
+%\usepackage[hidelinks]{hyperref}
+%\usepackage[usenames]{color}
+%\usepackage{subfig}
+%\usepackage{float}
+%\usepackage{verbatim}
+%\usepackage{datetime}
+%
+%\usepackage{multirow} % paquete que sirve para la generación de tablas, en especial permite ingresar múltiples filas
+%\usepackage[table, xcdraw]{xcolor} %para que las celdas de las tablas puedan ser de colores
+%\usepackage{booktabs} %permite ingresar un formato especial de tablas, es bastante prolijo
+%\usepackage[stable]{footmisc} %permite poner footnote en los títulos de las secciones
+%
+%\usepackage[pdftex]{graphicx}
+%\usepackage{epstopdf}
+%\DeclareGraphicsExtensions{.pdf,.png,.jpg,.bmp}
+%\usepackage{pdfpages}
+%
+%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+%
+%
+%
+%% --- Para el encabezado
+%%\usepackage{fancyhdr}
+%%\fancyhead[L]{Preguntas teoricas} \fancyfoot[C]{\thepage}
+%%\pagestyle{fancy}
+%% -------------------------------------------------------- %
+%%opening
+%\title{Proyecto de grado\\ ``Análisis de video en Biomecánica''}
+%\author{Andréi Guchin, Gonzalo Pereira, Guillermo Ottado, Mauricio Ramos. \\
+%Tutor: Juan Cardelino}
+%\date{\today~\currenttime}
+%
+%\begin{document}
+%
+%\maketitle
+%
+%\newpage
+%\tableofcontents
+%%\printindex
+%\newpage
+%
+%\begin{abstract}
+%\begin{center}
+%\begin{minipage}{.8\textwidth}
+%\input{resumen.tex}
+%\end{minipage}
+%\end{center}
+%\end{abstract}
+%
+%\newpage\null\thispagestyle{empty}\newpage
+%
+%\clearpage
+%\vspace*{\fill}
+%\begin{center}
+%\begin{minipage}{.8\textwidth}
+%\input{agradecimientos.tex}
+%\end{minipage}
+%\end{center}
+%\vfill % equivalent to \vspace{\fill}
+%
+%\newpage\null\thispagestyle{empty}\newpage
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\clearpage
+
+%\clearpage
+%\input{apendice_bibliografia.tex}
+%\clearpage
+%\input{gui.tex}
+%\clearpage
+%\input{apendice_performance.tex}
+%\clearpage
+%
+%
+%%% BIBLIOGRAFÍA CON BibTeX
+%\nocite{*} %este comando permite mostrar toda la bibliografía puesta en los archivos .bib aunque no haya sido citada
+%\bibliographystyle{unsrt}
+%\bibliography{documentacion}
+%
+%\end{document}
+
+
+
