@@ -90,11 +90,12 @@ En su trabajo~\cite{herda}, Lorna Herda propone que realizar el seguimiento sobr
 \\ 
 
 Adicionalmente, la reconstrucción fue implementada de forma distinta a la propuesta por Herda, si bien es posible obtener los puntos proyectados en cada vista, no cumplen el mismo rol. Sin implementar la re-proyección, en el tracking sobre una vista individual se pierden trayectorias cuando se pierden de vista como se observa en la Figura~\ref{tracking_2D_cam_07} .
-
+\vspace{-0.2cm}
 \begin{figure}[hbt]
 \begin{center}
 \includegraphics[scale=0.7]{img/Tracking/011_tracking_2D_camara_07.png}
 \end{center}
+\vspace{-0.8cm}
 \caption{Resultado de Aplicar el Seguimiento de marcadores a una vista 2D sin re-proyección de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la cámara 07 de la captura sintética}
 \label{tracking_2D_cam_07}
 \end{figure}
@@ -140,6 +141,7 @@ La norma de este traslado es utilizada para evaluar los puntos cercanos al centr
 \item Se encuentra un solo punto dentro del radio de búsqueda , se agrega el índice del punto encontrado en [f+1] a los que se utilizaron de [f-1] y [f], calculando la aceleración y velocidad resultante para establecer el enlace. En este caso, el cuarto elemento de la linea de la matriz de enlace, no fue necesario 
 \item Se encuentra mas de un punto, por lo cual se tiene que usar algún criterio para elegir entre todas la posibilidades encontradas. Para cada punto encontrado dentro del radio de búsqueda, se calcula un segundo centro de búsqueda para [f+2], esta vez minimizando la Ecuación~\ref{track_var_acc} :
 \begin{equation}
+\hspace{-1cm}
 \begin{split}
 \boldsymbol{\overrightarrow{a}}_{[f][f+1][f+2]}=\boldsymbol{\overrightarrow{a}}_{[f-1][f][f+1]} \Rightarrow C_{[f+2]}^{i} &= x_{[f+1]}^{i} + \boldsymbol{\overrightarrow{v}}_{[f][f+1]}^{i}.\Delta{t} + \boldsymbol{\overrightarrow{a}}_{[f-1][f][f+1]}^{i}.\Delta{t}^2\\
 &= 3.x_{[f+1]}^{i} - 3.x_{[f]}^{i} + x_{[f-1]}^{i}\end{split}
@@ -203,7 +205,7 @@ Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben 
 \begin{enumerate}
   \item \textbf{Distancia con respecto a una estimación lineal}, prolongando el movimiento tomando el ultimo punto como inicio, y los últimos cuadros de la trayectoria conocida como desplazamiento. El desplazamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces, como puede observarse en el ejemplo de la Figura~\ref{track_m8_recover}. 
  
-\begin{figure}[H]
+\begin{figure}[ht!]
  \centering
   \subfloat[Salida de Código durante perdida y recuperación de trayectoria]{
 	\label{track_m8_recover_code}
@@ -358,13 +360,15 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 \begin{center}
 \includegraphics[width=\linewidth]{img/Tracking/040_Salida_Tracking_Esqueleto_Trayectoria.png}
 \end{center}
+\vspace{-0.2cm}
 \caption{Tracking sobre captura sintética, 113 cuadros, 17 cámaras, 14 marcadores}
 \label{Tracking_Esqueleto_Trayectoria}
 \end{figure}
 
-El filtrado y validación por trayectorias, permite reducir el error máximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar global mente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200 con 17 cámaras, y con el filtrado por aceleración individual de marcadores. En otras capturas, los comportamientos son similares con promedios inferiores a 0.5 cm, y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras.Mas adelante se estudiará el impacto de cambiar los conjunto de cámaras en marcadores   
 
-\begin{table}[h]
+
+\begin{table}[ht!]
+\vspace{-0.3cm}
 \resizebox{15cm}{!}{
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
@@ -390,7 +394,13 @@ El filtrado y validación por trayectorias, permite reducir el error máximo y m
 \label{tablaerrortrack}
 \end{table}
 
+
+
+El filtrado y validación por trayectorias, permite reducir el error máximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar global mente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200 con 17 cámaras, y con el filtrado por aceleración individual de marcadores. En otras capturas, los comportamientos son similares con promedios inferiores a 0.5 cm, y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras.Mas adelante se estudiará el impacto de cambiar los conjunto de cámaras en marcadores   
+
+
 \begin{figure}[H]
+\vspace{-0.4cm}
  \centering
   \subfloat[Trayectoria sin Corregir Por Aceleración]{
 	\label{Salida_Tracking_Original}
@@ -411,10 +421,10 @@ El filtrado y validación por trayectorias, permite reducir el error máximo y m
 \end{figure}
 
 
-Al tener las etiquetas constantes para las trayectorias, es posible visualizar la relación entre marcadores, quedando pendientes medidas adicionales para robustecer el sistema, como imponer restricciones al movimiento entre marcadores en un mismo miembro, por imponer no solo continuidad en aceleración de marcadores sino ángulos de articulaciones y huesos. Esta continuidad debe tener cierta tolerancia debido a que los marcadores son representativos de articulaciones, y no se mueven completamente solidarios por lo que existen leves variaciones en las distancias entre marcadores, como se observa en la Figura \ref{distancia_angulo_marcadores_piernas}, correspondiente a los marcadores asociados a la pierna en la captura 8\_03\_100\_100. En este caso se observa la continuidad y periodicidad de el ángulo entre marcadores así como la constancia de la distancia, salvo momentos ocasionales, asociados a momentos específicos de la captura (cuando el pie rompe el reposo por ejemplo, antes de dar otro paso) ,sin ser mayor a los pocos centímetros en momentos puntuales y recuperables en régimen.
+Al tener las etiquetas constantes para las trayectorias, es posible visualizar la relación entre marcadores, quedando pendientes medidas adicionales para robustecer el sistema, como imponer restricciones al movimiento entre marcadores en un mismo miembro, por imponer no solo continuidad en aceleración de marcadores sino ángulos de articulaciones y huesos. Esta continuidad debe tener cierta tolerancia debido a que los marcadores son representativos de articulaciones, y no se mueven completamente solidarios por lo que existen leves variaciones en las distancias entre marcadores, como se observa en la Figura \ref{distancia_angulo_marcadores_piernas}, correspondiente a los marcadores asociados a la pierna en la captura 8\_03\_100\_100. En este caso se observa la continuidad y periodicidad de el ángulo entre marcadores así como la constancia de la distancia, salvo momentos ocasionales, asociados a momentos específicos de la captura (cuando el pie rompe el reposo por ejemplo, antes de dar otro paso), sin ser mayor a los pocos centímetros en momentos puntuales y recuperables en régimen.
 
-\begin{figure}[H]
- \centering
+\begin{figure}[ht!]
+ \hspace{-1.3cm}
   \subfloat[Trayectorias de marcadores de pierna]{\includegraphics[scale=0.45]{img/Tracking/050_Salida_Tracking_13_14_10.png} %\label{trayectorias_marcadores_piernas}
    }	
   \subfloat[Distancia y Angulo entre marcadores de la pierna]{\includegraphics[scale=0.45]{img/Tracking/051_Salida_Angulo_Distancia_13_14_10.png}\label{distancia_angulo_marcadores_piernas}}
