@@ -46,6 +46,7 @@ Las múltiples secuencias sintéticas generadas en Blender como fue establecido 
 
 \begin{table}[h]
 \centering
+\resizebox{15cm}{!}{
 \begin{tabular}{cccc|c|c|c|c|c|c|ll}
 \cline{5-10}
 & & & & SEGM. & SEGM. & RECONS. & RECONS. & TRACK. & TRACK. &  &  \\ \cline{1-10}
@@ -59,6 +60,7 @@ Las múltiples secuencias sintéticas generadas en Blender como fue establecido 
 \multicolumn{1}{|c|}{9,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{57}     & 17      & 1,1404 & 3,4476  & 0,34517     & 1,9902  & 0,34517     & 1,9902  &  &  \\ \cline{1-10}
 \multicolumn{1}{|c|}{9,12,1}  & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{300}    & 15      & 1,0443 & 2,118   & 0,39731     & 1,4952  & 0,39741     & 1,4952  &  &  \\ \cline{1-10}
 \end{tabular}
+}
 \caption{Resultados de los bloques, para distintas capturas sintéticas}
 \label{resultados_distintas_capturas}
 \end{table}
@@ -71,10 +73,11 @@ La prueba consiste en relevar el error promedio en reconstrucción, contra el gr
 
 \begin{table}[h]
 \centering
+\resizebox{15cm}{!}{
 \begin{tabular}{cc|c|c|c|c|c|c|}
 \cline{3-8}
 \textbf{} & \textbf{} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}14 marcadores\\ reconstruidos\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}18 marcadores\\ reconstruidos\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}30 marcadores\\ reconstruidos\end{tabular}}} \\ \hline
-\multicolumn{1}{|c|}{\textbf{Conjunto}} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (pieleros)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Conjunto}} & \textbf{\begin{tabular}[c]{@{}c@{}}Ruido\\ (pixels)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular}} \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 0 & 1,27E-10 & 1,01E-09 & 1,27E-10 & 1,01E-09 & 1,27E-10 & 1,01E-09 \\ \hline
 \multicolumn{1}{|c|}{Segmentación} & 0 & 0,38553 & 1,6915 & 0,38553 & 1,6915 & 0,38305 & 1,6747 \\ \hline
 \multicolumn{1}{|c|}{Ground Cam} & 0,5 & 1,0404 & 3,0757 & 0,5535 & 2,0504 & 0,53616 & 2,1104 \\ \hline
@@ -88,6 +91,7 @@ La prueba consiste en relevar el error promedio en reconstrucción, contra el gr
 \multicolumn{1}{|c|}{Ground Cam} & 8 & 22,6934 & 136,0204 & 21,8413 & 143,0939 & 8,7161 & 42,9549 \\ \hline
 \multicolumn{1}{|c|}{Segmentación} & 8 & 25,7256 & 187,2483 & 24,2908 & 158,6828 & 8,6034 & 41,6941 \\ \hline
 \end{tabular}
+}
 \caption{Resultados de Error en reconstrucción, para distintos caso de ruido agregado a la segmentación, tanto resultados sobre vídeos como sobre ground truth}
 \end{table}
 
