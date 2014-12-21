@@ -1,8 +1,8 @@
 
 
 
-\section{Reconstrucción}
-\subsection{Introducción}
+\chapter{Reconstrucción}
+\section{Introducción}
 A la salida del bloque de detección de marcadores se tiene, para cada cámara y para cada cuadro de una secuencia adquirida, un conjunto de coordenadas en dos dimensiones $(x,y)$ que ubican la posición en la imagen de aquellos marcadores que fueron detectados.
 El proceso de reconstrucción consiste en obtener las coordenadas en tres dimensiones de la posición de los marcadores en el espacio a partir de las coordenadas en dos dimensiones obtenidas en el bloque anterior.
 En la figura \ref{fig: esquema_reconstruccion} se muestra un ejemplo de reconstrucción de un marcador usando para esto la detección de marcadores en dos cámaras.\\
@@ -32,7 +32,7 @@ El proceso de reconstrucción implementado consiste en tres pasos fundamentales:
 \label{fig: geometria_epipolar}
 \end{figure}
 
-\subsection{Geometría epipolar}
+\section{Geometría epipolar}
 
 
 
@@ -50,7 +50,7 @@ Si los puntos $x$ y $x'$ son conocidos, sus proyecciones son también conocidas 
  
 Para el caso de cámaras reales se tienen distorsiones de ruido, imperfecciones en las lentes de las cámaras, etc. que producen que las proyecciones sean tal que el punto 3D, su proyección en la cámara y el foco de la misma no sean colineales, por lo tanto la proyección real de un punto 3D va a ser aproximadamente el punto ideal de su proyección. \\
 
-\subsubsection{Matriz Fundamental}
+\subsection{Matriz Fundamental}
 
 La matriz fundamental es la representación algebraica de la geometría epipolar. Si se tiene el punto $X$ y sus correspondientes proyecciones $x$ y $x'$ en las cámaras, se tiene que se verifica la siguiente condición :
 
@@ -84,7 +84,7 @@ Si los puntos imagen se corresponden $x \leftrightarrow x'$, entonces $x'$ se en
 
 Algunas propiedades básicas de esta matriz son que si $F$ es la matriz fundamental del par de cámaras con matrices de proyección ($P,P'$), entonces $F^T$ es la matriz fundamental del par de cámaras en sentido opuesto: ($P',P$). Por otra parte si se tiene el punto $x$ en la imagen de una cámara, su recta epipolar correspondiente en otra cámara es $l'=Fx$. Análogamente $l=F^Tx'$ representa la línea epipolar a x' en la segunda cámara.
 
-\subsection{Algoritmo propuesto por Herda }
+\section{Algoritmo propuesto por Herda }
 
 Como se explicó anteriormente, se inicia la implementación de este bloque a partir del algoritmo propuesto por Herda \cite{herda}. Este algoritmo en algunos aspectos no es descripto con el detalle suficiente tal que pueda ser replicado fielmente. Por esta razón su implementación se ha realizado tomando algunas libertades en los casos en que su interpretación pueda ser algo ambigua.\\
 
@@ -110,14 +110,13 @@ Posteriormente el algoritmo plantea realizar ciertos chequeos sobre los puntos r
 
 Lo que se quiere verificar en dichos chequeos, es que para un determinado cuadro los marcadores sean efectivamente visibles por aquellas cámaras que los reconstruyeron y no están ocultos por alguna parte del cuerpo, lo que evidenciaría que las reconstrucción es incorrecta. Si esto se verifica el algoritmo busca otras vistas de las cuales reconstruir el marcador.\\
 
-\subsection{Algoritmo implementado}
+\section{Algoritmo implementado}
 
 El algoritmo implementado recibe como entrada los puntos 2D de los marcadores detectados y devuelve como salida los puntos 3D reconstruidos. El primer paso consiste en establecer una asociación entre ciertos puntos 2D de distintas cámaras. Luego pasa a conjunto de bloques que se ejecutan de manera iterativa hasta que no quedan marcadores para reconstruir. En dicho bloque se busca la mejor asociación encontrada, bajo determinado criterio, luego se reconstruye un punto 3D y se realiza un proceso de validación de dicho punto. En la iteración siguiente se actualizan las asociaciones que habían sido establecidas previamente. Cuando no hay más marcadores para reconstruir se detiene el proceso iterativo y se devuelve aquellos marcadores que fueron reconstruidos en cada iteración. En la figura \ref{fig: diagrama algoritmo} se presenta un diagrama del algoritmo.\\
 
 \begin{figure}[H]
-\begin{center}
+\hspace{-1cm}
 \includegraphics[scale=0.6]{img/Reconstruccion/diagrama_algoritmo.pdf}
-\end{center}
 \caption{Diagrama del algoritmo implementado}
 \label{fig: diagrama algoritmo}
 \end{figure}
@@ -156,7 +155,7 @@ El primero de ellos evalúa cada cámara respecto a todas las restantes y el seg
 
 
 
-\subsubsection{Mejor asociación}
+\subsection{Mejor asociación}
 
 A partir de la lista con asociaciones entre puntos de dos vistas generada anteriormente, es necesario elegir aquella que posea mayor probabilidad de conformar la pareja de imágenes correspondiente a la proyección de un marcador 3D sobre dichas vistas.
 %corresponder a la proyección en esas dos vistas de uno de los marcadores en el espacio.\\
@@ -170,7 +169,7 @@ De esta forma cada punto de una cámara es asociado, si existen puntos válidos,
 Considerando esto último el procedimiento utilizado, para evaluar cual entre los pares de puntos asociados disponibles posee mayor posibilidad de corresponder a la proyección de un punto 3D, es proyectar todas los rayos de proyección y tomar aquella pareja de puntos que genere rayos de proyección con la menor distancia entre sí.
 
 
-\subsubsection{Reconstrucción 3D y validación}\label{seccion_reconstruccion3D_validacion}
+\subsection{Reconstrucción 3D y validación}\label{seccion_reconstruccion3D_validacion}
 
 
 Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reconstruirlas. Estas reconstrucciones deben ser validadas, para ello en principio se utiliza el  criterio propuesto por Herda \cite{herda}, se considera que una reconstrucción proveniente de dos cámaras es válida, si al proyectar sobre una tercer cámara existe al menos un punto de esta última que diste menos de un cierto valor umbral. Si efectivamente se encuentra al menos un punto, se asocia con los dos puntos que generaron la reconstrucción y se repite el proceso con el resto de las cámaras. Una vez finalizada la iteración, se retira a la pareja que genera la reconstrucción así como también a los puntos que lograron validarla, y se itera nuevamente repitiendo el proceso con la siguiente mejor pareja asociada entre dos cámaras.  
@@ -183,15 +182,16 @@ $X_{12}$ se encuentra en el punto medio del segmento perpendicular a ambos rayos
 
 \begin{figure}[h!]
 \centering
-\captionsetup{justification=centering,margin=2.8cm}
-\includegraphics[scale=0.7]{img/Reconstruccion/validacion.pdf}
-\caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3. \\ ~~El punto $x_3$ de la cámara 3 valida la reconstrucción, no así el punto $\tilde{x}_3$.}
+\hspace{-1cm}
+\captionsetup{justification=centering,margin=1.0cm}
+\includegraphics[scale=0.65]{img/Reconstruccion/validacion.pdf}
+\caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3. El punto $x_3$ de la cámara 3 valida la reconstrucción, no así el punto $\tilde{x}_3$.}
 \label{img_reconstruccion_validacion}
 \end{figure}
 
 El algoritmo implementado asume que un punto en una cámara valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Notar que la elección anterior de $x_1$ sobre $x_2$ es indiferente para nuestros propósitos. Si bien este criterio difiere del postulado original, en cierta manera se considera más robusto, pues en el postulado original basta con que dos puntos en una retina se encuentren lo suficientemente cerca para obtener una validación, pero esto no implica necesariamente que provengan de puntos 3D cercanos, sin embargo bajo el nuevo criterio si dos puntos 3D se encuentran cerca, entonces es válido afirmar que sus proyecciones sobre las distintas retinas también deben estarlo. Otra ventaja es que los umbrales bajo los cuales se considera que dos puntos están ``cerca'' difieren en cada una de las cámaras debido al distinto mapeo de distancias, sin embargo en el espacio 3D manejar un único umbral resulta suficiente.       
 
-\subsubsection{Actualizar asociaciones}\label{actualizar_asociaciones}
+\subsection{Actualizar asociaciones}\label{actualizar_asociaciones}
 
 Del bloque anterior se tiene, un punto $X$ reconstruido y sus correspondientes proyecciones en cada una de las cámaras. Dichas proyecciones no deben ser consideradas en próximas iteraciones, por tanto estos puntos 2D no se consideran puntos válidos.\\
 
@@ -207,13 +207,13 @@ Finalmente el proceso iterativo se detiene cuando no hay más marcadores para re
 
 
 
-\subsection{Resultados de reconstrucción sobre secuencias sintéticas}
+\section{Resultados de reconstrucción sobre secuencias sintéticas}
 
 Se ha probado el algoritmo descrito anteriormente con secuencias capturadas en Blender. Para la configuración de 17 cámaras se han obtenido resultados aceptables,  con errores promedio menores a $0.5\,cm$. En la sección \ref{seccion_performance}, se define la medida de error  y se evalúa el desempeño del algoritmo respecto a dicha medida. En dichas pruebas se observan resultados aceptables aún utilizando 6 cámaras.
 
 \begin{figure}[h!]
 \centering
-\captionsetup{justification=centering,margin=2.8cm}
+\captionsetup{justification=centering,margin=0.8cm}
 \includegraphics[scale=0.5]{img/Reconstruccion/Reconstruccion_3_camaras2.jpg}
 \caption{Proceso de reconstrucción, ejemplo. Lo marcadores totalmente negros son los que se pudieron reconstruir utilizando información de las cámaras 2, 3 y 5.}
 \end{figure}
@@ -222,7 +222,7 @@ Se ha probado el algoritmo descrito anteriormente con secuencias capturadas en B
 Como se mencionó previamente se han realizado dos implementaciones distintas del bloque  “Asociar puntos 2D”. La primera de ellas considera las asociaciones de marcadores posibles entre pares de cámaras, evaluando cada una de las cámaras respecto a todas las restantes.  La segunda implementación toma en cuenta  la configuración circular de las cámaras en el espacio y se evalúa cada cámara con la que se encuentra inmediatamente más cerca,  recorriendo las cámaras en algún sentido.
 
 \begin{table}[h]
-\centering
+\hspace{-1cm}
 \begin{tabular}{cc|c|c|c|c|}
 \cline{3-6}
                                                                               &                                                       & \multicolumn{2}{l|}{\textbf{Primera implementación}}                                                                                             & \multicolumn{2}{l|}{\textbf{Segunda implementación}}                                                                                            \\ \hline
@@ -252,7 +252,7 @@ Una de las razones por las cuales puede suceder esto es que en el primer algorit
 
 
 
-\subsection{Resultados de reconstrucción sobre secuencias reales}
+\section{Resultados de reconstrucción sobre secuencias reales}
 
 Para probar la reconstrucción con secuencias reales se realizó la calibración según lo explicado en la sección \ref{seccion_calibracion_secuencias_reales}, por otra parte fue necesario robustecer el algoritmo de detección de marcadores como se explica en la sección \ref{resultadosyanalisissegmentacion}. Las pruebas del algoritmo presentado anteriormente realizadas sobre esta secuencia no han dado resultados aceptables, en este caso la mayoría de los marcadores se reconstruyen erróneamente. 
 
@@ -263,13 +263,13 @@ Con el fin de encontrar donde falla el sistema, se genera una secuencia sintéti
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 Esta situación ha motivado el desarrollo de mejoras sobre el algoritmo de reconstrucción. Los cambios se realizan sobre la implementación disponible del sistema, intentando lograr un desempeño aceptable sin modificar la estructura global del sistema.
 
-\subsection{Mejoras del algoritmo de reconstrucción}
+\section{Mejoras del algoritmo de reconstrucción}
 
 
 Se hicieron pruebas sobre la base sintética, nuevamente simulando la situación del caso real, con el fin de aislar los errores provenientes de la calibración y de la detección de marcadores.
 El algoritmo que se implementa en este caso tiene una estructura similar al considerado anteriormente, ver la figura \ref{fig: diagrama algoritmo}. Aunque algunos bloques modifican su funcionamiento, fundamentalmente el primero  “Asociar puntos 2D”.
 
-\subsubsection{Asociar punto 2D}
+\subsection{Asociar punto 2D}
 
 En esta versión modificada el resultado de Asociar puntos 2D continúa siendo una lista ordenada de asociaciones entre puntos de distintas cámaras, pero el procedimiento para generar dicha lista es diferente.  Ahora dicho bloque se encarga  de comparar  las distancias de los rayos de proyección entre pares de cámaras, para encontrar parejas de puntos que presumiblemente sean imágenes de un mismo punto 3D.  
 
@@ -287,7 +287,7 @@ Se repite el procedimiento hasta que sean comparadas todos los pares de cámaras
 \caption{Nueva asociación de puntos entre pares de cámaras.}
 \end{figure}
  
-\subsubsection{Mejor asociación}
+\subsection{Mejor asociación}
 
 
 Este bloque mantiene su funcionalidad, encontrar la pareja de puntos entre dos vistas, con mayor probabilidad de corresponder a la proyección de un punto 3D.
@@ -301,14 +301,14 @@ La nueva entrada proporcionada por “Asociar puntos 2D” simplifica la nueva i
 Una vez que se tiene la matriz de distancias con todas las asociaciones de puntos entre los pares de cámaras considerados. Este bloque simplemente toma de entre todas las asociaciones disponibles de puntos válidos, aquel par de puntos que posea menor distancia asociada.
 Recordar que un punto se considera válido si en iteraciones anteriores no se ha podido asociar a ningún punto 3D reconstruido.
 
-\subsubsection{Resto de los bloques}
+\subsection{Resto de los bloques}
 
 Los bloques de reconstrucción 3D y validación, y el de actualizar asociaciones realizan el mismo funcionamiento y tiene igual implementación que los utilizados en el algoritmo anterior. Ver las secciones \ref{seccion_reconstruccion3D_validacion} y \ref{actualizar_asociaciones}.
 
   Asimismo la condición que debe cumplirse para detener el proceso iterativo es la misma.
   
   
-\subsection{Resultados del nuevo algoritmo}  
+\section{Resultados del nuevo algoritmo}  
  
 Se prueba el nuevo algoritmo para una secuencia sintética de 3 cámaras en las que se intenta simular el caso real. En este caso el sujeto cuenta con 14 marcadores. 
 Los resultados muestran una mejora significativa respecto al algoritmo original
@@ -318,9 +318,9 @@ En la figura \ref{img_reconstruccion_sintetica} se muestra el resultado de la re
 
 \begin{figure}[!ht]
    \centering 
-    \subfloat[Vista derecha]{\includegraphics[scale=1.70]{img/Reconstruccion/50_derecha_sintetica.png}}\hspace{0.5cm}
+    \subfloat[Vista derecha]{\includegraphics[scale=1.70]{img/Reconstruccion/50_derecha_sintetica.png}}\hspace{0.2cm}
     \subfloat[Vista  izquierda]{\includegraphics[scale=1.70]{img/Reconstruccion/50_izquierda_sintetica.png}}\hspace{2cm}
-    \subfloat[Vista de atras]{\includegraphics[scale=0.90]{img/Reconstruccion/50_atras_sintetica2.png}} \hspace{1.8cm}
+    \subfloat[Vista de atras]{\includegraphics[scale=0.90]{img/Reconstruccion/50_atras_sintetica2.png}} \hspace{1.9cm}
     \subfloat[Resultado de la reconstrucción]{\includegraphics[scale=0.7]{img/Reconstruccion/50_matlab_sintetica.pdf}}    
    \caption{Reconstrucción de una secuencia sintética. Los asteriscos rojos indican los marcadores detectados.} 
    \label{img_reconstruccion_sintetica}    
@@ -339,7 +339,7 @@ Por último el nuevo algoritmo fue probado con secuencias reales. Si bien se rec
 \end{figure} 
 
 
-\subsection{Conclusión} 
+\section{Conclusión} 
 
 Tomando como punto de partida las ideas propuestas por Herda referentes a la reconstrucción de puntos 3D a partir de múltiples imágenes de puntos sobre distintas cámaras,  se han diseñado e implementado dos variantes de algoritmo principal para la etapa de reconstrucción. Logrando probar dichos algoritmos sobre secuencias tanto sintéticas como reales se hace un análisis cualitativo de los resultados.
 
