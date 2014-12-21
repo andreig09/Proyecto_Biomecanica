@@ -1,6 +1,6 @@
-\section{Seguimiento}
+\chapter{Seguimiento}
 
-\subsection{Introducción}
+\section{Introducción}
 
 La salida del bloque de reconstrucción, son los puntos 3D generados a partir de los múltiples vídeos de cada vista, presentados en el orden que fueron validados en cada cuadro (Figura \ref{reconstr_00}). A su vez, los marcadores fueron reconstruidos tomando como entrada los puntos obtenidos en las imágenes de la segmentación, no teniendo estos información alguna sobre el cuerpo, mas que el orden en el que son generados al segmentar.
 \\ 
@@ -16,7 +16,7 @@ Son presentados sin orden definido para cada cuadro de la secuencia, y el objeti
 % Figura tomada de la reconstrucción 8_07_100_200
 \end{figure}
 
-\subsection{Estado del Arte}
+\section{Estado del Arte}
 
 El problema del seguimiento de marcadores espaciales a lo largo del tiempo es un tema de estudio habitual con distintos enfoques, entre ellos:
 
@@ -101,7 +101,7 @@ Adicionalmente, la reconstrucción fue implementada de forma distinta a la propu
 
 Finalmente, asumiendo que los puntos obtenidos directamente de las animaciones ,proyectados en cada cámara, son el mejor caso de puntos 2D, no presentaban grandes ventajas de trabajar el enlace en cada una de estas vistas 2D, sobre trabajar en 3D posteriormente a la reconstrucción, y no volver hacia atrás ya que la geometría entre vistas cumplió su cometido. Esto ultimo no se cumple para el caso que se evalúen medidas adicionales para robustecer la salida del tracking (por ejemplo, validación por visibilidad, un punto observado en la segmentación de una vista es descartado en caso de no ser físicamente posible ver ese punto entre el cuerpo y la cámara).
 
-\subsection{Implementación}
+\section{Implementación}
 
 Para un cuadro [f] y un marcador $m_{i}^{[f]}$, se desea encontrar en el cuadro [f+1] el marcador $m_{j}^{[f+1]}$ que continúe la trayectoria que se tiene hasta el momento, cumpliendo las ecuaciones de continuidad~\ref{track_acc} y~\ref{track_var_acc}. El elemento que traslada la información de un cuadro al siguiente y desde el anterior, es la matriz de enlaces, donde cada linea es un enlace, y cada enlace tiene los siguientes elementos:
 \begin{equation}
@@ -120,7 +120,7 @@ Para el ejemplo presentado en la Figura~\ref{reconstr_00} , en cuadro $f=11$ el 
 
 Al final de cada iteración, la matriz de enlaces es consolidada para asignarle a cada nuevo marcador en [f+1] la etiqueta definida en el primer cuadro del enlazado, la cual puede ser inicializada como texto, si se le presenta la opción al usuario (en caso contrario, se utiliza el orden de los marcadores en el primer cuadro). Esta asignación será la que se utilice a lo largo de todo el seguimiento, por lo que todo marcador que no sea reconstruido en los primero cuadros, salvo de tomen medidas adicionales, no aparecerán en las trayectorias finales.
 
-\subsubsection{Enlazado en régimen, inicial y final}
+\subsection{Enlazado en régimen, inicial y final}
 
 Dado un cuadro [f], se cargan todos los marcadores de los cuadros [f-1],[f],[f+1],[f+2], los cuales son puntos en coordenadas cartesianas $X,Y,Z$ (si el seguimiento desea hacerse para una vista 2D, se establece la tercer coordenada de todos los en valor predefinido unitario) en unidades correspondiente al plano donde se trabaja (píxeles para vistas 2D, metros para espacio 3D). Dentro de cada cuadro, los marcadores son identificados según su índice en la salida del algoritmo correspondiente, y los enlaces de cada marcador [f-1][f], son cargados a partir de la matriz de enlace del cuadro anterior (la segunda y tercer columna de la matriz de enlace de [f-1], presenta los mismos datos que la primer y segunda columna de la matriz de enlace en [f], salvo el orden en que es presentada que es asociado al cuadro en curso).
 
@@ -158,7 +158,7 @@ Sin embargo, el enlazado inicial presenta una situación diferente, no se tiene 
 Una vez enlazado el ultimo cuadro de las secuencia, se procede a limpiar aquellas trayectorias que perdieron marcadores en el camino estableciendo un umbral de perdida aceptables sobre el largo de las secuencias obtenidas. Adicionalmente, se descartan todos los puntos reconstruidos que no fueron asignados a ninguna trayectoria 
 
 
-\subsubsection{Validación e Inventario de trayectorias}
+\subsection{Validación e Inventario de trayectorias}
 
 Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1] hereden las etiquetas de las trayectorias a las que pertenecen, los enlaces deben ser validados en múltiples instancias:
 
@@ -227,7 +227,7 @@ El procedimiento de validación indica que marcadores son inválidos, tanto usan
 
 \end{itemize}
 
-\subsubsection{Estimación de Marcadores Perdidos Durante Enlazado}
+\subsection{Estimación de Marcadores Perdidos Durante Enlazado}
 
 Si se encuentra algún punto que cumpla alguna de las condiciones de recuperación de trayectorias, es considerado para continuar la trayectoria, y deben estimarse los puntos intermedios para completar la trayectoria.
 \\ 
@@ -349,7 +349,7 @@ Esta metodología de estimación de puntos intermedios es retomada para la valid
 
 
 
-\subsection{Resultados y Análisis}
+\section{Resultados y Análisis}
 
 El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, presentarlos como trayectorias, y corregirlos si es necesario. Por esta razón, es esperable que para una misma secuencia, los resultados sean similares a la reconstrucción, siendo las únicas leves diferencias las correcciones realizadas sobre trayectorias particulares, y la posibilidad de medir el error por marcador individual ya que a esta altura del algoritmo ya están identificados las distintas trayectorias. Los siguientes resultados fueron probados sobre una captura sintética de 113 cuadros, 14 marcadores, a lo largo de 17 cámaras.
 

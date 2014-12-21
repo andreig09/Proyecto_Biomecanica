@@ -1,9 +1,7 @@
-
-
-\section{Calibración}
+\chapter{Calibración}
 \label{calibracion}
 
-\subsection{Introducción}
+\section{Introducción}
 Para poder obtener la posición en tres dimensiones de los marcadores a partir de las imágenes capturadas es necesario que las cámaras estén previamente calibradas. El objetivo de la calibración consiste en determinar un conjunto de parámetros tal que pueda establecerse una relación entre el espacio 3D y las coordenadas 2D de las imágenes.\\
 
 Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D. A su vez, los puntos capturados en las imágenes pueden referenciarse respecto a un sistema de coordenadas 2D en píxeles. Si se quiere determinar la posición de un punto en el espacio en función de las correspondientes proyecciones de dicho punto en las imágenes capturadas por las cámaras, es necesario determinar las ecuaciones que vinculan al sistema de coordenadas del espacio con el sistema de coordenadas en píxeles de las cámaras.\\
@@ -129,7 +127,7 @@ Siendo $d_x$ y $d_y$ las distancias entre píxeles adyacentes en las direcciones
 \end{itemize}
 
 
-\subsection{Métodos de calibración}
+\section{Métodos de calibración}
 
 De acuerdo a los objetos utilizados para realizar la calibración, los métodos pueden clasificarse de la siguiente manera \cite{zhang_libro}:\\
 
@@ -164,7 +162,7 @@ Algunas soluciones comerciales, como por ejemplo Vicon \footnote{\textcolor{blue
 En este caso la calibración se realiza moviendo el objeto de calibración a través del espacio de trabajo. Este método resulta muy flexible para la calibración de un conjunto de varias cámaras simultáneamente.
 
 
-\subsection{Calibración en el entorno Blender}
+\section{Calibración en el entorno Blender}
 
 Una vez establecida la configuración de las cámaras en  Blender, según lo descrito en la sección \ref{section_base_de_datos}, es posible conocer las matrices de proyección de cada una de ellas a través de la información proporcionada por el propio programa de ciertos parámetros de las cámaras. Esto permite tener la calibración \textit{real} de las cámaras con lo cual es posible medir el desempeño de algunos bloques del sistema.\\
 
@@ -231,7 +229,7 @@ con estos parámetros se obtiene la matriz de parámetros intrínsecos:
 %%%%%%%%APÉNDICE%%%%%%%%%%%%%%%%%%%55
 %En el apéndice \ref{apendice_calibracion_blender} se describe en detalle cómo se obtienen los parámetros necesarios en Blender.\\
 
-\subsection{Calibración para secuencias reales}
+\section{Calibración para secuencias reales}
 
 \label{seccion_calibracion_secuencias_reales}
 
@@ -322,11 +320,11 @@ Por otra parte la posición de los marcadores en el espacio 3D es conocida ya qu
  
  Dado que las coordenadas de los puntos 2D están afectadas por el ruido y que se tienen más de 6 correspondencias $X_i \leftrightarrow x_i$ no existe una solución exacta a las ecuaciones $Ap=0$. Por lo tanto la solución se obtiene minimizando un error, en este se busca $p$ tal que minimice $||Ap||$. Para esto se utiliza la descomposición en valores singulares (SVD), donde se obtiene del vector singular asociado al menor valor singular. De esta manera se obtiene la matriz de proyección $\tilde{P}$. Por último debe descomponerse la normalización, por lo tanto la matriz de proyección $P = T_{2D}^{-1} \tilde{P} T_{3D}^{}$.
  
- \subsection{Calibración simulada en Blender}
+ \section{Calibración simulada en Blender}
  
  Con el objetivo de establecer una metodología que fuera válida para la configuración de cámaras con las que se diseño la base de datos, se probaron implementaciones existentes que pudieran calibrar dicha base de datos elaborada en Blender. Para esto se evaluó el siguiente toolbox elaborado en Matlab.\\ 
  
-  \subsubsection{Toolbox Multi-Camera Self-Calibration.} \footnotemark \footnotetext{\textcolor{blue}{\underline{http://cmp.felk.cvut.cz/~svoboda/SelfCal/}. Accedido 3-12-14.}}
+  \subsection{Toolbox Multi-Camera Self-Calibration.} \footnotemark \footnotetext{\textcolor{blue}{\underline{http://cmp.felk.cvut.cz/~svoboda/SelfCal/}. Accedido 3-12-14.}}
  
  Este toolbox está especialmente pensado para la calibración simultánea de un conjunto de varias cámaras. El procedimiento consiste en capturar con todas las cámaras, el movimiento de una fuente puntual de luz que se mueve a lo largo de todo el volumen de trabajo. por tanto para cada cuadro se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección si dicho punto es visible desde esa cámara. Para esto debe asegurarse que exista un contraste suficiente de la luz respecto al laboratorio. Puede usarse para esto, por ejemplo una lámpara led y que en el laboratorio exista poca o nula luz ambiente.\\
  
