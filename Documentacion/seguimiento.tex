@@ -373,11 +373,13 @@ Esta metodología de estimación de puntos intermedios es retomada para la valid
 
 El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, presentarlos como trayectorias, y corregirlos si es necesario. Por esta razón, es esperable que para una misma secuencia, los resultados sean similares a la reconstrucción, siendo las únicas leves diferencias las correcciones realizadas sobre trayectorias particulares, y la posibilidad de medir el error por marcador individual ya que a esta altura del algoritmo ya están identificados las distintas trayectorias. Los siguientes resultados fueron probados sobre una captura sintética de 113 cuadros, 14 marcadores, a lo largo de 17 cámaras.
 
-\begin{figure}[hbt]
+\begin{figure}[ht!]
+\vspace{-0.4cm}
 \begin{center}
-\includegraphics[width=\linewidth]{img/Tracking/040_Salida_Tracking_Esqueleto_Trayectoria.png}
+%\includegraphics[width=\linewidth]{img/Tracking/040_Salida_Tracking_Esqueleto_Trayectoria.png}
+\includegraphics[scale=0.5]{img/Tracking/040_Salida_Tracking_Esqueleto_Trayectoria.png}
 \end{center}
-\vspace{-0.2cm}
+\vspace{-0.5cm}
 \caption{Tracking sobre captura sintética, 113 cuadros, 17 cámaras, 14 marcadores}
 \label{Tracking_Esqueleto_Trayectoria}
 \end{figure}
@@ -416,22 +418,22 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 El filtrado y validación por trayectorias, permite reducir el error máximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar global mente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200 con 17 cámaras, y con el filtrado por aceleración individual de marcadores. En otras capturas, los comportamientos son similares con promedios inferiores a 0.5 cm, y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras.Mas adelante se estudiará el impacto de cambiar los conjunto de cámaras en marcadores   
 
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \vspace{-0.4cm}
  \centering
   \subfloat[Trayectoria sin Corregir Por Aceleración]{
 	\label{Salida_Tracking_Original}
-	\includegraphics[scale=0.5]{img/Tracking/036_Salida_Tracking_Original.png}}
+	\includegraphics[scale=0.4]{img/Tracking/036_Salida_Tracking_Original.png}}
   \subfloat[Trayectoria Corregida Por Aceleración]{
    \label{Salida_Tracking_Filtrado}
-\includegraphics[scale=0.5]{img/Tracking/037_Salida_Tracking_Filtrado.png}}
+\includegraphics[scale=0.4]{img/Tracking/037_Salida_Tracking_Filtrado.png}}
 \hspace{3 mm}
   \subfloat[Error de Marcador, sin Corregir]{
 	\label{Salida_Tracking_Original2}
-	\includegraphics[scale=0.5]{img/Tracking/038_Salida_Tracking_Error_Marker_8_original.png}}
+	\includegraphics[scale=0.4]{img/Tracking/038_Salida_Tracking_Error_Marker_8_original.png}}
   \subfloat[Error de Marcador, Corregido]{
    \label{Salida_Tracking_Filtrado2}
-\includegraphics[scale=0.5]{img/Tracking/039_Salida_Tracking_Error_Marker_8_filtrado.png}}
+\includegraphics[scale=0.4]{img/Tracking/039_Salida_Tracking_Error_Marker_8_filtrado.png}}
 \caption{Corrección por variación de aceleración, medidas de error antes y después de corregir}
 % Figura tomada de la reconstrucción 8_07_100_200
 \label{Tracking_Original_Filtrado_Errores}
@@ -442,9 +444,9 @@ Al tener las etiquetas constantes para las trayectorias, es posible visualizar l
 
 \begin{figure}[ht!]
  \hspace{-1.3cm}
-  \subfloat[Trayectorias de marcadores de pierna]{\includegraphics[scale=0.45]{img/Tracking/050_Salida_Tracking_13_14_10.png} %\label{trayectorias_marcadores_piernas}
+  \subfloat[Trayectorias de marcadores de pierna]{\includegraphics[scale=0.4]{img/Tracking/050_Salida_Tracking_13_14_10.png} %\label{trayectorias_marcadores_piernas}
    }	
-  \subfloat[Distancia y Angulo entre marcadores de la pierna]{\includegraphics[scale=0.45]{img/Tracking/051_Salida_Angulo_Distancia_13_14_10.png}\label{distancia_angulo_marcadores_piernas}}
+  \subfloat[Distancia y Angulo entre marcadores de la pierna]{\includegraphics[scale=0.4]{img/Tracking/051_Salida_Angulo_Distancia_13_14_10.png}\label{distancia_angulo_marcadores_piernas}}
 \caption{Ejemplos de Posibles restricciones en ángulo y distancia, para el caso de la pierna en marcha}
 \label{restricciones_tracking}
 \end{figure}
