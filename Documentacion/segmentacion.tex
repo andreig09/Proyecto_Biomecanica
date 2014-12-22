@@ -545,7 +545,7 @@ En el desarrollo de sistemas de este tipo, normalmente se priorizan algunos erro
 
 Otro de los errores a priorizar es el cálculo del centroide de un marcador de forma incorrecta. Esto en general sucede porque al segmentar es complicado detectar el total de los píxeles en un marcador, casi siempre por problemas de iluminación calidad de la filmación, etc.
 
-A continuación, se presentan los resultados de distintas pruebas realizadas en los bloques más críticos que integran la segmentación y detección de marcadores.
+A continuación, se presentan los resultados de distintas pruebas realizadas en los bloques más críticos que integran la detección de marcadores.
 
 \subsection{Umbralización}
 
@@ -588,7 +588,7 @@ Se observa que, si bien se siguen detectando objetos que no corresponden a los m
 
 \subsection{Detección de marcadores}
 
-Como se mencionó en la explicación del algoritmo, tanto la función para detectar objetos cómo la función para filtrar los mismos por su tamaño son funciones pertenecientes a la librería OpenCV, por lo que no sería necesario probarlas individualmente. En consecuencia, para la detección de marcadores será necesario realizar pruebas más que nada en el filtro circular.
+Como se mencionó en la explicación del algoritmo, tanto la función para detectar objetos cómo la función para filtrar los mismos por su tamaño son funciones pertenecientes a la librería OpenCV, por lo que no sería necesario probarlas individualmente ya que las mismas están probadas y optimizadas por sus creadores. En consecuencia, para la detección de marcadores será necesario realizar pruebas más que nada en el filtro circular.
 
 En la figura \ref{ejemplofiltrocirc} se mostraba un ejemplo de funcionamiento de este filtro, dónde se puede ver que a grandes rasgos el filtro funciona correctamente. 
 
@@ -654,11 +654,15 @@ Por otro lado, en la figura \ref{peladoCircularsint} puede verse que el filtro c
 
 \subsection{Medida de error}
 
-Como se mencionó anteriormente, una de las ventajas de tener una base de datos sintética, es poder tener un \textit{ground truth} contra el cual comparar los resultados obtenidos con el sistema implementado. En la figura \ref{ejMedErr}, se observa la comparación de la segmentación de una secuencia contra su ground truth para un sujeto moviéndose de izquierda a derecha.
+Como se mencionó anteriormente, una de las ventajas de tener una base de datos sintética, es poder tener un \textit{ground truth} contra el cual comparar los resultados obtenidos con el sistema implementado. Esta comparación se realiza entre el centroide del objeto real y la posición \textit{ground truth} del mismo objeto. A continuación se muestra un resumen del cálculo de error para el bloque de segmentación, el detalle del mismo se explicará en el Capítulo \ref{evaluacion}. 
+
+En la figura \ref{ejMedErr}, se observa la comparación de la segmentación de una secuencia contra su \textit{ground truth} para un sujeto moviéndose de izquierda a derecha.
+
 \vspace{-3mm}
+
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.6]{img/imagen_segmentacion_cam7_8_07_100_200.png}
+\includegraphics[scale=0.8]{img/imagen_segmentacion_cam7_8_07_100_200.png}
 \end{center}
 \vspace{-7mm}
 \caption{Segmentación de cámara 7 y ground truth.}
