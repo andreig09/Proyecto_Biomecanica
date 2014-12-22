@@ -567,7 +567,8 @@ Sin embargo, al probar con capturas reales los resultados cambian. En la figura 
        \hspace{-1cm}
         \subfloat[Captura original de una secuencia real.]{\includegraphics[scale=0.31]{img/abel_original_video.png}\label{abelvideo}}\hspace{1 mm}
         \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.31]{img/abel_original_filtro.png}\label{abelfiltro}}
-      \label{ejemploabelumbr}
+      \caption{Entrada y salida del bloque umbralización para un caso real.}  
+      \label{ejemploabelumbr2}
 \end{figure}
 
 Se puede observar que los objetos resultantes de la segmentación no solamente son los que corresponden a los marcadores, sino que también se presentan otro tipo de objetos de igual o mayor intensidad luminosa. De todos modos, en principio esto no sería un problema, ya que con los filtros que se aplican a continuación de este bloque se podría eliminar el resto de los objetos. Sin embargo ocurre otro problema, que se explicará más adelante.
@@ -601,7 +602,7 @@ En la figura \ref{ejemplodetectCirculos} se muestra un filtrado más complejo. S
       \label{ejemplodetectCirculos}
 \end{figure}
 
-Algo parecido a lo comentado en el párrafo anterior sucede con la detección de marcadores en la captura mostrada en la figura \ref{ejemploabelumbr}. Cómo se comentaba anteriormente, en la salida de la umbralización se segmentaron otros objetos además de los marcadores, que se presentan como ruido en la imagen. Para eliminar los objetos más grandes que los marcadores se aplicó el filtro de área estableciendo un área máxima de 50 píxeles (ver figura \ref{abelblobs}). Por otro lado, no es recomendable aplicar un filtro de área mínima ya que los marcadores segmentados resultaron ser muy pequeños, por lo que de establecer esta cota inferior probablemente se eliminarán algunos. Lo mismo pasa con la aplicación de difuminado (o \textit{smoothing}): si bien este proceso es muy efectivo para eliminar ruido en los bordes, resulta ser contraproducente cuando los marcadores son muy pequeños, ya que también los elimina.
+Algo parecido a lo comentado en el párrafo anterior sucede con la detección de marcadores en la captura mostrada en la figura \ref{ejemploabelumbr2}. Cómo se comentaba anteriormente, en la salida de la umbralización se segmentaron otros objetos además de los marcadores, que se presentan como ruido en la imagen. Para eliminar los objetos más grandes que los marcadores se aplicó el filtro de área estableciendo un área máxima de 50 píxeles (ver figura \ref{abelblobs}). Por otro lado, no es recomendable aplicar un filtro de área mínima ya que los marcadores segmentados resultaron ser muy pequeños, por lo que de establecer esta cota inferior probablemente se eliminarán algunos. Lo mismo pasa con la aplicación de difuminado (o \textit{smoothing}): si bien este proceso es muy efectivo para eliminar ruido en los bordes, resulta ser contraproducente cuando los marcadores son muy pequeños, ya que también los elimina.
 
 Cómo se puede ver en la figura \ref{abelcirculos} los resultados para esta captura no fueron muy buenos ya que, como los marcadores detectados presentan un área de unos pocos píxeles, el filtro circular no fue capaz de reconocerlos como círculos.  
 
