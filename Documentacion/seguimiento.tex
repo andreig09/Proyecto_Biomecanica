@@ -121,6 +121,14 @@ Para el ejemplo presentado en la Figura~\ref{reconstr_00} , en cuadro $f=11$ el 
 
 Al final de cada iteración, la matriz de enlaces es consolidada para asignarle a cada nuevo marcador en [f+1] la etiqueta definida en el primer cuadro del enlazado, la cual puede ser inicializada como texto, si se le presenta la opción al usuario (en caso contrario, se utiliza el orden de los marcadores en el primer cuadro). Esta asignación será la que se utilice a lo largo de todo el seguimiento, por lo que todo marcador que no sea reconstruido en los primero cuadros, salvo de tomen medidas adicionales, no aparecerán en las trayectorias finales.
 
+\begin{figure}[ht!]
+\hspace{-1cm}
+\includegraphics[scale=0.71]{img/Tracking/diagrama_seguimiento}
+\caption{Metele que son pasteles}
+\label{}
+\end{figure}
+
+
 \subsection{Enlazado en régimen, inicial y final}
 
 Dado un cuadro [f], se cargan todos los marcadores de los cuadros [f-1],[f],[f+1],[f+2], los cuales son puntos en coordenadas cartesianas $X,Y,Z$ (si el seguimiento desea hacerse para una vista 2D, se establece la tercer coordenada de todos los en valor predefinido unitario) en unidades correspondiente al plano donde se trabaja (píxeles para vistas 2D, metros para espacio 3D). Dentro de cada cuadro, los marcadores son identificados según su índice en la salida del algoritmo correspondiente, y los enlaces de cada marcador [f-1][f], son cargados a partir de la matriz de enlace del cuadro anterior (la segunda y tercer columna de la matriz de enlace de [f-1], presenta los mismos datos que la primer y segunda columna de la matriz de enlace en [f], salvo el orden en que es presentada que es asociado al cuadro en curso).
@@ -162,13 +170,22 @@ Una vez enlazado el ultimo cuadro de las secuencia, se procede a limpiar aquella
 
 \subsection{Validación e Inventario de trayectorias}
 
+\begin{figure}[ht!]
+\hspace{-1cm}
+\includegraphics[scale=0.71]{img/Tracking/diagrama_inventario_seguimiento}
+\caption{Metele que son pasteles 2}
+\label{}
+\end{figure}
+
+
+
 Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1] hereden las etiquetas de las trayectorias a las que pertenecen, los enlaces deben ser validados en múltiples instancias:
 
 \begin{itemize}
 \item \textbf{Validación dentro del cuadro}: verificar que los índices de la matriz de enlaces en [f+1] son únicos, asociados a una sola trayectoria. Si dos o mas trayectorias se enlazaron a un mismo punto en [f+1], se comparará la aceleración con la que fueron enlazadas, validando aquella con menor aceleración, y descartando las otras. En este punto , existe la posibilidad de haber agregado todas las trayectorias involucradas en la decisión en vez de una sola trayectoria por marcador en [f+1], que mejor cumplía las condiciones para ese marcador. De haber elegido esta opción, el descartar una trayectoria que podría haber sido elegida por menor variación , daría paso a la siguiente mejor. Este caso sucedía mas en los casos que se aplico el seguimiento para trayectorias 2D, no tanto en 3D, por lo cual se terminó procediendo con solo una trayectoria por marcador, la cual en caso de ser invalida debe ser evaluada en la etapa de inventario de trayectorias  
 \item \textbf{Validación en trayectoria}: pueden existir puntos que fueron reconstruidos con leves errores que deben detectarse, corregirse y estimar un reemplazo. Estos puntos son detectados como enlazados correctamente, pero con posición, velocidad, o aceleración que presenta una discontinuidad notoria, como puede observarse en el ejemplo de la Figura~\ref{discontinuidad_tracking}.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
  \centering
   \subfloat[Trayectoria]{
    \label{track_m13}
@@ -185,7 +202,7 @@ Se establece un umbral a partir del estudio de la distribución de la aceleraci�
 
 Como opción general, se implementó una alternativa que en vez de calcular un umbral para cada trayectoria, establece un umbral global, el cual es útil para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se logra mediante una ejecución en dos instancias del seguimiento, una primera instancia sin limites globales de aceleración en en enlazado, y una segunda con un limite establecido a un porcentaje de la distribución de la aceleración, asumiendo un nivel a priori para perdidas (en nuestras pruebas, se estableció que filtrar al nivel que cumplan el 99\% de las aceleraciones de todos los marcadores enlazados arroja buenos resultados). Si durante la segunda instancia, un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
  \centering
   \subfloat[Función de distribución de la Aceleración]{
 	\label{distribucion_aceleracion}
