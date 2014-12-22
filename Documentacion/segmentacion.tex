@@ -1,7 +1,7 @@
-\chapter{Detección de marcadores}
-\label{deteccionMarcadoresSec}
-\section{Introducción}
+\chapter{Detección de marcadores}\label{deteccionMarcadoresSec}
 
+
+\section{Introducción}
 Como se vio anteriormente, una vez realizada la captura de video del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo. 
 
 La gran diferencia entre el sistema a implementar y los sistemas modernos es que, por temas de presupuesto, no se utilizarán sensores infrarrojos u otro tipo de tecnología que facilite (o evite) la etapa de segmentación. En lugar de esto se realizará la segmentación por métodos ópticos, es decir, por métodos basados en el estudio de los píxeles de la imagen. 
@@ -135,7 +135,7 @@ Existen variedades de máscaras aplicables, entre ellas la de Sobel (ver figura 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.8]{img/08_matriz_sobel.jpg}
+\includegraphics[scale=0.6]{img/08_matriz_sobel.jpg}
 \end{center}
 \caption{Máscara de Sobel.}
 \label{gonz5}
@@ -236,13 +236,13 @@ A continuación, se presentan algunos conceptos básicos necesarios para entende
 \begin{center}
 \includegraphics[scale=0.7]{img/otsu2.png}
 \end{center}
-\caption{Histograma de intensidad de una imagen.} \footnotemark
+\vspace{-0.5cm}
+\caption{Histograma de intensidad de una imagen.} 
 \label{otsuFruta}
 \end{figure}
 
 
-\footnotetext{\textcolor{blue}{\underline{\url{ http://deploy.virtual-labs.ac.in/labs/cse19/theory.php?exp=segment}}}}
-Considerando la figura \ref{otsuFruta} como el histograma de intensidad de una imagen, $f(x,y)$, se puede apreciar que la misma está compuesta por un objeto u objetos iluminados de aproximadamente la misma intensidad y un fondo oscuro. De esta manera, se definen en este histograma dos campanas bien determinadas. La manera más obvia de extraer los objetos del fondo es seleccionando un umbral $T$ que separe estas dos campanas y por lo tanto cualquier punto $(x,y)$ de la imagen que cumpla $f(x,y) > T$ será un punto perteneciente al objeto mientras que el resto son puntos pertenecientes al fondo. De acuerdo a lo anterior, la imagen segmentada puede definirse de la siguiente manera.
+Considerando la figura \ref{otsuFruta} \footnote{\textcolor{blue}{\underline{\url{ http://deploy.virtual-labs.ac.in/labs/cse19/theory.php?exp=segment}}}}  como el histograma de intensidad de una imagen, $f(x,y)$, se puede apreciar que la misma está compuesta por un objeto u objetos iluminados de aproximadamente la misma intensidad y un fondo oscuro. De esta manera, se definen en este histograma dos campanas bien determinadas. La manera más obvia de extraer los objetos del fondo es seleccionando un umbral $T$ que separe estas dos campanas y por lo tanto cualquier punto $(x,y)$ de la imagen que cumpla $f(x,y) > T$ será un punto perteneciente al objeto mientras que el resto son puntos pertenecientes al fondo. De acuerdo a lo anterior, la imagen segmentada puede definirse de la siguiente manera.
 
 \begin{equation}
 g(x,y) = \left\{
@@ -258,8 +258,9 @@ Si $T$ toma un valor constante en toda la imagen, al proceso se le llama \textit
 
 \begin{figure}[hbt]
 \begin{center}
-\includegraphics[scale=0.4]{img/hist3clases.png}
+\includegraphics[scale=0.35]{img/hist3clases.png}
 \end{center}
+\vspace{-0.5cm}
 \caption{Histograma de intensidad de tres clases \cite{segment}.}
 \label{hist3class}
 \end{figure}
@@ -410,9 +411,8 @@ e = \sqrt{1-\frac{\frac{n_{20}+n_{02}}{2}-\sqrt{4n_{11}^2+\frac{(n_{20}-n_{02})^
 \label{implementSegment}
 
 \begin{figure}[H]
-\begin{center}
+\hspace{-1.5cm}
 \includegraphics[scale=0.7]{img/diagrama_segmentacion.png}
-\end{center}
 \caption{Diagrama de flujo del algoritmo de segmentación.}
 \label{diagramaSegmentacion}
 \end{figure}
@@ -440,7 +440,7 @@ Por otro lado, el bloque \emph{Get Threshold} contiene una implementación del a
 
 En la figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el funcionamiento del bloque \emph{Filter}. Este bloque es el encargado de filtrar la imagen según la intensidad de los píxeles y está implementado por la función \emph{FilterOtsu}, que recibe como parámetros de entrada una imagen (uno de los cuadros de la secuencia) y el umbral a utilizar para el filtrado. Primero se le aplica a la imagen un difuminado (\textit{smoothing}) con un filtro de mediana, con el objetivo de reducir el ruido. Luego se cambia el el espacio de colores de la imagen de RGB a HSV ya que este último es más adecuado para realizar segmentación basada en la intensidad de los píxeles \cite{HSV}. Por último, se filtra la imagen con el umbral ingresado, utilizando la función \emph{cvThreshold} de la librería OpenCV. Esta función compara la intensidad de cada píxel de la imagen con el valor del umbral estableciendo un nuevo valor de intensidad: $0$\footnote{negro en el espacio HSV.} para los píxeles que originalmente tenían intensidad menor al umbral y $255$\footnote{blanco en el espacio HSV.} para los que originalmente presentaban intensidad mayor.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.7]{img/diagrama_umbralizacion.png}
 \end{center}
@@ -450,11 +450,11 @@ En la figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el
 
 En la figura \ref{ejemploUmbralizacion}, se puede ver un ejemplo de los resultados de procesar una imagen sintética de la base de datos, con el bloque \emph{Filter}. Se puede ver que la intensidad de los píxeles azules y negros queda por debajo del umbral, mientras que los píxeles blancos quedan por encima. %SE PODRÍA PONER EL HISTOGRAMA
 
-\begin{figure}[H]
-        \centering
-        \subfloat[Captura original de una secuencia sintética.]{\includegraphics[scale=0.7]{img/peladoFondoAzul.png} %\label{peladoOriginal}
-        } \hspace{1cm}        
-        \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.7]{img/peladoFondoAzul_filtro.png}\label{peladoFiltro}}
+\begin{figure}[ht!]
+        \hspace{-1cm}
+        \subfloat[Captura original de una secuencia sintética.]{\includegraphics[scale=0.65]{img/peladoFondoAzul.png} 
+         } \hspace{0.1cm}        
+       \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.65]{img/peladoFondoAzul_filtro.png}\label{peladoFiltro}}
   \caption{Entrada y salida del bloque de umbralización.}
       \label{ejemploUmbralizacion}
 \end{figure}
@@ -466,9 +466,8 @@ El funcionamiento del bloque \emph{Detect blobs} es descrito por el diagrama de 
 Luego, si se ingresó la opción para filtrar por área, los blobs \cite{defBlob} detectados se filtran por área máxima y/o mínima mediante la función \emph{cvFilterByArea} perteneciente a la librería CVBlobs \cite{cvblob}. 
 
 \begin{figure}[H]
-\begin{center}
+\hspace{-1.5cm}
 \includegraphics[scale=0.7]{img/detectBlobs_diagrama.png}
-\end{center}
 \caption{Diagrama de flujo del bloque de detección de blobs.}
 \label{diagramadetectblobs}
 \end{figure}
@@ -493,9 +492,9 @@ Es importante destacar que si este filtro se realiza de forma muy selectiva (est
 En la figura \ref{peladoCircular} se ve el resultado de procesar la imagen \ref{peladoBlobs} con el bloque \emph{Circular Filter}.
 
 \begin{figure}[ht!]
-        \centering
-        \subfloat[Objetos detectados - Salida del bloque \emph{Detect blobs}.]{\includegraphics[scale=0.7]{img/peladoFondoAzul_blobs.png}\label{peladoBlobs}}\hspace{3 mm}
-        \subfloat[Círculos detectados - Salida del bloque \emph{Circular Filter}.]{\includegraphics[scale=0.7]{img/peladoFondoAzul_circulos.png}\label{peladoCircular}}
+       \hspace{-1cm}
+        \subfloat[Objetos detectados - Salida del bloque \emph{Detect blobs}.]{\includegraphics[scale=0.65]{img/peladoFondoAzul_blobs.png}\label{peladoBlobs}}\hspace{3 mm}
+        \subfloat[Círculos detectados - Salida del bloque \emph{Circular Filter}.]{\includegraphics[scale=0.65]{img/peladoFondoAzul_circulos.png}\label{peladoCircular}}
   \caption{Resultado de procesar la imagen \ref{peladoFiltro} con los bloques de detección de blobs y el filtro circular.}
       \label{ejemplocircularfilter}
 \end{figure}
@@ -553,22 +552,21 @@ Para el bloque de umbralización de este sistema se observó que el resultado ob
 
 Para el caso sintético, cómo el que se muestra en la figura \ref{resUmbralizacion}, dónde se imponen las condiciones de captura como es deseable, los resultados fueron muy buenos. Esto es razonable ya que como se vio anteriormente, el método de Otsu calcula el umbral óptimo, por lo que mientras en la imagen se presenten los marcadores cómo los objetos más brillantes y se aprecie un alto contraste entre los mismos y el resto de los elementos (fondo, paciente, etc.), la segmentación será muy efectiva.
 
-\begin{figure}[H]
-        \centering
-        \subfloat[Captura original de una secuencia sintética.]{\includegraphics[scale=0.7]{img/peladoFondoAzul.png} %\label{peladoOriginalres}
-        }\hspace{3 mm}
-        \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.7]{img/peladoFondoAzul_filtro.png}\label{peladoFiltrores}}
+\begin{figure}[ht!]
+         \hspace{-1cm}
+       \subfloat[Captura original de una secuencia sintética.]{\includegraphics[scale=0.65]{img/peladoFondoAzul.png} %\label{peladoOriginalres}
+         }\hspace{1 mm}
+         \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.65]{img/peladoFondoAzul_filtro.png}\label{peladoFiltrores}}
   \caption{Entrada y salida del bloque de umbralización para una secuencia sintética.}
       \label{resUmbralizacion}
 \end{figure}
 
 Sin embargo, al probar con capturas reales los resultados cambian. En la figura \ref{abelvideo} se muestra un cuadro perteneciente a una captura real, cuyo resultado al pasar por el bloque de umbralización se observa en la figura \ref{abelfiltro}. 
 
-\begin{figure}[H]
-        \centering
-        \subfloat[Captura original de una secuencia real.]{\includegraphics[scale=0.34]{img/abel_original_video.png}\label{abelvideo}}\hspace{5 mm}
-        \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.34]{img/abel_original_filtro.png}\label{abelfiltro}}
-  \caption{Entrada y salida del bloque umbralización para un caso real.}
+\begin{figure}[ht!]
+       \hspace{-1cm}
+        \subfloat[Captura original de una secuencia real.]{\includegraphics[scale=0.31]{img/abel_original_video.png}\label{abelvideo}}\hspace{1 mm}
+        \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.31]{img/abel_original_filtro.png}\label{abelfiltro}}
       \label{ejemploabelumbr}
 \end{figure}
 
@@ -576,10 +574,10 @@ Se puede observar que los objetos resultantes de la segmentación no solamente s
 
 Otra alternativa para eliminar los objetos detectados que no son marcadores, directamente en esta etapa, es eliminar el fondo mediante un extractor de fondo. En la imagen \ref{abelvideosf} se muestra el cuadro de la figura \ref{abelvideo} luego de extraerle el fondo con un programa de la base de datos \emph{Humaneva} \cite{humanevaBase} implementado en \emph{Matlab}. En la figura \ref{abelfiltrosf} se observan los resultados de aplicarle umbralización a dicha imagen.
 
-\begin{figure}[H]
-        \centering
-        \subfloat[Captura con el fondo extraído.]{\includegraphics[scale=0.34]{img/abel_sf_video.png}\label{abelvideosf}}\hspace{5 mm}
-        \subfloat[Video Filtrado.]{\includegraphics[scale=0.34]{img/abel_sf_filtro.png}\label{abelfiltrosf}}
+\begin{figure}[ht!]
+        \hspace{-1cm}
+         \subfloat[Captura con el fondo extraído.]{\includegraphics[scale=0.31]{img/abel_sf_video.png}\label{abelvideosf}}\hspace{1 mm}
+        \subfloat[Video Filtrado.]{\includegraphics[scale=0.31]{img/abel_sf_filtro.png}\label{abelfiltrosf}}
   \caption{Segmentación para un caso real sin fondo.}
       \label{ejemploabelsf}
 \end{figure}
@@ -595,11 +593,10 @@ En la figura \ref{ejemplofiltrocirc} se mostraba un ejemplo de funcionamiento de
 En la figura \ref{ejemplodetectCirculos} se muestra un filtrado más complejo. Se puede observar que para las constantes $A=0.3$ y $B=0.1$ se detectan los círculos correctamente y se incluyen objetos - como el número 19, 29 o 31 - que si bien no son círculos, podrían ser marcadores que por distintos factores (como ser iluminación, calidad de la cámara, ruido, etc.) quedaron segmentados con otra forma. Por otro lado, hay objetos en la imagen \ref{circulosBlobsdetectados2} (por ejemplo el número 28), que también podrían ser un marcador mal detectado, pero no es incluido en la figura \ref{circulosDetectados2}.
 
 
-\begin{figure}[H]
-        \centering
-        \subfloat[Imagen de prueba.]{\includegraphics[scale=0.4]{img/circulos2.png}\label{circulos2}}\hspace{3 mm}
-        \subfloat[Blobs detectados.]{\includegraphics[scale=0.4]{img/blobsDetectados2.png}\label{circulosBlobsdetectados2}}\hspace{3 mm}
-        \subfloat[Circulos detectados.]{\includegraphics[scale=0.4]{img/circulosDetectados2.png}\label{circulosDetectados2}}
+\begin{figure}[ht!]        
+        \subfloat[Imagen de prueba.]{\includegraphics[scale=0.35]{img/circulos2.png}\label{circulos2}}\hspace{2 mm}
+        \subfloat[Blobs detectados.]{\includegraphics[scale=0.35]{img/blobsDetectados2.png}\label{circulosBlobsdetectados2}}\hspace{2 mm}
+        \subfloat[Circulos detectados.]{\includegraphics[scale=0.35]{img/circulosDetectados2.png}\label{circulosDetectados2}}
   \caption{Ejemplo de detección de blobs y filtro circular con $A=0.3$, $B=0.1$ para una imagen de prueba.}
       \label{ejemplodetectCirculos}
 \end{figure}
@@ -608,20 +605,20 @@ Algo parecido a lo comentado en el párrafo anterior sucede con la detección de
 
 Cómo se puede ver en la figura \ref{abelcirculos} los resultados para esta captura no fueron muy buenos ya que, como los marcadores detectados presentan un área de unos pocos píxeles, el filtro circular no fue capaz de reconocerlos como círculos.  
 
-\begin{figure}[H]
-        \centering
-        \subfloat[Blobs detectados.]{\includegraphics[scale=0.34]{img/abel_original_blobs.png}\label{abelblobs}}\hspace{5 mm}
-        \subfloat[Circulos detectados.]{\includegraphics[scale=0.34]{img/abel_original_circulos.png}\label{abelcirculos}}
+\begin{figure}[ht!]
+         \hspace{-1cm}
+        \subfloat[Blobs detectados.]{\includegraphics[scale=0.31]{img/abel_original_blobs.png}\label{abelblobs}}\hspace{1 mm}
+        \subfloat[Circulos detectados.]{\includegraphics[scale=0.31]{img/abel_original_circulos.png}\label{abelcirculos}}
   \caption{Detección de marcadores para un caso real, con $A=0.3$, $B=0.1$ y área máxima de $50$ píxeles}
       \label{ejemploabeldet}
 \end{figure}
 
 Por otro lado, para el caso real pero sin fondo (figura \ref{ejemploabelsf}), se puede ver en la figura \ref{ejemploabel} que no se detecta tanto ruido como en el caso anterior. Sin embargo, los círculos detectados en la figura \ref{abelcirculossf} vuelven a ser muy pocos, dejando marcadores fuera de la detección.
 
-\begin{figure}[H]
-        \centering
-        \subfloat[Blobs detectados.]{\includegraphics[scale=0.34]{img/abel_sf_blobs.png}\label{abelblobssf}}\hspace{5 mm}
-        \subfloat[Círculos detectados.]{\includegraphics[scale=0.34]{img/absel_sf_circulos.png}\label{abelcirculossf}}
+\begin{figure}[ht!]
+        \hspace{-1cm}
+        \subfloat[Blobs detectados.]{\includegraphics[scale=0.31]{img/abel_sf_blobs.png}\label{abelblobssf}}\hspace{5 mm}
+        \subfloat[Círculos detectados.]{\includegraphics[scale=0.31]{img/absel_sf_circulos.png}\label{abelcirculossf}}
   \caption{Segmentación y detección de marcadores para un caso real sin fondo, con $A=0.3$, $B=0.1$ y área mínima de $10$ píxeles}
       \label{ejemploabel}
 \end{figure}
@@ -630,10 +627,10 @@ Si se observa la figura \ref{abelfiltrosf} se puede apreciar que los marcadores 
 
 Aumentando estos valores a por ejemplo $A=0.5$ y $B=0.4$, se puede observar que la detección mejora, incluyendo más marcadores -\textit{verdaderos positivos}- en la salida (ver figura \ref{ejemploabel2}).
 
-\begin{figure}[H]
-        \centering
-        \subfloat[Blobs detectados.]{\includegraphics[scale=0.34]{img/abel_sf_blobs_2.png}\label{abelblobssf2}}\hspace{5 mm}
-        \subfloat[Circulos detectados.]{\includegraphics[scale=0.34]{img/abel_sf_circulos_2.png}\label{abelcirculossf2}}
+\begin{figure}[ht!]
+        \hspace{-1cm}
+        \subfloat[Blobs detectados.]{\includegraphics[scale=0.31]{img/abel_sf_blobs_2.png}\label{abelblobssf2}}\hspace{1 mm}
+        \subfloat[Circulos detectados.]{\includegraphics[scale=0.31]{img/abel_sf_circulos_2.png}\label{abelcirculossf2}}
   \caption{Segmentación y detección de marcadores para el caso de la figura \ref{ejemploabelsf} , con $A=0.5$, $B=0.4$, área mínima de $10$ píxeles y área máxima de $50$ píxeles}
       \label{ejemploabel2}
 \end{figure}
@@ -645,9 +642,9 @@ Por otro lado, en la figura \ref{peladoCircularsint} puede verse que el filtro c
  Queda cómo tarea pendiente para una etapa futura optimizar el bloque de segmentación para estos casos particulares, de forma tal de no perder los datos de los marcadores superpuestos. Una posible solución podría ser utilizar el método de erosión, para separar los marcadores y quedarse con la posición de sus centroides.
 
 \begin{figure}[H]
-        \centering
-        \subfloat[Blobs detectados.]{\includegraphics[scale=0.7]{img/peladoFondoAzul_blobs.png}\label{peladoBlobssint}}\hspace{3 mm}
-        \subfloat[Círculos detectados.]{\includegraphics[scale=0.7]{img/peladoFondoAzul_circulos.png}\label{peladoCircularsint}}
+        \hspace{-1cm}
+         \subfloat[Blobs detectados.]{\includegraphics[scale=0.67]{img/peladoFondoAzul_blobs.png}\label{peladoBlobssint}}\hspace{1 mm}
+        \subfloat[Círculos detectados.]{\includegraphics[scale=0.67]{img/peladoFondoAzul_circulos.png}\label{peladoCircularsint}}
   \caption{Resultado de procesar la imagen \ref{peladoFiltrores} con los bloques de detección de blobs y el filtro circular.}
       \label{detectMarcadoresSinteticos}
 \end{figure}
@@ -660,9 +657,9 @@ En la figura \ref{ejMedErr}, se observa la comparación de la segmentación de u
 
 \vspace{-3mm}
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \begin{center}
-\includegraphics[scale=0.8]{img/imagen_segmentacion_cam7_8_07_100_200.png}
+\includegraphics[scale=0.6]{img/imagen_segmentacion_cam7_8_07_100_200.png}
 \end{center}
 \vspace{-7mm}
 \caption{Segmentación de cámara 7 y ground truth.}
