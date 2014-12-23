@@ -379,7 +379,7 @@ El formato BVH proviene del formato BVA de BioVision con la notable adición de 
   \centering 
   \hspace{0.5cm}  
    \subfloat[Esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Estructura_esqueleto1.pdf}\label{img_Esqueleto_1}}\hspace{2.5cm}  
-   \subfloat[Estructura jerárquica]{\includegraphics[scale=0.4]{img/Base_Datos/Estructura_bvh.png}\label{img_estructura_bvh}}\hspace{0.2cm}   
+   \subfloat[Estructura jerárquica]{\includegraphics[scale=0.36]{img/Base_Datos/Estructura_bvh}\label{img_estructura_bvh}}\hspace{0.2cm}   
    \subfloat[Sección de jerarquía]{\includegraphics[scale=0.2]{img/Base_Datos/BVH_Encabezado.png}\label{img_BVH_Encabezado}}\hspace{0.01cm}   
    \subfloat[Sección de movimiento]{\includegraphics[scale=0.2]{img/Base_Datos/BVH_Motion.png}\label{img_BVH_Motion}}  
    \caption{Información contenida en archivos BVH.}  
@@ -528,96 +528,106 @@ Marcha libre                                                                    
 
 
 La estructura utilizada para los directorios de la base de datos es la siguiente:
-\begin{description}
-\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Datos\_Imagen/}}}] \hfill \\
-Contiene los datos de videos de las secuencias de movimiento.\vspace{-0.2cm}
-	\begin{description}
-	\item[{\small\textbf{\textsf{cam<nro\_cámara>.dvd}}}] - nombre de los videos con compresión mpeg.
-	\end{description} 
-	% % % % % % % % % % % % % % % % % % % % % % % % %
-\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Ground\_Truth/}}}] \hfill \\
-Contiene tres carpetas con el ground truth de cada sección del sistema de procesamiento. \vspace{-0.2cm}
-	\begin{description}
-	\item[{\small\textbf{\textsf{Deteccion/}}}] \hfill \\\vspace{-0.5cm}
-		\begin{description}
-			\item[{\small\textbf{\textsf{cam.xml}}}] - archivo con la información de posición 2D de los marcadores sobre cada retina obtenida a partir de los ground truth de posición 3D y calibración. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
-			\item[{\small\textbf{\textsf{cam.mat}}}] - posee la misma información que {\small\textbf{\textsf{cam.xml}}} pero contenida en una variable Matlab.
-		\end{description} 			
-	\item[{\small\textbf{\textsf{Reconstruccion}}}/] \hfill \\ \vspace{-0.5cm}		
-		\begin{description}
-			\item[{\small\textbf{\textsf{skeleton.xml}}}] -  archivo que contiene la posición 3D de los marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
-			\item[{\small\textbf{\textsf{skeleton.mat}}}] -  posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable Matlab.
-		\end{description}
-	\item[{\small\textbf{\textsf{Seguimiento}}}/] \hfill \\ \vspace{-0.5cm}
-		\begin{description}
-				\item[{\small\textbf{\textsf{skeleton.xml}}}] - archivo que contiene las trayectorias 3D de los marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
-				\item[{\small\textbf{\textsf{skeleton.mat}}}] -  posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable Matlab.
-		\end{description}
-	\end{description}
-% % % % % % % % % % % % % % % % % % % % % % %	
-\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Datos\_Procesados/}}}] \hfill \\
-Contiene tres carpetas con la información de cada sección del sistema de procesamiento. \vspace{-0.2cm}
-	\begin{description}
-	\item[{\small\textbf{\textsf{Deteccion}}}/] \hfill \\\vspace{-0.5cm}
-		\begin{description}			
-			\item[{\small\textbf{\textsf{cam.xml}}}] - archivo con la información de posición 2D de los marcadores sobre cada retina obtenida a partir del bloque de detección de marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}. La calibración es del ground truth.  
-			\item[{\small\textbf{\textsf{cam.mat}}}] - posee la misma información que {\small\textbf{\textsf{cam.xml}}} pero contenida en una variable Matlab.
-		\end{description} 			
-	\item[{\small\textbf{\textsf{Reconstruccion}}}/] \hfill \\ \vspace{-0.5cm}		
-		\begin{description}
-			\item[{\small\textbf{\textsf{skeleton.xml}}}] -  archivo que contiene la posición 3D de los marcadores obtenida a la salida del bloque de reconstrucción. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.
-			\item[{\small\textbf{\textsf{skeleton.mat}}}] - posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable Matlab.
-		\end{description}
-	\item[{\small\textbf{\textsf{Seguimiento}}}/] \hfill \\ \vspace{-0.5cm}
-		\begin{description}
-				\item[{\small\textbf{\textsf{skeleton.xml}}}] - archivo que contiene las trayectorias 3D de los marcadores obtenida a partir del bloque de seguimiento. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}. 
-				\item[{\small\textbf{\textsf{skeleton.mat}}}] - posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable Matlab.
-		\end{description}
-	\end{description}
+
+
+\begin{figure}[ht!]
+\includegraphics[scale=0.695]{img/Base_Datos/Estructura_directorios.pdf}
+\end{figure}
+\begin{figure}[ht!]
+\includegraphics[scale=0.695]{img/Base_Datos/Estructura_directorios2.pdf}
+\end{figure}
+
+%
+%\begin{description}
+%\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Datos\_Imagen/}}}] \hfill \\
+%Contiene los datos de videos de las secuencias de movimiento.\vspace{-0.2cm}
+%	\begin{description}
+%	\item[{\small\textbf{\textsf{cam<nro\_cámara>.dvd}}}] - nombre de los videos con compresión mpeg.
+%	\end{description} 
+%	% % % % % % % % % % % % % % % % % % % % % % % % %
+%\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Ground\_Truth/}}}] \hfill \\
+%Contiene tres carpetas con el ground truth de cada sección del sistema de procesamiento. \vspace{-0.2cm}
+%	\begin{description}
+%	\item[{\small\textbf{\textsf{Deteccion/}}}] \hfill \\\vspace{-0.5cm}
+%		\begin{description}
+%			\item[{\small\textbf{\textsf{cam.xml}}}] - archivo con la información de posición 2D de los marcadores sobre cada retina obtenida a partir de los ground truth de posición 3D y calibración. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
+%			\item[{\small\textbf{\textsf{cam.mat}}}] - posee la misma información que {\small\textbf{\textsf{cam.xml}}} pero contenida en una variable Matlab.
+%		\end{description} 			
+%	\item[{\small\textbf{\textsf{Reconstruccion}}}/] \hfill \\ \vspace{-0.5cm}		
+%		\begin{description}
+%			\item[{\small\textbf{\textsf{skeleton.xml}}}] -  archivo que contiene la posición 3D de los marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
+%			\item[{\small\textbf{\textsf{skeleton.mat}}}] -  posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable Matlab.
+%		\end{description}
+%	\item[{\small\textbf{\textsf{Seguimiento}}}/] \hfill \\ \vspace{-0.5cm}
+%		\begin{description}
+%				\item[{\small\textbf{\textsf{skeleton.xml}}}] - archivo que contiene las trayectorias 3D de los marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.   
+%				\item[{\small\textbf{\textsf{skeleton.mat}}}] -  posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable Matlab.
+%		\end{description}
+%	\end{description}
+%% % % % % % % % % % % % % % % % % % % % % % %	
+%\item[{\small\textbf{\textsf{<Sujeto>/<Nro\_Secuencia>/Datos\_Procesados/}}}] \hfill \\
+%Contiene tres carpetas con la información de cada sección del sistema de procesamiento. \vspace{-0.2cm}
+%	\begin{description}
+%	\item[{\small\textbf{\textsf{Deteccion}}}/] \hfill \\\vspace{-0.5cm}
+%		\begin{description}			
+%			\item[{\small\textbf{\textsf{cam.xml}}}] - archivo con la información de posición 2D de los marcadores sobre cada retina obtenida a partir del bloque de detección de marcadores. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}. La calibración es del ground truth.  
+%			\item[{\small\textbf{\textsf{cam.mat}}}] - posee la misma información que {\small\textbf{\textsf{cam.xml}}} pero contenida en una variable Matlab.
+%		\end{description} 			
+%	\item[{\small\textbf{\textsf{Reconstruccion}}}/] \hfill \\ \vspace{-0.5cm}		
+%		\begin{description}
+%			\item[{\small\textbf{\textsf{skeleton.xml}}}] -  archivo que contiene la posición 3D de los marcadores obtenida a la salida del bloque de reconstrucción. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}.
+%			\item[{\small\textbf{\textsf{skeleton.mat}}}] - posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable Matlab.
+%		\end{description}
+%	\item[{\small\textbf{\textsf{Seguimiento}}}/] \hfill \\ \vspace{-0.5cm}
+%		\begin{description}
+%				\item[{\small\textbf{\textsf{skeleton.xml}}}] - archivo que contiene las trayectorias 3D de los marcadores obtenida a partir del bloque de seguimiento. La información se dispone como se indica en la estructura de datos de la sección \ref{section_Estructura_de_datos}. 
+%				\item[{\small\textbf{\textsf{skeleton.mat}}}] - posee la misma información que {\small\textbf{\textsf{skeleton.xml}}} pero contenida en una variable Matlab.
+%		\end{description}
+%	\end{description}
 % % % % % % % % % % % % % % % % % % % % % % %
-\item[{\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}] \hfill \\
-Contiene dos carpetas con imágenes disponibles para efectuar pruebas de calibración.\vspace{-0.2cm}
-	\begin{description}			
-			\item[{\small\textbf{\textsf{Tablero/}}}]\hfill \\ \vspace{-0.5cm}		
-			\begin{description}
-					\item[{\small\textbf{\textsf{cam<Nro\_primer\_cámara>\_<Nro\_segunda\_cámara>/cam<Nro\_cámara>/}}}] \hfill \\ \vspace{-0.5cm}
-								\begin{description}
-									\item[{\small\textbf{\textsf{<Nro\_imagen>.tiff}}}] - archivo que posee la imagen de un tablero de ajedrez de $2\,m  \times 2\,m$, con cierta posición particular en el espacio 3D numerada como {\small\textbf{\textsf{<Nro\_imagen>}}}. 
-									 El  \;{\small\textbf{\textsf{<Nro\_cámara> }}} del nombre de la carpeta puede ser 
-									  \;{\small\textbf{\textsf{<Nro\_primer\_cámara> }}} o \;{\small\textbf{\textsf{<Nro\_segunda\_cámara>}}}. Y la numeración de la posición del tablero  \;{\small\textbf{\textsf{<Nro\_imagen>}}},  se comparte únicamente para la primer y segunda cámaras indicadas en el nombre de la carpeta.
-								\end{description} 
-					\item[{\small\textbf{\textsf{tablero.blend}}}] - archivo fuente con el modelo 3D del tablero y las cámaras utilizadas.						 
-			\end{description}
-				    					
-   		 	
-			\item[{\small\textbf{\textsf{Punto\_Luminico/}}}]  \hfill \\ \vspace{-0.5cm} 
-			\begin{description}
-					\item[{\small\textbf{\textsf{<Nro\_cámara>/}}}] \hfill \\ \vspace{-0.5cm}
-					\begin{description}
-							\item[{\small\textbf{\textsf{cam<Nro\_cámara>\_<Nro\_cuadro>.tiff}}}] - archivo que posee la imagen de un punto luminoso. La posición del punto luminosos en el espacio 3D en el cuadro {\small\textbf{\textsf{<Nro\_cuadro>}}} es la misma para todas las cámaras.
-					\end{description} 
-					\item[{\small\textbf{\textsf{punto\_luminoso.blend}}}] - archivo fuente con el modelo 3D del punto luminoso y las cámaras utilizadas.						 
-			\end{description}
-	\end{description} 	
- 
-\item[{\small\textbf{\textsf{Calibracion/Ground\_Truth}}}] \hfill \\
-Contiene un archivo xml {\small\textbf{\textsf{calibracion.xml}}} con el ground truth de las cámaras utilizadas en la carpeta {\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}
-\item[{\small\textbf{\textsf{Calibracion/Datos\_Procesados}}}] \hfill \\
-Contiene dos carpetas con datos de calibración relevados a partir de las imágenes de la carpeta {\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}
-	\begin{description}
-	\item[{\small\textbf{\textsf{Tablero/}}}] \hfill \\ \vspace{-0.5cm}
-						\begin{description}
-								\item[{\small\textbf{\textsf{calibracion.xml}}}] - archivo con los resultados de la calibración a partir del método descripto en {\small\textbf{\textsf{Metodo.txt}}}
-								\item[{\small\textbf{\textsf{Metodo.txt}}}] - archivo de texto que indica el método utilizado
-								
-						\end{description} 
-	\item[{\small\textbf{\textsf{Punto\_Luminico/}}}] \hfill \hfill \\ \vspace{-0.5cm}
-							\begin{description}
-									\item[{\small\textbf{\textsf{calibracion.xml}}}] - archivo con los resultados de la calibración a partir del método descripto en {\small\textbf{\textsf{Metodo.txt}}}
-									\item[{\small\textbf{\textsf{Metodo.txt}}}] - archivo de texto que indica el método utilizado									
-							\end{description} 
-	\end{description} 
-\end{description}
+%\item[{\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}] \hfill \\
+%Contiene dos carpetas con imágenes disponibles para efectuar pruebas de calibración.\vspace{-0.2cm}
+%	\begin{description}			
+%			\item[{\small\textbf{\textsf{Tablero/}}}]\hfill \\ \vspace{-0.5cm}		
+%			\begin{description}
+%					\item[{\small\textbf{\textsf{cam<Nro\_primer\_cámara>\_<Nro\_segunda\_cámara>/cam<Nro\_cámara>/}}}] \hfill \\ \vspace{-0.5cm}
+%								\begin{description}
+%									\item[{\small\textbf{\textsf{<Nro\_imagen>.tiff}}}] - archivo que posee la imagen de un tablero de ajedrez de $2\,m  \times 2\,m$, con cierta posición particular en el espacio 3D numerada como {\small\textbf{\textsf{<Nro\_imagen>}}}. 
+%									 El  \;{\small\textbf{\textsf{<Nro\_cámara> }}} del nombre de la carpeta puede ser 
+%									  \;{\small\textbf{\textsf{<Nro\_primer\_cámara> }}} o \;{\small\textbf{\textsf{<Nro\_segunda\_cámara>}}}. Y la numeración de la posición del tablero  \;{\small\textbf{\textsf{<Nro\_imagen>}}},  se comparte únicamente para la primer y segunda cámaras indicadas en el nombre de la carpeta.
+%								\end{description} 
+%					\item[{\small\textbf{\textsf{tablero.blend}}}] - archivo fuente con el modelo 3D del tablero y las cámaras utilizadas.						 
+%			\end{description}
+%				    					
+%   		 	
+%			\item[{\small\textbf{\textsf{Punto\_Luminico/}}}]  \hfill \\ \vspace{-0.5cm} 
+%			\begin{description}
+%					\item[{\small\textbf{\textsf{<Nro\_cámara>/}}}] \hfill \\ \vspace{-0.5cm}
+%					\begin{description}
+%							\item[{\small\textbf{\textsf{cam<Nro\_cámara>\_<Nro\_cuadro>.tiff}}}] - archivo que posee la imagen de un punto luminoso. La posición del punto luminosos en el espacio 3D en el cuadro {\small\textbf{\textsf{<Nro\_cuadro>}}} es la misma para todas las cámaras.
+%					\end{description} 
+%					\item[{\small\textbf{\textsf{punto\_luminoso.blend}}}] - archivo fuente con el modelo 3D del punto luminoso y las cámaras utilizadas.						 
+%			\end{description}
+%	\end{description} 	
+% 
+%\item[{\small\textbf{\textsf{Calibracion/Ground\_Truth}}}] \hfill \\
+%Contiene un archivo xml {\small\textbf{\textsf{calibracion.xml}}} con el ground truth de las cámaras utilizadas en la carpeta {\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}
+%\item[{\small\textbf{\textsf{Calibracion/Datos\_Procesados}}}] \hfill \\
+%Contiene dos carpetas con datos de calibración relevados a partir de las imágenes de la carpeta {\small\textbf{\textsf{Calibracion/Datos\_Imagen/}}}
+%	\begin{description}
+%	\item[{\small\textbf{\textsf{Tablero/}}}] \hfill \\ \vspace{-0.5cm}
+%						\begin{description}
+%								\item[{\small\textbf{\textsf{calibracion.xml}}}] - archivo con los resultados de la calibración a partir del método descripto en {\small\textbf{\textsf{Metodo.txt}}}
+%								\item[{\small\textbf{\textsf{Metodo.txt}}}] - archivo de texto que indica el método utilizado
+%								
+%						\end{description} 
+%	\item[{\small\textbf{\textsf{Punto\_Luminico/}}}] \hfill \hfill \\ \vspace{-0.5cm}
+%							\begin{description}
+%									\item[{\small\textbf{\textsf{calibracion.xml}}}] - archivo con los resultados de la calibración a partir del método descripto en {\small\textbf{\textsf{Metodo.txt}}}
+%									\item[{\small\textbf{\textsf{Metodo.txt}}}] - archivo de texto que indica el método utilizado									
+%							\end{description} 
+%	\end{description} 
+%\end{description}
 % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % %
 
@@ -638,15 +648,15 @@ Básicamente se tienen dos estructuras principales, una para almacenar informaci
 Cabe destacar que este tipo de estructura es útil tanto para una base de datos sintética como una base de datos real. \\
 \\
 
-\begin{figure}[]
-   \hspace{-1cm}
+\begin{figure}[ht!]
+   \hspace{-1.2cm}
    \includegraphics[scale=0.6]{img/Base_Datos/Estructura_datos_skeleton.pdf}
    \caption{Estructura de datos para esqueletos.}  
    \label{img_estructura_skeleton} 
  \end{figure} 
 
-\begin{figure}[H]
-   \hspace{-1cm}
+\begin{figure}[ht!]
+   \hspace{-1.2cm}
    \includegraphics[scale=0.6]{img/Base_Datos/Estructura_datos_cam.pdf}
    \caption{Estructura de datos para cámaras.}
    \label{img_estructura_cam}    
