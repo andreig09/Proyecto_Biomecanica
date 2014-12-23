@@ -13,23 +13,30 @@ De la relación entre estos sistemas de coordenadas se obtienen los parámetros 
 Para realizar esto es necesario establecer un modelo que describa el sistema óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo \textit{pinhole} de las cámaras. 
 El modelo \textit{pinhole} se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la retina de la cámara como se muestra en la figura \ref{pinhole_camara}. El modelo de esta cámara se describe en la figura \ref{pinhole_modelo}.\\
 
-\begin{figure}[ht!]
+
+\begin{figure}[h!]
+%\hfill
+\hspace{-0.6cm}
+\begin{minipage}[t]{.45\textwidth}
 \begin{center}
 \includegraphics[scale=0.5]{img/calibracion/pinhole_camara}
 \end{center}
 \caption{Cámara estenopeica .\cite{faugeras_libro}}
 \label{pinhole_camara}
-\end{figure}
-
-
-
-\begin{figure}[ht!]
+\end{minipage}
+\hspace{0.8cm}
+%\hfill
+\begin{minipage}[t]{.550\textwidth}
 \begin{center}
-\includegraphics[scale=0.5]{img/calibracion/pinhole_modelo}
+\includegraphics[scale=0.55]{img/calibracion/pinhole_modelo}
 \end{center}
 \caption{Modelo "pinhole" de una cámara.\cite{zhang_libro}}
 \label{pinhole_modelo}
+\end{minipage}
+\hfill
 \end{figure}
+
+
 
 En dicho modelo, una cámara se representa por un punto $C$, foco de la cámara, y un plano, al  que se le llama retina de la cámara. La imagen que se proyecta en la retina corresponde a la imagen capturada por la cámara. Dado un punto $M$ en el espacio, su correspondiente proyección en la retina, el punto $m$, se encuentra en la intersección de la retina y la recta formada por los puntos $C$ y $M$ de manera que $C$, $M$ y $m$ son colineales.\\ 
 
