@@ -28,7 +28,7 @@ El problema del seguimiento de marcadores espaciales a lo largo del tiempo es un
 
 \end{itemize}
 
-Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios para robustecer la generación de las trayectorias. Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma, sino sobre un lugar representativo sobre el cuerpo como se observa en el ajuste presentado en la Figura \ref{skeleton_fitting_herda} , como es planteado en el trabajo de Lorna Herda~\cite{herda}. ). Con estas distancias relevadas y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o varían de forma continua (ángulo de huesos), donde la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo físico a los puntos obtenidos en la reconstrucción. 
+Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios para robustecer la generación de las trayectorias. Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma, sino sobre un lugar representativo sobre el cuerpo como se observa en el ajuste presentado en la Figura \ref{skeleton_fitting_herda}, como es planteado en el trabajo de Lorna Herda~\cite{herda}. ). Con estas distancias relevadas y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o varían de forma continua (ángulo de huesos), donde la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo físico a los puntos obtenidos en la reconstrucción. 
 
 \begin{figure}[hbt]
 \begin{center}
@@ -44,14 +44,14 @@ Uno de los algoritmos mas simples~\cite{survey_tracking}, es continuar una secue
 \begin{center}
 \includegraphics[scale=0.8]{img/Tracking/01_Greedy_Matching.png}
 \end{center}
-\caption{Dos marcadores moviéndose en cuatro cuadros, Izquierda corresponde al resultado de aplicar enlazado por elemento mas próximo~\cite{survey_tracking} , Derecha al elegir el camino con variación mas suave}
+\caption{Dos marcadores moviéndose en cuatro cuadros, Izquierda corresponde al resultado de aplicar enlazado por elemento mas próximo~\cite{survey_tracking}, Derecha al elegir el camino con variación mas suave}
 \label{greedy_matching}
 \end{figure}
 
 Para el caso de algoritmos de predicción, algunas soluciones implementadas para el tracking de marcadores en desarrollos similares como el DVIDEOW~\cite{figueroa2003flexible} son el filtro de Kalman~\cite{kalman}, y sus variantes los cuales requieren inicializar y ajustar parámetros internos. Estos fueron implementados en las primeras instancias del estudio del problema, pero se decidió implementar otro procedimiento que sepa corregir los errores del método mas simple, no requerir estudio de parámetros internos para el filtrado, e ingrese alguna restricción a las trayectorias enlazadas.
 \\ 
 
-El procedimiento elegido es el presentado por Lorna Herda~\cite{herda} , y consiste en aplicar el tracking de partículas esbozado por Malik,Dracos,Papantoniou~\cite{griegos} al seguimiento de marcadores. Este consiste en buscar el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
+El procedimiento elegido es el presentado por Lorna Herda~\cite{herda}, y consiste en aplicar el tracking de partículas esbozado por Malik,Dracos,Papantoniou~\cite{griegos} al seguimiento de marcadores. Este consiste en buscar el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
 \\ 
 
 La hipótesis principal de este algoritmo, es que el muestreo del movimiento capturado es suficiente para que el desplazamiento entre cuadros sea mínimo en distancia, y la idea para predecir y buscar el desplazamiento entre [f] y [f+1], es utilizar la información que se tiene de la secuencia entre [f-1] y [f], y utilizar una segunda proyección entre [f+1] y [f+2] para confirmar el enlace encontrado en el caso que exista mas de una posibilidad (Figura~\ref{herda_00}).
@@ -86,7 +86,7 @@ x_{[f+1]}-x_{[f]}& = x_{[f]}-x_{[f-1]} \\
 \label{herda_00}
 \end{figure}
 
-En su trabajo~\cite{herda}, Lorna Herda propone que realizar el seguimiento sobre la reconstrucción 3D presenta menos continuidad en las trayectorias , con respecto al seguimiento realizado sobre el conjunto de segmentación sumada a la proyección de los puntos reconstruidos 3D en cada vista 2D. Sin embargo, en nuestras pruebas, nos pareció mas coherente trabajar con el seguimiento en los puntos reconstruidos en 3D, ya que en caso de trayectorias que se cruzan en una vista 2D, son fácilmente separadas en 3D debido a la geometría.
+En su trabajo~\cite{herda}, Lorna Herda propone que realizar el seguimiento sobre la reconstrucción 3D presenta menos continuidad en las trayectorias, con respecto al seguimiento realizado sobre el conjunto de segmentación sumada a la proyección de los puntos reconstruidos 3D en cada vista 2D. Sin embargo, en nuestras pruebas, nos pareció mas coherente trabajar con el seguimiento en los puntos reconstruidos en 3D, ya que en caso de trayectorias que se cruzan en una vista 2D, son fácilmente separadas en 3D debido a la geometría.
 \\ 
 
 Adicionalmente, la reconstrucción fue implementada de forma distinta a la propuesta por Herda, si bien es posible obtener los puntos proyectados en cada vista, no cumplen el mismo rol. Sin implementar la re-proyección, en el tracking sobre una vista individual se pierden trayectorias cuando se pierden de vista como se observa en la Figura~\ref{tracking_2D_cam_07} .
@@ -100,32 +100,34 @@ Adicionalmente, la reconstrucción fue implementada de forma distinta a la propu
 \label{tracking_2D_cam_07}
 \end{figure}
 
-Finalmente, asumiendo que los puntos obtenidos directamente de las animaciones ,proyectados en cada cámara, son el mejor caso de puntos 2D, no presentaban grandes ventajas de trabajar el enlace en cada una de estas vistas 2D, sobre trabajar en 3D posteriormente a la reconstrucción, y no volver hacia atrás ya que la geometría entre vistas cumplió su cometido. Esto ultimo no se cumple para el caso que se evalúen medidas adicionales para robustecer la salida del tracking (por ejemplo, validación por visibilidad, un punto observado en la segmentación de una vista es descartado en caso de no ser físicamente posible ver ese punto entre el cuerpo y la cámara).
+Finalmente, asumiendo que los puntos obtenidos directamente de las animaciones, proyectados en cada cámara, son el mejor caso de puntos 2D, no presentaban grandes ventajas de trabajar el enlace en cada una de estas vistas 2D, sobre trabajar en 3D posteriormente a la reconstrucción, y no volver hacia atrás ya que la geometría entre vistas cumplió su cometido. Esto ultimo no se cumple para el caso que se evalúen medidas adicionales para robustecer la salida del tracking (por ejemplo, validación por visibilidad, un punto observado en la segmentación de una vista es descartado en caso de no ser físicamente posible ver ese punto entre el cuerpo y la cámara).
 
 \section{Implementación}
 
 Para un cuadro [f] y un marcador $m_{i}^{[f]}$, se desea encontrar en el cuadro [f+1] el marcador $m_{j}^{[f+1]}$ que continúe la trayectoria que se tiene hasta el momento, cumpliendo las ecuaciones de continuidad~\ref{track_acc} y~\ref{track_var_acc}. El elemento que traslada la información de un cuadro al siguiente y desde el anterior, es la matriz de enlaces, donde cada linea es un enlace, y cada enlace tiene los siguientes elementos:
 \begin{equation}
 \begin{bmatrix}
-  m_{h}^{[f-1]} ,\quad m_{i}^{[f]} ,\quad m_{j}^{[f+1]} ,\quad m_{k}^{[f+2]} ,\quad \left|\boldsymbol{\overrightarrow{a}}_{[f-1][f][f+1]}\right| ,\quad \left|\boldsymbol{\overrightarrow{v}}_{[f][f+1]}\right|
+  m_{h}^{[f-1]}, \quad m_{i}^{[f]}, \quad m_{j}^{[f+1]}, \quad m_{k}^{[f+2]}, \quad \left|\boldsymbol{\overrightarrow{a}}_{[f-1][f][f+1]}\right|, \quad \left|\boldsymbol{\overrightarrow{v}}_{[f][f+1]}\right|
 \end{bmatrix}
 \end{equation}
 
-Para el ejemplo presentado en la Figura~\ref{reconstr_00} , en cuadro $f=11$ el marcador $m=8$ presenta el siguiente enlace hacia $(f+1)=12$, donde el índice en [13] no aplica debido a que no fue necesario para establecer en enlace entre [11][12].
+Para el ejemplo presentado en la Figura~\ref{reconstr_00}, en cuadro $f=11$ el marcador $m=8$ presenta el siguiente enlace hacia $(f+1)=12$, donde el índice en [13] no aplica debido a que no fue necesario para establecer en enlace entre [11][12].
 
 \begin{equation}
 \begin{bmatrix}
-  m_{3}^{[10]} ,\quad m_{8}^{[11]} ,\quad m_{3}^{[12]} ,\quad N/A ,\quad \left|\boldsymbol{\overrightarrow{a}}_{[10][11][12]}\right| ,\quad \left|\boldsymbol{\overrightarrow{v}}_{[1][12]}\right|
+  m_{3}^{[10]}, \quad m_{8}^{[11]}, \quad m_{3}^{[12]}, \quad N/A, \quad \left|\boldsymbol{\overrightarrow{a}}_{[10][11][12]}\right|, \quad \left|\boldsymbol{\overrightarrow{v}}_{[1][12]}\right|
 \end{bmatrix}
 \end{equation}
 
 Al final de cada iteración, la matriz de enlaces es consolidada para asignarle a cada nuevo marcador en [f+1] la etiqueta definida en el primer cuadro del enlazado, la cual puede ser inicializada como texto, si se le presenta la opción al usuario (en caso contrario, se utiliza el orden de los marcadores en el primer cuadro). Esta asignación será la que se utilice a lo largo de todo el seguimiento, por lo que todo marcador que no sea reconstruido en los primero cuadros, salvo de tomen medidas adicionales, no aparecerán en las trayectorias finales.
+\\
 
+El procedimiento que se estudiará en esta para sección para el seguimiento de marcadores es el presentado en la Figura~\ref{diagrama_seguimiento}, y se irán detallando cada uno de los bloques. 
 \begin{figure}[ht!]
 \hspace{-1cm}
 \includegraphics[scale=0.71]{img/Tracking/diagrama_seguimiento}
-\caption{Metele que son pasteles}
-\label{}
+\caption{Diagrama de Seguimiento de Marcadores}
+\label{diagrama_seguimiento}
 \end{figure}
 
 
@@ -146,7 +148,7 @@ Para el $i$-esimo marcador en [f], se relevan los índices que componen el enlac
 La norma de este traslado es utilizada para evaluar los puntos cercanos al centro de búsqueda, donde pueden surgir tres casos:
 
 \begin{itemize}
-\item Se encuentra un solo punto dentro del radio de búsqueda , se agrega el índice del punto encontrado en [f+1] a los que se utilizaron de [f-1] y [f], calculando la aceleración y velocidad resultante para establecer el enlace. En este caso, el cuarto elemento de la linea de la matriz de enlace, no fue necesario 
+\item Se encuentra un solo punto dentro del radio de búsqueda, se agrega el índice del punto encontrado en [f+1] a los que se utilizaron de [f-1] y [f], calculando la aceleración y velocidad resultante para establecer el enlace. En este caso, el cuarto elemento de la linea de la matriz de enlace, no fue necesario 
 \item Se encuentra mas de un punto, por lo cual se tiene que usar algún criterio para elegir entre todas la posibilidades encontradas. Para cada punto encontrado dentro del radio de búsqueda, se calcula un segundo centro de búsqueda para [f+2], esta vez minimizando la Ecuación~\ref{track_var_acc} :
 \begin{equation}
 \hspace{-1cm}
@@ -173,16 +175,14 @@ Una vez enlazado el ultimo cuadro de las secuencia, se procede a limpiar aquella
 \begin{figure}[ht!]
 \hspace{-1cm}
 \includegraphics[scale=0.71]{img/Tracking/diagrama_inventario_seguimiento}
-\caption{Metele que son pasteles 2}
-\label{}
+\caption{Diagrama Seguimiento e Inventario de Marcadores}
+\label{diagrama_inventario_seguimiento}
 \end{figure}
 
-
-
-Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1] hereden las etiquetas de las trayectorias a las que pertenecen, los enlaces deben ser validados en múltiples instancias:
+Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1] hereden las etiquetas de las trayectorias a las que pertenecen, los enlaces deben ser validados en múltiples instancias y luego de la evaluación se debe estudiar aquellos casos donde el seguimiento no fue posible. Todo el procedimiento es resumido en la Figura~\ref{diagrama_inventario_seguimiento}
 
 \begin{itemize}
-\item \textbf{Validación dentro del cuadro}: verificar que los índices de la matriz de enlaces en [f+1] son únicos, asociados a una sola trayectoria. Si dos o mas trayectorias se enlazaron a un mismo punto en [f+1], se comparará la aceleración con la que fueron enlazadas, validando aquella con menor aceleración, y descartando las otras. En este punto , existe la posibilidad de haber agregado todas las trayectorias involucradas en la decisión en vez de una sola trayectoria por marcador en [f+1], que mejor cumplía las condiciones para ese marcador. De haber elegido esta opción, el descartar una trayectoria que podría haber sido elegida por menor variación , daría paso a la siguiente mejor. Este caso sucedía mas en los casos que se aplico el seguimiento para trayectorias 2D, no tanto en 3D, por lo cual se terminó procediendo con solo una trayectoria por marcador, la cual en caso de ser invalida debe ser evaluada en la etapa de inventario de trayectorias  
+\item \textbf{Validación dentro del cuadro}: verificar que los índices de la matriz de enlaces en [f+1] son únicos, asociados a una sola trayectoria. Si dos o mas trayectorias se enlazaron a un mismo punto en [f+1], se comparará la aceleración con la que fueron enlazadas, validando aquella con menor aceleración, y descartando las otras. En este punto, existe la posibilidad de haber agregado todas las trayectorias involucradas en la decisión en vez de una sola trayectoria por marcador en [f+1], que mejor cumplía las condiciones para ese marcador. De haber elegido esta opción, el descartar una trayectoria que podría haber sido elegida por menor variación, daría paso a la siguiente mejor. Este caso sucedía mas en los casos que se aplico el seguimiento para trayectorias 2D, no tanto en 3D, por lo cual se terminó procediendo con solo una trayectoria por marcador, la cual en caso de ser invalida debe ser evaluada en la etapa de inventario de trayectorias  
 \item \textbf{Validación en trayectoria}: pueden existir puntos que fueron reconstruidos con leves errores que deben detectarse, corregirse y estimar un reemplazo. Estos puntos son detectados como enlazados correctamente, pero con posición, velocidad, o aceleración que presenta una discontinuidad notoria, como puede observarse en el ejemplo de la Figura~\ref{discontinuidad_tracking}.
 
 \begin{figure}[ht!]
@@ -216,7 +216,7 @@ Como opción general, se implementó una alternativa que en vez de calcular un u
 \end{figure}
 \item \textbf{Inventario de Trayectorias}: Durante el enlazado en un cuadro, se tienen marcadores en [f] que no lograron enlazarse en [f+1], pero cuya trayectoria podría estar enlazada hasta este cuadro.
 Estos puntos deben ser identificados, mediante la comparación de la segunda columna de la matriz de enlaces [f][f+1] (actual) y la tercer columna de la matriz de enlaces [f-1][f] (anterior), ya que ambas tienen información de los marcadores en el mismo cuadro, pero enlazan hacia atrás y adelante.
-Los elementos que se encuentren en la matriz [f-1][f] , pero no hayan sido enlazados en [f][f+1], son agregados a una lista que  contiene hasta que momento el cuadro mantenía el enlace (ultima vez que se tuvo información de la trayectoria a la cual pertenece), y que índice de marcador tenia en ese momento (pasar de índice en un cuadro, a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de cuadro a cuadro).
+Los elementos que se encuentren en la matriz [f-1][f], pero no hayan sido enlazados en [f][f+1], son agregados a una lista que  contiene hasta que momento el cuadro mantenía el enlace (ultima vez que se tuvo información de la trayectoria a la cual pertenece), y que índice de marcador tenia en ese momento (pasar de índice en un cuadro, a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de cuadro a cuadro).
 Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben tratar de enlazar los puntos de [f+1] que no entraron en el enlazado regular, con las trayectorias perdidas hasta [f-1]. Todos los puntos que sobraron en el enlazado regular, son evaluados contra la lista de trayectorias perdidas, y se revisan dos condiciones:
 
 \begin{enumerate}
@@ -346,7 +346,7 @@ X_{[f+1]}}_{B_{[f]}} \\
 \label{matrices_estimacion_01}
 \end{equation}}
 
-El procedimiento presentado para aproximación de puntos es análogo para el caso de tener $n$ cuadros a estimar entre el ultimo momento $f_{i}$ de una trayectoria, y su posible continuación en $f_{j}$, con $n+1=f_{j}-f_{i}$. Si $f_{i} \geq 3$ , se plantearán $n+1$ ecuaciones para variación de aceleración, y $n+1$ ecuaciones para variación de velocidad (aceleración), las cuales se resuelven de la misma forma. 
+El procedimiento presentado para aproximación de puntos es análogo para el caso de tener $n$ cuadros a estimar entre el ultimo momento $f_{i}$ de una trayectoria, y su posible continuación en $f_{j}$, con $n+1=f_{j}-f_{i}$. Si $f_{i} \geq 3$, se plantearán $n+1$ ecuaciones para variación de aceleración, y $n+1$ ecuaciones para variación de velocidad (aceleración), las cuales se resuelven de la misma forma. 
 
 {\scriptsize \begin{equation}
 \hspace{-0cm}
