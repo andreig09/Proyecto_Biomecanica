@@ -212,6 +212,17 @@ Para realizar esta elección se tuvo en cuenta que las capturas a procesar será
 
 Con el método de Otsu \cite{otsu} se pretende, a partir del histograma de la imagen, separar los píxeles de la misma en 3 niveles encontrando dos umbrales que los separen. Trabajar con tres clases permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
 
+En la Figura \ref{histabel} se observa el histograma de intensidad de pixeles de la imagen \ref{abelreal}, que corresponde a una captura de un paciente real. Dicho histograma muestra 3 picos definidos, por lo que utilizar el método de Otsu de 3 clases parece una buena opción para determinar los umbrales de segmentación. Manteniendo esta relación de intensidades entre fondo, ropa del paciente y marcadores, este método funcionaría adecuadamente para el bloque.
+
+\begin{figure}[H]
+        \hspace{-1cm}
+        \subfloat[Original]{\includegraphics[scale=0.53]{img/abel.png}\label{abelreal} 
+         } \hspace{0.1cm}        
+       \subfloat[Histograma]{\includegraphics[scale=0.65]{img/hist_abel.png}\label{histabel}}
+  \caption{Captura original de un paciente real y su histograma de intensidad de pixeles.}
+      \label{abelhistposta}
+\end{figure}
+
 El bloque de segmentación de este sistema fue implementado en el lenguaje C++, debido a que es uno de los lenguajes de programación que cuenta con mayor cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron las librerías OpenCV \cite{opencv} y CVBlob \cite{cvblob} ya que funcionan para las plataformas principales de PC y dispositivos móviles, y están diseñadas para tener una gran eficiencia computacional en las implementaciones. Además, estas librerías son de las más populares dentro de las de código abierto con estas características, lo que implica tener una comunidad activa de usuarios muy grande.
 
 La idea inicial fue realizar la totalidad del sistema en C++, sin embargo, por razones de practicidad se decidió implementar los bloques de reconstrucción, calibración y tracking en \emph{Matlab}.
@@ -242,7 +253,7 @@ A continuación, se presentan algunos conceptos básicos necesarios para entende
 \end{figure}
 
 
-Considerando la figura \ref{otsuFruta} \footnote{\textcolor{blue}{\underline{\url{ http://deploy.virtual-labs.ac.in/labs/cse19/theory.php?exp=segment}}}}  como el histograma de intensidad de una imagen, $f(x,y)$, se puede apreciar que la misma está compuesta por un objeto u objetos iluminados de aproximadamente la misma intensidad y un fondo oscuro. De esta manera, se definen en este histograma dos campanas bien determinadas. La manera más obvia de extraer los objetos del fondo es seleccionando un umbral $T$ que separe estas dos campanas y por lo tanto cualquier punto $(x,y)$ de la imagen que cumpla $f(x,y) > T$ será un punto perteneciente al objeto mientras que el resto son puntos pertenecientes al fondo. De acuerdo a lo anterior, la imagen segmentada puede definirse de la siguiente manera.
+Considerando la figura \ref{otsuFruta} como el histograma de intensidad de una imagen, $f(x,y)$, se puede apreciar que la misma está compuesta por un objeto u objetos claros, iluminados, de aproximadamente la misma intensidad y un fondo oscuro. De esta manera, se definen en este histograma dos campanas bien determinadas. La manera más obvia de extraer los objetos del fondo es seleccionando un umbral $T$ que separe estas dos campanas y por lo tanto cualquier punto $(x,y)$ de la imagen que cumpla $f(x,y) > T$ será un punto perteneciente al objeto mientras que el resto son puntos pertenecientes al fondo. De acuerdo a lo anterior, la imagen segmentada puede definirse de la siguiente manera.
 
 \begin{equation}
 g(x,y) = \left\{
@@ -695,6 +706,8 @@ En el cuadro \ref{tablaerrorseg} se puede observar una medida de error para una 
 \caption{Medida de error en captura estándar de la base de datos sintética.}
 \label{tablaerrorseg}
 \end{table}
+
+El error promedio, cuyo cálculo se detalla en la Sección \ref{subsec:medida_error}, se calcula como un promedio de la distancia entre el centroide de cada marcador \textbf{detectado} y la posición ground truth del mismo marcador en todos los cuadros. Por otro lado, el porcentaje de detección es calculado únicamente sobre los marcadores visibles, para todos los cuadros.
 
 En la figura \ref{histerr} se observa un histograma que contempla datos de todas las cámaras a lo largo de la secuencia completa, dónde se muestra la cantidad de marcadores por rango de error en píxeles. Observando la figura se puede ver que la curva tiene una media en el rango de 1 píxel de error.  
 
