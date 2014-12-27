@@ -215,10 +215,10 @@ Con el método de Otsu \cite{otsu} se pretende, a partir del histograma de la im
 En la Figura \ref{histabel} se observa el histograma de intensidad de pixeles de la imagen \ref{abelreal}, que corresponde a una captura de un paciente real. Dicho histograma muestra 3 picos definidos, por lo que utilizar el método de Otsu de 3 clases parece una buena opción para determinar los umbrales de segmentación. Manteniendo esta relación de intensidades entre fondo, ropa del paciente y marcadores, este método funcionaría adecuadamente para el bloque.
 
 \begin{figure}[H]
-        \hspace{-1cm}
-        \subfloat[Original]{\includegraphics[scale=0.53]{img/abel.png}\label{abelreal} 
+        \hspace{-0.6cm}
+        \subfloat[Original]{\includegraphics[scale=0.463]{img/abel.png}\label{abelreal} 
          } \hspace{0.1cm}        
-       \subfloat[Histograma]{\includegraphics[scale=0.65]{img/hist_abel.png}\label{histabel}}
+       \subfloat[Histograma]{\includegraphics[scale=0.59]{img/hist_abel.png}\label{histabel}}
   \caption{Captura original de un paciente real y su histograma de intensidad de pixeles.}
       \label{abelhistposta}
 \end{figure}
@@ -243,7 +243,7 @@ A continuación, se presentan algunos conceptos básicos necesarios para entende
 
 \subsection{Segmentación con umbral}
 
-\begin{figure}[hbt]
+\begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.7]{img/otsu2.png}
 \end{center}
@@ -629,7 +629,7 @@ Cómo se puede ver en la Figura \ref{abelcirculos} los resultados para esta capt
 
 Por otro lado, para el caso real pero sin fondo (Figura \ref{ejemploabelsf}), se puede ver en la Figura \ref{ejemploabel} que no se detecta tanto ruido como en el caso anterior. Sin embargo, los círculos detectados en la Figura \ref{abelcirculossf} vuelven a ser muy pocos, dejando marcadores fuera de la detección.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
         \hspace{-1cm}
         \subfloat[Blobs detectados.]{\includegraphics[scale=0.31]{img/abel_sf_blobs.png}\label{abelblobssf}}\hspace{5 mm}
         \subfloat[Círculos detectados.]{\includegraphics[scale=0.31]{img/absel_sf_circulos.png}\label{abelcirculossf}}
