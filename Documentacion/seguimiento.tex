@@ -28,7 +28,7 @@ El problema del seguimiento de marcadores espaciales a lo largo del tiempo es un
 
 \end{itemize}
 
-Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios para robustecer la generación de las trayectorias. Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma, sino sobre un lugar representativo sobre el cuerpo como se observa en el ajuste presentado en la Figura \ref{skeleton_fitting_herda}, como es planteado en el trabajo de Lorna Herda~\cite{herda}. ). Con estas distancias relevadas y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o varían de forma continua (ángulo de huesos), donde la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo físico a los puntos obtenidos en la reconstrucción. 
+Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios para robustecer la generación de las trayectorias. Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma, sino sobre un lugar representativo sobre el cuerpo como se observa en el ajuste presentado en la Figura \ref{skeleton_fitting_herda}, como es planteado en el trabajo de Lorna Herda~\cite{herda}). Con estas distancias relevadas y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o varían de forma continua (ángulo de huesos), donde la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo físico a los puntos obtenidos en la reconstrucción. 
 
 \begin{figure}[hbt]
 \begin{center}
@@ -111,7 +111,7 @@ Para un cuadro [f] y un marcador $m_{i}^{[f]}$, se desea encontrar en el cuadro 
 \end{bmatrix}
 \end{equation}
 
-Para el ejemplo presentado en la Figura~\ref{reconstr_00}, en cuadro $f=11$ el marcador $m=8$ presenta el siguiente enlace hacia $(f+1)=12$, donde el índice en [13] no aplica debido a que no fue necesario para establecer en enlace entre [11][12].
+Para el ejemplo presentado en la Figura~\ref{reconstr_00}, en cuadro $f=11$ el marcador $m=8$ presenta el siguiente enlace hacia $[f+1]=12$, donde el índice en $[f+2]=13$ no aplica debido a que no fue necesario para establecer en enlace entre $[f]=11$, $[f+1]=12$.
 
 \begin{equation}
 \begin{bmatrix}
@@ -161,13 +161,13 @@ Siendo el radio de búsqueda en [f+2], la distancia [f][f+1]. Con los puntos enc
 \item No se encuentra ningún punto, tanto para la búsqueda en [f+1] como en [f+2]. En este caso, se presentan múltiples alternativas, en distintas etapas. La mas inmediata durante el enlazado cuadro a cuadro, es aumentar el radio de búsqueda (por ejemplo puede suceder con un punto acelerando y fuera del radio de búsqueda). Este aumento puede ser limitado, o indefinido hasta encontrar un punto aunque en una distancia mucho mayor a la esperada, por lo que deben ser validados posteriormente. Si el enlace pasa la validación dentro del cuadro, puede no pasar una validación posterior de trayectoria lo que se verá mas adelante
 \end{itemize}
 
-El enlazado final es similar a los presentado para régimen, pero en caso de múltiples marcadores candidatos en el cuadro final [f+1], no se puede extender el movimiento, por lo que se elige mediante menor aceleración en los últimos tres cuadros con una sola búsqueda desde [f] a [f+1], pero otra alternativa igualmente valida hubiera sido buscar sobre los últimos cuatro cuadros. Se eligió la primer opción debido a  ser un caso simplificado del enlazado en régimen ya implementada. 
+El enlazado final es similar a lo presentado para régimen pero en caso de múltiples marcadores candidatos en el cuadro final [f+1] no se puede extender el movimiento, por lo que se elige mediante menor aceleración en los últimos tres cuadros con una sola búsqueda desde [f] a [f+1] pero otra alternativa igualmente valida hubiera sido buscar sobre los últimos cuatro cuadros. Se eligió la primer opción debido a  ser un caso simplificado del enlazado en régimen ya implementada. 
 \\ 
 
-Sin embargo, el enlazado inicial presenta una situación diferente, no se tiene información previa, y deben establecerse las bases para el inicio del enlazado. Para ello se cargan todos los marcadores en los primeros 3 cuadros, se calculan todas las posibles combinaciones de trayectorias entre elementos. En caso de existir combinaciones forzadas invalidas, las mismas presentan una aceleración resultante notoriamente mayor a la de enlaces, pero si corresponden a algún punto erróneo este se perderá naturalmente durante el enlazado,
+Sin embargo el enlazado inicial presenta una situación diferente, no se tiene información previa y deben establecerse las bases para el inicio del enlazado. Para ello se cargan todos los marcadores en los primeros 3 cuadros y calculan todas las posibles combinaciones de trayectorias entre elementos. En caso de existir combinaciones forzadas invalidas, las mismas presentan una aceleración resultante notoriamente mayor a la de enlaces pero si corresponden a algún punto erróneo este se perderá naturalmente durante el enlazado.
 \\ 
 
-Una vez enlazado el ultimo cuadro de las secuencia, se procede a limpiar aquellas trayectorias que perdieron marcadores en el camino estableciendo un umbral de perdida aceptables sobre el largo de las secuencias obtenidas. Adicionalmente, se descartan todos los puntos reconstruidos que no fueron asignados a ninguna trayectoria 
+Una vez enlazado el ultimo cuadro de las secuencia se procede a limpiar aquellas trayectorias que perdieron marcadores en el camino estableciendo un umbral de perdida aceptables sobre el largo de las secuencias obtenidas. Adicionalmente, se descartan todos los puntos reconstruidos que no fueron asignados a ninguna trayectoria. 
 
 
 \subsection{Validación e Inventario de trayectorias}
@@ -179,7 +179,7 @@ Una vez enlazado el ultimo cuadro de las secuencia, se procede a limpiar aquella
 \label{diagrama_inventario_seguimiento}
 \end{figure}
 
-Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1] hereden las etiquetas de las trayectorias a las que pertenecen, los enlaces deben ser validados en múltiples instancias y luego de la evaluación se debe estudiar aquellos casos donde el seguimiento no fue posible. Todo el procedimiento es resumido en la Figura~\ref{diagrama_inventario_seguimiento}
+Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1] hereden las etiquetas de las trayectorias a las que pertenecen, los enlaces deben ser validados en múltiples instancias y luego de la evaluación se debe estudiar aquellos casos donde el seguimiento no fue posible. Todo el procedimiento es resumido en la Figura~\ref{diagrama_inventario_seguimiento}.
 
 \begin{itemize}
 \item \textbf{Validación dentro del cuadro}: verificar que los índices de la matriz de enlaces en [f+1] son únicos, asociados a una sola trayectoria. Si dos o mas trayectorias se enlazaron a un mismo punto en [f+1], se comparará la aceleración con la que fueron enlazadas, validando aquella con menor aceleración, y descartando las otras. En este punto, existe la posibilidad de haber agregado todas las trayectorias involucradas en la decisión en vez de una sola trayectoria por marcador en [f+1], que mejor cumplía las condiciones para ese marcador. De haber elegido esta opción, el descartar una trayectoria que podría haber sido elegida por menor variación, daría paso a la siguiente mejor. Este caso sucedía mas en los casos que se aplico el seguimiento para trayectorias 2D, no tanto en 3D, por lo cual se terminó procediendo con solo una trayectoria por marcador, la cual en caso de ser invalida debe ser evaluada en la etapa de inventario de trayectorias  
@@ -197,10 +197,10 @@ Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1
  \label{discontinuidad_tracking}
 \end{figure}
 
-Se establece un umbral a partir del estudio de la distribución de la aceleración de cada marcador (Figura~\ref{distribucion_aceleracion} ) para encontrar la aceleración que presenta un salto abrupto, y detectar los cuadros donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos, es el mismo que se verá al momento de inventario de trayectorias. 
+Se establece un umbral a partir del estudio de la distribución de la aceleración de cada marcador (Figura~\ref{distribucion_aceleracion} ) para encontrar la aceleración que presenta un salto abrupto y detectar los cuadros donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos es el mismo que se verá al momento de inventario de trayectorias. 
 \\ 
 
-Como opción general, se implementó una alternativa que en vez de calcular un umbral para cada trayectoria, establece un umbral global, el cual es útil para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se logra mediante una ejecución en dos instancias del seguimiento, una primera instancia sin limites globales de aceleración en en enlazado, y una segunda con un limite establecido a un porcentaje de la distribución de la aceleración, asumiendo un nivel a priori para perdidas (en nuestras pruebas, se estableció que filtrar al nivel que cumplan el 99\% de las aceleraciones de todos los marcadores enlazados arroja buenos resultados). Si durante la segunda instancia, un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
+Como opción general se implementó una alternativa que en vez de calcular un umbral para cada trayectoria establece un umbral global el cual es útil para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se logra mediante una ejecución en dos instancias del seguimiento, una primera instancia sin limites globales de aceleración en en enlazado, y una segunda con un limite establecido a un porcentaje de la distribución de la aceleración, asumiendo un nivel a priori para perdidas (en nuestras pruebas, se estableció que filtrar al nivel que cumplan el 99\% de las aceleraciones de todos los marcadores enlazados arroja buenos resultados). Si durante la segunda instancia, un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
 
 \begin{figure}[ht!]
  \centering
@@ -214,13 +214,13 @@ Como opción general, se implementó una alternativa que en vez de calcular un u
 % Figura tomada de la reconstrucción 8_07_100_200
 \label{distro_acc_track_m13_fix}
 \end{figure}
-\item \textbf{Inventario de Trayectorias}: Durante el enlazado en un cuadro, se tienen marcadores en [f] que no lograron enlazarse en [f+1], pero cuya trayectoria podría estar enlazada hasta este cuadro.
-Estos puntos deben ser identificados, mediante la comparación de la segunda columna de la matriz de enlaces [f][f+1] (actual) y la tercer columna de la matriz de enlaces [f-1][f] (anterior), ya que ambas tienen información de los marcadores en el mismo cuadro, pero enlazan hacia atrás y adelante.
-Los elementos que se encuentren en la matriz [f-1][f], pero no hayan sido enlazados en [f][f+1], son agregados a una lista que  contiene hasta que momento el cuadro mantenía el enlace (ultima vez que se tuvo información de la trayectoria a la cual pertenece), y que índice de marcador tenia en ese momento (pasar de índice en un cuadro, a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de cuadro a cuadro).
-Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben tratar de enlazar los puntos de [f+1] que no entraron en el enlazado regular, con las trayectorias perdidas hasta [f-1]. Todos los puntos que sobraron en el enlazado regular, son evaluados contra la lista de trayectorias perdidas, y se revisan dos condiciones:
+\item \textbf{Inventario de Trayectorias}: Durante el enlazado en un cuadro se tienen marcadores en [f] que no lograron enlazarse en [f+1] pero cuya trayectoria podría estar enlazada hasta este cuadro.
+Estos puntos deben ser identificados mediante la comparación de la segunda columna de la matriz de enlaces [f][f+1] (actual) y la tercer columna de la matriz de enlaces [f-1][f] (anterior) ya que ambas tienen información de los marcadores en el mismo cuadro pero enlazan hacia atrás y adelante en el tiempo.
+Los elementos que se encuentren en la matriz [f-1][f] pero no hayan sido enlazados en [f][f+1] son agregados a una lista que contiene hasta que momento y cuadro se mantenía el enlace continuo (ultima vez que se tuvo información de la trayectoria a la cual pertenece) y que índice de marcador tenia en ese momento (pasar de índice en un cuadro a trayectoria a la cual pertenece es trivial consultando las etiquetas de marcador que se van heredando de cuadro a cuadro).
+Una vez actualizada la lista de las trayectorias perdidas en [f][f+1] se deben tratar de enlazar los puntos de [f+1] que no entraron en el enlazado regular con las trayectorias perdidas hasta [f-1]. Todos los puntos que sobraron en el enlazado regular son evaluados contra la lista de trayectorias perdidas y se revisan dos condiciones:
 
 \begin{enumerate}
-  \item \textbf{Distancia con respecto a una estimación lineal}, prolongando el movimiento tomando el ultimo punto como inicio, y los últimos cuadros de la trayectoria conocida como desplazamiento. El desplazamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces, como puede observarse en el ejemplo de la Figura~\ref{track_m8_recover}. 
+  \item \textbf{Distancia con respecto a una estimación lineal}, prolongando el movimiento tomando el ultimo punto como inicio y los últimos cuadros de la trayectoria conocida como desplazamiento. El desplazamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces como puede observarse en el ejemplo de la Figura~\ref{track_m8_recover}. 
  
 \begin{figure}[ht!]
  \centering
@@ -236,9 +236,9 @@ Una vez actualizada la lista de las trayectorias perdidas en [f][f+1], se deben 
 \label{inventario_trayectoria_direccional}
 \end{figure} 
   
-  \item \textbf{Distancia radial con respecto al ultimo punto conocido}. En algunos casos, la perdida del enlazado puede suceder cuando la trayectoria está en reposo (por ejemplo, un pie apoyado antes de volver a despegarse del suelo), o en transición (en el medio de una curva), por lo cual la estimación lineal anterior es invalida. Para ello, es útil relevar la distancia entre el ultimo punto conocido de una trayectoria trunca, y los puntos que no se enlazaron en [f+1]. Esta distancia, en caso de una posible recuperación, deberá ser proporcional al ultimo traslado conocido, por la diferencia temporal de cuadros entre el ultimo punto, y el posible candidato.
+  \item \textbf{Distancia radial con respecto al ultimo punto conocido}. En algunos casos la perdida del enlazado puede suceder cuando la trayectoria está en reposo (por ejemplo un pie apoyado antes de volver a despegarse del suelo) o en transición (en el medio de una curva), por lo cual la estimación lineal anterior es invalida. Para ello es útil relevar la distancia entre el ultimo punto conocido de una trayectoria trunca y los puntos que no se enlazaron en [f+1]. Esta distancia en caso de una posible recuperación deberá ser proporcional al ultimo traslado conocido por la diferencia temporal de cuadros entre el ultimo punto y el posible candidato.
  
-El procedimiento de validación indica que marcadores son inválidos, tanto usando el umbral global, como el individual, pero esta validación puede truncar una trayectoria durante el enlazado que luego debe ser estimada en caso de recuperación, o debe ser filtrado para el caso de post-procesamiento. Se debe establecer un procedimiento para tratar de recuperar estos marcadores, tratando de cumplir con las restricciones impuestas.
+El procedimiento de validación indica qué marcadores son inválidos tanto usando el umbral global como el individual pero esta validación puede truncar una trayectoria durante el enlazado que luego debe ser estimada en caso de recuperación, o debe ser filtrada para el caso de post-procesamiento. Se debe establecer un procedimiento para tratar de recuperar estos marcadores tratando de cumplir con las restricciones impuestas.
  
   
 \end{enumerate} 
@@ -247,13 +247,13 @@ El procedimiento de validación indica que marcadores son inválidos, tanto usan
 
 \subsection{Estimación de Marcadores Perdidos Durante Enlazado}
 
-Si se encuentra algún punto que cumpla alguna de las condiciones de recuperación de trayectorias, es considerado para continuar la trayectoria, y deben estimarse los puntos intermedios para completar la trayectoria.
+Si se encuentra algún punto que cumpla alguna de las condiciones de recuperación de trayectorias es considerado para continuar la trayectoria y deben estimarse los puntos intermedios para completar la trayectoria.
 \\ 
 
-Esta estimación es realizada mediante mínimos cuadrados, donde las condiciones iniciales dependen de cuantos puntos de la trayectoria se tenían hasta el momento, la condición final es el punto encontrado en [f+1], las incógnitas son los puntos intermedios que se quieren encontrar, y las múltiples ecuaciones a cumplir son las planteadas en (\ref{track_var_acc}) y (\ref{track_acc}).
+Esta estimación es realizada mediante mínimos cuadrados donde las condiciones iniciales dependen de cuantos puntos de la trayectoria se tenían hasta el momento de la perdida, la condición final es el punto encontrado en [f+1], las incógnitas son los puntos intermedios que se quieren encontrar, y las múltiples ecuaciones a cumplir son las planteadas en (\ref{track_var_acc}) y (\ref{track_acc}).
 \\ 
 
-Sea $X_{[f+1]}$ un punto candidato por las condiciones anteriores, y el ultimo punto conocido en [f-1] de un trayectoria que pretende continuar, verifica [f-1]$\geq$3, entonces las ecuaciones que el punto a estimar $\boldsymbol{\tilde{X}_{[f]}}$ deberá cumplir, (observar que las ecuaciones de variación de aceleración son combinación lineal de las ecuaciones de aceleración)
+Sea $X_{[f+1]}$ un punto candidato por las condiciones anteriores y el ultimo punto conocido en [f-1] de un trayectoria que pretende continuar verifica [f-1]$\geq$3, entonces las ecuaciones que el punto a estimar $\boldsymbol{\tilde{X}_{[f]}}$ deberá cumplir (observar que las ecuaciones de variación de aceleración son combinación lineal de las ecuaciones de aceleración)
 
 \begin{equation}
 \left\{
@@ -346,7 +346,7 @@ X_{[f+1]}}_{B_{[f]}} \\
 \label{matrices_estimacion_01}
 \end{equation}}
 
-El procedimiento presentado para aproximación de puntos es análogo para el caso de tener $n$ cuadros a estimar entre el ultimo momento $f_{i}$ de una trayectoria, y su posible continuación en $f_{j}$, con $n+1=f_{j}-f_{i}$. Si $f_{i} \geq 3$, se plantearán $n+1$ ecuaciones para variación de aceleración, y $n+1$ ecuaciones para variación de velocidad (aceleración), las cuales se resuelven de la misma forma. 
+El procedimiento presentado para aproximación de puntos es análogo para el caso de tener $n$ cuadros a estimar entre el ultimo momento $f_{i}$ de una trayectoria y su posible continuación en $f_{j}$ con $n+1=f_{j}-f_{i}$. Si $f_{i} \geq 3$ se plantearán $n+1$ ecuaciones para variación de aceleración y $n+1$ ecuaciones para variación de velocidad (aceleración) las cuales se resuelven de la misma forma. 
 
 {\scriptsize \begin{equation}
 \hspace{-0cm}
@@ -362,16 +362,16 @@ X_{[f_{i}-2]} &-3.X_{[f_{i}-1]} &+3.X_{[f_{i}]} &-\boldsymbol{\tilde{X}_{[f_{i}+
 \label{ecuaciones_estimacion_n}
 \end{equation}}
 
-En caso que la información previa a la perdida es menor, con $f_{i} \geq 2$, se plantea una ecuación menos, aquella que plantea la variación de aceleración de aceleración con el primer elemento incógnita que es la única que precisaría tres elementos previos, las otras ecuaciones no tienen problemas para plantearse.
+En caso que la cantidad de información previa a la perdida es menor con $f_{i} \geq 2$ se plantea una ecuación menos, aquella que plantea la variación de aceleración con el primer elemento incógnita que es la única que precisaría tres elementos previos minetras las otras ecuaciones no tienen problemas para plantearse.
 
-Esta metodología de estimación de puntos intermedios es retomada para la validación en trayectoria, donde las incógnitas pasan a ser lo puntos que deben ser regularizados debido a presentar aceleración excesiva y discontinua para el marcador ( como fue establecido al principio de esta sección).
+Esta metodología de estimación de puntos intermedios es retomada para la validación en trayectorias donde las incógnitas pasan a ser lo puntos que deben ser regularizados debido a presentar aceleración excesiva y discontinua para el marcador ( como fue establecido al principio de esta sección).
 
 
 
 
 \section{Resultados y Análisis}
 
-El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, presentarlos como trayectorias, y corregirlos si es necesario. Por esta razón, es esperable que para una misma secuencia, los resultados sean similares a la reconstrucción, siendo las únicas leves diferencias las correcciones realizadas sobre trayectorias particulares, y la posibilidad de medir el error por marcador individual ya que a esta altura del algoritmo ya están identificados las distintas trayectorias. Los siguientes resultados fueron probados sobre una captura sintética de 113 cuadros, 14 marcadores, a lo largo de 17 cámaras.
+El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, presentarlos como trayectorias y corregirlos si es necesario. Por esta razón es esperable que para una misma secuencia los resultados sean similares a la reconstrucción, siendo las únicas leves diferencias las correcciones realizadas sobre trayectorias particulares y la posibilidad de medir el error por marcador individual debido a que a esta altura del algoritmo ya están identificados las distintas trayectorias. Los siguientes resultados fueron probados sobre una captura sintética de 113 cuadros, 14 marcadores, con un conjunto de 17 cámaras.
 
 \begin{figure}[ht!]
 \vspace{-0.4cm}
@@ -415,7 +415,7 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 
 
 
-El filtrado y validación por trayectorias, permite reducir el error máximo y mejorar el promedio de trayectorias especificas (marcador 8 en figura), pero al aplicar global mente puede perjudicar a aquellas trayectorias que tengan naturalmente discontinuidades en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores, el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200 con 17 cámaras, y con el filtrado por aceleración individual de marcadores. En otras capturas, los comportamientos son similares con promedios inferiores a 0.5 cm, y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras.Mas adelante se estudiará el impacto de cambiar los conjunto de cámaras en marcadores   
+El filtrado y validación por trayectorias permite reducir el error máximo y mejorar el promedio de trayectorias especificas (marcador 8 en la Figura~\ref{Tracking_Esqueleto_Trayectoria}) pero al aplicar globalmente a todas las trayectorias puede perjudicar a aquellas trayectorias que tengan discontinuidades naturales en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200 con 17 cámaras y con el filtrado por aceleración individual de marcadores. En otras capturas los comportamientos son similares con promedios inferiores a 0.5 cm y errores máximos por debajo de 3 cm para el caso de reconstrucción con 17 cámaras. Más adelante en el Capitulo~\ref{evaluacion} se estudiará el impacto de cambiar los conjunto de cámaras en marcadores   
 
 
 \begin{figure}[ht!]
@@ -440,7 +440,7 @@ El filtrado y validación por trayectorias, permite reducir el error máximo y m
 \end{figure}
 
 
-Al tener las etiquetas constantes para las trayectorias, es posible visualizar la relación entre marcadores, quedando pendientes medidas adicionales para robustecer el sistema, como imponer restricciones al movimiento entre marcadores en un mismo miembro, por imponer no solo continuidad en aceleración de marcadores sino ángulos de articulaciones y huesos. Esta continuidad debe tener cierta tolerancia debido a que los marcadores son representativos de articulaciones, y no se mueven completamente solidarios por lo que existen leves variaciones en las distancias entre marcadores, como se observa en la Figura \ref{distancia_angulo_marcadores_piernas}, correspondiente a los marcadores asociados a la pierna en la captura 8\_03\_100\_100. En este caso se observa la continuidad y periodicidad de el ángulo entre marcadores así como la constancia de la distancia, salvo momentos ocasionales, asociados a momentos específicos de la captura (cuando el pie rompe el reposo por ejemplo, antes de dar otro paso), sin ser mayor a los pocos centímetros en momentos puntuales y recuperables en régimen.
+Al tener las etiquetas constantes para las trayectorias es finalmente posible visualizar la relación entre marcadores quedando pendientes medidas adicionales para robustecer el sistema como imponer restricciones al movimiento entre marcadores en un mismo miembro, al establecer no solo continuidad en aceleración de marcadores sino ángulos de articulaciones y huesos. Esta continuidad debe tener cierta tolerancia debido a que los marcadores son representativos de articulaciones y no se mueven completamente solidarios por lo que existen leves variaciones en las distancias entre marcadores, observable en la Figura \ref{distancia_angulo_marcadores_piernas} correspondiente a los marcadores asociados a la pierna en la captura 8\_03\_100\_100. En este caso se observa la continuidad y periodicidad de el ángulo entre marcadores así como la constancia de la distancia, salvo momentos ocasionales asociados a momentos específicos de la captura (cuando el pie rompe el reposo por ejemplo, antes de dar otro paso), sin ser mayor a los pocos centímetros en momentos puntuales y recuperables en régimen.
 
 \begin{figure}[ht!]
  \hspace{-1.3cm}
