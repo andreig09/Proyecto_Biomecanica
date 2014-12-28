@@ -29,7 +29,7 @@ Se clasificaron una serie de artículos y publicaciones dentro de las cuales se 
 	\end{itemize}
 	\item Seguimiento
 	\begin{itemize}
-		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion}\cite{herda}. Investigación sobre la que se decidió basar este trabajo, presenta múltiples algoritmos accesibles, con un nivel de descripción comprensible para el grupo.
+		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion}\cite{herda}. Utilizando un modelo para el cuerpo durante la reconstrucción 3D, se presenta un método para robustecer los sistemas de captura ópticos basados en marcadores. Investigación sobre la que se decide basar este trabajo, presenta múltiples algoritmos accesibles, con un nivel de descripción aceptable.
 		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views}\cite{ringer2000modelling}. Seguimiento utilizando medidas angulares, con filtros de Kalman Extendido y Bayesianos.
 		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data}\cite{kirk2005skeletal}. Seguimiento utilizando ajuste de esqueleto.
 		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing}\cite{kurihara2002optical}.
@@ -37,9 +37,11 @@ Se clasificaron una serie de artículos y publicaciones dentro de las cuales se 
 	\end{itemize}
 	\item Estimación de pose
 	\begin{itemize}
-		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion}\cite{herda}.
+		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion}\cite{herda}. 
 		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views}\cite{ringer2000modelling}.
+		Utilizan un sistema óptico con múltiples cámaras basado en marcadores, el mismo no se describe. Describen un modelo general que integra, un modelo cinemático y un modelo de medida. Manejan oclusiones y para el seguimiento utilizan técnicas basadas en filtro de Kalman extendido. Estimación para cada cuadro de los parámetros de un modelo de esqueleto. Como el modelo es 3D, implícitamente se reconstruye la pose al mismo tiempo.        
 		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data}\cite{kirk2005skeletal}.
+		Se trabaja con sistemas Vicon \cite{vicon} y PhaseSpace \cite{phasespace}. Se efectúa el seguimiento utilizando una distancia no euclídea y se ajusta con un modelo de esqueleto. Si bien el artículo no contiene explicaciones formales en su desarrollo, utiliza múltiples referencias a otros artículos.
 		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing}\cite{kurihara2002optical}.
 		\item \emph{What can two images tell us about a third one?}\cite{faugueras}. Trabajo esencial sobre reconstrucción utilizando múltiples vistas.
 	\end{itemize}
