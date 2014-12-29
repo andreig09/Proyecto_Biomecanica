@@ -44,7 +44,7 @@ Existen varios métodos a aplicar para realizar la segmentación. Siguiendo lo a
 
 La etapa de filtrado de objetos es bastante más sencilla que la de segmentación. A fin de cuentas, este filtrado no es más que una clasificación de los objetos segmentados, y dado que los objetos a detectar tienen formas relativamente sencillas y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requerirá implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos y un filtro según el área de los mismos.
 
-Mas adelante se explicará por qué se seleccionaron los métodos elegidos y cómo funciona el algoritmo implementado. Por último, se mostrarán algunos resultados obtenidos al procesar imágenes sintéticas y reales con este bloque.
+A lo largo de este capítulo se explicarán los criterios de selección de los métodos utilizados y cómo funciona el algoritmo implementado. Por último, se mostrarán algunos resultados obtenidos al procesar imágenes sintéticas y reales con este bloque.
 
 \section{Estado del arte}%pag 711, Gonzalez 3º ed
 \label{segEstArt}
@@ -59,7 +59,7 @@ En la Figura \ref{abelfiltrosEstart} se observa el resultado de segmentar el cua
       \label{ejemploabelEstart}
 \end{figure}
 
-Para la etapa de segmentación, se realizó una revisión comenzando desde los algorítmos más básicos hasta encontrar alguno que cubra todos los requerimientos del sistema.
+Para la etapa de segmentación, se realizó una revisión comenzando desde los algoritmos más básicos hasta encontrar alguno que cubra todos los requerimientos del sistema.
 
  Existen varios métodos para realizar la segmentación, en particular los algoritmos para tratar imágenes monocromáticas generalmente se clasifican en dos grupos basados en la intensidad de los píxeles: discontinuidad y similaridad. 
 
@@ -72,7 +72,7 @@ A continuación se explican los algoritmos mencionados.
 \subsection{Detección de bordes}
 \label{detecbordeSec}
 
-Conciste básicamente en la detección de líneas o transiciones en una imagen mediante el procesamiento de los píxeles que la componen. En lo que sigue se explica el detalle de este método, tal como se menciona en el libro \textit{Digital Image Processing de Rafael Gonzalez y Richard Woods} \cite{Gonzalez}.
+Consiste básicamente en la detección de líneas o transiciones en una imagen mediante el procesamiento de los píxeles que la componen. En lo que sigue se explica el detalle de este método, tal como se menciona en el libro \textit{Digital Image Processing de Rafael Gonzalez y Richard Woods} \cite{Gonzalez}.
 
 Así como el difuminado en una imagen (que equivale a hacer un promedio de los píxeles en una zona) puede realizarse mediante la integración, los cambios de intensidad abruptos entre píxeles continuos pueden detectarse utilizando derivadas. Las derivadas de primer y segundo orden son en particular las más indicadas para este propósito.
 
@@ -204,9 +204,9 @@ Entre los cuarenta métodos exhibidos en este paper, se encuentra el método de 
 
 Siguiendo la metodología aplicada en todas las etapas de este trabajo, en principio se manejó la idea de tomar como base una implementación existente y adaptarla para el propósito de este proyecto. Sin embargo, en la etapa de investigación se encontró que no hay muchos sistemas de código abierto disponibles, y los que se encontraron necesitan muchos ajustes para llegar a cubrir las necesidades que se plantean aquí. En particular, para la segmentación se encontraron varias implementaciones de algoritmos, pero ninguna se ajusta a los requerimientos del proyecto. Por esta razón se decide implementar un algoritmo conocido, que aplique la teoría de la Sección \ref{segEstArt}.
 
-De los métodos nombrados en la sección anterior, si se piensa en los requerimentos del sistema, la detección de bordes presenta algunas desventajas frente a la detección por umbral. En primer lugar, si bien en los objetos a detectar hay bordes, los mismos no son tan nítidos debido al difuminanado natural que impone la forma esférica de los marcadores. Este aspecto puede afectar negativamente la detección de bordes ya que el contraste entre un pixel y su vecino no es tan pronunciado, sin embargo en la segmentación por umbral, esta característica simplemente afectaría el tamaño de la esfera segmentada en función del valor del umbral impuesto. Además la detección de bordes presenta otros problemas que la umbralización no, y que a efectos de este proyecto es mejor evitar, por ejemplo los bordes detectados usualmente quedan desconectados al aplicar detección de bordes e integrarlos es bastante costoso computacionalmente hablando. Por esto, y debido a sus propiedades intuitivas, simplicidad en la implementación y a su rapidez computacional, se eligió utilizar un método de umbral para implementar el bloque de \emph{Segmentación}. En particular se eligió el método de Otsu \cite{otsu} de tres clases ya que ofrece un buen compromiso entre simplicidad y eficacia, como se verá más adelante. 
+De los métodos nombrados en la sección anterior, si se piensa en los requerimientos del sistema, la detección de bordes presenta algunas desventajas frente a la detección por umbral. En primer lugar, si bien en los objetos a detectar hay bordes, los mismos no son tan nítidos debido al difuminado natural que impone la forma esférica de los marcadores. Este aspecto puede afectar negativamente la detección de bordes ya que el contraste entre un píxel y su vecino no es tan pronunciado, sin embargo en la segmentación por umbral, esta característica simplemente afectaría el tamaño de la esfera segmentada en función del valor del umbral impuesto. Además la detección de bordes presenta otros problemas que la umbralización no, y que a efectos de este proyecto es mejor evitar, por ejemplo los bordes detectados usualmente quedan desconectados al aplicar detección de bordes e integrarlos es bastante costoso computacionalmente hablando. Por esto, y debido a sus propiedades intuitivas, simplicidad en la implementación y a su rapidez computacional, se eligió utilizar un método de umbral para implementar el bloque de \emph{Segmentación}. En particular se eligió el método de Otsu \cite{otsu} de tres clases ya que ofrece un buen compromiso entre simplicidad y eficacia, como se verá más adelante. 
 
-Para la elección del número de clases se tuvo en cuenta las características de la captura de video a procesar. Usar el número de clases incorrecto afecta en gran medida la segmentacióm. En un principio se podría suponer que cuánto mayor es el número de clases más precisa será la segmentación, sin embargo esto no es correcto. Un error típico al usar un número de clases mayor al adecuado es tener un único objeto segmentado en varios más pequeños. Por otro lado, utilizar un número menor de clases también es causa de errores. Por ejemplo, al utilizar 2 clases, se está asumiendo que el fondo es uniforme y esto no sucederá siempre en las capturas de video que se utilizarán en este sistema.
+Para la elección del número de clases se tuvo en cuenta las características de la captura de video a procesar. Usar el número de clases incorrecto afecta en gran medida la segmentación. En un principio se podría suponer que cuánto mayor es el número de clases más precisa será la segmentación, sin embargo esto no es correcto. Un error típico al usar un número de clases mayor al adecuado es tener un único objeto segmentado en varios más pequeños. Por otro lado, utilizar un número menor de clases también es causa de errores. Por ejemplo, al utilizar 2 clases, se está asumiendo que el fondo es uniforme y esto no sucederá siempre en las capturas de video que se utilizarán en este sistema.
 
 Para realizar esta elección se tuvo en cuenta que las capturas a procesar serán realizadas en un ambiente controlado y, siguiendo con la filosofía de priorizar la completitud del sistema frente a la eficacia del mismo, no se tuvo como prioridad para esta primera etapa implementar un método de mayor complejidad que sea más robusto frente a ciertos tipos de ruidos o características que se puedan dar en otro tipo de capturas (iluminación, fondo, ropa del paciente, etc.). 
 
@@ -221,12 +221,12 @@ Con el método de Otsu \cite{otsu} se pretende, a partir del histograma de la im
       \label{abelhistposta}
 \end{figure}
 
-En la Figura \ref{histabel} se observa el histograma de intensidad de pixeles de la imagen \ref{abelreal}, que corresponde a una captura de un paciente real. Dicho histograma muestra 3 picos definidos, por lo que utilizar el método de Otsu de 3 clases parece una buena opción para determinar los umbrales de segmentación. Manteniendo esta relación de intensidades entre fondo, ropa del paciente y marcadores, este método funcionaría adecuadamente para el bloque.
+En la Figura \ref{histabel} se observa el histograma de intensidad de píxeles de la imagen \ref{abelreal}, que corresponde a una captura de un paciente real. Dicho histograma muestra 3 picos definidos, por lo que utilizar el método de Otsu de 3 clases parece una buena opción para determinar los umbrales de segmentación. Manteniendo esta relación de intensidades entre fondo, ropa del paciente y marcadores, este método funcionaría adecuadamente para el bloque.
 
 
 El bloque de segmentación de este sistema fue implementado en el lenguaje C++, debido a que es uno de los lenguajes de programación que cuenta con mayor cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron las librerías \emph{OpenCV} \cite{opencv} y CVBlob \cite{cvblob} ya que funcionan para las plataformas principales de PC y dispositivos móviles, y están diseñadas para tener una gran eficiencia computacional en las implementaciones. Además, estas librerías son bastante populares dentro de las librerías de código abierto con similares características, lo cual implica que poseen una comunidad activa de usuarios muy grande.
 
-La idea inicial fue realizar la totalidad del sistema en C++, sin embargo, por razones de practicidad se decidió implementar los bloques de reconstrucción, calibración y tracking en \emph{Matlab}.
+La idea inicial fue realizar la totalidad del sistema en C++, sin embargo, por razones prácticas se decidió implementar los bloques de reconstrucción, calibración y tracking en \emph{Matlab}.
 
 Por otro lado, C++ es un lenguaje de una complejidad superior a otros disponibles, por lo que implementar el algoritmo con el mismo implicó mayor esfuerzo (por ejemplo, en el manejo de la memoria) que de haber utilizado un lenguaje que trabaje a más alto nivel.
 
