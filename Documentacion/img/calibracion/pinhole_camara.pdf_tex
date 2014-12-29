@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{312.72683677bp}%
+    \setlength{\unitlength}{321.6bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,7 +48,7 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.64436863)%
+  \begin{picture}(1,0.66169154)%
     \put(0,0){\includegraphics[width=\unitlength]{pinhole_camara.pdf}}%
   \end{picture}%
 \endgroup%

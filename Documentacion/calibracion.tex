@@ -10,12 +10,12 @@ Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D
 
 De la relación entre estos sistemas de coordenadas se obtienen los parámetros de las cámaras. Dichos parámetros se clasifican en intrínsecos y extrínsecos. Los primeros son aquellos que describen las propiedades geométricas y ópticas de la cámara, es decir, las características internas de la cámara. Por otra parte, los parámetros extrínsecos son los que describen la posición y orientación de la cámara respecto al sistema de coordenadas del espacio.\\
 
-Para realizar esto es necesario establecer un modelo que describa el sistema óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo \textit{pinhole}.
+Para realizar la calibración es necesario establecer un modelo que describa el sistema óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo \textit{pinhole}.
 
-Este modelo se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la retina de la cámara como se muestra en la Figura \ref{pinhole_camara}. Por otro lado, el modelo de esta cámara se describe en la Figura \ref{pinhole_modelo}.\\
+Este modelo se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la retina de la cámara como se muestra en la Figura \ref{pinhole_camara}. Por otro lado, el modelo de la cámara \textit{pinhole} se describe en la Figura \ref{pinhole_modelo}.\\
 
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 %\hfill
 \hspace{-0.6cm}
 \begin{minipage}[t]{.45\textwidth}
@@ -44,7 +44,7 @@ En dicho modelo, una cámara se representa por un punto $C$, foco de la cámara,
 
 
 
-Si las coordenadas del punto  $M$ y las del punto $m$ son las siguientes:
+Sean las coordenadas del punto  $M$ y las del punto $m$ las siguientes:
 
 
 \[m = \begin{bmatrix}
@@ -109,7 +109,7 @@ $c$ & grado de oblicuidad de los ejes imagen
 
 El punto principal $(u_0, v_0)$ se define como el punto formado por la intersección de la retina y la recta perpendicular a dicha retina que pasa por el punto $C$. La distancia entre el punto $C$ y el punto principal se define como la distancia focal de la cámara $f$. Los factores $\alpha$ y $\beta$ se relacionan con la relación de aspecto de los píxeles de la cámara. El parámetro $c$ se relaciona con el ángulo $\theta$ formado por los ejes $u$ y $v$.\\
 
-Por lo tanto la proyección de un punto 3D sobre la retina se compone de los siguientes pasos:\\
+Por lo tanto, los pasos para efectuar la proyección de un punto 3D sobre la retina de una cámara son los siguientes:\\
 
 \begin{itemize}
 \item Se pasa del sistema de coordenadas del espacio 3D $(X_w, Y_w, Z_w)$ al sistema de coordenadas de la cámara $(X,Y, Z)$
@@ -144,7 +144,7 @@ De acuerdo a los objetos utilizados para realizar la calibración, los métodos 
 \begin{itemize}
 \item Calibración mediante objetos 3D\\
 
-La calibración mediante este método es realizada capturando la imagen de un objeto de calibración cuyas dimensiones y geometría son conocidas. Los objetos de calibración suelen ser planos colocados ortogonalmente. También pueden utilizarse estructuras con marcadores de dimensiones conocidas. A estos objetos se les aplica traslaciones en el espacio logrando más cantidad de puntos de referencia para calibrar. La ventaja de este método es su precisión aunque se requiere de objetos más costosos y procedimientos más elaborados.\\
+La calibración mediante este método es realizada capturando la imagen de un objeto de calibración cuyas dimensiones y geometría son conocidas. Los objetos de calibración suelen ser planos colocados ortogonalmente. También pueden utilizarse estructuras con marcadores de dimensiones conocidas. A estos objetos se les aplica traslaciones en el espacio logrando una mayor cantidad de puntos de referencia para calibrar. La ventaja de este método es su precisión aunque se requiere de objetos más costosos y procedimientos más elaborados.\\
 
 \item Calibración mediante objetos 2D\\
 
@@ -157,11 +157,10 @@ Este método consiste en obtener la información necesaria a través de la captu
 \end{itemize}
 
 
-Algunas soluciones comerciales, como por ejemplo Vicon\footnote{\textcolor{blue}{\underline{\url{http://www.vicon.com}}}. Accedido 3-12-14.} , utiliza como objeto de calibración una vara con leds (ver Figura \ref{vicon}). 
+Algunas soluciones comerciales, como por ejemplo \emph{Vicon} \cite{vicon}, utilizan como objeto de calibración una vara con leds (ver Figura \ref{vicon}). 
 
 \begin{figure}[ht!]
-        \centering
-        
+        \centering        
         \subfloat{\includegraphics[scale=1.8]{img/calibracion/vicon1.png}}
         \hspace{1.8cm}
         \subfloat{\includegraphics[scale=0.08]{img/calibracion/vicon2.jpg}}
@@ -174,11 +173,11 @@ En este caso la calibración se realiza moviendo el objeto de calibración a tra
 
 \section{Calibración en el entorno Blender}
 
-Una vez establecida la configuración de las cámaras en Blender, según lo descrito en el Capítulo \ref{section_base_de_datos}, es posible conocer las matrices de proyección de cada una de estas cámaras a través de la información, proporcionada por el propio programa, sobre ciertos parámetros de las mismas. Esto permite tener la calibración \textit{real} de las cámaras con lo cual es posible medir el desempeño de algunos bloques del sistema.\\
+Una vez establecida la configuración de las cámaras en \emph{Blender}, según lo descrito en el Capítulo \ref{section_base_de_datos}, es posible conocer las matrices de proyección de cada una de estas cámaras a través de la información proporcionada por el propio programa, sobre ciertos parámetros de las mismas. Esto permite tener la calibración \textit{real} de las cámaras con lo cual es posible medir el desempeño de algunos bloques del sistema.\\
 
-Si se conocen las coordenadas de un punto 3D en el espacio de trabajo de Blender y además se saben las matrices de proyección de las cámaras, es posible determinar las coordenadas 2D de dicho punto proyectado en cada una de las cámaras. De esta manera se tiene el \textit{ground truth} de la detección de marcadores, permitiendo comparar el desempeño de dicho bloque respecto  a la posición real de los marcadores en las vistas 2D. Análogamente teniendo estos datos se pueden evaluar los bloques siguientes del sistema. Por ejemplo, es posible además evaluar el desempeño del bloque de reconstrucción sabiendo la posición 2D real de los marcadores, por lo cual se puede evaluar los errores que son producto solamente de este bloque del sistema.\\
+Si se conocen las coordenadas de un punto 3D en el espacio de trabajo de \emph{Blender} y además se poseen las matrices de proyección de las cámaras, es posible determinar las coordenadas 2D de dicho punto proyectado en cada una de las cámaras. De esta manera se obtiene  el \textit{ground truth} de la detección de marcadores, permitiendo comparar el desempeño de dicho bloque respecto  a la posición real de los marcadores en las vistas 2D. Análogamente teniendo estos datos se pueden medir el desempeño de los bloques siguientes del sistema. Por ejemplo, es posible evaluar de manera aislada el desempeño del bloque de segmentación sabiendo la posición 2D real de los marcadores, sin introducir errores provenientes de otras etapas del sistema.\\
 
-A continuación se describe cómo se deducen las matrices de proyección a partir de ciertos parámetros proporcionados por el programa.\\
+A continuación se describe cómo se obtienen las matrices de proyección a partir de ciertos parámetros proporcionados por el entorno \emph{Blender}.\\
 
 La posición de una cámara se establece respecto a un sistema de coordenadas determinado, al que se le puede llamar el sistema de coordenadas del mundo. Por lo cual es posible saber la rotación y traslación que es necesario aplicar al sistema de coordenadas del mundo para obtener el sistema de coordenadas solidario a la cámara. Los parámetros que se pueden obtener de Blender son los ángulos de rotación $(\theta, \phi, \psi )$ respecto a los ejes $(x,y, z)$ del sistema de coordenadas del mundo, así como el orden en que se ejecutan dichas rotaciones. Si el orden establecido es \textit{XYZ Euler}, lo que implica que primero se rota respecto al eje $x$, luego al $y$ y al $z$, se obtiene la matriz de rotación:
 
@@ -228,7 +227,7 @@ Para hallar la matriz de parámetros intrínsecos se necesitan saber los siguien
 \item $(s_x,s_y)$, tamaño efectivo de los píxeles de la retina en píxeles/milímetro.
 \end{itemize}
 
-con estos parámetros la matriz de parámetros intrínsecos queda:
+utilizando estos parámetros la matriz de parámetros intrínsecos resultante es:
 
 \[M_{int}=\begin{pmatrix}
 			-f/s_x & 0      & o_x\\
@@ -246,7 +245,7 @@ con estos parámetros la matriz de parámetros intrínsecos queda:
 %%%%%%%%%%%%REFERENCIAS%%%%%%%%%%%%%%%%%
 % LIC DARIO SANTOS, HOSPITAL DE CLÍNICAS
 
-Por intermedio del Lic. Darío Santos, se ha podido tener acceso a secuencias de vídeo de análisis del movimiento de la marcha que se han realizado en el Hospital de Clínicas. Dichas secuencias han sido obtenidas por un grupo de médicos e investigadores con el objetivo de analizar el movimiento de pacientes en el ámbito terapéutico o con un objetivo esencialmente de investigación desde el punto de vista de la biomecánica.\\
+Se ha podido tener acceso a secuencias de vídeo de análisis del movimiento de la marcha que se han realizado en el Hospital de Clínicas. Dichas secuencias han sido obtenidas por un grupo de médicos e investigadores con el objetivo de analizar el movimiento de pacientes en el ámbito terapéutico o con un objetivo esencialmente de investigación desde el punto de vista de la biomecánica.\\
 
 %DEBERÍA ACLARARSE QUE ESTO SE HACIA ANTES, CREO QUE TIPO POR 2009 Y AHORA USAN VICON.
 
@@ -275,7 +274,7 @@ Antes de la captura del movimiento se emite una señal acústica con la cual se 
  %%%%%%%%%%%%%%%%%%(REFERENCIAR)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%. 
  Dicho software realiza la detección, seguimiento y reconstrucción de los marcadores. Por otro lado, no se ha podido tener acceso a este software por lo cual tampoco se pudo evaluar su desempeño y compararlo con el desarrollado en este proyecto.\\
 
-Para calibrar este sistema se utiliza el objeto de calibración, o calibrador, como se muestra en la Figura \ref{fig: calibrador} que consiste en marcadores colocados sobre una estructura de dimensiones conocidas. Dicho objeto se coloca sobre distintos puntos marcados sobre la alfombra, por lo que las traslaciones realizadas son de distancias conocidas. De esta manera se calibra con más puntos sobre el volumen de trabajo.\\
+Para calibrar este sistema se utiliza el calibrador mostrado en la Figura \ref{fig: calibrador}, el mismo consiste en marcadores colocados sobre una estructura de dimensiones conocidas. Antes de efectuar las capturas de dicho calibrador, se le ubica sobre puntos previamente marcados sobre la alfombra, por lo que las traslaciones realizadas entre capturas son de distancias conocidas. De esta manera se obtienen un mayor número de puntos sobre el volumen de trabajo, útiles para realizar los procesos de calibración.\\
 
 
 El método implementado requiere que cada marcador del calibrador, en cada una de las vistas, sea seleccionado manualmente en un orden tal que permita establecerse una correspondencia entre las proyecciones de un mismo marcador en las tres vistas. En la Figura \ref{fig: vistas_calibrador} se muestra a uno de los marcadores seleccionado en cada una de las vistas.\\
