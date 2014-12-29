@@ -16,7 +16,7 @@ El análisis de la información recabada permite reunir un conjunto de conceptos
 
 
 
-Debido a que en la búsqueda no se encontraron bases de datos que cumplan los requerimientos mínimos del sistema a desarrollar, se decide implementar un prototipo de la misma, que contenga un número reducido de secuencias útiles. Utilizando para ello la suite de animación 3D \textit{Blender}, se genera un laboratorio de captura virtual y un modelo con marcadores animado sobre el cual se cargan secuencias de movimiento. Estas últimas se obtienen de sistemas de captura reales de alta performance al relevar las bases de datos. Los detalles de la implementación junto al análisis de esta base se pueden encontrar en la Sección \ref{seccion_Base_Datos_Sintetica}.  
+Debido a que en la búsqueda no se encontraron bases de datos que cumplan los requerimientos mínimos del sistema a desarrollar, se decide implementar un prototipo de base de datos, que contenga un número reducido de secuencias útiles. Utilizando para ello la suite de animación 3D \textit{Blender}, se genera un laboratorio de captura virtual y un modelo con marcadores animado sobre el cual se cargan secuencias de movimiento. Estas últimas se obtienen de sistemas de captura reales de alta performance al relevar las bases de datos. Los detalles de la implementación junto al análisis de esta base se pueden encontrar en la Sección \ref{seccion_Base_Datos_Sintetica}.  
 Se propone una estructura de datos para almacenar la información relevante del ground truth y  se cuenta con código de soporte que facilita la generación de nuevas secuencias así como la gestión de la información en la estructura de datos, evaluar resultados y realizar el  posterior análisis de performance.
 
 Por último se hace un resumen con las conclusiones generadas en todo el capítulo
@@ -24,7 +24,7 @@ Por último se hace un resumen con las conclusiones generadas en todo el capítu
 \section{Revisión de base de datos}
 \label{seccion_revision_base_datos}
 En esta sección se muestra  resultados del relevamiento de bases de datos útiles para el análisis de la marcha.
-Inicialmente el objetivo era obtener un sistema funcional para el caso de la marcha humana, aunque luego de la implementación del mismo se generalizaron sus usos, las bases de datos con este tipo de movimiento fueron el eje central de la búsqueda.
+Inicialmente el objetivo de este proyecto era obtener un sistema funcional para el caso de la marcha humana, aunque luego de la implementación del mismo se generalizaron sus usos, las bases de datos con este tipo de movimiento fueron el eje central de la búsqueda.
 
 Se encontraron principalmente tres páginas web que a manera de compendio agrupan  bases de datos útiles en varias de las ramas de la visión por computadora.\\
 
@@ -111,7 +111,7 @@ A continuación algunos comentarios que vale la pena resaltar sobre  las bases a
 
 \textbf{Carnegie Mellon University Motion Capture Database. \cite{CMU}} \label{CMU}
 %\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}}\label{CMU}
- Este laboratorio también se centra en obtener capturas de movimiento a través de un sistema Vicon, y no está implementado para evaluaciones ópticas de las capturas. Solo maneja videos monoculares de baja resolución, por lo que no cuenta con secuencias de video adecuadas para el proyecto. Sin embargo maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como de la configuración del laboratorio. El sujeto a relevar se encuentra vestido con ropas finas y ajustadas, sobre la cual se colocan los marcadores, por lo tanto se puede despreciar las fluctuaciones de posición de marcadores debidas a la ropa, que si exhiben otros ambientes menos controlados  Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora y es por lejos la que dispone de mayor cantidad de capturas de movimiento de acceso público de las bases relevadas en esta sección.
+ Este laboratorio también se centra en obtener capturas de movimiento a través de un sistema Vicon, y no está implementado para evaluaciones ópticas de las capturas. Solo maneja videos monoculares de baja resolución, por lo que no cuenta con secuencias de video adecuadas para este proyecto. Sin embargo maneja múltiples formatos MoCap y  posee herramientas para conversión a otros formatos, incluido el bvh. Posee descripción detallada de la ubicación de los marcadores, así como de la configuración del laboratorio. El sujeto a relevar se encuentra vestido con ropas finas y ajustadas, sobre la cual se colocan los marcadores, por lo tanto se puede despreciar las fluctuaciones de posición de marcadores debidas a la ropa, que si exhiben otros ambientes menos controlados  Esta base de datos es bastante utilizada en el ámbito de la  animación por computadora y es por lejos la que dispone de mayor cantidad de capturas de movimiento de acceso público de las bases relevadas en esta sección.
 
 \textbf{Georgia Tech. \cite{GT} }
 %\footnote{\textcolor{blue}{\underline{\url{http://www.cc.gatech.edu/cpl/projects/hid/index.html}}}. Accedido 30-11-14}}
@@ -129,7 +129,7 @@ Contiene 1.2 Tera bytes de información. Utilizada para el reconocimiento de la 
 
 \textbf{HumanEva. \cite{HumanEvaWeb}}
 %\footnote{\textcolor{blue}{\underline{\url{http://vision.cs.brown.edu/humaneva/index.html }}}. Accedido 30-11-14} \cite{humaneva} }
-Con 1.6 Gigabytes de información, el trabajo de este laboratorio es muy completo, incluye métricas de evaluación y un análisis importante de las necesidades actuales a la hora de generar una base de datos para relevar actividades humanas. El único inconveniente para cumplir los requisitos del proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son escasos y demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas para este propósito, incluso utilizan máscaras sobre las imágenes ópticas para cubrir los marcadores, estos últimos son utilizados solo para recopilar el ground truth a través de un sistema Vicon.  Dado que su motivación es obtener una imagen ``natural'' del sujeto que contenga la complejidad generada por el movimiento de la ropa, el ground truth que presentan  no es tan preciso como los obtenidos por métodos más tradicionales.  Contiene código para efectuar sustracción de fondo y la implementación de un algoritmo base, con un filtrado de partículas utilizado para el seguimiento de la pose del sujeto. Para acceder a los datos se debe gestionar un permiso en la página de HumanEva. 
+Con 1.6 Gigabytes de información, el trabajo de este laboratorio es muy completo, incluye métricas de evaluación y un análisis importante de las necesidades actuales a la hora de generar una base de datos para relevar actividades humanas. El único inconveniente para cumplir los requisitos de este proyecto es que no está pensado para el seguimiento óptico de marcadores, por lo que los marcadores sobre los sujetos de estudio utilizados para recabar datos Mocap son escasos y demasiado pequeños, las condiciones de luminosidad y color de fondo no son las adecuadas para este propósito, incluso utilizan máscaras sobre las imágenes ópticas para cubrir los marcadores, estos últimos son utilizados solo para recopilar el ground truth a través de un sistema Vicon.  Dado que su motivación es obtener una imagen ``natural'' del sujeto que contenga la complejidad generada por el movimiento de la ropa, el ground truth que presentan  no es tan preciso como los obtenidos por métodos más tradicionales.  Contiene código para efectuar sustracción de fondo y la implementación de un algoritmo base, con un filtrado de partículas utilizado para el seguimiento de la pose del sujeto. Para acceder a los datos se debe gestionar un permiso en la página de HumanEva. 
 
 \textbf{INRIA Perception, Multicam Dataset. \cite{INRIA}}
 %\footnote{INRIA Perception, Multicam Dataset, \textcolor{blue}{\underline{\url{http://4drepository.inrialpes.fr/pages/home}}}. Accedido 30-11-14}} 
@@ -276,7 +276,7 @@ Ya se han mencionado algunas características cualitativas relacionadas con el e
 En cuanto a las dimensiones del espacio de captura, el mismo depende principalmente del tipo de movimiento a relevar y las características de las cámaras utilizadas. A continuación se analiza posibles configuraciones para dos caso, la marcha rectilínea y marcha libre, en el último caso se permite al sujeto movilizarse sobre un área circular.
 
 
-\begin{figure}[H]
+\begin{figure}[ht!]
   \centering
   {\includegraphics[scale=0.16]{img/Base_Datos/Laboratorio.pdf}}      
   \caption{Toma superior del Laboratorio.\\ Todas las cámaras se encuentran a $1\;m$ del suelo.}
@@ -284,7 +284,7 @@ En cuanto a las dimensiones del espacio de captura, el mismo depende principalme
 \end{figure}  
  
  
-\begin{figure}[H]
+\begin{figure}[ht!]
   \centering
   \hspace{-1cm}
    \subfloat[Espacio de captura para marcha rectilínea.]{\includegraphics[scale=0.16]{img/Base_Datos/Lab_marcha1.pdf}\label{img_marcha1}}\hspace{0.3cm}
@@ -339,15 +339,14 @@ Si no se contara con una entrada de sincronización sería prácticamente imposi
 No se encontraron base de datos acorde a las necesidades de este proyecto. Como se menciona en la Sección \ref{seccion_revision_base_datos} varios son los motivos, pero básicamente se debe a que ninguna se diseñó para el análisis óptico  con marcadores y no ofrecen secuencias de video utilizables para estos fines. Por lo tanto se plantea la necesidad de construir una base de datos adecuada que permita desarrollar este sistema.
 
 
-Una característica importante en muchas de las bases relevadas es la manera con la que habitualmente se obtiene el ground truth a partir de sistemas de captura de movimiento (MoCap), tales como Vicon\footnote{ Sistema  de captura de movimiento (MoCap) de Vicon-Peak, \textcolor{blue}{\underline{\url{http://www.vicon.com/}}} }
- o Impulse\footnote{ Sistema  de captura de movimiento (MoCap) Impulse (PhaseSpace Inc., San Leandro, CA), \textcolor{blue}{\underline{\url{http://www.phasespace.com/}}} },
+Una característica importante en muchas de las bases relevadas es la manera con la que habitualmente se obtiene el ground truth a partir de sistemas de captura de movimiento (MoCap), tales como Vicon \cite{vicon} o Impulse \cite{vicon},
 estos sistemas devuelven información muy precisa sobre la ubicación 3D de marcadores ubicados sobre el sujeto a estudiar. Este tipo de base de datos con capturas de movimiento, se utilizan ampliamente en el ámbito de la animación por computadora, pues se carga la información de la captura al modelo 3D de interés y este efectúa la acción esperada con un alto nivel de realismo. 
 
 
 Dada la complejidad material y logística de implementar una base de datos, los tiempos necesarios para desarrollar las herramientas de análisis del proyecto y su necesidad de secuencias útiles, junto con el potencial de la información obtenida en el relevamiento de dicha base y sus usos en otros ámbitos, se decide generar una base de datos sintética con el material MoCap utilizado como ground truth. Trabajando en esta dirección se generan secuencias en un ambiente totalmente controlado, donde se conoce el ground truth, simplificando el testeo de algoritmos sobre diferentes etapas del procesamiento y permitiendo incrementar gradualmente las dificultades  en cada ensayo, por ejemplo efectuando variaciones en el número o posición de las cámaras. Estas características permiten a su vez generar \emph{benchmark's} de algoritmos, de gran importancia para futuros desarrollos del sistema. 
 
 
-Continuando en esta dirección al día de hoy, se cuenta con herramientas de código libre para generar una base de datos sintética que sea robusta, completa y extensible. Particularmente se trabajo con la suite de animación 3D \textit{Blender}\footnote{ Blender Foundation \textcolor{blue}{\underline{\url{http://www.blender.org/}}}}, generando un laboratorio en dicho entorno virtual. Para obtener las secuencias de video, se asocia a un modelo  virtual 3D la información de movimiento de interés obtenida a partir de sistemas MoCap, para luego generar secuencias animadas, las cuales por último, se renderizan sobre un cierto número de cámaras para generar secuencias de video conteniendo múltiples vistas del modelo original. Estas secuencias son las que se utilizaron para el desarrollo del sistema y permitieron generar una base de datos sintética. 
+Continuando en esta dirección al día de hoy, se cuenta con herramientas de código libre para generar una base de datos sintética que sea robusta, completa y extensible. Particularmente se trabajo con la suite de animación 3D \textit{Blender} \footnote{ Blender Foundation \textcolor{blue}{\underline{\url{http://www.blender.org/}}}}, generando un laboratorio en dicho entorno virtual. Para obtener las secuencias de video, se asocia a un modelo  virtual 3D la información de movimiento de interés obtenida a partir de sistemas MoCap, para luego generar secuencias animadas, las cuales por último, se renderizan sobre un cierto número de cámaras para generar secuencias de video conteniendo múltiples vistas del modelo original. Estas secuencias son las que se utilizaron para el desarrollo del sistema y permitieron generar una base de datos sintética. 
 
 
 \subsection{Formatos Mocap}\label{formatos_MoCap}
@@ -359,7 +358,7 @@ Importante en la mayoría de las bases de datos relevadas, incluso aquellas de a
 En la actualidad el éxito de las capturas de movimiento ha dado lugar a una serie de casos de producción que pueden registrar y proporcionar datos de movimiento, sin embargo muchas de las empresas han desarrollado su propio formato de archivo. Esto significa que los formatos de archivo de los datos de captura de movimiento
 están lejos de unificarse en un estándar, sin embargo la naturaleza ASCII de muchos de los formatos, hace que sea razonablemente fácil decodificar y entender la información por simple inspección de los datos.
 
-\begin{table}[H]
+\begin{table}[ht!]
 \caption{Formatos de archivo Mocap.}
 \label{tabla_Mocap_extensions}
 \begin{minipage}{\textwidth}
@@ -384,7 +383,7 @@ La mayoría de los formatos mostrados son soportados por \textit{Blender}, sin e
 El formato BVH proviene del formato BVA de BioVision con la notable adición de una estructura de datos jerárquica que representa los huesos\footnote{Entidad básica en la representación del esqueleto. Cada hueso representa el segmento más pequeña dentro del movimiento sujeto a cambios de traslación y rotación. } del esqueleto\footnote{Entidad global que representa el movimiento. Un esqueleto está formado por huesos.}. Se compone de dos partes, la primera sección detalla la jerarquía y la pose inicial del esqueleto y la segunda sección el movimiento del mismo, describiendo la información temporal del esqueleto cuadro a cuadro.
  
  
-\begin{figure}[H]
+\begin{figure}[ht!]
   \centering 
   \hspace{0.5cm}  
    \subfloat[Esqueleto]{\includegraphics[scale=0.25]{img/Base_Datos/Estructura_esqueleto1.pdf}\label{img_Esqueleto_1}}\hspace{2.5cm}  
@@ -396,7 +395,7 @@ El formato BVH proviene del formato BVA de BioVision con la notable adición de 
 
 La sección jerárquica del archivo empieza con las dos primeras líneas conteniendo las palabras HIERARCHY y ROOT respectivamente, seguidas del nombre del hueso que es la raíz de la estructura jerárquica y a continuación la estructura restante del esqueleto definida de manera recursiva conteniendo la información del origen de cada hueso y el orden en que las variables del hueso se modifican en la segunda sección. La sección de movimiento empieza con la palabra clave MOTION, contiene la cantidad de cuadros en la secuencia, el tiempo entre cuadros y la  información completa de la posición de cada hueso del esqueleto en cada cuadro de la secuencia. Por más detalles del formato consultar el artículo de M. Meredith y S.Maddock \cite{meredith2001motion}.  
 
-Si bien cualquier fuente de archivos BVH con capturas de movimiento es válida en principio, se decide trabajar en este proyecto con las fuentes BVH de la base de datos \textit{MotionBuilder-friendly version} ofrecidas por \textit{cgspeed} \cite{cgspeed}, 
+Si bien en principio cualquier fuente de archivos BVH con capturas de movimiento es válida, se decide trabajar en este proyecto con las fuentes BVH de la base de datos \textit{MotionBuilder-friendly version} ofrecidas por \textit{cgspeed} \cite{cgspeed}, 
 %\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
  que provienen de las capturas de Carnegie Mellon University Motion Capture Database \cite{CMU}.
  %\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}. 
@@ -428,7 +427,7 @@ Se ha generado un espacio de trabajo controlado, conteniendo entre otras cosas u
 \end{itemize}
 
 
-\begin{figure}[H]
+\begin{figure}[ht!]
   %\centering 
   \hspace{-1.0cm}
    \includegraphics[scale=0.28]{img/Base_Datos/Entorno_Blender.pdf}
@@ -463,9 +462,9 @@ En cuanto a el esqueleto con la información de movimiento, el mismo se obtuvo d
  %\footnote{bvhacker: The free bvh file editing tool. \textcolor{blue}{\underline{\url{ http://davedub.co.uk/bvhacker/}}}. Accedido 5-12-14}.
  La misma permite centrar las secuencias sobre un mismo punto en el primer cuadro removiendo los offset globales.
  Una vez gestionado lo anterior se importa en \textit{Blender} la secuencia BVH y se procede a generar los marcadores en las articulaciones del esqueleto, dado que se tiene la posición exacta del origen de cada hueso en el esqueleto y la articulación es la unión entre dos huesos consecutivos, se puede obtener la posición exacta de los marcadores a partir de la secuencia BVH.
- La generación de los marcadores y el enlazado del esqueleto al modelo se realiza a través de un código python, \texttt{acoplar\_modelo.py}, realizado para tal fin. El mismo genera marcadores esféricos de material difuso blanco levemente poroso, con $2,8 \;cm$ de diámetro y baja especularidad, centrados en las articulaciones definidas previamente en una lista, como se muestra en la Figura \ref{img_esqueleto_marcador} y luego enlaza cada miembro del modelo a su correspondiente hueso. De está manera, para finalizar la creación del modelo con marcadores, solo resta que el usuario realice ajuste mínimos de tamaño y posición sobre el modelo. Es importante resaltar que los marcadores se ubican sobre puntos del esqueleto de los cuales se conoce la posición 3D en cada cuadro y que el modelo es necesario debido a que el esqueleto no se puede renderizar. 
+ La generación de los marcadores y el enlazado del esqueleto al modelo se realiza a través de un código python, \texttt{acoplar\_modelo.py}, realizado para tal fin. El mismo genera marcadores esféricos de material difuso blanco levemente poroso, con $2,8 \;cm$ de diámetro y baja especularidad, centrados en las articulaciones definidas previamente en una lista, como se muestra en la Figura \ref{img_esqueleto_marcador} y luego enlaza cada miembro del modelo a su correspondiente hueso. De está manera para finalizar la creación del modelo con marcadores solo resta que el usuario realice ajuste mínimos de tamaño y posición sobre el modelo. Es importante resaltar que los marcadores se ubican sobre puntos del esqueleto de los cuales se conoce la posición 3D en cada cuadro y que el modelo es necesario debido a que el esqueleto no se puede renderizar. 
  
- \begin{figure}[H]
+ \begin{figure}[ht!]
    
    \hspace{-1.0cm}
    \subfloat[Creación de marcadores]{\includegraphics[scale=0.23]{img/Base_Datos/Esqueleto_Marcador.pdf}\label{img_esqueleto_marcador}} \hspace{0.6cm}
@@ -498,7 +497,7 @@ Para contar con el ground truth final de la secuencia animada se debe exportar d
 \subsubsection*{Mocap Tools}
 
 Existe una herramienta en \textit{Blender} que permite manipular y copiar la información de movimiento entre dos esqueletos, denominada \textit{Mocap Tools}. La misma no viene activada por defecto y se debe habilitar desde el menú de preferencias. Para la creación de secuencias utilizando esta herramienta, se debe tener un esqueleto ya enlazado al modelo virtual con marcadores, luego se importa la secuencia BVH de interés que a su vez genera otro esqueleto. Utilizando las opciones de \textit{Mocap Tools}  se copia el movimiento del esqueleto BVH al esqueleto ya definido inicialmente, de esta manera se evitan los ajustes posteriores del modelo virtual y se tiene una secuencia lista para renderizar. 
-El problema surge al momento de obtener el ground truth, pues la exportación del esqueleto que se utiliza para mover al modelo no es precisa en este caso, se detectaron fallas en este sentido por parte de \textit{Blender}, solo se exportan los movimientos relativos de los huesos y no la traslación del centro de masa del esqueleto. El motivo fundamental es el mecanismo utilizado por \textit{Mocap Tools} para enlazar los dos esqueletos, el BVH y el del modelo virtual. Dado que la información de traslación no se incluye en el esqueleto de destino sino que se condiciona a que este último se traslade según un hueso particular externo (\textsf{stride bone})  cuya información de movimiento no puede ser exportada en un BVH por \textit{Blender}. Con lo cual, si bien al trabajar con esta herramienta se generan secuencias visualmente aceptables para un proceso de animación, en este caso impide obtener el ground truth necesario para las etapas de performance y desarrollo, por lo que no se utiliza.
+El problema surge al momento de obtener el ground truth, pues la exportación del esqueleto que se utiliza para mover al modelo no es precisa en este caso, se detectaron fallas en este sentido por parte de \textit{Blender}, solo se exportan los movimientos relativos de los huesos y no la traslación del centro de masa del esqueleto. El motivo fundamental es el mecanismo utilizado por \textit{Mocap Tools} para enlazar los dos esqueletos, el BVH y el del modelo virtual. Dado que la información de traslación no se incluye en el esqueleto de destino sino que se condiciona a que este último se traslade según un hueso particular externo (\textsf{stride bone})  cuya información de movimiento no puede ser exportada en un BVH por \textit{Blender}. Con lo cual, si bien al trabajar con esta herramienta se generan secuencias visualmente aceptables para un proceso de animación, no se obtiene el ground truth necesario para las etapas de performance y desarrollo del sistema, por lo que no se utiliza.
  
     
 
@@ -541,7 +540,7 @@ Marcha libre                                                                    
 \end{table}
 
 
-La estructura utilizada para los directorios de la base de datos se muestran en las Figuras \ref{Estructura_directorios} y \ref{Estructura_directorios2}, donde las mismas sirven para soportar tanto datos sintéticos como datos reales. 
+La estructura utilizada para los directorios de la base de datos se muestran en las figuras \ref{Estructura_directorios} y \ref{Estructura_directorios2}, donde las mismas sirven para soportar tanto datos sintéticos como datos reales. En dichas figuras dentro de cada <...>  ~designar el nombre de la variable que se indica.
 
 \begin{figure}[ht!]
 \includegraphics[scale=0.695]{img/Base_Datos/Estructura_directorios.pdf}
@@ -556,7 +555,7 @@ La estructura utilizada para los directorios de la base de datos se muestran en 
 \label{Estructura_directorios2}
 \end{figure}
 
-%Dentro de cada <...>  ~designar el nombre de la variable que se indica.
+
 
 Básicamente se tiene la información de cada secuencia de un sujeto separada en tres niveles: los datos de video, la información obtenida con los algoritmos al procesar los datos de video y por último,  si se encuentra disponible, la información de ground truth del mismo.
 
@@ -569,33 +568,23 @@ Una vez finalizada la exportación de información del entorno \textit{Blender} 
 
 Armado el laboratorio y ubicadas las cámaras para la captura de varias secuencias, el proceso de calibración y almacenamiento de sus variables se efectúa una sola vez. Por lo que ambas estructuras de directorios, la de información de captura y la de información de calibración,  se pueden almacenar en una única carpeta que identifique la configuración del laboratorio particular.  
 
-
-
 \section{Estructura de datos.}
 \label{section_Estructura_de_datos}
 Para poder trabajar a lo largo de todo el sistema de procesamiento se debe contar con una estructura de datos que mantenga y soporte toda la información de interés a lo largo proceso. También es deseable que los procesos utilicen dicha estructura sin quedar condicionados a futuras modificaciones de la misma, esta independencia requiere la existencia de funciones de acceso de entrada y salida a la estructura.  
 
 
-Con este fin se ha diseñado e implementado las estructuras de datos de las Figuras \ref{img_estructura_skeleton} y \ref{img_estructura_cam}.
+Con este fin se ha diseñado e implementado las estructuras de datos de las figuras \ref{img_estructura_skeleton} y \ref{img_estructura_cam}.
 Las mismas permiten almacenar tanto la información de ground truth como la generada a la hora de  trabajar en las etapas de análisis de video. Se han implementado funciones de acceso de entrada y salida en \textit{Matlab}, así como varias herramientas de gestión que permiten entre otras cosas inicializar las estructuras, obtener o modificar cualquier parámetro, efectuar exportación e importación a xml y visualizar la información de manera interactiva generando para ello gráficas 2D o 3D. 
 
 
-Por ejemplo si se desea obtener una estructura para almacenar la información 3D del sujeto a lo largo del procesamiento, se inicializa una estructura \texttt{skeleton} a través de la función \texttt{init\_structs()}, donde se indica entre otros parámetros el número de cuadros y número de marcadores. 
-A partir de este momento se tiene una variable de nombre \texttt{skeleton} como la mostrada en la Figura \ref{img_estructura_skeleton} con sus campos inicializados. Luego se dispone las funciones \texttt{set\_info()} y \texttt{get\_info()}, que permiten modificar o acceder respectivamente a cualquier campo de la estructura. Las funciones que modifican la estructura lo hacen de una manera coherente, es decir si por ejemplo se introducen las coordenadas de un marcador en un cierto cuadro, se incrementa automáticamente el atributo \texttt{n\_markers} en el cuadro respectivo.
-
-Básicamente se tienen dos estructuras principales, una para almacenar información del esqueleto asociado al modelo y otra para almacenar la información de las cámaras con las que se efectúa la captura de video.
-
-Cabe destacar que este tipo de estructura es útil tanto para una base de datos sintética como una base de datos real. \\
-\\
-
-\begin{figure}[H]
+\begin{figure}[ht!]
    \hspace{-1.2cm}
    \includegraphics[scale=0.6]{img/Base_Datos/Estructura_datos_skeleton.pdf}
    \caption{Estructura de datos para esqueletos.}  
    \label{img_estructura_skeleton} 
  \end{figure} 
 
-\begin{figure}[H]
+\begin{figure}[ht!]
    \hspace{-1.2cm}
    \includegraphics[scale=0.6]{img/Base_Datos/Estructura_datos_cam.pdf}
    \caption{Estructura de datos para cámaras.}
@@ -603,31 +592,20 @@ Cabe destacar que este tipo de estructura es útil tanto para una base de datos 
  \end{figure} 
 
 
-%\subsubsection{Conclusiones} 
-%
-%Al investigar los diferentes formatos de captura de movimiento (MoCap) disponibles en las distintas bases de datos relevadas, surge naturalmente el formato BVH como el propicio para importar la información de la captura de movimiento al entorno virtual y a Matlab, su relativa sencillez y extendido uso facilitan sobremanera dicho pasaje. 
-%
-%Se decide trabajar en este proyecto con las fuentes BVH de la base de datos \textit{MotionBuilder-friendly versión} ofrecidas por cgspeed\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
-% que provienen de las capturas de Carnegie Mellon University Motion Capture Database\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}. Alguno de los factores que justifican esta elección son que C.M.U. dispone de un gran número de capturas de movimiento de acceso público, varias utilidades de software que permiten llevar a otros formatos y es utilizado ampliamente en el ámbito de la animación por computadora.
-% 
-% Utilizando una suite de animación 3D gratuita y de código abierto como lo es Blender, se genera un laboratorio de captura de movimiento virtual, donde logra obtenerse 5 secuencias sintéticas dentro de los cuales cuatro son movimientos de marcha y una de corrida, con sus respectivos videos.  Si bien las secuencias de video obtenidas son lo único necesario para el análisis posterior, al generar dichas secuencias a través de un entorno virtual controlado como lo es Blender, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada cuadro, etc. Permitiendo contar con un ground truth tanto del movimiento como de la calibración de las cámaras, sobre el cual validar los algoritmos en cada etapa del sistema de procesamiento. 
-% 
-%   
-%Blender cuenta con una interfaz de programación de aplicaciones flexible, que permite extender su funcionalidad a través de programas en Python. Con el objetivo de automatizar varias etapas en el desarrollo de nuevas secuencias, así como gestionar la exportación de información desde Blender a otros lenguajes, se han creado múltiples scripts. En particular se posee un programa Python que automatiza la extracción de parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
-%
-%
-%La estructura de datos implementada cuenta con lo necesario para mantener y dar soporte a la información de interés a lo largo del proyecto. Cabe destacar que también soporta información de secuencias reales.
-%
-%
-%
-%Se logra implementar un prototipo de base de datos lo suficientemente general y útil para trabajar con sistemas de captura de movimiento basada en marcadores. Las características de las herramientas utilizadas permiten generar secuencias de movimiento sintéticas, con relativa facilidad. El potencial actual y la posible expansión de la base de datos permiten afirmar que la misma es una herramienta a tener en cuenta en futuros proyectos de captura de movimiento.
+Por ejemplo si se desea obtener una estructura para almacenar la información 3D del sujeto a lo largo del procesamiento, se inicializa una estructura \texttt{skeleton} a través de la función \texttt{init\_structs()}, donde se indica entre otros parámetros el número de cuadros y número de marcadores. 
+A partir de este momento se tiene una variable de nombre \texttt{skeleton} como la mostrada en la Figura \ref{img_estructura_skeleton} con sus campos inicializados. Luego se dispone las funciones \texttt{set\_info()} y \texttt{get\_info()}, que permiten modificar o acceder respectivamente a cualquier campo de la estructura. Las funciones que modifican la estructura lo hacen de una manera coherente, es decir si por ejemplo se introducen las coordenadas de un marcador en un cierto cuadro, se incrementa automáticamente el atributo \texttt{n\_markers} en el cuadro respectivo.
 
- 
+Básicamente se tienen dos estructuras principales, una para almacenar información del esqueleto asociado al modelo y otra para almacenar la información de las cámaras con las que se efectúa la captura de video.
+
+Cabe destacar que este tipo de estructura es útil tanto para una base de datos sintética como una base de datos real. 
+
+
+
 
 
 \section{Conclusiones} 
 
-Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan, y en algunos casos imposibilitan, una correcta segmentación a partir de la información óptica y por último la ausencia o tamaño inadecuado de los marcadores, son los factores más importantes.
+Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan, una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores, son los factores más importantes.
 
 
 Salvando diferencias, el problema principal está en que no se tienen imágenes ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de trayectorias de puntos 3D en distinto tipo de movimientos, sobre todo en formatos Mocap.
@@ -646,7 +624,7 @@ A la hora de configurar un laboratorio no solo hay que integrar las distintas va
 En esta sección se logra tratar algunos parámetros claves y se discute las relaciones que estos deben tener para generar capturas de movimiento con información óptica basada en marcadores de bueno calidad.
 
 
-A continuación se muestran consideraciones de parámetros importantes para generar capturas en el caso de la marcha.
+A continuación se enumeran consideraciones de parámetros importantes para generar capturas en el caso de la marcha.
 
 Es deseable para una buena resolución temporal poseer cámaras que permitan capturar 30 cuadros por segundo, con tiempos de obturación de al menos $1/2000\, s$, esto último permite evitar efectos de distorsión debidos a falta de nitidez. La resolución espacial de los datos en el procesamiento condiciona la resolución de la cámara. Se concluye que trabajando a 10 metros con resolución $1600\times600$ se obtienen incertidumbres de píxel de casi $1 ~cm $. 
 
