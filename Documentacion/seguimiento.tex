@@ -30,7 +30,7 @@ El problema del seguimiento de marcadores espaciales a lo largo del tiempo es un
 
 Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios para robustecer la generación de las trayectorias. Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma sino sobre un lugar representativo sobre el cuerpo como se observa en el ajuste presentado en la Figura \ref{skeleton_fitting_herda} y es planteado en el trabajo de Lorna Herda~\cite{herda}). Con estas distancias relevadas, y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o que varían de forma continua (ángulo de huesos), donde la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo físico a los puntos obtenidos en la reconstrucción. 
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.6]{img/Tracking/01_skeleton_fitting_Herda.png}
 \end{center}
@@ -40,7 +40,7 @@ Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios
 
 Uno de los algoritmos mas simples~\cite{survey_tracking} es continuar una secuencia buscando el marcador mas cercano al ultimo punto conocido, imponiendo como restricción que el traslado es mínimo ("greedy matching"). Sin embargo, esto es susceptible a errores para casos muy simples, como se observa en el ejemplo de la Figura \ref{greedy_matching} .
 
-\begin{figure}[hbt]
+\begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.8]{img/Tracking/01_Greedy_Matching.png}
 \end{center}
@@ -78,7 +78,7 @@ x_{[f+1]}-x_{[f]}& = x_{[f]}-x_{[f-1]} \\
 \label{track_acc}
 \end{equation}
 
-\begin{figure}[hbt]
+\begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.8]{img/Tracking/tracking-eps-converted-to.pdf}
 \end{center}
@@ -91,7 +91,7 @@ En su trabajo, Lorna Herda afirma que realizar el seguimiento sobre la reconstru
 
 Además, como se vio en el Capítulo \ref{reconstruccion}, la reconstrucción fue implementada de distinta forma que la propuesta por Herda. Si bien es posible obtener los puntos proyectados en cada vista, estos no cumplen el mismo rol. Sin implementar la re-proyección, en el tracking sobre una vista individual, se pierden trayectorias cuando se pierden de vista como se observa en la Figura~\ref{tracking_2D_cam_07}.
 \vspace{-0.2cm}
-\begin{figure}[H]
+\begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.7]{img/Tracking/011_tracking_2D_camara_07.png}
 \end{center}
@@ -123,7 +123,7 @@ Al final de cada iteración, la matriz de enlaces es consolidada para asignarle 
 \\
 
 El procedimiento que se estudiará en esta sección para el seguimiento de marcadores es el presentado en la Figura~\ref{diagrama_seguimiento}. A continuación se irán detallando cada uno de los bloques. 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \hspace{-1cm}
 \includegraphics[scale=0.71]{img/Tracking/diagrama_seguimiento}
 \caption{Diagrama de Seguimiento de Marcadores}
@@ -185,7 +185,7 @@ Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1
 \item \textbf{Validación dentro del cuadro}. Se verifica que los índices de la matriz de enlaces en [f+1] son únicos, asociados a una sola trayectoria. Si dos o mas trayectorias se enlazaron a un mismo punto en [f+1], se comparará la aceleración con la que fueron enlazadas, validando aquella con menor aceleración y descartando las otras. En este punto existe la posibilidad de haber agregado todas las trayectorias involucradas en la decisión, en vez de una sola trayectoria por marcador en [f+1] que mejor cumpla las condiciones para ese marcador. De haber elegido esta opción, el descartar una trayectoria que podría haber sido elegida por menor variación daría paso a la siguiente mejor. Este caso sucede de forma más frecuente al aplicar el seguimiento para trayectorias 2D (no sucede lo mismo en 3D) por lo cual se procedió con solo una trayectoria por marcador la cual, en caso de ser invalida, debe ser evaluada en la etapa de inventario de trayectorias.  
 \item \textbf{Validación en trayectoria}. Pueden existir puntos que fueron reconstruidos con leves errores que deben detectarse, corregirse y estimar un reemplazo. Estos puntos son detectados como enlazados correctamente pero con posición, velocidad o aceleración que presenta discontinuidad notoria como puede observarse en el ejemplo de la Figura~\ref{discontinuidad_tracking}.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
  \centering
   \subfloat[Trayectoria]{
    \label{track_m13}
@@ -202,7 +202,7 @@ Se establece un umbral a partir del estudio de la distribución de la aceleraci�
 
 Como opción general se implementó una alternativa que en vez de calcular un umbral para cada trayectoria establece un umbral global, el cual es útil para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se logra mediante una ejecución en dos instancias del seguimiento, una primera instancia sin limites globales de aceleración en el enlazado, y una segunda con un limite establecido a un porcentaje de la distribución de la aceleración asumiendo un nivel para perdidas. A efectos de las pruebas, se verificó que filtrar al nivel que cumplan el 99\% de las aceleraciones de todos los marcadores enlazados arroja buenos resultados. Si durante la segunda instancia un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
  \centering
   \subfloat[Función de distribución de la Aceleración]{
 	\label{distribucion_aceleracion}
@@ -222,7 +222,7 @@ Una vez actualizada la lista de las trayectorias perdidas en [f][f+1] se deben t
 \begin{enumerate}
   \item \textbf{Distancia con respecto a una estimación lineal}. Prolongando el movimiento, tomando el ultimo punto como inicio y los últimos cuadros de la trayectoria conocida como desplazamiento. El desplazamiento es repetido tantas veces como tiempo perdido tiene el marcador: si una trayectoria estaba definida hasta [f-1] y se buscan enlaces con elementos de [f+1], el desplazamiento es repetido dos veces (ver Figura~\ref{track_m8_recover}). 
  
-\begin{figure}[H]
+\begin{figure}[ht!]
  \centering
   \subfloat[Salida de Código durante perdida y recuperación de trayectoria]{
 	\label{track_m8_recover_code}
@@ -375,7 +375,7 @@ Esta metodología de estimación de puntos intermedios es retomada para la valid
 
 El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, presentarlos como trayectorias, y corregirlos si es necesario. Por esta razón es esperable que para una misma secuencia los resultados sean similares a la reconstrucción, siendo las únicas diferencias leves las correcciones realizadas sobre trayectorias particulares y la posibilidad de medir el error por marcador individual debido a que, a esta altura del proceso, ya están identificados las distintas trayectorias. Los siguientes resultados fueron probados sobre una captura sintética de 113 cuadros, 14 marcadores, con un conjunto de 17 cámaras.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \vspace{-0.4cm}
 \begin{center}
 %\includegraphics[width=\linewidth]{img/Tracking/040_Salida_Tracking_Esqueleto_Trayectoria.png}
@@ -388,7 +388,7 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 
 
 
-\begin{table}[H]
+\begin{table}[ht!]
 \vspace{-0.3cm}
 \resizebox{15cm}{!}{
 \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -420,7 +420,7 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 El filtrado y validación por trayectorias permite reducir el error máximo y mejorar el promedio de trayectorias específicas (marcador 8 en la Figura~\ref{Tracking_Esqueleto_Trayectoria}) pero al aplicar globalmente a todas las trayectorias puede perjudicar a aquellas que tengan discontinuidades naturales en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200, con 17 cámaras y con el filtrado por aceleración individual de marcadores. En otras capturas los comportamientos son similares con promedios inferiores a 0.5 cm y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras. Más adelante en el Capítulo~\ref{evaluacion} se estudiará el impacto de cambiar los conjunto de cámaras en marcadores.   
 
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \vspace{-0.4cm}
  \centering
   \subfloat[Trayectoria sin Corregir Por Aceleración]{
