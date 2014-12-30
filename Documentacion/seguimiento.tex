@@ -54,7 +54,7 @@ Uno de los algoritmos mas simples~\cite{survey_tracking} es continuar una secuen
 \label{greedy_matching}
 \end{figure}
 
-Para el caso de algoritmos de predicción, algunas soluciones implementadas para tracking de marcadores en desarrollos similares (como el DVIDEOW~\cite{figueroa2003flexible}) son el filtro de Kalman~\cite{kalman} y sus variantes, los cuales requieren inicializar y ajustar parámetros internos. Estos procedimientos fueron implementados en las primeras instancias de estudio del problema, pero se decidió implementar otro procedimiento capaz de corregir los errores del método de forma más simple, de manera tal que el mismo no requiera estudio de parámetros internos para el filtrado e ingrese alguna restricción a las trayectorias enlazadas.
+Para el caso de algoritmos de predicción, algunas soluciones implementadas para tracking de marcadores en desarrollos similares (como el DVIDEOW~\cite{figueroa2003flexible}) son el filtro de Kalman~\cite{kalman} y sus variantes, los cuales requieren inicializar y ajustar parámetros internos. Estos procedimientos fueron implementados en las primeras instancias de estudio del problema, pero se decidió implementar otro procedimiento capaz de corregir los errores de enlazado de forma más simple, de manera tal que el mismo no requiera estudio de parámetros internos para el filtrado pero ingrese alguna restricción a las trayectorias enlazadas.
 \\ 
 
 Como se viene comentando en los capítulos anteriores, el procedimiento elegido es el presentado por Lorna Herda~\cite{herda}. El mismo consiste en aplicar el tracking de partículas esbozado por Malik, Dracos, Papantoniou~\cite{griegos} al seguimiento de marcadores. Para ello, se busca el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
@@ -95,7 +95,7 @@ x_{[f+1]}-x_{[f]}& = x_{[f]}-x_{[f-1]} \\
 En su trabajo, Lorna Herda afirma que realizar el seguimiento sobre la reconstrucción 3D presenta menos continuidad en las trayectorias, con respecto al seguimiento realizado sobre el conjunto de segmentación sumada a la proyección de los puntos reconstruidos 3D en cada vista 2D. Sin embargo, a raíz de las pruebas realizadas por el grupo, se decidió trabajar con el seguimiento en los puntos reconstruidos en 3D, ya que en caso de trayectorias que se cruzan en una vista 2D, las mismas son fácilmente separables en 3D debido a la geometría presentada.
 \\ 
 
-Además, como se vio en el Capítulo \ref{reconstruccion}, la reconstrucción fue implementada de forma distinta a lo propuesto por Herda. Si bien es posible obtener los puntos proyectados en cada vista, estos no cumplen el mismo rol. Sin implementar la re-proyección, en el tracking sobre una vista individual, se pierden trayectorias cuando se pierden de vista como se observa en la Figura~\ref{tracking_2D_cam_07}.
+Además, como se vio en el Capítulo \ref{reconstruccion}, la reconstrucción fue implementada de forma distinta a lo propuesto por Herda. Si bien es posible obtener los puntos proyectados en cada vista, estos no cumplen el mismo rol. Sin implementar la re-proyección, en el tracking sobre una vista individual, se pierden trayectorias cuando no se tiene la imagen de un marcador particular durante un cierto número de cuadros, como se observa en la Figura~\ref{tracking_2D_cam_07}.
 \vspace{-0.2cm}
 \begin{figure}[ht!]
 \begin{center}
