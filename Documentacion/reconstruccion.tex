@@ -21,16 +21,10 @@ En la Figura \ref{fig: esquema_reconstruccion} se muestra un bosquejo de la reco
 El proceso de reconstrucción implementado consiste en tres pasos fundamentales:
 \begin{enumerate}
 \item Determinar aquellos marcadores detectados en las distintas cámaras que corresponden a un mismo marcador en el espacio. De esta manera se establece una correspondencia entre los marcadores detectados en las distintas vistas. Dichas asociaciones se establecen de a pares de cámaras.
-\item Una vez establecidas estas correspondencias se selecciona aquella que con algún criterio pueda considerarse con mayores posibilidades de ser una asociación correcta. Luego se determina la posición en el espacio del marcador a partir de la asociación seleccionada.
+\item Una vez establecidas estas correspondencias se selecciona aquella que bajo algún criterio, pueda considerarse con mayores posibilidades de ser una asociación correcta. Luego se determina la posición en el espacio del marcador a partir de la asociación seleccionada.
 \item Una vez reconstruido uno de los marcadores debe verificarse si dicho marcador fue detectado en el resto de las cámaras.
 \end{enumerate}
-\begin{figure}[H]
-\begin{center}
-\includegraphics[scale=0.7]{img/Reconstruccion/geometria_epipolar}
-\end{center}
-\caption{Geometría epipolar}
-\label{fig: geometria_epipolar}
-\end{figure}
+
 
 \section{Geometría epipolar}
 
@@ -38,15 +32,24 @@ El proceso de reconstrucción implementado consiste en tres pasos fundamentales:
 
 Para explicar el algoritmo de reconstrucción es necesario describir brevemente algunos conceptos fundamentales de la geometría epipolar.  Dicha geometría es la que se presenta cuando dos cámaras en distintas posiciones se encuentran capturando el mismo espacio 3D. El análisis de esta situación permite obtener relaciones entre los puntos 3D con sus correspondientes proyecciones en las cámaras, así como las relaciones entre los propios puntos proyectados en las distintas cámaras\cite{cyganek}\cite{hartley}. \\
 
+
  Como se muestra en la Figura \ref{fig: geometria_epipolar}, se tiene el caso en que dos cámaras observan un mismo punto 3D en el espacio, el punto $X$. Para esto se considera el modelo \textit{pinhole} de la cámara  descrito en el Capítulo \ref{calibracion}. En ese caso los puntos $O_1$ y $O_2$ son los centros o focos de las cámaras.\\
  
-  El punto $X$ se proyecta en dichas cámaras en los puntos $x$ y $x'$. Es decir, $x$ pertenece a la intersección de la retina de la cámara 1, con la recta $\overline{O_1X}$. Análogamente el punto $x'$ pertenece a la intersección de la retina de la cámara 2 con la recta $\overline{O_2X}$. A su vez, los focos de ambas cámaras $O_1$ y $O_2$ definen una recta que corta a las retinas de las cámaras en los puntos $e$ y $e'$ llamados epipolos.\\
-  
-  Si el punto $X$ varía sobre el espacio 3D, se tienen múltiples rectas que pasan por dicho punto y el foco de la cámara 1, el punto $O_1$. Dado que $O_1$ se proyecta en la cámara 2 como el punto $e'$ en el plano imagen, todas las rectas  $\overline{O_1X}$ se proyectan en dicha cámara como rectas que se intersecan en el punto $e'$, a estas rectas se le denominan rectas epipolares. Análogamente las rectas 3D $\overline{O_2X}$ se proyectan sobre la cámara 1 como rectas epipolares que se intersecan en el punto $e$. De esta manera se tiene que los puntos $X$, $O_1$ y $O_2$ forman un plano, llamado plano epipolar,  que interseca a los planos imagen en las rectas epipolares.\\
-  
-De lo anterior se observa que teniendo la proyección $x$ de un punto $X$ sobre la cámara 1, también se conoce la recta epipolar $\overline{e'x'}$ y se puede ver que el punto $X$ se proyecta en la cámara 2 en un punto $x'$ situado en dicha recta epipolar. Esto implica que por cada punto visto en una retina en la otra se observa una línea.\\
+ \begin{figure}[ht!]
+ \begin{center}
+ \includegraphics[scale=0.7]{img/Reconstruccion/geometria_epipolar}
+ \end{center}
+ \caption{Geometría epipolar}
+ \label{fig: geometria_epipolar}
+ \end{figure}
  
-Si los puntos $x$ y $x'$ son conocidos, sus proyecciones son también conocidas y si estos puntos corresponden a un mismo punto 3D su lineas de proyección deben interceptarse en $X$. Por lo tanto las coordenadas del punto X pueden derivarse a partir de las coordenadas de sus puntos imagen.\\
+  El punto $X$ se proyecta en dichas cámaras en los puntos $x$ y $x'$. Es decir, $x$ pertenece a la intersección de la retina de la cámara 1, con el rayo de proyección $\overline{O_1X}$. Análogamente el punto $x'$ pertenece a la intersección de la retina de la cámara 2 con el rayo de proyección $\overline{O_2X}$. A su vez, los focos de ambas cámaras $O_1$ y $O_2$ definen un rayo que corta a las retinas de las cámaras en los puntos $e$ y $e'$ llamados epipolos.\\
+  
+  Si el punto $X$ varía sobre el espacio 3D, se tienen múltiples rayos de proyección que pasan por dicho punto y el foco de la cámara 1, el punto $O_1$. Dado que $O_1$ se proyecta en la cámara 2 como el punto $e'$ en el plano imagen, todas los rayos  $\overline{O_1X}$ se proyectan en dicha cámara como rectas que se intersecan en el punto $e'$, a estas rectas se les denomina rectas epipolares. Análogamente los sucesivos rayos de proyección $\overline{O_2X}$ se proyectan sobre la cámara 1 como rectas epipolares que se intersecan en el punto $e$. De esta manera se tiene que los puntos $X$, $O_1$ y $O_2$ forman un plano, llamado plano epipolar,  que interseca a los planos imagen en las rectas epipolares.\\
+  
+De lo anterior se observa que teniendo la proyección $x$ de un punto $X$ sobre la cámara 1, también se conoce la recta epipolar $l'$ y se puede ver que el punto $X$ se proyecta en la cámara 2 en un punto $x'$ situado en dicha recta epipolar $l'=\overline{e'x'}$. Esto implica que por cada punto visto en una retina en la otra se observa una línea.\\
+ 
+Si los puntos $x$ y $x'$ son conocidos, sus rayos de proyección son también conocidos y si estos puntos corresponden a un mismo punto 3D sus rayos de proyección deben interceptarse en $X$. Por lo tanto las coordenadas del punto X pueden derivarse a partir de las coordenadas de sus puntos imagen.\\
  
 Para el caso de cámaras reales se tienen distorsiones de ruido, imperfecciones en las lentes de las cámaras, etc. que producen que las proyecciones sean tal que el punto 3D, su proyección en la cámara y el foco de la misma no sean colineales, por lo tanto la proyección real de un punto 3D va a ser aproximadamente el punto ideal de su proyección. \\
 
@@ -58,15 +61,15 @@ La matriz fundamental es la representación algebraica de la geometría epipolar
 (x')^T F x = 0
 \label{ec: matriz fundamental}
 \end{equation}
-siendo  $F$ la matriz fundamental y $x$, $x'$ están en coordenadas homogéneas.\\
+siendo  $F$ la matriz fundamental y $x$, $x'$ las proyecciones en coordenadas homogéneas.\\
 
-Si se tienen para la cámara 1, la matriz de proyección $P$ y $x$, entonces como se vió el punto $X$ se encuentra en la recta de proyección, que puede describirse en forma paramétrica:
+Supongamos que se tienen para la cámara 1, la matriz de proyección $P$ y el punto $x$ mencionado anteriormente. El rayo de proyección $\overline{O_1X}$  puede describirse en forma paramétrica como:
 
 \begin{equation}
 	X(\lambda) = P^+x+\lambda O_1
 \end{equation}
 
-donde $P^+$ es la pseudo-inversa, tal que $PP^+=I$.\
+donde $P^+$ es la pseudo-inversa de $P$, tal que $PP^+=I$.\
 En particular se toman dos puntos de esa recta, el punto $P^+x$ ($\lambda = 0$) y el punto $O_1$ ($\lambda = \infty$).\
 Si se proyectan estos puntos en la cámara 2 se obtienen los puntos $P'P^+x$ y $P'O_1$ respectivamente, siendo $P'$ la matriz de proyección de la cámara 2. Estos puntos pertenecen a la recta epipolar:
 
@@ -74,19 +77,21 @@ Si se proyectan estos puntos en la cámara 2 se obtienen los puntos $P'P^+x$ y $
 l' = (P'O_1) \times (P'P^+ x)
 \end{equation}
 
-El punto $P'O_1$ es el epipolo $e'$ de la cámara 2. Por lo tanto $l' = e' \times (P'P^+) x$, entonces se define la matriz fundamental como:
+El punto $P'O_1$ es el epipolo $e'$ de la cámara 2. Por lo tanto se tiene que\\$l' = e' \times (P'P^+) x$, donde se define la matriz fundamental como:
 
 \begin{equation}
 F=e' \times P'P^+
 \end{equation}
 
-Si los puntos imagen se corresponden $x \leftrightarrow x'$, entonces $x'$ se encuentra en la recta epipolar $l'=Fx$ correspondiente al punto $x$, que implica que se cumpla $0=(x')^Tl'$ y por lo tanto se verifica la condición de la Ecuación \ref{ec: matriz fundamental}. Como se explicó anteriormente esto se cumple en condiciones ideales pero no para cámaras reales en las que aparecen los efectos del ruido, etc. por lo tanto debe esperase que si se tiene un punto $x$ y su correspondiente $x'$, la Ecuación \ref{ec: matriz fundamental} no verifique pero en cambio, devuelva un valor próximo a cero.\\
+Si los puntos imagen se corresponden $x \leftrightarrow x'$, entonces $x'$ se encuentra en la recta epipolar $l'=Fx$ correspondiente al punto $x$, lo cual implica que se cumple $0=(x')^Tl'$ y por lo tanto se verifica la condición de la Ecuación \ref{ec: matriz fundamental}. 
 
-Una propiedad básica de esta matriz es que si $F$ es la matriz fundamental del par de cámaras con matrices de proyección ($P,P'$), entonces $F^T$ es la matriz fundamental del par de cámaras en sentido opuesto: ($P',P$). Por otra parte si se tiene el punto $x$ en la imagen de una cámara, su recta epipolar correspondiente en otra cámara es $l'=Fx$. Análogamente $l=F^Tx'$ representa la línea epipolar a x' en la segunda cámara.
+Como se explica anteriormente las igualdades de las ecuaciones mostradas se cumplen en condiciones ideales pero no para cámaras reales en las que aparecen los efectos del ruido, etc. por lo tanto cabe esperar que si se tiene un punto $x$ y su correspondiente $x'$, la Ecuación \ref{ec: matriz fundamental} no se verifique exactamente, aunque si debe devolver un valor próximo a cero.\\
+
+Una propiedad básica de esta matriz es que si $F$ es la matriz fundamental del par de cámaras con matrices de proyección ($P,P'$), entonces $F^T$ es la matriz fundamental del par de cámaras en sentido opuesto: ($P',P$). Por otra parte si se tiene el punto $x$ en la imagen de una cámara, su recta epipolar correspondiente en otra cámara es $l'=Fx$. Análogamente $l=F^Tx'$ representa la línea epipolar asociada con $x'$ en la segunda cámara.
 
 \section{Algoritmo propuesto por Herda }
 
-Como se explicó anteriormente, se inicia la implementación de este bloque a partir del algoritmo propuesto por Herda \cite{herda}. Este algoritmo en algunos aspectos no es descripto con el detalle suficiente tal que pueda ser replicado fielmente. Por esta razón su implementación se ha elaborado realizando algunos supuestos en los casos en que su interpretación presenta ambigüedades.\\
+Como se explica en el Capítulo \ref{sec:implementacion_bloques_sistema}, se inicia la implementación de este bloque a partir del algoritmo propuesto por Herda \cite{herda}. Este algoritmo en algunos aspectos no es descripto con el detalle suficiente tal que pueda ser replicado fielmente. Por esta razón su implementación se ha elaborado realizando algunos supuestos en los casos donde su interpretación presenta ambigüedades.\\
 
 Por otra parte, el sistema diseñado por Lorna Herda pretende utilizar la información del esqueleto (ver Capítulo \ref{sec:implementacion_bloques_sistema}), como por ejemplo la posición de articulaciones, distancias entre marcadores, etc. Dado que esta etapa del algoritmo no fue implementada resultó necesario robustecer el proceso de reconstrucción en las partes del algoritmo donde no se utiliza esta información.\\
 
@@ -102,7 +107,7 @@ Los pasos que sigue el algoritmo se describen a continuación:\
 
 \item Se considera que un marcador 3D está correctamente reconstruido si se re-proyecta en al menos una cámara. A este tipo de reconstrucción se le llama \textit{reconstrucción trinocular}.\\
 
-\item Si el número de marcadores reconstruidos es inferior al número de marcadores que están colocados en la persona, entonces se realiza una segunda asociación entre dos vistas. En este caso la reconstrucción se realiza solamente con dos vistas (\textit{reconstrucción binocular}).\\
+\item Si el número de marcadores reconstruidos es inferior al número de marcadores colocados sobre la persona, entonces se realiza una segunda asociación entre dos vistas. En este caso la reconstrucción se realiza solamente con dos vistas (\textit{reconstrucción binocular}).\\
 
 \end{itemize}
 
@@ -116,9 +121,9 @@ En la sección anterior se describió el algoritmo de reconstrucción propuesto 
 
 El algoritmo implementado recibe como entrada los puntos 2D de los marcadores detectados y devuelve como salida los puntos 3D reconstruidos. El primer paso consiste en establecer una asociación entre ciertos puntos 2D de distintas cámaras. Luego, se pasa a un conjunto de bloques que se ejecutan de manera iterativa hasta que no queden marcadores para reconstruir. En dicho bloque se busca la mejor asociación entre puntos, bajo determinado criterio, luego se reconstruye un punto 3D y se realiza un proceso de validación de dicha reconstrucción. En la iteración siguiente se actualizan las asociaciones que habían sido establecidas previamente. Cuando no hay más marcadores para reconstruir se detiene el proceso iterativo y se devuelven aquellos marcadores que fueron reconstruidos en cada iteración. En la Figura \ref{fig: diagrama algoritmo} se presenta un diagrama del algoritmo.\\
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \hspace{-1cm}
-\includegraphics[scale=0.6]{img/Reconstruccion/diagrama_algoritmo.pdf}
+\includegraphics[scale=0.55]{img/Reconstruccion/diagrama_algoritmo.pdf}
 \caption{Diagrama del algoritmo implementado}
 \label{fig: diagrama algoritmo}
 \end{figure}
@@ -130,7 +135,7 @@ A continuación se describe el funcionamiento de cada uno de los bloques:
 Este bloque recibe como entrada las coordenadas de los puntos detectados en cada una de las cámaras, parámetros de las mismas tales como sus matrices de proyección y devuelve para cada punto una lista ordenada por relevancia, de las asociaciones existentes con puntos en otras cámaras.
 Basándose en lo explicado anteriormente el proceso  se puede ejemplificar  en la Figura \ref{fig: cam2cam }. \\
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.7]{img/Reconstruccion/cam2cam.pdf}
 \end{center}
@@ -145,7 +150,7 @@ Repitiendo el procedimiento de manera inversa, esto es, de la cámara 2 a la cá
 Es importante resaltar que para la elección de los pares de cámaras se han considerado dos casos.
 El primero de ellos evalúa cada cámara respecto a todas las restantes y el segundo considera la disposición de las cámaras en el espacio y empareja las cámaras adyacentes de manera consecutiva (ver Figura \ref{img_asociacion}). %Más adelante se demuestra que este segundo procedimiento da mejores resultados.ACÁ SE DEBE REFERENCIAR BIEN DONDE ESTA ESA DEMOSTRACIÓN \\
 
- \begin{figure}[!ht]
+ \begin{figure}[ht!]
    \centering 
     \subfloat[Cada cámara con las restantes]{\includegraphics[scale=0.13]{img/Reconstruccion/enlazado_general}}\hspace{2cm}
     \subfloat[Cada cámara con su adyacente]{\includegraphics[scale=0.13]{img/Reconstruccion/enlazado_adyacente}\label{img_asociacion_consecutivas}}
@@ -177,12 +182,8 @@ Para evaluar cuál es entre los pares de puntos asociados disponibles el par que
 Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reconstruirlas. Estas reconstrucciones deben ser validadas, para ello en principio se utiliza el  criterio propuesto por Herda \cite{herda}: se considera que una reconstrucción proveniente de dos cámaras es válida, si al proyectar sobre una tercer cámara existe al menos un punto de esta última que diste menos de un cierto valor umbral. Si efectivamente se encuentra al menos un punto, se asocia con los dos puntos que generaron la reconstrucción y se repite el proceso con el resto de las cámaras. Una vez finalizada la iteración, se retira a la pareja que genera la reconstrucción así como también a los puntos que lograron validarla, y se itera nuevamente repitiendo el proceso con la siguiente mejor pareja asociada entre dos cámaras.  
 
 
-El algoritmo desarrollado, si bien conceptualmente es similar, se implementa desde una óptica diferente computacionalmente más eficiente.
-En lugar de llevar en cada iteración la información 3D a cada cámara, se procede a llevar la información de las cámaras una sola vez al espacio 3D y trabajar en cada iteración sobre el mismo. La información que contiene un punto en una retina se mapea en el espacio 3D sobre el rayo de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Suponiendo que se tienen los rayos de proyección en el espacio 3D de todos los puntos contenidos en las retinas, siendo $x_1$ un punto en la cámara 1 de centro $O_1$ y $x_2$ punto en la cámara 2 de centro $O_2$, como se muestra en la Figura \ref{img_reconstruccion_validacion}, considerando que $x_1$ y $x_2$ se encuentran asociados y reconstruyen al punto $X_{12}$. Idealmente $X_{12}$ se genera al interceptar los rayos de proyección de los puntos $x_1$ y $x_2$, pero debido a incertidumbres en la detección de marcadores o la calibración, comúnmente los rayos se van a cruzar. La reconstrucción, se estima como el punto del espacio de menor distancia a ambos rayos, por lo que
-$X_{12}$ se encuentra en el punto medio del segmento perpendicular a ambos rayos.
 
-
-\begin{figure}[H]
+\begin{figure}[ht!]
 \centering
 \hspace{-1cm}
 \captionsetup{justification=centering,margin=1.0cm}
@@ -190,6 +191,14 @@ $X_{12}$ se encuentra en el punto medio del segmento perpendicular a ambos rayos
 \caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3. El punto $x_3$ de la cámara 3 valida la reconstrucción, no así el punto $\tilde{x}_3$.}
 \label{img_reconstruccion_validacion}
 \end{figure}
+
+
+El algoritmo desarrollado, si bien conceptualmente es similar, se implementa desde una óptica diferente computacionalmente más eficiente.
+En lugar de llevar en cada iteración la información 3D a cada cámara, se procede a llevar la información de las cámaras una sola vez al espacio 3D y trabajar en cada iteración sobre el mismo. La información que contiene un punto en una retina se mapea en el espacio 3D sobre el rayo de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Suponiendo que se tienen los rayos de proyección en el espacio 3D de todos los puntos contenidos en las retinas, siendo $x_1$ un punto en la cámara 1 de centro $O_1$ y $x_2$ punto en la cámara 2 de centro $O_2$, como se muestra en la Figura \ref{img_reconstruccion_validacion}, considerando que $x_1$ y $x_2$ se encuentran asociados y reconstruyen al punto $X_{12}$. Idealmente $X_{12}$ se genera al interceptar los rayos de proyección de los puntos $x_1$ y $x_2$, pero debido a incertidumbres en la detección de marcadores o la calibración, comúnmente los rayos se van a cruzar. La reconstrucción, se estima como el punto del espacio de menor distancia a ambos rayos, por lo que
+$X_{12}$ se encuentra en el punto medio del segmento perpendicular a ambos rayos.
+
+
+
 
 El algoritmo implementado asume que un punto en una cámara valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Notar que la elección anterior de $x_1$ sobre $x_2$ es indiferente para los propósitos de este proyecto. Si bien este criterio difiere del postulado original, en cierta manera se considera más robusto, pues en el postulado original basta con que dos puntos en una retina se encuentren lo suficientemente cerca para obtener una validación, pero esto no implica necesariamente que provengan de puntos 3D cercanos, sin embargo bajo el nuevo criterio si dos puntos 3D se encuentran cerca, entonces es válido afirmar que sus proyecciones sobre las distintas retinas también deben estarlo. Otra ventaja es que los umbrales bajo los cuales se considera que dos puntos están ``cerca'' difieren en cada una de las cámaras debido al distinto mapeo de distancias, sin embargo en el espacio 3D manejar un único umbral resulta suficiente.       
 
@@ -213,7 +222,7 @@ Finalmente el proceso iterativo se detiene cuando no hay más marcadores para re
 
 Se ha probado el algoritmo descrito anteriormente con secuencias capturadas en Blender. Para la configuración de 17 cámaras se han obtenido resultados aceptables,  con errores promedio menores a $0.5\,cm$. En la Sección \ref{seccion_performance}, se define la medida de error  y se evalúa el desempeño del algoritmo respecto a dicha medida. En dichas pruebas se observan resultados aceptables aún utilizando hasta 6 cámaras.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \captionsetup{justification=centering,margin=0.8cm}
 \includegraphics[scale=0.5]{img/Reconstruccion/Reconstruccion_3_camaras2.jpg}
@@ -223,7 +232,7 @@ Se ha probado el algoritmo descrito anteriormente con secuencias capturadas en B
 
 Como se mencionó previamente se han realizado dos implementaciones distintas del bloque  “Asociar puntos 2D”. La primera de ellas considera las asociaciones de marcadores posibles entre pares de cámaras, evaluando cada una de las cámaras respecto a todas las restantes.  La segunda implementación toma en cuenta  la configuración circular de las cámaras en el espacio y se evalúa cada cámara con la que se encuentra inmediatamente más cerca,  recorriendo las cámaras en algún sentido.
 
-\begin{table}[H]
+\begin{table}[ht!]
 \hspace{-1cm}
 \resizebox{15cm}{!} {
 \begin{tabular}{cc|c|c|c|c|}
@@ -284,7 +293,7 @@ En cada par de cámaras seleccionado se consideran todos los rayos de proyecció
 
 Se repite el procedimiento hasta que sean comparadas todos los pares de cámaras consecutivas. De esta forma se obtiene una matriz de distancias entre rayos de proyección 3D para los diferentes pares de cámaras considerados.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
 \centering
 \captionsetup{justification=centering,margin=2.8cm}
 \includegraphics[scale=0.7]{img/Reconstruccion/Asociar_puntos_2}
@@ -310,17 +319,13 @@ Recordar que un punto se considera válido si en iteraciones anteriores no se ha
 Los bloques de Reconstrucción 3D y Validación, y el de Actualizar Asociaciones realizan el mismo funcionamiento y tiene igual implementación que los utilizados en el algoritmo anterior (ver Secciones \ref{seccion_reconstruccion3D_validacion} y \ref{actualizar_asociaciones}).
 
   Asimismo la condición que debe cumplirse para detener el proceso iterativo es la misma.
+
   
   
 \section{Resultados del nuevo algoritmo}  
- 
-Se prueba el nuevo algoritmo para una secuencia sintética de 3 cámaras en las que se intenta simular el caso real. En este caso el sujeto cuenta con 14 marcadores. 
-Los resultados muestran una mejora significativa respecto al algoritmo original
-aunque no se llega a tener un desempeño ideal. 
-De 20 cuadros relevados, en 11 de ellos se logra reconstruir de manera aceptable los 14 marcadores, en 6 de los cuadros se tiene 1 marcador incorrectamente reconstruido y en los 3 restantes se tiene 2 marcadores incorrectamente reconstruidos.
-En la Figura \ref{img_reconstruccion_sintetica} se muestra el resultado de la reconstrucción para un cuadro  determinado de la secuencia sintética.\\
 
-\begin{figure}[!ht]
+
+\begin{figure}[ht!]
    \centering 
     \subfloat[Vista derecha]{\includegraphics[scale=1.70]{img/Reconstruccion/50_derecha_sintetica.png}}\hspace{0.2cm}
     \subfloat[Vista  izquierda]{\includegraphics[scale=1.70]{img/Reconstruccion/50_izquierda_sintetica.png}}\hspace{2cm}
@@ -330,9 +335,14 @@ En la Figura \ref{img_reconstruccion_sintetica} se muestra el resultado de la re
    \label{img_reconstruccion_sintetica}    
 \end{figure} 
 
-Por último el nuevo algoritmo fue probado con secuencias reales. Si bien se reconstruyen varios marcadores mejorando la performance que se tenía con el algoritmo de reconstrucción inicial, los resultados no son tan alentadores como los obtenidos para las secuencias sintéticas. En cierta manera es esperable dado que en este caso se adicionan errores provenientes de las etapas de detección de marcadores y de calibración. En la Figura \ref{img_reconstruccion_real2} se muestra el resultado obtenido para un cuadro de la secuencia real. 
+ 
+Se prueba el nuevo algoritmo para una secuencia sintética de 3 cámaras en las que se intenta simular el caso real. En este caso el sujeto cuenta con 14 marcadores. 
+Los resultados muestran una mejora significativa respecto al algoritmo original
+aunque no se llega a tener un desempeño ideal. 
+De 20 cuadros relevados, en 11 de ellos se logra reconstruir de manera aceptable los 14 marcadores, en 6 de los cuadros se tiene 1 marcador incorrectamente reconstruido y en los 3 restantes se tiene 2 marcadores incorrectamente reconstruidos.
+En la Figura \ref{img_reconstruccion_sintetica} se muestra el resultado de la reconstrucción para un cuadro  determinado de la secuencia sintética.
 
-\begin{figure}[H]
+\begin{figure}[ht!]
    \hspace{-1cm}
     \subfloat[Vista derecha]{\includegraphics[scale=0.47]{img/Reconstruccion/22_derecha.png}}\hspace{0.3cm}
     \subfloat[Vista de atrás]{\includegraphics[scale=0.47]{img/Reconstruccion/22_atras.png}}\hspace{2cm}
@@ -341,6 +351,10 @@ Por último el nuevo algoritmo fue probado con secuencias reales. Si bien se rec
    \caption{Reconstrucción de una secuencia real. Los asteriscos rojos indican los marcadores detectados.} 
    \label{img_reconstruccion_real2}    
 \end{figure} 
+
+Por último el nuevo algoritmo fue probado con secuencias reales. Si bien se reconstruyen varios marcadores mejorando la performance que se tenía con el algoritmo de reconstrucción inicial, los resultados no son tan alentadores como los obtenidos para las secuencias sintéticas. En cierta manera es esperable dado que en este caso se adicionan errores provenientes de las etapas de detección de marcadores y de calibración. En la Figura \ref{img_reconstruccion_real2} se muestra el resultado obtenido para un cuadro de la secuencia real. 
+
+
 
 
 \section{Conclusión} 

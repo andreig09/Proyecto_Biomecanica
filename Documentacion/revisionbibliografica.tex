@@ -20,43 +20,50 @@ Se clasificaron una serie de artículos y publicaciones dentro de las cuales se 
 \begin{itemize}
 	\item Calibración
 	\begin{itemize}
-		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and Realtime Data Processing}\cite{kurihara2002optical}. Seguimiento orientado a capturas en tiempo real, identificando marcadores por árboles de decisión, y calibración de cámaras.
+		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and Realtime Data Processing} \cite{kurihara2002optical}. Seguimiento orientado a capturas en tiempo real, identificando marcadores por árboles de decisión, y calibración de cámaras.
 	\end{itemize}
 	\item Detección de marcadores
 	\begin{itemize}
-		\item \emph{Simple and robust hard cut detection using interframe differences}\cite{pardo2005simple}. En esta investigación se propone un posible algoritmo de segmentación para utilizar en la etapa de detección de marcadores, utilizando un método de detección de bordes. Por motivos que se verán más adelante, estos tipos de algoritmos se descartaron para utilizar en segmentación (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
-		\item \emph{Threshold survey}\cite{surveyThreshold}. Se listan 40 algoritmos de segmentación mediante métodos de umbral. Se evalúan los mismos y se muestran ventajas y desventajas de cada uno. Entre ellos se encuentra el método de umbral de Otsu\cite{otsu}, el cual fue el elegido para implementar en este sistema (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
+		\item \emph{Simple and robust hard cut detection using interframe differences} \cite{pardo2005simple}. En esta investigación se propone un posible algoritmo de segmentación para utilizar en la etapa de detección de marcadores, utilizando un método de detección de bordes. Por motivos que se verán más adelante, estos tipos de algoritmos se descartaron para utilizar en segmentación (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
+		\item \emph{Threshold survey} \cite{surveyThreshold}. Se listan 40 algoritmos de segmentación mediante métodos de umbral. Se evalúan los mismos y se muestran ventajas y desventajas de cada uno. Entre ellos se encuentra el método de umbral de Otsu\cite{otsu}, el cual fue el elegido para implementar en este sistema (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
 	\end{itemize}
 	\item Seguimiento
 	\begin{itemize}
-		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion}\cite{herda}. Utilizando un modelo para el cuerpo durante la reconstrucción 3D, se presenta un método para robustecer los sistemas de captura ópticos basados en marcadores. Investigación sobre la que se decide basar este trabajo, presenta múltiples algoritmos accesibles, con un nivel de descripción aceptable.
-		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views}\cite{ringer2000modelling}. Seguimiento utilizando medidas angulares, con filtros de Kalman Extendido y Bayesianos.
-		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data}\cite{kirk2005skeletal}. Seguimiento utilizando ajuste de esqueleto.
-		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing}\cite{kurihara2002optical}.
-		\item \emph{Resolving Motion Correspondence for Densely Moving Points}\cite{survey_tracking}. Revisión de varios métodos de seguimiento.
+		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion} \cite{herda}. Utilizando un modelo para el cuerpo durante la reconstrucción 3D, se presenta un método para robustecer los sistemas de captura ópticos basados en marcadores. Investigación sobre la que se decide basar este trabajo, presenta múltiples algoritmos accesibles, con un nivel de descripción aceptable.
+		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views} \cite{ringer2000modelling}.
+		Utilizan un sistema óptico con múltiples cámaras basado en marcadores, no se dan detalles del proceso de captura. Describen un modelo general que integra, un modelo cinemático basado en medidas angulares y un modelo para el proceso de medida. Manejan oclusiones y para el seguimiento utilizan técnicas basadas en filtro de Kalman extendido y filtros Bayesianos. Estimación para cada cuadro de los parámetros de un modelo de esqueleto. Como el modelo es 3D, implícitamente se reconstruye la pose al mismo tiempo.  		
+		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data} \cite{kirk2005skeletal}. 
+		Se trabaja con sistemas Vicon \cite{vicon} y PhaseSpace \cite{phasespace}. Se efectúa el seguimiento utilizando una distancia no euclídea y se ajusta con un modelo de esqueleto. Si bien el artículo no contiene explicaciones formales en su desarrollo, utiliza múltiples referencias a otros artículos.
+		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing} \cite{kurihara2002optical}.
+		Se trabaja con un modelo basado en marcadores, que contiene 34 grados de libertad. Los marcadores son ubicados formando poliedros en  zonas de interés sobre el cuerpo, con el fin de utilizar algoritmos de búsqueda de poliedros para el etiquetado de marcadores. Utilizan múltiples servidores para efectuar el análisis en tiempo real. La posición de las cámaras no es fija a lo largo de la captura.
+		\item \emph{Resolving Motion Correspondence for Densely Moving Points} \cite{survey_tracking}. Revisión de varios métodos de seguimiento.
 	\end{itemize}
 	\item Estimación de pose
 	\begin{itemize}
-		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion}\cite{herda}. 
-		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views}\cite{ringer2000modelling}.
-		Utilizan un sistema óptico con múltiples cámaras basado en marcadores, el mismo no se describe. Describen un modelo general que integra, un modelo cinemático y un modelo de medida. Manejan oclusiones y para el seguimiento utilizan técnicas basadas en filtro de Kalman extendido. Estimación para cada cuadro de los parámetros de un modelo de esqueleto. Como el modelo es 3D, implícitamente se reconstruye la pose al mismo tiempo.        
-		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data}\cite{kirk2005skeletal}.
-		Se trabaja con sistemas Vicon \cite{vicon} y PhaseSpace \cite{phasespace}. Se efectúa el seguimiento utilizando una distancia no euclídea y se ajusta con un modelo de esqueleto. Si bien el artículo no contiene explicaciones formales en su desarrollo, utiliza múltiples referencias a otros artículos.
-		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing}\cite{kurihara2002optical}.
-		\item \emph{What can two images tell us about a third one?}\cite{faugueras}. Trabajo esencial sobre reconstrucción utilizando múltiples vistas.
+		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion} \cite{herda}. 
+		Descripto anteriormente en seguimiento.
+		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views} \cite{ringer2000modelling}.
+		Descripto anteriormente en seguimiento.      
+		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data} \cite{kirk2005skeletal}.
+		Descripto anteriormente en seguimiento.
+		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing} \cite{kurihara2002optical}.	Descripto anteriormente en seguimiento.	 
+		\item \emph{What can two images tell us about a third one?} \cite{faugueras}. Trabajo esencial sobre reconstrucción utilizando múltiples vistas. Gran desarrollo teórico, que busca robustecer algoritmos de reconstrucción.
 	\end{itemize}
 	\item Sistemas completos
 	\begin{itemize}
-		\item \emph{Detección, rastreo y reconstrucción tridimensional de marcadores pasivos para análisis de movimiento humano}\cite{colombianos}.	Trabajo de captura de movimiento, basado en el sistema de Lorna Herda ~\cite{herda}, pero utilizando hardware costoso.
+		\item \emph{Detección, rastreo y reconstrucción tridimensional de marcadores pasivos para análisis de movimiento humano} \cite{colombianos}.	Trabajo de captura de movimiento, basado en el sistema de Lorna Herda \cite{herda}, se utiliza hardware costoso.
 		\item \emph{Marker Detection and trayectory generation algorithms for a multicamera based gait analysis system}\cite{shafiq2001marker}.
-		\item \emph{Análisis de video para estimación del movimiento humano}\cite{martinez2009analisis}.
+		Describe un sistema completo de captura óptico de movimiento basado en marcadores.
+		Se gestiona el solapamiento de marcadores sobre una cámara en el proceso de segmentación. Las descripciones generales del resto del sistema son claras, si bien algunos detalles específicos de implementación no son mencionados.
+		No utiliza información del esqueleto. El sistema necesita interacción con el usuario al final del proceso para efectuar correcciones. 
+		\item \emph{Análisis de video para estimación del movimiento humano} \cite{martinez2009analisis}. Describe globalmente distintas etapas que componen un sistema de captura de movimiento. Para introducirse en el tema es un buen resumen.
 	\end{itemize}
 \end{itemize}
 
 Se puede ver, que en varios casos un mismo artículo contiene información de valor sobre varias etapas del sistema. Además se encontraron algunos documentos con diseños de sistemas completos.
 \\ 
 
-A partir de esta etapa se definieron ciertos aspectos de vital importancia para el proyecto, en particular, se pudo seleccionar para el bloque de detección de marcadores el método de segmentación por umbral dinámico de Otsu~\cite{otsu}. Este método fue elegido por tener el mejor compromiso entre simplicidad y eficacia.
+A partir de esta etapa se definen ciertos aspectos de vital importancia para el proyecto, en particular, se selecciona para el bloque de detección de marcadores el método de segmentación por umbral dinámico de Otsu \cite{otsu}, dado que presenta el mejor compromiso entre simplicidad y eficacia.
 \\ 
 
-En los bloques de seguimiento y estimación de pose se decide basar el desarrollo en las ideas del sistema propuesto por Lorna Herda en sus tesis de doctorado~\cite{herda}. Dicha elección se debe a que el estudio de Herda contiene las ideas principales para implementar un sistema de captura de movimiento de manera compacta y general, posee una gran cantidad de menciones siendo un referente en el tema y la documentación disponible es amplia (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por el grupo de proyecto (uso en fisioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos.
+En los bloques de seguimiento y estimación de pose se decide basar el desarrollo en las ideas del sistema propuesto por Lorna Herda en sus tesis de doctorado \cite{herda}. Dicha elección se debe a que el estudio de Herda contiene las ideas principales para implementar un sistema de captura de movimiento de manera compacta y general, posee una gran cantidad de menciones siendo un referente en el tema y la documentación disponible es amplia (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por el grupo de proyecto (uso en fisioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos.
