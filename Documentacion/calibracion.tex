@@ -329,7 +329,7 @@ Por otra parte la posición de los marcadores en el espacio 3D es conocida ya qu
  
  Con el objetivo de establecer una metodología que fuera válida para la configuración de cámaras con las que se diseñó la base de datos, se probaron implementaciones existentes que pudieran calibrar dicha base elaborada en Blender. Para esto se evaluó el siguiente toolbox elaborado en \emph{Matlab}.\\ 
  
-  \subsection{Toolbox Multi-Camera Self-Calibration.} 
+  \subsection{ Multi-Camera Self-Calibration Toolbox} 
  
  Este toolbox está especialmente pensado para la calibración simultánea de un conjunto de varias cámaras\footnote{\textcolor{blue}{\underline{http://cmp.felk.cvut.cz/~svoboda/SelfCal/}}. Accedido 3-12-14.}. El procedimiento consiste en capturar con todas las cámaras, el movimiento de una fuente puntual de luz que se mueve a lo largo de todo el volumen de trabajo. Por tanto para cada cuadro se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección si dicho punto es visible desde esa cámara. Para esto debe asegurarse que exista un contraste suficiente de la luz respecto al laboratorio. Puede usarse, por ejemplo, una lámpara led y que en el laboratorio exista poca o nula luz ambiente.\\
  
@@ -405,7 +405,7 @@ Si son detectados una cantidad suficiente de puntos no ruidosos ($u_j^i, v_j^i$)
 
 El número mínimo de cámaras para una correcta calibración depende del número de parámetros conocidos de las cámaras o del número de parámetros que se conocen pero son los mismos para todas las cámaras. Tres cámaras son suficientes si se conocen todos los puntos principales o si los parámetros internos de las cámaras no se conocen pero son los mismos para todas ellas.\\
 
-La simulación en Blender se logra creando un punto 3D que toma para cada cuadro distintas posiciones en forma aleatoria dentro del volumen de trabajo. Para cada cuadro se \textit{renderiza} su posición en las 17 cámaras. En este caso se han tomado 500 posiciones distintas. En la Figura \ref{fig: blender toolbox laser} se muestra en Blender la distintas posiciones que toma en un punto dentro del volumen de trabajo.
+La simulación en Blender se logra creando un punto 3D que toma para cada cuadro distintas posiciones en forma aleatoria dentro del volumen de trabajo. Para cada cuadro se \textit{renderiza} su posición en las 17 cámaras. En este caso se han tomado 500 posiciones distintas. En la Figura \ref{fig: blender toolbox laser} se muestra en Blender la distintas posiciones que toma en un punto dentro del volumen de trabajo. La simulación es implementada en lenguaje Python.
 
 \begin{figure}[ht!]
 \begin{center}
@@ -415,7 +415,7 @@ La simulación en Blender se logra creando un punto 3D que toma para cada cuadro
 \label{fig: blender toolbox laser}
 \end{figure}
 
-En la Figura \ref{fig: camaras blender} se muestra la configuración de las 17 cámaras en el espacio 3D de Blender. En la Figura \ref{fig: camaras calibracion} se muestra, con círculos en azul, la posición de las cámaras obtenidas del resultado de la calibración. Se observa además, en rojo, la reconstrucción de las posiciones del punto 3D en el espacio.
+En la Figura \ref{fig: camaras blender} se muestra la configuración de las 17 cámaras en el espacio 3D de Blender. En la Figura \ref{fig: camaras calibracion} se muestra, con círculos en azul, la posición de las cámaras obtenidas del resultado de la calibración. Se observa además, en rojo, la reconstrucción de las posiciones del punto 3D en el espacio. 
 
 
 \begin{figure}[ht!]
@@ -430,7 +430,7 @@ En la Figura \ref{fig: camaras blender} se muestra la configuración de las 17 c
       
 \end{figure}
 
-En la Figura \ref{fig: error reproyeccion} se muestra e promedio y la desviación del error de re-proyección estándar obtenido para cada una de las cámaras.
+En la Figura \ref{fig: error reproyeccion} se muestra el promedio y la desviación del error de re-proyección estándar obtenido para cada una de las cámaras.
 
 \begin{figure}[ht!]
 \begin{center}
@@ -446,4 +446,75 @@ En la Figura \ref{fig: error reproyeccion} se muestra e promedio y la desviació
 
 
 
+\subsection{Automatic Multi-Camera Calibration Toolbox (amcctoolbox)}
+
+
+Este toolbox  \cite{amcctoolbox} implementado en Matlab, automatiza ciertas funciones de otro toolbox, también implementado en Matlab, el \textit{Camera Calibration Toolbox} \footnote{\textcolor{blue}{\underline{http://www.vision.caltech.edu/bouguetj/   }}. Accedido 3-12-14.}. De esta manera se omite toda intervención del usuario que es necesaria en este último toolbox, facilitando la calibración de un conjunto de varias cámaras.\\
+
+El método implementado en el \textit{amcctoolbox} es uno de los más utilizados para la calibración de cámaras. Dicho método utiliza un objeto de calibración de dos dimensiones con figuras de patrones determinados. En este caso la figura que se utiliza es la de un damero como el que se muestra en la Figura \ref{fig: tablero}. Para la calibración se toma como dato conocido el largo y ancho de los cuadrados blancos y negros que componen el damero.
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.075]{img/calibracion/tablero.jpg}
+\end{center}
+
+\caption{Objeto de calibración utlizado en el amcctoolbox}
+\label{fig: tablero}
+\end{figure}
+
+
+El procedimiento para calibrar una cámara consiste en capturar imágenes del damero colocado en distintas orientaciones (al menos dos) \cite{zhang_articulo}. Dichas orientaciones del damero relativas a la cámara no necesariamente deben conocerse.\\
+
+Para la calibración de conjuntos de varias cámaras el damero debe ser colocado en múltiples posiciones tal que cada cámara capture algunas de las mismas, al tiempo que en cada una de estas posiciones el damero pueda ser visto por más de una cámara simultáneamente. Para que esto pueda lograrse debe haber una suficiente superposición de los ángulos de visión de las cámaras que se encuentran adyacentes. Por otra parte, para una correcta calibración el damero debe ser ubicado en distintas posiciones tal que se recorra todo el volumen de trabajo.\\
+
+Para calibrar el conjunto de cámaras elaborado en Blender, y que fue descrito en la sección \ref{section_base_de_datos}, se simula un damero real como se muestra en la Figura \ref{fig:tablero_blender}. Para cada par de cámaras adyacentes se coloca el damero en algún punto dentro del volumen de trabajo y con una orientación tal que la figura plana del damero sea visible en ambas cámaras. Luego a partir de dicha posición se toman capturas del damero cambiando ligeramente la posición y orientación del mismo. Para cada par de cámaras se consideran entre 15 y 20 posiciones distintas del damero. La simulación es implementada en lenguaje Python.  En la Figura \ref{fig: tablero_posiciones} se muestran algunas de las capturas realizadas por una de las cámaras. 
+
+
+
+
+\begin{figure}[ht!]
+        \hspace{-1cm}
+        \subfloat[Damero en el entorno Blender]{\includegraphics[scale=0.2]{img/calibracion/tablero_blender.png}\label{fig:tablero_blender}}
+                \hspace{0.01cm}                
+        \subfloat[Calibración estéreo]{\includegraphics[trim = 0mm 15mm 0mm 17mm, clip,scale=0.6]{img/calibracion/tablero_stereo.png}\label{fig:tablero_stereo}}
+      \caption{Simulación del damero en Blender y calibración estéreo de un par de cámaras adyacentes}
+      \label{fig: configuracion camaras}      
+\end{figure}
+
+
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.08]{img/calibracion/tablero_posiciones.png}
+\end{center}
+\caption{Capturas por una de las cámaras del damero en distintas posiciones y orientaciones }
+\label{fig: tablero_posiciones}
+\end{figure}
+
+
+Una vez realizadas las capturas se procesan dichas imágenes mediante el toolbox obteniéndose los parámetros intrínsecos de cada una de las cámaras y la posición relativa de cada uno de los pares de cámaras adyacentes. Si se tiene un par de cámaras, se define a una de ellas como la cámara izquierda y a la otra como la cámara derecha. Luego de realizada la calibración se obtiene para cada par de cámaras la matriz de rotación $R$ y el vector de traslación $T$ tal que si la proyecciones de un punto $P$ en el espacio 3D son los puntos $X_L$ en la cámara izquierda y $X_R$ en la cámara derecha, la relación entre dichos puntos es
+
+\[ X_R = R * X_L + T\]
+
+De esta forma se obtiene también la rotación y traslación que relacionan el sistema de coordenadas de una de las cámaras con el de la cámara adyacente a esta. A la calibración particular de un sistema de dos cámaras se le denomina calibración estéreo. En la Figura \ref{fig:tablero_stereo} se muestra el resultado de la calibración estéreo para un par de cámaras del entorno Blender. En dicha figura se observa además la reconstrucción de cada una de las posiciones del damero consideradas para ese par de cámaras.\\
+
+Una vez obtenidas las posiciones relativas de las cámaras adyacentes es posible hallar la posición relativa de de cada una de  las cámaras en el espacio. En la Figura  \ref{fig: tablero_posicion_camaras} se muestra la configuración obtenida con este toolbox de cuatro de las cámaras en el espacio 3D de Blender.
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.7]{img/calibracion/tablero_cam_relevadas_4c.png}
+\end{center}
+\caption{Reconstrucción de la posición de las cámaras mediante el toolbox}
+\label{fig: tablero_posicion_camaras}
+\end{figure}
+
+De los dos toolbox vistos anteriormente se obtuvieron las coordenadas intrínsecas y extrínsecas de las cámaras. En el \textit{Multi-Camera Self-Calibration Toolbox} las parámetros extrínsecos de las cámaras son referidos a un sistema de coordenadas desconocido que se establece en el proceso de calibración del toolbox. El origen de coordenadas de ese sistema se ubica en el centroide de todas las posiciones capturadas de la fuente de luz. En el \textit{amcctoolbox} por otra parte, los parámetros extrínsecos de las cámaras son referidos al sistema de coordenadas de la cámara que se define como origen del sistema de coordenadas. En algunos casos puede desearse que el sistema de coordenadas del espacio 3D sea definido por el usuario. En nuestro caso puede quererse que el sistema de coordenadas de la calibración coincida con el sistema de coordenadas 
+de Blender.\\
+
+Una opción para realizar esto es colocar en el espacio marcadores en posiciones conocidas. Como se conocen las matrices de proyección referidas a un sistema de coordenadas, por ejemplo $S_1$, se tiene para cada cámara $i$, las matrices de proyección  $P_i|_{S_1}$ referidas a dichos sistema. Se quiere hallar entonces las matrices de proyección referidas a otro sistema, por ejemplo, el sistema $S_2$. Por tanto se buscan las matrices  de proyección $P_i|_{S_2}$ referidas al sistema $S_2$.
+
+
+Este método presenta la desventaja de que los parámetros extrínsecos de las cámaras se vinculan en relación a sus adyacentes por lo que debe definirse a una de las cámaras como el origen del sistema de coordenadas del espacio respecto a la cual se halla la posición del resto de las cámaras. Por lo tanto el error se acumula  incrementándose para aquellas cámaras que están más alejadas de la que es determinada como el origen del sistema. \\
+
+El toolbox por otra parte, requiere para la calibración estéreo de un par cámaras, establecer en forma automática una correspondencia entre la imagen del damero detectado en la cámara izquierda con la imagen capturada por la cámara derecha. Esto en algunos casos no se logra y la correspondencia entre dichas imagenes debe realizarse forma manual. 
 
