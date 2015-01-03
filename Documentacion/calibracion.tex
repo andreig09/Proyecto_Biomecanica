@@ -475,7 +475,7 @@ donde $P = [P^1 \ldots P^m]^T$ y $X = [\mathbf{X_1} \ldots \mathbf{X_n}]$
 
 Si son detectados una cantidad suficiente de puntos no ruidosos ($u_j^i, v_j^i$) y se conocen los $\lambda_j^i$, entonces $W_s$ tiene rango 4  y se puede factorizar en $P$ y $X$.\\
 
-El número mínimo de cámaras para una correcta calibración depende del número de parámetros conocidos de las cámaras o del número de parámetros que se conocen pero son los mismos para todas las cámaras. Tres cámaras son suficientes si se conocen todos los puntos principales o si los parámetros internos de las cámaras no se conocen pero son los mismos para todas ellas.\\
+El número mínimo de cámaras para una correcta calibración depende del número de parámetros que se conocen para cada una de las cámaras o del número de parámetros que no se conocen pero que son iguales en todas las cámaras. Tres cámaras son suficientes si se conocen todos los puntos principales o si los parámetros internos de las cámaras no se conocen pero son los mismos para todas ellas.\\
 
 La simulación en \emph{Blender} se logra creando un punto 3D que toma para cada cuadro, distintas posiciones en forma aleatoria dentro del volumen de trabajo. Para cada cuadro se \textit{renderiza} su posición en las 17 cámaras. En este caso se han tomado 500 posiciones distintas. En la Figura \ref{fig: blender toolbox laser} se muestra en \emph{Blender} la distintas posiciones que toma en un punto dentro del volumen de trabajo. La simulación es implementada en lenguaje Python.
 
