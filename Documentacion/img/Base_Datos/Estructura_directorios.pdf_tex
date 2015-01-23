@@ -48,7 +48,7 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,1.03743905)%
+  \begin{picture}(1,1.20833356)%
     \put(0,0){\includegraphics[width=\unitlength]{Estructura_directorios.pdf}}%
   \end{picture}%
 \endgroup%
