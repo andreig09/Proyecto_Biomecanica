@@ -1,8 +1,5 @@
 \chapter{Reconstrucción}\label{reconstruccion}
 
-
-
-
 \section{Introducción}
 A la salida del bloque de detección de marcadores se tiene, para cada cámara y para cada cuadro de una secuencia adquirida, un conjunto de coordenadas en dos dimensiones $(x,y)$ que ubican la posición en la imagen de aquellos marcadores que fueron detectados.
 El proceso de reconstrucción consiste en obtener las coordenadas en tres dimensiones de la posición de los marcadores en el espacio a partir de las coordenadas en dos dimensiones obtenidas en el bloque anterior.
@@ -13,12 +10,12 @@ En la Figura \ref{fig: esquema_reconstruccion} se muestra un bosquejo de la reco
 %\includegraphics[scale=0.20]{img/Reconstruccion/ejemplo_reconstruccion.png}
 \includegraphics[scale=0.20]{img/Reconstruccion/reconstruccion}
 \end{center}
-\caption{Reconstrucción con dos cámaras}
+\caption{Reconstrucción con dos cámaras.}
 \label{fig: esquema_reconstruccion}
 \end{figure}
 
 %Se observa en la figura a uno de los marcadores detectados desde las dos vistas y su correspondiente punto 3D reconstruido.\\
-El proceso de reconstrucción implementado consiste en tres pasos fundamentales:
+El proceso de reconstrucción implementado fue inspirado en el trabajo de Herda \cite{herda} y consiste en tres pasos fundamentales:
 \begin{enumerate}
 \item Determinar aquellos marcadores detectados en las distintas cámaras que corresponden a un mismo marcador en el espacio. De esta manera se establece una correspondencia entre los marcadores detectados en las distintas vistas. Dichas asociaciones se establecen de a pares de cámaras.
 \item Una vez establecidas estas correspondencias se selecciona aquella que bajo algún criterio, pueda considerarse con mayores posibilidades de ser una asociación correcta. Luego se determina la posición en el espacio del marcador a partir de la asociación seleccionada.
@@ -39,8 +36,8 @@ Para explicar el algoritmo de reconstrucción es necesario describir brevemente 
  \begin{center}
  \includegraphics[scale=0.7]{img/Reconstruccion/geometria_epipolar}
  \end{center}
- \caption{Geometría epipolar}
- \label{fig: geometria_epipolar}
+ \caption{Geometría epipolar.}
+ \label{fig: geometria_epipolar.}
  \end{figure}
  
   El punto $X$ se proyecta en dichas cámaras en los puntos $x$ y $x'$. Es decir, $x$ pertenece a la intersección de la retina de la cámara 1, con el rayo de proyección $\overline{O_1X}$. Análogamente el punto $x'$ pertenece a la intersección de la retina de la cámara 2 con el rayo de proyección $\overline{O_2X}$. A su vez, los focos de ambas cámaras $O_1$ y $O_2$ definen un rayo que corta a las retinas de las cámaras en los puntos $e$ y $e'$ llamados epipolos.\\
@@ -101,7 +98,7 @@ Además, este algoritmo utiliza la triangulación estéreo para reconstruir un p
 Los pasos que sigue el algoritmo se describen a continuación:\
 
 \begin{itemize}
-\item Se toman dos vistas y se realiza el test de la condición epipolar. Si existe una asociación no ambigua se reconstruyen  las coordenadas 3D a partir de las coordenadas 2D.
+\item Se toman dos vistas y se realiza el test de la condición epipolar (Sección \ref{MejorAsociacion}). Si existe una asociación no ambigua se reconstruyen  las coordenadas 3D a partir de las coordenadas 2D.
 
 \item Las coordenadas 3D reconstruidas se re-proyectan en las cámaras restantes. Los puntos 2D encontrados en esa re-proyección son asociados al punto 3D. De esta forma se tiene por cada punto 3D, sus correspondientes puntos 2D asociados en las distintas vistas.\
 
@@ -111,7 +108,7 @@ Los pasos que sigue el algoritmo se describen a continuación:\
 
 \end{itemize}
 
-Posteriormente el algoritmo plantea realizar ciertos chequeos sobre los puntos reconstruidos de manera de validarlos. Dichos chequeos utilizan información del esqueleto (chequeos de visibilidad y oclusión).
+Posteriormente el algoritmo plantea realizar ciertos chequeos sobre los puntos reconstruidos de manera de validarlos. Dichos chequeos utilizan información del esqueleto (Figura \ref{fig:oclusion_herda}).
 
 
 Lo que se busca verificar en dichos chequeos, es que para un determinado cuadro los marcadores sean efectivamente visibles por aquellas cámaras que los reconstruyeron y no están ocultos por alguna parte del cuerpo, lo que evidenciaría que la reconstrucción es incorrecta. Si esto llegara a suceder, el algoritmo busca otras vistas de las cuales reconstruir el marcador.
@@ -120,25 +117,25 @@ Lo que se busca verificar en dichos chequeos, es que para un determinado cuadro 
  \begin{center}
  \includegraphics[scale=0.8]{img/Reconstruccion/oclusion_herda}
  \end{center}
- \caption{Chequeo de visibilidad y oclusión. \cite{herda}}
+ \caption{Chequeo de visibilidad y oclusión \cite{herda}.}
  \label{fig:oclusion_herda}
  \end{figure}
 
 
 \section{Algoritmo implementado}
 
-En la Sección anterior se describió el algoritmo de reconstrucción propuesto en el sistema de Herda, sin embargo, el algoritmo implementado no es exactamente el mismo. Como se aclara en la Sección \ref{sec:implementacion_bloques_sistema} , la cantidad de módulos a implementar es demasiado grande para los tiempos con los que cuenta el proyecto, por lo que se da prioridad a los bloques principales para lograr un sistema más básico pero integro. A continuación se describe la implementación realizada para este proyecto y las diferencias con el algoritmo de reconstrucción propuesto por Herda.\\
+En la Sección anterior se describió el algoritmo de reconstrucción propuesto en el sistema de Herda, sin embargo, el algoritmo implementado no es exactamente el mismo. Como se aclara sobre el final de la Sección \ref{sec:implementacion_bloques_sistema} , la cantidad de módulos a implementar es grande, presentando ambigüedades importantes que dificultan en muchos casos su reproducibilidad, considerando los tiempos con los que cuenta el proyecto, se decide dar prioridad a los bloques principales, comenzando por lo básico e implementando módulos hasta lograr la performance necesaria. A continuación se describe la implementación realizada para este proyecto y las diferencias con el algoritmo de reconstrucción propuesto por Herda.\\
 
 El algoritmo implementado recibe como entrada los puntos 2D de los marcadores detectados y devuelve como salida los puntos 3D reconstruidos. El primer paso consiste en establecer una asociación entre ciertos puntos 2D de distintas cámaras. Luego, se pasa a un conjunto de bloques que se ejecutan de manera iterativa hasta que no queden marcadores para reconstruir. En dicho bloque se busca la mejor asociación entre puntos, bajo determinado criterio, luego se reconstruye un punto 3D y se realiza un proceso de validación de dicha reconstrucción. En la iteración siguiente se actualizan las asociaciones que habían sido establecidas previamente. Cuando no hay más marcadores para reconstruir se detiene el proceso iterativo y se devuelven aquellos marcadores que fueron reconstruidos en cada iteración. En la Figura \ref{fig: diagrama algoritmo} se presenta un diagrama del algoritmo.\\
 
 \begin{figure}[ht!]
 \hspace{-1cm}
 \includegraphics[scale=0.55]{img/Reconstruccion/diagrama_algoritmo.pdf}
-\caption{Diagrama del algoritmo implementado}
+\caption{Diagrama del algoritmo implementado.}
 \label{fig: diagrama algoritmo}
 \end{figure}
 
-A continuación se describe el funcionamiento de cada uno de los bloques:
+A continuación se describe el funcionamiento de cada uno de los bloques.
 
 \subsection{Asociar puntos 2D}\label{seccion_asociar2D_uno}
 
@@ -148,7 +145,7 @@ Basándose en lo explicado anteriormente el proceso  se puede ejemplificar  en l
 \begin{figure}[ht!]
 \hspace{0.3cm}
 \includegraphics[scale=0.7]{img/Reconstruccion/cam2cam2}
-\caption{Asociación de puntos 2D en dos cámaras}
+\caption{Asociación de puntos 2D en dos cámaras.}
 \label{fig: cam2cam }
 \end{figure}
 
@@ -161,7 +158,7 @@ El primero de ellos evalúa cada cámara respecto a todas las restantes y el seg
 
  \begin{figure}[ht!]
    \centering 
-    \subfloat[Cada cámara con las restantes]{\includegraphics[scale=0.13]{img/Reconstruccion/enlazado_general}}\hspace{2cm}
+    \subfloat[Cada cámara con las restantes. Ejemplo de emparejamiento de la cámara 1.]{\includegraphics[scale=0.13]{img/Reconstruccion/enlazado_general}}\hspace{2cm}
     \subfloat[Cada cámara con su adyacente]{\includegraphics[scale=0.13]{img/Reconstruccion/enlazado_adyacente}\label{img_asociacion_consecutivas}}
    \caption{Métodos utilizados para generar pares de cámaras.}  
    \label{img_asociacion} 
@@ -171,7 +168,7 @@ El primero de ellos evalúa cada cámara respecto a todas las restantes y el seg
 
 
 
-\subsection{Mejor asociación}
+\subsection{Mejor asociación}\label{MejorAsociacion}
 
 A partir de la lista con asociaciones entre puntos de dos vistas generada anteriormente, es necesario elegir aquella que posea mayor probabilidad de conformar la pareja de imágenes correspondiente a la proyección de un marcador 3D sobre dichas vistas.
 %corresponder a la proyección en esas dos vistas de uno de los marcadores en el espacio.\\
@@ -206,7 +203,7 @@ El algoritmo desarrollado, si bien conceptualmente es similar, se implementa des
 En lugar de llevar en cada iteración la información 3D a cada cámara, se procede a llevar la información de las cámaras una sola vez al espacio 3D y trabajar en cada iteración sobre el mismo. 
 
 
-La información que contiene un punto en una retina se mapea en el espacio 3D sobre el rayo de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Supongamos que se tienen los rayos de proyección en el espacio 3D de todos los puntos contenidos en las retinas y que $x_1$ punto en la cámara 1 de centro $O_1$ y $x_2$ punto en la cámara 2 de centro $O_2$ se encuentran asociados y reconstruyen al punto $X_{12}$ (ver Figura \ref{img_reconstruccion_validacion}). 
+La información que contiene un punto en una retina se mapea en el espacio 3D sobre el rayo de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Supongamos que se tienen los rayos de proyección en el espacio 3D de todos los puntos contenidos en las retinas y que $x_1$ es un punto en la cámara 1 de centro $O_1$ y $x_2$ es un punto en la cámara 2 de centro $O_2$ se encuentran asociados y reconstruyen al punto $X_{12}$ (ver Figura \ref{img_reconstruccion_validacion}). 
 
 
 Idealmente $X_{12}$ se genera al interceptar los rayos de proyección de los puntos $x_1$ y $x_2$, pero debido a incertidumbres en la detección de marcadores o la calibración, comúnmente los rayos se van a cruzar. La reconstrucción, se estima como el punto del espacio de menor distancia a ambos rayos, por lo que
@@ -217,7 +214,7 @@ $X_{12}$ se encuentra en el punto medio del segmento perpendicular a ambos rayos
 El algoritmo implementado asume que un punto en una cámara, valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Notar que la elección anterior de $x_1$ sobre $x_2$ es indiferente para los propósitos de este proyecto. 
 
 
-Si bien este criterio difiere del postulado original, en cierta manera se considera más robusto, pues en el postulado original basta con que dos puntos en una retina se encuentren lo suficientemente cerca para obtener una validación, pero esto no implica necesariamente que provengan de puntos 3D cercanos, sin embargo bajo el nuevo criterio si dos puntos 3D se encuentran cerca, entonces es válido afirmar que sus proyecciones sobre las distintas retinas también deben estarlo. Otra ventaja es que los umbrales bajo los cuales se considera que dos puntos están ``cerca'' difieren en cada una de las cámaras debido al distinto mapeo de distancias, sin embargo en el espacio 3D, manejar un único umbral resulta suficiente.       
+Si bien este criterio difiere del postulado original propuesto por Herda, en cierta manera se considera más robusto, pues en el postulado original basta con que dos puntos en una retina se encuentren lo suficientemente cerca para obtener una validación, pero esto no implica necesariamente que provengan de puntos 3D cercanos, sin embargo bajo el nuevo criterio si dos puntos 3D se encuentran cerca, entonces es válido afirmar que sus proyecciones sobre las distintas retinas también deben estarlo. Otra ventaja es que los umbrales bajo los cuales se considera que dos puntos están ``cerca'' difieren en cada una de las cámaras debido al distinto mapeo de distancias, sin embargo en el espacio 3D, manejar un único umbral resulta suficiente.       
 
 \subsection{Actualizar asociaciones}\label{actualizar_asociaciones}
 
@@ -241,9 +238,9 @@ Se ha probado el algoritmo descrito anteriormente con secuencias capturadas en B
 
 \begin{figure}[ht!]
 \centering
-\captionsetup{justification=centering,margin=0.8cm}
+\captionsetup{justification=centering,margin=0.2cm}
 \includegraphics[scale=0.5]{img/Reconstruccion/Reconstruccion_3_camaras2.jpg}
-\caption{Proceso de reconstrucción, ejemplo. Lo marcadores totalmente negros son los que se pudieron reconstruir utilizando información de las cámaras 2, 3 y 5.}
+\caption{Ejemplo del proceso de reconstrucción. Los marcadores totalmente negros son los que se pudieron reconstruir utilizando información de las cámaras 2, 3 y 5.}
 \end{figure}
 
 
@@ -261,16 +258,16 @@ Como se menciona previamente se han realizado dos implementaciones distintas del
 \cline{3-6}
                                                                               &                                                       & \multicolumn{2}{l|}{\textbf{Primera implementación}}                                                                                             & \multicolumn{2}{l|}{\textbf{Segunda implementación}}                                                                                            \\ \hline
 \multicolumn{1}{|l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Marker}\\ \textbf{Ground}\end{tabular}} & \begin{tabular}[c]{@{}l@{}}\textbf{Name}\\ \textbf{Ground}\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Error} \\ \textbf{Promedio}\\ \textbf{(cm)}\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Percentil}\\ \textbf{99\% (cm)}\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Error}\\ \textbf{Promedio}\\ \textbf{(cm)}\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Percentil}\\ \textbf{99\% (cm)}\end{tabular} \\ \hline
-\multicolumn{1}{|l|}{1}                                                       & LeftUpLeg                                             & 0.4182                                                           & 3.7197                                                        & 0.3671                                                          & 0.5158                                                        \\ \hline
+\multicolumn{1}{|l|}{1}                                                       & LeftUpLeg                                             & 0.4182                                                           & \textbf{3.7197}                                                        & 0.3671                                                          & 0.5158                                                        \\ \hline
 \multicolumn{1}{|l|}{2}                                                       & LeftLeg                                               & 0.3586                                                           & 0.5449                                                        & 0.3670                                                          & 0.5411                                                        \\ \hline
 \multicolumn{1}{|l|}{3}                                                       & LeftFoot                                              & 0.3862                                                           & 1.0379                                                        & 0.3720                                                          & 0.5580                                                        \\ \hline
 \multicolumn{1}{|l|}{4}                                                       & RightUpLeg                                            & 0.3963                                                           & 1.7542                                                        & 0.3714                                                          & 0.5879                                                        \\ \hline
 \multicolumn{1}{|l|}{5}                                                       & RightLeg                                              & 0.3830                                                           & 0.9840                                                        & 0.3780                                                          & 0.5860                                                        \\ \hline
-\multicolumn{1}{|l|}{6}                                                       & RightFoot                                             & 0.4192                                                           & 1.5364                                                        & 0.4212                                                          & 1.8483                                                        \\ \hline
+\multicolumn{1}{|l|}{6}                                                       & RightFoot                                             & 0.4192                                                           & 1.5364                                                        & \textbf{0.4212}                                                          & \textbf{1.8483}                                                        \\ \hline
 \multicolumn{1}{|l|}{7}                                                       & Spine                                                 & 0.4075                                                           & 0.9092                                                        & 0.4040                                                          & 0.6043                                                        \\ \hline
 \multicolumn{1}{|l|}{8}                                                       & Head                                                  & 0.4130                                                           & 1.2853                                                        & 0.3867                                                          & 0.9063                                                        \\ \hline
 \multicolumn{1}{|l|}{9}                                                       & LeftArm                                               & 0.3626                                                           & 0.6394                                                        & 0.3666                                                          & 0.7997                                                        \\ \hline
-\multicolumn{1}{|l|}{10}                                                      & LeftForeArm                                           & 0.4774                                                           & 2.8511                                                        & 0.3873                                                          & 0.9056                                                        \\ \hline
+\multicolumn{1}{|l|}{10}                                                      & LeftForeArm                                           & \textbf{0.4774}                                                           & 2.8511                                                        & 0.3873                                                          & 0.9056                                                        \\ \hline
 \multicolumn{1}{|l|}{11}                                                      & LeftHand                                              & 0.4217                                                           & 2.0700                                                        & 0.4007                                                          & 1.1722                                                        \\ \hline
 \multicolumn{1}{|l|}{12}                                                      & RightArm                                              & 0.4756                                                           & 2.4363                                                        & 0.4025                                                          & 1.4771                                                        \\ \hline
 \multicolumn{1}{|l|}{13}                                                      & RightForeArm                                          & 0.4590                                                           & 3.1711                                                        & 0.3844                                                          & 0.7810                                                        \\ \hline
@@ -353,10 +350,10 @@ Los bloques de \emph{Reconstrucción 3D y Validación}, y el de \emph{Actualizar
 
 \begin{figure}[ht!]
    \centering 
-    \subfloat[Vista derecha]{\includegraphics[scale=1.70]{img/Reconstruccion/50_derecha_sintetica.png}}\hspace{0.2cm}
-    \subfloat[Vista  izquierda]{\includegraphics[scale=1.70]{img/Reconstruccion/50_izquierda_sintetica.png}}\hspace{2cm}
-    \subfloat[Vista de atras]{\includegraphics[scale=0.90]{img/Reconstruccion/50_atras_sintetica2.png}} \hspace{1.9cm}
-    \subfloat[Resultado de la reconstrucción]{\includegraphics[scale=0.7]{img/Reconstruccion/50_matlab_sintetica.pdf}}    
+    \subfloat[Vista derecha.]{\includegraphics[scale=1.70]{img/Reconstruccion/50_derecha_sintetica.png}}\hspace{0.2cm}
+    \subfloat[Vista  izquierda.]{\includegraphics[scale=1.70]{img/Reconstruccion/50_izquierda_sintetica.png}}\hspace{2cm}
+    \subfloat[Vista de atras.]{\includegraphics[scale=0.90]{img/Reconstruccion/50_atras_sintetica2.png}} \hspace{1.9cm}
+    \subfloat[Resultado de la reconstrucción.]{\includegraphics[scale=0.7]{img/Reconstruccion/50_matlab_sintetica.pdf}}    
    \caption{Reconstrucción de una secuencia sintética. Los asteriscos rojos indican los marcadores detectados.} 
    \label{img_reconstruccion_sintetica}    
 \end{figure} 
@@ -370,10 +367,10 @@ En la Figura \ref{img_reconstruccion_sintetica} se muestra el resultado de la re
 
 \begin{figure}[ht!]
    \hspace{-1cm}
-    \subfloat[Vista derecha]{\includegraphics[scale=0.47]{img/Reconstruccion/22_derecha.png}}\hspace{0.3cm}
-    \subfloat[Vista de atrás]{\includegraphics[scale=0.47]{img/Reconstruccion/22_atras.png}}\hspace{2cm}
-    \subfloat[Vista izquierda]{\includegraphics[scale=0.47]{img/Reconstruccion/22_izquierda.png}}\hspace{0.5cm}
-    \subfloat[Resultado de la reconstrucción]{\includegraphics[scale=0.20]{img/Reconstruccion/frame22_esqueleto_armado.pdf}}
+    \subfloat[Vista derecha.]{\includegraphics[scale=0.47]{img/Reconstruccion/22_derecha.png}}\hspace{0.3cm}
+    \subfloat[Vista de atrás.]{\includegraphics[scale=0.47]{img/Reconstruccion/22_atras.png}}\hspace{2cm}
+    \subfloat[Vista izquierda.]{\includegraphics[scale=0.47]{img/Reconstruccion/22_izquierda.png}}\hspace{0.5cm}
+    \subfloat[Resultado de la reconstrucción.]{\includegraphics[scale=0.20]{img/Reconstruccion/frame22_esqueleto_armado.pdf}}
    \caption{Reconstrucción de una secuencia real. Los asteriscos rojos indican los marcadores detectados.} 
    \label{img_reconstruccion_real2}    
 \end{figure} 
@@ -405,11 +402,11 @@ Utilizando las secuencias reales, se obtiene mejoras cualitativas sobre el prime
 
 De lo expuesto se desprenden fundamentalmente dos cosas:
 \begin{itemize}
-\item Las dificultades que ofrece el caso real, básicamente en la detección de marcadores, y cómo influye significativamente en la etapa de reconstrucción perjudicando el resultado final del sistema.
+\item Las dificultades que ofrece el caso real, básicamente en la detección de marcadores, y cómo influye significativamente en la etapa de reconstrucción perjudicando el resultado final del sistema. Con lo cual se desprende que mejoras en la detección deberían tener un gran impacto en la reconstrucción.
 \item El número de cámaras cambia significativamente el problema:
 \vspace{-0.3cm}
 \begin{itemize}
-\item Por un lado se genera un algoritmo que gestiona de manera aceptable la redundancia de información que existe cuando se utiliza un número de cámaras superior al necesario para cubrir cierto espacio de captura (dadas las características de los movimientos tratados en este proyecto, básicamente de marcha rectilínea, el límite inferior para una reconstrucción aceptable son 6 cámaras).
+\item Por un lado se genera un algoritmo que gestiona de manera aceptable la redundancia de información que existe cuando se utiliza un número de cámaras superior al necesario para cubrir cierto espacio de captura (dadas las características de los movimientos tratados en este proyecto, básicamente de marcha rectilínea, el límite inferior para una reconstrucción aceptable son 6 cámaras). Cabe recordar en este punto que los sistemas comerciales poseen generalmente como mínimo 8 cámaras e intentan trabajar con redundancia de información.
 \item Por otro lado efectuando modificaciones al algoritmo anterior se genera un nuevo algoritmo, que permite trabajar con pocas cámaras pero no gestiona adecuadamente la redundancia de información.
 \end{itemize}  
 \end{itemize} 
