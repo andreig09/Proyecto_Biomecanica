@@ -11,7 +11,7 @@ Estas reconstrucciones, son presentadas sin orden definido para cada cuadro de l
 \begin{center}
 \includegraphics[scale=0.6]{img/Tracking/00_Salida_Reconstruccion.png}
 \end{center}
-\caption{Salida de Reconstrucción para 4 cuadros. La etiqueta para cada marcador es el cuadro y el índice en la reconstrucción}
+\caption{Salida de Reconstrucción para 4 cuadros. La etiqueta para cada marcador es el cuadro y el índice en la reconstrucción.}
 \label{reconstr_00}
 % Figura tomada de la reconstrucción 8_07_100_200
 \end{figure}
@@ -31,7 +31,7 @@ El problema del seguimiento de marcadores espaciales a lo largo del tiempo es un
 Estos enfoques no son mutuamente excluyentes, pudiendo ser ambos complementarios para robustecer la generación de las trayectorias.
 
 
- Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos (salvo una tolerancia, recordando que los marcadores no se encuentran en la articulación misma sino sobre un lugar representativo del cuerpo como se observa en el ajuste presentado en la Figura \ref{skeleton_fitting_herda} y es planteado en el trabajo de Lorna Herda~\cite{herda}). 
+ Si se tiene acceso durante la adquisición de los datos, es posible relevar las distancias entre marcadores que se colocan en miembros que se mueven solidariamente  o dependen directamente uno del otro, por ejemplo al colocar marcadores en articulaciones de los brazos hay elementos sobre los huesos que siempre tendrán la misma distancia entre ellos. Esto se cumple con una cierta tolerancia ya que los marcadores no se encuentran en la articulación misma sino sobre un lugar representativo del cuerpo como se observa en el ajuste presentado en la Figura \ref{skeleton_fitting_herda} como es planteado en el trabajo de Lorna Herda~\cite{herda}. 
 
 
 Con estas distancias relevadas, y definidas las relaciones entre marcadores, es posible definir el esqueleto como una serie de restricciones que se mantienen a lo largo del tiempo (distancias entre marcadores solidarios) o que varían de forma continua (ángulo de huesos), donde la identificación es realizada inicialmente mediante un ajuste de los datos relevados en el mundo físico a los puntos obtenidos en la reconstrucción. 
@@ -40,7 +40,7 @@ Con estas distancias relevadas, y definidas las relaciones entre marcadores, es 
 \begin{center}
 \includegraphics[scale=0.6]{img/Tracking/01_skeleton_fitting_Herda.png}
 \end{center}
-\caption{Inicialización de esqueleto, y ajuste a los marcadores encontrados. Cada marcador representa una articulación y se ajusta en una esfera de cercanía centrada en la articulación del esqueleto}
+\caption{Inicialización de esqueleto, y ajuste a los marcadores encontrados. Cada marcador representa una articulación y se ajusta en una esfera de cercanía centrada en la articulación del esqueleto. Tomado de Herda~\cite{herda}.}
 \label{skeleton_fitting_herda}
 \end{figure}
 
@@ -50,14 +50,14 @@ Uno de los algoritmos mas simples~\cite{survey_tracking} es continuar una secuen
 \begin{center}
 \includegraphics[scale=0.8]{img/Tracking/01_Greedy_Matching.png}
 \end{center}
-\caption{Dos marcadores moviéndose en cuatro cuadros, Izquierda corresponde al resultado de aplicar enlazado por elemento mas próximo~\cite{survey_tracking}, Derecha al elegir el camino con variación mas suave}
+\caption{Dos marcadores moviéndose en cuatro cuadros, Izquierda corresponde al resultado de aplicar enlazado por elemento mas próximo~\cite{survey_tracking}, Derecha al elegir el camino con variación mas suave.}
 \label{greedy_matching}
 \end{figure}
 
 Para el caso de algoritmos de predicción, algunas soluciones implementadas para tracking de marcadores en desarrollos similares (como el DVIDEOW~\cite{figueroa2003flexible}) son el filtro de Kalman~\cite{kalman} y sus variantes, los cuales requieren inicializar y ajustar parámetros internos. Estos procedimientos fueron implementados en las primeras instancias de estudio del problema, pero se decidió implementar otro procedimiento capaz de corregir los errores de enlazado de forma más simple, de manera tal que el mismo no requiera estudio de parámetros internos para el filtrado pero ingrese alguna restricción a las trayectorias enlazadas.
 \\ 
 
-Como se viene comentando en los capítulos anteriores, el procedimiento elegido es el presentado por Lorna Herda~\cite{herda}. El mismo consiste en aplicar el tracking de partículas esbozado por Malik, Dracos, Papantoniou~\cite{griegos} al seguimiento de marcadores. Para ello, se busca el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
+Como se comentó en los capítulos anteriores, el procedimiento elegido es el presentado por Lorna Herda~\cite{herda}. El mismo consiste en aplicar el tracking de partículas esbozado por Malik, Dracos, Papantoniou~\cite{griegos} al seguimiento de marcadores. Para ello, se busca el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
 \\ 
 
 La hipótesis principal de este algoritmo, es que el muestreo del movimiento capturado es suficiente para que el desplazamiento entre cuadros sea mínimo en distancia, y la idea para predecir y buscar el desplazamiento entre [f] y [f+1], es utilizar la información que se tiene de la secuencia entre [f-1] y [f], y utilizar una segunda proyección entre [f+1] y [f+2] para confirmar el enlace encontrado en el caso que exista mas de una posibilidad (Figura~\ref{herda_00}).
@@ -88,7 +88,7 @@ x_{[f+1]}-x_{[f]}& = x_{[f]}-x_{[f-1]} \\
 \begin{center}
 \includegraphics[scale=0.8]{img/Tracking/tracking-eps-converted-to.pdf}
 \end{center}
-\caption{Seguimiento en 4 cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. La línea punteada es la traslación del movimiento previo, las líneas azules son las obtenidas buscando la mínima variación de aceleración para el punto elegido en [f+1]. De las dos posibles trayectorias, se elige aquella con menor variación de aceleración \cite{herda}.}
+\caption{Seguimiento en 4 cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. La línea punteada es la traslación del movimiento previo, las líneas azules son las obtenidas buscando la mínima variación de aceleración para el punto elegido en [f+1]. De las dos posibles trayectorias, se elige aquella con menor variación de aceleración, como es visto en Herda~\cite{herda}.}
 \label{herda_00}
 \end{figure}
 
@@ -102,7 +102,7 @@ Además, como se vio en el Capítulo \ref{reconstruccion}, la reconstrucción fu
 \includegraphics[scale=0.7]{img/Tracking/011_tracking_2D_camara_07.png}
 \end{center}
 \vspace{-0.8cm}
-\caption{Resultado de Aplicar el Seguimiento de marcadores a una vista 2D sin re-proyección de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la cámara 07 de la captura sintética}
+\caption{Resultado de Aplicar el Seguimiento de marcadores a una vista 2D sin re-proyección de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la cámara 07 de la captura sintética.}
 \label{tracking_2D_cam_07}
 \end{figure}
 
@@ -135,7 +135,7 @@ El procedimiento que se estudia en esta sección para el seguimiento de marcador
 \begin{figure}[ht!]
 \hspace{-1cm}
 \includegraphics[scale=0.71]{img/Tracking/diagrama_seguimiento}
-\caption{Diagrama de Seguimiento de Marcadores}
+\caption{Diagrama de Seguimiento de Marcadores.}
 \label{diagrama_seguimiento}
 \end{figure}
 
@@ -158,7 +158,7 @@ La norma de este traslado es utilizada para evaluar los puntos cercanos al centr
 
 \begin{itemize}
 \item Se encuentra un solo punto dentro del radio de búsqueda, en este caso se agrega el índice del punto encontrado en [f+1] a los que se utilizaron de [f-1] y [f], calculando la aceleración y velocidad resultante para establecer el enlace. En este caso, el cuarto elemento de la línea de la matriz de enlace no fue necesario.
-\item Se encuentra mas de un punto, por lo cual se tiene que usar algún criterio para elegir entre todas la posibilidades encontradas. Para cada punto encontrado dentro del radio de búsqueda, se calcula un segundo centro de búsqueda para [f+2], esta vez minimizando la Ecuación~\ref{track_var_acc} :
+\item Se encuentra más de un punto, por lo cual se tiene que usar algún criterio para elegir entre todas la posibilidades encontradas. Para cada punto encontrado dentro del radio de búsqueda, se calcula un segundo centro de búsqueda para [f+2], esta vez minimizando la Ecuación~\ref{track_var_acc} :
 \begin{equation}
 \hspace{-1cm}
 \begin{split}
@@ -184,7 +184,7 @@ Una vez enlazado el último cuadro de las secuencia se procede a limpiar aquella
 \begin{figure}[ht!]
 \hspace{-1cm}
 \includegraphics[scale=0.71]{img/Tracking/diagrama_inventario_seguimiento}
-\caption{Diagrama Seguimiento e Inventario de Marcadores}
+\caption{Diagrama Seguimiento e Inventario de Marcadores.}
 \label{diagrama_inventario_seguimiento}
 \end{figure}
 
@@ -196,29 +196,29 @@ Antes de consolidar la matriz de enlaces y proceder a que los marcadores en [f+1
 
 \begin{figure}[ht!]
  \centering
-  \subfloat[Trayectoria]{
+  \subfloat[Trayectoria.]{
    \label{track_m13}
     \includegraphics[width=0.5\textwidth]{img/Tracking/025_Salida_Tracking_Marker_13_8_07_100_200.png}}
-  \subfloat[Velocidad,Aceleración,Variación Ac.]{
+  \subfloat[Velocidad, Aceleración, Variación Aceleración.]{
    \label{vel_acc_vacc_m13}
     \includegraphics[width=0.5\textwidth]{img/Tracking/020_Salida_Tracking_Marker_13_8_07_100_200.png}}
- \caption{Ejemplo de discontinuidad en un marcador, por punto mal reconstruido. La Figura~\ref{track_m13} presenta en azul la trayectoria reconstruida, en rojo el ground truth}
+ \caption{Ejemplo de discontinuidad en un marcador, por punto mal reconstruido. La Figura~\ref{track_m13} presenta en azul la trayectoria reconstruida, en rojo el ground truth.}
  \label{discontinuidad_tracking}
 \end{figure}
 
 Se establece un umbral a partir del estudio de la distribución de la aceleración de cada marcador (Figura~\ref{distribucion_aceleracion} ) para encontrar la aceleración que presenta un salto abrupto y detectar los cuadros donde se supera dicho umbral para corregir el marcador. El procedimiento para estimar los marcadores en estos casos es el mismo que se verá al momento de explicar el inventario de trayectorias.\\ 
 
-Como opción general se implementó una alternativa que en vez de calcular un umbral para cada trayectoria establece un umbral global, el cual es útil para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se logra mediante una ejecución en dos instancias del seguimiento, una primera instancia sin límites globales de aceleración en el enlazado, y una segunda con un límite establecido a un porcentaje de la distribución de la aceleración asumiendo un nivel para perdidas. A efectos de las pruebas, se verifica que filtrar con el nivel sobre el cual cumplen el 99\% de las aceleraciones de todos los marcadores enlazados, arroja buenos resultados. Si durante la segunda instancia un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
+Como opción general se implementó una alternativa que en vez de calcular un umbral para cada trayectoria establece un umbral global, el cual es útil para detectar aceleraciones notoriamente altas sin tener que estudiar cada trayectoria. Esta opción se logra mediante una ejecución en dos instancias del seguimiento, una primera instancia sin límites globales de aceleración en el enlazado, y una segunda con un límite establecido a un porcentaje de la distribución de la aceleración asumiendo un nivel para pérdidas. A efectos de las pruebas, se verifica que filtrar con el nivel sobre el cual cumplen el 99\% de las aceleraciones de todos los marcadores enlazados, arroja buenos resultados. Si durante la segunda instancia un enlace global supera este umbral, se descarta y se procede con la recuperación de trayectoria.
 
 \begin{figure}[ht!]
  \centering
-  \subfloat[Función de distribución de la Aceleración]{
+  \subfloat[Función de distribución de la Aceleración.]{
 	\label{distribucion_aceleracion}
 	\includegraphics[width=0.5\textwidth]{img/Tracking/03_Distribucion_Aceleracion_Marker_13_8_07_100_200.png}}
-  \subfloat[]{
+  \subfloat[Trayectoria Corregida.]{
    \label{track_m13_fix}
     \includegraphics[width=0.5\textwidth]{img/Tracking/026_Salida_Tracking_Marker_13_8_07_100_200.png}}
- \caption{Ejemplo Resultado de Umbral y Corrección En Trayectoria}
+ \caption{Ejemplo Resultado de Umbral y Corrección En Trayectoria.}
 % Figura tomada de la reconstrucción 8_07_100_200
 \label{distro_acc_track_m13_fix}
 \end{figure}
@@ -232,14 +232,14 @@ Una vez actualizada la lista de las trayectorias perdidas en [f][f+1] se deben t
  
 \begin{figure}[ht!]
  \centering
-  \subfloat[Salida de Código durante perdida y recuperación de trayectoria]{
+  \subfloat[Salida de Código durante perdida y recuperación de trayectoria.]{
 	\label{track_m8_recover_code}
 	\includegraphics[scale=0.7]{img/Tracking/035_Salida_Codigo_Recuperacion.png}}\hspace{3 mm}
 	
-  \subfloat[Trayectoria]{
+  \subfloat[Trayectoria.]{
    \label{track_m8_recover}
 \includegraphics[scale=0.7]{img/Tracking/030_Inventario_trayectoria_direccional.png}}
-\caption{Trayectoria perdida en cuadro 104, con posible candidato de recuperación en cuadro 106 por cercanía con la estimación por desplazamiento}
+\caption{Trayectoria perdida en cuadro 104, con posible candidato de recuperación en cuadro 106 por cercanía con la estimación por desplazamiento.}
 % Figura tomada de la reconstrucción 8_07_100_200
 \label{inventario_trayectoria_direccional}
 \end{figure} 
@@ -390,7 +390,7 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 \includegraphics[scale=0.4]{img/Tracking/040_Salida_Tracking_Esqueleto_Trayectoria.png}
 \end{center}
 \vspace{-0.5cm}
-\caption{Tracking sobre captura sintética, 113 cuadros, 17 cámaras, 14 marcadores}
+\caption{Tracking sobre captura sintética, 113 cuadros, 17 cámaras, 14 marcadores.}
 \label{Tracking_Esqueleto_Trayectoria}
 \end{figure}
 
@@ -431,20 +431,20 @@ El filtrado y validación por trayectorias permite reducir el error máximo y me
 \begin{figure}[ht!]
 \vspace{-0.4cm}
  \centering
-  \subfloat[Trayectoria sin Corregir Por Aceleración]{
+  \subfloat[Trayectoria sin Corregir Por Aceleración.]{
 	\label{Salida_Tracking_Original}
 	\includegraphics[scale=0.4]{img/Tracking/036_Salida_Tracking_Original.png}}\hspace{0.2cm}
-  \subfloat[Trayectoria Corregida Por Aceleración]{
+  \subfloat[Trayectoria Corregida Por Aceleración.]{
    \label{Salida_Tracking_Filtrado}
 \includegraphics[scale=0.4]{img/Tracking/037_Salida_Tracking_Filtrado.png}}
 \hspace{3 mm}
-  \subfloat[Error de Marcador, sin Corregir]{
+  \subfloat[Error de Marcador, sin Corregir.]{
 	\label{Salida_Tracking_Original2}
 	\includegraphics[scale=0.4]{img/Tracking/038_Salida_Tracking_Error_Marker_8_original.png}}
-  \subfloat[Error de Marcador, Corregido]{
+  \subfloat[Error de Marcador, Corregido.]{
    \label{Salida_Tracking_Filtrado2}
 \includegraphics[scale=0.4]{img/Tracking/039_Salida_Tracking_Error_Marker_8_filtrado.png}}
-\caption{Corrección por variación de aceleración, medidas de error antes y después de corregir}
+\caption{Corrección por variación de aceleración, medidas de error antes y después de corregir.}
 % Figura tomada de la reconstrucción 8_07_100_200
 \label{Tracking_Original_Filtrado_Errores}
 \end{figure}
@@ -454,9 +454,9 @@ Al tener las etiquetas constantes para las trayectorias es finalmente posible vi
 
 \begin{figure}[ht!]
  \hspace{-1.3cm}
-  \subfloat[Trayectorias de marcadores de pierna]{\includegraphics[scale=0.4]{img/Tracking/050_Salida_Tracking_13_14_10.png} %\label{trayectorias_marcadores_piernas}
+  \subfloat[Trayectorias de marcadores de pierna.]{\includegraphics[scale=0.4]{img/Tracking/050_Salida_Tracking_13_14_10.png} %\label{trayectorias_marcadores_piernas}
    }	
-  \subfloat[Distancia y Angulo entre marcadores de la pierna]{\includegraphics[scale=0.4]{img/Tracking/051_Salida_Angulo_Distancia_13_14_10.png}\label{distancia_angulo_marcadores_piernas}}
-\caption{Ejemplos de Posibles restricciones en ángulo y distancia, para el caso de la pierna en marcha}
+  \subfloat[Distancia y Angulo entre marcadores de la pierna.]{\includegraphics[scale=0.4]{img/Tracking/051_Salida_Angulo_Distancia_13_14_10.png}\label{distancia_angulo_marcadores_piernas}}
+\caption{Ejemplos de Posibles restricciones en ángulo y distancia, para el caso de la pierna en marcha.}
 \label{restricciones_tracking}
 \end{figure}
