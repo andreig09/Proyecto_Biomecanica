@@ -81,9 +81,9 @@ Si aún faltan marcadores sin reconstruirse, se utiliza como último recurso la 
 
 
 
-Si bien se intentó reproducir el sistema propuesto por Herda\cite{herda} tal cual se especificaba en su documentación, se presentaron diversos obstáculos que impidieron poder implementar los bloques de reconstrucción y seguimiento como se detalló anteriormente. El principal obstáculo fue el calendario, ya que la cantidad de módulos a implementar es demasiado grande para el tiempo con que cuenta este proyecto. Otro factor importante que influyó son las ambigüedades presentadas en las especificaciones de los bloques en la documentación de Herda, dado que retrasaron la etapa de estudio del sistema al tener que investigar e implementar métodos para poder superar los vacíos presentes en la teoría.
+Si bien se intentó reproducir el sistema propuesto por Herda\cite{herda} tal cual se especificaba en su documentación, se presentaron diversos obstáculos que impidieron poder implementar los bloques de reconstrucción y seguimiento como se detallan anteriormente. Un obstáculo importante son las ambigüedades presentadas en las especificaciones de los bloques en la documentación de Herda, dado que retrasaron la etapa de estudio del sistema al tener que investigar e implementar métodos para poder superar los vacíos presentes en la teoría. Esto último junto con la gran cantidad de módulos a implementar y el tiempo con que cuenta este proyecto generaron diferencias con lo propuesto por Herda.
 
- A raíz de esto, se decide darle prioridad a los bloques principales del diagrama frente a los secundarios o a los que se implementan para casos de uso particulares. Con esto se intenta tener implementado un sistema de principio a fin, capaz de capturar la posición 3D de un sujeto realizando el movimiento de marcha a lo largo del tiempo. Estos bloques son:
+ A raíz de esto, se decide dar prioridad a los bloques principales del diagrama frente a los secundarios o a los que se implementan para casos de uso particulares. Con esto se intenta tener implementado un sistema de principio a fin, capaz de capturar la posición 3D de un sujeto realizando el movimiento de marcha a lo largo del tiempo con una performance aceptable. Estos bloques son:
  \begin{itemize}
  	\item Detección de marcadores
  	\item Triangulación estéreo (Reconstrucción)
