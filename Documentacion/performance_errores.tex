@@ -44,23 +44,44 @@ Para las medidas de los distintos bloques se trabajará no solo con el promedio 
 
 Las múltiples secuencias sintéticas generadas en Blender presentadas en la Sección~\ref{seccion_Base_Datos_Sintetica} son ingresadas al sistema utilizando los parámetros de calibración de las cámaras simuladas y los vídeos generados para las 17 cámaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en el Capítulo~\ref{sec:implementacion_bloques_sistema} y comparado con el ground truth obtenido por Blender a partir de los vídeos, utilizando la metodología establecida en la Sección~\ref{subsec:medida_error} para medir los resultados a la salida de cada bloque. 
 
-Se realizaron pruebas para 5 secuencias, 2 de las cuales fueron probadas con distintas tasas de adquisición las cuales están indicadas en la Tabla \ref{resultados_distintas_capturas} como $X,YY,Z$, donde $Z=1,2$ corresponden a dos tasas de muestreo diferentes.
 
 \begin{table}[ht!]
 \centering
 \resizebox{15cm}{!}{
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Acción}                                                                                  & \textbf{\begin{tabular}[c]{@{}c@{}}Nombre\\ Secuencia\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Longitud\\ de secuencia\\ (segundos)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Cuadros \\ por segundo\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Espacio \\ de captura\\ (metros)\end{tabular}} \\ \hline
+Marcha rectilínea                                                                                & 08\_03\_100\_100                                                    & 2,5                                                                                  & 30                                                                      & 1,5 x 5,5                                                                         \\ \hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Marcha rectilínea, \\ zancada exagerada\end{tabular}} & 08\_07\_100\_100                                                    & \multirow{2}{*}{2,6}                                                                 & 24                                                                      & \multirow{2}{*}{1,5 x 5,5}                                                        \\ \cline{2-2} \cline{4-4}
+                                                                                                 & 08\_07\_100\_200                                                    &                                                                                       & 48                                                                      &                                                                                   \\ \hline
+\begin{tabular}[c]{@{}c@{}}Marcha rectilínea\\ lenta, zancada ancha\end{tabular}                 & 08\_11\_100\_100                                                    & 3,8                                                                                   & 30                                                                      & 1,5 x 5                                                                           \\ \hline
+\multirow{2}{*}{Corriendo}                                                                       & 09\_07\_100\_100                                                    & \multirow{2}{*}{1,2}                                                                  & 24                                                                      & \multirow{2}{*}{1,5 x 5}                                                          \\ \cline{2-2} \cline{4-4}
+                                                                                                 & 09\_07\_100\_200                                                    &                                                                                       & 48                                                                      &                                                                                   \\ \hline
+Marcha libre                                                                                     & 09\_12\_100\_100                                                    & 12,5                                                                                  & 24                                                                      & 3 x 5                                                                             \\ \hline
+\end{tabular}
+}
+\caption{Resumen de secuencias de la base de datos sintética utilizadas para análisis de performance.}
+\label{tabla_resumen_secuencias}
+\end{table}
+
+
+Se realizaron pruebas para las 5 secuencias de la Tabla \ref{tabla_resumen_secuencias}, los resultados de dichas pruebas se muestran en la Tabla \ref{resultados_distintas_capturas}. 
+
+\begin{table}[ht!]
+\centering
+\resizebox{15.5cm}{!}{
 \begin{tabular}{cccc|c|c|c|c|c|c|ll}
 \cline{5-10}
-& & & & SEGM. & SEGM. & RECONS. & RECONS. & TRACK. & TRACK. &  &  \\ \cline{1-10}
+& & & & \multicolumn{2}{|c|}{\textbf{Segmentación}}  & \multicolumn{2}{|c|}{\textbf{Reconstrucción}} & \multicolumn{2}{|c|}{\textbf{Seguimiento}} &  &  \\ \cline{1-10}
 \multicolumn{1}{|c|}{captura} & \multicolumn{1}{c|}{markers} & \multicolumn{1}{c|}{cuadros} & n.cams & \begin{tabular}[c]{@{}c@{}}Promedio\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{8,03,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{89}     & 17      & 1,1063 & \textbf{3,6783}  & \textbf{0,40778}     & 2,6384  & \textbf{0,4318} & \textbf{2,9039}  &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{8,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{62}     & 17      & 1,0871 & 3,1172  & 0,34382     & 1,806   & 0,34451     & 1,806   &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{8,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{\textbf{123}}    & 17      & 1,0912 & 3,3097  & 0,38736     & 1,2681
+\multicolumn{1}{|c|}{08\_03\_100\_100}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{89}     & 17      & 1,1063 & \textbf{3,6783}  & \textbf{0,40778}     & 2,6384  & \textbf{0,4318} & \textbf{2,9039}  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{08\_07\_100\_100}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{62}     & 17      & 1,0871 & 3,1172  & 0,34382     & 1,806   & 0,34451     & 1,806   &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{08\_07\_100\_200}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{\textbf{123}}    & 17      & 1,0912 & 3,3097  & 0,38736     & 1,2681
 & 0,36381     & 1,2681  &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{8,11}    & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{94}     & 17      & 1,074  & 2,9042  & 0,38836     & \textbf{2,8705}  & 0,38836     & 2,8705  &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{9,07,1}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{29}     & 17      & 1,1285 & 3,3211  & 0,28016     & 2,0401  & 0,28016     & 2,0401  &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{9,07,2}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{57}     & 17      & \textbf{1,1404} & 3,4476  & 0,34517     & 1,9902  & 0,34517     & 1,9902  &  &  \\ \cline{1-10}
-\multicolumn{1}{|c|}{9,12,1}  & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{\textbf{300}}    & 15      & 1,0443 & 2,118   & 0,39731     & 1,4952  & 0,39741     & 1,4952  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{08\_11\_100\_100}    & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{94}     & 17      & 1,074  & 2,9042  & 0,38836     & \textbf{2,8705}  & 0,38836     & 2,8705  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{09\_07\_100\_100}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{29}     & 17      & 1,1285 & 3,3211  & 0,28016     & 2,0401  & 0,28016     & 2,0401  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{09\_07\_100\_200}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{57}     & 17      & \textbf{1,1404} & 3,4476  & 0,34517     & 1,9902  & 0,34517     & 1,9902  &  &  \\ \cline{1-10}
+\multicolumn{1}{|c|}{09\_12\_100\_100}  & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{\textbf{300}}    & 15      & 1,0443 & 2,118   & 0,39731     & 1,4952  & 0,39741     & 1,4952  &  &  \\ \cline{1-10}
 \end{tabular}
 }
 \caption{Resultados de los bloques, para distintas capturas sintéticas}
