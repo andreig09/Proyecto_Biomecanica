@@ -1,16 +1,10 @@
 \chapter{Conclusiones}
 \label{conclusiones}
-%conclusiones, pendientes, etc
-%En esta sección se evaluarán las conclusiones obtenidas a partir de lo realizado en el proyecto. Las mismas se pueden separar en conclusiones generales, y en particulares de los capítulos vistos anteriormente.
-
-%Como conclusiones generales se presentan las siguientes:
-
-%INICIO DIVAGUE GONZALO
 
 Se obtuvo en forma íntegra un sistema óptico de captura de movimiento basado en marcadores, que a partir de las capturas de video de una persona en un ambiente de laboratorio con las condiciones adecuadas, obtiene la posición 3D de  los marcadores presentes en el cuerpo de dicha persona, logrando representar su movimiento con una precisión del orden del centímetro.\\
 
 
-Si bien inicialmente el objetivo era que el sistema funcionara por lo menos para el caso de uso de la marcha, se han probado otros  movimientos con resultados aceptables. La aplicación desarrollada permite a partir de múltiples capturas de vídeo de un sujeto en movimiento, detectar los marcadores en cada toma de video. Junto a la información de las cámaras, luego reconstruye la posición de los marcadores en el espacio y finalmente logra identificar cada marcador a lo largo de la secuencia temporal.\\ 
+Si bien inicialmente el objetivo era que el sistema funcionara por lo menos para el caso de uso de la marcha, se han probado otros  movimientos con resultados aceptables. La aplicación desarrollada permite a partir de múltiples capturas de vídeo de un sujeto en movimiento, detectar los marcadores en cada toma de video. Junto a la información de las cámaras, luego reconstruye la posición de los marcadores en el espacio y finalmente logra identificar cada marcador a lo largo de la secuencia temporal. Cabe destacar que el sistema implementado no es solo óptico, sino que es lo bastante general para funcionar con cualquier sistema de adquisición que genere imágenes, por ejemplo con las imágenes infrarrojas de un sistema Vicon \cite{vicon}. \\ 
 
 
 La revisión bibliográfica inicial permite encontrar los procesos principales que normalmente conforman un sistema de captura de movimiento: \emph{Adquisición}, \emph{Calibración}, \emph{Detección de marcadores}, \emph{Reconstrucción} y \emph{Seguimiento};  obteniendo a su vez una idea del estado del arte de dichos procesos. En dicha etapa se realiza una clasificación de los documentos de acuerdo a la relevancia que prestan y se definen los métodos que posteriormente se utilizaron para implementar los distintos procesos que componen el sistema. \\  
@@ -39,84 +33,21 @@ Actualmente los algoritmos de reconstrucción propuestos son generales y no intr
 Se implementó un algoritmo de seguimiento basado en restricciones de velocidad y trayectorias, asumiendo la hipótesis de correcto muestreo de la secuencia y el buen desempeño del proceso de reconstrucción. Si las pérdidas son puntuales y no se mantienen en el tiempo, se implementaron medidas para recuperar trayectorias continuando el movimiento. Los resultados de performance de seguimiento son los mismos que los de reconstrucción pero se pueden medir los errores de manera más específica, teniendo para cada marcador el mismo rendimiento satisfactorio que para el conjunto entero y toda posible discontinuidad puede ser detectada y reparada para mantener la continuidad tanto de velocidad como de aceleración. 
 \\ 
 
-%Por otro lado, se pudieron desarrollar los bloques de la re-alimentación que propone Lorna Herda en su tesis de forma independiente, pero no se pudo medir si su funcionamiento dentro del sistema hubiese mejorado los resultados, sobretodo para el caso real.
+
+Es importante tener presente los pasos que restan para tener una base de datos con secuencias reales.
+En este trabajo se exploran en detalle distintos factores a tomar en cuenta  a la hora de armar un laboratorio de captura y se efectúan una serie de recomendaciones o definiciones, tanto para su armado como para la realización de capturas en condiciones óptimas para un posterior procesamiento. También se define una estructura que almacena toda la información recabada en dichas capturas y permite trabajar a lo largo de los diferentes procesos que componen el sistema de procesamiento. Por lo que para obtener una base de datos real con secuencias ópticas, solo resta efectuar las capturas de acuerdo a las condiciones que se definen y calibrar las cámaras. 
+Con estas nuevas secuencias y una posterior evaluación se pueden generar mejoras en los algoritmos del sistema.\\
 
 
-%El proyecto tardó en comenzar a definir todo lo presentado en este documento, la búsqueda de bibliografía y de un sistema que presentara de forma comprensible el problema con nuestros conocimientos al momento de comenzar se tomó más tiempo de lo estimado, y cuando se comenzó a implementar el sistema se encontraron algunos problemas puntuales que necesitaron de la atención de todos los miembros del grupo para poder ser solucionados. En base a esto, la prórroga solicitada fue utilizada para terminar de solucionar los problemas y se comenzaron a documentar los resultados finales cuando todas las partes del sistema lograron funcionar correctamente. Con estos problemas puntuales solucionados, se logró cumplir con los objetivos de comprender el sistema y presentar los distintos pasos para poder obtener resultados que muestran que la comprensión e interpretación de todo aquello que se relevo fue correcta.
- 
+Cabe destacar que estamos aumentando la reproducibilidad en el área. Pues se cuenta con un sistema completo y estructurado donde fácilmente se pueden modificar, ingresar y probar distintas partes, comparando sus desempeños con las métricas ya definidas en el Capítulo \ref{evaluacion}.\\ 
+
+
+
+El sistema actual devuelve toda la información de los marcadores relevante para el usuario final en una matriz de Matlab, esto no es un problema para los investigadores en Biomecánica, pues los mismos efectúan habitualmente sus cálculos en dicho programa. Fácilmente se pueden efectuar cálculos de centro de masa, velocidades y aceleraciones, tanto parciales como totales.
+También se actualiza y devuelve toda la información generada a lo largo del procesamiento en estructuras de Matlab así como en archivos .xml. Si bien se desarrollaron herramientas de visualización de secuencias de movimiento en Matlab, las mismas son básicas. Por lo que en futuros trabajos se pueden generalizar sus prestaciones de manera más acorde al especialista. Otra alternativa con bastante potencial es exportar la información de salida del sistema nuevamente al entorno Blender, de manera tal que el especialista realice un análisis más interactivo sobre un modelo virtual.\\ 
+
+
 
 Como trabajo a futuro queda explorar las opciones para robustecer el sistema en condiciones más exigentes asociadas al caso real, por otro lado implementar las medidas adicionales con restricciones para mantener coherencia asociada a un modelo físico, ampliar la interfaz gráfica para cada módulo, haciendo la misma más amigable al usuario y/o orientada al experto (calibración interactiva, bloque de visualización de resultados, entre otros).
 Si bien esta primera versión del sistema no está a la altura de los sistemas comerciales relevados en este documento, se logra dar el primer paso, sentando las bases y condiciones necesarias para poder continuar con el proyecto.
 El potencial actual tanto del sistema como de la base de datos y su posible expansión permiten afirmar que se generaron herramientas a tener en cuenta en futuros proyectos de captura de movimiento.
-
-%A continuación se resumen las conclusiones obtenidas:
-
-\begin{comment}
-\begin{itemize}
-\item Se cumplió el objetivo principal: se logró obtener un sistema completo que a partir de las capturas de video de una persona en un ambiente de laboratorio con las condiciones adecuadas, obtiene la posición 3D de  los marcadores presentes en el cuerpo de dicha persona, logrando representar su movimiento con una precisión del orden del centímetro. El sistema completo se encuentra publicado en un repositorio de Github\footnote{https://github.com/} y se puede acceder a él mediante el siguiente link: \emph{https://github.com/andreig09/Proyecto\_Biomecanica.git}.
-\item Se logró relevar la literatura existente, y se realizó una clasificación de los documentos de acuerdo a la relevancia que prestan para construir un sistema de estas características. 
-\item Se relevó el software existente, y se buscaron implementaciones en \emph{Matlab}, C/C++ y otros lenguajes, pero no se encontró un software Open Source que se adaptara a las características necesarias para utilizar de base en este proyecto. Debido a esto, se decidió implementar los bloques por cuenta propia, utilizando algunos algoritmos básicos de procesamiento de imágenes ya implementados o realizados específicamente para este proyecto. Esta etapa por momentos tuvo un carácter más de investigación científica que de proyecto ingenieril.
-\item Se identificaron los distintos casos de uso, y se decidió implementar el sistema en base al caso de uso de marcha.
-\item Se lograron implementar los 4 grupos de algoritmos principales que componen la aplicación: calibración, detección de marcadores, estimación de pose (o reconstrucción) y seguimiento.
-\item Se generó un sistema que integra los 4 bloques nombrados en el punto anterior, y que dada la entrada definida obtiene la salida esperada.
-\item Se elaboró una interfaz gráfica de usuario (GUI) básica para que el sistema pueda ser utilizado de una forma más práctica y amigable por el usuario.
-\item Se buscaron bases de datos que se encuentren dentro de las hipótesis del problema, de forma tal de probar el mismo para diferentes casos y evaluar su rendimiento. Debido a que no se encontró ninguna base de datos disponible que cumpla con las características deseadas, se elaboró una en base a secuencias sintéticas generadas en Blender.
-\item Se generó un conjunto de benchmarks\footnote{Herramientas de evaluación de performance.}, capaces de obtener una buena medida del rendimiento del sistema. 
-\end{itemize}
-
-Como conclusiones específicas para las etapas principales se tiene:
-\begin{itemize}
-	\item Relevamiento bibliográfico
-	\begin{itemize}
-		\item No se encontraron implementaciones de sistemas de captura de movimiento Open Source con las características del sistema de este proyecto. 
-	\end{itemize}
-	\item Base de datos
-	\item Calibración
-	\item Detección de marcadores
-	\begin{itemize}
-		\item Se logró implementar un conjunto de algoritmos capaces de detectar la posición 2D de los marcadores en el cuerpo del paciente para todo instante de tiempo y exponer los resultados en un archivo XML. 
-		\item Los resultados correspondientes a las pruebas con secuencias sintéticas fueron muy buenos, logrando un error que en la mayoría de los casos se ubicó por debajo de los 4 píxeles.
-		\item Por el lado del procesamiento de secuencias reales, no se consiguieron secuencias que estén exactamente en las hipótesis del problema. Aún así, se realizaron pruebas con secuencias que se asemejaban a las condiciones necesarias obteniendo buenos resultados al extraer el fondo de la captura.
-		\item Se observó que para ambientes donde las condiciones se mantienen constantes a lo largo del tiempo (como por ejemplo en un laboratorio), el umbral no cambia significativamente su valor, pudiéndose utilizar un valor constante en el para toda una secuencia. Esto permite ahorrar tiempo de procesamiento y reduce el costo computacional de la detección.
-		\item Se observó que se puede mejorar la detección, ajustando los valores de las constantes $A$ y $B$ del filtro circular (ver sección \ref{implementSegment}) de forma tal de hacer el filtro más selectivo o menos.
-	\end{itemize}
-	\item Reconstrucción
-	\item Seguimiento
-	
-	\begin{itemize}
-	
-	\item Los puntos reconstruidos en la reconstrucción son correctamente identificados y etiquetados en trayectorias, mediante la implementación de un algoritmo simple de seguimiento combinando búsqueda de marcadores mas próximos con una estimación lineal determinada por la información previa de trayectoria	hasta el momento.
-	
-	\item Las perdidas de marcadores en pocos frames son detectadas, y estimadas al recuperar la trayectoria mediante predicciones lineales y radiales. Los marcadores recuperados cumplen las ecuaciones de continuidad de velocidad y aceleración.
-	
-	\item Las trayectorias obtenidas son evaluadas para encontrar grandes saltos en aceleración, detectar marcadores a corregir, e implementando correcciones que cumplan las hipótesis establecidas en el movimiento.
-	
-	\end{itemize}		
-	
-	\item Medida de performance
-	\begin{itemize}
-		\item Se obtuvo una precisión en la detección de los marcadores, con errores del orden centímetro.
-		\item El máximo error por marcador no superó los 5 cm.
-		\item Se obtuvieron muy buenos resultados, logrando reconstruir todos los marcadores en toda la secuencia hasta con un mínimo de 6 cámaras. Con menos cámaras se pierden marcadores ocasionalmente.
-		\item Para el caso de 6 cámaras, la correcta detección del movimiento depende de la posición y la disposición entre ellas que tengan en el espacio.
-	\end{itemize}
-\end{itemize}
-
-Por temas de cronograma y de presupuesto, en muchos aspectos no se utilizó la tecnología más moderna (por ejemplo sensores infrarrojos, cámaras de mejor calidad, etc.) que de haberlas utilizado se hubiesen logrado mejores resultados. Si bien esta primera versión del sistema no está a la altura de los sistemas comerciales vistos en este documento, se logró dar el primer paso y se dejaron todas las condiciones necesarias para poder continuar con el proyecto y llevar el mismo al nivel de las otras herramientas.
-
-Quedan como tareas pendientes para etapas futuras:
-\begin{itemize}
-	\item Probar el sistema en un laboratorio con las características definidas en este proyecto y con 6 o más cámaras previamente calibradas.
-	\item Adaptar el sistema para otros casos de uso además de la marcha.
-	\item Robustecer la segmentación, ya sea agregando algoritmos que complementen la umbralización de Otsu\cite{otsu} o cambiando la umbralización por un algoritmo más complejo.
-	
-	\item Implementar un algoritmo alternativo de reconstrucción que funcione de forma mas robusta para el caso real
-	
-	\item Probar otros algoritmos de seguimiento de marcadores, e implementar restricciones de esqueleto y movimiento angular
-	
-	\item Establecer la realimentación entre el bloque de reconstrucción y seguimiento para robustecer ambos bloques 	
-	
-	\item Mejorar la interfaz gráfica de usuario, haciéndola más amigable e intuitiva, de forma tal que el especialista pueda utilizarla como una aplicación de usuario.
-	\item Realizar un manual de usuario.
-\end{itemize}
-\end{comment}
