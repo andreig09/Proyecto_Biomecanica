@@ -33,7 +33,7 @@ El emparejamiento es realizado cuadro a cuadro calculando en una matriz la dista
 d_{i,j}^{[f]} = \{\|m_{i}^{[f]}(\boldsymbol{x})-|m_{j}^{[f]}(\boldsymbol{\tilde{x}})\|\}
 \end{equation}
 
-Una vez calculadas todas las distancias para un cuadro, se buscan aquellas parejas que presenta la menor distancia relevando la pareja $(i,j)$  para la cual se verifica. Luego de obtenida esta distancia, los marcadores $(i,j)$ quedan descartados de la matriz volviendo a buscar la siguiente pareja con distancia mínima hasta que ya no queden elementos para emparejar (lo cual sucede en caso que se generen menos marcadores que en el ground truth como en la detección, o si todos los marcadores de ground truth ya fueron emparejados y sobran puntos como puede pasar en la reconstrucción con exceso de marcadores). Trabajar con las parejas en todos los cuadros de la secuencia es análogo a trabajar con la Ecuación (\ref{error_vs_ground_deteccion}).
+Una vez calculadas todas las distancias para un cuadro, se buscan aquellas parejas que presenta la menor distancia relevando la pareja $(i,j)$  para la cual se verifica. Luego de obtenida esta distancia, los marcadores $(i,j)$ quedan descartados de la matriz volviendo a buscar la siguiente pareja con distancia mínima hasta que ya no queden elementos para emparejar. Esto sucede en el caso que se generen menos marcadores que los presentes el ground truth, o si todos los marcadores de ground truth ya fueron emparejados y sobran puntos como sucede en la reconstrucción con exceso de marcadores. Trabajar con las parejas en todos los cuadros de la secuencia es análogo a trabajar con la Ecuación (\ref{error_vs_ground_deteccion}).
 \\ 
 
 Para las medidas de los distintos bloques se trabajará no solo con el promedio de error de secuencia sino también con el percentil 99 (magnitud que cumple que el 99\% de los puntos o marcadores se encuentran por debajo de dicho valor). Se decidió elegir esta representación en vez de la desviación estándar debido a que el error en la distancia no presenta una distribución gaussiana, sino otra distribución donde todos los errores están entre cero e infinito (en este caso no se tiene error infinito debido a que los coeficientes binarios de detección se anulan). El error promedio es el percentil que la mayoría de los puntos detectados presenta y el 99\% es afín al error máximo esperado.
@@ -42,7 +42,7 @@ Para las medidas de los distintos bloques se trabajará no solo con el promedio 
 
 \subsection{Capturas Sintéticas}
 
-Las múltiples secuencias sintéticas generadas en Blender presentadas en la Sección~\ref{seccion_Base_Datos_Sintetica} son ingresadas al sistema utilizando los parámetros de calibración de las cámaras simuladas y los vídeos generados para las 17 cámaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en el Capítulo~\ref{sec:implementacion_bloques_sistema} y comparado con el ground truth obtenido por Blender a partir de los vídeos, utilizando la metodología establecida en la Sección~\ref{subsec:medida_error} para medir los resultados a la salida de cada bloque. 
+Las múltiples secuencias sintéticas generadas en Blender presentadas en la Sección~\ref{seccion_Base_Datos_Sintetica} son ingresadas al sistema utilizando los parámetros de calibración de las cámaras simuladas y los vídeos generados para todas las cámaras. Cada conjunto de datos fue procesado por cada uno de los bloques establecidos en el Capítulo~\ref{sec:implementacion_bloques_sistema} y comparado con el ground truth obtenido por Blender a partir de los vídeos, utilizando la metodología establecida en la Sección~\ref{subsec:medida_error} para medir los resultados a la salida de cada bloque. 
 
 
 \begin{table}[ht!]
@@ -88,13 +88,13 @@ Se realizaron pruebas para las 5 secuencias de la Tabla \ref{tabla_resumen_secue
 \label{resultados_distintas_capturas}
 \end{table}
 
-Las pruebas para 17 cámaras arrojan resultados similares en distintas capturas para el caso de amplia disponibilidad de cámaras, además confirman los resultados y rendimientos presentados para los distintos bloques en las hipótesis planteadas para las capturas sintéticas. La detección de marcadores presenta errores promedios de alrededor del píxel y errores máximos del entorno de los 4 píxeles. La reconstrucción y el seguimiento presentan resultados similares siendo la diferencia conceptual entre ambas el etiquetado de trayectorias. El error medio obtenido es menor a los 0.5 cm y el error máximo se encuentra por debajo de los 5 cm para el caso de reconstrucción con 17 cámaras, teniendo exceso de marcadores (esto es, establecer como parámetro de puntos reconstruidos una cantidad mayor a la esperada). 
+Las pruebas para todas las cámaras arrojan resultados similares en distintas capturas para el caso de amplia disponibilidad de cámaras, además confirman los resultados y rendimientos presentados para los distintos bloques en las hipótesis planteadas para las capturas sintéticas. La detección de marcadores presenta errores promedios de alrededor del píxel y errores máximos del entorno de los 4 píxeles. La reconstrucción y el seguimiento presentan resultados similares siendo la diferencia conceptual entre ambas el etiquetado de trayectorias. El error medio obtenido es menor a los 0.5 cm y el error máximo se encuentra por debajo de los 5 cm para el caso de reconstrucción con 17 cámaras, teniendo exceso de marcadores (esto es, establecer como parámetro de puntos reconstruidos una cantidad mayor a la esperada). 
 
 \subsection{Ruido En Segmentación}
 
-La prueba consiste en relevar el error promedio en reconstrucción contra el ground truth 3D para distintas instancias de información de múltiples vistas bajo ruido aleatorio de distintas magnitudes en píxeles en las coordenadas $X,Y$. De esta forma se verá como se comporta el sistema frente a estos tipos de ruido.
+Esta prueba consiste en relevar el error promedio en reconstrucción contra el ground truth 3D para distintas instancias de información de múltiples vistas bajo ruido aleatorio de distintas magnitudes en píxeles en las coordenadas $X,Y$, evaluando de esta forma como se comporta el sistema frente a estos tipos de ruido.
 
- Recordando que la diferencia entre las proyecciones 2D y los vídeos segmentados son la visibilidad de los marcadores, estimada en un 70\% por cámara, y el error de detección es estimado en 1 píxel, el ruido es inyectado entre la detección y la reconstrucción, evaluando la salida de reconstrucción contra el ground truth 3D utilizando el procedimiento de la Sección~\ref{subsec:medida_error}. En la Tabla \ref{table_resolucion} de la Sección \ref{seccion_Base_Datos_Sintetica} se estimó el impacto en metros del error en píxeles cuya magnitud es relevada en el caso de la secuencia sintética.
+El ruido es introducido a la entrada del bloque de reconstrucción sobre dos conjuntos de datos análogos correspondientes a la segmentación: las proyecciones 2D sobre cada vista que corresponden al ground truth en esta etapa, y los puntos obtenidos efectivamente al segmentar cada vista individual. Recordando que la diferencia entre estos dos conjuntos es la visibilidad de los marcadores estimada en un 70\% por cámara y el error de detección estimado en 1 píxel, el ruido es inyectado entre la detección y la reconstrucción, evaluando la salida de reconstrucción contra el ground truth 3D utilizando el procedimiento de la Sección~\ref{subsec:medida_error}. En la Tabla \ref{table_resolucion} de la Sección \ref{seccion_Base_Datos_Sintetica} se estimó el impacto en metros del error en píxeles cuya magnitud es relevada en el caso de la secuencia sintética.
 
 \begin{table}[ht!]
 \hspace{-1cm}
@@ -120,7 +120,7 @@ La prueba consiste en relevar el error promedio en reconstrucción contra el gro
 \caption{Resultados de Error en reconstrucción para distintos caso de ruido agregado a la segmentación, tanto resultados sobre vídeos como sobre ground truth.}
 \end{table}
 
-Las pruebas confirman los resultados estimados en la Tabla~\ref{table_resolucion} para la secuencia dada con cámaras no alejadas mas de 10 metros del sujeto. Hasta los 2 píxeles el error promedio se mantiene en el orden de los pocos centímetros con instancias de error máximo mayores (recordar que el bloque de detección ya presenta cierto error propio al cual se le agrega más ruido). Con el agregado que la reconstrucción es implementada con una cantidad variable de marcadores, lo cual permite reconstruir una mayor cantidad de marcadores que los dispuestos sobre el sujeto, en busca de generar la mayor cantidad de posibilidades. A mayor cantidad de marcadores reconstruidos, se obtienen mejores resultados en los casos de mayor ruido, al costo de mayor cantidad de operaciones en reconstrucción.
+Las pruebas confirman los resultados estimados en la Tabla~\ref{table_resolucion} para la secuencia dada con cámaras no alejadas más de 10 metros del sujeto. Hasta los 2 píxeles el error promedio se mantiene en el orden de los pocos centímetros con instancias de error máximo mayores (recordar que el bloque de detección ya presenta cierto error propio al cual se le agrega más ruido). Con el agregado que la reconstrucción es implementada con una cantidad variable de marcadores, lo cual permite reconstruir una mayor cantidad de marcadores que los dispuestos sobre el sujeto, en busca de generar la mayor cantidad de posibilidades. A mayor cantidad de marcadores reconstruidos, se obtienen mejores resultados en los casos de mayor ruido, al costo de mayor cantidad de operaciones en reconstrucción.
 
 \subsection{Variación Cantidad de Cámaras}
 
@@ -242,14 +242,14 @@ Reduciendo el conjunto a 6 cámaras comienza a influir no solo la cantidad sino 
 \label{error_captura_marcha_63_64_camaras}
 \end{table}
 
-En la Tabla~\ref{error_captura_marcha_63_64_camaras}, se presentan los resultados utilizando combinaciones de cámaras, usualmente manejadas en la bibliografía relevada (\cite{gross2001cmu}, \cite{humaneva}). Las mismas cuidan en colocar cámaras de manera que no se tenga una fuerte simetría espacial, como ocurre con las configuraciones 6.1 y 6.2. Combinaciones de cámaras con esta geometría presentan resultados notoriamente mejores a las otras combinaciones de 6 cámaras ensayadas anteriormente.
+En la Tabla~\ref{error_captura_marcha_63_64_camaras}, se presentan los resultados utilizando combinaciones de cámaras, usualmente manejadas en la bibliografía relevada (~\cite{gross2001cmu}, ~\cite{humaneva}). Las mismas cuidan en colocar cámaras de manera que no se tenga una fuerte simetría espacial, como ocurre con las configuraciones 6.1 y 6.2. Combinaciones de cámaras con esta geometría presentan resultados notoriamente mejores a las otras combinaciones de 6 cámaras ensayadas anteriormente.
 \\ 
 
-Finalmente, los conjuntos de 5 cámaras (Apéndice, Tabla~\ref{error_captura_marcha_5_camaras}) son solidarios a los conjuntos de 4 cámaras (Apéndice Tabla~\ref{error_captura_marcha_4_camaras}), donde solo los marcadores de los pies, hombros y cabeza logran buenos resultados. La única diferencia entre ambos conjuntos es la inclusión o no de la cámara superior.
+Los conjuntos de 5 cámaras (Apéndice, Tabla~\ref{error_captura_marcha_5_camaras}) se comportan de la misma forma que los conjuntos de 4 cámaras (Apéndice Tabla~\ref{error_captura_marcha_4_camaras}), donde solo los marcadores de los pies, hombros y cabeza logran buenos resultados. La única diferencia entre ambos conjuntos es la inclusión o no de la cámara superior.
 
 \paragraph{Captura de Movimiento Libre, 9\_12\_100\_100.} 
 
-La secuencia 9\_12 muestreada al 100\% (24fps), presenta un sujeto en movimiento libre caminando en círculos, hacia adelante y atrás, desplazándose sobre todo el espacio de captura. Debido a que en algunos momentos de la captura se perdían todos los marcadores en algunas cámaras (1, 2, 10), y la reconstrucción no pueden procesar una cámara cuando la misma no tiene marcadores en un cuadro, se decide solamente trabajar con las cámaras que tiene marcadores en todos los cuadros de la secuencia. Las trayectorias obtenidas con el seguimiento y reconstrucción se observan en la Figura~\ref{captura_movimiento_libre}.
+La secuencia 9\_12 muestreada al 100\% (24fps), presenta un sujeto en movimiento libre caminando en círculos hacia adelante y atrás desplazándose sobre todo el espacio de captura. Debido a que en algunos momentos de la captura se perdían todos los marcadores en algunas cámaras (1, 2, 10) y la reconstrucción no puede procesar una cámara cuando la misma no tiene marcadores en un cuadro, se decide solamente trabajar con las cámaras que tiene marcadores en todos los cuadros de la secuencia dejando como pendiente contemplar este caso en un futuro desarrollo. Las trayectorias obtenidas con el seguimiento y reconstrucción se observan en la Figura~\ref{captura_movimiento_libre}.
 
 \begin{figure}[ht!]
   \hspace{-1.2cm}
@@ -320,7 +320,7 @@ Para el caso en el cual se utilizan todas las cámaras, o dos cámaras por esqui
 Utilizando los conjuntos de 6 cámaras laterales asimétricas ya estudiado, la Tabla~\ref{error_captura_libre_6_4} muestra que es posible tener un buen rendimiento para casi todos los marcadores. El único marcador con problemas, si bien presenta un buen promedio de error, también presenta un pico de error máximo que es necesario corregir. 
 
 
-Finalmente el caso de 4 marcadores presenta resultados bastante malos, con promedios aceptables, pero de gran error máximo y trayectorias que no se logran seguir en la totalidad de la secuencia.
+Finalmente el caso de 4 cámaras presenta resultados bastante malos, con promedios aceptables, pero de gran error máximo y trayectorias que no se logran seguir en la totalidad de la secuencia.
 
 
 
