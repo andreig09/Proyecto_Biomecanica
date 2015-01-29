@@ -3,7 +3,7 @@
 \section{Medida de Error}
 \label{subsec:medida_error}
 
-Tanto para el caso de la detección como para la reconstrucción se tiene los verdaderos marcadores generados para las secuencias creadas en Blender. A partir de ellos, surge la posibilidad de establecer una medida de error sobre la salida de cada algoritmo y para el sistema en su totalidad. Se elige aplicar una metodología basada en la distancia euclidiana promedio entre los marcadores de ambos conjuntos que también fue utilizada en el sistema HumanEva~\cite{humaneva}. 
+Tanto para el caso de la detección como para la reconstrucción se tiene los verdaderos marcadores generados para las secuencias creadas en Blender. A partir de ellos, surge la posibilidad de establecer una medida de error sobre la salida de cada algoritmo y para el sistema en su totalidad. Se elige aplicar una metodología basada en la distancia euclidiana promedio entre los marcadores de ambos conjuntos que también fue utilizada en la base de datos HumanEva~\cite{humaneva}. 
 \\ 
 
 Asumiendo que los conjuntos de datos de salida de algoritmos y ground truth tienen sus cuadros sincronizados temporalmente, en un cuadro [f] dado se tienen $M$ marcadores en un conjunto $\boldsymbol{x},\;\{m_{i}(x)\}$, con $i=1,\ldots,M $ donde $ m_{i}(x)\in{\mathbf{R}^{3}} $ (o $ \mathbf{R}^{2} $ para el caso de las vistas de cámaras individuales) y $ \boldsymbol{\tilde{x}} $ es el conjunto ground truth con la misma cantidad de marcadores alineados ($M$) con $\boldsymbol{x}$ (el $i$-esimo marcador de $\boldsymbol{x}$ se corresponde con el  $i$-esimo marcador de $\boldsymbol{\tilde{x}}$). La distancia se calcula como
