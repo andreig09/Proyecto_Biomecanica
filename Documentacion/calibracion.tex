@@ -2,17 +2,17 @@
 
 
 \section{Introducción}
-Para poder obtener la posición en tres dimensiones de los marcadores a partir de las imágenes capturadas es necesario que las cámaras estén previamente calibradas. El objetivo de la calibración consiste en determinar un conjunto de parámetros tal que pueda establecerse una relación entre el espacio 3D y las coordenadas 2D de las imágenes.\\
-\vspace{-0.1cm}
+Para poder obtener la posición en tres dimensiones de los marcadores a partir de las imágenes capturadas, es necesario que las cámaras estén previamente calibradas. El objetivo de la calibración consiste en determinar un conjunto de parámetros tal que pueda establecerse una relación entre el espacio 3D y las coordenadas 2D de las imágenes.\\
 
 
-Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D. A su vez, los puntos capturados en las imágenes pueden referenciarse respecto a un sistema de coordenadas 2D en píxeles. Si se quiere determinar la posición de un punto en el espacio en función de las correspondientes proyecciones de dicho punto en las imágenes capturadas por las cámaras, es necesario determinar las ecuaciones que vinculan al sistema de coordenadas del espacio con el sistema de coordenadas en píxeles de las cámaras.\\
+
+Los puntos en el espacio pueden ubicarse respecto a un sistema de coordenadas 3D. A su vez, los puntos capturados en las imágenes pueden referenciarse respecto a un sistema de coordenadas 2D en píxeles. En la Figura \ref{pinhole_modelo} se observa un punto $M$ en el espacio respecto a un sistema de coordenadas 3D y su correspondiente proyección en la cámara, el punto $m$, de coordenadas 2D. Si se quiere determinar la posición de un punto en el espacio en función de las correspondientes proyecciones de dicho punto en las imágenes capturadas por las cámaras, es necesario determinar las ecuaciones que vinculan al sistema de coordenadas del espacio con el sistema de coordenadas en píxeles de las cámaras.\\
 
 De la relación entre estos sistemas de coordenadas se obtienen los parámetros de las cámaras. Dichos parámetros se clasifican en intrínsecos y extrínsecos. Los primeros son aquellos que describen las propiedades geométricas y ópticas de la cámara, es decir, las características internas de la cámara. Por otra parte, los parámetros extrínsecos son los que describen la posición y orientación de la cámara respecto al sistema de coordenadas del espacio.\\ 
 
-Para realizar la calibración es necesario establecer un modelo que describa el sistema óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo \textit{pinhole}.
+Para realizar la calibración es necesario establecer un modelo que describa el sistema óptico de las cámaras. Esto es, el modelo por el cual una cámara es capaz de transformar el espacio 3D en imágenes de dos dimensiones. Un modelo simple y que describe estos sistemas adecuadamente es el modelo \textit{pinhole}.\\
 
-Este modelo se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara la imagen capturada esta conformada por la proyección del espacio 3D a través de un punto situado delante de la retina de la cámara como se muestra en la Figura \ref{pinhole_camara}. Por otro lado, el modelo de la cámara \textit{pinhole} se describe en la Figura \ref{pinhole_modelo}.\\
+Este modelo se basa en la implementación mas simple de una cámara real, la cámara estenopeica. En dicha cámara, la imagen capturada esta conformada por la proyección del espacio 3D a través de un orificio situado delante de la pantalla o retina, que representan el material fotosensible de la cámara. Como se muestra en la Figura \ref{pinhole_camara}, la imagen capturada se proyecta en la retina en forma invertida. Por otro lado, el modelo de la cámara \textit{pinhole} se describe en la Figura \ref{pinhole_modelo}.\\
 
 
 \begin{figure}[ht!]
@@ -22,7 +22,7 @@ Este modelo se basa en la implementación mas simple de una cámara real, la cá
 \begin{center}
 \includegraphics[scale=0.5]{img/calibracion/pinhole_camara}
 \end{center}
-\caption{Cámara estenopeica .\cite{faugeras_libro}}
+\caption{Cámara estenopeica. Imagen extraída de \cite{faugeras_libro}.}
 \label{pinhole_camara}
 \end{minipage}
 \hspace{0.8cm}
@@ -31,7 +31,7 @@ Este modelo se basa en la implementación mas simple de una cámara real, la cá
 \begin{center}
 \includegraphics[scale=0.55]{img/calibracion/pinhole_modelo}
 \end{center}
-\caption{Modelo "pinhole" de una cámara.\cite{zhang_libro}}
+\caption{Modelo \textit{pinhole} de una cámara, con el que se representa la proyección de un punto en el espacio $M$ sobre la cámara. Imagen extraída de \cite{zhang_libro}.}
 \label{pinhole_modelo}
 \end{minipage}
 \hfill
@@ -39,12 +39,12 @@ Este modelo se basa en la implementación mas simple de una cámara real, la cá
 
 
 
-En dicho modelo, una cámara se representa por un punto $C$, foco de la cámara, y un plano, al  que se le llama retina de la cámara. La imagen que se proyecta en la retina corresponde a la imagen capturada por la cámara. Dado un punto $M$ en el espacio, su correspondiente proyección en la retina, el punto $m$, se encuentra en la intersección de la retina y la recta formada por los puntos $C$ y $M$ de manera que $C$, $M$ y $m$ son colineales.\\ 
+En dicho modelo, una cámara está representada por un punto $C$, foco de la cámara, y un plano, al  que se le llama retina de la cámara. La imagen que se proyecta en la retina corresponde a la imagen capturada por la cámara. Dado un punto $M$ en el espacio, su correspondiente proyección en la retina, el punto $m$, se encuentra en la intersección de la retina y la recta formada por los puntos $C$ y $M$ de manera que $C$, $M$ y $m$ son colineales.\\ 
 
 \section{Matriz de Proyección}
 \label{matriz_de_proyeccion}
 
-Sean las coordenadas del punto  $M$ y las del punto $m$ las siguientes:
+En esta sección se sigue lo explicado en \cite{zhang_libro}. Sean las coordenadas del punto  $M$ y las del punto $m$ las siguientes:
 
 
 \[m = \begin{bmatrix}
@@ -91,7 +91,7 @@ A = \begin{bmatrix}
 \end{bmatrix} 
 \end{equation}
 
-Por lo tanto estos puntos se relacionan a través de la matriz $P = A [R \quad t]$, a menos de un factor de escala $s$. A dicha matriz  se le denomina \emph{Matriz de Proyección} de la cámara.\\
+Por lo tanto estos puntos se relacionan a través de la matriz $P = A [R \quad t]$, a menos de un factor de escala $s$. A dicha matriz  se le denomina \textit{Matriz de Proyección} de la cámara.\\
 
 La matriz $P$ se compone a su vez de la matriz $A$ que representa los parámetros intrínsecos de la cámara, y la matriz $[R \quad t]$ que representa los parámetros extrínsecos.\\
 
@@ -139,7 +139,7 @@ Siendo $d_x$ y $d_y$ las distancias entre píxeles adyacentes en las direcciones
 
 \section{Métodos de calibración}
 
-De acuerdo a los objetos utilizados para realizar la calibración, los métodos pueden clasificarse de la siguiente manera \cite{zhang_libro}:
+De acuerdo a los objetos utilizados para realizar la calibración, los métodos pueden clasificarse como se describe en \cite{zhang_libro}:
 
 \begin{itemize}
 \item \textbf{Calibración mediante objetos 3D}
@@ -150,7 +150,7 @@ La calibración mediante este método es realizada capturando la imagen de un ob
 \item \textbf{Calibración mediante objetos 2D}
 
 
-Este caso se utiliza objetos planos con figuras de patrones determinados, por ejemplo dameros. Estos objetos son colocados en varias posiciones delante de la cámara de manera de capturar varias imágenes del objeto. Esta metodología ofrece más flexibilidad para calibrar.
+En este caso se utilizan objetos planos con figuras de patrones determinados, por ejemplo dameros. Estos objetos son colocados en varias posiciones delante de la cámara de manera de capturar varias imágenes del objeto. Esta metodología ofrece más flexibilidad para calibrar.
 
 \item \textbf{Auto calibración}
 
@@ -176,9 +176,9 @@ En este caso la calibración se realiza moviendo el objeto de calibración a tra
 
 \section{Calibración en el entorno Blender}
 
-Una vez establecida la configuración de las cámaras en \emph{Blender}, según lo descrito en el Capítulo \ref{section_base_de_datos}, es posible conocer las matrices de proyección de cada una de estas cámaras a través de la información proporcionada por el propio programa, sobre ciertos parámetros de las mismas. Esto permite tener la calibración \textit{real} de las cámaras con lo cual es posible medir el desempeño de algunos bloques del sistema.\\
+En el capítulo \ref{section_base_de_datos} se describió la metodología con la que se simuló un laboratorio real utilizando el programa de modelado 3D \emph{Blender} y con el cual, a su vez, se simularon secuencias de marcha. Una vez que se tiene establecida la configuración de las cámaras, es posible conocer las matrices de proyección de cada una de estas cámaras a través de la información proporcionada por el propio programa. De esta manera se puede obtener la calibración \textit{real} de las cámaras. Esto permite  medir el desempeño de los métodos de calibración que puedan ser simulados en \emph{Blender}. A su vez, al tener la calibración \textit{real}, se puede evaluar el desempeño de otros bloques del sistema aislando el error que pueda aportar el bloque de calibración al error final del sistema.\\
 
-Si se conocen las coordenadas de un punto 3D en el espacio de trabajo de \emph{Blender} y además se poseen las matrices de proyección de las cámaras, es posible determinar las coordenadas 2D de dicho punto proyectado en cada una de las cámaras. De esta manera se obtiene  el \textit{ground truth} de la detección de marcadores, permitiendo comparar el desempeño de dicho bloque respecto  a la posición real de los marcadores en las vistas 2D. Análogamente teniendo estos datos se pueden medir el desempeño de los bloques siguientes del sistema. Por ejemplo, es posible evaluar de manera aislada el desempeño del bloque de segmentación sabiendo la posición 2D real de los marcadores, sin introducir errores provenientes de otras etapas del sistema.\\
+Si se conocen las coordenadas de un punto 3D en el espacio de trabajo de \emph{Blender} y además se poseen las matrices de proyección de las cámaras, es posible determinar las coordenadas 2D de dicho punto proyectado en cada una de las cámaras. De esta manera se obtiene  el \textit{ground truth} de la detección de marcadores. Teniendo estos datos se pueden medir el desempeño de los bloques siguientes del sistema. Por ejemplo, es posible evaluar de manera aislada el desempeño del bloque de segmentación sabiendo la posición 2D real de los marcadores, sin introducir errores provenientes de otras etapas del sistema.\\
 
 A continuación se describe cómo se obtienen las matrices de proyección a partir de ciertos parámetros proporcionados por el entorno \emph{Blender}.\\
 
@@ -225,8 +225,8 @@ A su vez también es posible obtener el vector de traslación $T$ que es necesar
 
 Para hallar la matriz de parámetros intrínsecos se necesitan saber los siguientes parámetros que son proporcionados por \emph{Blender}: 
 \begin{itemize}
-\item $f$, distancia focal
-\item $(o_x, o_y)$, coordenadas del punto principal
+\item $f$, distancia focal.
+\item $(o_x, o_y)$, coordenadas del punto principal.
 \item $(s_x,s_y)$, tamaño efectivo de los píxeles de la retina en píxeles/milímetro.
 \end{itemize}
 
@@ -248,14 +248,14 @@ utilizando estos parámetros la matriz de parámetros intrínsecos resultante es
 %%%%%%%%%%%%REFERENCIAS%%%%%%%%%%%%%%%%%
 % LIC DARIO SANTOS, HOSPITAL DE CLÍNICAS
 
-Se ha podido tener acceso a secuencias de vídeo de análisis del movimiento de la marcha que se han realizado en el Hospital de Clínicas. Dichas secuencias han sido obtenidas por un grupo de médicos e investigadores con el objetivo de analizar el movimiento de pacientes en el ámbito terapéutico o con un objetivo esencialmente de investigación desde el punto de vista de la biomecánica.\\
+Se ha podido tener acceso a secuencias de video de análisis del movimiento de la marcha que se han realizado en el Hospital de Clínicas. Dichas secuencias han sido obtenidas por un grupo de médicos e investigadores con el objetivo de analizar el movimiento de pacientes en el ámbito terapéutico o con un objetivo esencialmente de investigación desde el punto de vista de la biomecánica.\\
 
 %DEBERÍA ACLARARSE QUE ESTO SE HACIA ANTES, CREO QUE TIPO POR 2009 Y AHORA USAN VICON.
 
-La metodología utilizada consiste en el uso de tres cámaras de vídeo convencionales de 25 fps y resolución  720 x 576 píxeles. Dichas cámaras se disponen como se muestra en la Figura \ref{fig: lab_real}, alrededor de una alfombra o cinta sobre la que se le pide al paciente que camine.
+La metodología utilizada consiste en el uso de tres cámaras de video convencionales de 25 fps y resolución  720 x 576 píxeles. Dichas cámaras se disponen como se muestra en la Figura \ref{fig: lab_real}, alrededor de una alfombra o cinta sobre la que se le pide al paciente que camine.\\
 
 
-\begin{figure}[ht!]
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{img/calibracion/lab_real.pdf}
 \vspace{-0.3cm}
@@ -263,7 +263,7 @@ La metodología utilizada consiste en el uso de tres cámaras de vídeo convenci
 \label{fig: lab_real}
 \end{figure}
 
-La persona que se desea evaluar debe tener colocados marcadores, fundamentalmente en las articulaciones del cuerpo, y debe desplazarse sobre la alfombra dispuesta para esto. En la Figura \ref{fig: persona con marcadores}, se observa a un individuo caminando con los marcadores colocados.
+La persona que se desea evaluar debe tener colocados marcadores, fundamentalmente en las articulaciones del cuerpo, y debe desplazarse sobre la alfombra dispuesta para esto. En la Figura \ref{fig: persona con marcadores}, se observa a un individuo caminando con los marcadores colocados.\\
 
 \begin{figure}[ht!]		
         \subfloat[Persona con marcadores]{\includegraphics[scale=0.28]{img/calibracion/captura_real.png}\label{fig: persona con marcadores}}
@@ -273,11 +273,11 @@ La persona que se desea evaluar debe tener colocados marcadores, fundamentalment
       \label{fig: captura real}
 \end{figure}
 
-Antes de la captura del movimiento se emite una señal acústica con la cual se sincronizan las tres vistas una vez obtenidos los vídeos. El software con el cual este grupo de médicos ha analizado el movimiento es el \textit{Dvideow}.            
+Antes de la captura del movimiento se emite una señal acústica con la cual se sincronizan las tres vistas una vez obtenidos los videos. El software con el cual este grupo de médicos ha analizado el movimiento es el \textit{Dvideow}.            
  %%%%%%%%%%%%%%%%%%(REFERENCIAR)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%. 
  Dicho software realiza la detección, seguimiento y reconstrucción de los marcadores. Por otro lado, no se ha podido tener acceso a este software por lo cual tampoco se pudo evaluar su desempeño y compararlo con el desarrollado en este proyecto.\\
 
-Para calibrar este sistema se utiliza el calibrador mostrado en la Figura \ref{fig: calibrador}, el mismo consiste en marcadores colocados sobre una estructura de dimensiones conocidas. Antes de efectuar las capturas de dicho calibrador, se le ubica sobre puntos previamente marcados sobre la alfombra, por lo que las traslaciones realizadas entre capturas son de distancias conocidas. De esta manera se obtienen un mayor número de puntos sobre el volumen de trabajo, útiles para realizar los procesos de calibración.\\
+El método que utilizaron para calibrar las cámaras requiere de un objeto de calibración como el que se muestra en la Figura \ref{fig: calibrador}, al que se le llama \textit{fantoma}. Este objeto se compone de marcadores colocados sobre una estructura cuyas dimensiones son conocidas. Antes de efectuar las capturas del \textit{fantoma}, se lo ubica sobre puntos previamente marcados en la alfombra, por lo que las traslaciones realizadas entre capturas son de distancias conocidas. De esta manera se obtiene un mayor número de puntos sobre el volumen de trabajo, útiles para realizar los procesos de calibración.\\
 
 
 El método implementado requiere que cada marcador del calibrador, en cada una de las vistas, sea seleccionado manualmente en un orden tal que permita establecerse una correspondencia entre las proyecciones de un mismo marcador en las tres vistas. En la Figura \ref{fig: vistas_calibrador} se muestra a uno de los marcadores seleccionado en cada una de las vistas.\\
