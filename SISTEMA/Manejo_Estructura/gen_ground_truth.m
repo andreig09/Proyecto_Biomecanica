@@ -12,7 +12,7 @@ save_mat = 1;
 %path donde se encuentra la informacion de la secuencia a trabajar
 path_seq = '/home/sun/Documentos/Fing/Base_de_datos/Sujeto_CMU_09/09_12/';
 %nombre de la carpeta de renderizado
-name_render = '1040_390-100-100';
+name_render = '400_150-100-100';
 %nombre del archivo bvh a cargar
 name_bvh = 'CMU_9_12_blend_100-100.bvh';
 
@@ -79,7 +79,7 @@ if ((save_mat==1) || (save_xml==1))
         disp('El archivo cam.xml ha sido generado')
         struct2xml( s2, [path_save,'/Reconstruccion/skeleton.xml'])
         struct2xml( s3, [path_save,'/Tracking/skeleton.xml'])        
-        disp('Los archivos skeleton.xml han sido generado')
+        disp('Los archivos skeleton.xml han sido generados')
         disp('__________________________________________________________________')
     end
 end
