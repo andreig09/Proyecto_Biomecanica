@@ -10,11 +10,11 @@ save_xml = 1;
 save_mat = 1;
 
 %path donde se encuentra la informacion de la secuencia a trabajar
-path_seq = '/home/sun/Documentos/Fing/Base_de_datos/Sujeto_CMU_08/08_07';
+path_seq = '/home/sun/Documentos/Fing/Base_de_datos/Sujeto_CMU_09/09_12/';
 %nombre de la carpeta de renderizado
-name_render = '400_150-100-200';
+name_render = '1040_390-100-100';
 %nombre del archivo bvh a cargar
-name_bvh = 'CMU_8_07_blend_100-200.bvh';
+name_bvh = 'CMU_9_12_blend_100-100.bvh';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -32,7 +32,7 @@ path_save = [path_seq, '/Ground_Truth/', name_render];
 %cell array de strings con los nombres de los marcadores con los cuales se desea trabajar, el resto son removidos
 % de las estructuras
 s=xml2struct([path_bvh,  '/Info_Blender.xml']); %la información se encuentra en Info_Blender.xml
-string=['markers_name = ', s.blender_info.Attributes.Lista_de_marcadores]; 
+string=['markers_name = ', s.blender_info.Attributes.Lista_de_marcadores, ';']; 
 eval(string); %Obtengo el nombre de los marcadores
 
 %markers_name = {'LeftUpLeg', 'LeftLeg', 'LeftFoot', 'RightUpLeg', 'RightLeg', 'RightFoot', 'Head', 'LeftArm', 'LeftForeArm', 'LeftHand', 'RightArm', 'RightForeArm', 'RightHand', 'Spine'};
@@ -79,7 +79,7 @@ if ((save_mat==1) || (save_xml==1))
         disp('El archivo cam.xml ha sido generado')
         struct2xml( s2, [path_save,'/Reconstruccion/skeleton.xml'])
         struct2xml( s3, [path_save,'/Tracking/skeleton.xml'])        
-        disp('los archivos skeleton.xml han sido generado')
+        disp('Los archivos skeleton.xml han sido generado')
         disp('__________________________________________________________________')
     end
 end
