@@ -2,21 +2,40 @@ clear all
 clc
 
 
-%path donde se encuentra el archivo bvh a cargar
-path_bvh = '/home/sun/Documentos/Fing/Blender/renders/CMU_8_11_hack/';
-%nombre del archivo bvh a cargar
-name_bvh = 'CMU_8_11_blend_100-100.bvh';
-%path donde se encuentra el archivo InfoCamBlender.m, el cual contiene la informacion de las camaras Blender
-path_info_blender = '/home/sun/Documentos/Fing/Blender/renders/CMU_8_11_hack/1600_600-100-100';
+% ENTRADAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %booleano que indica si se desea salvar o no la salida en un xml;
-save_vars = 1;
+save_xml = 1;
+%booleano que indica si se desea salvar o no la salida en un mat;
+save_mat = 1;
+
+%path donde se encuentra la informacion de la secuencia a trabajar
+path_seq = '/home/sun/Documentos/Fing/Base_de_datos/Sujeto_CMU_08/08_07';
+%nombre de la carpeta de renderizado
+name_render = '400_150-100-200';
+%nombre del archivo bvh a cargar
+name_bvh = 'CMU_8_07_blend_100-200.bvh';
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%DIRECCIONES AUTOMATICAS PARA TRABAJAR CON LA ARQUITECTURA DE LA BASE DE
+%%%%DATOS
+%path donde se encuentra el archivo bvh a cargar
+path_bvh = [path_seq, '/Datos_Imagen'];
+%path donde se encuentra el archivo InfoCamBlender.m, el cual contiene la informacion de las camaras Blender
+path_info_blender = [path_bvh, '/', name_render];
 %path donde se desea guardar los archivos xml
-path_save = '/home/sun/Documentos/Fing/Proyecto_Biomecanica/Archivos_mat/CMU_8_11_hack/1600_600-100-100/Ground_Truth';
-%nombre del archivo xml
-name_save = 'CMU_8_11';
+path_save = [path_seq, '/Ground_Truth/', name_render];
+
+
+
 %cell array de strings con los nombres de los marcadores con los cuales se desea trabajar, el resto son removidos
 % de las estructuras
-markers_name = {'LeftUpLeg', 'LeftLeg', 'LeftFoot', 'RightUpLeg', 'RightLeg', 'RightFoot', 'Head', 'LeftArm', 'LeftForeArm', 'LeftHand', 'RightArm', 'RightForeArm', 'RightHand', 'Spine'};
+s=xml2struct([path_bvh,  '/Info_Blender.xml']); %la información se encuentra en Info_Blender.xml
+string=['markers_name = ', s.blender_info.Attributes.Lista_de_marcadores]; 
+eval(string); %Obtengo el nombre de los marcadores
+
+%markers_name = {'LeftUpLeg', 'LeftLeg', 'LeftFoot', 'RightUpLeg', 'RightLeg', 'RightFoot', 'Head', 'LeftArm', 'LeftForeArm', 'LeftHand', 'RightArm', 'RightForeArm', 'RightHand', 'Spine'};
 %markers_name = {'LeftUpLeg', 'LeftLeg', 'LeftFoot', 'RightUpLeg', 'RightLeg', 'RightFoot', 'Head', 'LeftArm', 'LeftForeArm', 'LeftHand', 'RightArm', 'RightForeArm', 'RightHand'};
 
 
@@ -28,7 +47,7 @@ skeleton_rec = skeleton_track;
 Lab.cam = cam_seg;
 Lab.skeleton = skeleton_track;
 s.Lab= Lab;
-if save_vars==1 
+if ((save_mat==1) || (save_xml==1))
     disp(' ');
     disp('_________________________________________')
     disp('Guardando las variables pertinentes')
@@ -44,13 +63,23 @@ if save_vars==1
         mkdir(path_save, '/Tracking')
     end
     %Archivos.mat
-    save([path_save,'/Reconstruccion/skeleton.mat'] ,'skeleton_rec');
-    save([path_save,'/Tracking/skeleton.mat'] ,'skeleton_track');
-    disp('La variable skeleton ha sido guardada')
-    save([path_save,'/Segmentacion/cam.mat'],'cam_seg'); 
-    disp('La variable cam ha sido guardada')
+    if save_mat==1
+        save([path_save,'/Reconstruccion/skeleton.mat'] ,'skeleton_rec');
+        save([path_save,'/Tracking/skeleton.mat'] ,'skeleton_track');
+        disp('La variable skeleton.mat ha sido guardada')
+        save([path_save,'/Segmentacion/cam.mat'],'cam_seg'); 
+        disp('La variable cam.mat ha sido guardada')
+    end
     %Archivos.xml
-    %struct2xml( s, [path_save,'/',  name_save, '.xml'] )
-    %str = sprintf('%s.xml a sido guardado', name_save);
-    %disp(str)
+    if save_xml==1
+        s1.lab.cam_seg=cam_seg;
+        s2.skeleton_rec=skeleton_rec;
+        s3.skeleton_track=skeleton_track;
+        struct2xml( s1, [path_save,'/Segmentacion/cam.xml'])
+        disp('El archivo cam.xml ha sido generado')
+        struct2xml( s2, [path_save,'/Reconstruccion/skeleton.xml'])
+        struct2xml( s3, [path_save,'/Tracking/skeleton.xml'])        
+        disp('los archivos skeleton.xml han sido generado')
+        disp('__________________________________________________________________')
+    end
 end
