@@ -1,9 +1,13 @@
-function cam = markersXML2mat(names, path_XML, list_XML)
+function cam = markersXML2mat(names, path_XML, list_XML, path_vid)
 %Funcion que lleva la informacion de una lista de marcadores desde un XML a la estructura de datos cam.mat
 
 %% ENTRADA
 % names    --> cell array con los nombres de los marcadores que se estan ingresando (se utiliza para inicializar las trayectorias)
 %path_XML  --> direccion donde se tienen los archivos xml de trabajo
+%path_vid  --> direccion donde se tienen los archivos de video y donde se
+%               encuentra InfoCamBlender.m ---->El mismo contiene la información de
+%               calibracion necesaria para inicializar la estructura de
+%               datos cam
 %list_XML  --> cell array conteniendo el nombre de los archivos xml
 
 %% SALIDA
@@ -23,7 +27,7 @@ archivo = [path_XML '/' list_XML{1}];%genero un string con el nombre del archivo
 [~, n_frames] = importXML(archivo);
 n_frame_const = n_frames;%guardar el numero de frames de la primer camara para saber si este parametro cambian en los siguientes ciclos
 frame_rate = 0; %no puedo conocerlo a esta altura, debo ingresarlo a la funcion en versiones futuras
-Lab=init_structs(n_markers, n_frames, frame_rate, n_cams, 'cam', 'blender');%inicializo las estructuras con la info blender
+Lab=init_structs(n_markers, n_frames, frame_rate, n_cams, path_vid, 'cam', 'blender');%inicializo las estructuras con la info blender
 cam = Lab.cam;
 
 %[cam, ~]=init_structs(n_markers, n_frames, names);

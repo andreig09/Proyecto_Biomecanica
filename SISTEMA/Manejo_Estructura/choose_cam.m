@@ -4,13 +4,10 @@
 %codigo phyton desde Blender.
 %Las variables de salida quedan guardadas en el workspace
 %% Entrada
-%vec_cam -->vector con el numero de camaras a mantener del archivo
-%InfoCamBlender
+
+%Todas las variables de InfoCamBlender
 
 %% Cuerpo de la funcion
-%cargo los datos de las camaras
-InfoCamBlender;%este archivo .m fue generado con Python desde Blender y contienen todos los parametros de las camaras de interes
-n_cams = length(vec_cam); %numero de camaras de entrada
 
 %inicializo las variables de salida
 T_out = zeros(3, n_cams);
@@ -23,6 +20,7 @@ shift_y_out = zeros(1, n_cams);
 sensor_out = zeros(2, n_cams);
 sensor_fit_out = cell(1, n_cams);
 index = 1; %indice auxiliar que permite mantener ordenada la nueva informacion
+vec_cam = 1:n_cams;
 for k = vec_cam %para cada elemento dentro de vec_cam
     T_out(:,index) = T(:,k);
     q_out(index) = q(k);

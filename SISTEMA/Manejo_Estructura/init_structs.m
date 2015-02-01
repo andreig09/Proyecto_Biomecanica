@@ -1,4 +1,4 @@
-function Lab=init_structs(n_markers, n_frames, frame_rate, n_cams, varargin)
+function Lab=init_structs(n_markers, n_frames, frame_rate, n_cams, path_vid,  varargin)
 %Funcion que inicializa las estructuras a utilizar.
 %Para cambiar las estructuras de trabajo se debe modificar este archivo,
 %el archivo loadBVH.m así como get_info y set_info
@@ -9,6 +9,10 @@ function Lab=init_structs(n_markers, n_frames, frame_rate, n_cams, varargin)
 %frame_rate -->frames por segundo
 %names   -->cell array de strings con los nombres de los marcadores que se tengan en el primer frame
 %n_cams -->numero de camaras utilizadas
+%path_vid  --> direccion donde se tienen los archivos de video y donde se
+%               encuentra InfoCamBlender.m ---->El mismo contiene la información de
+%               calibracion necesaria para inicializar la estructura de
+%               datos cam
 %varargout -->en el caso que se desee solo una estructura cam o skeleton se debe agregar un string 'cam' o 'skeleton' respectivamente
             %Ademas se puede ingresar un string 'blender' que indica que se debe rellenar la camara con la informacion de InfoCamBlender
 %% SALIDA
@@ -95,8 +99,16 @@ if isempty(location_skeleton) %solo se ejecuta mientras no se haya agregado un s
         end
     else %Se ingreso el string 'blender' como parametro de entrada, por lo que se dispone de la calibracion de las camaras
         %Cargo Parametros de las camaras
-        vec_cam = [1:17]; %vector con el numero de camaras a mantener del archivo InfoCamBlender
-        choose_cam;%script que deja disponibles solo las camaras indicadas por vec_cam 
+        
+        
+        %AQUI SE CARGA INFOCAMBLENDER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+        %InfoCamBlender.m fue generado con Python desde Blender(en el caso de base de datos sintética) o por otra vía y contienen todos los parametros de las camaras de interes
+        addpath(path_vid, '-end')%se ingresa la dirección donde se encuentra el archivo InfoCamBlender que se debe utilizar
+        InfoCamBlender %se cargan las variables que contiene dicho archivo                
+        choose_cam;%script que deja disponibles solo las camaras indicadas por vec_cam, SE CARGA EL InfoCamBlender AQUI!!!!!!!! 
+        rmpath(path_vid)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
         
         %Verifico hipotesis de trabajo
         if (pixel_aspect_x ~= pixel_aspect_y)||any(shift_x ~= shift_y)

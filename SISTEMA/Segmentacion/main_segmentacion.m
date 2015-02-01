@@ -23,16 +23,12 @@ current_dir = pwd;
 path_program = [current_dir '/ProgramaC']; %donde residen los programas que efectuan la segmentacion
 %Generar una lista con los nombres de los videos en path_vid
 list_vid = get_list_files(path_vid, type_vid);
+
 %Se actualiza path_XML y path_mat para que se guarde en la carpeta
 %old_path_XML/Segmentacion y old_path_mat/Segmentacion
 %Verifico que exista el nuevo path y en caso negativo lo creo
 if ~isdir([path_XML, '/Segmentacion'])
-    mkdir(path_XML, '/Segmentacion')
-else
-    %en el caso que ya exista la carpeta reviso si se tiene el archivos cam.xml.
-    %En dicho caso los borro de manera que no interfiera con los archivos
-    %que se van a mover de las camaras
-    delete([path_XML '/cam.xml']);    
+    mkdir(path_XML, '/Segmentacion')    
 end
 
 if ~isdir([path_mat, '/Segmentacion'])
@@ -51,11 +47,16 @@ end
 disp('__________________________________________________')
 disp('Se inicia el pasaje de archivos .xml a estructuras .mat.')
 %Obtener lista de salida con los nombres de los xml generados
-list_XML = get_list_files(path_XML, 'cam*.xml'); 
+list_XML = get_list_files(path_XML, 'cam*.xml');
+if strfind(list_XML{1}, 'cam.xml') %en el caso que ya exista la carpeta reviso si se tiene el archivos cam.xml.
+    %En dicho caso los borro de manera que no interfiera con los archivos
+    %que se van a mover de las camaras
+     list_XML = list_XML(2:length(list_XML));
+end
 %Ordenar la lista de nombres
 list_XML = sort_list(list_XML);
 %cargo los archivos xml provenientes de la segmentacion asi como los datos de las camaras Blender
-cam_seg = markersXML2mat(names, path_XML, list_XML);
+cam_seg = markersXML2mat(names, path_XML, list_XML, path_vid);
 disp('El pasaje a la estructura .mat a culminado con exito.')
 
 
@@ -74,7 +75,7 @@ if  save_segmentation_mat   %¿se tiene activado el checkbox7?
     disp('Se inicia la exportacion de cam.mat a cam.xml')
     s.lab.cam_seg=cam_seg;
     struct2xml(s, [path_XML, '/cam.xml'])
-    str = ['Se a exportado la informacion con exito.'];
+    str = ['Se a exportado toda la informacion con exito.'];
     disp(str)
 end
 
