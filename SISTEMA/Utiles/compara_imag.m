@@ -11,7 +11,7 @@ clc
 % end
  
  n_cam = 6;
- vid_path = '/home/sun/Documentos/Fing/Blender/renders/CMU_9_07_hack/1600_600-100-100';
+ vid_path = '/home/sun/Documentos/Fing/Base_de_datos/Sujeto_CMU_08/08_07/Datos_Imagen/1040_390-100-200';
  vid_name = sprintf('cam0%d.dvd', n_cam);
  frames_path = [vid_path '/' num2str(n_cam)];
  ground_path = '/home/sun/Documentos/Fing/Proyecto_Biomecanica/Archivos_mat/CMU_9_07_hack/1600_600-100-100/Ground_Truth';
@@ -74,7 +74,7 @@ f1=figure(1);
 % init_frame=1
 % last_frame=63
 
-for k=init_frame:last_frame %desde el frame inicial al final
+for k=init_frame:10%last_frame %desde el frame inicial al final
      
         image(imread(im{k}));
         set(f1,'Position',screen_size-[0 0 0 70] );% Ajusta la ventana activa al tamaño de la pantalla 
@@ -100,11 +100,12 @@ for k=init_frame:last_frame %desde el frame inicial al final
      %plot_one_frame(cam{n_cam}, k)
      %axis xy
       % Save output images
-   saveas(f1, [ground_path '/cam' num2str(n_cam) '-' num2str(k) '.png' ], 'png');
+   %saveas(f1, [ground_path '/cam' num2str(n_cam) '-' num2str(k) '.png' ], 'png');
      %axis square
      grid on
      grid minor
      hold off
+     pause
      
      
 end
