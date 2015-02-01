@@ -28,7 +28,14 @@ list_vid = get_list_files(path_vid, type_vid);
 %Verifico que exista el nuevo path y en caso negativo lo creo
 if ~isdir([path_XML, '/Segmentacion'])
     mkdir(path_XML, '/Segmentacion')
-elseif ~isdir([path_mat, '/Segmentacion'])
+else
+    %en el caso que ya exista la carpeta reviso si se tiene el archivos cam.xml.
+    %En dicho caso los borro de manera que no interfiera con los archivos
+    %que se van a mover de las camaras
+    delete([path_XML '/cam.xml']);    
+end
+
+if ~isdir([path_mat, '/Segmentacion'])
     mkdir(path_mat, '/Segmentacion')
 end
 path_XML = [path_XML '/Segmentacion'];
@@ -44,7 +51,7 @@ end
 disp('__________________________________________________')
 disp('Se inicia el pasaje de archivos .xml a estructuras .mat.')
 %Obtener lista de salida con los nombres de los xml generados
-list_XML = get_list_files(path_XML, '*.xml'); 
+list_XML = get_list_files(path_XML, 'cam*.xml'); 
 %Ordenar la lista de nombres
 list_XML = sort_list(list_XML);
 %cargo los archivos xml provenientes de la segmentacion asi como los datos de las camaras Blender
@@ -61,6 +68,13 @@ if  save_segmentation_mat   %¿se tiene activado el checkbox7?
 %     str = ['Se a guardado el resultado de la segmentacion de las camaras en ', path_XML, '/cam.xml'];
      save([path_mat '/cam'], 'cam_seg')
      str = ['Se a guardado el resultado de la segmentacion de las camaras en ', path_mat, '/cam.mat'];
+    disp(str)
+    
+    %Exportacion a xml
+    disp('Se inicia la exportacion de cam.mat a cam.xml')
+    s.lab.cam_seg=cam_seg;
+    struct2xml(s, [path_XML, '/cam.xml'])
+    str = ['Se a exportado la informacion con exito.'];
     disp(str)
 end
 

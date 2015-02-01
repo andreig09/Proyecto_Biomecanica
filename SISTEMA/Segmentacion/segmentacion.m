@@ -102,7 +102,7 @@ else
 end
 %Llevar los .xml hasta path_XML
 if ~strcmp(path_XML, path_vid)%si tengo directorio de xml distinto al directorio de los videos
-    [status_mov, message, messageid]=movefile('*.xml', path_XML); %gestiona el llevar los  .xml hasta path_XML    
+    [status_mov, message, messageid]=movefile('cam*.xml', path_XML); %gestiona el llevar los  .xml hasta path_XML    
     %se gestiona la salida segun status_mov
     if status_mov==0 %en este caso se obtuvo un error al mover  *.xml (OBSERVAR QUE MATLAB DEVUELVE CERO EN CASO DE ERROR)
         restore(MatlabPath, MatlabLibraryPath, current_dir) %restablece las variables de entorno 'ld_library_path' y 'path'

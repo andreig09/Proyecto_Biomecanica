@@ -68,9 +68,6 @@ parfor i=1:n_cams %hacer para todas las camaras
     cam{i} = set_info(cam(i), 'n_frames', n_frames); %ingreso el numero de camara
     n = n_frames;
     for j=1:(n-1) %para cada frame menos el ultimo
-        if (i==6)&&(j==79)
-            disp('toy')
-        end
         init_frame = index_frames(j);
         end_frame= index_frames(j+1)-1;
         index_in_frame = index(init_frame:end_frame ); %indices de los marcadores en el frame j
