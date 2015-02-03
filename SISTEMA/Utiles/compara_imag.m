@@ -11,10 +11,10 @@ clc
 % end
  
  n_cam = 6;
- vid_path = '/home/sun/Documentos/Fing/Base_de_datos/Sujeto_CMU_08/08_07/Datos_Imagen/1600_600-100-100';
+ vid_path = '/home/sunny/Documentos/Fing/Base_de_datos/Sujeto_CMU_08/08_07/Datos_Imagen/400_150-100-200';
  vid_name = sprintf('cam0%d.dvd', n_cam);
  frames_path = [vid_path '/' num2str(n_cam)];
- ground_path = '/home/sun/Documentos/Fing/Proyecto_Biomecanica/Archivos_mat/CMU_9_07_hack/1600_600-100-100/Ground_Truth';
+ %ground_path = '/home/sun/Documentos/Fing/Proyecto_Biomecanica/Archivos_mat/CMU_9_07_hack/1600_600-100-100/Ground_Truth';
  %if ~exist('cam.mat', 'var')
  %cam=   load([ground_path '/cam.mat']);
  %end
