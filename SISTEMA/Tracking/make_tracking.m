@@ -177,7 +177,7 @@ for frame=f_ini:f_fin-1
                     
                     max_ratio = 4;
                     
-                    if ratio_direccional<max_ratio || ratio_radial<max_ratio
+                    if ratio_direccional<max_ratio %|| ratio_radial<max_ratio
                         posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido]
                     end
                 end

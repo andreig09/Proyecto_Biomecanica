@@ -1,12 +1,17 @@
 clc
-clear all
 close all
+
+%{
+
+clear all
 
 add_paths()
 
 frame_ini = 10;
 
-load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_03_hack\1600_600-100-100\Ground_Truth\Reconstruccion\skeleton.mat';
+%%
+
+load 'C:\Proyecto\Base_20150202\Base_de_datos\Sujeto_CMU_09\09_12\Ground_Truth\1600_600-100-100\Reconstruccion\skeleton.mat';
 
 skeleton_ground = skeleton_rec;
 n_frames = get_info(skeleton_rec,'n_frames');
@@ -18,10 +23,11 @@ for frame=frame_ini:n_frames
     yi = get_info(skeleton_rec,'frame', frame, 'marker', 'coord');
     Yi=[Yi,[yi;frame*ones(1,size(yi,2));1:size(yi,2)]];
 end
-%}
 
 
-load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_03_hack\1600_600-100-100\Reconstruccion\skeleton.mat'
+%%
+
+load 'C:\Proyecto\Base_20150202\Base_de_datos\Sujeto_CMU_09\09_12\Datos_Procesados\1600_600-100-100\Reconstruccion\skeleton.mat'
 
 n_frames = get_info(skeleton_rec,'n_frames');
 %n_frames = 30;
@@ -36,6 +42,8 @@ for frame=frame_ini:n_frames
     xi = get_info(skeleton_rec,'frame', frame, 'marker', 'coord');
     Xi=[Xi,[xi;frame*ones(1,size(xi,2))]];
 end
+
+%%
 
 [X_out,datos_aux]=make_tracking(Xi,Inf);
 X_out = clean_tracking(X_out);
@@ -59,7 +67,9 @@ X_out = clean_tracking(X_out);
 %[X_out,datos]=make_tracking(Xi,prctile(X_out(6,:),99.78));
 %X_out = clean_tracking(X_out);
 
-marker_ground = 6;
+%}
+
+marker_ground = 2;
 
 %animar_tracking(X_out)
 

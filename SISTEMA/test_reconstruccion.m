@@ -5,12 +5,12 @@ add_paths()
 
 frame_ini = 10;
 
-load 'C:\Proyecto\PB_2014_11_27\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Reconstruccion\skeleton.mat'
+load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_03_hack\1600_600-100-100\Reconstruccion\skeleton.mat'
 
 skeleton_reconstruccion = skeleton_rec;
 
 %return;
-load 'C:\Proyecto\PB_2014_11_27\Archivos_mat\CMU_8_07_hack\1600_600-100-200\Ground_Truth\Reconstruccion\skeleton.mat';
+load 'C:\Proyecto\PB_2014_12_03\Archivos_mat\CMU_8_03_hack\1600_600-100-100\Ground_Truth\Reconstruccion\skeleton.mat';
 
 skeleton_ground = skeleton_rec;
 

@@ -3,22 +3,28 @@ close all
 clear all
 run add_paths
 
+%% GROUND TRUTH
+
 %load D:\Proyecto\Proyecto_GIT\Archivos_mat\CMU_9_07_hack\1600_600-100-200\Ground_Truth\cam_ground_truth.mat;
-load C:\Proyecto\PB_2014_11_27\Archivos_mat\CMU_8_11_hack\Ground_Truth\Segmentacion\cam.mat;
+load C:\Proyecto\Base_20150202\Base_de_datos\Sujeto_CMU_09\09_12\Ground_Truth\1600_600-100-100\Segmentacion\cam.mat;
 
 cam = cam_seg;
 
+%% SEGMENTACION
+
 %load D:\Proyecto\Proyecto_GIT\Archivos_mat\CMU_9_07_hack\1600_600-100-200\cam.mat;
-load C:\Proyecto\PB_2014_11_27\Archivos_mat\CMU_8_11_hack\Segmentacion\cam.mat;
+load C:\Proyecto\Base_20150202\Base_de_datos\Sujeto_CMU_09\09_12\Datos_Procesados\1600_600-100-100\Segmentacion\cam.mat;
 
 cam_segmentacion = cam_seg;
+
+%%
 
 clear cam_seg;
 
 rmse_i_total = [];
 
 %for n_cam = 1:size(cam_segmentacion,2)
-for n_cam = 7:7
+for n_cam = 1:17
     
     figure(n_cam)
     

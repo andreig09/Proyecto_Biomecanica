@@ -10,13 +10,21 @@ X = X(1:4, :);%me quedo solo con las coordenadas y el frame respectivo
 [X_out,datos]=make_tracking(X, Inf);%Se corre dos veces el tracking, la primera es para encontrar el umbral optimo
 X_out =clean_tracking(X_out);%Limpieza de puntos 
 
+%% FILTRADO GLOBAL
+
 porcent_tracking = 99;%ESTO HAY QUE DECIDIR SI SALE PARA FUERA O NO, O SEA PARA EL USUARIO
-umbral=histograma_tracking(X_out, porcent_tracking);%ACTUALMENTE GRAFICA COSAS PARA DEBUG, QUE SE VAN A PASAR A OTRA PARTE DE LA INTERFAZ
-pause(1);close all;
+%umbral=histograma_tracking(X_out, porcent_tracking);%ACTUALMENTE GRAFICA COSAS PARA DEBUG, QUE SE VAN A PASAR A OTRA PARTE DE LA INTERFAZ
+%pause(1);close all;
 %close %Esto se tiene que sacar en VERSIONES FUTURAS
-[X_out,datos]=make_tracking(X, umbral);
+[X_out,datos]=make_tracking(X, prctile(X_out(7,:),porcent_tracking));
 X_out =clean_tracking(X_out);%Limpiando puntos
 
+%% FILTRADO INDIVIDUAL
+
+%[~,thr] = filter_tracking(X_out);
+%[X_out,thr] = filter_tracking(X_out);
+
+%%
 
 [~,X_out] = recuperar_indices(X,X_out);%coloco los indices de los marcadores de cada columna
 
