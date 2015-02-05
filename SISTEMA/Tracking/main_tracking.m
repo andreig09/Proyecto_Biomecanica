@@ -36,7 +36,7 @@ path_XML = [path_XML '/Tracking'];
 path_mat = [path_mat '/Tracking'];
 if save_tracking_mat
     save([path_mat '/skeleton'], 'skeleton_track')
-    str = ['Se a actualizado el resultado del tracking en el esqueleto ', path_mat, '/skeleton.mat'];
+    str = ['Se ha actualizado el resultado del tracking en el esqueleto ', path_mat, '/skeleton.mat'];
     disp(str)
 end
 end
