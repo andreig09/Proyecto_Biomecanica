@@ -15,7 +15,7 @@ n_cams = length(cam);
 %n_markers = get_info(cam, 'frame', 1, 'n_markers');
 
 vec_cams = 1:n_cams;
-Xrec = cell(1, 300);
+Xrec = cell(1, 300);%porque aqui es 300? no deberia ser end_frame?
 
 %obtengo datos que no dependen del frame con el que se este trabajando
 P = cell(1, n_cams);

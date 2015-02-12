@@ -1,8 +1,10 @@
 function skeleton_rec = main_reconstruccion(cam_segmentacion, n_markers, names, reconsThr_on, reconsThr, init_frame, end_frame, vec_cams, path_XML, save_reconstruction_mat, path_mat)
 
+if vec_cams(1)~=-1%solo reconstruyo con las camaras indicadas en vec_cams
+    cam_segmentacion = cam_segmentacion(vec_cams);
+end
 
-
-
+%arreglar el numero de la camara a la cual preguntar
 n_frames = get_info(cam_segmentacion(1), 'n_frames');%obtengo el numero de frames de la primera camara, todas las camaras deberian tener igual nro de frame
 frame_rate = get_info(cam_segmentacion(1), 'frame_rate');%obtengo el frame rate de la camara 1. %estoy asumiendo que todos los frame rate son iguales
 n_cams = length(cam_segmentacion);
@@ -12,9 +14,7 @@ skeleton_rec = Lab.skeleton;
 skeleton_rec=set_info(skeleton_rec, 'name', 'skeleton_rec');
 skeleton_rec=set_info(skeleton_rec, 'n_frames', n_frames);%ingreso la cantidad de frames que se van a tener
 
-if vec_cams(1)~=-1%solo reconstruyo con las camaras indicadas en vec_cams
-    cam_segmentacion = cam_segmentacion(vec_cams);
-end    
+    
 
 skeleton_rec = reconstruccion(cam_segmentacion, skeleton_rec, reconsThr, init_frame, end_frame, n_markers);
 disp('La reconstruccion a finalizado correctamente.')
