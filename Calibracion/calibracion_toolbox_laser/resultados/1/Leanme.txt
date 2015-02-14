@@ -1,0 +1,2 @@
+Matrices de proyección  generadas con el método 'Calibración Laser'
+utilizando 500 puntos.
