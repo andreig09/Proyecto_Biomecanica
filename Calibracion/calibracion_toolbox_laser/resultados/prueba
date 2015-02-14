@@ -1,0 +1,7 @@
+P=cell(1, 17);
+C=cell(1, 17);
+for i=1:17
+    P{i}=load(['camera' num2str(i) '.Pmat.cal']);
+    C{i}=null(P{i});
+     C{i}=C{i}/C{i}(4)
+end
