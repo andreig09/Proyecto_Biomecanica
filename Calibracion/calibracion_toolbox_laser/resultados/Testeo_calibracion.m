@@ -4,7 +4,7 @@ close all
 %load('cam.mat')
 
 %se debe tener cargada un ground truth de cam.mat para que estoy funcione
-%además se debe estar en la carpeta que contiene los archivos 'camera%d.Pmat.cal'
+
 ncarpeta=1;%nro de la carpeta que contiene las matrices de proyeccion estimadas con el procedimiento 'Calibracion Laser' utilizando un cierto numero de puntos.
 ncam= 1;%retina que se utiliza para comparar proyecciones 
 %inicializo variables
