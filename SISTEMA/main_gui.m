@@ -275,18 +275,21 @@ n_markers = handles.TotMarkers;%obtengo el numero de marcadores
 names = 1:n_markers;%genero los nombres de los marcadores
 names = cellstr(num2str(names'));
 
-%SE TIENE QUE GESTIONAR QUE PASA SI NO SE INGRESA path_XML O path_mat DE MANERA
-%ADECUADA LO QUE SIGUE ES UN PARCHE
-if get(handles.checkbox18, 'Value')%Si se tiene habilitada la casilla para ingresar el directorio xml
-    path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segmentacion
-    if get(handles.checkbox19, 'Value')%Si se tiene la activada la casilla para ingresar en el directorio .mat
-        path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
-    end
-else if get(handles.checkbox19, 'Value')%Si se tiene la activada la casilla para ingresar en el directorio .mat
-        path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
-        path_XML = path_mat;
-    end
-end
+% %SE TIENE QUE GESTIONAR QUE PASA SI NO SE INGRESA path_XML O path_mat DE MANERA
+% %ADECUADA LO QUE SIGUE ES UN PARCHE
+% if get(handles.checkbox18, 'Value')%Si se tiene habilitada la casilla para ingresar el directorio xml
+%     path_XML = handles.xmlPath ; %donde se quieren los archivos xml luego de la segmentacion
+%     if get(handles.checkbox19, 'Value')%Si se tiene la activada la casilla para ingresar en el directorio .mat
+%         path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
+%     end
+% else if get(handles.checkbox19, 'Value')%Si se tiene la activada la casilla para ingresar en el directorio .mat
+%         path_mat = handles.MatPath; %donde se guardan las estructuras .mat luego de la segmentacion
+%         path_XML = path_mat;
+%     end
+% end
+
+path_XML= handles.StructurePath ; %donde se quieren los archivos xml luego de la segmentacion
+path_mat = handles.StructurePath ; %donde se guardan las estructuras .mat luego de la segmentacion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if get(handles.checkbox9, 'Value') %Si la segmentacion esta seleccionada 
@@ -765,7 +768,7 @@ function edit16_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of edit16 as text
 %        str2double(get(hObject,'String')) returns contents of edit16 as a double
 input = get(hObject,'String'); %Obtiene input, que es el string que se ingresa
-handles.xmlPath = input;
+handles.StructurePath = input;
 guidata(hObject,handles); %Guarda el string en videoDirectory
 
 % --- Executes during object creation, after setting all properties.
@@ -1002,46 +1005,7 @@ if (get(handles.checkbox11,'Value'))
     tracking
 end
 
-% --- Executes on button press in checkbox18.
-function checkbox18_Callback(hObject, eventdata, handles)
-% hObject    handle to checkbox18 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-% Hint: get(hObject,'Value') returns toggle state of checkbox18
-if get(hObject, 'Value')
-    set(handles.edit16, 'enable', 'on');
-    set(handles.pushbutton3, 'enable', 'on');
-else
-    set(handles.edit16, 'enable', 'off');
-    set(handles.pushbutton3, 'enable', 'off');
-    if ~(get(handles.checkbox19, 'Value'))
-        errordlg('At least one of the directories must be marked','Invalid selection','modal')
-        uicontrol(hObject)
-        return
-    end
-end
-
-
-% --- Executes on button press in checkbox19.
-function checkbox19_Callback(hObject, eventdata, handles)
-% hObject    handle to checkbox19 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of checkbox19
-if get(hObject, 'Value')
-    set(handles.edit18, 'enable', 'on');
-    set(handles.pushbutton4, 'enable', 'on');
-else
-    set(handles.edit18, 'enable', 'off');
-    set(handles.pushbutton4, 'enable', 'off');
-    if ~(get(handles.checkbox18, 'Value'))
-        errordlg('At least one of the directories must be marked','Invalid selection','modal')
-        uicontrol(hObject)
-        return
-    end
-end
 
 % --- Executes on button press in pushbutton3.
 function pushbutton3_Callback(hObject, eventdata, handles)
@@ -1051,27 +1015,13 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 folder_name = uigetdir;
 if ~(strcmp(folder_name,'0'));
     set(handles.edit16, 'string', folder_name);
-    %llamar al callback del edit16
     edit16_Callback(handles.edit16, eventdata, handles)
 end
 if (strcmp(get(handles.edit16, 'string'),'0'));
-    set(handles.edit16, 'string', 'XML Directory');
+    set(handles.edit16, 'string', 'Structure Directory');
 end
 
 
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-folder_name = uigetdir;
-if ~(strcmp(folder_name,'0'));
-    set(handles.edit18, 'string', folder_name);
-    edit18_Callback(handles.edit18, eventdata, handles)
-end
-if (strcmp(get(handles.edit18, 'string'),'0'));
-    set(handles.edit18, 'string', '.Mat Directory');
-end
 
 
 % --- Executes on button press in radiobutton2.
