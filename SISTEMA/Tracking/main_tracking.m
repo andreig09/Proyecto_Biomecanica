@@ -30,7 +30,7 @@ X_out =clean_tracking(X_out);%Limpiando puntos
 
 %actualizo la informacion de skeleton
 skeleton_track = update_skeleton(skeleton, X_out,  InitFrameTrack, EndFrameTrack);
-
+disp('Se ha culminado el proceso de tracking')
 
 %Se actualiza path_XML y path_mat para que se guarde en la carpeta
 %old_path_XML/Tracking y old_path_mat/Tracking

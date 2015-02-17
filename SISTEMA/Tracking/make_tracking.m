@@ -59,6 +59,8 @@ end;
 trayectorias_truncas = [];
 inicializaciones_truncas = [];
 
+parfor_progress(f_fin - f_ini);%inicializo la barra de progreso
+
 for frame=f_ini:f_fin-1
     
     if frame>f_ini
@@ -118,9 +120,9 @@ for frame=f_ini:f_fin-1
         max_step_global = max(X_out(7,:));
     end
         
-    disp('-----------------------------------------');
+    %disp('-----------------------------------------');
     
-    disp([ '@(f+1) sobran: ' num2str(sobran_1) ]);
+    %disp([ '@(f+1) sobran: ' num2str(sobran_1) ]);
     
     
     
@@ -140,7 +142,7 @@ for frame=f_ini:f_fin-1
                     diff_frames = frame+1-n_frame_perdido;
                     ratio_radial = distancia_perdido/max_step_global;
                     if ratio_radial<(diff_frames+1)
-                        disp(['      ---> marker: ' num2str(n_index_f1) ' @(' num2str(frame+1) ') - path: ' num2str(n_path_perdido) ' @(' num2str(n_frame_perdido) ')' ]);
+                        %disp(['      ---> marker: ' num2str(n_index_f1) ' @(' num2str(frame+1) ') - path: ' num2str(n_path_perdido) ' @(' num2str(n_frame_perdido) ')' ]);
                         posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido];
                     end
                 else
@@ -161,13 +163,13 @@ for frame=f_ini:f_fin-1
                     ratio_radial = norm(X_f1(1:3,n_index_f1)-X_perdido)/paso_distancia;
                     
                     if ratio_direccional<10
-                        disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto ' num2str(n_index_f1) '@ (' num2str(frame+1) ') [' num2str(X_f1(1:3,n_index_f1)',3) ']']);
-                        disp(['--->dist a estimacion_lineal: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_direccional: ' num2str(ratio_direccional,3)]);
+                        %disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto ' num2str(n_index_f1) '@ (' num2str(frame+1) ') [' num2str(X_f1(1:3,n_index_f1)',3) ']']);
+                        %disp(['--->dist a estimacion_lineal: ' num2str(norm(X_f1(1:3,n_index_f1)-estimacion_lineal),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_direccional: ' num2str(ratio_direccional,3)]);
                     end
                     
                     if ratio_radial<10
-                        disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto ' num2str(n_index_f1) '@ (' num2str(frame+1) ') [' num2str(X_f1(1:3,n_index_f1)',3) ']']);
-                        disp(['--->dist a ultimo conocido: ' num2str(norm(X_f1(1:3,n_index_f1)-X_perdido),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_radial: ' num2str(ratio_radial,3)]);
+                        %disp([ 'trayectoria: ' num2str(n_path_perdido) ' ,punto ' num2str(n_index_f1) '@ (' num2str(frame+1) ') [' num2str(X_f1(1:3,n_index_f1)',3) ']']);
+                        %disp(['--->dist a ultimo conocido: ' num2str(norm(X_f1(1:3,n_index_f1)-X_perdido),3) ' ,step: ' num2str(paso_distancia,3) ' ,ratio_radial: ' num2str(ratio_radial,3)]);
                     end
                     
                     
@@ -178,7 +180,7 @@ for frame=f_ini:f_fin-1
                     max_ratio = 4;
                     
                     if ratio_direccional<max_ratio %|| ratio_radial<max_ratio
-                        posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido]
+                        posibles_rescates = [posibles_rescates;n_path_perdido,n_index_f1,distancia_perdido];
                     end
                 end
             end
@@ -247,18 +249,18 @@ for frame=f_ini:f_fin-1
         end
     end;
    
-    disp([ '@(f) sobran: ' num2str(sobran_0)]);
+    %disp([ '@(f) sobran: ' num2str(sobran_0)]);
     
     for n_sobran=1:size(sobran_0,2)
         path_perdido = get_path_from_tracking(X_out,frame,sobran_0(n_sobran));
         if path_perdido~=0
-            disp(['   ---> Perdi marker: ' num2str(sobran_0(n_sobran)) ' @(' num2str(frame) '), path: '  num2str(path_perdido)]);
+            %disp(['   ---> Perdi marker: ' num2str(sobran_0(n_sobran)) ' @(' num2str(frame) '), path: '  num2str(path_perdido)]);
             trayectorias_truncas = [trayectorias_truncas;path_perdido,frame];
         end
     end
     
     
-    disp('-----------------------------------------');
+    %disp('-----------------------------------------');
     
     link_prev=link_next(:,(size(link_next,2)-4):(size(link_next,2)-3));
     
@@ -282,9 +284,9 @@ for frame=f_ini:f_fin-1
     
     %%
     
-    disp(['(f)(f+1) = (' num2str(frame) ')(' num2str(frame+1) '), enlaces = ' num2str(size(link_next,1)) ]);
+    %disp(['(f)(f+1) = (' num2str(frame) ')(' num2str(frame+1) '), enlaces = ' num2str(size(link_next,1)) ]);
     %disp(num2str(link_next));
-    disp('****************************************************');
+    %disp('****************************************************');
     
     if isempty(link_next)
         disp('****************************************************');
@@ -292,9 +294,9 @@ for frame=f_ini:f_fin-1
         disp('****************************************************');
         return;
     end
-    
+    parfor_progress; %genero barra de progreso
 end
-
+parfor_progress(0);%finalizo la barra de progreso
 end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
