@@ -3,6 +3,9 @@ function animar_tracking(X_out,marker,skeleton)
         if size(X_out,1)>4
             marker=min(X_out(5,:));
         end
+        
+        marker = 0;
+        
     end
     close all
     figure
@@ -24,7 +27,7 @@ pause
                     
                 end
                 hold on
-                plot3(skeleton_x',skeleton_y',skeleton_z','-r');
+                plot3(skeleton_x',skeleton_y',skeleton_z','-m');
             else
             end
             labels = cellstr(num2str(X_frame(5,:)'));
@@ -46,6 +49,7 @@ pause
     title(['Trayectoria ' num2str(marker) ', frame ' num2str(n_frame) ]);
     xlabel('X');ylabel('Y');zlabel('Z');
     grid on
+    %pause
     pause(0.01);
     end
 end
