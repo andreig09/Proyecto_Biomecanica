@@ -1,5 +1,17 @@
-function [skeleton_track, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_XML, path_mat)
+function [skeleton_track, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking, path_XML, path_mat, globalThr, localThr)
 %Funcion que gestiona el tracking en la funcion GUI
+
+%% ENTRADA
+% skeleton_rec -->Estructura skeleton con puntos reconstruidos
+%InitFrameTrack -->frame inicial del seguimiento
+%EndFrameTrack -->frame final del seguimiento
+%save_tracking --> booleano que indica si se desea salvar la salida del seguimiento
+%path_XML--->indica donde se guardan los archivos .xml
+%path_mat--->indica donde se guardan los archivos .mat 
+%globalThr --->umbral global, si su valor es -1 indica que no se asigno ningún valor
+%localThr --->umbral local, si su valor es -1 indica que no se asigno ningun valor
+
+
 
 %% CUERPO DE LA FUNCION
 %obtengo la entrada para el tracking
@@ -42,7 +54,7 @@ elseif ~isdir([path_mat, '/Tracking'])
 end
 path_XML = [path_XML '/Tracking'];
 path_mat = [path_mat '/Tracking'];
-if save_tracking_mat
+if save_tracking
     save([path_mat '/skeleton'], 'skeleton_track')
     str = ['Se ha actualizado el resultado del tracking en el esqueleto ', path_mat, '/skeleton.mat'];
     disp(str)
