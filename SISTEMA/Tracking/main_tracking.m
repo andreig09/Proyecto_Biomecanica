@@ -11,9 +11,6 @@ function [skeleton_track, X_out, datos] = main_tracking(skeleton, InitFrameTrack
 %globalThr --->umbral global, si su valor es -1 indica que no se asigno ningún valor
 %localThr --->umbral local, si su valor es -1 indica que no se asigno ningun valor
 
-
-localThr_on
-globalThr
 %% CUERPO DE LA FUNCION
 %obtengo la entrada para el tracking
 X = get_frames_of_marker(skeleton, InitFrameTrack, EndFrameTrack);
@@ -25,18 +22,21 @@ X_out =clean_tracking(X_out);%Limpieza de puntos
 
 %% FILTRADO GLOBAL
 
-porcent_tracking = 99;%ESTO HAY QUE DECIDIR SI SALE PARA FUERA O NO, O SEA PARA EL USUARIO
-%umbral=histograma_tracking(X_out, porcent_tracking);%ACTUALMENTE GRAFICA COSAS PARA DEBUG, QUE SE VAN A PASAR A OTRA PARTE DE LA INTERFAZ
-%pause(1);close all;
-%close %Esto se tiene que sacar en VERSIONES FUTURAS
-[X_out,datos]=make_tracking(X, prctile(X_out(7,:),porcent_tracking));
-X_out =clean_tracking(X_out);%Limpiando puntos
+if globalThr~=0
+    %porcent_tracking = 99;%ESTO HAY QUE DECIDIR SI SALE PARA FUERA O NO, O SEA PARA EL USUARIO
+    %umbral=histograma_tracking(X_out, porcent_tracking);%ACTUALMENTE GRAFICA COSAS PARA DEBUG, QUE SE VAN A PASAR A OTRA PARTE DE LA INTERFAZ
+    %pause(1);close all;
+    %close %Esto se tiene que sacar en VERSIONES FUTURAS
+    [X_out,datos]=make_tracking(X, prctile(X_out(7,:),globalThr));
+    X_out =clean_tracking(X_out);%Limpiando puntos
+end
+
 
 %% FILTRADO INDIVIDUAL
-
-%[~,thr] = filter_tracking(X_out);
-%[X_out,thr] = filter_tracking(X_out);
-
+if localThr_on~=0
+    %[~,thr] = filter_tracking(X_out);
+    [X_out,thr] = filter_tracking(X_out);
+end;
 %%
 
 [~,X_out] = recuperar_indices(X,X_out);%coloco los indices de los marcadores de cada columna
