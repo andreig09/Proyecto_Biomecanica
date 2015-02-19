@@ -1,4 +1,4 @@
-function [skeleton_track, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking, path_XML, path_mat, globalThr, localThr)
+function [skeleton_track, X_out, datos] = main_tracking(skeleton, InitFrameTrack, EndFrameTrack, save_tracking, path_XML, path_mat, globalThr, localThr_on)
 %Funcion que gestiona el tracking en la funcion GUI
 
 %% ENTRADA
@@ -12,7 +12,8 @@ function [skeleton_track, X_out, datos] = main_tracking(skeleton, InitFrameTrack
 %localThr --->umbral local, si su valor es -1 indica que no se asigno ningun valor
 
 
-
+localThr_on
+globalThr
 %% CUERPO DE LA FUNCION
 %obtengo la entrada para el tracking
 X = get_frames_of_marker(skeleton, InitFrameTrack, EndFrameTrack);

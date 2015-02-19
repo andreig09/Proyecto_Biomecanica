@@ -352,17 +352,12 @@ if get(handles.checkbox11, 'Value') % Si el tracking esta seleccionado
     InitFrameTrack = handles.InitFrameTrack;
     EndFrameTrack = handles.EndFrameTrack;
     globalThr_on = get(handles.checkbox23, 'Value'); %indica si se encuentra habilitado el umbral en la reconstruccion
-    if globalThr_on %si el usuario no ingreso un umbral para reconstruccion
+    if globalThr_on 
         globalThr = handles.globalThr; %valor del umbral en reconstruccion %POR DEFECTO DEBERIA SER 0.05
     else
-        globalThr = -1; %valor que indica que el umbral se encuentra apagado
+        globalThr = 0; %valor que indica que el umbral se encuentra apagado
     end
-    localThr_on = get(handles.checkbox23, 'Value'); %indica si se encuentra habilitado el umbral en la reconstruccion
-    if localThr_on %si el usuario no ingreso un umbral para reconstruccion
-        localThr = handles.localThr; %valor del umbral en reconstruccion %POR DEFECTO DEBERIA SER 0.05
-    else
-        localThr = -1; %valor que indica que el umbral se encuentra apagado
-    end
+    localThr_on = get(handles.checkbox24, 'Value'); %indica si se encuentra habilitado el umbral en la reconstruccion    
 end
 
     
@@ -382,7 +377,7 @@ switch processMethod
         disp('_________________________________________')
         disp('Iniciando el proceso de tracking')
         disp('')
-        [skeleton_track, X_out, datos] = main_tracking(skeleton_rec, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_XML, path_mat, globalThr, localThr);
+        [skeleton_track, X_out, datos] = main_tracking(skeleton_rec, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_XML, path_mat, globalThr, localThr_on);
         assignin ('base','skeleton_track',skeleton_track)
         assignin ('base','cam_seg',cam_seg)
         assignin ('base','X_out',X_out)
@@ -418,7 +413,7 @@ switch processMethod
         disp('_________________________________________')
         disp('Iniciando el proceso de tracking')
         disp('')
-        [skeleton_track, X_out, datos] = main_tracking(skeleton_rec, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_XML, path_mat, globalThr, localThr);
+        [skeleton_track, X_out, datos] = main_tracking(skeleton_rec, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_XML, path_mat, globalThr, localThr_on);
         assignin ('base','skeleton_track',skeleton_track)
         assignin ('base','X_out',X_out)
         
@@ -453,7 +448,7 @@ switch processMethod
         disp('_________________________________________')
         disp('Iniciando el proceso de tracking')
         disp('')
-        [skeleton_track, X_out, ~] = main_tracking(skeleton_rec, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_XML, path_mat, globalThr, localThr);
+        [skeleton_track, X_out, ~] = main_tracking(skeleton_rec, InitFrameTrack, EndFrameTrack, save_tracking_mat, path_XML, path_mat, globalThr, localThr_on);
         assignin ('base','skeleton_rec',skeleton_rec)
         assignin ('base','skeleton_track',skeleton_track)
         assignin ('base','cam_seg',cam_seg)
@@ -527,13 +522,13 @@ function checkbox23_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox50 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Hint: get(hObject,'Value') returns toggle state of checkbox8
 if get(hObject, 'Value')
     set(handles.edit33, 'enable', 'on');
 else
     set(handles.edit33, 'enable', 'off');
 end
+
 
 % --- Executes during object creation, after setting all properties.
 function edit33_CreateFcn(hObject, eventdata, handles)
@@ -571,44 +566,9 @@ function checkbox24_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hint: get(hObject,'Value') returns toggle state of checkbox8
-if get(hObject, 'Value')
-    set(handles.edit34, 'enable', 'on');
-else
-    set(handles.edit34, 'enable', 'off');
-end
 
 
-% --- Executes during object creation, after setting all properties. Aquí
-% se coloca la información del umbral global del tracking
-function edit34_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit51 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-function edit34_Callback(hObject, eventdata, handles)
-% hObject    handle to edit9 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit9 as text
-%        str2double(get(hObject,'String')) returns contents of edit9 as a double
-input = str2double(get(hObject,'string'));
-if isnan(input)
-  errordlg('You must enter a numeric value','Invalid Input','modal')
-  uicontrol(hObject)
-  return
-else
-  handles.localThr = input;
-  guidata(hObject,handles); %Guarda el string en videoDirectory
-end
 
 
 % --- Executes on button press in checkbox7.
@@ -742,12 +702,9 @@ if get(hObject, 'Value')
     set(handles.text14, 'enable', 'on');
     set(handles.text15, 'enable', 'on');    
     set(handles.edit22, 'enable', 'on');
-    set(handles.edit23, 'enable', 'on');
+    set(handles.edit23, 'enable', 'on');   
     if get(handles.checkbox23, 'Value')
         set(handles.edit33, 'enable', 'on');
-    end
-    if get(handles.checkbox24, 'Value')
-        set(handles.edit34, 'enable', 'on');
     end
 else
     set(handles.checkbox13, 'enable', 'off');
@@ -758,7 +715,7 @@ else
     set(handles.edit22, 'enable', 'off');
     set(handles.edit23, 'enable', 'off');
     set(handles.edit33, 'enable', 'off');
-    set(handles.edit34, 'enable', 'off');
+    
     
 end
 
