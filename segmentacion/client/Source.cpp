@@ -158,7 +158,7 @@ int main(int argc, char *argv[]){
 		   XMLAddFrame(frameNum,detblobs.blobs,name); //Agregar los blobs de este frame en el xml
 		   			 
 		   //Mostrar video original		   
-		   cvShowImage("Video", frame);
+		   //cvShowImage("Video", frame);
            
            //Clean up used images
 		   //delete[] detblobs;

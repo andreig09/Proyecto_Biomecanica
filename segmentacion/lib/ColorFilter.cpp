@@ -30,7 +30,7 @@ IplImage* filterOtsu(IplImage *img, int thresh, VideoWriter oVideoWriter, bool g
 	//smooth the thresholded image using Median kernel
     //cvSmooth(threshy,threshy,CV_MEDIAN,3,3);
 	
-	cvShowImage("filtro",threshy);
+	//cvShowImage("filtro",threshy);
 
 	if( (guardar) ){
 		oVideoWriter.write(threshy);

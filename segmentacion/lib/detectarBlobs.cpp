@@ -107,8 +107,8 @@ blobsDetectados	detectarBlobs(IplImage *filtrada, double aMax,double aMin, Video
 	}
 	
 	//Se muestra la imagen
-	cvShowImage("Blobs circulares", ImgBlobs);
-	cvShowImage("Blobs", ImgBlobsAll);
+	//cvShowImage("Blobs circulares", ImgBlobs);
+	//cvShowImage("Blobs", ImgBlobsAll);
 	//se guarda
 	if( (guardar) ){
 		oVideoWriter3.write(ImgBlobsAll);
