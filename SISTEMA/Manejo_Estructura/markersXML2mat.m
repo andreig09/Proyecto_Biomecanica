@@ -89,7 +89,7 @@ for i=1:length(vec_cams)%hacer para todas las camaras de vec_cams
     parfor_progress;
 end
 parfor_progress(0);%finalizo la barra de progreso
-disp('El tracking a culminado con exito.')
+
 end
 
 function markers_out = set_coordinate_origin(res_y, Markers, n_markers)
