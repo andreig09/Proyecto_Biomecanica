@@ -66,7 +66,7 @@ Supongamos que se tienen para la cámara 1, la matriz de proyección $P$ y el pu
 	X(\lambda) = P^+x+\lambda O_1
 \end{equation}
 
-donde $P^+$ es la pseudo-inversa de $P$, tal que $PP^+=I$.\
+\hspace{-0.6cm}donde $P^+$ es la pseudo-inversa de $P$, tal que $PP^+=I$.\
 En particular se toman dos puntos de esa recta, el punto $P^+x$ ($\lambda = 0$) y el punto $O_1$ ($\lambda = \infty$).\
 Si se proyectan estos puntos en la cámara 2 se obtienen los puntos $P'P^+x$ y $P'O_1$ respectivamente, siendo $P'$ la matriz de proyección de la cámara 2. Estos puntos pertenecen a la recta epipolar:
 
@@ -82,7 +82,7 @@ F=e' \times P'P^+
 
 Si los puntos imagen se corresponden $x \leftrightarrow x'$, entonces $x'$ se encuentra en la recta epipolar $l'=Fx$ correspondiente al punto $x$, lo cual implica que se cumple $0=(x')^Tl'$ y por lo tanto se verifica la condición de la Ecuación \ref{ec: matriz fundamental}. 
 
-Como se explica anteriormente las igualdades de las ecuaciones mostradas se cumplen en condiciones ideales pero no para cámaras reales en las que aparecen los efectos del ruido, etc. por lo tanto cabe esperar que si se tiene un punto $x$ y su correspondiente $x'$, la Ecuación \ref{ec: matriz fundamental} no se verifique exactamente, aunque si debe devolver un valor próximo a cero.\\
+Como se explica anteriormente las igualdades de las ecuaciones mostradas se cumplen en condiciones ideales pero no para cámaras reales en las que aparecen los efectos del ruido, etc., por lo tanto cabe esperar que si se tiene un punto $x$ y su correspondiente $x'$, la Ecuación \ref{ec: matriz fundamental} no se verifique exactamente, aunque si debe devolver un valor próximo a cero.\\
 
 Una propiedad básica de esta matriz es que si $F$ es la matriz fundamental del par de cámaras con matrices de proyección ($P,P'$), entonces $F^T$ es la matriz fundamental del par de cámaras en sentido opuesto: ($P',P$). Por otra parte si se tiene el punto $x$ en la imagen de una cámara, su recta epipolar correspondiente en otra cámara es $l'=Fx$. Análogamente $l=F^Tx'$ representa la línea epipolar asociada con $x'$ en la segunda cámara.
 
@@ -185,7 +185,7 @@ Para evaluar cuál es entre los pares de puntos asociados disponibles el par que
 \subsection{Reconstrucción 3D y validación}\label{seccion_reconstruccion3D_validacion}
 
 
-Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reconstruirlas. Estas reconstrucciones deben ser validadas, para ello en principio se utiliza el  criterio propuesto por Herda \cite{herda}: se considera que una reconstrucción proveniente de dos cámaras es válida, si al proyectar sobre una tercer cámara existe al menos un punto de esta última que diste menos de un cierto valor umbral. Si efectivamente se encuentra al menos un punto, se asocia con los dos puntos que generaron la reconstrucción y se repite el proceso con el resto de las cámaras. Una vez finalizada la iteración, se retira a la pareja que genera la reconstrucción así como también a los puntos que lograron validarla, y se itera nuevamente repitiendo el proceso con la siguiente mejor pareja asociada entre dos cámaras. \\ 
+Luego de encontrar las mejores asociaciones entre dos cámaras se procede a reconstruirlas. Estas reconstrucciones deben ser validadas, para ello en principio se utiliza el  criterio propuesto por Herda \cite{herda}: se considera que una reconstrucción proveniente de dos cámaras es válida, si al proyectar sobre una tercera cámara existe al menos un punto de esta última que diste menos de un cierto valor umbral. Si efectivamente se encuentra al menos un punto, se asocia con los dos puntos que generaron la reconstrucción y se repite el proceso con el resto de las cámaras. Una vez finalizada la iteración, se retira a la pareja que genera la reconstrucción así como también a los puntos que lograron validarla, y se itera nuevamente repitiendo el proceso con la siguiente mejor pareja asociada entre dos cámaras. \\ 
 
 
 
@@ -279,7 +279,7 @@ Como se menciona previamente se han realizado dos implementaciones distintas del
 \label{table_performance_reconstruccion}
 \end{table}
 
-En la Tabla \ref{table_performance_reconstruccion} se muestra una comparación de resultados. En la misma se observa que en la segundo  implementación el error promedio mejora ligeramente respecto a la primera implementación. Se observa también el error considerando el 99\% de los marcadores, donde la mejora de la segunda implementación es más significativa. Por esta razón se ha elegido la segunda de las implementaciones.
+En la Tabla \ref{table_performance_reconstruccion} se muestra una comparación de resultados. En la misma se observa que en la segunda  implementación el error promedio mejora ligeramente respecto a la primera implementación. Se observa también el error considerando el 99\% de los marcadores, donde la mejora de la segunda implementación es más significativa. Por esta razón se ha elegido la segunda de las implementaciones.
 
 
 Una de las razones por las cuales puede suceder esto, es que en el primer algoritmo se realizan búsquedas de asociaciones entre marcadores detectados, en pares de cámaras donde la probabilidad de que un mismo marcador sea visto por ambas puede ser muy baja. El ejemplo más representativo es cuando se consideran cámaras que están  ubicadas en posiciones diametralmente opuestas. En este caso las asociaciones que se encuentren tienen mayores posibilidades de ser asociaciones incorrectas, influyendo negativamente sobre el desempeño global del algoritmo. 
@@ -334,7 +334,7 @@ Manteniendo el criterio original para implementar este bloque, el cual consiste 
 La nueva entrada proporcionada por \emph{Asociar puntos 2D} simplifica la implementación a desarrollar.
 
 
-Una vez que se tiene la matriz de distancias con todas las asociaciones de puntos entre los pares de cámaras considerados. Este bloque simplemente toma de entre todas las asociaciones disponibles de puntos válidos, aquel par de puntos que posea menor distancia asociada.
+Una vez que se tiene la matriz de distancias con todas las asociaciones de puntos entre los pares de cámaras considerados, este bloque simplemente toma de entre todas las asociaciones disponibles de puntos válidos, aquel par de puntos que posea menor distancia asociada.
 Recordar que un punto se considera válido si en iteraciones anteriores no se ha podido asociar a ningún punto 3D reconstruido.
 
 \subsection{Resto de los bloques}
@@ -359,10 +359,10 @@ Los bloques de \emph{Reconstrucción 3D y Validación}, y el de \emph{Actualizar
 \end{figure} 
 
  
-Se prueba el nuevo algoritmo para una secuencia sintética de 3 cámaras en las que se intenta simular el caso real. En este caso el sujeto cuenta con 14 marcadores. 
+Se prueba el nuevo algoritmo para una secuencia sintética de tres cámaras en las que se intenta simular el caso real. En este caso el sujeto cuenta con catorce marcadores. 
 Los resultados muestran una mejora significativa respecto al algoritmo original
 aunque no se llega a tener un desempeño ideal. 
-De 20 cuadros relevados, en 11 de ellos se logra reconstruir de manera aceptable los 14 marcadores, en 6 de los cuadros se tiene 1 marcador incorrectamente reconstruido y en los 3 restantes se tiene 2 marcadores incorrectamente reconstruidos.
+De 20 cuadros relevados, en 11 de ellos se logra reconstruir de manera aceptable los 14 marcadores, en seis de los cuadros se tiene un marcador incorrectamente reconstruido y en los tres restantes se tiene dos marcadores incorrectamente reconstruidos.
 En la Figura \ref{img_reconstruccion_sintetica} se muestra el resultado de la reconstrucción para un cuadro  determinado de la secuencia sintética.
 
 \begin{figure}[ht!]
@@ -385,7 +385,7 @@ Por último el nuevo algoritmo fue probado con secuencias reales. Si bien se rec
 Tomando como punto de partida las ideas propuestas por Herda, referentes a la reconstrucción de puntos 3D a partir de múltiples imágenes de puntos sobre distintas cámaras,  se han diseñado e implementado dos variantes de algoritmo principal para la etapa de reconstrucción. Logrando probar dichos algoritmos sobre secuencias tanto sintéticas como reales se hace un análisis cualitativo de los resultados.\\
 
 
-Inicialmente se genera un algoritmo con etapas bien definidas (ver Figura \ref{fig: diagrama algoritmo}), que obtiene resultados aceptables para secuencias sintéticas y configuraciones de más de 6 cámaras. Como es de esperar la configuración espacial de las cámaras influye en el desempeño del algoritmo, por lo que la afirmación anterior es válida asumiendo una distribución de cámaras uniforme alrededor del espacio de captura.\\
+Inicialmente se genera un algoritmo con etapas bien definidas (ver Figura \ref{fig: diagrama algoritmo}), que obtiene resultados aceptables para secuencias sintéticas y configuraciones de más de seis cámaras. Como es de esperar la configuración espacial de las cámaras influye en el desempeño del algoritmo, por lo que la afirmación anterior es válida asumiendo una distribución de cámaras uniforme alrededor del espacio de captura.\\
 
 
 Las pruebas realizadas sobre secuencias reales dejan presente el problema de desempeño que tiene el algoritmo cuando se utilizan pocas cámaras, produciendo resultados poco satisfactorios. 
@@ -406,7 +406,7 @@ De lo expuesto se desprenden fundamentalmente dos cosas:
 \item El número de cámaras cambia significativamente el problema:
 \vspace{-0.3cm}
 \begin{itemize}
-\item Por un lado se genera un algoritmo que gestiona de manera aceptable la redundancia de información que existe cuando se utiliza un número de cámaras superior al necesario para cubrir cierto espacio de captura (dadas las características de los movimientos tratados en este proyecto, básicamente de marcha rectilínea, el límite inferior para una reconstrucción aceptable son 6 cámaras). Cabe recordar en este punto que los sistemas comerciales poseen generalmente como mínimo 8 cámaras e intentan trabajar con redundancia de información.
+\item Por un lado se genera un algoritmo que gestiona de manera aceptable la redundancia de información que existe cuando se utiliza un número de cámaras superior al necesario para cubrir cierto espacio de captura (dadas las características de los movimientos tratados en este proyecto, básicamente de marcha rectilínea, el límite inferior para una reconstrucción aceptable son seis cámaras). Cabe recordar en este punto que los sistemas comerciales poseen generalmente como mínimo 8 cámaras e intentan trabajar con redundancia de información.
 \item Por otro lado efectuando modificaciones al algoritmo anterior se genera un nuevo algoritmo, que permite trabajar con pocas cámaras pero no gestiona adecuadamente la redundancia de información.
 \end{itemize}  
 \end{itemize} 

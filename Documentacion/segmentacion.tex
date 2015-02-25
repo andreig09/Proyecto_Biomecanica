@@ -55,7 +55,7 @@ En la Figura \ref{abelfiltrosEstart} se observa el resultado de segmentar el cua
         \centering
         \subfloat[Captura de video.]{\includegraphics[scale=0.25]{img/abel_original_video.png}\label{abelvideoEstart}}\hspace{2 mm}
         \subfloat[Segmentación.]{\includegraphics[scale=0.25]{img/abel_sf_filtro.png}\label{abelfiltrosEstart}}
-  \caption{Resultado de aplicar segmentación a una captura de video.}
+  \caption{Resultado de aplicar extracción de fondo y  segmentación a una captura de video.}
       \label{ejemploabelEstart}
 \end{figure}
 
@@ -141,7 +141,7 @@ Existen variedades de máscaras aplicables, entre ellas la de Sobel (ver Figura 
 \label{gonz5}
 \end{figure}
 
-En la Figura \ref{gonz2} se observaba una imagen de 6x6 píxeles y su representación matricial. Al aplicar la máscara de Sobel a la matriz de esta imagen, se detecta la transición entre los 4 niveles de gris mientras que se igualan los niveles constantes. En la Figura \ref{gonz6} se pueden observar estos resultados.
+En la Figura \ref{gonz2} se observaba una imagen de 6x6 píxeles y su representación matricial. Al aplicar la máscara de Sobel a la matriz de esta imagen, se detecta la transición entre los cuatro niveles de gris mientras que se igualan los niveles constantes. En la Figura \ref{gonz6} se pueden observar estos resultados.
 
 \begin{figure}[H]
 \begin{center}
@@ -210,7 +210,7 @@ Para la elección del número de clases se tuvo en cuenta las características d
 
 Para realizar esta elección se tuvo en cuenta que las capturas a procesar serán realizadas en un ambiente controlado y, siguiendo con la filosofía de priorizar la completitud del sistema frente a la eficacia del mismo, no se tuvo como prioridad para esta primera etapa implementar un método de mayor complejidad que sea más robusto frente a ciertos tipos de ruidos o características que se puedan dar en otro tipo de capturas (iluminación, fondo, ropa del paciente, etc.). 
 
-Con el método de Otsu \cite{otsu} se pretende, a partir del histograma de la imagen, separar los píxeles de dicha imagen en 3 niveles encontrando dos umbrales que los separen. Trabajar con tres clases permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
+Con el método de Otsu \cite{otsu} se pretende, a partir del histograma de la imagen, separar los píxeles de dicha imagen en tres niveles encontrando dos umbrales que los separen. Trabajar con tres clases permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
 
 \begin{figure}[ht!]
         \hspace{-0.6cm}
@@ -266,7 +266,7 @@ g(x,y) = \left\{
 \label{eq:xdef}
 \end{equation}
 
-Si $T$ toma un valor constante en toda la imagen, al proceso se le llama \textit{umbralización global}. Por otro lado, si $T$ cambia en una misma imagen el proceso es llamado \textit{umbralización variable}. A veces se utiliza el término \textit{umbralización local o regional} en la umbralización variable cuando el valor de $T$ en un punto $(x,y)$ depende de las propiedades de los puntos de al rededor.
+Si $T$ toma un valor constante en toda la imagen, al proceso se le llama \textit{umbralización global}. Por otro lado, si $T$ cambia en una misma imagen el proceso es llamado \textit{umbralización variable}. A veces se utiliza el término \textit{umbralización local o regional} en la umbralización variable cuando el valor de $T$ en un punto $(x,y)$ depende de las propiedades de los puntos de alrededor.
 
 \begin{figure}[ht!]
 \begin{center}
@@ -277,7 +277,7 @@ Si $T$ toma un valor constante en toda la imagen, al proceso se le llama \textit
 \label{hist3class}
 \end{figure}
 
-En la figura \ref{hist3class} se puede ver el histograma de una imagen con 3 clases dominantes, que puede corresponder por ejemplo, a un objeto brillante, otro un poco menos brillante y un fondo oscuro. En este caso la umbralización de 3 clases clasificará el punto $(x,y)$ como perteneciente al fondo si $f(x,y) {\leq} T_1$, perteneciente a un objeto si $T_1 < f(x,y) {\leq} T_2$ y perteneciente al objeto más brillante si $f(x,y) > T_2$. Por lo tanto, la imagen segmentada será de la forma:
+En la figura \ref{hist3class} se puede ver el histograma de una imagen con tres clases dominantes, que puede corresponder por ejemplo, a un objeto brillante, otro un poco menos brillante y un fondo oscuro. En este caso la umbralización de tres clases clasificará el punto $(x,y)$ como perteneciente al fondo si $f(x,y) {\leq} T_1$, perteneciente a un objeto si $T_1 < f(x,y) {\leq} T_2$ y perteneciente al objeto más brillante si $f(x,y) > T_2$. Por lo tanto, la imagen segmentada será de la forma:
 
 \begin{equation}
 g(x,y) = \left\{
@@ -290,7 +290,7 @@ g(x,y) = \left\{
 \label{eq:xdef3}
 \end{equation}
 
-donde $a,b$ y $c $ son tres valores distintos de intensidad.
+\hspace{-0.6cm}donde $a,b$ y $c $ son tres valores distintos de intensidad.
 
 Observando los histogramas anteriores, puede verse que la efectividad de la umbralización está directamente relacionada con el ancho y la profundidad de los valles que separan las distintas clases. Siguiendo esto, los factores claves que afectan directamente al tamaño de estos valles son:
 \begin{itemize}
@@ -301,7 +301,7 @@ Observando los histogramas anteriores, puede verse que la efectividad de la umbr
 \item La uniformidad de las propiedades de reflexión de la imagen.
 \end{itemize}
 
-Es de destacar q ue, si bien no resulta tan evidente como pasa con el ruido de la imagen, la iluminación y las propiedades de reflexión juegan un papel clave para obtener una segmentación efectiva y por lo tanto controlar estos parámetros debe ser prioridad si se quiere obtener una buena segmentación. Cuando no es posible controlarlos, existen tres aproximaciones básicas que se pueden realizar para mejorar los resultados: corregir el patrón de sombras directamente, corregirlo mediante algún proceso ya establecido (por ejemplo utilizando la transformada top-hat \cite{tophat}) o aplicar un umbral variable tal como fue mencionado anteriormente.
+Es de destacar que, si bien no resulta tan evidente como pasa con el ruido de la imagen, la iluminación y las propiedades de reflexión juegan un papel clave para obtener una segmentación efectiva y por lo tanto controlar estos parámetros debe ser prioridad si se quiere obtener una buena segmentación. Cuando no es posible controlarlos, existen tres aproximaciones básicas que se pueden realizar para mejorar los resultados: corregir el patrón de sombras directamente, corregirlo mediante algún proceso ya establecido (por ejemplo utilizando la transformada top-hat \cite{tophat}) o aplicar un umbral variable tal como fue mencionado anteriormente.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\vspace{10 mm}
@@ -319,7 +319,7 @@ La ``varianza intermedia entre clases'' puede escribirse como
 \label{betvarec}
 \end{equation}
 
-donde $P_1$ y $P_2$ son las probabilidades de que un píxel sea asignado a la clase $1$ o $2$ respectivamente, $m_1$ y $m_2$ son las medias de las intensidades de cada una de estas clases. Además, $m(k)$ es la media (intensidad promedio) acumulada  hasta el nivel $k$ y $m_G$ es la intensidad media (intensidad global promedio) de la imagen en su totalidad
+\hspace{-0.6cm}donde $P_1$ y $P_2$ son las probabilidades de que un píxel sea asignado a la clase $1$ o $2$ respectivamente, $m_1$ y $m_2$ son las medias de las intensidades de cada una de estas clases. Además, $m(k)$ es la media (intensidad promedio) acumulada  hasta el nivel $k$ y $m_G$ es la intensidad media (intensidad global promedio) de la imagen en su totalidad
 \begin{equation}
 m(k) = \sum_{i=0}^{k}ip_i
 \label{mediacumulativa}
@@ -330,7 +330,7 @@ m_G(k) = \sum_{i=0}^{L-1}ip_i
 \label{mediaglobal}
 \end{equation}
 
-y considerando que $k$ es el umbral que separa la clase $1$ de la clase $2$, $P_1$ puede escribirse como
+\hspace{-0.6cm}y considerando que $k$ es el umbral que separa la clase $1$ de la clase $2$, $P_1$ puede escribirse como
 
 \begin{equation}
  P_1(k) = \sum_{i=0}^kp_i 
@@ -353,14 +353,14 @@ Para el caso de umbralización con múltiples clases ($K$ clases), la varianza i
   \label{betvarec3}
 \end{equation}
 
-donde $$P_k=\sum_{i{\epsilon}C_k}P_i$$ $$m_k = \frac{1}{P_k}\sum_{i{\epsilon}C_k}ip_i$$ y $m_G$ es la ganancia global como se definió anteriormente. Esta umbralización implica tener $K-1$ umbrales.
+\hspace{-0.6cm}donde $$P_k=\sum_{i{\epsilon}C_k}P_i$$ $$m_k = \frac{1}{P_k}\sum_{i{\epsilon}C_k}ip_i$$ y $m_G$ es la ganancia global como se definió anteriormente. Esta umbralización implica tener $K-1$ umbrales.
 
-A modo de ejemplo, para 3 clases (3 niveles de intensidades separadas por 2 umbrales) la ``varianza intermedia entre clases'' queda:
+A modo de ejemplo, para tres clases (tres niveles de intensidades separadas por dos umbrales) la ``varianza intermedia entre clases'' queda:
 \begin{equation}
   {\sigma}_B^2(k) = P_1(m_1 - m_G)^2 + P_2(m_2 - m_G)^2 + P_3(m_3 - m_G)^2
 \end{equation}
 
-donde $$P_1=\sum_{i=0}^{k_1}p_i$$ $$P_2=\sum_{i=k_1+1}^{k_2}p_i$$  $$P_3=\sum_{i=k_2+1}^{L-1}p_i$$ y $$m_1 = \frac{1}{P_1}\sum_{i=0}^{k_1}ip_i$$  $$m_2 = \frac{1}{P_2}\sum_{i=k_1+1}^{k_2}ip_i$$  $$m_3 = \frac{1}{P_3}\sum_{i=k_2+1}^{L-1}ip_i$$
+\hspace{-0.6cm}donde $$P_1=\sum_{i=0}^{k_1}p_i$$ $$P_2=\sum_{i=k_1+1}^{k_2}p_i$$  $$P_3=\sum_{i=k_2+1}^{L-1}p_i$$ y $$m_1 = \frac{1}{P_1}\sum_{i=0}^{k_1}ip_i$$  $$m_2 = \frac{1}{P_2}\sum_{i=k_1+1}^{k_2}ip_i$$  $$m_3 = \frac{1}{P_3}\sum_{i=k_2+1}^{L-1}ip_i$$
 
 Además, como en el caso de 2 clases, se dan la siguientes relaciones:
 \begin{equation}
@@ -373,7 +373,7 @@ y
 
 Luego, aplicando lo visto acerca del umbral de Otsu, se tiene que el umbral óptimo $k^*$ es el valor de $k$ que maximiza la Ecuación \ref{betvarec2} (para el caso de múltiples clases, serían los valores de $k_k^*$ que maximizan la \ref{betvarec3}). Para encontrar $k^*$ basta con evaluar la Ecuación \ref{betvarec2} para todos los valores de $k$ válidos\footnote{ todos los $k$ enteros tal que $0{\leq}k{\leq}L-1$ (con $L-1$ nivel de intensidad máximo de la imagen) que verifiquen $0<P_1(k)<1$ } y seleccionar el valor de $k$ que maximiza dicha ecuación. Si el máximo ${\sigma}_B^2(k)$ se da para varios $k$, $k^*$ se calcula como el promedio de los $k$ que dan dicho valor.
 
-Para el ejemplo del algoritmo de 3 clases, se deberían encontrar los valores de $k_1$ y $k_2$ que maximicen la varianza entre clases. Para ello, se evalúa la Ecuación \ref{betvarec3} para todos los pares $(k_1,k_2)$ posibles, es decir: $(k_1,k_2) \; tq \; 0<k_1<k_2<L-1$.
+Para el ejemplo del algoritmo de tres clases, se deberían encontrar los valores de $k_1$ y $k_2$ que maximicen la varianza entre clases. Para ello, se evalúa la Ecuación \ref{betvarec3} para todos los pares $(k_1,k_2)$ posibles, es decir: $(k_1,k_2) \; tq \; 0<k_1<k_2<L-1$.
 
 Algo importante a destacar es que este método es poco costoso en términos computacionales ya que el máximo numero de $k$'s para los que hay que evaluar la Ecuación \ref{betvarec2} es $L$, que corresponde a la cantidad de niveles de intensidad de la imagen.
 
@@ -412,7 +412,7 @@ Por otro lado, los \textit{momentos centrales} son utilizados para reconocer fig
 
 Finalmente, los \textit{momentos centrales normalizados}, permiten reconocer figuras dentro de una imagen, independientemente de su posición y de su tamaño. Para ello, se normalizan los momentos centrales con el momento de orden $0$, obteniendo así figuras independientes de la escala: $$MCN(p,q) = \frac{MC(p,q)}{MC^{\beta}(0,0)}$$ donde ${\beta}=\frac{p+q}{2}+1$.
 
-El reconocimiento de la forma de un objeto, se analiza a partir de los momentos de orden 2 (es decir, $p+q=2$). En ellos, la densidad de la figura se multiplica por distancias al cuadrado desde el centro de masas o centroide. Así por ejemplo, con los 3 momentos centrales de segundo orden ($MC(0,2)$, $MC(2,0)$, $MC(1,1)$) se forman las componentes del tensor de inercia o matriz de rotación. A partir de estas componentes, también se puede calcular el ángulo de rotación de la figura alrededor de su centro de masas y la excentricidad. Esta última, se calcula a partir de la Ecuación \ref{excentec}, donde $n_{20}$, $n_{02}$ y $n_{11}$ son los momentos centrales normalizados de orden 2.
+El reconocimiento de la forma de un objeto, se analiza a partir de los momentos de orden 2 (es decir, $p+q=2$). En ellos, la densidad de la figura se multiplica por distancias al cuadrado desde el centro de masas o centroide. Así por ejemplo, con los tres momentos centrales de segundo orden ($MC(0,2)$, $MC(2,0)$, $MC(1,1)$) se forman las componentes del tensor de inercia o matriz de rotación. A partir de estas componentes, también se puede calcular el ángulo de rotación de la figura alrededor de su centro de masas y la excentricidad. Esta última, se calcula a partir de la Ecuación \ref{excentec}, donde $n_{20}$, $n_{02}$ y $n_{11}$ son los momentos centrales normalizados de orden 2.
 
 \begin{equation}
 e = \sqrt{1-\frac{\frac{n_{20}+n_{02}}{2}-\sqrt{4n_{11}^2+\frac{(n_{20}-n_{02})^2}{2}}}{\frac{n_{20}+n_{02}}{2}+\sqrt{4n_{11}^2+\frac{(n_{20}-n_{02})^2}{2}}}}
@@ -518,7 +518,7 @@ Luego del filtro circular, se identifican los blobs que resultaron del filtrado 
 
 Finalmente, volviendo al diagrama de flujo del bloque general (ver Figura \ref{diagramaSegmentacion}), el bloque \emph{Write xml} escribe la posición $(x,y)$ de cada blob en el cuadro procesado, en un archivo XML \cite{xml}. Este bloque es implementado mediante funciones de C++ para escribir archivos, teniendo en cuenta la estructura de los archivos XML.
 
-En la Figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del bloque \emph{Write xml} que corresponde también a la salida del bloque de segmentación. Cómo se observa, es el resultado de analizar una secuencia de tres cuadros (frames 0,1 y 2) donde se detectan 3 marcadores en cada uno de ellos.
+En la Figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del bloque \emph{Write xml} que corresponde también a la salida del bloque de segmentación. Como se observa, es el resultado de analizar una secuencia de tres cuadros (frames 0,1 y 2) donde se detectan tres marcadores en cada uno de ellos.
 
 \begin{figure}[ht!]
 \begin{center}
@@ -545,10 +545,10 @@ En la Figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del b
 %hablar de las diferencias entre segmentación sintética y la real, que pasa con la real respecto al ruido, iluminación, etc.
 Los resultados para cada marcador se pueden clasificar en 4 tipos:
 \begin{itemize}
-\item \textit{Verdadero positivo}. Se detecta un marcador dónde hay un marcador realmente.
-\item \textit{Verdadero negativo}. No se detecta un marcador dónde no hay un marcador en el cuadro original.
-\item \textit{Falso positivo}. Se detecta un marcador dónde en realidad no hay uno.
-\item \textit{Falso negativo}. No se detecta marcador dónde hay uno realmente.
+\item \textit{Verdadero positivo}. Se detecta un marcador donde hay un marcador realmente.
+\item \textit{Verdadero negativo}. No se detecta un marcador donde no hay un marcador en el cuadro original.
+\item \textit{Falso positivo}. Se detecta un marcador donde en realidad no hay uno.
+\item \textit{Falso negativo}. No se detecta marcador donde hay uno realmente.
 \end{itemize}
 
 
@@ -603,7 +603,7 @@ Se observa que, si bien se siguen detectando objetos que no corresponden a los m
 
 Como se mencionó en la explicación del algoritmo, tanto la función para detectar objetos cómo la función para filtrar los mismos por su tamaño son funciones pertenecientes a la librería \emph{OpenCV}, por lo que no sería necesario probarlas individualmente ya que las mismas están probadas y optimizadas por sus creadores. En consecuencia, para la detección de marcadores será necesario realizar pruebas más que nada en el filtro circular.
 
-En la Figura \ref{ejemplofiltrocirc} se mostraba un ejemplo de funcionamiento de este filtro, dónde se puede ver que a grandes rasgos el filtro funciona correctamente. 
+En la Figura \ref{ejemplofiltrocirc} se muestra un ejemplo de funcionamiento de este filtro, dónde se puede ver que a grandes rasgos el filtro funciona correctamente. 
 
 En la Figura \ref{ejemplodetectCirculos} se muestra un filtrado más complejo. Se puede observar que para las constantes $A=0.3$ y $B=0.1$ se detectan los círculos correctamente y se incluyen objetos - como el número 19, 29 o 31 - que si bien no son círculos, podrían ser marcadores que por distintos factores (como ser iluminación, calidad de la cámara, ruido, etc.) quedaron segmentados con otra forma. Por otro lado, hay objetos en la Figura \ref{circulosBlobsdetectados2} (por ejemplo el número 28), que también podrían ser un marcador mal detectado, pero no es incluido en la Figura \ref{circulosDetectados2}.
 
@@ -646,13 +646,13 @@ Aumentando estos valores a por ejemplo $A=0.5$ y $B=0.4$, se puede observar que 
         \hspace{-1cm}
         \subfloat[Blobs detectados.]{\includegraphics[scale=0.31]{img/abel_sf_blobs_2.png}\label{abelblobssf2}}\hspace{1 mm}
         \subfloat[Circulos detectados.]{\includegraphics[scale=0.31]{img/abel_sf_circulos_2.png}\label{abelcirculossf2}}
-  \caption{Segmentación y detección de marcadores para el caso de la figura \ref{ejemploabelsf} , con $A=0.5$, $B=0.4$, área mínima de $10$ píxeles y área máxima de $50$ píxeles}
+  \caption{Segmentación y detección de marcadores para el caso de la Figura \ref{abelvideosf} , con $A=0.5$, $B=0.4$, área mínima de $10$ píxeles y área máxima de $50$ píxeles}
       \label{ejemploabel2}
 \end{figure}
 
 Para el caso sintético, hacer el análisis anterior no tiene el mismo provecho, ya que al obtenerse una segmentación muy buena los marcadores se detectaron en su totalidad (ver Figura \ref{peladoBlobssint}). 
 
-Por otro lado, en la Figura \ref{peladoCircularsint} puede verse que el filtro circular detecta todos los marcadores, a excepción de los que están superpuestos entre si (como el 2 y el 11 de la Figura \ref{peladoBlobssint}), ya que al superponerse pierden la forma circular.
+Por otro lado, en la Figura \ref{peladoCircularsint} puede verse que el filtro circular detecta todos los marcadores, a excepción de los que están superpuestos entre sí (como el 2 y el 11 de la Figura \ref{peladoBlobssint}), ya que al superponerse pierden la forma circular.
 
  Queda cómo tarea pendiente para una etapa futura optimizar el bloque de segmentación para estos casos particulares, de forma tal de no perder los datos de los marcadores superpuestos. Una posible solución podría ser utilizar el método de erosión, para separar los marcadores y quedarse con la posición de sus centroides.
 
@@ -681,7 +681,7 @@ En la Figura \ref{ejMedErr}, se observa la comparación de la segmentación de u
 \label{ejMedErr}
 \end{figure}
 
-En el Cuadro \ref{tablaerrorseg} se puede observar una medida de error para una secuencia sintética estándar de la base. En ella se observa, para cada cámara, el porcentaje de detección de marcadores en toda la captura, el error promedio en píxeles y el percentil 99\footnote{Valor del error en píxeles por debajo del cual se encuentra el 99\% de los marcadores.} también en píxeles. Se realizaron estas medidas para varias secuencias distintas y los valores se mantienen aproximadamente en este mismo rango.
+En la Tabla \ref{tablaerrorseg} se puede observar una medida de error para una secuencia sintética estándar de la base. En ella se observa, para cada cámara, el porcentaje de detección de marcadores en toda la captura, el error promedio en píxeles y el percentil 99\footnote{Valor del error en píxeles por debajo del cual se encuentra el 99\% de los marcadores.} también en píxeles. Se realizaron estas medidas para varias secuencias distintas y los valores se mantienen aproximadamente en este mismo rango.
 
 \begin{table}[ht!]
 \centering
@@ -712,7 +712,7 @@ En el Cuadro \ref{tablaerrorseg} se puede observar una medida de error para una 
 
 El error promedio, cuyo cálculo se detalla en la Sección \ref{subsec:medida_error}, se calcula como un promedio de la distancia entre el centroide de cada marcador \textbf{detectado} y la posición ground truth del mismo marcador en todos los cuadros. Por otro lado, el porcentaje de detección es calculado únicamente sobre los marcadores visibles, para todos los cuadros.
 
-En la Figura \ref{histerr} se observa un histograma que contempla datos de todas las cámaras a lo largo de la secuencia completa, dónde se muestra la cantidad de marcadores por rango de error en píxeles. Observando la figura se puede ver que la curva tiene una media en el rango de 1 píxel de error.  
+En la Figura \ref{histerr} se observa un histograma que contempla datos de todas las cámaras a lo largo de la secuencia completa, donde se muestra la cantidad de marcadores por rango de error en píxeles. Observando la figura se puede ver que la curva tiene una media en el rango de 1 píxel de error.  
 
 \begin{figure}[H]
 \begin{center}

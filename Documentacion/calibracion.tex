@@ -54,7 +54,7 @@ Y \\
 Z
 \end{bmatrix} \]
 
-Notando con $\tilde{x}$ a los vectores en coordenadas homogéneas se tiene:
+\hspace{-0.6cm}Notando con $\tilde{x}$ a los vectores en coordenadas homogéneas se tiene:
 
 % ANEXO EXPLICANDO COORDENADAS HOMOGÉNEAS??
 
@@ -221,7 +221,7 @@ Para hallar la matriz de parámetros intrínsecos se necesitan saber los siguien
 \item $(s_x,s_y)$, tamaño efectivo de los píxeles de la retina en píxeles/milímetro.
 \end{itemize}
 
-utilizando estos parámetros la matriz de parámetros intrínsecos resultante es:
+\hspace{-0.6cm}utilizando estos parámetros la matriz de parámetros intrínsecos resultante es:
 
 \[M_{int}=\begin{pmatrix}
 			-f/s_x & 0      & o_x\\
@@ -317,25 +317,25 @@ Por otra parte la posición de los marcadores en el espacio 3D es conocida ya qu
       \]
    
    
- siendo $P^{iT}$ las columnas $i$-ésimas de $P$ y $\mathbf{x_i}$ de coordenadas homogéneas $(x_i,y_i,w_i)$. Dicha matriz se obtiene resolviendo un conjunto de ecuaciones del tipo $Ap=0$.  Dado que por cada punto se tiene 2 ecuaciones y que la matriz $P$ tiene 12 entradas y 11 grados de libertad, ignorando el factor de escala, resulta que son necesarios conocer al menos 6 correspondencias $X_i \leftrightarrow x_i$.\\
+ \hspace{-0.6cm}siendo $P^{iT}$ las columnas $i$-ésimas de $P$ y $\mathbf{x_i}$ de coordenadas homogéneas $(x_i,y_i,w_i)$. Dicha matriz se obtiene resolviendo un conjunto de ecuaciones del tipo $Ap=0$.  Dado que por cada punto se tiene dos ecuaciones y que la matriz $P$ tiene doce entradas y once grados de libertad, ignorando el factor de escala, resulta que son necesarios conocer al menos seis correspondencias $X_i \leftrightarrow x_i$.\\
  
-Para anular los efectos de la selección arbitraria del origen y la escala del sistema de coordenadas se aplica una normalización tanto a los puntos imagen 2D como a los 3D, logrando de esta manera mejorar los resultados finales. Para los puntos 2D de cada vista se traslada el origen de coordenadas de dicha vista al centroide de los puntos y se aplica un escalado tal que la distancia promedio de los puntos al origen sea $\sqrt{2}$. Para los puntos 3D el mismo procedimiento excepto que el escalado que se aplica es tal que la distancia promedio al origen es $\sqrt{3}$. De esta manera se tiene dos matrices que realizan esta transformación, la matriz $T_{3D}$ tal que $\tilde{X_i} = T_{3D}^{}X_i$ para los puntos en el espacio, siendo $\tilde{X_i}$ los puntos normalizados. Análogamente para los 2D imagen se tiene la matriz $T_{2D}^{}$ tal que $\tilde{x_i} = T_{3D}^{}x_i$. \\
+Para anular los efectos de la selección arbitraria del origen y la escala del sistema de coordenadas se aplica una normalización tanto a los puntos imagen 2D como a los 3D, logrando de esta manera mejorar los resultados finales. Para los puntos 2D de cada vista se traslada el origen de coordenadas de dicha vista al centroide de los puntos y se aplica un escalado tal que la distancia promedio de los puntos al origen sea $\sqrt{2}$. Para los puntos 3D el mismo procedimiento excepto que el escalado que se aplica es tal que la distancia promedio al origen es $\sqrt{3}$. De esta manera se tiene dos matrices que realizan esta transformación, la matriz $T_{3D}$ tal que $\tilde{X_i} = T_{3D}^{}X_i$ para los puntos en el espacio, siendo $\tilde{X_i}$ los puntos normalizados. Análogamente para los 2D imagen se tiene la matriz $T_{2D}^{}$ tal que $\tilde{x_i} = T_{2D}^{}x_i$. \\
  
- Dado que las coordenadas de los puntos 2D están afectadas por el ruido y que se tienen más de 6 correspondencias $X_i \leftrightarrow x_i$, no existe una solución exacta a las ecuaciones $Ap=0$. Por lo tanto la solución se obtiene minimizando un error, en este caso se busca $p$ tal que minimice $||Ap||$. Para esto se utiliza la descomposición en valores singulares (SVD), donde se obtiene del vector singular asociado al menor valor singular. De esta manera se obtiene la matriz de proyección $\tilde{P}$. Por último debe descomponerse la normalización, por lo tanto la matriz de proyección $P$ queda $P = T_{2D}^{-1} \tilde{P} T_{3D}^{}$.
+ Dado que las coordenadas de los puntos 2D están afectadas por el ruido y que se tienen más de seis correspondencias $X_i \leftrightarrow x_i$, no existe una solución exacta a las ecuaciones $Ap=0$. Por lo tanto la solución se obtiene minimizando un error, en este caso se busca $p$ tal que minimice $||Ap||$. Para esto se utiliza la descomposición en valores singulares (SVD), donde se obtiene del vector singular asociado al menor valor singular. De esta manera se obtiene la matriz de proyección $\tilde{P}$. Por último debe descomponerse la normalización, por lo tanto la matriz de proyección $P$ queda $P = T_{2D}^{-1} \tilde{P} T_{3D}^{}$.
  
 \section{Calibración simulada en \emph{Blender}}
  
  Con el objetivo de establecer una metodología de calibración que fuera válida para la configuración de cámaras con las que se diseñó la base de datos elaborada en \emph{Blender}, se probaron implementaciones existentes que pudieran calibrar dicha base. Para esto se evaluaron dos toolbox elaborados en \emph{Matlab}: 
  \begin{itemize}
- \item  \emph{Automatic Multi-Camera Calibration Toolbox (amcctoolbox).}
- \item  \emph{Multi-Camera Self-Calibration Toolbox.}
+ \item  \emph{Automatic Multi-Camera Calibration Toolbox (amcctoolbox) \cite{amcctoolbox}.}
+ \item  \emph{Multi-Camera Self-Calibration Toolbox \cite{toolbox_led}.}
  \end{itemize} 
  
 La metodología de calibración fue simulada en \emph{Blender} y las imágenes obtenidas como resultado se procesaron con los toolbox mencionados.
  
 
  
-\subsection{Automatic Multi-Camera Calibration Toolbox (amcctoolbox)  \cite{amcctoolbox} }
+\subsection{Automatic Multi-Camera Calibration Toolbox (amcctoolbox)   }
 
 
 Este toolbox implementado en \emph{Matlab}, automatiza ciertas funciones del  toolbox \textit{Camera Calibration Toolbox}\footnote{\textcolor{blue}{\underline{http://www.vision.caltech.edu/bouguetj/   }}. Accedido 3-12-14.}, también implementado en \emph{Matlab}. De esta manera se omite toda intervención del usuario que es necesaria en este último toolbox, facilitando la calibración de un conjunto de varias cámaras.\\
@@ -393,13 +393,13 @@ Una vez obtenidas las posiciones relativas de las cámaras adyacentes es posible
 \end{figure}
 
 
- \subsection{ Multi-Camera Self-Calibration Toolbox \cite{toolbox_led}} 
+ \subsection{ Multi-Camera Self-Calibration Toolbox } 
  
  Este toolbox está especialmente pensado para la calibración simultánea de un conjunto de varias cámara. El procedimiento consiste en capturar con todas las cámaras, el movimiento de una fuente puntual de luz recorriendo todo el volumen de trabajo. Por tanto para cada cuadro se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección si dicho punto es visible desde esa cámara. Para esto debe existir un contraste suficiente de la fuente puntual de luz respecto al laboratorio. Puede usarse, por ejemplo, una lámpara led y debe haber poca o nula luz ambiente en el laboratorio.\\
  
  
  Si se tienen $m$ cámaras y $n$ puntos 3D  
-$\mathbf{X_j} = [X_j, Y_j, Z_j,1]^T$ con $j=1,\ldots,n$. La proyección de dichos puntos en los puntos imagen $u_j^i$ queda:
+$\mathbf{X_j} = [X_j, Y_j, Z_j,1]^T$ con $j=1,\ldots,n$, la proyección de dichos puntos en los puntos imagen $u_j^i$ queda:
 \[ \lambda_j^i
 \begin{bmatrix}
 u_j^i \\
@@ -409,7 +409,7 @@ v_j^i \\
  = \lambda_j^i u_j^i = P^i \mathbf{X_j}
 \]
 
-siendo $P^i$ la matriz de proyección de la $i$-ésima cámara y $u,v$ las coordenadas en píxeles de los puntos imagen. Las coordenadas de dichas proyecciones deben ser detectadas para cada cuadro y para cada cámara. El objetivo de la calibración es hallar los factores de escala $\lambda_j^i$ y las matrices de proyección $P^i$. Pueden expresarse todos los puntos y las matrices de proyección en una sola matriz $W_s$:
+\hspace{-0.6cm}siendo $P^i$ la matriz de proyección de la $i$-ésima cámara y $u,v$ las coordenadas en píxeles de los puntos imagen. Las coordenadas de dichas proyecciones deben ser detectadas para cada cuadro y para cada cámara. El objetivo de la calibración es hallar los factores de escala $\lambda_j^i$ y las matrices de proyección $P^i$. Pueden expresarse todos los puntos y las matrices de proyección en una sola matriz $W_s$:
 
 \[
 W_s =
@@ -462,7 +462,7 @@ P^m
 Por lo tanto se puede expresar:
 \[ W_s = PX\]
 
-donde $P = [P^1 \ldots P^m]^T$ y $X = [\mathbf{X_1} \ldots \mathbf{X_n}]$
+\hspace{-0.6cm}donde $P = [P^1 \ldots P^m]^T$ y $X = [\mathbf{X_1} \ldots \mathbf{X_n}]$
 
 Si son detectados una cantidad suficiente de puntos no ruidosos ($u_j^i, v_j^i$) y se conocen los $\lambda_j^i$, entonces $W_s$ tiene rango 4  y se puede factorizar en $P$ y $X$.\\
 

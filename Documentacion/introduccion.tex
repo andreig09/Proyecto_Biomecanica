@@ -33,11 +33,11 @@ Al  día  de  hoy, las  soluciones  de  software  disponibles que  podrían  asi
 En virtud de estas necesidades, este proyecto busca {relevar y caracterizar los distintos casos de uso para un sistema de captura de movimiento, seleccionar uno que sea representativo y suficientemente general para poder realizar una aplicación básica y funcional de código abierto de análisis de video, que proporcione solución a las necesidades que se describieron ya sea utilizando como base algún  proyecto  de  software  libre  existente, o en su defecto, desarrollando un prototipo de software básico completo que abarque el problema en forma general, para luego estudiar extender la aplicación hacia otros casos de uso}.
 \\ 
 
-Es importante resaltar la importancia de tener una primer versión del sistema de principio a fin, con todas las etapas implementadas, de forma tal de abarcar todos los procesos que la captura de movimiento implica.  Esto tiene como ventaja que se tendrá un panorama general del estado del arte de cada etapa del sistema, y 
+Es importante resaltar la importancia de tener una primera versión del sistema de principio a fin, con todas las etapas implementadas, de forma tal de abarcar todos los procesos que la captura de movimiento implica.  Esto tiene como ventaja que se tendrá un panorama general del estado del arte de cada etapa del sistema, y 
 sentará las bases para que proyectos futuros puedan optimizar individualmente dichas etapas acorde a las necesidades del cliente.
 \\ 
 
-Los requerimientos para la implementación de este sistema provienen de investigadores del Departamento de Biofísica de la facultad de medicina de la Udelar, el foco del proyecto es la investigación no asistencial pero también puede utilizarse para fines asistenciales, particularmente el estudio del movimiento de las personas.
+Los requerimientos para la implementación de este sistema provienen de investigadores del Departamento de Biofísica de la Facultad de Medicina de la Udelar, el foco del proyecto es la investigación no asistencial pero también puede utilizarse para fines asistenciales, particularmente el estudio del movimiento de las personas.
 \\ 
 
 De acuerdo a lo planteado por el cliente y a las hipótesis que se establecieron en conjunto, se plantean los siguientes supuestos relativos a la apariencia del laboratorio:
@@ -111,7 +111,7 @@ Cada uno de estos bloques cumple un objetivo definido:
 (o ``tracking'') relaciona cada marcador en determinado cuadro de la secuencia con los que le siguen en el resto de los cuadros, obteniendo así la trayectoria de cada marcador a lo largo del tiempo.
 \end{itemize}
 
-Cabe destacar que estos bloques se implementaron de manera independiente, con una interfaz claramente definida, de manera  de poder realizar modificaciones sobre uno de ellos sin afectar el funcionamiento de los otros. Este aspecto cobra relevancia en etapas futuras, donde bajo la necesidad de optimizar algún bloque en particular o agregar alguna nueva característica que permita procesar datos provenientes de nuevos casos de uso, se deba modificar el sistema. De no presentar esta particularidad, la modificación de un bloque podría afectar negativamente el funcionamiento del sistema completo, requiriendo una posible re-ingeniería de la estructura.
+Cabe destacar que estos bloques se implementaron de manera independiente, con una interfaz claramente definida, de manera  de poder realizar modificaciones sobre uno de ellos sin afectar el funcionamiento de los otros. Este aspecto cobra relevancia en etapas futuras, donde bajo la necesidad de optimizar algún bloque en particular o agregar alguna nueva característica que permita procesar datos provenientes de nuevos casos de uso, se deba modificar el sistema. De no presentar esta particularidad, la modificación de un bloque podría afectar el funcionamiento del sistema completo, requiriendo una posible re-ingeniería de la estructura.
 
 \begin{figure}[ht!]
         \centering
@@ -192,7 +192,7 @@ En los capítulos siguientes se presentará como fue estudiado e implementado ca
 Posteriormente, el Capítulo~\ref{seguimiento} sobre Seguimiento propone un método de identificación de marcadores reconstruidos. 
 \\
 
-Finalmente se presenta como fue evaluado cada bloque y múltiples pruebas sobre el sistema completo en el Capítulo~\ref{evaluacion} para luego presentar las conclusiones en el Capítulo~\ref{conclusiones}.
+Finalmente se presenta cómo fue evaluado cada bloque y múltiples pruebas sobre el sistema completo en el Capítulo~\ref{evaluacion} para luego presentar las conclusiones en el Capítulo~\ref{conclusiones}.
 
 
  

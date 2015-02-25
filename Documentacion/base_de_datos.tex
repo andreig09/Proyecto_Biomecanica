@@ -291,7 +291,7 @@ En cuanto a las dimensiones del espacio de captura, el mismo depende principalme
   \label{img_espacio_capura}
 \end{figure} 
  
-En el caso de la marcha rectilínea puede verse que en principio con tan solo 4 cámaras dispuestas como en la Figura \ref{img_marcha1} se genera un espacio de captura útil de aproximadamente $3\;m\times5\; m$ en forma de pasarela. Si el sujeto restringe su movimiento sobre esta zona, dado que la misma se ubica dentro de la intersección de los campos visuales, será visto en su totalidad por todas las cámaras de manera simultánea. En el caso de marcha libre se disponen 8 cámaras intentando que el espacio de captura no tenga direcciones privilegiadas, con lo cual se genera una circunferencia, que en este caso es de aproximadamente $5\;m$ de diámetro. 
+En el caso de la marcha rectilínea puede verse que en principio con tan solo cuatro cámaras dispuestas como en la Figura \ref{img_marcha1} se genera un espacio de captura útil de aproximadamente $3\;m\times5\; m$ en forma de pasarela. Si el sujeto restringe su movimiento sobre esta zona, dado que la misma se ubica dentro de la intersección de los campos visuales, será visto en su totalidad por todas las cámaras de manera simultánea. En el caso de marcha libre se disponen 8 cámaras intentando que el espacio de captura no tenga direcciones privilegiadas, con lo cual se genera una circunferencia, que en este caso es de aproximadamente $5\;m$ de diámetro. 
 
 
 Siguiendo el proceso discutido anteriormente en la Sección \ref{parrafo_Camaras}, se puede estimar la resolución esperada en los datos obtenidos a partir de las secuencias de video, si se cuenta en principio con información de la resolución de las cámaras y su distancia focal. Consideremos nuevamente cámaras con resolución de $1600\times600$ píxeles y distancia focal de $f=32\;mm$, la mayor distancia sobre la cual una cámara debe tener cobertura en la pasarela de la Figura \ref{img_marcha1} es de $8 \;m$, mientras que en la Figura  \ref{img_marcha2}, caso de la marcha libre, es de $9\;m$ con lo cual un error de un píxel en una cámara produce una incertidumbre de aproximadamente poco más de medio centímetro en ambos casos a la hora de efectuar la reconstrucción con las secuencias de video obtenidas. 
@@ -352,7 +352,7 @@ Continuando en esta dirección al día de hoy, se cuenta con herramientas de có
 La captura de movimiento (Mocap), es una técnica de grabación del movimiento bastante popular en el cual se generan animaciones humanas o animales en ámbitos virtuales a partir de modelos reales. Este tipo de técnicas han sido utilizadas desde hace más de una década en el ámbito del entretenimiento, tales como el cine o los videojuegos e incluso en el ámbito deportivo y médico. 
 
 
-Importante en la mayoría de las bases de datos relevadas, incluso aquellas de análisis óptico, ya que los sistemas comerciales que efectúan este tipo de capturas devuelven datos con un alto nivel de precisión, por lo que se utilizan como ground truth y se comparan con datos obtenidos a partir de otros sistemas. La primer desventaja de todas estas prestaciones es su alto costo, bastante privativo en muchos ámbitos.
+Importante en la mayoría de las bases de datos relevadas, incluso aquellas de análisis óptico, ya que los sistemas comerciales que efectúan este tipo de capturas devuelven datos con un alto nivel de precisión, por lo que se utilizan como ground truth y se comparan con datos obtenidos a partir de otros sistemas. La primera desventaja de todas estas prestaciones es su alto costo, bastante privativo en muchos ámbitos.
 
 En la actualidad el éxito de las capturas de movimiento ha dado lugar a una serie de casos de producción que pueden registrar y proporcionar datos de movimiento, sin embargo muchas de las empresas han desarrollado su propio formato de archivo. Esto significa que los formatos de archivo de los datos de captura de movimiento
 están lejos de unificarse en un estándar, sin embargo la naturaleza ASCII de muchos de los formatos, hace que sea razonablemente fácil decodificar y entender la información por simple inspección de los datos.
@@ -455,9 +455,9 @@ Para la elección del material aplicado al modelo virtual, se toman en cuenta la
 \subsubsection*{Esqueleto}
 En cuanto a el esqueleto con la información de movimiento, el mismo se obtuvo de la base de datos \textit{MotionBuilder-friendly versión} (de aquí en más MotionBuilder) ofrecidas por \textit{cgspeed} \cite{cgspeed}, 
 %\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
- donde se cuenta con las fuentes BVH que provienen de las capturas de movimiento de CMU (Sección \ref{CMU}). Si bien\textit{ cgspeed} ofrece otras bases más nuevas, donde la jerarquía del esqueleto en los archivos BVH a sido reducida con el fin de facilitar el ajuste a modelos virtuales, se ha trabajado con la base original antes mencionada. Aparentemente el procesamiento aplicado para producir las nuevas bases, introdujo ruido sobre algunos cuadros en las secuencias originales, esto se a constatado al importar en \textit{Blender} dichas secuencias.
+ donde se cuenta con las fuentes BVH que provienen de las capturas de movimiento de CMU (Sección \ref{CMU}). Si bien\textit{ cgspeed} ofrece otras bases más nuevas, donde la jerarquía del esqueleto en los archivos BVH a sido reducida con el fin de facilitar el ajuste a modelos virtuales, se ha trabajado con la base original antes mencionada. Aparentemente el procesamiento aplicado para producir las nuevas bases, introdujo ruido sobre algunos cuadros en las secuencias originales, esto se ha constatado al importar en \textit{Blender} dichas secuencias.
       
- Con el fin de normalizar las secuencias BVH provenientes de MotionBuilder se a utilizado la herramienta de edición de archivos BVH \textit{bvhacker} \cite{bvhacker}.
+ Con el fin de normalizar las secuencias BVH provenientes de MotionBuilder se ha utilizado la herramienta de edición de archivos BVH \textit{bvhacker} \cite{bvhacker}.
  %\footnote{bvhacker: The free bvh file editing tool. \textcolor{blue}{\underline{\url{ http://davedub.co.uk/bvhacker/}}}. Accedido 5-12-14}.
  La misma permite centrar las secuencias sobre un mismo punto en el primer cuadro removiendo los offset globales.
  Una vez gestionado lo anterior se importa en \textit{Blender} la secuencia BVH y se procede a generar los marcadores en las articulaciones del esqueleto, dado que se tiene la posición exacta del origen de cada hueso en el esqueleto y la articulación es la unión entre dos huesos consecutivos, se puede obtener la posición exacta de los marcadores a partir de la secuencia BVH.
@@ -513,7 +513,7 @@ El problema surge al momento de obtener el ground truth, pues la exportación de
 
 \section{Estructura de la base de datos}
 
-El prototipo de base de datos, actualmente contiene 5 secuencias sintéticas descriptas en la Tabla \ref{tabla_secuencias_gen}, las mismas fueron generadas a partir de las secuencias BVH provenientes la 
+El prototipo de base de datos, actualmente contiene cinco secuencias sintéticas descriptas en la Tabla \ref{tabla_secuencias_gen}, las mismas fueron generadas a partir de las secuencias BVH provenientes la 
 base de datos \textit{MotionBuilder-friendly version} ofrecidas por \textit{cgspeed} \cite{cgspeed}, cuyo origen son las capturas de movimiento de CMU (Sección \ref{CMU}). 
 
 
@@ -539,7 +539,7 @@ Marcha libre                                                                    
 \end{table}
 
 
-La estructura utilizada para los directorios de la base de datos se muestran en las figuras \ref{Estructura_directorios} y \ref{Estructura_directorios2}, donde las mismas sirven para soportar tanto datos sintéticos como datos reales. En dichas figuras dentro de cada <...>  ~designar el nombre de la variable que se indica.
+La estructura utilizada para los directorios de la base de datos se muestran en las figuras \ref{Estructura_directorios} y \ref{Estructura_directorios2}, donde las mismas sirven para soportar tanto datos sintéticos como datos reales. En dichas figuras dentro de cada tag  se debe colocar la variable indicada.
 
 \begin{figure}[ht!]
 \includegraphics[scale=0.695]{img/Base_Datos/Estructura_directorios.pdf}
@@ -602,7 +602,7 @@ Cabe destacar que este tipo de estructura es útil tanto para una base de datos 
 
 
 
-\section{Conclusiones} 
+\section{Resumen} 
 
 Si bien se encontraron numerosas bases de datos para la marcha, todas ellas terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las cuales se trabaja en este proyecto. Deficiencias tales como la inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dificultan y en algunos casos imposibilitan, una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores, son los factores más importantes.
 
@@ -646,7 +646,7 @@ Se decide trabajar en este proyecto con las fuentes BVH de la base de datos \tex
  %\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}. 
  Alguno de los factores que justifican esta elección son que C.M.U. dispone de un gran número de capturas de movimiento de acceso público, varias utilidades de software que permiten llevar a otros formatos y es utilizado ampliamente en el ámbito de la animación por computadora.
  
- Utilizando una suite de animación 3D gratuita y de código abierto como lo es \textit{Blender}, se genera un laboratorio de captura de movimiento virtual, donde logra obtenerse 5 secuencias sintéticas dentro de los cuales cuatro son movimientos de marcha y una de corrida, con sus respectivos videos.  Si bien las secuencias de video obtenidas son lo único necesario para el análisis posterior, al generar dichas secuencias a través de un entorno virtual controlado como lo es \textit{Blender}, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada cuadro, etc. Permitiendo contar con un ground truth tanto del movimiento como de la calibración de las cámaras, sobre el cual validar los algoritmos en cada etapa del sistema de procesamiento. Esto último también permite obtener un benchmark de algoritmos, sumamente importante en futuros trabajos sobre el sistema. 
+ Utilizando una suite de animación 3D gratuita y de código abierto como lo es \textit{Blender}, se genera un laboratorio de captura de movimiento virtual, donde logra obtenerse cinco secuencias sintéticas dentro de los cuales cuatro son movimientos de marcha y una de corrida, con sus respectivos videos.  Si bien las secuencias de video obtenidas son lo único necesario para el análisis posterior, al generar dichas secuencias a través de un entorno virtual controlado como lo es \textit{Blender}, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada cuadro, etc. Permitiendo contar con un ground truth tanto del movimiento como de la calibración de las cámaras, sobre el cual validar los algoritmos en cada etapa del sistema de procesamiento. Esto último también permite obtener un benchmark de algoritmos, sumamente importante en futuros trabajos sobre el sistema. 
  
    
 \textit{Blender} cuenta con una interfaz de programación de aplicaciones flexible, que permite extender su funcionalidad a través de programas en Python. Con el objetivo de automatizar varias etapas en el desarrollo de nuevas secuencias, así como gestionar la exportación de información desde \textit{Blender} a otros lenguajes, se han creado múltiples scripts. En particular se posee un programa Python que automatiza la extracción de parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 

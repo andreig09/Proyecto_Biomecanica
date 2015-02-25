@@ -3,7 +3,7 @@
 
 %COMENTARIO: ACÁ SE ME OCURRE DE HACER UNA INTRODUCCIÓN A CADA BLOQUE DEL SISTEMA, JUSTIFICAR Y EXPLICAR MEDIO POR ARRIBA Y EN LAS SIGUIENTES SECCIONES EXPLICAR LOS DETALLES MÁS TÉCNICOS DE CADA BLOQUE.
 
-En base a lo estudiado en la etapa de investigación, se pudo concluir que un sistema de captura de movimiento con las características necesarias para cumplir el objetivo del proyecto debe estar formado por 4 bloques generales: \emph{calibración}, \emph{detección de marcadores}, \emph{reconstrucción} y \emph{seguimiento}. En la figura \ref{bloquesSist} se muestra un esquema del sistema a implementar.
+En base a lo estudiado en la etapa de investigación, se pudo concluir que un sistema de captura de movimiento con las características necesarias para cumplir el objetivo del proyecto debe estar formado por cuatro bloques generales: \emph{calibración}, \emph{detección de marcadores}, \emph{reconstrucción} y \emph{seguimiento}. En la figura \ref{bloquesSist} se muestra un esquema del sistema a implementar.
 
 \begin{figure}[ht!]
 \hspace{-0.5cm}
@@ -18,13 +18,13 @@ A grandes rasgos, el sistema funciona de la siguiente manera:
 	\item Se \emph{calibran} las cámaras. Esto es, determinar los parámetros de las mismas de forma tal de tener un mapeo del espacio 3D a las coordenadas 2D de las imágenes capturadas.
 	\item Se realiza la captura del paciente en movimiento desde todas las cámaras calibradas.
 	\item A partir de las secuencias, se realiza la \emph{detección de marcadores} para cada cámara. Esto equivale a determinar la posición 2D de dichos marcadores en cada cámara donde están visibles, a lo largo de toda la secuencia.
-	\item Luego, con la posición 2D de determinado marcador en al menos 2 cámaras se realiza la \emph{reconstrucción} del mismo, es decir, obtener las coordenadas 3D de dicho marcador. Se realiza para todos los marcadores, y para todos los cuadros de la secuencia.
+	\item Luego, con la posición 2D de determinado marcador en al menos dos cámaras se realiza la \emph{reconstrucción} del mismo, es decir, obtener las coordenadas 3D de dicho marcador. Se realiza para todos los marcadores, y para todos los cuadros de la secuencia.
 	\item Finalmente, se realiza el \emph{seguimiento} (o \emph{tracking}) de cada marcador en el espacio. Con esto se obtienen las trayectorias 3D de todos los marcadores en el cuerpo del paciente.
 \end{enumerate}
 
 Debido a los tiempos disponibles para realizar el proyecto en su totalidad, y junto a la planificación realizada al comienzo del mismo, se tiene como idea principal el conseguir la implementación de un sistema con características similares, adaptando el mismo para cumplir los objetivos establecidos. 
 
-Sin embargo en la investigación bibliográfica se encuentra otra realidad, puesto que no hay muchos sistemas a disposición. Por un lado, la mayor parte de los sistemas encontrados poseen altos costos de licenciamiento (por ejemplo Vicon \cite{vicon}, OptiTrack \cite{optitrack}, PhaseSpace \cite{phasespace}, Qualisys \cite{qualisys} o MotionAnalysis \cite{motion_analysis}) y por otro lado, los sistemas de código abierto no se adaptaban a las necesidades presentes o el trabajo a realizar sobre los mismos era más Costoso que hacer una implementación propia. En este último caso se encuentra el software Kinovea \cite{kinovea}, que realiza únicamente el seguimiento en coordenadas 2D.
+Sin embargo en la investigación bibliográfica se encuentra otra realidad, puesto que no hay muchos sistemas a disposición. Por un lado, la mayor parte de los sistemas encontrados poseen altos costos de licenciamiento (por ejemplo Vicon \cite{vicon}, OptiTrack \cite{optitrack}, PhaseSpace \cite{phasespace}, Qualisys \cite{qualisys} o MotionAnalysis \cite{motion_analysis}) y por otro lado, los sistemas de código abierto no se adaptaban a las necesidades presentes o el trabajo a realizar sobre los mismos era más costoso que hacer una implementación propia. En este último caso se encuentra el software Kinovea \cite{kinovea}, que realiza únicamente el seguimiento en coordenadas 2D.
 
 Debido a los inconvenientes planteados, se decide realizar una implementación propia de los bloques del sistema. Nuevamente, de acuerdo a la filosofía explicada en los párrafos anteriores, se prioriza la búsqueda de sistemas ya implementados cuyo diseño se corresponda a cada bloque de la Figura \ref{bloquesSist},  antes de recurrir a la creación de uno.
 
@@ -53,7 +53,7 @@ El sistema representado en este diagrama, funciona de la siguiente manera:
 
 \begin{enumerate}
 \item Se realiza la captura de movimiento del paciente desde múltiples vistas, en un entorno controlado. Estas capturas son la entrada principal al sistema.
-\item A partir de las capturas, por un lado se ajusta el \textbf{modelo teórico de esqueleto} a utilizar, de acuerdo a las características del cuerpo del paciente, y por otro lado se realiza la \textbf{detección de marcadores} de cada cuadro para cada cámara. Este bloque es el mismo que el del diagrama de la figura \ref{bloquesSist} y se explicará en detalle en el Capítulo \ref{deteccionMarcadoresSec}.
+\item A partir de las capturas, por un lado se ajusta el \textbf{modelo teórico de esqueleto} a utilizar, de acuerdo a las características del cuerpo del paciente, y por otro lado se realiza la \textbf{detección de marcadores} de cada cuadro para cada cámara. Este bloque es el mismo que el del diagrama de la Figura \ref{bloquesSist} y se explicará en detalle en el Capítulo \ref{deteccionMarcadoresSec}.
 \item Luego que se tiene la posición 2D de los marcadores en cada cuadro y en cada cámara, se realiza la \textbf{triangulación estéreo} para obtener la posición 3D de los mismos. A grandes rasgos, la \emph{triangulación 3D} empareja dos puntos en correspondencia de dos vistas distintas y con ellos calcula la proyección 3D de ese punto en el espacio, luego se re-proyecta ese punto en las otras vistas para verificar. Si verifica su posición en al menos una vista más, entonces la posición 3D se considera válida.
 \item Si el número de marcadores reconstruidos en 3D es menor al número total de marcadores en el modelo de captura, se ingresa en el \textbf{bloque de corrección}, donde se utilizan varios métodos para recuperar la posición 3D de los marcadores restantes (ver Figura \ref{fig:bloqCorr}). 
 \item Cuando se tiene la posición 3D de todos los marcadores, se ingresa en el bloque de \textbf{chequeo de visibilidad y oclusión} donde se verifica que la posición reconstruida de cada marcador sea correcta y no se haya reconstruido alguno con datos erróneos.

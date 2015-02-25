@@ -2,7 +2,7 @@
 \label{seguimiento}
 \section{Introducción}
 
-La salida del bloque de reconstrucción estudiado en el Capitulo~\ref{reconstruccion} son los puntos 3D generados a partir de los múltiples vídeos de cada vista, presentados en el orden que fueron validados en cada cuadro (Figura \ref{reconstr_00}). A su vez los marcadores fueron reconstruidos tomando como entrada los puntos obtenidos en las imágenes de la segmentación, sin tener estos información alguna sobre el cuerpo mas que el orden en el que son generados al segmentar.
+La salida del bloque de reconstrucción estudiado en el Capitulo~\ref{reconstruccion} son los puntos 3D generados a partir de los múltiples vídeos de cada vista, presentados en el orden que fueron validados en cada cuadro (Figura \ref{reconstr_00}). A su vez los marcadores fueron reconstruidos tomando como entrada los puntos obtenidos en las imágenes de la segmentación, sin tener estos información alguna sobre el cuerpo más que el orden en el que son generados al segmentar.
 \\ 
 
 Estas reconstrucciones, son presentadas sin orden definido para cada cuadro de la secuencia, y el objetivo del tracking o seguimiento es identificarlas temporalmente, asignándoles una etiqueta constante a lo largo de la secuencia para cada marcador y obtener las trayectorias 3D.
@@ -44,26 +44,26 @@ Con estas distancias relevadas, y definidas las relaciones entre marcadores, es 
 \label{skeleton_fitting_herda}
 \end{figure}
 
-Uno de los algoritmos mas simples~\cite{survey_tracking} es continuar una secuencia buscando el marcador mas cercano al último punto conocido, imponiendo como restricción que el traslado es mínimo ("greedy matching"). Sin embargo, esto es susceptible a errores para casos muy simples, como se observa en el ejemplo de la Figura \ref{greedy_matching} .
+Uno de los algoritmos más simples~\cite{survey_tracking} es continuar una secuencia buscando el marcador más cercano al último punto conocido, imponiendo como restricción que el traslado es mínimo ("greedy matching"). Sin embargo, esto es susceptible a errores para casos muy simples, como se observa en el ejemplo de la Figura \ref{greedy_matching} .
 
 \begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.8]{img/Tracking/01_Greedy_Matching.png}
 \end{center}
-\caption{Dos marcadores moviéndose en cuatro cuadros, Izquierda corresponde al resultado de aplicar enlazado por elemento mas próximo~\cite{survey_tracking}, Derecha al elegir el camino con variación mas suave.}
+\caption{Dos marcadores moviéndose en cuatro cuadros, Izquierda corresponde al resultado de aplicar enlazado por elemento más próximo~\cite{survey_tracking}, Derecha al elegir el camino con variación más suave.}
 \label{greedy_matching}
 \end{figure}
 
 Para el caso de algoritmos de predicción, algunas soluciones implementadas para tracking de marcadores en desarrollos similares (como el DVIDEOW~\cite{figueroa2003flexible}) son el filtro de Kalman~\cite{kalman} y sus variantes, los cuales requieren inicializar y ajustar parámetros internos. Estos procedimientos fueron implementados en las primeras instancias de estudio del problema, pero se decidió implementar otro procedimiento capaz de corregir los errores de enlazado de forma más simple, de manera tal que el mismo no requiera estudio de parámetros internos para el filtrado pero ingrese alguna restricción a las trayectorias enlazadas.
 \\ 
 
-Como se comentó en los capítulos anteriores, el procedimiento elegido es el presentado por Lorna Herda~\cite{herda}. El mismo consiste en aplicar el tracking de partículas esbozado por Malik, Dracos, Papantoniou~\cite{griegos} al seguimiento de marcadores. Para ello, se busca el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
+Como se comentó en los capítulos anteriores, el procedimiento elegido es el presentado por Lorna Herda~\cite{herda}. El mismo consiste en aplicar el tracking de partículas esbozado por Malik, Dracos y Papantoniou~\cite{griegos} al seguimiento de marcadores. Para ello, se busca el desplazamiento de un marcador desde el cuadro [f] al cuadro siguiente [f+1], sobre una ventana de cuatro cuadros.
 \\ 
 
-La hipótesis principal de este algoritmo, es que el muestreo del movimiento capturado es suficiente para que el desplazamiento entre cuadros sea mínimo en distancia, y la idea para predecir y buscar el desplazamiento entre [f] y [f+1], es utilizar la información que se tiene de la secuencia entre [f-1] y [f], y utilizar una segunda proyección entre [f+1] y [f+2] para confirmar el enlace encontrado en el caso que exista mas de una posibilidad (Figura~\ref{herda_00}).
+La hipótesis principal de este algoritmo, es que el muestreo del movimiento capturado es suficiente para que el desplazamiento entre cuadros sea mínimo en distancia, y la idea para predecir y buscar el desplazamiento entre [f] y [f+1], es utilizar la información que se tiene de la secuencia entre [f-1] y [f], y utilizar una segunda proyección entre [f+1] y [f+2] para confirmar el enlace encontrado en el caso que exista más de una posibilidad (Figura~\ref{herda_00}).
 \\ 
 
-Para poder confirmar una trayectoria de 4 puntos, se debe cumplir que la misma presenta la menor variación de aceleración para la opción elegida entre todas las posibles. Para ello se realiza el siguiente cálculo:
+Para poder confirmar una trayectoria de cuatro puntos, se debe cumplir que la misma presenta la menor variación de aceleración para la opción elegida entre todas las posibles. Para ello se realiza el siguiente cálculo:
 
 \begin{equation}
 \begin{split}
@@ -74,7 +74,7 @@ Para poder confirmar una trayectoria de 4 puntos, se debe cumplir que la misma p
 \label{track_var_acc}
 \end{equation}
 
-donde $x_{[f+1]}$ a su vez, es aquel punto de [f+1] que mejor se aproxima al desplazamiento en cuadros anteriores, minimizando la Ecuación~\ref{track_acc}. 
+\hspace{-0.6cm}donde $x_{[f+1]}$ a su vez, es aquel punto de [f+1] que mejor se aproxima al desplazamiento en cuadros anteriores, minimizando la Ecuación~\ref{track_acc}. 
 
 \begin{equation}
 \begin{split}
@@ -88,7 +88,7 @@ x_{[f+1]}-x_{[f]}& = x_{[f]}-x_{[f-1]} \\
 \begin{center}
 \includegraphics[scale=0.8]{img/Tracking/tracking-eps-converted-to.pdf}
 \end{center}
-\caption{Seguimiento en 4 cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. La línea punteada es la traslación del movimiento previo, las líneas azules son las obtenidas buscando la mínima variación de aceleración para el punto elegido en [f+1]. De las dos posibles trayectorias, se elige aquella con menor variación de aceleración, como es visto en Herda~\cite{herda}.}
+\caption{Seguimiento en cuatro cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. La línea punteada es la traslación del movimiento previo, las líneas azules son las obtenidas buscando la mínima variación de aceleración para el punto elegido en [f+1]. De las dos posibles trayectorias, se elige aquella con menor variación de aceleración, como es visto en Herda~\cite{herda}.}
 \label{herda_00}
 \end{figure}
 
@@ -102,7 +102,7 @@ Además, como se vio en el Capítulo \ref{reconstruccion}, la reconstrucción fu
 \includegraphics[scale=0.7]{img/Tracking/011_tracking_2D_camara_07.png}
 \end{center}
 \vspace{-0.8cm}
-\caption{Resultado de Aplicar el Seguimiento de marcadores a una vista 2D sin re-proyección de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la cámara 07 de la captura sintética.}
+\caption{Resultado de aplicar el seguimiento de marcadores a una vista 2D sin re-proyección de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la cámara 07 de la captura sintética.}
 \label{tracking_2D_cam_07}
 \end{figure}
 
@@ -142,7 +142,7 @@ El procedimiento que se estudia en esta sección para el seguimiento de marcador
 
 \subsection{Enlazado en régimen, inicial y final}
 
-Dado un cuadro [f], se cargan todos los marcadores de los cuadros [f-1],[f],[f+1] y [f+2], los cuales son puntos en coordenadas cartesianas $X,Y,Z$ en unidades correspondiente al plano donde se trabaja (píxeles para vistas 2D, metros para espacio 3D). Si el seguimiento desea hacerse para una vista 2D, se establece la tercer coordenada de todos los cuadros en valor predefinido unitario. Dentro de cada cuadro, los marcadores son identificados según su índice en la salida del algoritmo correspondiente, y los enlaces de cada marcador [f-1][f], son cargados a partir de la matriz de enlace del cuadro anterior. La segunda y tercer columna de la matriz de enlace de [f-1] presenta los mismos datos que la primer y segunda columna de la matriz de enlace en [f], salvo el orden en que es presentada que es asociado al cuadro en curso.
+Dado un cuadro [f], se cargan todos los marcadores de los cuadros [f-1],[f],[f+1] y [f+2], los cuales son puntos en coordenadas cartesianas $X,Y,Z$ en unidades correspondiente al plano donde se trabaja (píxeles para vistas 2D, metros para espacio 3D). Si el seguimiento desea hacerse para una vista 2D, se establece la tercer coordenada de todos los cuadros en valor predefinido unitario. Dentro de cada cuadro, los marcadores son identificados según su índice en la salida del algoritmo correspondiente, y los enlaces de cada marcador [f-1][f], son cargados a partir de la matriz de enlace del cuadro anterior. La segunda y tercera columna de la matriz de enlace de [f-1] presenta los mismos datos que la primera y segunda columna de la matriz de enlace en [f], salvo el orden en que es presentada que es asociado al cuadro en curso.
 
 Para el $i$-esimo marcador en [f], se relevan los índices que componen el enlace [f-1][f] para obtener el traslado previo, y aplicarlo para obtener el centro de búsqueda para el marcador en [f] cumpliendo la Ecuación~\ref{track_acc} .
 
@@ -166,14 +166,14 @@ La norma de este traslado es utilizada para evaluar los puntos cercanos al centr
 &= 3.x_{[f+1]}^{i} - 3.x_{[f]}^{i} + x_{[f-1]}^{i}\end{split}
 \label{centro_busqueda_f2}
 \end{equation}
-Siendo el radio de búsqueda en [f+2] la distancia [f][f+1]. Con los puntos encontrados en cada búsqueda, se evalúa la variación de aceleración para los puntos [f-1][f][f+1][f+2], y elige la menor de todas estableciendo el enlace de 4 puntos. Finalmente, se calcula la aceleración y velocidad del enlace [f-1][f][f+2], y se guardan los índices que permitieron la decisión esta vez con cuatro elementos para indicar que se procedió con la segunda búsqueda.
-\item No se encuentra ningún punto, tanto para la búsqueda en [f+1] como en [f+2]. En este caso, se presentan múltiples alternativas en distintas etapas. La mas inmediata durante el enlazado cuadro a cuadro es aumentar el radio de búsqueda (por ejemplo puede suceder con un punto acelerando fuera del radio de búsqueda). Este aumento puede ser limitado o indefinido hasta encontrar un punto, aunque en una distancia mucho mayor a la esperada, por lo que debe ser validado posteriormente. Sin embargo, aunque el enlace pase la validación dentro del cuadro puede no pasar una validación posterior de trayectoria, esto se discute mas adelante.
+Siendo el radio de búsqueda en [f+2] la distancia [f][f+1]. Con los puntos encontrados en cada búsqueda, se evalúa la variación de aceleración para los puntos [f-1][f][f+1][f+2], y elige la menor de todas estableciendo el enlace de cuatro puntos. Finalmente, se calcula la aceleración y velocidad del enlace [f-1][f][f+2], y se guardan los índices que permitieron la decisión esta vez con cuatro elementos para indicar que se procedió con la segunda búsqueda.
+\item No se encuentra ningún punto, tanto para la búsqueda en [f+1] como en [f+2]. En este caso, se presentan múltiples alternativas en distintas etapas. La más inmediata durante el enlazado cuadro a cuadro es aumentar el radio de búsqueda (por ejemplo puede suceder con un punto acelerando fuera del radio de búsqueda). Este aumento puede ser limitado o indefinido hasta encontrar un punto, aunque en una distancia mucho mayor a la esperada, por lo que debe ser validado posteriormente. Sin embargo, aunque el enlace pase la validación dentro del cuadro puede no pasar una validación posterior de trayectoria, esto se discute más adelante.
 \end{itemize}
 
-El enlazado final es similar a lo presentado para régimen, pero en caso de múltiples marcadores candidatos en el cuadro final [f+1], no se puede extender el movimiento, por lo que se elige mediante menor aceleración en los últimos tres cuadros con una sola búsqueda desde [f] a [f+1]. Otra alternativa igualmente válida puede ser buscar sobre los últimos cuatro cuadros sin embargo, se eligió la primer opción debido a ser un caso simplificado del enlazado en régimen ya implementado. 
+El enlazado final es similar a lo presentado para régimen, pero en caso de múltiples marcadores candidatos en el cuadro final [f+1], no se puede extender el movimiento, por lo que se elige mediante menor aceleración en los últimos tres cuadros con una sola búsqueda desde [f] a [f+1]. Otra alternativa igualmente válida puede ser buscar sobre los últimos cuatro cuadros; sin embargo, se eligió la primera opción debido a ser un caso simplificado del enlazado en régimen ya implementado. 
 \\ 
 
-Por otro lado, el enlazado inicial presenta una situación diferente. No se tiene información previa y deben establecerse las bases para el inicio del enlazado, para ello se cargan todos los marcadores en los primeros 3 cuadros y calculan todas las posibles combinaciones de trayectorias entre elementos. En caso de existir combinaciones forzadas inválidas, las mismas presentan una aceleración resultante notoriamente mayor a la de enlaces, pero si corresponden a algún punto erróneo este se perderá naturalmente durante el enlazado.
+Por otro lado, el enlazado inicial presenta una situación diferente. No se tiene información previa y deben establecerse las bases para el inicio del enlazado, para ello se cargan todos los marcadores en los primeros tres cuadros y calculan todas las posibles combinaciones de trayectorias entre elementos. En caso de existir combinaciones forzadas inválidas, las mismas presentan una aceleración resultante notoriamente mayor a la de enlaces, pero si corresponden a algún punto erróneo este se perderá naturalmente durante el enlazado.
 \\ 
 
 Una vez enlazado el último cuadro de las secuencia se procede a limpiar aquellas trayectorias que perdieron marcadores en el camino estableciendo un umbral de perdida aceptables sobre el largo de las secuencias obtenidas. Adicionalmente, se descartan todos los puntos reconstruidos que no fueron asignados a ninguna trayectoria. 
@@ -275,7 +275,7 @@ X_{[f-3]} &-3.X_{[f-2]} &+3.X_{[f-1]} &-\boldsymbol{\tilde{X}_{[f]}} & &=0 \\
 \label{ecuaciones_estimacion_01}
 \end{equation}
 
-observar que las ecuaciones de variación de aceleración son combinación lineal de las ecuaciones de aceleración.
+Observar que las ecuaciones de variación de aceleración son combinación lineal de las ecuaciones de aceleración.
 
 Escribiendo de forma matricial, separando los datos en incógnitas y condiciones se tiene
 
@@ -425,7 +425,7 @@ El objetivo del bloque de seguimiento es identificar los puntos reconstruidos, p
 
 
 
-El filtrado y validación por trayectorias permite reducir el error máximo y mejorar el promedio de trayectorias específicas (marcador 8 en la Figura~\ref{Tracking_Esqueleto_Trayectoria}) pero al aplicar globalmente a todas las trayectorias puede perjudicar a aquellas que tengan discontinuidades naturales en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre vídeos sintéticos de la secuencia CMU-8-07-100-200, con 17 cámaras y con el filtrado por aceleración individual de marcadores. En otras capturas los comportamientos son similares con promedios inferiores a 0.5 cm y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras. Más adelante en el Capítulo~\ref{evaluacion} se estudiará el impacto de cambiar los conjunto de cámaras en marcadores.   
+El filtrado y validación por trayectorias permite reducir el error máximo y mejorar el promedio de trayectorias específicas (marcador 8 en la Figura~\ref{Tracking_Esqueleto_Trayectoria}) pero al aplicar globalmente a todas las trayectorias puede perjudicar a aquellas que tengan discontinuidades naturales en aceleración debido a variaciones abruptas de movimiento (Tabla \ref{tablaerrortrack}). Para todos los marcadores el error promedio se encuentra por debajo de 0.5 cm para la reconstrucción sobre videos sintéticos de la secuencia CMU-8-07-100-200, con 17 cámaras y con el filtrado por aceleración individual de marcadores. En otras capturas los comportamientos son similares con promedios inferiores a 0.5 cm y errores máximos por debajo de 3 cm, para el caso de reconstrucción con 17 cámaras. Más adelante en el Capítulo~\ref{evaluacion} se estudiará el impacto de cambiar los conjunto de cámaras en marcadores.   
 
 
 \begin{figure}[ht!]
