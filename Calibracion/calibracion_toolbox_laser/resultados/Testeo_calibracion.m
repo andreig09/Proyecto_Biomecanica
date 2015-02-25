@@ -1,7 +1,7 @@
 clc
 close all
-%clear all
-%load('cam.mat')
+clear all
+load('cam.mat')
 
 %se debe tener cargada un ground truth de cam.mat para que estoy funcione
 
