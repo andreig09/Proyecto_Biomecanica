@@ -104,25 +104,25 @@ Por lo tanto, los pasos para efectuar la proyección de un punto 3D sobre la ret
 
 \begin{itemize}
 \item Se pasa del sistema de coordenadas del espacio 3D $(X_w, Y_w, Z_w)$ al sistema de coordenadas de la cámara $(X,Y, Z)$
-\begin{equation}
-[X \ Y \ Z] = [X_w \ Y_w \ Z_w]^T + t
-\end{equation}
+\begin{equation*}
+[X \ Y \ Z]^T = \mathbf{R}.[X_w \ Y_w \ Z_w]^T + \mathbf{t}
+\end{equation*}
 \item Se proyecta el punto 3D respecto a las coordenadas de la cámara sobre las coordenadas imagen de la retina $(x,y)$.
-\begin{equation}
+\begin{equation*}
 x=f \dfrac{X}{Z} \qquad y = f\dfrac{Y}{Z}
-\end{equation}
+\end{equation*}
 \item En algunos casos puede ser necesario modelar además ciertas distorsiones introducidas por el lente de la cámara.
-\begin{equation}
+\begin{equation*}
 \check{x} = x + \delta_x \qquad \check{y} = y + \delta_y
-\end{equation}
+\end{equation*}
 
 Siendo $(\check{x},\check{y})$ las coordenadas distorsionadas y $(\delta_x, \delta_y)$ las distorsiones aplicadas a $(x,y)$.
 
 \item Por último se pasa de la coordenadas imagen $(\check{x}, \check{y})$ a las coordenadas en píxeles $(\check{u}, \check{v})$.
 \vspace{-0.05cm}
-\begin{equation}
+\begin{equation*}
 \check{u} = d_x ^{-1}\check{x} + u_0 \qquad \check{v} = d_y ^{-1}\check{y} + v_0
-\end{equation}
+\end{equation*}
 
 Siendo $d_x$ y $d_y$ las distancias entre píxeles adyacentes en las direcciones horizontal y vertical, respectivamente.
 \end{itemize}

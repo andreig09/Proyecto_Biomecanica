@@ -11,8 +11,7 @@ Como se menciona en la introducción, la primera etapa realizada en el proyecto 
 	\item Estimación de pose (Reconstrucción).
 \end{itemize}
 
-Al no encontrar detalles sobre el diseño de sistemas que verifiquen las hipótesis de este proyecto, o que puedan reutilizarse como base, se decide implementar uno de manera íntegra, realizando una búsqueda bibliográfica detallada y asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. Esta etapa del proyecto, por momentos tomó carácter de investigación científica más que de proyecto ingenieril. 
-En el Apéndice \ref{tablabiblio}, se muestra una Tabla con toda la bibliografía relevante, ordenada según las categorías antes mencionadas.
+Al no encontrar detalles sobre el diseño de sistemas que verifiquen las hipótesis de este proyecto, o que puedan reutilizarse como base, se decide implementar uno de manera íntegra, realizando una búsqueda bibliográfica detallada y asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. En el Apéndice \ref{tablabiblio}, se muestra una Tabla con toda la bibliografía relevante, ordenada según las categorías antes mencionadas.
 \\ 
 
 Se clasificaron una serie de artículos y publicaciones dentro de las cuales se destacan:
@@ -24,7 +23,7 @@ Se clasificaron una serie de artículos y publicaciones dentro de las cuales se 
 	\end{itemize}
 	\item Detección de marcadores
 	\begin{itemize}
-		\item \emph{Simple and robust hard cut detection using interframe differences} \cite{pardo2005simple}. En esta investigación se propone un posible algoritmo de segmentación para utilizar en la etapa de detección de marcadores, utilizando un método de detección de bordes. Por motivos que se verán más adelante, estos tipos de algoritmos se descartaron para utilizar en segmentación (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
+		\item \emph{Simple and robust hard cut detection using interframe differences} \cite{pardo2005simple}. Esta investigación se propone un posible algoritmo de segmentación para utilizar en la etapa de detección de marcadores, utilizando un método de detección de bordes. Por motivos que se verán más adelante, estos tipos de algoritmos se descartaron para utilizar en segmentación (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
 		\item \emph{Threshold survey} \cite{surveyThreshold}. Se listan 40 algoritmos de segmentación mediante métodos de umbral. Se evalúan los mismos y se muestran ventajas y desventajas de cada uno. Entre ellos se encuentra el método de umbral de Otsu\cite{otsu}, el cual fue el elegido para implementar en este sistema (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
 	\end{itemize}
 	\item Seguimiento
@@ -52,7 +51,7 @@ Se clasificaron una serie de artículos y publicaciones dentro de las cuales se 
 	\item Sistemas completos
 	\begin{itemize}
 		\item \emph{Detección, rastreo y reconstrucción tridimensional de marcadores pasivos para análisis de movimiento humano} \cite{colombianos}.	Trabajo de captura de movimiento, basado en el sistema de Lorna Herda \cite{herda}, se utiliza hardware costoso.
-		\item \emph{Marker Detection and trayectory generation algorithms for a multicamera based gait analysis system}\cite{shafiq2001marker}.
+		\item \emph{Marker Detection and trajectory generation algorithms for a multicamera based gait analysis system}\cite{shafiq2001marker}.
 		Describe un sistema completo de captura óptico de movimiento basado en marcadores.
 		Se gestiona el solapamiento de marcadores sobre una cámara en el proceso de segmentación. Las descripciones generales del resto del sistema son claras, si bien algunos detalles específicos de implementación no son mencionados.
 		No utiliza información del esqueleto. El sistema necesita interacción con el usuario al final del proceso para efectuar correcciones. 

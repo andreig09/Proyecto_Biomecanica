@@ -95,7 +95,7 @@ Por otra parte, el sistema diseñado por Lorna Herda pretende utilizar la inform
 
 Además, este algoritmo utiliza la triangulación estéreo para reconstruir un punto 3D a partir de los puntos 2D detectados en las distintas vistas. La correspondencia entre distintas vistas se establece mediante la matriz fundamental, cuyos conceptos fueron explicados en la sección anterior. Esta matriz se puede obtener luego del proceso de calibración.\\
 
-Los pasos que sigue el algoritmo se describen a continuación:\
+Las ideas que sigue el algoritmo se describen a continuación:\
 
 \begin{itemize}
 \item Se toman dos vistas y se realiza el test de la condición epipolar (Sección \ref{MejorAsociacion}). Si existe una asociación no ambigua se reconstruyen  las coordenadas 3D a partir de las coordenadas 2D.
@@ -305,13 +305,20 @@ El algoritmo que se implementa en este caso, con el fin de solventar dichos erro
 
 \subsection{Asociar punto 2D}
 
-En esta versión modificada, el resultado de \emph{Asociar puntos 2D} continúa siendo una lista ordenada de asociaciones entre puntos de distintas cámaras, pero el procedimiento para generar dicha lista es diferente. Actualmente dicho bloque se encarga  de comparar  las distancias de los rayos de proyección entre pares de cámaras, para encontrar parejas de puntos que presumiblemente sean imágenes de un mismo punto 3D.\\  
+En esta versión modificada, el resultado de \emph{Asociar puntos 2D} continúa siendo una lista ordenada de asociaciones entre puntos de distintas cámaras, pero el procedimiento para generar dicha lista es diferente. \\  
 
-Asumiendo que las cámaras están colocadas alrededor del área de captura, el criterio utilizado para seleccionar los pares de cámaras a comparar, es emparejar las cámaras adyacentes de manera consecutiva, como se muestra en la Figura \ref{img_asociacion_consecutivas}.\\
+Para cada punto de una retina se genera una lista ordenada que asocia dicho punto con los puntos de las restantes retinas. El orden de la lista se establece según la distancia euclídea entre los rayos de proyección de los puntos a asociar.\\
 
-Sobre cada par de cámaras seleccionado se consideran todos los rayos de proyección correspondientes a los puntos sobre ambas retinas. Con  cada punto de la primer cámara se genera una lista que contiene los puntos de la segunda cámara, ordenados según  la distancia euclídea existente entre los rayos de proyección asociados a los puntos de la cámara 2,  con el rayo de proyección del punto de la cámara 1 considerado.
+De esta forma se obtiene una matriz de distancias entre rayos de proyección 3D. Cada columna de esta matriz es una combinación posible de dos rayos de proyección. Cada fila se compone de la siguiente manera:
+\begin{itemize}
+\item Número de cámara $\alpha$.
+\item Índice del punto 2D cámara $\alpha$.
+\item Número de cámara $\beta$.
+\item Índice del punto 2D cámara $\beta$.
+\item Distancia entre los rayos de proyección de los puntos considerados.
+\end{itemize}
 
-Se repite el procedimiento hasta que sean comparadas todos los pares de cámaras consecutivas. De esta forma se obtiene una matriz de distancias entre rayos de proyección 3D para los diferentes pares de cámaras considerados.
+
 
 \begin{figure}[ht!]
 \centering
