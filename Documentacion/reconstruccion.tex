@@ -309,7 +309,7 @@ En esta versión modificada, el resultado de \emph{Asociar puntos 2D} continúa 
 
 Para cada punto de una retina se genera una lista ordenada que asocia dicho punto con los puntos de las restantes retinas. El orden de la lista se establece según la distancia euclídea entre los rayos de proyección de los puntos a asociar.\\
 
-De esta forma se obtiene una matriz de distancias entre rayos de proyección 3D. Cada columna de esta matriz es una combinación posible de dos rayos de proyección. Cada fila se compone de la siguiente manera:
+De esta forma se obtiene una matriz de distancias entre rayos de proyección 3D, donde las columnas de la matriz son una combinación posible de dos rayos de proyección y las filas se componen de la siguiente manera:
 \begin{itemize}
 \item Número de cámara $\alpha$.
 \item Índice del punto 2D cámara $\alpha$.
@@ -322,7 +322,7 @@ De esta forma se obtiene una matriz de distancias entre rayos de proyección 3D.
 
 \begin{figure}[ht!]
 \centering
-\captionsetup{justification=centering,margin=2.8cm}
+\captionsetup{justification=centering,margin=2cm}
 \includegraphics[scale=0.7]{img/Reconstruccion/Asociar_puntos_2}
 \caption{Nueva asociación de puntos entre pares de cámaras.}
 \end{figure}
