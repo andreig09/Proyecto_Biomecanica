@@ -3,6 +3,36 @@
 
 \section{Requerimientos}
 
+Si bien el sistema desarrollado se ha probado en sistemas Linux y Windows, a continuación se enumera los programas y librerías necesarias para una instalación en el sistema operativo Ubuntu 14.04.
+\begin{itemize}
+\item Instalar \textit{ Matlab R2011b}.
+\item Desde el repositorio local los siguientes paquetes:
+	\begin{itemize}
+		\item \texttt{matlab-support}
+		\item \texttt{matlab-support-dev}
+	\end{itemize}
+\item	\textit{OpenCV} desde librerías del repositorio local:
+	\begin{itemize}
+		\item libcv-dev
+		\item libopencv-dev
+	\end{itemize}
+\item Instalar \textit{cvblob}\cite{cvblob}. Descargar \texttt{cvblob-0.10.4-src.tgz} y seguir  el instructivo de la página para una instalación Linux.
+\item Copiar la carpeta del proyecto \texttt{Proyecto\_Biomecanica}.
+\item Compilar el programa que efectúa la segmentación. Para ello ir a la carpeta \texttt{Proyecto\_Biomecanica/segmentacion} y crear una carpeta \texttt{/build}.
+Dentro de ella abrir una terminal y ejecutar:
+\begin{center}
+\begin{tabular}{l}
+\texttt{cmake ..}\\
+\texttt{make   }
+\end{tabular}
+\end{center}
+
+A continuación en \texttt{Proyecto\_Biomecanica/segmentacion/build/client} se tiene el ejecutable con el nombre \texttt{Source}, el mismo se debe llevar a la carpeta \texttt{Proyecto\_Biomecanica/SISTEMA/ProgramaC} con el nombre \texttt{Source\_GLNX86} si se instalo un sistema de 32 bits o \texttt{Source\_GLNXA64} en caso contrario.
+
+\item Instalar \textit{Blender} desde los repositorios locales.
+\end{itemize}
+
+
 \section{Generación de secuencias sintéticas}
 
 A continuación se resumen los pasos a seguir para generar una secuencia en el laboratorio virtual a partir de archivos BVH de la base de datos \textit{MotionBuilder-friendly version} ofrecidas por \textit{cgspeed} \cite{cgspeed}, 
@@ -12,13 +42,29 @@ A continuación se resumen los pasos a seguir para generar una secuencia en el l
  \begin{enumerate}
  \item Seleccionar el movimiento que va a tener la secuencia, se tiene una  lista disponible en \textit{cgspeed}\footnote{{\tiny \textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture/cmu-bvh-conversion/bvh-conversion-release---motions-list}}}}. Accedido 4-03-15}. 
  \item Preparar la secuencia. Para ello se utiliza el programa bvhacker\footnote{Se ha probado la versión 1.8.0.6 sobre wine 1.6.2 simulando este último a Windows XP} \cite{bvhacker}, al abrir la secuencia se quita el offset y se efectúa un centrado de la misma, con las opciones \texttt{NoOffset} y \texttt{Center} respectivamente, luego se guarda convenientemente \texttt{File/Save}.
- \item Activar la importación de archivos BVH en el menú de preferencias del entorno Blender, \texttt{File/User\_Preferences/Addons/Import-Export\_bvh}.
- \item Crear las carpetas correspondientes en la base de datos. Para ello correr el script \texttt{Base\_de\_datos/nueva\_secuencia.sh }. Dicho script de \texttt{Bash} ejecuta dentro de Blender los script \texttt{import\_bvh.py} y \texttt{acoplar\_modelo.py}, que permiten respectivamente importar el archivo BVH previamente preparado y acoplarlo con el modelo y los marcadores.
+ \item Activar la importación de archivos BVH en el menú de preferencias del entorno \textit{Blender}, \texttt{File/User\_Preferences/Addons/Import-Export\_bvh}.
+ \item Crear las carpetas correspondientes en la base de datos. Para ello correr el script \texttt{Base\_de\_datos/nueva\_secuencia.sh }. Dicho script de \texttt{Bash} ejecuta dentro de \textit{Blender} los script \texttt{import\_bvh.py} y \texttt{acoplar\_modelo.py}, que permiten respectivamente importar el archivo BVH previamente preparado y acoplarlo con el modelo y los marcadores.
  \item Abrir el archivo .blend de la nueva secuencia  y efectuar los ajustes finos del modelo virtual sobre el esqueleto. El modelo virtual se encuentra en el \texttt{layer 1}, los marcadores en el \texttt{layer 2}  y el esqueleto en el \texttt{layer 3}. Solo se debe modificar el modelo virtual.
- \item Por último para renderizar la secuencia del laboratorio virtual, se debe seleccionar apropiadamente las propiedades de las cámaras en el menú\\ \texttt{Properties/Render}, seleccionar únicamente el \texttt{layer 1} y el \texttt{layer 2} con el modelo virtual y los marcadores para que sean  visibles en pantalla y luego abrir en el editor de texto de Blender el script \texttt{render.py} y ejecutarlo. De esta manera automáticamente se generan y almacenan los videos en la estructura de datos de la base de datos.
+ \item Por último para renderizar la secuencia del laboratorio virtual, se debe seleccionar apropiadamente las propiedades de las cámaras en el menú\\ \texttt{Properties/Render}, seleccionar únicamente el \texttt{layer 1} y el \texttt{layer 2} con el modelo virtual y los marcadores para que sean  visibles en pantalla y luego abrir en el editor de texto de \textit{Blender} el script \texttt{render.py} y ejecutarlo. De esta manera automáticamente se generan y almacenan los videos en la estructura de datos de la base de datos.
  
  \end{enumerate}
  
  \section{Procesamiento de datos utilizando interfaz gráfica}
  
+ Una vez abierto \textit{Matlab} con el workspace en \texttt{/Proyecto\_Biomecanica/SISTEMA}, se debe ejecutar el script \texttt{main.m}. El mismo se encarga de cargar los \texttt{paths} necesarios, abrir \texttt{matlabpool}\footnote{Por defecto Matlab utiliza 2 núcleos del procesador, si se desea configurar un número mayor de núcleos se debe acceder a \texttt{/Parallel/Manage\_Configurations} } para utilizar múltiples procesadores y mostrar la interfaz de usuario.
+ 
+ 
+ La interfaz se divide en tres zonas principales
+ 
+ 
  \section{Bugs encontrados}
+ 
+ En Ubuntu 14.04 de 32 bits, cuando se ejecuta la segmentación desde la interfaz gráfica la primera vez que se abre \textit{Matlab}, en algunas oportunidades no se carga correctamente el ejecutable \texttt{Source\_GLNX86}. Los pasos a seguir para solucionar este inconveniente son:
+ \begin{itemize}
+ \item Verificar que el ejecutable funcione fuera de Matlab. Abrir una terminal donde se encuentre el ejecutable y ejecutar:
+ \begin{center}
+ \texttt{./Source\_GLNX86} \hspace{0.05cm}   \texttt{<vidpath>}
+ \end{center} donde \texttt{<vidpath>} es la dirección del video a segmentar.
+ \item Si en el paso anterior no funciona la segmentación, compilar nuevamente el programa que efectúa la segmentación, revisar si dicha compilación finaliza correctamente y colocar el ejecutable en\\ \texttt{Proyecto\_Biomecanica/SISTEMA/ProgramaC} con el nombre \texttt{./Source\_GLNX86}. En caso que si funcione la segmentación en la terminal, entonces el problema es de \textit{Matlab}. Una solución es ejecutar tres veces la segmentación desde la interfaz gráfica, cuidando antes de cada ejecución de tener el workspace \textit{Matlab} en \texttt{/Proyecto\_Biomecanica/SISTEMA}. A la tercera vez el sistema funcionará, y de ahí en más mientras se tenga abierto \textit{Matlab} se ejecuta todo normalmente.
+ \end{itemize}
+  
