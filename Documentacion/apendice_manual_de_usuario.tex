@@ -1,0 +1,24 @@
+\chapter{Manual de usuario}
+\label{manualusuario}
+
+\section{Requerimientos}
+
+\section{Generación de secuencias sintéticas}
+
+A continuación se resumen los pasos a seguir para generar una secuencia en el laboratorio virtual a partir de archivos BVH de la base de datos \textit{MotionBuilder-friendly version} ofrecidas por \textit{cgspeed} \cite{cgspeed}, 
+%\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
+ que provienen de las capturas de Carnegie Mellon University Motion Capture Database \cite{CMU}. La secuencia generada se almacena en la base de datos del proyecto.
+ 
+ \begin{enumerate}
+ \item Seleccionar el movimiento que va a tener la secuencia, se tiene una  lista disponible en \textit{cgspeed}\footnote{{\tiny \textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture/cmu-bvh-conversion/bvh-conversion-release---motions-list}}}}. Accedido 4-03-15}. 
+ \item Preparar la secuencia. Para ello se utiliza el programa bvhacker\footnote{Se ha probado la versión 1.8.0.6 sobre wine 1.6.2 simulando este último a Windows XP} \cite{bvhacker}, al abrir la secuencia se quita el offset y se efectúa un centrado de la misma, con las opciones \texttt{NoOffset} y \texttt{Center} respectivamente, luego se guarda convenientemente \texttt{File/Save}.
+ \item Activar la importación de archivos BVH en el menú de preferencias del entorno Blender, \texttt{File/User\_Preferences/Addons/Import-Export\_bvh}.
+ \item Crear las carpetas correspondientes en la base de datos. Para ello correr el script \texttt{Base\_de\_datos/nueva\_secuencia.sh }. Dicho script de \texttt{Bash} ejecuta dentro de Blender los script \texttt{import\_bvh.py} y \texttt{acoplar\_modelo.py}, que permiten respectivamente importar el archivo BVH previamente preparado y acoplarlo con el modelo y los marcadores.
+ \item Abrir el archivo .blend de la nueva secuencia  y efectuar los ajustes finos del modelo virtual sobre el esqueleto. El modelo virtual se encuentra en el \texttt{layer 1}, los marcadores en el \texttt{layer 2}  y el esqueleto en el \texttt{layer 3}. Solo se debe modificar el modelo virtual.
+ \item Por último para renderizar la secuencia del laboratorio virtual, se debe seleccionar apropiadamente las propiedades de las cámaras en el menú\\ \texttt{Properties/Render}, seleccionar únicamente el \texttt{layer 1} y el \texttt{layer 2} con el modelo virtual y los marcadores para que sean  visibles en pantalla y luego abrir en el editor de texto de Blender el script \texttt{render.py} y ejecutarlo. De esta manera automáticamente se generan y almacenan los videos en la estructura de datos de la base de datos.
+ 
+ \end{enumerate}
+ 
+ \section{Procesamiento de datos utilizando interfaz gráfica}
+ 
+ \section{Bugs encontrados}
