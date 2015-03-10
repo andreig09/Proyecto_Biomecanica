@@ -4,7 +4,7 @@
 \section{Introducción}
 Como se vio anteriormente, una vez realizada la captura de video del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo. 
 
-La gran diferencia entre el sistema a implementar y los sistemas modernos es que, por temas de presupuesto, no se utilizarán sensores infrarrojos u otro tipo de tecnología que facilite (o evite) la etapa de segmentación. En lugar de esto se realizará la segmentación por métodos ópticos, es decir, por métodos basados en el estudio de los píxeles de la imagen. 
+La gran diferencia entre el sistema a implementar y los sistemas modernos es que, por temas de presupuesto, no se utilizarán sensores infrarrojos u otro tipo de tecnología más moderna que facilite (o evite) la etapa de segmentación. Además, cómo se mostró en el capítulo \ref{section_base_de_datos}, las condiciones de captura de las secuencias son muy favorables lo que permite utilizar métodos simples de segmentación basados en el estudio de los píxeles de la imagen.
 
 Debido a las condiciones del laboratorio donde se realizarán las capturas (esto es, marcadores blancos sobre un paciente con ropa oscura, fondo oscuro, e iluminación controlada), el problema de la detección de marcadores puede explicarse en líneas generales, como la detección de círculos blancos de un cierto tamaño sobre fondo oscuro.
 
@@ -26,7 +26,7 @@ El término segmentar hace referencia, en rasgos generales, a la división de un
 
 Algunas de las aplicaciones prácticas de la segmentación son:
 \begin{itemize}
-\item Pruebas médicas: localización de tumores, medida de volúmenes de tejido, cirugía guiada por computadora, diagnóstico, planificación de tratamiento, estudio de la estructura anatómica
+\item Pruebas médicas: localización de tumores, medida de volúmenes de tejido, cirugía guiada por computadora
 \item Localización de objetos en imágenes satelitales
 \item Sensor de  huella dactilar
 \item Reconocimiento facial
@@ -46,7 +46,7 @@ La etapa de filtrado de objetos es bastante más sencilla que la de segmentació
 
 A lo largo de este capítulo se explicarán los criterios de selección de los métodos utilizados y cómo funciona el algoritmo implementado. Por último, se mostrarán algunos resultados obtenidos al procesar imágenes sintéticas y reales con este bloque.
 
-\section{Estado del arte}%pag 711, Gonzalez 3º ed
+\section{Fundamento teórico}%pag 711, Gonzalez 3º ed
 \label{segEstArt}
 
 En la Figura \ref{abelfiltrosEstart} se observa el resultado de segmentar el cuadro de la Figura \ref{abelvideoEstart}. Se confirma lo mencionado anteriormente sobre la simplicidad de los objetos a detectar, es decir, si se observan los objetos segmentados los marcadores no son difíciles de filtrar. Por este motivo no se realizó una investigación profunda del estado del arte de esta etapa, sino que se decidió implementar filtros sencillos y dedicarle más tiempo a la etapa de segmentación.
@@ -95,7 +95,7 @@ De la misma forma, se requiere que la aproximación utilizada para la derivada d
 Considerando las propiedades de estas derivadas, se puede concluir que la de primer orden es la más adecuada para detectar bordes más ``gruesos'' y la segunda para detectar los más finos. Así mismo, para detectar puntos aislados la más adecuada es la derivada segunda, lo que no es de sorprender ya que la misma es más sensible que la primera frente a cambios bruscos de intensidad. A raíz de esto, también se concluye que la derivada segunda es la más adecuada para detectar detalles finos (incluido el ruido). También es de destacar que mediante el signo de la derivada segunda se puede detectar si la transición en un borde (ya sea rampa o escalón) es de luz a oscuridad o viceversa.
 
 Por otro lado, para realizar el procesamiento de las imágenes, se analizan las mismas como matrices numéricas. Una imagen en color, se traduce como tres matrices bidimensionales, una por cada componente cromática (por ejemplo rojo, verde, azul ) siendo las filas y columnas de las matrices, el ancho y largo de la imagen. 
-A efectos de simplificar el análisis, se estudian imágenes en escala de grises, lo cual implica trabajar con una sola matriz en vez de tres. En el formato de archivo de imagen TIFF, la escala de grises en 8 bits va de 0 (negro), a 255 (blanco), para cada píxel de la imagen (ver Figura \ref{gonz2}).
+A efectos de simplificar el análisis, se estudian imágenes en escala de grises, lo cual implica trabajar con una sola matriz en vez de tres. La escala de grises en 8 bits va de 0 (negro), a 255 (blanco), para cada píxel de la imagen (ver Figura \ref{gonz2}).
 
 \begin{figure}[hbt]
 \begin{center}
@@ -117,7 +117,7 @@ La herramienta elegida para encontrar tanto la magnitud como la dirección de un
                       \end{bmatrix}
  \end{equation}
 
-Para detectar un borde en una imagen resta calcular el gradiente y luego su magnitud para cada píxel Si la superficie es uniforme, esta magnitud será nula (o muy pequeña) y si la superficie varía (por ejemplo, cuando hay un borde de por medio) el valor de la magnitud será alto.
+Para detectar un borde en una imagen resta calcular el gradiente y luego su magnitud para cada píxel Si la superficie es uniforme, este vector será nulo (o muy pequeño) y si la superficie varía (por ejemplo, cuando hay un borde de por medio) el módulo de este vector será alto.
 
 Por otro lado, el gradiente puede ser implementado para todos los valores de $x$ e $y$ pertinentes mediante el filtrado de la imagen $f(x,y)$ con las máscaras de la Figura \ref{matrix1d}.
 
@@ -156,7 +156,7 @@ En la Figura \ref{gonz2} se observaba una imagen de 6x6 píxeles y su representa
 \subsection{Métodos de umbral} %pag 760 del Gonzalez
 \label{umbralSec}
 
-Los métodos del valor umbral son un grupo de algoritmos cuya finalidad es segmentar los objetos de una imagen en función de un rango de valores. La pertenencia de un píxel a cierto segmento se decide mediante la comparación de alguna propiedad unidimensional del mismo (por ejemplo su nivel de gris o nivel de luminosidad) con cierto valor umbral. Dado que esta comparación de valores se realiza individualmente para cada píxel, al método del valor umbral se le considera un método de segmentación orientado a píxeles.
+Los métodos del valor umbral son un grupo de algoritmos cuya finalidad es segmentar los objetos de una imagen en función de un rango de valores. La pertenencia de un píxel a cierto segmento se decide mediante la comparación de alguna propiedad del mismo (por ejemplo su nivel de gris o nivel de luminosidad) con cierto valor umbral. Dado que esta comparación de valores se realiza individualmente para cada píxel, al método del valor umbral se le considera un método de segmentación orientado a píxeles.
 
 Por lo tanto, mientras en los métodos de detección de bordes las regiones eran identificadas encontrando primero segmentos de borde y luego tratando de unir los mismos para formar bandas, en los métodos de umbral se trata de separar la imagen directamente en regiones basándose en la intensidad de estos píxeles y/o en otras propiedades, reduciendo el problema a encontrar el umbral correcto.
 
@@ -319,7 +319,8 @@ La ``varianza intermedia entre clases'' puede escribirse como
 \label{betvarec}
 \end{equation}
 
-\hspace{-0.6cm}donde $P_1$ y $P_2$ son las probabilidades de que un píxel sea asignado a la clase $1$ o $2$ respectivamente, $m_1$ y $m_2$ son las medias de las intensidades de cada una de estas clases. Además, $m(k)$ es la media (intensidad promedio) acumulada  hasta el nivel $k$ y $m_G$ es la intensidad media (intensidad global promedio) de la imagen en su totalidad
+En esta ecuación, $P_1$ y $P_2$ son las probabilidades de que un píxel sea asignado a la clase $1$ o $2$ respectivamente, $m_1$ y $m_2$ son las medias de las intensidades de cada una de estas clases. Además, $m(k)$ es la media (intensidad promedio) acumulada  hasta el nivel $k$ y $m_G$ es la intensidad media (intensidad global promedio) de la imagen en su totalidad. Por lo que, para $L$ posibles niveles de intensidad en una imagen digital se tiene:
+
 \begin{equation}
 m(k) = \sum_{i=0}^{k}ip_i
 \label{mediacumulativa}
@@ -330,14 +331,14 @@ m_G(k) = \sum_{i=0}^{L-1}ip_i
 \label{mediaglobal}
 \end{equation}
 
-\hspace{-0.6cm}y considerando que $k$ es el umbral que separa la clase $1$ de la clase $2$, $P_1$ puede escribirse como
+Considerando que $k$ es el umbral que separa la clase $1$ de la clase $2$, $P_1$ puede escribirse como
 
 \begin{equation}
  P_1(k) = \sum_{i=0}^kp_i 
  \label{peuno}
 \end{equation}
 
-donde $p_i$ es la cantidad normalizada de píxeles de la imagen que tienen intensidad $i$.
+\hspace{-0.6cm}donde $p_i$ es la probabilidad para los píxeles de la imagen de tener intensidad $i$.
 
 Por lo que la ecuación \ref{betvarec} también queda dependiendo del umbral $k$:
 
@@ -362,7 +363,7 @@ A modo de ejemplo, para tres clases (tres niveles de intensidades separadas por 
 
 \hspace{-0.6cm}donde $$P_1=\sum_{i=0}^{k_1}p_i$$ $$P_2=\sum_{i=k_1+1}^{k_2}p_i$$  $$P_3=\sum_{i=k_2+1}^{L-1}p_i$$ y $$m_1 = \frac{1}{P_1}\sum_{i=0}^{k_1}ip_i$$  $$m_2 = \frac{1}{P_2}\sum_{i=k_1+1}^{k_2}ip_i$$  $$m_3 = \frac{1}{P_3}\sum_{i=k_2+1}^{L-1}ip_i$$
 
-Además, como en el caso de 2 clases, se dan la siguientes relaciones:
+Además, como en el caso de dos clases, se dan la siguientes relaciones:
 \begin{equation}
   P_1m_1 + P_2m_2 + P_3m_3 = m_G
 \end{equation}
@@ -597,7 +598,10 @@ Otra alternativa para eliminar los objetos detectados que no son marcadores, dir
       \label{ejemploabelsf}
 \end{figure}
 
-Se observa que, si bien se siguen detectando objetos que no corresponden a los marcadores, el ruido en la imagen filtrada es mucho menor y los marcadores están mejor detectados que en la Figura \ref{abelfiltro}.
+Se observa que, si bien se siguen detectando objetos que no corresponden a los marcadores, el ruido en la imagen filtrada es mucho menor y los marcadores están mejor detectados que en la Figura \ref{abelfiltro}. 
+
+Es de destacar que los marcadores detectados en las figuras \ref{abelfiltro} y \ref{abelfiltrosf} no tienen el mismo tamaño. Esto se debe a que sus imagenes originales (\ref{abelvideo} y \ref{abelvideosf} respectivamente) son distintas entre ellas y por lo tanto el cálculo del umbral va a dar resultados distintos, esto provoca que en la imagen sin fondo se detecten más pixeles que en la imagen original. Dada la geometría de los marcadores, los pixeles más oscuros se encuentran sobre los bordes del marcador, y se aclaran al acercarse al centro.
+
 
 \subsection{Detección de marcadores}
 
@@ -618,7 +622,7 @@ En la Figura \ref{ejemplodetectCirculos} se muestra un filtrado más complejo. S
 
 Algo parecido sucede con la detección de marcadores en la captura mostrada en la Figura \ref{ejemploabelumbr2}. Cómo se comentaba anteriormente, en la salida de la umbralización se segmentaron otros objetos además de los marcadores, que se presentan como ruido en la imagen. Para eliminar los objetos más grandes que los marcadores se aplicó el filtro de área estableciendo un área máxima de 50 píxeles (ver Figura \ref{abelblobs}). Por otro lado, en este caso no es recomendable aplicar un filtro de área mínima ya que los marcadores segmentados resultaron ser muy pequeños, por lo que de establecer esta cota inferior probablemente se eliminarán algunos. Lo mismo pasa con la aplicación de difuminado (o \textit{smoothing}): si bien este proceso es muy efectivo para eliminar ruido en los bordes, resulta ser contraproducente cuando los marcadores son muy pequeños, ya que también los elimina.
 
-Cómo se puede ver en la Figura \ref{abelcirculos} los resultados para esta captura no fueron muy buenos ya que, como los marcadores detectados presentan un área de unos pocos píxeles, el filtro circular no fue capaz de reconocerlos como círculos.  
+Como se puede ver en la Figura \ref{abelcirculos} los resultados para esta captura no fueron muy buenos ya que, como los marcadores detectados presentan un área de unos pocos píxeles, el filtro circular no fue capaz de reconocerlos como círculos.  
 
 \begin{figure}[ht!]
          \hspace{-1cm}
@@ -638,7 +642,7 @@ Por otro lado, para el caso real pero sin fondo (Figura \ref{ejemploabelsf}), se
       \label{ejemploabel}
 \end{figure}
 
-Si se observa la Figura \ref{abelfiltrosf} se puede apreciar que los marcadores están segmentados con una superficie mayor a la de la Figura \ref{abelfiltro}.  Esto da como indicio que para esta captura (con estas condiciones de iluminación, ambiente, paciente, etc.) el filtro circular con valores en sus constantes de $A=0.3$ y $B=0.1$ está siendo muy selectivo.
+Como se comentaba anteriormente, en la Figura \ref{abelfiltrosf} se puede apreciar que los marcadores están segmentados con una superficie mayor a la de la Figura \ref{abelfiltro}.  Esto da como indicio que para esta captura (con estas condiciones de iluminación, ambiente, paciente, etc.) el filtro circular con valores en sus constantes de $A=0.3$ y $B=0.1$ está siendo muy selectivo.
 
 Aumentando estos valores a por ejemplo $A=0.5$ y $B=0.4$, se puede observar que la detección mejora, incluyendo más marcadores -\textit{verdaderos positivos}- en la salida (ver Figura \ref{ejemploabel2}).
 
