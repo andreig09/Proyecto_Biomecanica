@@ -54,10 +54,68 @@ A continuación se resumen los pasos a seguir para generar una secuencia en el l
  Una vez abierto \textit{Matlab} con el workspace en \texttt{/Proyecto\_Biomecanica/SISTEMA}, se debe ejecutar el script \texttt{main.m}. El mismo se encarga de cargar los \texttt{paths} necesarios, abrir \texttt{matlabpool}\footnote{Por defecto Matlab utiliza 2 núcleos del procesador, si se desea configurar un número mayor de núcleos se debe acceder a \texttt{/Parallel/Manage\_Configurations} } para utilizar múltiples procesadores y mostrar la interfaz de usuario.
  
  
- La interfaz se divide en tres zonas principales
+ La interfaz se divide en 6 zonas principales:
+ \begin{enumerate}
+ \item Basic configuration
+ \item Segmentation
+ \item Reconstruction
+ \item Tracking
+ \item Blocks
+ \item Process Data, View Data
+ \end{enumerate}
  
+ \begin{figure}[ht!]
+ \hspace{-1cm}
+ \includegraphics[scale=0.23]{img/Manual_de_usuario/main.png}
+ \caption{Resultado de \texttt{main.m} en \textit{Matlab}.}
+ \label{fig:main.m}
+ \end{figure}
  
- \section{Bugs encontrados}
+ \subsection{Basic configuration}
+ Los parámetros a ingresar son:
+ \begin{itemize}
+  \item \texttt{Work Directory} es el directorio donde se almacena la información de los datos procesados. En el caso de trabajar con la base de datos por ejemplo para la secuencia sintética del sujeto 09\_07 con videos de resolución 1600x600 y los cuadros por segundo del bvh original, la carpeta a seleccionar es:\\ \texttt{Base\_de\_datos/Sujeto\_CMU\_09/09\_07/Datos\_Procesados/1600\_600-100-100}.
+  \item \texttt{Total Markers} indica al sistema el número de marcadores utilizados. Dicho número se utiliza sobre todo en las etapas de reconstrucción y seguimiento. En la versión actual del sistema es recomendable, si la secuencia tiene $n$ marcadores, ingresar un valor de al menos $n+2$, para evitar perdida de  marcadores en reconstrucción.   
+ \end{itemize}
+ 
+ \subsection{Segmentation}
+ \begin{itemize}
+   \item \texttt{Videos Directory} es el directorio donde se deben encontrar los videos a procesar. En el caso de trabajar con la base de datos por ejemplo para la secuencia sintética del sujeto 09\_07 con videos de resolución 1600x600 y los cuadros por segundo del bvh original, la carpeta a seleccionar es:\\ \texttt{Base\_de\_datos/Sujeto\_CMU\_09/09\_07/Datos\_Imagen/1600\_600-100-100}.
+   \item \texttt{Videos extension}, casilla que permite ingresar la extensión de los videos a procesar, por defecto se utiliza la extensión .dvd que es un tipo de archivo mpeg. 
+   \item \texttt{Save final structures}. Se debe seleccionar esta casilla si se desea obtener archivos .mat y .xml de las estructuras  cam y skeleton, dentro de la carpeta  de trabajo ingresada (\texttt{Work Directory/<Resolución>/Segmentacion}).
+   \item \texttt{Save segmented video}. Esta casilla permite guardar  los videos que resultan de la salida de los bloques de umbralización y detección de blobs del último video segmentado. De esta manera si puede visualizar las distintas etapas de la segmentación y ajustar manualmente los parámetros de entrada en caso de ser necesario. Los videos de salida se almacenan en la carpeta de los videos a segmentar (\texttt{Videos Directory}).
+   \item \texttt{Static threshold} es un parámetro opcional. El mismo establece un umbral fijo para la umbralización, debe ser un valor entre 0 y 255.
+   \item \texttt{Max area} es un parámetro opcional que modifica el área máxima del filtrado por área. Debe ser un valor positivo.
+   \item \texttt{Min area} es un parámetro opcional que modifica el área mínima del filtrado por área. Debe ser un valor positivo.
+  \end{itemize}
+ \subsection{Reconstruction}
+ \begin{itemize}
+    \item \texttt{Init Frame}, se ingresa el cuadro a partir del cual se efectúa la reconstrucción. 
+    \item \texttt{End Frame}, se ingresa el cuadro final hasta el cual se efectúa la reconstrucción. 
+    \item \texttt{Cameras}. Por defecto se reconstruye con todas las cámaras disponibles en la estructura cam sobre la cual se está trabajando, si se desea hacer reconstrucciones con cierto conjunto de cámaras se debe seleccionar la segunda casilla e ingresar el conjunto de cámaras.
+    \item \texttt{Save final structures}. Se debe seleccionar esta casilla si se desea obtener archivos .mat y .xml de las estructuras  cam y skeleton, dentro de la carpeta  de trabajo ingresada (\texttt{Work Directory/<Resolución>/Reconstruccion}).
+    \item \texttt{Static threshold} es un parámetro opcional. El mismo establece un umbral máximo dentro del cual buscar validaciones de una posible  reconstrucción, el valor se debe ingresar en metros.
+   \end{itemize}
+ 
+  \subsection{Reconstruction}
+  \begin{itemize}
+     \item \texttt{Init Frame}, se ingresa el cuadro a partir del cual se efectúa el seguimiento. 
+     \item \texttt{End Frame}, se ingresa el cuadro final hasta el cual se efectúa seguimiento.      
+     \item \texttt{Save final structures}. Se debe seleccionar esta casilla si se desea obtener archivos .mat y .xml de las estructuras  cam y skeleton, dentro de la carpeta  de trabajo ingresada (\texttt{Work Directory/<Resolución>/Tracking}).
+     \item \texttt{Global threshold} es un parámetro opcional. El mismo establece un umbral BLABLABLA
+     \item \texttt{Local threshold} es un parámetro opcional. El mismo establece un umbral BLABLABLA
+   \end{itemize}
+   
+    \begin{figure}[ht!]
+    \hspace{-1cm}
+    \includegraphics[scale=0.23]{img/Manual_de_usuario/resultados_procesamiento.png}
+    \caption{Resultados del procesamiento en la consola de \textit{Matlab}.}
+    \label{fig:main.m}
+    \end{figure}
+   
+ 
+ \section{Bugs}
+
  
  En Ubuntu 14.04 de 32 bits, cuando se ejecuta la segmentación desde la interfaz gráfica la primera vez que se abre \textit{Matlab}, en algunas oportunidades no se carga correctamente el ejecutable \texttt{Source\_GLNX86}. Los pasos a seguir para solucionar este inconveniente son:
  \begin{itemize}
