@@ -4,5 +4,5 @@ dir_actual = pwd;
 %MatlabPath = path;
 %save('MatlabPath.mat', 'MatlabPath');
 addpath([pwd, '/Graficas'], [pwd, '/GUI'], [pwd, '/Manejo_Estructura'],...
-    [pwd, '/Reconstruccion'], [pwd, '/Segmentacion'], [pwd, '/Tracking'], [pwd, '/Utiles'], [pwd, '/ProgramaC']   );
+    [pwd, '/Reconstruccion'], [pwd, '/Segmentacion'], [pwd, '/Tracking'], [pwd, '/Utiles'], [pwd, '/ProgramaC'], [pwd, '/Testeo']   );
 end

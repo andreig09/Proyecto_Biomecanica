@@ -1,5 +1,5 @@
 function [rmse,rmse_i,q_x,q_y,matcheo_inicial,rmse_i_t]=rmse_segmentacion_ground(Xi,Yi)
-
+%Implementa metricas para comparar performance
 %Xi, datos a comparar, Yi ground truth
 
 rmse = [];
