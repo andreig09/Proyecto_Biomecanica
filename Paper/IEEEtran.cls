@@ -22,6 +22,7 @@
 %\RequirePackage[stable]{footmisc} %permite poner footnote en los títulos de las secciones
 \RequirePackage[usenames]{color}
 \RequirePackage{bbm}
+\RequirePackage{import}
 %%
 %% IEEEtran.cls 2011/11/03 version V1.8 based on
 %% IEEEtran.cls 2007/03/05 version V1.7a
