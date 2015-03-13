@@ -89,7 +89,7 @@ De la misma forma, se requiere que la aproximación utilizada para la derivada d
 \begin{enumerate}
 \item valga cero en áreas de intensidad constante
 \item no valga cero al inicio y al final de un escalón o rampa de intensidad
-\item no valga cero en los puntos pertenecientes a una rampa de intensidad
+\item valga cero en los puntos pertenecientes a una rampa de intensidad
 \end{enumerate}
 
 Considerando las propiedades de estas derivadas, se puede concluir que la de primer orden es la más adecuada para detectar bordes más ``gruesos'' y la segunda para detectar los más finos. Así mismo, para detectar puntos aislados la más adecuada es la derivada segunda, lo que no es de sorprender ya que la misma es más sensible que la primera frente a cambios bruscos de intensidad. A raíz de esto, también se concluye que la derivada segunda es la más adecuada para detectar detalles finos (incluido el ruido). También es de destacar que mediante el signo de la derivada segunda se puede detectar si la transición en un borde (ya sea rampa o escalón) es de luz a oscuridad o viceversa.
@@ -141,13 +141,13 @@ Existen variedades de máscaras aplicables, entre ellas la de Sobel (ver Figura 
 \label{gonz5}
 \end{figure}
 
-En la Figura \ref{gonz2} se observaba una imagen de 6x6 píxeles y su representación matricial. Al aplicar la máscara de Sobel a la matriz de esta imagen, se detecta la transición entre los cuatro niveles de gris mientras que se igualan los niveles constantes. En la Figura \ref{gonz6} se pueden observar estos resultados.
+En la Figura \ref{gonz2} se observaba una imagen de 6x6 píxeles y su representación matricial. Al aplicar la máscara de Sobel a la matriz de esta imagen, se detecta la transición entre los cuatro niveles de gris mientras que se igualan los niveles constantes. Si se aplica este procesamiento y luego se realiza una saturación de la intensidad de los pixeles se obtiene la matriz de la Figura \ref{gonz6}.
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.8]{img/09_escala_grises_deteccion_borde.jpg}
 \end{center}
-\caption{Resultado de aplicar máscaras de Sobel sobre imagen original 6x6.}
+\caption{Resultado de aplicar máscaras de Sobel sobre imagen original 6x6 y luego realizar una saturación de la intensidad de los pixeles.}
 \label{gonz6}
 \end{figure}
 
@@ -226,9 +226,9 @@ En la Figura \ref{histabel} se observa el histograma de intensidad de píxeles d
 
 El bloque de segmentación de este sistema fue implementado en el lenguaje C++, debido a que es uno de los lenguajes de programación que cuenta con mayor cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron las librerías \emph{OpenCV} \cite{opencv} y CVBlob \cite{cvblob} ya que funcionan para las plataformas principales de PC y dispositivos móviles, y están diseñadas para tener una gran eficiencia computacional en las implementaciones. Además, estas librerías son bastante populares dentro de las librerías de código abierto con similares características, lo cual implica que poseen una comunidad activa de usuarios muy grande.
 
-La idea inicial fue realizar la totalidad del sistema en C++, sin embargo, por razones prácticas se decidió implementar los bloques de reconstrucción, calibración y tracking en \emph{Matlab}.
+La idea inicial fue realizar la totalidad del sistema en C++, sin embargo, por razones prácticas\footnote{La mayoría de los integrantes del equipo cuenta con mayor experiencia en \emph{Matlab} que en C++.} se decidió implementar los bloques de reconstrucción, calibración y tracking en \emph{Matlab}.
 
-Por otro lado, C++ es un lenguaje de una complejidad superior a otros disponibles, por lo que implementar el algoritmo con el mismo implicó mayor esfuerzo (por ejemplo, en el manejo de la memoria) que de haber utilizado un lenguaje que trabaje a más alto nivel.
+Por otro lado, C++ es un lenguaje de una complejidad superior a otros disponibles, por lo que implementar el algoritmo con el mismo implicó mayor esfuerzo (por ejemplo, en el manejo de memoria\footnote{C++ no cuenta con soluciones que realicen asígnación y limpieza de memoria automáticamente, como por ejemplo el \textit{Garbage Collector} en Java, por lo que debe realizarse de forma manual.}) que de haber utilizado un lenguaje que trabaje a más alto nivel.
 
 Finalmente, la justificación de la realización del algoritmo para el bloque de segmentación puede entenderse desde dos puntos de vista: 
 \begin{itemize}
@@ -237,7 +237,7 @@ Finalmente, la justificación de la realización del algoritmo para el bloque de
 \end{itemize}
 
 
-\section{Fundamento teórico}
+\section{Detalles técnicos de la implementación}
 \label{fundamentoteoseg}
 
 A continuación, se presentan algunos conceptos básicos necesarios para entender la implementación de un algoritmo con segmentación por umbral. Además se explican los conceptos de momentos y excentricidad, herramientas que fueron aplicadas para el diseño del filtro circular.
@@ -432,7 +432,7 @@ La excentricidad es un parámetro asociado con cada sección cónica. Es una bue
 \label{diagramaSegmentacion}
 \end{figure}
 
-En la Figura \ref{diagramaSegmentacion} se presenta un diagrama dónde se observa el flujo del algoritmo de segmentación realizado. Los nombres que aparecen entre paréntesis dentro de algunos bloques son los nombres de las funciones dentro del código que implementan cada bloque. 
+En la Figura \ref{diagramaSegmentacion} se presenta un diagrama dónde se observa el flujo del algoritmo de segmentación realizado. Los nombres que aparecen entre paréntesis dentro de algunos bloques son los nombres de las funciones dentro del código que implementan cada bloque\footnote{Como las funciones están en inglés, a diferencia de los diagramas mostrados anteriormente, estos están en inglés.}. 
 
 El algoritmo realiza la segmentación siguiendo el siguiente proceso:
 
@@ -453,7 +453,7 @@ Por otro lado, el bloque \emph{Get Threshold} contiene una implementación del a
 
  Como se vio en la Sección \ref{umbralSec}, este método devuelve 2 umbrales de los cuales se tomará el mayor de ellos, dado que las hipótesis del problema establecen que la adquisición de video debe realizarse sobre fondo oscuro y con el paciente utilizando ropa oscura, de forma tal que los marcadores (que son de color blanco) sean los elementos más claros en la imagen.
 
-En la Figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el funcionamiento del bloque \emph{Filter}. Este bloque es el encargado de filtrar la imagen según la intensidad de los píxeles y está implementado por la función \emph{FilterOtsu}, que recibe como parámetros de entrada una imagen (uno de los cuadros de la secuencia) y el umbral a utilizar para el filtrado. Primero se le aplica a la imagen un difuminado (\textit{smoothing}) con un filtro de mediana, con el objetivo de reducir el ruido. Luego se cambia el espacio de colores de la imagen de RGB a HSV ya que este último es más adecuado para realizar segmentación basada en la intensidad de píxeles \cite{HSV}. Por último, se filtra la imagen con el umbral ingresado, utilizando la función \emph{cvThreshold} de la librería \emph{OpenCV}. Esta función compara la intensidad de cada píxel de la imagen con el valor del umbral estableciendo un nuevo valor de intensidad: $0$\footnote{negro en el espacio HSV.} para los píxeles que originalmente tenían intensidad menor al umbral y $255$\footnote{blanco en el espacio HSV.} para los que originalmente presentaban intensidad mayor.
+En la Figura \ref{diagramaumbralizacion}, se observa un diagrama que describe el funcionamiento del bloque \emph{Filter}. Este bloque es el encargado de filtrar la imagen según la intensidad de los píxeles y está implementado por la función \emph{FilterOtsu}, que recibe como parámetros de entrada una imagen (uno de los cuadros de la secuencia) y el umbral a utilizar para el filtrado. Primero se le aplica a la imagen un difuminado (\textit{smoothing}) con un filtro de mediana, con el objetivo de reducir el ruido. Luego se cambia el espacio de colores de la imagen de RGB a HSV ya que este último es más adecuado para realizar segmentación basada en la intensidad de píxeles \cite{HSV}. Por último, se filtra la imagen (sobre el canal V) con el umbral ingresado utilizando la función \emph{cvThreshold} de la librería \emph{OpenCV}. Esta función compara la intensidad de cada píxel de la imagen con el valor del umbral estableciendo un nuevo valor de intensidad: $0$\footnote{negro en el espacio HSV.} para los píxeles que originalmente tenían intensidad menor al umbral y $255$\footnote{blanco en el espacio HSV.} para los que originalmente presentaban intensidad mayor.
 
 \begin{figure}[ht!]
 \begin{center}
@@ -535,7 +535,7 @@ En la Figura \ref{salidaxml}, se presenta un ejemplo del archivo de salida del b
  Resta comentar que, además de los videos a procesar, el algoritmo tiene como entradas opcionales un conjunto de argumentos que establecen distintos parámetros para el procesamiento. Estos argumentos se presentan a continuación:
 
  \begin{itemize}
-\item \textbf{T <valor>}, establece un umbral fijo para la umbralización. Debe ser un valor entre 0 y 255.
+\item \textbf{t <valor>}, establece un umbral fijo para la umbralización. Debe ser un valor entre 0 y 255.
 \item \textbf{A <valor>}, área máxima para el filtro por área. Debe ser un valor positivo.
 \item \textbf{a <valor>}, área mínima para el filtro por área. Debe ser un valor positivo.
 \item \textbf{s}, guarda los videos que resultan de la salida de los bloques de umbralización y detección de blobs.
@@ -586,7 +586,7 @@ Sin embargo, al probar con capturas reales los resultados cambian. En la Figura 
       \label{ejemploabelumbr2}
 \end{figure}
 
-Se puede observar que los objetos resultantes de la segmentación no solamente corresponden a los marcadores, sino que también se presentan otro tipo de objetos de igual o mayor intensidad luminosa. De todos modos, en principio esto no sería un problema, ya que con los filtros que se aplican a continuación de este bloque se podría eliminar el resto de los objetos. Sin embargo ocurre otro problema, que se explicará más adelante.
+Se puede observar que los objetos resultantes de la segmentación no solamente corresponden a los marcadores, sino que también se presentan otro tipo de objetos de igual o mayor intensidad luminosa. De todos modos, en principio esto no sería un problema, ya que con los filtros que se aplican a continuación de este bloque se podría eliminar el resto de los objetos.
 
 Otra alternativa para eliminar los objetos detectados que no son marcadores, directamente en esta etapa, es eliminar el fondo mediante un extractor de fondo. En la Figura \ref{abelvideosf} se muestra el cuadro de la Figura \ref{abelvideo} luego de extraerle el fondo con un programa de la base de datos \emph{Humaneva} \cite{humanevaBase} implementado en \emph{Matlab}. En la Figura \ref{abelfiltrosf} se observan los resultados de aplicarle umbralización a dicha imagen.
 
@@ -691,7 +691,7 @@ En la Tabla \ref{tablaerrorseg} se puede observar una medida de error para una s
 \centering
 \begin{tabular}{@{}cccc@{}}
 \toprule
-\multicolumn{1}{l}{Id de cámara} & \begin{tabular}[c]{@{}c@{}}Porcentaje\\  de detección\end{tabular} & \begin{tabular}[c]{@{}c@{}}Error promedio\\ (píxeles)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Percentil 99\\ (píxeles)\end{tabular} \\ \midrule
+\multicolumn{1}{l}{Id de cámara} & \begin{tabular}[c]{@{}c@{}}Porcentaje\\  de detección\end{tabular} & \begin{tabular}[c]{@{}c@{}}Error promedio\\ (en píxeles)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Percentil 99\\ (en píxeles)\end{tabular} \\ \midrule
 1                           & 73.31\%                                                            & 0.9121                                                             & 2.2751                                                           \\
 2                           & 86.22\%                                                            & 0.9477                                                             & 3.6592                                                           \\
 3                           & 67.36\%                                                            & 1.0278                                                             & 3.4376                                                           \\
@@ -716,7 +716,7 @@ En la Tabla \ref{tablaerrorseg} se puede observar una medida de error para una s
 
 El error promedio, cuyo cálculo se detalla en la Sección \ref{subsec:medida_error}, se calcula como un promedio de la distancia entre el centroide de cada marcador \textbf{detectado} y la posición ground truth del mismo marcador en todos los cuadros. Por otro lado, el porcentaje de detección es calculado únicamente sobre los marcadores visibles, para todos los cuadros.
 
-En la Figura \ref{histerr} se observa un histograma que contempla datos de todas las cámaras a lo largo de la secuencia completa, donde se muestra la cantidad de marcadores por rango de error en píxeles. Observando la figura se puede ver que la curva tiene una media en el rango de 1 píxel de error.  
+En la Figura \ref{histerr} se observa un histograma que contempla datos de todas las cámaras a lo largo de la secuencia completa, donde se muestra la cantidad de marcadores por rango de error en píxeles. Observando la figura se puede ver que la curva tiene una media en el rango de 1 píxel de error. 
 
 \begin{figure}[H]
 \begin{center}
@@ -727,10 +727,10 @@ En la Figura \ref{histerr} se observa un histograma que contempla datos de todas
 \label{histerr}
 \end{figure}
 
-Este cálculo es realizado para una secuencia de 110 cuadros, con 17 cámaras y 13 marcadores en el cuerpo del paciente. Sin embargo, el total de marcadores en el histograma no son $17*13*113 = 24973$ debido a que en cada cámara no se visualizan todos los marcadores. Para ver el total de los marcadores analizados hay que tener en cuenta el porcentaje de detección de cada cámara, esto da un total de $15671$ marcadores.
+Este cálculo es realizado para una secuencia de 110 cuadros, con 17 cámaras y 13 marcadores en el cuerpo del paciente. Sin embargo, el total de marcadores en el histograma no son $17*13*110 = 24310$ debido a que en cada cámara no se visualizan todos los marcadores. Para ver el total de los marcadores analizados hay que tener en cuenta el porcentaje de detección de cada cámara, esto da un total de $15671$ marcadores.
 
 Finalmente, a modo de conclusión, se puede decir que el bloque de segmentación y detección de marcadores funciona correctamente para secuencias sintéticas como las de la base de datos, teniendo errores promedio de 1 píxel y errores máximos de 4 píxeles. Estos errores se mantienen en el rango de los errores de los otros bloques que componen el sistema, por lo que podría decirse que, si bien se utilizaron métodos de segmentación sencillos y no tan robustos como otros métodos, los resultados se mantienen acordes a la performance general de esta primer versión del sistema.
 
-Por otro lado, en las pruebas con secuencias reales no se dieron resultados tan buenos, sin embargo ajustando los parámetros de forma adecuada se puede ver que se logran detectar un número razonable de marcadores por cámara. Además, no hay que pasar por alto que no fue fácil conseguir capturas reales para probar este bloque, y las que se obtuvieron no se adaptan del todo a las hipótesis del problema, por lo que fue difícil realizar un verdadero testeo de este bloque.
+Por otro lado, en las pruebas con secuencias reales no se dieron resultados tan buenos, sin embargo ajustando los parámetros de forma adecuada (esto es, elegir correctamente los valores de área máxima, área mínima y umbral) se puede ver que se logran detectar un número razonable de marcadores por cámara. Además, no hay que pasar por alto que no fue fácil conseguir capturas reales para probar este bloque, y las que se obtuvieron no se adaptan del todo a las hipótesis del problema, por lo que fue difícil realizar un verdadero testeo de este bloque.
 
  Queda pendiente como posible mejora a futuro robustecer este bloque, por ejemplo teniendo en cuenta el color de las capturas y no solo los niveles de gris, de forma tal de poder detectar marcadores en otros contextos no tan amigables como las condiciones del laboratorio establecidas para esta primera etapa de desarrollo.
