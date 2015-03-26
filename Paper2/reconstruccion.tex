@@ -1,0 +1,106 @@
+\section{Reconstrucción}
+
+A la salida del bloque de detección de marcadores se tiene, para cada cámara y para cada cuadro de una secuencia adquirida, un conjunto de coordenadas en dos dimensiones $(x,y)$ que ubican la posición en la imagen de aquellos marcadores que fueron detectados.
+El proceso de reconstrucción consiste en obtener las coordenadas en tres dimensiones de la posición de los marcadores en el espacio,  a partir de la posición de los marcadores en al menos dos retinas.
+%En la Figura \ref{fig: esquema_reconstruccion} se muestra un bosquejo de la reconstrucción de un marcador usando para esto la detección de marcadores en dos cámaras.
+%
+%\begin{figure}
+%\begin{center}
+%\includegraphics[scale=0.15]{./imagenes/Reconstruccion/reconstruccion}
+%\caption{Reconstrucción con dos cámaras.}
+%\label{fig: esquema_reconstruccion}
+%\end{center}
+%\end{figure}
+%
+
+El proceso de reconstrucción que se presenta fue inspirado en el trabajo de Herda \cite{herda} y consiste en tres pasos fundamentales:
+\begin{enumerate}
+\item Encontrar la correspondencia entre puntos en retinas diferentes.
+\item Seleccionar la mejor correspondencia.
+\item Reconstruir y verificar en el resto de las retinas.
+\end{enumerate}
+
+\subsection{Algoritmo}
+El algoritmo implementado recibe como entrada los puntos 2D de los marcadores detectados y devuelve como salida los puntos 3D reconstruidos. El primer paso consiste en establecer una asociación entre ciertos puntos 2D de distintas cámaras. Luego, se pasa a un conjunto de bloques que se ejecutan de manera iterativa hasta que no queden marcadores para reconstruir. En dicho bloque se busca la mejor asociación entre puntos bajo determinado criterio, luego se reconstruye un punto 3D y se realiza un proceso de validación de dicha reconstrucción. En la iteración siguiente se actualizan las asociaciones que habían sido establecidas previamente. Cuando no hay más marcadores para reconstruir se detiene el proceso iterativo y se devuelven aquellos marcadores que fueron reconstruidos en cada iteración. En la Figura \ref{fig: diagrama algoritmo} se presenta un diagrama del algoritmo.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{./imagenes/Reconstruccion/bloques_reconstruccion}
+\caption{Diagrama de bloques del algoritmo de reconstrucción.}
+\label{fig: diagrama algoritmo}
+\end{center}
+\end{figure}
+
+\subsubsection{Asociar puntos 2D}\label{seccion_asociar2D_uno}
+
+Este bloque recibe como entrada las coordenadas de los puntos detectados en cada una de las cámaras, parámetros de las mismas tales como sus matrices de proyección y devuelve para cada punto una lista ordenada por relevancia, de las asociaciones existentes con puntos en otras cámaras.
+Basándose en lo explicado anteriormente para un par de cámaras el proceso  se puede ejemplificar  en la Figura \ref{fig: cam2cam } y los pasos a seguir son los siguientes:
+
+\begin{figure}[ht!]
+\begin{center}
+%\includegraphics[scale=0.4]{/imagenes/Reconstruccion/geometria_epipolar}
+\caption{Asociación de puntos 2D en dos cámaras.}
+\label{fig: cam2cam }
+\end{center}
+\end{figure}
+
+\begin{itemize}
+
+\item Seleccionar dos cámaras y considerar un punto en una de ellas, por ejemplo el punto $x_{11}$ de la cámara 1.
+\item Proyectar la recta epipolar $l_{11}$ correspondiente al punto $x_{11}$ sobre la cámara 2.
+\item Tomar las distancias de los puntos detectados en la cámara 2 a la recta $l_{11}$.
+\item Generar una lista de posibles asociaciones ordenada por distancia.
+\end{itemize}
+Se asume que los puntos de la cámara 2 que tengan mayor posibilidad de corresponder con el punto $x_{11}$, son aquellos que al ser evaluados por la ecuación obtienen valores próximos a cero.
+Repitiendo el procedimiento de manera inversa, esto es, de la cámara 2 a la cámara 1, se obtiene igualmente para cada punto de la cámara 2  los puntos de la cámara 1 ordenados según su proximidad a la recta epipolar correspondiente. A continuación se toman otros pares de cámaras y se vuelve a repetir el proceso. 
+
+Es importante resaltar que para la elección de los pares de cámaras se han considerado dos casos.
+El primero de ellos evalúa cada cámara respecto a todas las restantes y el segundo considera la disposición de las cámaras en el espacio y empareja las cámaras adyacentes de manera consecutiva.
+
+\subsection{Mejor asociación}\label{MejorAsociacion}
+
+A partir de la lista con asociaciones entre puntos de dos vistas generada anteriormente, es necesario elegir aquella que posea mayor probabilidad de conformar la pareja de imágenes correspondiente a la proyección de un marcador 3D sobre dichas vistas.
+
+
+Recordando que todas las asociaciones de puntos entre pares de cámaras se encuentran ordenadas por distancia, se toma aquella asociación que posea la menor distancia y contenga puntos válidos, descartando las restantes. Un punto se considera válido si en iteraciones anteriores no se a podido asociar a ningún punto 3D reconstruido (ver Sección \ref{implementacion}).
+De esta forma cada punto de una cámara es asociado, si existen puntos válidos, con un punto en otra de las cámaras.
+
+Para evaluar de todas las relaciones entre cámaras, cuál de los pares de puntos asociados disponibles es el par que posee mayor posibilidad de corresponder a las proyecciones de un punto 3D, se proyectan los rayos de proyección de todos los pares de puntos disponibles y se toma el par que genere rayos de proyección con la menor distancia entre sí.
+
+\subsection{Reconstrucción 3D y validación}\label{seccion_reconstruccion3D_validacion}
+
+
+Luego de encontrar la mejor asociación de puntos se procede a reconstruir y validar la misma. Si se encuentra al menos un punto en otra cámara que valide la reconstrucción se asume que ésta es correcta, se retira a la pareja que genera la reconstrucción así como también a los puntos que lograron validarla y se itera nuevamente repitiendo el proceso con la siguiente mejor pareja asociada entre dos cámaras.  
+
+\begin{figure}[ht!]
+\begin{center}
+%\includegraphics[scale=0.4]{/imagenes/Reconstruccion/validacion}
+\caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3.}
+\label{img_reconstruccion_validacion}
+\end{center}
+\end{figure}
+
+
+La información que contiene un punto en una retina se mapea en el espacio 3D sobre el rayo de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Supongamos que se tienen los rayos de proyección en el espacio 3D de todos los puntos contenidos en las retinas y que $x_1$ es un punto en la cámara 1 de centro $O_1$ y $x_2$ es un punto en la cámara 2 de centro $O_2$ se encuentran asociados y reconstruyen al punto $X_{12}$. El algoritmo implementado asume que un punto en una cámara, valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Como se muestra en la Figura \ref{img_reconstruccion_validacion}, el punto $x_3$ de la cámara 3 valida la reconstrucción, no así el punto $\tilde{x}_3$. 
+
+
+Idealmente $X_{12}$ se genera al interceptar los rayos de proyección de los puntos $x_1$ y $x_2$, pero debido a incertidumbres en la detección de marcadores o la calibración, comúnmente los rayos se van a cruzar. La reconstrucción, se estima como el punto del espacio de menor distancia a ambos rayos, por lo que
+$X_{12}$ se encuentra en el punto medio del segmento perpendicular a ambos rayos.
+
+
+\subsection{Actualizar asociaciones}\label{actualizar_asociaciones}
+
+Del bloque anterior se tiene, un punto $X$ reconstruido y sus correspondientes proyecciones en cada una de las cámaras. Dichas proyecciones no deben ser consideradas nuevamente, por tanto estos puntos 2D que reconstruyen $X$, no se consideran como puntos válidos en las siguientes iteraciones.
+
+
+Finalmente el proceso iterativo se detiene cuando no hay más marcadores para reconstruir, lo cual implica que se cumple alguna de las siguientes condiciones:
+\begin{itemize}
+\item el número de marcadores reconstruidos es igual al número de marcadores que tiene colocada la persona, o igual al número máximo de marcadores  reconstruidos que se haya indicado.
+
+\item No existen puntos 2D válidos tal que pueda establecerse una asociación entre puntos de distintas vistas.
+\end{itemize}
+
+
+
+
+
