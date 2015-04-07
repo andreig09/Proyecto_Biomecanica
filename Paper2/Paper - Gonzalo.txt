@@ -1,0 +1,14 @@
+Seguimiento
+
+Los puntos obtenidos para todos los cuadros luego de la reconstruccion deben ser identificados en trayectorias temporales a lo largo de la secuencia.
+El seguimiento de trayectoria se realiza sobre una ventana deslizante de tres a cuatro cuadros donde se enlazan los puntos reconstruidos de manera de mantener un movimiento lo mas suave posible.
+Sea una trayectoria de un marcador enlazada hasta el instante [f] la cual desea buscarse su proximo punto en [f+1], el movimiento entre [f-1] y [f] es prolongado en direccion y modulo para establecer un centro de busqueda y se utiliza el modulo del ultimo movimiento conocido como radio de busqueda
+
+- si solo se encuentra un punto reconstruido dentro de la busqueda se agrega a la trayectoria para el frame [f+1], mientras mas cercanos se encuentre a la estimacion mejor se aproxima a una trayectoira de tres puntos con aceleracion minima
+- si se encuentra mas de un punto dentro del radio de busqueda, cada posible candidato es utilizado para realizar una segunda estimacion hacia [f+2] de forma que la aceleracion entre [f-1], [f] y el candidato en [f+1] sea la misma que entre [f], el candidato en [f+1] y la estimacion en [f+2] (el radio de busqueda en [f+2] corresponde a la distancia entre el candidato en [f+1] y la estimacion en [f+2]). Luego de todos los posible caminos en cuatro cuadros, se elige el de menor variacion de aceleracion.
+- si no se encuentra ningun punto, se procede a aumentar acotadamente el radio de busqueda en [f+1] de forma excepcional. Esto se hace para continuar trayectorias que entran en estado de reposo y el ultimo movimiento conocido es nulo o muy pequeño.
+
+
+  
+Performance
+
