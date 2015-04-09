@@ -1,14 +1,24 @@
 Seguimiento
 
 Los puntos obtenidos para todos los cuadros luego de la reconstruccion deben ser identificados en trayectorias temporales a lo largo de la secuencia.
-El seguimiento de trayectoria se realiza sobre una ventana deslizante de tres a cuatro cuadros donde se enlazan los puntos reconstruidos de manera de mantener un movimiento lo mas suave posible.
+El seguimiento de trayectoria se realiza sobre una ventana deslizante de tres a cuatro cuadros donde se enlazan los puntos reconstruidos de manera de mantener un movimiento lo mas suave posible debido a la hipotesis que el muestreo permite observar una evolucion lenta con desplazamiento minimo entre cuadros.
 Sea una trayectoria de un marcador enlazada hasta el instante [f] la cual desea buscarse su proximo punto en [f+1], el movimiento entre [f-1] y [f] es prolongado en direccion y modulo para establecer un centro de busqueda y se utiliza el modulo del ultimo movimiento conocido como radio de busqueda
 
 - si solo se encuentra un punto reconstruido dentro de la busqueda se agrega a la trayectoria para el frame [f+1], mientras mas cercanos se encuentre a la estimacion mejor se aproxima a una trayectoira de tres puntos con aceleracion minima
+(ecuacion primera estimacion+calculo aceleracion?)
 - si se encuentra mas de un punto dentro del radio de busqueda, cada posible candidato es utilizado para realizar una segunda estimacion hacia [f+2] de forma que la aceleracion entre [f-1], [f] y el candidato en [f+1] sea la misma que entre [f], el candidato en [f+1] y la estimacion en [f+2] (el radio de busqueda en [f+2] corresponde a la distancia entre el candidato en [f+1] y la estimacion en [f+2]). Luego de todos los posible caminos en cuatro cuadros, se elige el de menor variacion de aceleracion.
+(ecuacion segunda estimacion+calculo variacion aceleracion)
 - si no se encuentra ningun punto, se procede a aumentar acotadamente el radio de busqueda en [f+1] de forma excepcional. Esto se hace para continuar trayectorias que entran en estado de reposo y el ultimo movimiento conocido es nulo o muy pequeño.
 
+Una vez establecidos posibles enlaces entre las trayectorias encontradas hasta [f] con los marcadores reconstruidos en [f+1], debe validarse cada enlace encontrado de forma que cada punto en [f+1] pertenece a una unica trayectoria y en caso que fuese candidato en multiples trayectorias se utiliza el criterio de menor aceleracion para elegir entre trayectoria, donde la trayectoria descartada se enlaza con la siguiente mejor opcion obtenida en la busqueda.
 
-  
+Posteriores validaciones son realizadas sobre el conjunto de trayectorias obtenidas al procesar todos los cuadros de forma opcional: 
+
+- validacion global donde la aceleracion de todos los enlaces obtenidos en todos los cuadros es estudiada mediante distribucion estadistica, descartando  el porcentaje superior que corresponden a posibles aceleraciones excesivas puntuales que no cumplen la hipotesis de trayectorias suaves con cambios lentos. Este estudio arroja un umbral global que se utilizara para volver a buscar los enlaces para toda la secuencia donde un enlace que supere este umbral sera descartado.
+
+- validacion individual, es un caso especifico del filtrado de aceleracion donde no se busca un umbral global, sino que cada trayectoria obtenida es estudiada para buscar un umbral individual estudiando la distribucion de aceleraciones. Si un enlace o una seccion de la secuencia supera este umbral, se intenta estimar el o los marcadores que permitan suavizar la aceleracion de la trayectoria mediante minimos cuadrados.
+
+Esta ultima forma de estimar marcadores intermedios no solo se utiliza en el caso de la validacion de cada trayectoria individual, sino tambien para estimar marcadores en caso de perdidas durante la busqueda de enlaces. Cuando se realiza la busqueda de enlaces sobre los puntos reconstruidos pueden aparecer puntos reconstruidos los cuales no pudieron ser asociados a ninguna trayectoria, mientras que tambien pueden existir trayectorias truncas debido a no poder encontrar posibles enlaces. Cuando esto sucede se agrega la trayectoria a una lista de trayectorias truncadas al buscar enlaces entre [f] y [f+1], y se prolonga el movimiento de las trayectorias que se encontraban truncas hasta el momento [f-1] o antes    
+
 Performance
 
