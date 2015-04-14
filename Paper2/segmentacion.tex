@@ -1,1 +1,87 @@
 \section{Detección de marcadores}
+Una vez realizada la captura de video del paciente, el primer paso en el procesamiento de las secuencias de video en un sistema de captura de movimiento es reconocer los marcadores en el cuerpo del sujeto, para luego tener la posición de cada uno de ellos en el espacio y a lo largo del tiempo.
+
+Como se pudo ver anteriormente, para este sistema las condiciones de captura de las secuencias son muy favorables lo que permite utilizar métodos simples de segmentación basados en el estudio de los píxeles de la imagen.
+
+El bloque de detección de marcadores, se puede dividir en dos partes bien definidas: la \textbf{segmentación} y el \textbf{filtrado de objetos} hasta obtener los marcadores. En la Figura \ref{ejemplotodointro} se muestra el resultado del procesamiento de cada parte.
+
+\begin{figure}[ht!]
+        \centering
+        \subfloat[Captura original]{\includegraphics[scale=0.3]{imagenes/peladoFondoAzul.png} %\label{peladoOriginalintro}
+        } \hspace{1cm}        
+        \subfloat[Segmentación]{\includegraphics[scale=0.3]{imagenes/peladoFondoAzul_filtro.png}\label{peladoFiltrointro}}
+
+        \subfloat[Detección]{\includegraphics[scale=0.3]{imagenes/peladoFondoAzul_circulos.png} %\label{peladocirculosintro}
+        }
+  \caption{Ejemplo de funcionamiento del bloque.}
+      \label{ejemplotodointro}
+\end{figure}
+
+El algoritmo realiza la detección siguiendo el siguiente proceso:
+
+\begin{enumerate}
+  \item Se recibe como entrada un video y este es separado en cada uno de sus cuadros.
+  \item Se toma un cuadro, y se calcula el umbral de Otsu. Si al comenzar la segmentación es ingresado un umbral fijo, este paso se saltea.
+  \item Con el umbral calculado (o ingresado), se filtra el cuadro.
+  \item A partir de la imagen filtrada, se identifican los marcadores.
+  \item Se escribe la posición de los marcadores detectados para este cuadro en un archivo con formato XML.
+  \item Se toma el siguiente cuadro y se repite el proceso a partir del paso 2.
+\end{enumerate}
+
+El bloque de detección de este sistema fue implementado en el lenguaje C++, debido a que es uno de los lenguajes de programación que cuenta con mayor cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron las librerías \emph{OpenCV} \cite{opencv} y CVBlob \cite{cvblob} ya que funcionan para las plataformas principales de PC y dispositivos móviles, y están diseñadas para tener una gran eficiencia computacional en las implementaciones. Además, estas librerías son de gran popularidad dentro de las librerías de código abierto con similares características, lo cual implica que poseen una comunidad activa de usuarios muy grande.
+
+Además de los videos a procesar, el algoritmo tiene como entradas opcionales un conjunto de argumentos que establecen distintos parámetros para el procesamiento. Estos argumentos se presentan a continuación:
+
+ \begin{itemize}
+\item \textbf{t <valor>}, establece un umbral fijo para la umbralización. Debe ser un valor entre 0 y 255.
+\item \textbf{A <valor>}, área máxima para el filtro por área. Debe ser un valor positivo.
+\item \textbf{a <valor>}, área mínima para el filtro por área. Debe ser un valor positivo.
+\item \textbf{s}, guarda los videos que resultan de la salida de los bloques de umbralización y detección de blobs.
+ \end{itemize}
+
+\subsection{Descripción de las etapas de detección}
+\subsubsection{Segmentación}
+En lo que respecta al bloque de segmentación, existen muchos métodos para implementar el mismo. Se comenzaron probando los más simples y se fue aumentando el nivel de complejidad hasta encontrar un método que se ajuste a los requerimientos del sistema. Se eligió utilizar la umbralización, generando umbrales con el método de Otsu\cite{otsu} de tres clases.
+
+Con el método de Otsu \cite{otsu} se pretende, a partir del histograma de la imagen, separar los píxeles de dicha imagen en tres niveles encontrando dos umbrales que los separen. Trabajar con tres clases permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
+
+\begin{figure}[ht!]
+        \hspace{-0.6cm}
+        \subfloat[Original]{\includegraphics[scale=0.3]{imagenes/abel.png}\label{abelreal} 
+         } \hspace{0.1cm}        
+       \subfloat[Histograma]{\includegraphics[scale=0.37]{imagenes/hist_abel.png}\label{histabel}}
+  \caption{Captura original de un paciente real y su histograma de intensidad de pixeles.}
+      \label{abelhistposta}
+\end{figure}
+
+En la Figura \ref{histabel} se observa el histograma de intensidad de píxeles de la imagen \ref{abelreal}, que corresponde a una captura de un paciente real. Dicho histograma muestra tres picos bien definidos, por lo que utilizar el método de Otsu de tres clases parece una buena opción para determinar los umbrales de segmentación. Manteniendo esta relación de intensidades entre fondo, ropa del paciente y marcadores, este método funcionaría adecuadamente.
+
+La justificación de la realización de este algoritmo para el bloque de segmentación puede entenderse desde dos puntos de vista: 
+\begin{itemize}
+ \item Por un lado, se elaboró un algoritmo de una complejidad relativamente baja como se estableció en los requerimientos, pero que cubre todas las características necesarias para esta clase de sistema. En la sección \ref{resultadosyanalisissegmentacion} se verá que los resultados obtenidos son buenos y el error cometido está dentro de los márgenes que aseguran el buen funcionamiento del sistema.
+ \item Por otro lado, a pesar de que el estado del arte de segmentación presenta una gran cantidad de algoritmos, el estado del arte ``industrial'' está bastante más atrasado del estado del arte referente a investigaciones, debido al tiempo que implica realizar una nueva implementación o la dificultad para conseguir una que funcione significativamente mejor a las existentes. Por esto, implementar una primera versión del sistema con el algoritmo de segmentación elegido no está muy lejos de lo utilizado actualmente en la ``industria''. Es importante aclarar que este bloque (como el resto de los bloques) está implementado de forma tal que en un futuro se pueda optimizar tanto como se quiera, sin afectar el resto de los bloques del sistema. Esto da la posibilidad de  modificar el sistema no solo para mejorar la segmentación sino también para robustecerla, permitiendo por ejemplo, realizar capturas fuera de las condiciones del laboratorio, como usualmente es necesario en el ámbito deportivo.
+\end{itemize}
+
+\subsubsection{Filtrado}
+ La etapa de filtrado de objetos no es más que una clasificación de los objetos segmentados. Dado que los objetos a detectar tienen formas relativamente sencillas (círculos blancos sobre fondo oscuro) y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requerirá implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos\cite{imageMoments} y un filtro según el área de los mismos.
+
+ Los momentos geométricos son propiedades numéricas que se pueden obtener en una determinada imagen, los cuales proporcionan una alternativa interesante para la representación de la forma de un objeto. Tienen en cuenta todos los píxeles de la imagen, no sólo los bordes.
+
+ \subsection{Resultados}
+ Para el bloque de umbralización se observó que el resultado obtenido, como era de esperarse, depende fuertemente de las condiciones de captura y obviamente del umbral calculado. En el caso sintético, como el mostrado en la Figura \ref{ejemplotodointro}, donde se imponen las condiciones de captura de manera deseable, los resultados fueron muy buenos. Esto es razonable ya que como se vio anteriormente, el método de Otsu calcula el umbral óptimo, por lo que mientras en la imagen se presenten los marcadores cómo los objetos más brillantes y se aprecie un alto contraste entre los mismos y el resto de los elementos (fondo, paciente, etc.), la segmentación será muy efectiva. Para el caso real, se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados de la segmentación no son del todo satisfactorios (ver Figura \ref{ejemploabelumbr2}). Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son mucho mejores (ver Figura \ref{ejemploabelumbr3}).
+
+ \begin{figure}[ht!]
+       \hspace{-1cm}
+        \subfloat[Captura original de una secuencia real.]{\includegraphics[scale=0.31]{imagenes/abel_original_video.png}\label{abelvideo}}\hspace{1 mm}
+        \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.31]{imagenes/abel_original_filtro.png}\label{abelfiltro}}
+      \caption{Entrada y salida del bloque umbralización para un caso real fuera de las hipótesis de captura.}  
+      \label{ejemploabelumbr2}
+\end{figure}
+
+\begin{figure}[ht!]
+       \hspace{-1cm}
+        \subfloat[Captura original de una secuencia real.]{\includegraphics[scale=0.31]{imagenes/abel_original_video.png}\label{abelvideo}}\hspace{1 mm}
+        \subfloat[Imagen filtrada con el umbral de Otsu.]{\includegraphics[scale=0.31]{imagenes/abel_original_filtro.png}\label{abelfiltro}}
+      \caption{Entrada y salida del bloque umbralización para un caso real bajo las hipótesis de captura.}  
+      \label{ejemploabelumbr3}
+\end{figure}
