@@ -65,4 +65,15 @@ Para todas estas secuencias generadas se obtuvieron los siguientes resultados en
 
 (Tabla 9.2 de la Documentacion, modificar cifras significativas y nombres de secuencias)
 
-En el caso de tener una cantidad considerable de camaras para capturar el movimiento, el error 
+El error de deteccion de los marcadores en cada una de las camaras no supera un par de pixeles para el caso de camaras con resolución en imagen de 1600x600. Es posible reducir la resolucion de las camaras hasta 800x300 manteniendo los mismos resultados, pero en resoluciones menores comienaza a degradarse la tasa de deteccion de marcadores en camaras individuales lo cual perjudica la siguiente etapa de reconstruccion. Fueron realizadas pruebas inyectando ruido en el bloque de deteccion y su impacto en etapas posteriores encontrando que se puede trabajar con un poco mas de ruido (no mas de tres pixeles de error) sin comprometer significativamente el error final.
+
+El conjunto de puntos reconstruidos y las trayectorias enlazadas son esencialmente el mismo siendo la unica diferencia la identificacion de trayectorias y posibles correcciones puntuales, por lo que los resultados globales son similares pero la salida del bloque de seguimiento permite estudiar observar el comportamiento individual de marcadores.
+
+Si las camaras se encuentran en las condiciones de error anteriores, una cobertura total con 17 camaras rodeando el movimiento a capturar permite reconstruir todas las trayectorias con un error por debajo del centimetro con errores maximos cercanos a tres centimetros. Los resultados se mantienen dentro de estos limites tanto para el comportamiento global de los puntos reconstruidos como para trayectorias individuales si se reduce a ocho camaras colocando pares de camaras en cada esquina del espacio de captura. Reducir aun mas el conjunto de camaras degradar la performance es posible con ciertas condiciones: un conjunto de seis camaras colocadas en dos costados de a tres, y cada costado tiene dos camaras proximas con una tercera mas alejada. De esta manera se tiene las condiciones minimas por las cuales se establecio la reconstruccion, tener dos camaras para reconstruir y una tercera para confirmar
+
+(Figuras de las presentacion, disposicion de las camaras)
+
+Este caso limite de reconstruccion muestra comportamiento global similares a los anteriores, pero muestra degradaciones puntuales para ciertas trayectorias de marcadores que superan los limites aceptables.
+
+(Tablas y Figuras de caso de 6 camaras)
+
