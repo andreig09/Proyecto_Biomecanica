@@ -1,0 +1,181 @@
+\select@language {spanish}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Posici\IeC {\'o}n de los marcadores a lo largo del tiempo.\relax }}{4}{figure.caption.4}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Funcionamiento de un sistema de captura de movimiento.\relax }}{5}{figure.caption.5}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Diagrama de bloques del sistema a implementar.\relax }}{5}{figure.caption.6}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Salidas de los bloques principales del sistema.\relax }}{7}{figure.caption.7}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Captura original}}}{7}{subfigure.4.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Detecci\IeC {\'o}n de marcadores}}}{7}{subfigure.4.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Recontrucci\IeC {\'o}n 3D}}}{7}{subfigure.4.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Seguimiento}}}{7}{subfigure.4.4}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Estimaci\IeC {\'o}n del la resoluci\IeC {\'o}n espacial.\relax }}{21}{figure.caption.9}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Toma superior del Laboratorio. Todas las c\IeC {\'a}maras se encuentran a $1\tmspace +\thickmuskip {.2777em}m$ del suelo.\relax }}{23}{figure.caption.11}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Posibles espacios de captura.\relax }}{24}{figure.caption.12}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Espacio de captura para marcha rectil\IeC {\'\i }nea.}}}{24}{subfigure.3.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Espacio de captura para marcha libre.}}}{24}{subfigure.3.2}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Informaci\IeC {\'o}n contenida en archivos BVH.\relax }}{27}{figure.caption.15}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Esqueleto}}}{27}{subfigure.4.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Estructura jer\IeC {\'a}rquica}}}{27}{subfigure.4.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Secci\IeC {\'o}n de jerarqu\IeC {\'\i }a}}}{27}{subfigure.4.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Secci\IeC {\'o}n de movimiento}}}{27}{subfigure.4.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Entorno de trabajo en \textit {Blender}.\relax }}{29}{figure.caption.16}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Generaci\IeC {\'o}n de marcadores sobre el modelo virtual.\relax }}{30}{figure.caption.20}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Creaci\IeC {\'o}n de marcadores}}}{30}{subfigure.6.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Ajuste de modelo}}}{30}{subfigure.6.2}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Creaci\IeC {\'o}n de secuencias en \textit {Blender}.\relax }}{31}{figure.caption.22}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Importaci\IeC {\'o}n de secuencia BVH y generaci\IeC {\'o}n de marcadores}}}{31}{subfigure.7.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Modelo enlazado al esqueleto}}}{31}{subfigure.7.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Imagen renderizada}}}{31}{subfigure.7.3}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Estructura de directorios para almacenar informaci\IeC {\'o}n de capturas.\relax }}{33}{figure.caption.26}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Estructura de directorios para almacenar informaci\IeC {\'o}n de calibraci\IeC {\'o}n.\relax }}{34}{figure.caption.27}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Estructura de datos para esqueletos.\relax }}{35}{figure.caption.28}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Estructura de datos para c\IeC {\'a}maras.\relax }}{36}{figure.caption.29}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagrama de bloques del sistema completo.\relax }}{39}{figure.caption.30}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Diagrama de bloques detallado del sistema.\relax }}{41}{figure.caption.31}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Detalle del bloque de correcci\IeC {\'o}n.\relax }}{42}{figure.caption.32}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Ejemplo de funcionamiento del bloque.\relax }}{46}{figure.caption.33}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Captura original}}}{46}{subfigure.1.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Segmentaci\IeC {\'o}n}}}{46}{subfigure.1.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Detecci\IeC {\'o}n}}}{46}{subfigure.1.3}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Resultado de aplicar extracci\IeC {\'o}n de fondo y segmentaci\IeC {\'o}n a una captura de video.\relax }}{47}{figure.caption.34}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Captura de video.}}}{47}{subfigure.2.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Segmentaci\IeC {\'o}n.}}}{47}{subfigure.2.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Imagen en escala de grises y su representaci\IeC {\'o}n matricial.\relax }}{49}{figure.caption.35}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces M\IeC {\'a}scaras de 1 dimensi\IeC {\'o}n.\relax }}{49}{figure.caption.36}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces M\IeC {\'a}scara de Sobel.\relax }}{50}{figure.caption.37}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Resultado de aplicar m\IeC {\'a}scaras de Sobel sobre imagen original 6x6 y luego realizar una saturaci\IeC {\'o}n de la intensidad de los pixeles.\relax }}{50}{figure.caption.38}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Resultado de aplicar un umbral de valor 200.\relax }}{51}{figure.caption.39}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Captura original de un paciente real y su histograma de intensidad de pixeles.\relax }}{53}{figure.caption.40}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Original}}}{53}{subfigure.8.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Histograma}}}{53}{subfigure.8.2}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Histograma de intensidad de una imagen.\relax }}{55}{figure.caption.41}
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Histograma de intensidad de tres clases \cite {segment}.\relax }}{56}{figure.caption.42}
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Diagrama de flujo del algoritmo de segmentaci\IeC {\'o}n.\relax }}{61}{figure.caption.45}
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Diagrama de flujo del bloque de umbralizaci\IeC {\'o}n.\relax }}{63}{figure.caption.46}
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Entrada y salida del bloque de umbralizaci\IeC {\'o}n.\relax }}{63}{figure.caption.47}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Captura original de una secuencia sint\IeC {\'e}tica.}}}{63}{subfigure.13.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Imagen filtrada con el umbral de Otsu.}}}{63}{subfigure.13.2}
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Diagrama de flujo del bloque de detecci\IeC {\'o}n de blobs.\relax }}{64}{figure.caption.48}
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Entrada y salida del bloque \emph {filtro circular} para las constantes $A = 0.1$ y $B = 0.3$.\relax }}{65}{figure.caption.49}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Entrada - Filtro circular.}}}{65}{subfigure.15.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Salida - Filtro Circular.}}}{65}{subfigure.15.2}
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Resultado de procesar la imagen \ref {peladoFiltro} con los bloques de detecci\IeC {\'o}n de blobs y el filtro circular.\relax }}{65}{figure.caption.50}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Objetos detectados - Salida del bloque \emph {Detect blobs}.}}}{65}{subfigure.16.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {C\IeC {\'\i }rculos detectados - Salida del bloque \emph {Circular Filter}.}}}{65}{subfigure.16.2}
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Salida del bloque \emph {Segmentaci\IeC {\'o}n}.\relax }}{66}{figure.caption.51}
+\contentsline {figure}{\numberline {5.18}{\ignorespaces Entrada y salida del bloque de umbralizaci\IeC {\'o}n para una secuencia sint\IeC {\'e}tica.\relax }}{68}{figure.caption.52}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Captura original de una secuencia sint\IeC {\'e}tica.}}}{68}{subfigure.18.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Imagen filtrada con el umbral de Otsu.}}}{68}{subfigure.18.2}
+\contentsline {figure}{\numberline {5.19}{\ignorespaces Entrada y salida del bloque umbralizaci\IeC {\'o}n para un caso real.\relax }}{68}{figure.caption.53}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Captura original de una secuencia real.}}}{68}{subfigure.19.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Imagen filtrada con el umbral de Otsu.}}}{68}{subfigure.19.2}
+\contentsline {figure}{\numberline {5.20}{\ignorespaces Segmentaci\IeC {\'o}n para un caso real sin fondo.\relax }}{69}{figure.caption.54}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Captura con el fondo extra\IeC {\'\i }do.}}}{69}{subfigure.20.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Video Filtrado.}}}{69}{subfigure.20.2}
+\contentsline {figure}{\numberline {5.21}{\ignorespaces Ejemplo de detecci\IeC {\'o}n de blobs y filtro circular con $A=0.3$, $B=0.1$ para una imagen de prueba.\relax }}{70}{figure.caption.55}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Imagen de prueba.}}}{70}{subfigure.21.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Blobs detectados.}}}{70}{subfigure.21.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Circulos detectados.}}}{70}{subfigure.21.3}
+\contentsline {figure}{\numberline {5.22}{\ignorespaces Detecci\IeC {\'o}n de marcadores para un caso real, con $A=0.3$, $B=0.1$ y \IeC {\'a}rea m\IeC {\'a}xima de $50$ p\IeC {\'\i }xeles\relax }}{71}{figure.caption.56}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Blobs detectados.}}}{71}{subfigure.22.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Circulos detectados.}}}{71}{subfigure.22.2}
+\contentsline {figure}{\numberline {5.23}{\ignorespaces Segmentaci\IeC {\'o}n y detecci\IeC {\'o}n de marcadores para un caso real sin fondo, con $A=0.3$, $B=0.1$ y \IeC {\'a}rea m\IeC {\'\i }nima de $10$ p\IeC {\'\i }xeles\relax }}{71}{figure.caption.57}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Blobs detectados.}}}{71}{subfigure.23.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {C\IeC {\'\i }rculos detectados.}}}{71}{subfigure.23.2}
+\contentsline {figure}{\numberline {5.24}{\ignorespaces Segmentaci\IeC {\'o}n y detecci\IeC {\'o}n de marcadores para el caso de la Figura \ref {abelvideosf} , con $A=0.5$, $B=0.4$, \IeC {\'a}rea m\IeC {\'\i }nima de $10$ p\IeC {\'\i }xeles y \IeC {\'a}rea m\IeC {\'a}xima de $50$ p\IeC {\'\i }xeles\relax }}{72}{figure.caption.58}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Blobs detectados.}}}{72}{subfigure.24.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Circulos detectados.}}}{72}{subfigure.24.2}
+\contentsline {figure}{\numberline {5.25}{\ignorespaces Resultado de procesar la imagen \ref {peladoFiltrores} con los bloques de detecci\IeC {\'o}n de blobs y el filtro circular.\relax }}{73}{figure.caption.59}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Blobs detectados.}}}{73}{subfigure.25.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {C\IeC {\'\i }rculos detectados.}}}{73}{subfigure.25.2}
+\contentsline {figure}{\numberline {5.26}{\ignorespaces Segmentaci\IeC {\'o}n de c\IeC {\'a}mara 7 y ground truth.\relax }}{73}{figure.caption.60}
+\contentsline {figure}{\numberline {5.27}{\ignorespaces Histograma de cantidad de marcadores por rango de error en p\IeC {\'\i }xeles\relax }}{74}{figure.caption.62}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces C\IeC {\'a}mara estenopeica. Imagen extra\IeC {\'\i }da de \cite {faugeras_libro}.\relax }}{78}{figure.caption.63}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Modelo \textit {pinhole} de una c\IeC {\'a}mara, con el que se representa la proyecci\IeC {\'o}n de un punto en el espacio $M$ sobre la c\IeC {\'a}mara. Imagen extra\IeC {\'\i }da de \cite {zhang_libro}.\relax }}{78}{figure.caption.63}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Calibraci\IeC {\'o}n Vicon\relax }}{81}{figure.caption.64}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Laboratorio del Hospital de Cl\IeC {\'\i }nicas.\relax }}{82}{figure.caption.65}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Captura de secuencia real\relax }}{83}{figure.caption.66}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Persona con marcadores}}}{83}{subfigure.5.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Objeto de calibraci\IeC {\'o}n}}}{83}{subfigure.5.2}
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Uno de los marcadores de calibrador seleccionado en cada una de las c\IeC {\'a}maras\relax }}{84}{figure.caption.67}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vista c\IeC {\'a}mara 1}}}{84}{subfigure.6.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vista c\IeC {\'a}mara 2}}}{84}{subfigure.6.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Vista c\IeC {\'a}mara 3}}}{84}{subfigure.6.3}
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Coordenadas de los marcadores del \textit {fantoma}\relax }}{84}{figure.caption.68}
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Objeto de calibraci\IeC {\'o}n utilizado en el \textit {amcctoolbox}\relax }}{86}{figure.caption.69}
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Simulaci\IeC {\'o}n del damero en \emph {Blender} y calibraci\IeC {\'o}n est\IeC {\'e}reo de un par de c\IeC {\'a}maras adyacentes\relax }}{87}{figure.caption.70}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Damero en el entorno \emph {Blender}}}}{87}{subfigure.9.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Calibraci\IeC {\'o}n est\IeC {\'e}reo}}}{87}{subfigure.9.2}
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Capturas del damero en distintas posiciones y orientaciones realizadas por una de las c\IeC {\'a}maras. \relax }}{87}{figure.caption.71}
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Reconstrucci\IeC {\'o}n de la posici\IeC {\'o}n de las c\IeC {\'a}maras mediante el toolbox\relax }}{88}{figure.caption.72}
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Distintas posiciones de un punto 3D a lo largo del volumen de trabajo\relax }}{90}{figure.caption.73}
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Configuraci\IeC {\'o}n de las c\IeC {\'a}maras en el espacio 3D de \emph {Blender} y la misma configuraci\IeC {\'o}n hallada mediante la calibraci\IeC {\'o}n\relax }}{90}{figure.caption.74}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {\emph {Blender}}}}{90}{subfigure.13.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Calibraci\IeC {\'o}n}}}{90}{subfigure.13.2}
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Promedio y desviaci\IeC {\'o}n est\IeC {\'a}ndar del error de re-proyecci\IeC {\'o}n en todas las c\IeC {\'a}maras \relax }}{91}{figure.caption.75}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Reconstrucci\IeC {\'o}n con dos c\IeC {\'a}maras.\relax }}{95}{figure.caption.76}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Geometr\IeC {\'\i }a epipolar.\relax }}{96}{figure.caption.77}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Chequeo de visibilidad y oclusi\IeC {\'o}n \cite {herda}.\relax }}{99}{figure.caption.78}
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Diagrama del algoritmo implementado.\relax }}{100}{figure.caption.79}
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Asociaci\IeC {\'o}n de puntos 2D en dos c\IeC {\'a}maras.\relax }}{101}{figure.caption.80}
+\contentsline {figure}{\numberline {7.6}{\ignorespaces M\IeC {\'e}todos utilizados para generar pares de c\IeC {\'a}maras.\relax }}{102}{figure.caption.81}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Cada c\IeC {\'a}mara con las restantes. Ejemplo de emparejamiento de la c\IeC {\'a}mara 1.}}}{102}{subfigure.6.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Cada c\IeC {\'a}mara con su adyacente}}}{102}{subfigure.6.2}
+\contentsline {figure}{\numberline {7.7}{\ignorespaces Reconstrucci\IeC {\'o}n entre c\IeC {\'a}maras 1, 2 y validaci\IeC {\'o}n con c\IeC {\'a}mara 3. El punto $x_3$ de la c\IeC {\'a}mara 3 valida la reconstrucci\IeC {\'o}n, no as\IeC {\'\i } el punto $\mathaccentV {tilde}07E{x}_3$.\relax }}{103}{figure.caption.82}
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Ejemplo del proceso de reconstrucci\IeC {\'o}n. Los marcadores totalmente negros son los que se pudieron reconstruir utilizando informaci\IeC {\'o}n de las c\IeC {\'a}maras 2, 3 y 5.\relax }}{104}{figure.caption.83}
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Nueva asociaci\IeC {\'o}n de puntos entre pares de c\IeC {\'a}maras.\relax }}{107}{figure.caption.85}
+\contentsline {figure}{\numberline {7.10}{\ignorespaces Reconstrucci\IeC {\'o}n de una secuencia sint\IeC {\'e}tica. Los asteriscos rojos indican los marcadores detectados.\relax }}{108}{figure.caption.86}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vista derecha.}}}{108}{subfigure.10.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vista izquierda.}}}{108}{subfigure.10.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Vista de atras.}}}{108}{subfigure.10.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Resultado de la reconstrucci\IeC {\'o}n.}}}{108}{subfigure.10.4}
+\contentsline {figure}{\numberline {7.11}{\ignorespaces Reconstrucci\IeC {\'o}n de una secuencia real. Los asteriscos rojos indican los marcadores detectados.\relax }}{109}{figure.caption.87}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vista derecha.}}}{109}{subfigure.11.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vista de atr\IeC {\'a}s.}}}{109}{subfigure.11.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Vista izquierda.}}}{109}{subfigure.11.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Resultado de la reconstrucci\IeC {\'o}n.}}}{109}{subfigure.11.4}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Salida de Reconstrucci\IeC {\'o}n para 4 cuadros. La etiqueta para cada marcador es el cuadro y el \IeC {\'\i }ndice en la reconstrucci\IeC {\'o}n.\relax }}{113}{figure.caption.88}
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Inicializaci\IeC {\'o}n de esqueleto, y ajuste a los marcadores encontrados. Cada marcador representa una articulaci\IeC {\'o}n y se ajusta en una esfera de cercan\IeC {\'\i }a centrada en la articulaci\IeC {\'o}n del esqueleto. Tomado de Herda~\cite {herda}.\relax }}{114}{figure.caption.89}
+\contentsline {figure}{\numberline {8.3}{\ignorespaces Dos marcadores movi\IeC {\'e}ndose en cuatro cuadros, Izquierda corresponde al resultado de aplicar enlazado por elemento m\IeC {\'a}s pr\IeC {\'o}ximo~\cite {survey_tracking}, Derecha al elegir el camino con variaci\IeC {\'o}n m\IeC {\'a}s suave.\relax }}{115}{figure.caption.90}
+\contentsline {figure}{\numberline {8.4}{\ignorespaces Seguimiento en cuatro cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. La l\IeC {\'\i }nea punteada es la traslaci\IeC {\'o}n del movimiento previo, las l\IeC {\'\i }neas azules son las obtenidas buscando la m\IeC {\'\i }nima variaci\IeC {\'o}n de aceleraci\IeC {\'o}n para el punto elegido en [f+1]. De las dos posibles trayectorias, se elige aquella con menor variaci\IeC {\'o}n de aceleraci\IeC {\'o}n, como es visto en Herda~\cite {herda}.\relax }}{116}{figure.caption.91}
+\contentsline {figure}{\numberline {8.5}{\ignorespaces Resultado de aplicar el seguimiento de marcadores a una vista 2D sin re-proyecci\IeC {\'o}n de puntos reconstruidos. Verde, las trayectorias que se enlazaron completamente, Azul los puntos segmentados en la vista 2D de la c\IeC {\'a}mara 07 de la captura sint\IeC {\'e}tica.\relax }}{117}{figure.caption.92}
+\contentsline {figure}{\numberline {8.6}{\ignorespaces Diagrama de Seguimiento de Marcadores.\relax }}{118}{figure.caption.93}
+\contentsline {figure}{\numberline {8.7}{\ignorespaces Diagrama Seguimiento e Inventario de Marcadores.\relax }}{120}{figure.caption.94}
+\contentsline {figure}{\numberline {8.8}{\ignorespaces Ejemplo de discontinuidad en un marcador, por punto mal reconstruido. La Figura~\ref {track_m13} presenta en azul la trayectoria reconstruida, en rojo el ground truth.\relax }}{121}{figure.caption.95}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Trayectoria.}}}{121}{subfigure.8.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Velocidad, Aceleraci\IeC {\'o}n, Variaci\IeC {\'o}n Aceleraci\IeC {\'o}n.}}}{121}{subfigure.8.2}
+\contentsline {figure}{\numberline {8.9}{\ignorespaces Ejemplo Resultado de Umbral y Correcci\IeC {\'o}n En Trayectoria.\relax }}{122}{figure.caption.96}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Funci\IeC {\'o}n de distribuci\IeC {\'o}n de la Aceleraci\IeC {\'o}n.}}}{122}{subfigure.9.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Trayectoria Corregida.}}}{122}{subfigure.9.2}
+\contentsline {figure}{\numberline {8.10}{\ignorespaces Trayectoria perdida en cuadro 104, con posible candidato de recuperaci\IeC {\'o}n en cuadro 106 por cercan\IeC {\'\i }a con la estimaci\IeC {\'o}n por desplazamiento.\relax }}{123}{figure.caption.97}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Salida de C\IeC {\'o}digo durante perdida y recuperaci\IeC {\'o}n de trayectoria.}}}{123}{subfigure.10.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Trayectoria.}}}{123}{subfigure.10.2}
+\contentsline {figure}{\numberline {8.11}{\ignorespaces Tracking sobre captura sint\IeC {\'e}tica, 113 cuadros, 17 c\IeC {\'a}maras, 14 marcadores.\relax }}{126}{figure.caption.98}
+\contentsline {figure}{\numberline {8.12}{\ignorespaces Correcci\IeC {\'o}n por variaci\IeC {\'o}n de aceleraci\IeC {\'o}n, medidas de error antes y despu\IeC {\'e}s de corregir.\relax }}{127}{figure.caption.100}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Trayectoria sin Corregir Por Aceleraci\IeC {\'o}n.}}}{127}{subfigure.12.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Trayectoria Corregida Por Aceleraci\IeC {\'o}n.}}}{127}{subfigure.12.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Error de Marcador, sin Corregir.}}}{127}{subfigure.12.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Error de Marcador, Corregido.}}}{127}{subfigure.12.4}
+\contentsline {figure}{\numberline {8.13}{\ignorespaces Ejemplos de Posibles restricciones en \IeC {\'a}ngulo y distancia, para el caso de la pierna en marcha.\relax }}{128}{figure.caption.101}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Trayectorias de marcadores de pierna.}}}{128}{subfigure.13.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Distancia y Angulo entre marcadores de la pierna.}}}{128}{subfigure.13.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {9.1}{\ignorespaces Trayectorias obtenidas para Movimiento Libre.\relax }}{136}{figure.caption.111}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Trayectorias Movimiento Libre.}}}{136}{subfigure.1.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Trayectoria Marcador, y Esqueleto reconstruido.}}}{136}{subfigure.1.2}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {B.1}{\ignorespaces Vista de la interfaz gr\IeC {\'a}fica implementada.\relax }}{146}{figure.caption.114}
+\contentsline {figure}{\numberline {B.2}{\ignorespaces Estructura propuesta para la interfaz gr\IeC {\'a}fica. Los bloques amarillos son par\IeC {\'a}metros de entrada y los verdes procesos del sistema.\relax }}{147}{figure.caption.115}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {D.1}{\ignorespaces Resultado de \texttt {main.m} en \textit {Matlab}.\relax }}{153}{figure.caption.118}
+\contentsline {figure}{\numberline {D.2}{\ignorespaces Resultados del procesamiento en la consola de \textit {Matlab}.\relax }}{155}{figure.caption.119}

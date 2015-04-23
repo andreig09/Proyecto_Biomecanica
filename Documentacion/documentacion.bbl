@@ -1,0 +1,406 @@
+\begin{thebibliography}{10}
+
+\bibitem{mopix}
+Mopix.
+\newblock http://mopix.com.uy/.
+\newblock Accedido 20-12-2014.
+
+\bibitem{vicon}
+Vicon.
+\newblock http://www.vicon.com.
+\newblock Accedido 30-11-2014.
+
+\bibitem{qualisys}
+Qualisys.
+\newblock http://www.qualisys.com/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{optitrack}
+Optitrack.
+\newblock http://www.naturalpoint.com/optitrack/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{massive}
+Massive.
+\newblock http://www.massivesoftware.com/.
+\newblock Accedido 27-12-2014.
+
+\bibitem{motion_analysis}
+Motion analysis.
+\newblock http://www.motionanalysis.com/index.html.
+\newblock Accedido 30-11-2014.
+
+\bibitem{phasespace}
+Phasespace systems.
+\newblock http://www.phasespace.com/index.html.
+\newblock Accedido 30-11-2014.
+
+\bibitem{kinovea}
+Kinovea.
+\newblock http://www.kinovea.org/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{figueroa2003flexible}
+Pascual~J Figueroa, Neucimar~J Leite, and Ricardo~ML Barros.
+\newblock A flexible software for tracking of markers used in human motion
+  analysis.
+\newblock {\em Computer methods and programs in biomedicine}, 72(2):155--165,
+  2003.
+
+\bibitem{kurihara2002optical}
+Kazutaka Kurihara, Shin'ichiro Hoshino, Katsu Yamane, and Yoshihiko Nakamura.
+\newblock Optical motion capture system with pan-tilt camera tracking and
+  realtime data processing.
+\newblock In {\em ICRA}, pages 1241--1248, 2002.
+
+\bibitem{pardo2005simple}
+Alvaro Pardo.
+\newblock Simple and robust hard cut detection using interframe differences.
+\newblock In {\em Progress in Pattern Recognition, Image Analysis and
+  Applications}, pages 409--419. Springer, 2005.
+
+\bibitem{surveyThreshold}
+Mehmet Sezgin et~al.
+\newblock Survey over image thresholding techniques and quantitative
+  performance evaluation.
+\newblock {\em Journal of Electronic imaging}, 13(1):146--168, 2004.
+
+\bibitem{otsu}
+Nobuyuki Otsu.
+\newblock A threshold selection method from gray-level histograms.
+\newblock {\em Automatica}, 11(285-296):23--27, 1975.
+
+\bibitem{herda}
+Lorna Herda, Pascal Fua, Ralf Pl{\"a}nkers, Ronan Boulic, and Daniel Thalmann.
+\newblock Using skeleton-based tracking to increase the reliability of optical
+  motion capture.
+\newblock {\em Human movement science}, 20(3):313--341, 2001.
+
+\bibitem{ringer2000modelling}
+Maurice Ringer and Joan Lasenby.
+\newblock Modelling and tracking articulated motion from multiple camera views.
+\newblock In {\em BMVC}, volume 2000, pages 172--181, 2000.
+
+\bibitem{kirk2005skeletal}
+Adam~G Kirk, James~F O'Brien, and David~A Forsyth.
+\newblock Skeletal parameter estimation from optical motion capture data.
+\newblock In {\em Computer Vision and Pattern Recognition, 2005. CVPR 2005.
+  IEEE Computer Society Conference on}, volume~2, pages 782--788. IEEE, 2005.
+
+\bibitem{survey_tracking}
+C.~J. Veenman, M.J.T. Reinders, and E.~Backer.
+\newblock Resolving motion correspondence for densely moving points.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  23:54--72, 2001.
+
+\bibitem{faugueras}
+Olivier Faugeras and Luc Robert.
+\newblock What can two images tell us about a third one?
+\newblock {\em International Journal of Computer Vision}, 18(1):5--19, 1996.
+
+\bibitem{colombianos}
+Christian~Andr{\'e}s Diaz, Maria~Luisa Toro, Johana~Carolina Forero, and
+  Andr{\'e}s Torres.
+\newblock Detecci{\'o}n, rastreo y reconstrucci{\'o}n tridimensional de
+  marcadores pasivos para an{\'a}lisis de movimiento humano. cinemed
+  iii-detection, tracking and 3d reconstruction of passive markers for human
+  gait analysis.
+\newblock {\em Revista ingenier{\'\i}a Biom{\'e}dica}, 3(6):56--68, 2009.
+
+\bibitem{shafiq2001marker}
+M~Shahid Shafiq, S~Turgut T{\"u}mer, and H~Cenk G{\"u}ler.
+\newblock Marker detection and trajectory generation algorithms for a
+  multicamera based gait analysis system.
+\newblock {\em Mechatronics}, 11(4):409--437, 2001.
+
+\bibitem{martinez2009analisis}
+Fabio Mart{\'\i}nez, Francisco G{\'o}mez, and Eduardo Romero.
+\newblock An{\'a}lisis de v{\'\i}deo para estimaci{\'o}n del movimiento humano:
+  una revisi{\'o}n.
+\newblock {\em Revista Med}, 17(1):953--106, 2009.
+
+\bibitem{CVonline}
+Robert Fisher.
+\newblock Cvonline: The evolving, distributed, non-proprietary, on-line
+  compendium of computer vision.
+\newblock http://homepages.inf.ed.ac.uk/rbf/CVonline.
+\newblock Accedido 30-11-2014.
+
+\bibitem{CVPapers}
+Gilles Mazars.
+\newblock Cvpapers - computer vision resource.
+\newblock http://www.cvpapers.com/index.html.
+\newblock Accedido 30-11-2014.
+
+\bibitem{YACVID}
+Hayko Riemenschneider.
+\newblock Yet another computer vision index to datasets (yacvid).
+\newblock http://riemenschneider.hayko.at/vision/dataset/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{MCL}
+The Ohio~State University.
+\newblock Accad, motion capture lab.
+\newblock http://accad.osu.edu/research/mocap/mocap{\_}home.htm.
+\newblock Accedido 30-11-2014.
+
+\bibitem{CMU}
+Carnegie~Mellon University.
+\newblock Cmu graphics lab motion capture database.
+\newblock http://mocap.cs.cmu.edu/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{GT}
+Georgia Tech.
+\newblock Human identification at a distance.
+\newblock http://www.cc.gatech.edu/cpl/projects/hid/index.html.
+\newblock Accedido 30-11-2014.
+
+\bibitem{US}
+University of~Southampton ISIS~research group.
+\newblock Southampton human id at a distance database.
+\newblock http://www.gait.ecs.soton.ac.uk/database/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{Human_ID}
+University of~South~Florida.
+\newblock Baseline algorithm and performance for gait based human id challenge
+  problem.
+\newblock http://marathon.csee.usf.edu/GaitBaseline/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{HumanEvaWeb}
+Max Planck~Institute for Intelligent Systems Perceiving~Systems.
+\newblock Humaneva dataset.
+\newblock http://humaneva.is.tue.mpg.de/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{INRIA}
+National Institute for Research in Computer~Science INRIA and Control.
+\newblock 4d repository.
+\newblock http://4drepository.inrialpes.fr/pages/home.
+\newblock Accedido 30-11-2014.
+
+\bibitem{Mobo}
+Ralph Gross and Jianbo Shi.
+\newblock The cmu motion of body (mobo) database.
+\newblock Technical Report CMU-RI-TR-01-18, Robotics Institute, Pittsburgh, PA,
+  June 2001.
+\newblock Accedido 30-11-2014.
+
+\bibitem{CASIA}
+Center for Biometrics and Security Research.
+\newblock Casia gait database.
+\newblock http://www.cbsr.ia.ac.cn/english/Gait{\%}20Databases.asp.
+\newblock Accedido 30-11-2014.
+
+\bibitem{MHAD}
+Lab at~University of California~at Berkeley and Johns Hopkins~University
+  Center~for Imaging~Science.
+\newblock The berkeley multimodal human action database (mhad).
+\newblock http://tele-immersion.citris-uc.org/berkeley{\_}mhad\#dl.
+\newblock Accedido 30-11-2014.
+
+\bibitem{meredith2001motion}
+Maddock Meredith and S~Maddock.
+\newblock Motion capture file formats explained.
+\newblock {\em Department of Computer Science, University of Sheffield}, 211,
+  2001.
+
+\bibitem{cgspeed}
+cgspeed.
+\newblock http://www.cgspeed.com/.
+\newblock Accedido 6-12-2014.
+
+\bibitem{bvhacker}
+David Wooldridge.
+\newblock bvhacker: The free bvh file editing tool.
+\newblock http://davedub.co.uk/bvhacker/.
+\newblock Accedido 30-11-2014.
+
+\bibitem{Gonzalez}
+Rafael~C Gonzalez and Richard~E Woods.
+\newblock {\em Digital image processing}.
+\newblock Prentice hall Upper Saddle River, NJ:, 2002.
+
+\bibitem{smooth}
+Rafael~C Gonzalez and Richard~E Woods.
+\newblock {\em Digital image processing}, chapter 3.5, page 174.
+\newblock Prentice hall Upper Saddle River, NJ:, 2002.
+
+\bibitem{opencv}
+Opencv.
+\newblock http://opencv.org/.
+\newblock Accedido 29-11-2014.
+
+\bibitem{cvblob}
+Cvblob-blob library for opencv.
+\newblock https://code.google.com/p/cvblob/.
+\newblock Accedido 29-11-2014.
+
+\bibitem{segment}
+Rafael~C Gonzalez and Richard~E Woods.
+\newblock {\em Digital image processing}, chapter 10.3, page 760.
+\newblock Prentice hall Upper Saddle River, NJ:, 2002.
+
+\bibitem{tophat}
+Rafael~C Gonzalez and Richard~E Woods.
+\newblock {\em Digital image processing}, chapter 9.6.3, page 692.
+\newblock Prentice hall Upper Saddle River, NJ:, 2002.
+
+\bibitem{bayes}
+Rafael~C Gonzalez and Richard~E Woods.
+\newblock {\em Digital image processing}, chapter 12.2.2, page 894.
+\newblock Prentice hall Upper Saddle River, NJ:, 2002.
+
+\bibitem{betweenvarianze}
+B~Morse.
+\newblock Thresholding.
+\newblock
+  http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL{\_}COPIES/MORSE/threshold.pdf.
+\newblock Accedido 29-11-2014.
+
+\bibitem{imageMoments}
+Ming-Kuei Hu.
+\newblock Visual pattern recognition by moment invariants.
+\newblock {\em Information Theory, IRE Transactions on}, 8(2):179--187, 1962.
+
+\bibitem{implementacionOtsu}
+M~Tailanian and J~Cardelino.
+\newblock Kernel density estimator.
+\newblock https://github.com/martin-etchart/kde, 2013.
+\newblock Accedido 24-11-2014.
+
+\bibitem{HSV}
+Shamik Sural, Gang Qian, and Sakti Pramanik.
+\newblock Segmentation and histogram generation using the hsv color space for
+  image retrieval.
+\newblock In {\em Image Processing. 2002. Proceedings. 2002 International
+  Conference on}, volume~2, pages II--589. IEEE, 2002.
+
+\bibitem{defBlob}
+Wikipedia.
+\newblock Binary large object.
+\newblock http://en.wikipedia.org/wiki/Binary{\_}large{\_}objec.
+\newblock Accedido 29-11-2014.
+
+\bibitem{excentricidad}
+Ayoub~B Ayoub.
+\newblock The eccentricity of a conic section.
+\newblock {\em College Mathematics Journal}, 34(2):116--121, 2003.
+
+\bibitem{hough}
+Richard~O Duda and Peter~E Hart.
+\newblock Use of the hough transformation to detect lines and curves in
+  pictures.
+\newblock {\em Communications of the ACM}, 15(1):11--15, 1972.
+
+\bibitem{xml}
+Wikipedia.
+\newblock Extensible markup language.
+\newblock http://es.wikipedia.org/wiki/Extensible{\_}Markup{\_}Language.
+\newblock Accedido 29-11-2014.
+
+\bibitem{humanevaBase}
+M.~Black and L.~Sigal.
+\newblock Huma{E}va dataset.
+\newblock http://humaneva.is.tue.mpg.de/.
+\newblock Accedido 29-11-2014.
+
+\bibitem{faugeras_libro}
+Olivier Faugeras.
+\newblock {\em Three-dimensional computer vision: a geometric viewpoint}.
+\newblock MIT press, 1993.
+
+\bibitem{zhang_libro}
+Gerard Medioni and Sing~Bing Kang.
+\newblock {\em Emerging topics in computer vision}.
+\newblock Prentice Hall PTR, 2004.
+
+\bibitem{hartley}
+Richard Hartley and Andrew Zisserman.
+\newblock {\em Multiple view geometry in computer vision}.
+\newblock Cambridge university press, 2003.
+
+\bibitem{amcctoolbox}
+Michael Warren, David McKinnon, and Ben Upcroft.
+\newblock {Online Calibration of Stereo Rigs for Long-Term Autonomy}.
+\newblock In {\em International Conference on Robotics and Automation (ICRA)},
+  Karlsruhe, 2013.
+
+\bibitem{toolbox_led}
+Tom{\'a}{\v s} Svoboda, Daniel Martinec, and Tom{\'a}{\v s} Pajdla.
+\newblock A convenient multi-camera self-calibration for virtual environments.
+\newblock {\em PRESENCE: Teleoperators and Virtual Environments},
+  14(4):407--422, August 2005.
+
+\bibitem{zhang_articulo}
+Zhengyou Zhang.
+\newblock Flexible camera calibration by viewing a plane from unknown
+  orientations.
+\newblock In {\em Computer Vision, 1999. The Proceedings of the Seventh IEEE
+  International Conference on}, volume~1, pages 666--673. IEEE, 1999.
+
+\bibitem{cyganek}
+Boguslaw Cyganek and J~Paul Siebert.
+\newblock {\em An introduction to 3D computer vision techniques and
+  algorithms}.
+\newblock John Wiley \& Sons, 2011.
+
+\bibitem{kalman}
+Rudolph~Emil Kalman.
+\newblock A new approach to linear filtering and prediction problems.
+\newblock {\em Journal of Fluids Engineering}, 82(1):35--45, 1960.
+
+\bibitem{griegos}
+N~Malik, T.~Dracos, and D.~Papantoniou.
+\newblock Particle tracking in three-dimensional turbulent flows - part ii:
+  Particle tracking.
+\newblock {\em Experiments in Fluids}, 15:297--294, 1993.
+
+\bibitem{humaneva}
+Leonid Sigal, Alexandru~O Balan, and Michael~J Black.
+\newblock Humaneva: Synchronized video and motion capture dataset and baseline
+  algorithm for evaluation of articulated human motion.
+\newblock {\em International journal of computer vision}, 87(1-2):4--27, 2010.
+
+\bibitem{gross2001cmu}
+Ralph Gross and Jianbo Shi.
+\newblock The {CMU} motion of body (mobo) database.
+\newblock 2001.
+
+\bibitem{procImg}
+Dwayne Phillips.
+\newblock {\em Image processing in C: analyzing and enhancing digital images}.
+\newblock R \& D Publications, Inc., 1994.
+
+\bibitem{bodenheimer1997process}
+Bobby Bodenheimer, Chuck Rose, Seth Rosenthal, and John Pella.
+\newblock {\em The process of motion capture: Dealing with the data}.
+\newblock Springer, 1997.
+
+\bibitem{seely2008university}
+Richard~D Seely, Sina Samangooei, M~Lee, John~N Carter, and Mark~S Nixon.
+\newblock The university of southampton multi-biometric tunnel and introducing
+  a novel 3d gait dataset.
+\newblock In {\em Biometrics: Theory, Applications and Systems, 2008. BTAS
+  2008. 2nd IEEE International Conference on}, pages 1--6. IEEE, 2008.
+
+\bibitem{kuchi2003drag}
+Prem Kuchi, Raghu Ram~V Hiremagalur, Helen Huang, Michael Carhart, Jiping He,
+  and Sethuraman Panchanathan.
+\newblock Drag: a database for recognition and analasys of gait.
+\newblock In {\em ITCom 2003}, pages 115--124. International Society for Optics
+  and Photonics, 2003.
+
+\bibitem{canon}
+Sincronización.
+\newblock http://www.canon.es/.
+\newblock Accedido 29-11-2014.
+
+\bibitem{todo_fotografia}
+Todo fotografía.
+\newblock http://todo-fotografia.com/.
+\newblock Accedido 2-12-2014.
+
+\end{thebibliography}

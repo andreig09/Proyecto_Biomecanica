@@ -1,0 +1,33 @@
+\select@language {spanish}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Comparaci\IeC {\'o}n de algunas bases de datos disponibles y empleadas por la comunidad.\relax }}{17}{table.caption.8}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Resoluci\IeC {\'o}n espacial en cent\IeC {\'\i }metros como funci\IeC {\'o}n de la distancia al centro de la c\IeC {\'a}mara\relax }}{22}{table.caption.10}
+\contentsline {table}{\numberline {3.3}{\ignorespaces Formatos de archivo Mocap.\relax }}{26}{table.caption.13}
+\contentsline {table}{\numberline {3.4}{\ignorespaces Secuencias generadas para la base de datos sint\IeC {\'e}tica.\relax }}{32}{table.caption.25}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Medida de error en captura est\IeC {\'a}ndar de la base de datos sint\IeC {\'e}tica.\relax }}{74}{table.caption.61}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {7.1}{\ignorespaces Performance de los algoritmos implementados en reconstrucci\IeC {\'o}n. \relax }}{105}{table.caption.84}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {8.1}{\ignorespaces Medida de error de tracking en captura de la base de datos sint\IeC {\'e}tica.\relax }}{126}{table.caption.99}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {9.1}{\ignorespaces Resumen de secuencias de la base de datos sint\IeC {\'e}tica utilizadas para an\IeC {\'a}lisis de performance.\relax }}{131}{table.caption.102}
+\contentsline {table}{\numberline {9.2}{\ignorespaces Resultados de los bloques, para distintas capturas sint\IeC {\'e}ticas\relax }}{131}{table.caption.103}
+\contentsline {table}{\numberline {9.3}{\ignorespaces Resultados de Error en reconstrucci\IeC {\'o}n para distintos caso de ruido agregado a la segmentaci\IeC {\'o}n, tanto resultados sobre v\IeC {\'\i }deos como sobre ground truth.\relax }}{132}{table.caption.104}
+\contentsline {table}{\numberline {9.4}{\ignorespaces Distintas combinaciones de c\IeC {\'a}maras utilizadas en el laboratorio sint\IeC {\'e}tico, numeradas seg\IeC {\'u}n la Figura \ref {img_espacio_capura} que se presenta en la secci\IeC {\'o}n Secci\IeC {\'o}n~\ref {seccion_Base_Datos_Sintetica} \relax }}{133}{table.caption.105}
+\contentsline {table}{\numberline {9.5}{\ignorespaces Error de Marcadores en Tracking para conjuntos de 17 y 8 c\IeC {\'a}maras en el caso de Marcha\relax }}{134}{table.caption.107}
+\contentsline {table}{\numberline {9.6}{\ignorespaces Error de Marcadores en Tracking para algunos conjuntos de 6 c\IeC {\'a}maras en el caso de Marcha\relax }}{134}{table.caption.108}
+\contentsline {table}{\numberline {9.7}{\ignorespaces Error de Marcadores en Tracking para algunos conjuntos alternativos de 6 c\IeC {\'a}maras en el caso de Marcha\relax }}{135}{table.caption.109}
+\contentsline {table}{\numberline {9.8}{\ignorespaces Error de Marcadores en Tracking para algunos conjuntos de 15 y 8 c\IeC {\'a}maras en el caso de Movimiento Libre\relax }}{136}{table.caption.112}
+\contentsline {table}{\numberline {9.9}{\ignorespaces Error de Marcadores en Tracking para algunos conjuntos de 6 y 4 c\IeC {\'a}maras en el caso de Movimiento Libre\relax }}{137}{table.caption.113}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {C.1}{\ignorespaces Error de Marcadores en Tracking para conjuntos de 5 c\IeC {\'a}maras en el caso de Marcha\relax }}{149}{table.caption.116}
+\contentsline {table}{\numberline {C.2}{\ignorespaces Error de Marcadores en Tracking para conjuntos de 4 c\IeC {\'a}maras en el caso de Marcha\relax }}{150}{table.caption.117}
+\addvspace {10\p@ }
