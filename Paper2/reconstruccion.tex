@@ -33,16 +33,16 @@ El algoritmo implementado recibe como entrada los puntos 2D de los marcadores de
 
 \subsubsection{Asociar puntos 2D}\label{seccion_asociar2D_uno}
 
-Este bloque recibe como entrada las coordenadas de los puntos detectados en cada una de las cámaras, parámetros de las mismas tales como sus matrices de proyección y devuelve para cada punto una lista ordenada por relevancia, de las asociaciones existentes con puntos en otras cámaras.
-Basándose en lo explicado anteriormente para un par de cámaras el proceso  se puede ejemplificar  en la Figura \ref{fig: cam2cam } y los pasos a seguir son los siguientes:
+Este bloque recibe como entrada las coordenadas de los puntos detectados en cada una de las cámaras, parámetros de las mismas tales como sus matrices de proyección y devuelve para cada punto una lista ordenada por relevancia, de las asociaciones existentes con puntos en otras cámaras. Los pasos a seguir son los siguientes:
+%Basándose en lo explicado anteriormente para un par de cámaras el proceso  se puede ejemplificar  en la Figura \ref{fig: cam2cam } y los pasos a seguir son los siguientes:
 
-\begin{figure}[ht!]
-\begin{center}
+%\begin{figure}[ht!]
+%\begin{center}
 %\includegraphics[scale=0.4]{/imagenes/Reconstruccion/geometria_epipolar}
-\caption{Asociación de puntos 2D en dos cámaras.}
-\label{fig: cam2cam }
-\end{center}
-\end{figure}
+%\caption{Asociación de puntos 2D en dos cámaras.}
+%\label{fig: cam2cam }
+%\end{center}
+%\end{figure}
 
 \begin{itemize}
 
@@ -72,16 +72,16 @@ Para evaluar de todas las relaciones entre cámaras, cuál de los pares de punto
 
 Luego de encontrar la mejor asociación de puntos se procede a reconstruir y validar la misma. Si se encuentra al menos un punto en otra cámara que valide la reconstrucción se asume que ésta es correcta, se retira a la pareja que genera la reconstrucción así como también a los puntos que lograron validarla y se itera nuevamente repitiendo el proceso con la siguiente mejor pareja asociada entre dos cámaras.  
 
-\begin{figure}[ht!]
-\begin{center}
-%\includegraphics[scale=0.4]{/imagenes/Reconstruccion/validacion}
-\caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3.}
-\label{img_reconstruccion_validacion}
-\end{center}
-\end{figure}
+%\begin{figure}[ht!]
+%\begin{center}
+%%\includegraphics[scale=0.4]{/imagenes/Reconstruccion/validacion}
+%\caption{Reconstrucción entre cámaras 1, 2 y validación con cámara 3.}
+%\label{img_reconstruccion_validacion}
+%\end{center}
+%\end{figure}
 
 
-La información que contiene un punto en una retina se mapea en el espacio 3D sobre el rayo de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Supongamos que se tienen los rayos de proyección en el espacio 3D de todos los puntos contenidos en las retinas y que $x_1$ es un punto en la cámara 1 de centro $O_1$ y $x_2$ es un punto en la cámara 2 de centro $O_2$ se encuentran asociados y reconstruyen al punto $X_{12}$. El algoritmo implementado asume que un punto en una cámara, valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. Como se muestra en la Figura \ref{img_reconstruccion_validacion}, el punto $x_3$ de la cámara 3 valida la reconstrucción, no así el punto $\tilde{x}_3$. 
+La información que contiene un punto en una retina se mapea en el espacio 3D sobre el rayo de proyección que contiene a dicho punto y al centro de la cámara correspondiente. Supongamos que se tienen los rayos de proyección en el espacio 3D de todos los puntos contenidos en las retinas y que $x_1$ es un punto en la cámara 1 de centro $O_1$ y $x_2$ es un punto en la cámara 2 de centro $O_2$ se encuentran asociados y reconstruyen al punto $X_{12}$. El algoritmo implementado asume que un punto en una cámara, valida a $X_{12}$ si junto a $x_1$ reconstruye un punto 3D que se encuentra dentro de la esfera $B(X_{12}, \delta)$ de centro $X_{12}$ y radio $\delta$, donde $\delta$ es un cierto valor umbral. %Como se muestra en la Figura \ref{img_reconstruccion_validacion}, el punto $x_3$ de la cámara 3 valida la reconstrucción, no así el punto $\tilde{x}_3$. 
 
 
 Idealmente $X_{12}$ se genera al interceptar los rayos de proyección de los puntos $x_1$ y $x_2$, pero debido a incertidumbres en la detección de marcadores o la calibración, comúnmente los rayos se van a cruzar. La reconstrucción, se estima como el punto del espacio de menor distancia a ambos rayos, por lo que
