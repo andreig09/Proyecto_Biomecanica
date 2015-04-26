@@ -10,7 +10,7 @@ Sea una trayectoria de un marcador enlazada hasta el instante [f] la cual desea 
 
 \begin{figure}[ht!]
 \begin{center}
-\includegraphics[scale=0.6]{imagenes/Seguimiento/tracking-eps-converted-to.pdf}
+\includegraphics[scale=0.4]{imagenes/Seguimiento/tracking-eps-converted-to.pdf}
 \end{center}
 \caption{Seguimiento en cuatro cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. ( Fuente  Human movement
 science 20(3), 313–341 \cite{herda} ) .}
@@ -34,10 +34,11 @@ Si una trayectoria queda trunca durante el enlazado, se intenta recuperar prolon
 Con estas medidas implementadas es posible detectar las trayectorias individuales sobre los puntos reconstruidos, detectar de forma simple posibles discontinuidades, y estimar reemplazos en casos de perdidas. La captura mostrada en la Figura \ref{restricciones_tracking} corresponde a la marcha y se resalta las trayectorias individuales de puntos de la pierna así como un esqueleto simple generado simplemente para visualizar la evolución entre marcadores
 
 \begin{figure}[ht!]
- \hspace{-1.3cm}
+ \begin{center}
   \subfloat[Trayectorias de marcadores de pierna.]{\includegraphics[scale=0.4]{imagenes/Seguimiento/050_Salida_Tracking_13_14_10.png} %\label{trayectorias_marcadores_piernas}
    }	
   \subfloat[Distancia y Angulo entre marcadores de la pierna.]{\includegraphics[scale=0.4]{imagenes/Seguimiento/051_Salida_Angulo_Distancia_13_14_10.png}\label{distancia_angulo_marcadores_piernas}}
+  \end{center}
 \caption{Posibles restricciones en ángulo y distancia, para el caso de la pierna en marcha.}
 \label{restricciones_tracking}
 \end{figure}
