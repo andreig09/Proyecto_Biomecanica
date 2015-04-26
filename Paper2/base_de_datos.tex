@@ -1,3 +1,35 @@
 \section{Base de datos} 
 \label{section_base_de_datos}
-Aquí tengo que meter por lo menos la descripción de las secuencias que utilizamos y de donde se sacaron
+Con el fin de implementar, testear y comparar los distintos tipos de algoritmos desarrollados en el sistema, es fundamental poseer una base de datos basada en marcadores, que contenga un cierto número de sujetos realizando una variedad de movimientos predefinidos, donde para cada sujeto se tienen múltiples secuencias de videos 2D de movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado, previamente acondicionado. Con el fin de medir el desempeño de los algoritmos generados, se genera dicha base sobre un laboratorio virtual que permite contar con el correspondiente ground truth 2D y 3D de los datos de movimiento disponibles, así como la información de calibración de las cámaras utilizadas para efectuar las capturas.
+
+\subsection{Características de Laboratorio}
+A continuación se enumeran algunas variables que es necesario tener en cuenta a la hora de diseñar un laboratorio adecuado para un sistema de captura óptica basado en marcadores. 
+
+\begin{itemize}
+\item \textbf{Cámaras}. La resolución espacial de los datos en el procesamiento condiciona la resolución de la cámara, la resolución temporal para la marcha requiere como mínimo 30 cuadros por segundo, con tiempos de obturación de al menos $1/2000\, s$, esto último permite evitar efectos de distorsión debidos a falta de nitidez.
+\item \textbf{Marcadores}. El color de los  marcadores debe contrastar claramente con la vestimenta y el fondo del espacio de captura, se recomienda una forma esférica. En capturas con cámaras ubicadas a menos de 12 metros del movimiento a relevar, un tamaño aceptable para el marcadores es de $3\,cm$ de diámetro.
+\item \textbf{Vestimenta}. Debe ser ajustada, para despreciar fluctuaciones en la posición de los marcadores y preferiblemente de igual color que el fondo. 
+\item \textbf{Iluminación}. debe ser uniforme, si se utiliza iluminación artificial con focos puntuales es habitual colocar pantallas difusoras delante de los focos.
+\item \textbf{Espacio de captura}. debe contrastar con los marcadores, y sus dimensiones varían según el tipo de marcha a relevar. En caso de marcha rectilínea sobre una plataforma de $3\,m \times 5 \,m$ se encuentra que 4 son el mínimo número de cámaras que permiten relevar el movimiento de manera satisfactoria. Mientras  que en el caso de la marcha libre sobre una plataforma circular de $5\,m$ de diámetro, se recomienda la utilización de al menos 8 cámaras.
+\end{itemize}
+
+
+Al investigar los diferentes formatos de captura de movimiento (MoCap) disponibles en las distintas bases de datos relevadas, surge naturalmente el formato BVH como el propicio para importar la información de la captura de movimiento al entorno virtual y a \textit{Matlab}, su relativa sencillez y extendido uso facilitan sobremanera dicho pasaje. 
+
+Se decide trabajar en este proyecto con las fuentes BVH de la base de datos \textit{MotionBuilder-friendly version} ofrecidas por \textit{cgspeed} \cite{cgspeed}, 
+%\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
+ que provienen de las capturas de Carnegie Mellon University Motion Capture Database \cite{CMU}.
+ %\footnote{\textcolor{blue}{\underline{\url{http://mocap.cs.cmu.edu/}}}. Accedido 30-11-14}. 
+ Alguno de los factores que justifican esta elección son que C.M.U. dispone de un gran número de capturas de movimiento de acceso público, varias utilidades de software que permiten llevar a otros formatos y es utilizado ampliamente en el ámbito de la animación por computadora.
+ 
+ Utilizando una suite de animación 3D gratuita y de código abierto como lo es \textit{Blender}, se genera un laboratorio de captura de movimiento virtual, donde logra obtenerse cinco secuencias sintéticas dentro de los cuales cuatro son movimientos de marcha y una de corrida, con sus respectivos videos.  Si bien las secuencias de video obtenidas son lo único necesario para el análisis posterior, al generar dichas secuencias a través de un entorno virtual controlado como lo es \textit{Blender}, se puede obtener la información exacta del ambiente de captura. Información de las cámaras, iluminación, colores, ruido, posición de los marcadores en cada cuadro, etc. Permitiendo contar con un ground truth tanto del movimiento como de la calibración de las cámaras, sobre el cual validar los algoritmos en cada etapa del sistema de procesamiento. Esto último también permite obtener un benchmark de algoritmos, sumamente importante en futuros trabajos sobre el sistema. 
+ 
+   
+\textit{Blender} cuenta con una interfaz de programación de aplicaciones flexible, que permite extender su funcionalidad a través de programas en Python. Con el objetivo de automatizar varias etapas en el desarrollo de nuevas secuencias, así como gestionar la exportación de información desde \textit{Blender} a otros lenguajes, se han creado múltiples scripts. En particular se posee un programa Python que automatiza la extracción de parámetros de interés hacía un archivo xml con cierta estructura particular ya definida en la base de datos. 
+
+
+La estructura de datos implementada cuenta con lo necesario para mantener y dar soporte a la información de interés a lo largo del proyecto. Cabe destacar que también soporta información de secuencias reales.
+
+
+
+Se logra implementar un prototipo de base de datos lo suficientemente general y útil para trabajar con sistemas de captura de movimiento basada en marcadores. Las características de las herramientas utilizadas permiten generar secuencias de movimiento sintéticas, con relativa facilidad. El potencial actual y la posible expansión de la base de datos permiten afirmar que la misma es una herramienta a tener en cuenta en futuros proyectos de captura de movimiento.
