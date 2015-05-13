@@ -1,7 +1,7 @@
 \section{Detección de marcadores}
-Una vez realizada la captura de video del paciente, el primer paso en el procesamiento de las secuencias de video es reconocer los marcadores en el cuerpo del sujeto.
+Una vez realizada la captura de video del paciente, el primer paso es reconocer los marcadores en el cuerpo del sujeto.
 
-El bloque de detección de marcadores, se puede dividir en dos partes: la \textbf{segmentación} y el \textbf{filtrado de objetos}. En la Figura \ref{ejemploabelumbr3} se muestra el resultado del procesamiento de cada etapa.
+El bloque de detección de marcadores, se puede dividir en dos partes: la \textbf{segmentación} y el \textbf{filtrado de objetos}. En la Figura \ref{ejemploabelumbr2} se muestra el resultado del procesamiento de cada etapa.
 
 El algoritmo realiza la detección siguiendo el siguiente proceso:
 
@@ -13,7 +13,7 @@ El algoritmo realiza la detección siguiendo el siguiente proceso:
   \item Se toma el siguiente cuadro y se repite el proceso a partir del paso 2.
 \end{enumerate}
 
-Este bloque fue implementado en lenguaje C++, debido a que es uno de los lenguajes de programación que cuenta con mayor cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron las librerías \emph{OpenCV} \cite{opencv} y CVBlob \cite{cvblob} ya que funcionan para las plataformas principales de PC y dispositivos móviles, y están diseñadas para tener una gran eficiencia computacional en las implementaciones.
+Este bloque fue implementado en lenguaje C++, debido a que es uno de los lenguajes de programación que cuenta con mayor cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron las librerías \emph{OpenCV} \cite{opencv} y \emph{CVBlob} \cite{cvblob} ya que funcionan para las plataformas principales de PC y dispositivos móviles, y están diseñadas para tener una gran eficiencia computacional en las implementaciones.
 
 \subsection{Descripción de las etapas de detección}
 \subsubsection{Segmentación}
@@ -25,7 +25,7 @@ Trabajar con tres clases permite ser un poco más flexible con los contrastes en
 La etapa de filtrado no es más que una clasificación de los objetos segmentados. Dado que los objetos a detectar tienen formas relativamente sencillas (círculos blancos sobre fondo oscuro) y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requirió implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos\cite{imageMoments} y un filtro según el área de los mismos.
 
 \subsection{Resultados}
-Para la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios (ver Figura \ref{ejemploabelumbr2}). Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son mucho mejores (ver Figura \ref{ejemploabelumbr2}).
+Para la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios (ver Figura \ref{ejemploabelumbr2}). Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son aceptables.
 
 \begin{figure}[ht!]
       \centering

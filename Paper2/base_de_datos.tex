@@ -36,8 +36,8 @@ El modelo virtual utilizado se basa en un maniquí de madera convencional, el mi
 \subsubsection{Esqueleto}
 El esqueleto del modelo contiene la información de movimiento, el mismo se obtuvo de la base de datos \textit{MotionBuilder-friendly versión} ofrecidas por \textit{cgspeed} \cite{cgspeed}, 
 %\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
- donde se cuenta con las fuentes BVH que provienen de las capturas de movimiento de \textit{Carnegie Mellon University Motion Capture Database}.       
- Con el fin de normalizar las secuencias BVH \footnote{Biovision Hierarchical data, formato de captura de movimiento desarrollado por Biovision.} provenientes de MotionBuilder se ha utilizado la herramienta de edición de archivos BVH \textit{bvhacker} \cite{bvhacker}.
+ donde se cuenta con las fuentes BVH que provienen de las capturas de movimiento de \textit{Carnegie Mellon University Motion Capture Database} (C.M.U.).       
+ Con el fin de normalizar las secuencias BVH \footnote{Biovision Hierarchical data, formato de captura de movimiento desarrollado por Biovision.} provenientes de \textit{MotionBuilder} se ha utilizado la herramienta de edición de archivos BVH \textit{bvhacker} \cite{bvhacker}.
  %\footnote{bvhacker: The free bvh file editing tool. \textcolor{blue}{\underline{\url{ http://davedub.co.uk/bvhacker/}}}. Accedido 5-12-14}.
  La misma permite centrar las secuencias sobre un mismo punto en el primer cuadro removiendo los offset globales.
  Una vez gestionado lo anterior se importa en \textit{Blender} la secuencia BVH y se procede a generar los marcadores en las articulaciones del esqueleto, dado que se tiene la posición exacta del origen de cada hueso en el esqueleto y la articulación es la unión entre dos huesos consecutivos, se puede obtener la posición exacta de los marcadores a partir de la secuencia BVH.
