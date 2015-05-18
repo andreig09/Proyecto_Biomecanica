@@ -29,12 +29,20 @@ Para la etapa de segmentación se observó que el resultado obtenido depende fue
 
 \begin{figure}[ht!]
       \centering
-        \subfloat[]{\includegraphics[scale=0.10]{imagenes/abel_original_video.png}\label{abelvideo}}\hspace{1 mm}
-        \subfloat[]{\includegraphics[scale=0.10]{imagenes/abel_original_filtro.png}\label{abelfiltro}}
-
-        \subfloat[]{\includegraphics[scale=0.07]{imagenes/orig.png}\label{abelvideo2}}\hspace{1 mm}
-        \subfloat[]{\includegraphics[scale=0.07]{imagenes/filtr.png}\label{abelfiltro2}}\hspace{1 mm}
-        \subfloat[]{\includegraphics[scale=0.07]{imagenes/detect.png}\label{abeldetect}}
-      \caption{Entradas y salidas de cada etapa del bloque de deteción. \textbf{(\ref{abelvideo})} Imagen original de una secuencia fuera de las hipótesis de captura. \textbf{(\ref{abelfiltro})} Imagen segmentada con el umbral de Otsu. \textbf{(\ref{abelvideo2})} Captura original de una secuencia real bajo las hipótesis de captura. \textbf{(\ref{abelfiltro2})} Imagen filtrada con el umbral de Otsu. \textbf{(\ref{abeldetect})} Marcadores detectados.}  
+        {\includegraphics[scale=0.10]{imagenes/abel_original_video.png}\label{abelvideo}}\hspace{1 mm}
+      %  {\includegraphics[scale=0.10]{imagenes/abel_original_filtro.png}\label{abelfiltro}}
+        {\includegraphics[scale=0.08]{imagenes/orig.png}\label{abelvideo2}}\hspace{1 mm}
+       % {\includegraphics[scale=0.07]{imagenes/filtr.png}\label{abelfiltro2}}\hspace{1 mm}
+        {\includegraphics[scale=0.08]{imagenes/detect.png}
+        \label{abeldetect}}
+      \caption{%Entradas y salidas de cada etapa del bloque de deteción.
+       %\textbf{(\ref{abelvideo})} 
+       Imagen original de una secuencia fuera de las hipótesis de captura (izquierda). 
+       %\textbf{(\ref{abelfiltro})} Imagen segmentada con el umbral de Otsu.
+       % \textbf{(\ref{abelvideo2})} Captura original de una secuencia real bajo las hipótesis de captura (centro).
+       % \textbf{(\ref{abelfiltro2})} 
+       Imagen filtrada con el umbral de Otsu. 
+       %\textbf{(\ref{abeldetect})}
+        Marcadores detectados (derecha).}  
       \label{ejemploabelumbr2}
 \end{figure}
