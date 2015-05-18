@@ -93,32 +93,38 @@
  
 %\subsection{Calibración simulada en \emph{Blender}}
  
- Con el objetivo de establecer una metodología de calibración que fuera válida para la configuración de cámaras con las que se diseñó el entorno virtual descrito en la sección \ref{section_base_de_datos}, se probaron distintas implementaciones existentes. Para esto se evaluaron dos toolbox elaborados en \emph{Matlab}. La metodología de calibración fue simulada en \emph{Blender} mediante \textit{scripts} \emph{Python} y las imágenes obtenidas como resultado se procesaron con dichos toolbox. Para cada uno de los toolbox se describe la metodología y las simulaciones realizadas.
+ Con el objetivo de establecer una metodología de calibración que fuera válida para la configuración de cámaras con las que se diseñó el entorno virtual descrito en la sección \ref{section_base_de_datos}, se probaron distintas implementaciones existentes. Para esto se evaluaron dos toolbox elaborados en \emph{Matlab}. La metodología de calibración fue simulada en \emph{Blender} mediante \textit{scripts} \emph{Python} y las imágenes obtenidas como resultado se procesaron con dichos toolbox. \
  
+ Uno de los toolbox utilizados es el \textit{Automatic Multi-Camera Calibration Toolbox (amcctoolbox)} \cite{amcctoolbox}, el cual utiliza como objeto de calibración un damero. Este método, aunque sus resultados tienen buena precision \cite{zhang_libro}, puede no ser suficientemente flexible para un sistema de muchas cámaras ya que, entre otras cosas, es necesaria la intervención manual en algunos casos.\
  
-\subsubsection{Automatic Multi-Camera Calibration Toolbox (amcctoolbox) }\cite{amcctoolbox}  
-
-
-Esta herramienta automatiza ciertas funciones del toolbox \textit{Camera Calibration Toolbox}, reduciendo la intervención del usuario. Utiliza como objeto de calibración un damero.
-
-Para la calibración de conjuntos de varias cámaras, el damero debe ser colocado en múltiples ubicaciones y orientaciones cubriendo el mayor volumen de trabajo tal que, en cada una de estas posiciones, el damero pueda ser visto por más de una cámara simultáneamente.
-
-La calibración del entorno virtual se realiza simulando un damero real. Para cada par de cámaras adyacentes se coloca el damero en algún punto dentro del volumen de trabajo, con una orientación tal que la figura plana del damero sea visible en ambas cámaras. Luego, a partir de dicha posición, se toman capturas del damero cambiando ligeramente la ubicación y orientación del mismo. Para cada par de cámaras adyacentes se consideran entre 15 y 20 posiciones distintas del damero.
-
-Una vez realizadas las capturas se procesan  las imágenes mediante el toolbox, obteniéndose los parámetros intrínsecos de cada una de las cámaras y la posición relativa de cada uno de los pares de cámaras adyacentes y por lo tanto las posición relativa de todas las cámaras.
-
-
-Este método aunque sus resultados tiene buena precision \cite{zhang_libro}, puede no ser suficientemente flexible para un sistema de muchas cámaras, ya que, entre otras cosas, puede ser necesaria la intervención manual en algunos casos.
-
-
-
-\subsubsection{ Multi-Camera Self-Calibration Toolbox } \cite{toolbox_led}
- 
- El procedimiento utilizado en este toolbox consiste en capturar el movimiento de una fuente puntual de luz que recorra el volumen de trabajo. Por lo tanto para cada cuadro se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección si dicho punto es visible desde la cámara. Para esto debe existir un contraste suficiente de la fuente puntual de luz respecto al laboratorio. La fuente de luz puede ser por ejemplo, una lámpara led.
- 
-La simulación de este procedimiento se logra creando un punto 3D que toma para cada cuadro, distintas posiciones en forma aleatoria dentro del volumen de trabajo. Para cada cuadro se \textit{renderiza} su posición en las 17 cámaras. En este caso se han tomado 500 posiciones distintas.
-
+El otro toolbox utilizado es el \textit{Multi-Camera Self-Calibration Toolbox} \cite{toolbox_led}. Este método consiste en capturar el movimiento de una fuente puntual de luz que recorra el volumen de trabajo. Para cada cuadro se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección.
  El error de re-proyección promedio obtenido es menor a 0.13 píxeles para todas las cámaras. Este método plantea una forma simple de calibrar un conjunto de muchas cámaras adecuado para el sistema de 17 cámaras del laboratorio virtual desarrollado en \emph{Blender}.
+
+ 
+ 
+%\subsubsection{Automatic Multi-Camera Calibration Toolbox (amcctoolbox) }\cite{amcctoolbox}  
+
+
+%Esta herramienta automatiza ciertas funciones del toolbox \textit{Camera Calibration Toolbox}, reduciendo la intervención del usuario. Utiliza como objeto de calibración un damero.
+
+%Para la calibración de conjuntos de varias cámaras, el damero debe ser colocado en múltiples ubicaciones y orientaciones cubriendo el mayor volumen de trabajo tal que, en cada una de estas posiciones, el damero pueda ser visto por más de una cámara simultáneamente.
+
+%La calibración del entorno virtual se realiza simulando un damero real. Para cada par de cámaras adyacentes se coloca el damero en algún punto dentro del volumen de trabajo, con una orientación tal que la figura plana del damero sea visible en ambas cámaras. Luego, a partir de dicha posición, se toman capturas del damero cambiando ligeramente la ubicación y orientación del mismo. Para cada par de cámaras adyacentes se consideran entre 15 y 20 posiciones distintas del damero.
+
+%Una vez realizadas las capturas se procesan  las imágenes mediante el toolbox, obteniéndose los parámetros intrínsecos de cada una de las cámaras y la posición relativa de cada uno de los pares de cámaras adyacentes y por lo tanto las posición relativa de todas las cámaras.
+
+
+%Este método aunque sus resultados tiene buena precision \cite{zhang_libro}, puede no ser suficientemente flexible para un sistema de muchas cámaras, ya que, entre otras cosas, puede ser necesaria la intervención manual en algunos casos.
+
+
+
+%\subsubsection{ Multi-Camera Self-Calibration Toolbox } \cite{toolbox_led}
+ 
+ %El procedimiento utilizado en este toolbox consiste en capturar el movimiento de una fuente puntual de luz que recorra el volumen de trabajo. Por lo tanto para cada cuadro se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección si dicho punto es visible desde la cámara. Para esto debe existir un contraste suficiente de la fuente puntual de luz respecto al laboratorio. La fuente de luz puede ser por ejemplo, una lámpara led.
+ 
+%La simulación de este procedimiento se logra creando un punto 3D que toma para cada cuadro, distintas posiciones en forma aleatoria dentro del volumen de trabajo. Para cada cuadro se \textit{renderiza} su posición en las 17 cámaras. En este caso se han tomado 500 posiciones distintas.
+
+% El error de re-proyección promedio obtenido es menor a 0.13 píxeles para todas las cámaras. Este método plantea una forma simple de calibrar un conjunto de muchas cámaras adecuado para el sistema de 17 cámaras del laboratorio virtual desarrollado en \emph{Blender}.
 
 %En la Figura \ref{fig: error reproyeccion} se muestra en azul el promedio y en rojo la desviación estándar del error de re-proyección obtenido para cada una de las cámaras. Sea $X$ un punto 3D en el espacio cuya posición es a priori desconocida y $x$ su correspondiente proyección en un cámara. A partir del resultado de la calibración se obtiene la matriz de proyección $P$ de dicha cámara. A su vez, es posible obtener la estimación del  punto $X$, siendo $ \hat{X}$ dicha estimación. La proyección de $\hat{X}$ sobre la cámara es $\hat{x} = P \hat{X}$. El error de re-proyección de $\hat{X}$ se define como la distancia euclídea $d(x,\hat{x})$ entre los vectores $x$ y $\hat{x}$.\\
 
