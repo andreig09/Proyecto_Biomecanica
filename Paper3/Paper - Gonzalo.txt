@@ -1,0 +1,79 @@
+Seguimiento
+
+Los puntos obtenidos para todos los cuadros luego de la reconstruccion deben ser identificados en trayectorias temporales a lo largo de la secuencia.
+El seguimiento de trayectoria se realiza sobre una ventana deslizante de tres a cuatro cuadros donde se enlazan los puntos reconstruidos de manera de mantener un movimiento lo mas suave posible debido a la hipotesis que el muestreo permite observar una evolucion lenta con desplazamiento minimo entre cuadros. Esta metodologia fue la utilizada por Herda \cite{Herda} en su trabajo basandose en los estudios de Malik, Drako, Papantoniou \cite{Malik}.
+
+Sea una trayectoria de un marcador enlazada hasta el instante [f] la cual desea buscarse su proximo punto en [f+1], el movimiento entre [f-1] y [f] es prolongado en direccion y modulo para establecer un centro de busqueda y se utiliza el modulo del ultimo movimiento conocido como radio de busqueda
+
+(diagrama Herda, 8.4 en la documentacion)
+
+- si solo se encuentra un punto reconstruido dentro de la busqueda se agrega a la trayectoria para el frame [f+1], mientras mas cercanos se encuentre a la estimacion mejor se aproxima a una trayectoira de tres puntos con aceleracion minima
+
+(ecuacion primera estimacion+calculo aceleracion, 8.5 en la Documentacion)
+
+- si se encuentra mas de un punto dentro del radio de busqueda, cada posible candidato es utilizado para realizar una segunda estimacion hacia [f+2] de forma que la aceleracion entre [f-1], [f] y el candidato en [f+1] sea la misma que entre [f], el candidato en [f+1] y la estimacion en [f+2] (el radio de busqueda en [f+2] corresponde a la distancia entre el candidato en [f+1] y la estimacion en [f+2]). Luego de todos los posible caminos en cuatro cuadros, se elige el de menor variacion de aceleracion.
+
+(ecuacion segunda estimacion+calculo variacion aceleracion, 8.6 en la Documentacion)
+
+- si no se encuentra ningun punto, se procede a aumentar acotadamente el radio de busqueda en [f+1] de forma excepcional. Esto se hace para continuar trayectorias que entran en estado de reposo y el ultimo movimiento conocido es nulo o muy pequeño.
+
+Una vez establecidos posibles enlaces entre las trayectorias encontradas hasta [f] con los marcadores reconstruidos en [f+1], debe validarse cada enlace encontrado de forma que cada punto en [f+1] pertenece a una unica trayectoria y en caso que fuese candidato en multiples trayectorias se utiliza el criterio de menor aceleracion para elegir entre trayectoria, donde la trayectoria descartada se enlaza con la siguiente mejor opcion obtenida en la busqueda.
+
+Posteriores validaciones son realizadas sobre el conjunto de trayectorias obtenidas al procesar todos los cuadros de forma opcional: 
+
+- validacion global donde la aceleracion de todos los enlaces obtenidos en todos los cuadros es estudiada mediante distribucion estadistica, descartando  el porcentaje superior que corresponden a posibles aceleraciones excesivas puntuales que no cumplen la hipotesis de trayectorias suaves con cambios lentos. Este estudio arroja un umbral global que se utilizara para volver a buscar los enlaces para toda la secuencia donde un enlace que supere este umbral sera descartado.
+
+- validacion individual, es un caso especifico del filtrado de aceleracion donde no se busca un umbral global, sino que cada trayectoria obtenida es estudiada para buscar un umbral individual estudiando la distribucion de aceleraciones. Si un enlace o una seccion de la secuencia supera este umbral, se intenta estimar el o los marcadores que permitan suavizar la aceleracion de la trayectoria mediante minimos cuadrados buscando aquellos puntos que mejor aproximen el movimiento que mantenga aceleracion minima (se mantiene la misma velocidad) y variacion de aceleracion minima (se mantiene la misma aceleracion)
+
+(Figura 8.8 de la Documentacion)
+
+Esta ultima forma de estimar marcadores intermedios no solo se utiliza en el caso de la correccion en la validacion de cada trayectoria individual, sino tambien para estimar marcadores en caso de perdidas durante la busqueda de enlaces. 
+
+Cuando se realiza la busqueda de enlaces sobre los puntos reconstruidos pueden aparecer puntos reconstruidos los cuales no pudieron ser asociados a ninguna trayectoria, mientras que tambien pueden existir trayectorias truncas debido a no poder encontrar posibles enlaces para continuarlas.
+
+Si esto sucede se agrega la trayectoria a una lista de trayectorias truncas al buscar enlaces entre [f] y [f+1], y se prolonga el movimiento de las trayectorias que se encontraban truncas hasta el momento [f-1] o antes de forma de repetir el movimiento por tantos cuadros durante la trayectoria se encuentre perdida. 
+
+Sobre este movimiento prolongado se buscan puntos reconstruidos en su cercania y en el caso que exista un candidato en un cuadro [f_{j}] de una trayectoria perdida en un instante [f_{i}] deben estimarse los puntos intermedios durante los cuales la trayectoria se perdio, [f_{i}+1], [f_{i}+2], ..., [f_{j}-1]
+
+(ecuaciones minimos cuadrados, 8.9 en la Documentacion)
+
+Con estas medidas implementadas es posible detectar las trayectorias individuales sobre los puntos reconstruidos, detetar de forma simple posibles discontinuidades, y estimar reemplazos en casos de perdidas. 
+
+(Figura 8.11 de la Documentacion)
+
+Este ultimo caso sucede mas frecuentemente a medida que se trabaje sobre conjuntos de pocas camaras o en seguimiento de marcadores muy cercanos entre ellos. 
+
+(Figura 8.12 de la Documentacion)
+
+El conjunto de puntos reconstruidos puede ser sometido a otros algoritmos de seguimiento como por Kalman \cite{Kalman} requiriendo la inicializacion de modelos, o algoritmos basados en restricciones mas fuertes a las presentadas en este trabajo como podrian ser las distancias relativamente constantes entre marcadores de los miembros y angulos continuos entre articulaciones pero requieren un estudio considerable de las caracteristicas de cada sujeto y movimiento a capturar
+
+(Figura 8.13 de la Documentacion)
+
+Performance
+
+Procesando los conjuntos de datos generados en el laboratorio virtual cada bloque ejecuta su parte separada para entregar al siguiente bloque como fue definido en \ref{diagrama_de_bloques}.
+
+Fueron utilizadas las metricas establecidas en HumanEva \cite{Humaneva} para comparar los conjuntos de datos obtenidos a la salida de cada bloque individual con aquel conjunto de referencia obtenido en el ground truth, encontrando primero la correspondencia entre puntos y luego la distancia euclidea en el espacio que correponda (2D para camaras y 3D para espacion reconstruido) entre los puntos de ambos conjuntos.
+
+Son generadas multiples secuencias de video desde varias vistas en el espacio en el laboratorio virtual ademas de los parametros de las camaras sintenticas.
+
+Estas secuencias sinteticas van mas alla del caso ideal y contemplan problemas presentes en la realidad siendo el principal ejemplo que ciertos marcadores se encuentran ocultos por el propio cuerpo del sujeto a capturar. 
+
+(Tabla 9.1 de la documentacion)	
+
+Para todas estas secuencias generadas se obtuvieron los siguientes resultados en cada bloque y en el sistema final utilizando el conjunto entero de camaras disponibles,
+
+(Tabla 9.2 de la Documentacion, modificar cifras significativas y nombres de secuencias)
+
+El error de deteccion de los marcadores en cada una de las camaras no supera un par de pixeles para el caso de camaras con resolución en imagen de 1600x600. Es posible reducir la resolucion de las camaras hasta 800x300 manteniendo los mismos resultados, pero en resoluciones menores comienaza a degradarse la tasa de deteccion de marcadores en camaras individuales lo cual perjudica la siguiente etapa de reconstruccion. Fueron realizadas pruebas inyectando ruido en el bloque de deteccion y su impacto en etapas posteriores encontrando que se puede trabajar con un poco mas de ruido (no mas de tres pixeles de error) sin comprometer significativamente el error final.
+
+El conjunto de puntos reconstruidos y las trayectorias enlazadas son esencialmente el mismo siendo la unica diferencia la identificacion de trayectorias y posibles correcciones puntuales, por lo que los resultados globales son similares pero la salida del bloque de seguimiento permite estudiar observar el comportamiento individual de marcadores.
+
+Si las camaras se encuentran en las condiciones de error anteriores, una cobertura total con 17 camaras rodeando el movimiento a capturar permite reconstruir todas las trayectorias con un error por debajo del centimetro con errores maximos cercanos a tres centimetros. Los resultados se mantienen dentro de estos limites tanto para el comportamiento global de los puntos reconstruidos como para trayectorias individuales si se reduce a ocho camaras colocando pares de camaras en cada esquina del espacio de captura. Reducir aun mas el conjunto de camaras degradar la performance es posible con ciertas condiciones: un conjunto de seis camaras colocadas en dos costados de a tres, y cada costado tiene dos camaras proximas con una tercera mas alejada. De esta manera se tiene las condiciones minimas por las cuales se establecio la reconstruccion, tener dos camaras para reconstruir y una tercera para confirmar
+
+(Figuras de las presentacion, disposicion de las camaras)
+
+Este caso limite de reconstruccion muestra comportamiento global similares a los anteriores, pero muestra degradaciones puntuales para ciertas trayectorias de marcadores que superan los limites aceptables.
+
+(Tablas y Figuras de caso de 6 camaras)
+

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg3339"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Diagrama_de_bloques.svg">
+  <defs
+     id="defs3341" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="518.34638"
+     inkscape:cy="707.53534"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1031"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3344">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g4026"
+       transform="matrix(0.20823756,0,0,0.20823756,195.04839,640.62742)">
+      <rect
+         style="fill:#4bbb5f;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect5339-4-0-5-8-2"
+         y="-1543.8994"
+         x="2027.3838"
+         ry="69.620644"
+         height="291.74939"
+         width="505.53894" />
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:56px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
+         xml:space="preserve"
+         id="text6329-9-8"
+         y="-1454.5229"
+         x="2281.7739"><tspan
+           id="tspan6331-0-8"
+           y="-1454.5229"
+           x="2281.7739">Trayectoria 3D</tspan><tspan
+           id="tspan6333-4-0"
+           y="-1384.5229"
+           x="2290.5239">de los </tspan><tspan
+           id="tspan6335-3-4"
+           y="-1314.5229"
+           x="2281.7739">marcadores</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51663458000000007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6161-2-1-5-5"
+       d="m 680.37014,238.91605 -0.073,42.48502 12.9559,0.0304 -21.8592,43.87445 -21.8592,-44.05226 12.765,-0.0154 -0.2059,-42.20304 z" />
+    <g
+       id="g5005"
+       transform="matrix(0.20823756,0,0,0.20823756,131.45207,642.25809)">
+      <rect
+         style="fill:#0093d6;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect5339-4-6"
+         y="-2089.1797"
+         x="2332.7874"
+         ry="69.620644"
+         height="291.74939"
+         width="505.53894" />
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:60px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+         xml:space="preserve"
+         id="text6205-5-8"
+         y="-1926.2261"
+         x="2420.2832"><tspan
+           id="tspan6207-5-6"
+           y="-1926.2261"
+           x="2420.2832">Seguimiento</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51663458000000007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6161-2-1"
+       d="m 542.84184,229.05114 42.485,0.0728 0.03,-12.95581 43.8745,21.85911 -44.0523,21.85919 -0.015,-12.76501 -42.203,0.20593 z" />
+    <g
+       id="g4019"
+       transform="matrix(0.20823756,0,0,0.20823756,195.04839,640.62742)">
+      <rect
+         style="fill:#4bbb5f;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect5339-4-0-5-8"
+         y="-1543.8994"
+         x="1271.9082"
+         ry="69.620644"
+         height="291.74939"
+         width="505.53894" />
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:56px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
+         xml:space="preserve"
+         id="text6329-9"
+         y="-1454.5229"
+         x="1522.1825"><tspan
+           id="tspan6331-0"
+           y="-1454.5229"
+           x="1522.1825">Posición 3D</tspan><tspan
+           id="tspan6333-4"
+           y="-1384.5229"
+           x="1530.9325">de los </tspan><tspan
+           id="tspan6335-3"
+           y="-1314.5229"
+           x="1522.1825">marcadores</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51663458000000007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6161-2-1-5"
+       d="m 521.97898,238.9521 -0.0728,42.48502 12.95586,0.0304 -21.8592,43.87445 -21.85921,-44.05226 12.76504,-0.0154 -0.20593,-42.20304 z" />
+    <g
+       id="g5000"
+       transform="matrix(0.20823756,0,0,0.20823756,131.45207,642.25809)">
+      <rect
+         style="fill:#0093d6;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect5339-4"
+         y="-2092.3025"
+         x="1576.578"
+         ry="69.620644"
+         height="291.74939"
+         width="505.53894" />
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:60px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+         xml:space="preserve"
+         id="text6205-5"
+         y="-1926.4175"
+         x="1636.2094"><tspan
+           id="tspan6207-5"
+           y="-1926.4175"
+           x="1636.2094">Reconstrucción</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51663458000000007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6161-2"
+       d="m 382.94491,228.73669 42.48505,0.0728 0.0304,-12.95581 43.87449,21.85915 -44.0523,21.85918 -0.0154,-12.76504 -42.20307,0.20596 z" />
+    <g
+       id="g4012"
+       transform="matrix(0.20823756,0,0,0.20823756,195.04839,640.62742)">
+      <rect
+         style="fill:#4bbb5f;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect5339-4-0-5"
+         y="-1543.8994"
+         x="518.27496"
+         ry="69.620644"
+         height="291.74939"
+         width="505.53894" />
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:56px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
+         xml:space="preserve"
+         id="text6329"
+         transform="translate(0,-3160.6293)"
+         y="1705.0227"
+         x="765.65753"><tspan
+           id="tspan6331"
+           y="1705.0227"
+           x="765.65753">Posición 2D</tspan><tspan
+           id="tspan6333"
+           y="1775.0227"
+           x="774.40753">de los </tspan><tspan
+           id="tspan6335"
+           y="1845.0227"
+           x="765.65753">marcadores</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51663458000000007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6161-2-4"
+       d="m 361.33927,238.63766 -0.0728,42.48502 12.95585,0.0304 -21.85915,43.87448 -21.85918,-44.05229 12.76504,-0.0154 -0.20596,-42.20304 z" />
+    <g
+       id="g4995"
+       transform="matrix(0.20823756,0,0,0.20823756,131.45207,642.25809)">
+      <rect
+         style="fill:#0093d6;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect5339-4-0"
+         y="-2094.397"
+         x="817.91016"
+         ry="69.620644"
+         height="291.74939"
+         width="505.53894" />
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:60px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+         xml:space="preserve"
+         id="text6205"
+         y="-1930.9985"
+         x="890.00531"><tspan
+           id="tspan6207"
+           y="-1930.9985"
+           x="890.00531">Detección de</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-weight:bold;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+         x="317.14285"
+         y="235.93361"
+         id="text3197"
+         sodipodi:linespacing="125%"
+         transform="matrix(4.8022076,0,0,4.8022076,-631.26013,-3084.2567)"><tspan
+           sodipodi:role="line"
+           id="tspan3199"
+           x="317.14285"
+           y="235.93361" /></text>
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:59.99999619px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+         xml:space="preserve"
+         id="text6205-38"
+         y="-1863.9767"
+         x="921.07056"><tspan
+           id="tspan6207-7"
+           y="-1863.9767"
+           x="921.07056">Marcadores</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51695012999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6161-2-18"
+       d="m 227.77299,228.56695 42.48495,0.0728 0.0304,-12.95582 43.87455,21.85915 -44.05236,21.85918 -0.0154,-12.76501 -42.20297,0.20593 z" />
+    <g
+       id="g4012-0"
+       transform="matrix(0.20823756,0,0,0.20823756,38.368883,640.15048)">
+      <rect
+         style="fill:#4bbb5f;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect5339-4-0-5-3"
+         y="-1543.8994"
+         x="518.27496"
+         ry="69.620644"
+         height="291.74939"
+         width="505.53894" />
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:56px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
+         xml:space="preserve"
+         id="text6329-6"
+         transform="translate(0,-3160.6293)"
+         y="1705.0227"
+         x="765.65753"><tspan
+           id="tspan6331-3"
+           y="1705.0227"
+           x="765.65753">Parámetros</tspan><tspan
+           id="tspan6333-6"
+           y="1775.0227"
+           x="774.40753">internos de las </tspan><tspan
+           id="tspan6335-6"
+           y="1845.0227"
+           x="765.65753">cámaras</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51663458000000007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path6161-2-4-9"
+       d="m 204.6598,238.16069 -0.0728,42.48498 12.95584,0.0304 -21.85914,43.87452 -21.85918,-44.05233 12.76504,-0.0153 -0.20596,-42.20301 z" />
+    <rect
+       width="105.27219"
+       height="60.753181"
+       ry="14.497633"
+       x="143.84129"
+       y="205.07384"
+       id="rect5339-4-0-4"
+       style="fill:#0093d6;fill-opacity:1;stroke:#000000;stroke-width:2.04346347;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       x="196.4315"
+       y="240.02858"
+       id="text6205-3"
+       xml:space="preserve"
+       style="font-size:12.49425411px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+       sodipodi:linespacing="125%"><tspan
+         x="196.4315"
+         y="240.02858"
+         id="tspan6207-8">Calibración</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51695012999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4834"
+       d="m 107.50786,186.86169 0,-18.88431 236.65134,-1.00547 18.05136,0.0176 -0.0728,25.22949 12.95582,0.53522 -21.85915,38.06866 -21.85915,-38.75132 12.76497,0.23708 -0.24936,-5.46903 z" />
+    <g
+       id="g4929"
+       transform="matrix(0.20823756,0,0,0.20823756,-2.9446571,586.33947)">
+      <rect
+         style="fill:#ff5555;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect5339-4-0-5-5"
+         y="-2092.7236"
+         x="77.271568"
+         ry="69.620644"
+         height="291.74939"
+         width="505.53894" />
+      <text
+         sodipodi:linespacing="125%"
+         style="font-size:56px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
+         xml:space="preserve"
+         id="text6329-8"
+         y="-2059.2466"
+         x="324.65375"><tspan
+           id="tspan6331-7"
+           y="-2059.2466"
+           x="324.65375" /><tspan
+           id="tspan6335-4"
+           y="-1989.2466"
+           x="333.40375">Capturas </tspan><tspan
+           id="tspan4139"
+           y="-1919.2466"
+           x="333.40375">del sujeto  </tspan><tspan
+           id="tspan4141"
+           y="-1849.2466"
+           x="324.65375">bajo estudio</tspan></text>
+    </g>
+  </g>
+</svg>
