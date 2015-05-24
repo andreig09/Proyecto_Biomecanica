@@ -12,15 +12,11 @@ El algoritmo realiza la detección siguiendo el siguiente proceso:
 \end{enumerate}
 %
 \subsubsection{Descripción de las etapas de detección}
-\textit{Segmentación}
-%
-En lo que respecta al bloque de segmentación, se eligió utilizar la umbralización generando umbrales con el método de Otsu\cite{otsu} de tres clases.
+En lo que respecta al bloque de \textit{segmentación}, se eligió utilizar la umbralización generando umbrales con el método de Otsu\cite{otsu} de tres clases.
 %
 Trabajar con tres clases permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
 %
-\textit{Filtrado}
-%
-La etapa de filtrado no es más que una clasificación de los objetos segmentados. Dado que los objetos a detectar tienen formas relativamente sencillas (círculos blancos sobre fondo oscuro) y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requirió implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos\cite{imageMoments} y un filtro según el área de los mismos.
+La etapa de \textit{filtrado} no es más que una clasificación de los objetos segmentados. Dado que los objetos a detectar tienen formas relativamente sencillas (círculos blancos sobre fondo oscuro) y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requirió implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos\cite{imageMoments} y un filtro según el área de los mismos.
 %
 \subsubsection{Resultados}
 Para la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios (ver Figura \ref{ejemploabelumbr2}). Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son aceptables.

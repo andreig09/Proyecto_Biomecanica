@@ -1,6 +1,6 @@
 \section{Explicación del algoritmo}\label{implementacion}
 
-Un sistema de captura de movimiento con las características necesarias para cumplir el objetivo de este proyecto debe estar formado por cuatro bloques generales: \emph{calibración}, \emph{detección de marcadores}, \emph{reconstrucción} y \emph{seguimiento}. En la Figura \ref{bloquesSist} se muestra un esquema del sistema a implementar.
+Un sistema de captura de movimiento con las características necesarias para cumplir el objetivo de este proyecto debe estar formado por cuatro bloques generales: \emph{calibración}, \emph{detección de marcadores}, \emph{reconstrucción} y \emph{seguimiento}. En la Figura \ref{bloquesSist} se muestra un esquema del sistema a implementar, los bloques verdes indican la salida de cada etapa, que a su vez corresponden a la entrada del bloque siguiente.
 
 \begin{figure}[ht!]
 \centering
@@ -13,5 +13,3 @@ Un sistema de captura de movimiento con las características necesarias para cum
 Es importante destacar el hecho de poder separar el sistema en bloques independientes,
 %. Esto asegura que el funcionamiento de uno de ellos no dependa del funcionamiento de otro. Por otro lado, da la posibilidad que en etapas futuras se pueda realizar el estudio de uno de los bloques de la Figura \ref{bloquesSist} individualmente y así poder modificarlo u optimizarlo sin afectar al resto.
 esto permite en etapas futuras modificar u optimizar cada bloque individualmente sin afectar al resto.
-
-En los capítulos que siguen, se explicará el funcionamiento de cada bloque de forma detallada, así como su implementación y el análisis de resultados de cada uno de ellos.
