@@ -12,67 +12,160 @@ Se procura obtener una base de datos con secuencias, ya sean reales o sintética
 \\ 
 
 Como se mencionó anteriormente, los más populares en la actualidad son los que se utilizan en la industria del cine o del diseño de videojuegos. En este contexto, se almacenan las acciones de actores humanos y se usa esta información para animar modelos digitales de personajes en animación 3D.
+
+Vicon (estudios clinicos, biomecanico, investigacion. Velocidad, calidad, costo, privativo).
+Qualysis
+Optitrack (menor costo que los anteriores, acceso a bajo nivel de los datos SDK y API)
+Massive (orientado a cine televisión y videojuegos)
+Motion analysis
+PhaseSpace - marcadores leds
 \\ 
 
+Los sistemas anteriores, y la mayoría de los sistemas modernos que efectúan
+capturas de movimiento, utilizan sensores infrarrojos o LEDs para efectuar el seguimiento
+de puntos. Estos dispositivos facilitan la etapa de detección de marcadores
+en cada cámara.\\
+
+La gran desventaja de los sistemas anteriores es su alto costo. A modo de ejemplo,
+un sistema Vicon de 10 cámaras tiene un valor que ronda los U\$S 70.000.\\
+
+Por otro lado, también existen programas de captura de movimiento de código
+libre, un ejemplo de ello es el programa Kinovea [8]. Enfocado principalmente en el
+ámbito deportivo, permite analizar y mejorar la técnica de los atletas a través del
+procesamiento de secuencias de video. Posee algunas características interesantes
+como la posibilidad de efectuar medición de distancias, ángulos y tiempos manualmente,
+así como la utilización de seguimiento semi-automático de puntos en
+tiempo real para obtener su trayectoria. La gran desventaja que presenta frente a
+otros sistemas es que efectúa únicamente análisis sobre dos dimensiones y con una
+sola cámara.\\
+
+Otra alternativa sobre la que se investigó es DVIDEOW [9]. Este software presenta
+varios conceptos teóricos como primer acercamiento al problema, pero la
+implementación presenta pérdidas de marcadores que requieren correcciones constantes.
+Además, no se tiene una actualización del mismo desde el 2009, desde esa
+fecha a la actualidad solamente se encontraron trabajos que lo presentan como
+fundamento teórico.\\
+
+
+Al no encontrar detalles sobre el diseño de sistemas que veriquen las hipótesis
+de este proyecto, o que puedan reutilizarse como base, se decide implementar uno
+de manera íntegra, realizando una búsqueda bibliográca detallada y asignando cada
+artículo a una categoría de acuerdo a los procesos denidos anteriormente\\
+
+Se puede ver, que en varios casos un mismo artículo contiene información de
+valor sobre varias etapas del sistema. Además se encontraron algunos documentos
+con diseños de sistemas completos.\\
+
+En los bloques de seguimiento y estimación de pose se decide basar el desarrollo
+en las ideas del sistema propuesto por Lorna Herda en sus tesis de doctorado [14].
+Dicha elección se debe a que el estudio de Herda contiene las ideas principales para
+implementar un sistema de captura de movimiento de manera compacta y general
+posee una gran cantidad de menciones siendo un referente en el tema y la documentaci
+ón disponible es amplia (dos papers, y tesis completa). Por otro lado, dicho
+trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar
+realizado por el grupo de proyecto (uso en sioterapia, animación, biomecánica,
+entrenamiento en alto rendimiento), y es un punto de referencia habitualmente
+mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento
+de datos es la misma, tanto los bloques de adquisición como de detección
+van variando en equipamiento y métodos en los distintos proyectos\\
+
+No se encontraron base de datos acorde a las necesidades de este proyecto.
+Como se menciona en la Sección 3.2 varios son los motivos, pero básicamente se
+debe a que ninguna se diseñó para el análisis óptico con marcadores y no ofrecen
+secuencias de video utilizables para estos nes.
 
 
 Como se menciona en la introducción, la primera etapa realizada en el proyecto fue la revisión bibliográfica de sistemas de captura de movimiento, de forma tal de obtener una idea de los distintos procesos que conforman un sistema de este tipo. Los procesos principales son:
 
-\begin{itemize}
-	\item Calibración.
-	\item Adquisición.
-	\item Detección de marcadores (Segmentación y Filtrado).
-	\item Seguimiento.
-	\item Estimación de pose (Reconstrucción).
-\end{itemize}
+Si bien se encontraron numerosas bases de datos para la marcha, todas ellas
+terminan siendo descartadas por no ajustarse completamente a las hipótesis bajo las
+cuales se trabaja en este proyecto. Deciencias tales como la inadecuada cantidad
+o posición de las cámaras, condiciones del laboratorio que dicultan y en algunos
+casos imposibilitan, una correcta segmentación a partir de la información óptica.
+Y por último la ausencia o tamaño inadecuado de los marcadores, son los factores
+más importantes.
+
+Salvando diferencias, el problema principal está en que no se tienen imágenes
+ópticas para trabajar con marcadores, en general se tiende a trabajar sobre el
+cuerpo completo, y se contrasta el procesamiento con datos Mocap relevados con
+sistemas infrarrojos. Por otro lado esto último genera una rica fuente de material de
+trayectorias de puntos 3D en distinto tipo de movimientos, sobre todo en formatos
+Mocap.
+
+
+Sin embargo en la investigación bibliográca se encuentra otra realidad, puesto
+que no hay muchos sistemas a disposición. Por un lado, la mayor parte de los
+sistemas encontrados poseen altos costos de licenciamiento (por ejemplo Vicon [2],
+OptiTrack [4], PhaseSpace [7], Qualisys [3] o MotionAnalysis [6]) y por otro lado, los
+sistemas de código abierto no se adaptaban a las necesidades presentes o el trabajo
+a realizar sobre los mismos era más costoso que hacer una implementación propia.
+En este último caso se encuentra el software Kinovea [8], que realiza únicamente el
+seguimiento en coordenadas 2D.
+
+% en vez de utilizar bloques completos ya implementados se toman codigos aislados que hacen partes de esos bloques.
+
+Como se menciona anteriormente, en la búsqueda realizada se encuentra la
+tesis de doctorado de Lorna Herda [14], la misma plantea un sistema de captura
+de movimiento con las características buscadas para este proyecto. Al estudiar
+dicho sistema se encuentra que posee las mismas hipótesis de uso que el estudio
+preliminar realizado (utilización en sioterapia, biomecánica, animación, deporte,
+etc.). Además, es un trabajo mencionado repetidas veces en otros artículos de la
+misma rama cientíca, encontrándose una documentación amplia respecto a la
+metodología implementada.
+
+Debido a las ventajas que presenta esta metodología respecto a las otras encontradas,
+se decide implementar el sistema de Herda y elaborar los bloques de
+calibración y detección de marcadores aparte.
+
+Es importante destacar que, si bien la
+mayor parte de los bloques de reconstrucción y seguimiento se realizaron con la
+metodología del sistema de Lorna Herda [14], en la documentación se presentan
+ciertas ambigüedades respecto a la descripción de algunos métodos y en la forma
+de resolver determinados casos de uso, que tuvieron que ser analizados y denidos
+por el grupo del proyecto en base a los conocimientos adquiridos.
+
+Segmentacion:\\
+
+Siguiendo la metodología aplicada en todas las etapas de este trabajo, en principio
+se manejó la idea de tomar como base una implementación existente y adaptarla
+para el propósito de este proyecto. Sin embargo, en la etapa de investigación
+se encontró que no hay muchos sistemas de código abierto disponibles, y los que se
+encontraron necesitan muchos ajustes para llegar a cubrir las necesidades que se
+plantean aquí. En particular, para la segmentación se encontraron varias implementaciones
+de algoritmos, pero ninguna se ajusta a los requerimientos del proyecto.
+
+El bloque de segmentación de este sistema fue implementado en el lenguaje
+C++, debido a que es uno de los lenguajes de programación que cuenta con mayor
+cantidad de recursos para procesamiento de imágenes. En particular, se utilizaron
+las librerías OpenCV [40] y CVBlob [41] ya que funcionan para las plataformas
+principales de PC y dispositivos móviles, y están diseñadas para tener una gran e-
+ciencia computacional en las implementaciones. Además, estas librerías son bastante
+populares dentro de las librerías de código abierto con similares características,
+lo cual implica que poseen una comunidad activa de usuarios muy grande.
+
+Calibracion:\\
+
+Se utilizaron toolbox existentes.\\
+
+
+
+Segumiento:
+	informacion del esqueleto
+	kalman (dvideow)
+	
+	
+
+
+
+
+
+
 
 Al no encontrar detalles sobre el diseño de sistemas que verifiquen las hipótesis de este proyecto, o que puedan reutilizarse como base, se decide implementar uno de manera íntegra, realizando una búsqueda bibliográfica detallada y asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. En el Apéndice \ref{tablabiblio}, se muestra una Tabla con toda la bibliografía relevante, ordenada según las categorías antes mencionadas.
 \\ 
 
 Se clasificaron una serie de artículos y publicaciones dentro de las cuales se destacan:
 
-\begin{itemize}
-	\item Calibración
-	\begin{itemize}
-		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and Realtime Data Processing} \cite{kurihara2002optical}. Seguimiento orientado a capturas en tiempo real, identificando marcadores por árboles de decisión, y calibración de cámaras.
-	\end{itemize}
-	\item Detección de marcadores
-	\begin{itemize}
-		\item \emph{Simple and robust hard cut detection using interframe differences} \cite{pardo2005simple}. Esta investigación se propone un posible algoritmo de segmentación para utilizar en la etapa de detección de marcadores, utilizando un método de detección de bordes. Por motivos que se verán más adelante, estos tipos de algoritmos se descartaron para utilizar en segmentación (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
-		\item \emph{Threshold survey} \cite{surveyThreshold}. Se listan 40 algoritmos de segmentación mediante métodos de umbral. Se evalúan los mismos y se muestran ventajas y desventajas de cada uno. Entre ellos se encuentra el método de umbral de Otsu\cite{otsu}, el cual fue el elegido para implementar en este sistema (\textit{ver Capítulo \ref{deteccionMarcadoresSec}}).
-	\end{itemize}
-	\item Seguimiento
-	\begin{itemize}
-		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion} \cite{herda}. Utilizando un modelo para el cuerpo durante la reconstrucción 3D, se presenta un método para robustecer los sistemas de captura ópticos basados en marcadores. Investigación sobre la que se decide basar este trabajo, presenta múltiples algoritmos accesibles, con un nivel de descripción aceptable.
-		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views} \cite{ringer2000modelling}.
-		Utilizan un sistema óptico con múltiples cámaras basado en marcadores, no se dan detalles del proceso de captura. Describen un modelo general que integra, un modelo cinemático basado en medidas angulares y un modelo para el proceso de medida. Manejan oclusiones y para el seguimiento utilizan técnicas basadas en filtro de Kalman extendido y filtros Bayesianos. Estimación para cada cuadro de los parámetros de un modelo de esqueleto. Como el modelo es 3D, implícitamente se reconstruye la pose al mismo tiempo.  		
-		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data} \cite{kirk2005skeletal}. 
-		Se trabaja con sistemas Vicon \cite{vicon} y PhaseSpace \cite{phasespace}. Se efectúa el seguimiento utilizando una distancia no euclídea y se ajusta con un modelo de esqueleto. Si bien el artículo no contiene explicaciones formales en su desarrollo, utiliza múltiples referencias a otros artículos.
-		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing} \cite{kurihara2002optical}.
-		Se trabaja con un modelo basado en marcadores, que contiene 34 grados de libertad. Los marcadores son ubicados formando poliedros en  zonas de interés sobre el cuerpo, con el fin de utilizar algoritmos de búsqueda de poliedros para el etiquetado de marcadores. Utilizan múltiples servidores para efectuar el análisis en tiempo real. La posición de las cámaras no es fija a lo largo de la captura.
-		\item \emph{Resolving Motion Correspondence for Densely Moving Points} \cite{survey_tracking}. Revisión de varios métodos de seguimiento.
-	\end{itemize}
-	\item Estimación de pose
-	\begin{itemize}
-		\item \emph{Skeleton-Based Motion Capture for Robust Reconstruction of Human Motion} \cite{herda}. 
-		Descripto anteriormente en seguimiento.
-		\item \emph{Modelling and Tracking Articulated Motion from Multiple Camera Views} \cite{ringer2000modelling}.
-		Descripto anteriormente en seguimiento.      
-		\item \emph{Skeletal Parameter Estimation from Optical Motion Capture Data} \cite{kirk2005skeletal}.
-		Descripto anteriormente en seguimiento.
-		\item \emph{Optical Motion Capture System with Pan-Tilt Camera Tracking and  Realtime Data Processing} \cite{kurihara2002optical}.	Descripto anteriormente en seguimiento.	 
-		\item \emph{What can two images tell us about a third one?} \cite{faugueras}. Trabajo esencial sobre reconstrucción utilizando múltiples vistas. Gran desarrollo teórico, que busca robustecer algoritmos de reconstrucción.
-	\end{itemize}
-	\item Sistemas completos
-	\begin{itemize}
-		\item \emph{Detección, rastreo y reconstrucción tridimensional de marcadores pasivos para análisis de movimiento humano} \cite{colombianos}.	Trabajo de captura de movimiento, basado en el sistema de Lorna Herda \cite{herda}, se utiliza hardware costoso.
-		\item \emph{Marker Detection and trajectory generation algorithms for a multicamera based gait analysis system}\cite{shafiq2001marker}.
-		Describe un sistema completo de captura óptico de movimiento basado en marcadores.
-		Se gestiona el solapamiento de marcadores sobre una cámara en el proceso de segmentación. Las descripciones generales del resto del sistema son claras, si bien algunos detalles específicos de implementación no son mencionados.
-		No utiliza información del esqueleto. El sistema necesita interacción con el usuario al final del proceso para efectuar correcciones. 
-		\item \emph{Análisis de video para estimación del movimiento humano} \cite{martinez2009analisis}. Describe globalmente distintas etapas que componen un sistema de captura de movimiento. Para introducirse en el tema es un buen resumen.
-	\end{itemize}
-\end{itemize}
 
 Se puede ver, que en varios casos un mismo artículo contiene información de valor sobre varias etapas del sistema. Además se encontraron algunos documentos con diseños de sistemas completos.
 \\ 
