@@ -1,5 +1,5 @@
 \subsection{Detección de marcadores}
-El bloque de detección de marcadores, se puede dividir en dos partes: la \textbf{segmentación} y el \textbf{filtrado de objetos}.
+El bloque de detección de marcadores, se puede dividir en dos partes: la \textit{segmentación} y el \textit{filtrado de objetos}.
 %
 El algoritmo realiza la detección siguiendo el siguiente proceso:
 %
@@ -11,15 +11,13 @@ El algoritmo realiza la detección siguiendo el siguiente proceso:
   \item Se toma el siguiente cuadro y se repite el proceso a partir del paso 2.
 \end{enumerate}
 %
-\subsubsection{Descripción de las etapas de detección}
-En lo que respecta al bloque de \textit{segmentación}, se eligió utilizar la umbralización generando umbrales con el método de Otsu\cite{otsu} de tres clases.
-%
-Trabajar con tres clases permite ser un poco más flexible con los contrastes entre los marcadores y el resto de la imagen por lo que no sería estrictamente necesario, por ejemplo, que el traje del paciente y el fondo sean del mismo color.
+\subsubsection{Descripción de las etapas de detección.}
+En lo que respecta al bloque de \textit{segmentación}, se eligió utilizar la umbralización generando umbrales con el método de Otsu\cite{otsu} de tres clases.\\
 %
 La etapa de \textit{filtrado} no es más que una clasificación de los objetos segmentados. Dado que los objetos a detectar tienen formas relativamente sencillas (círculos blancos sobre fondo oscuro) y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requirió implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos\cite{imageMoments} y un filtro según el área de los mismos.
 %
-\subsubsection{Resultados}
-Para la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios (ver Figura \ref{ejemploabelumbr2}). Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son aceptables.
+\subsubsection{Resultados.}
+Para la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios. Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son aceptables (ver Figura \ref{ejemploabelumbr2}).
 %
 \begin{figure}[ht!]
       \centering
@@ -31,11 +29,11 @@ Para la etapa de segmentación se observó que el resultado obtenido depende fue
         \label{abeldetect}}
       \caption{%Entradas y salidas de cada etapa del bloque de deteción.
        %\textbf{(\ref{abelvideo})} 
-       Izquierda: imagen original de una secuencia fuera de las hipótesis de captura. 
-       Centro izquierda: resultado de la segmentación fuera de las hipótesis de captura.
+       \textit{Izquierda}: imagen original de una secuencia fuera de las hipótesis de captura. 
+       \textit{Centro izquierda}: resultado de la segmentación fuera de las hipótesis de captura.
        % \textbf{(\ref{abelvideo2})} 
-       Centro derecha: captura original de una secuencia real bajo las hipótesis de captura.
+       \textit{Centro derecha}: captura original de una secuencia real bajo las hipótesis de captura.
        % \textbf{(\ref{abelfiltro2})} Imagen filtrada con el umbral de Otsu. \textbf{(\ref{abeldetect})}
-        Derecha: marcadores detectados.}  
+       \textit{Derecha}: marcadores detectados.}  
       \label{ejemploabelumbr2}
 \end{figure}
