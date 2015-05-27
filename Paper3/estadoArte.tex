@@ -1,21 +1,40 @@
 \section{Estado del arte}\label{estadoDelArte}
 
 % deberia quedar claro previo a esto que la motivacion surgio del clinicas, que utilizaban el dvideow y que les daba problemas.
-
 %Porque se utilizaron sistemas con marcadores respecto a sistema sin marcadores u otras alternativas.
 %Software bibliografia y base de datos de de sistemas con marcadores
-
-
-
 % como no se encontraron soluciones que cumplieran nuestros requisitos se opto por implementarlas nosotros
-
 % antes de la busqueda del software y la base de datos sabiamos que ibamos a usar captura con marcadores y camaras opticas convencionales.
+
+Para el desarrollo del sistema se relevó la bibliografía disponible así como los sistemas de captura de movimiento e implementaciones de software existentes. Dada la necesidad de disponer de secuencias de video tanto para el desarrollo del sistema como para probar su desempeño se relevaron las bases de secuencias de video disponibles.%
+
+Respecto a la búsqueda de bibliografía se han encontrado diversos artículos que hacen una revisión de las distintas técnicas de captura de movimiento. Dado que nuestra búsqueda estaba centrada en el desarrollo de un sistema de buena precisión pero que además fuera accesible, orientamos la búsqueda hacia sistemas que emplean cámaras ópticas y marcadores, sin embargo no se han encontrado artículos que resumieran el estado del arte de los sistemas de captura de estas características. En cambio si se han encontrado diversos artículos que describen implementaciones , totales o parciales que utilizan esta metodología de captura. Dicha bibliografía permitió conocer los procesos principales con los que debe contar un sistema de estas características que en general son \emph{Adquisición}, \emph{Calibración}, \emph{Detección de marcadores}, \emph{Reconstrucción} y \emph{Seguimiento}. Para las procesos de \emph{Reconstrucción} y \emph{Seguimiento} se encontró un Tesis elaborada por Herda. Dicha tesis fue elegida como base para el desarrollo del sistema. Esta elección se basa en que el sistema propuesto posee las características buscadas y además es citada en varios artículos. Sin embargo esta tesis  presenta ciertas ambigüedades respecto a la descripción de la metodología utilizada en algunos procesos.
+
+
+% se puede mencionar que los sistemas de marcadores tienen mayor evidencia de que tiene mayor precision. Se podría citar algun artículo.
+% se debería citar algun articulo (review) sobre el sistema de captura de movimiento que utliza marcadores y camaras opticas.
+
+
+También se analizaron las soluciones que se encuentran actualmente disponibles.  Por un lado se tienen los sistemas de captura de movimiento comerciales que destacan por su performance. Algunos de estos sistemas son: Vicon , Qualysis, Optitrack, Massive, Motion analysis, PhaseSpace. La mayoría de estos sistemas utilizan cámaras infrarrojas, lo que permite una detección más eficaz de marcadores. Sin embargo estos sistemas presentan la desventaja de su elevado costo. Se han analizado también las alternativas de software libre. En este caso no se han encontrado implementaciones que realicen todas las etapas de un sistema de captura de movimiento en forma íntegra. Uno de los sistemas analizados es el Kinovea el cual está orientado al deporte y que permite un análisis del movimiento en dos dimensiones con un enfoque esencialmente cualitativo, y que por tanto no cumple no los requerimientos necesarios. Sin embargo sí existen implementaciones que permiten realizar alguna etapa de un sistema de captura toolbox en Matlab o librerías como OpenCV para el tratamiento de imágenes. Alguna de estas herramientas fueron utilizadas en el sistema desarrollado.
+
+Por otra parte se realizó una búsqueda bases de datos con videos de capturas de movimiento que permitieran realizar tests de performance sobre el sistema a desarrollar. Si bien se encontraron numerosas bases de datos, las mismas fueron descartadas por no ajustarse completamente  a las hipótesis que se plantearon en este trabajo. En particular dichas bases fueron diseñadas para una captura de movimiento con camaras infrarrojas y no convencionales. (mejorar esta parte).Por otra parte presentaban además  inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dicultan y en algunos casos imposibilitan, una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores, son los factores más importantes. De todas maneras cabe destacar que se genera un relevamiento de bases de datos para el movimiento humano y se profundiza en las características usuales presentes en dichas bases de datos, logrando obtener un conjunto de conceptos y herramientas importantes para el proyecto. Previo análisis de los parámetros involucrados, se enumeran consideraciones a tener en cuenta a la hora de generar un laboratorio de captura. (tambien se utilizaron como ground truth).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
 
 %SOFTWARE
 
 
-Se analizaron las soluciones que se encuentran actualmente disponibles.  Por un lado se tienen sistemas de captura de movimiento comerciales que destacan por su performance y algunos de los cuales son especialmente populares en la industria del cine o el diseño de videojuegos donde se captura el movimiento de personas para animar modelos digitales. Algunos de estos sistemas son: Vicon , Qualysis, Optitrack, Massive, Motion analysis, PhaseSpace. La mayoría de estos sistemas utilizan cámaras infrarrojas, lo que permite una detección más eficaz de marcadores. Sin embargo estos sistemas presentan la desventaja de su elevado costo.
-También se han analizado las alternativas de software libre. Para este caso no se han encontrado implementaciones que realicen todas las etapas de un sistema de captura de movimiento en forma íntegra. Uno de los sistemas analizados es el Kinovea. Su uso está orientado al deporte y permite un análisis del movimiento en dos dimensiones con un enfoque esencialmente cualitativo, por lo que no cumple no los requerimientos necesarios. Sin embargo sí existen implementaciones que permiten realizar alguna etapa de un sistema de captura como toolbox que realizan calibración de cámaras o librerías como CVBlob y OpenCV para el tratamiento de imágenes. Alguna de estas herramientas fueron utilizadas en el sistema desarrollado y se describen más adelante.\\
+
 
 
 %Al  día  de  hoy, las  soluciones  de  software  disponibles que  podrían  asistir al especialista en su tarea, son mayormente comerciales. Las pocas alternativas de código abierto, carecen de las características necesarias para el especialista o están enfocadas hacia otras áreas de aplicación. Contar con este tipo de herramientas es fundamental para las necesidades de los equipos de profesionales, cuya alternativa son productos comerciales de alto costo.\\
@@ -77,7 +96,7 @@ También se han analizado las alternativas de software libre. Para este caso no 
 % en vez de utilizar bloques completos ya implementados se toman codigos aislados que hacen partes de esos bloques.
 
 
-Por otra parte se realizó una búsqueda bases de datos con videos de capturas de movimiento que permitiesen realizar tests de performance sobre el sistema a desarrollar. Si bien se encontraron numerosas bases de datos, las mismas terminan siendo descartadas por no ajustarse completamente  a las hipótesis que se plantearon en este trabajo. En particular dichas bases fueron diseñadas para una captura de movimiento con camaras infrarrojas y no convencionales. (mejorar esta parte).Por otra parte presentaban además  inadecuada cantidad o posición de las cámaras, condiciones del laboratorio que dicultan y en algunos casos imposibilitan, una correcta segmentación a partir de la información óptica. Y por último la ausencia o tamaño inadecuado de los marcadores, son los factores más importantes. De todas maneras cabe destacar que se genera un relevamiento de bases de datos para el movimiento humano y se profundiza en las características usuales presentes en dichas bases de datos, logrando obtener un conjunto de conceptos y herramientas importantes para el proyecto. Previo análisis de los parámetros involucrados, se enumeran consideraciones a tener en cuenta a la hora de generar un laboratorio de captura. (tambien se utilizaron como ground truth).
+
 
 %BASE DE DATOS
 %Se procura obtener una base de datos con secuencias, ya sean reales o sintéticas, sobre los cuales implementar la aplicación y sus distintos bloques. Si bien esta búsqueda no aporta los resultados esperados,
@@ -112,27 +131,25 @@ Por otra parte se realizó una búsqueda bases de datos con videos de capturas d
 %BIBLIOGRAFIA
 
 	
-Se realizó una revisión de la bibliografía disponible referida a la captura de movimiento. Se encontraron diversos artículos que mencionan hacen una revision de las distintas técnicas que se encuentran. Dado que nuestra búsqueda estaba centrada en el desarrollo de un sistema de buena precisión pero además accesible, orientamos la búsqueda hacia sistemas que emplean cámaras ópticas y marcadores, los cuales, según algunos artículos este método a pesar de los avances en los métodos sin marcadores sigue presentando mayores niveles de precision. A este respecto encontramos que no habían muchos artículos que resumieran el estado del arte en particular de este método de captura.
-
-Si en cambio encontramos articulos que describen implementaciones de sistemas parciales o completos con este método. Esta bibliografía permitió tomar conocer los procesos principales con los que debe contar un sistema de estas características. estos procesos en general son \emph{Adquisición}, \emph{Calibración}, \emph{Detección de marcadores}, \emph{Reconstrucción} y \emph{Seguimiento}. Por tanto la bśuqeda se orientó a artículos más específicos a cada una de  estos procesos. En dicha etapa se realiza una clasificación de los documentos de acuerdo a la relevancia que prestan y se definen los métodos que posteriormente se utilizaron para implementar los distintos procesos que componen el sistema.
 
 
-revision inicial
+
+%revision inicial
 %La revisión bibliográfica inicial permite encontrar los procesos principales que normalmente conforman un sistema de captura de movimiento: \emph{Adquisición}, \emph{Calibración}, \emph{Detección de marcadores}, \emph{Reconstrucción} y \emph{Seguimiento};  obteniendo a su vez una idea del estado del arte de dichos procesos. En dicha etapa se realiza una clasificación de los documentos de acuerdo a la relevancia que prestan y se definen los métodos que posteriormente se utilizaron para implementar los distintos procesos que componen el sistema. \\ 
 
-revision inicial
+%revision inicial
 %Al no encontrar detalles sobre el diseño de sistemas que verifiquen las hipótesis de este proyecto, o que puedan reutilizarse como base, se decide implementar uno de manera íntegra, realizando una búsqueda bibliográfica detallada y asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. En el Apéndice \ref{tablabiblio}, se muestra una Tabla con toda la bibliografía relevante, ordenada según las categorías antes mencionadas.\\ 
 
-articulos por partes y completos
+%articulos por partes y completos
 %Se puede ver, que en varios casos un mismo artículo contiene información devalor sobre varias etapas del sistema. Además se encontraron algunos documentos con diseños de sistemas completos.\\
 
-herda, razones
+%herda, razones
 %En los bloques de seguimiento y estimación de pose se decide basar el desarrollo en las ideas del sistema propuesto por Lorna Herda en sus tesis de doctorado [14]. Dicha elección se debe a que el estudio de Herda contiene las ideas principales para implementar un sistema de captura de movimiento de manera compacta y general posee una gran cantidad de menciones siendo un referente en el tema y la documentación disponible es amplia (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por el grupo de proyecto (uso en sioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos\\
 
-herda, razones
+%herda, razones
 %Como se menciona anteriormente, en la búsqueda realizada se encuentra la tesis de doctorado de Lorna Herda [14], la misma plantea un sistema de captura de movimiento con las características buscadas para este proyecto. Al estudiar dicho sistema se encuentra que posee las mismas hipótesis de uso que el estudio preliminar realizado (utilización en sioterapia, biomecánica, animación, deporte, etc.). Además, es un trabajo mencionado repetidas veces en otros artículos de la misma rama cientíca, encontrándose una documentación amplia respecto a la metodología implementada. Debido a las ventajas que presenta esta metodología respecto a las otras encontradas, se decide implementar el sistema de Herda y elaborar los bloques de calibración y detección de marcadores aparte.
 
-herda, debilidades
+%herda, debilidades
 %Es importante destacar que, si bien la mayor parte de los bloques de reconstrucción y seguimiento se realizaron con la metodología del sistema de Lorna Herda [14], en la documentación se presentan ciertas ambigüedades respecto a la descripción de algunos métodos y en la forma de resolver determinados casos de uso, que tuvieron que ser analizados y denidos por el grupo del proyecto en base a los conocimientos adquiridos.
 
 
@@ -160,7 +177,7 @@ herda, debilidades
 
 %Se puede ver, que en varios casos un mismo artículo contiene información de valor sobre varias etapas del sistema. Además se encontraron algunos documentos con diseños de sistemas completos.\\ 
 
-herda razones
+%herda razones
 %En los bloques de seguimiento y estimación de pose se decide basar el desarrollo en las ideas del sistema propuesto por Lorna Herda en sus tesis de doctorado \cite{herda}. Dicha elección se debe a que el estudio de Herda contiene las ideas principales para implementar un sistema de captura de movimiento de manera compacta y general, posee una gran cantidad de menciones siendo un referente en el tema y la documentación disponible es amplia (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por el grupo de proyecto (uso en fisioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
