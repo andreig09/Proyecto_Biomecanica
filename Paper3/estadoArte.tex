@@ -111,12 +111,28 @@ Por otra parte se realizó una búsqueda bases de datos con videos de capturas d
  
 %BIBLIOGRAFIA
 
+	
+Se realizó una revisión de la bibliografía disponible referida a la captura de movimiento. Se encontraron diversos artículos que mencionan hacen una revision de las distintas técnicas que se encuentran. Dado que nuestra búsqueda estaba centrada en el desarrollo de un sistema de buena precisión pero además accesible, orientamos la búsqueda hacia sistemas que emplean cámaras ópticas y marcadores, los cuales, según algunos artículos este método a pesar de los avances en los métodos sin marcadores sigue presentando mayores niveles de precision. A este respecto encontramos que no habían muchos artículos que resumieran el estado del arte en particular de este método de captura.
+
+Si en cambio encontramos articulos que describen implementaciones de sistemas parciales o completos con este método. Esta bibliografía permitió tomar conocer los procesos principales con los que debe contar un sistema de estas características. estos procesos en general son \emph{Adquisición}, \emph{Calibración}, \emph{Detección de marcadores}, \emph{Reconstrucción} y \emph{Seguimiento}. Por tanto la bśuqeda se orientó a artículos más específicos a cada una de  estos procesos. En dicha etapa se realiza una clasificación de los documentos de acuerdo a la relevancia que prestan y se definen los métodos que posteriormente se utilizaron para implementar los distintos procesos que componen el sistema.
+
+
+revision inicial
+%La revisión bibliográfica inicial permite encontrar los procesos principales que normalmente conforman un sistema de captura de movimiento: \emph{Adquisición}, \emph{Calibración}, \emph{Detección de marcadores}, \emph{Reconstrucción} y \emph{Seguimiento};  obteniendo a su vez una idea del estado del arte de dichos procesos. En dicha etapa se realiza una clasificación de los documentos de acuerdo a la relevancia que prestan y se definen los métodos que posteriormente se utilizaron para implementar los distintos procesos que componen el sistema. \\ 
+
+revision inicial
+%Al no encontrar detalles sobre el diseño de sistemas que verifiquen las hipótesis de este proyecto, o que puedan reutilizarse como base, se decide implementar uno de manera íntegra, realizando una búsqueda bibliográfica detallada y asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. En el Apéndice \ref{tablabiblio}, se muestra una Tabla con toda la bibliografía relevante, ordenada según las categorías antes mencionadas.\\ 
+
+articulos por partes y completos
 %Se puede ver, que en varios casos un mismo artículo contiene información devalor sobre varias etapas del sistema. Además se encontraron algunos documentos con diseños de sistemas completos.\\
 
+herda, razones
 %En los bloques de seguimiento y estimación de pose se decide basar el desarrollo en las ideas del sistema propuesto por Lorna Herda en sus tesis de doctorado [14]. Dicha elección se debe a que el estudio de Herda contiene las ideas principales para implementar un sistema de captura de movimiento de manera compacta y general posee una gran cantidad de menciones siendo un referente en el tema y la documentación disponible es amplia (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por el grupo de proyecto (uso en sioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos\\
 
+herda, razones
 %Como se menciona anteriormente, en la búsqueda realizada se encuentra la tesis de doctorado de Lorna Herda [14], la misma plantea un sistema de captura de movimiento con las características buscadas para este proyecto. Al estudiar dicho sistema se encuentra que posee las mismas hipótesis de uso que el estudio preliminar realizado (utilización en sioterapia, biomecánica, animación, deporte, etc.). Además, es un trabajo mencionado repetidas veces en otros artículos de la misma rama cientíca, encontrándose una documentación amplia respecto a la metodología implementada. Debido a las ventajas que presenta esta metodología respecto a las otras encontradas, se decide implementar el sistema de Herda y elaborar los bloques de calibración y detección de marcadores aparte.
 
+herda, debilidades
 %Es importante destacar que, si bien la mayor parte de los bloques de reconstrucción y seguimiento se realizaron con la metodología del sistema de Lorna Herda [14], en la documentación se presentan ciertas ambigüedades respecto a la descripción de algunos métodos y en la forma de resolver determinados casos de uso, que tuvieron que ser analizados y denidos por el grupo del proyecto en base a los conocimientos adquiridos.
 
 
@@ -139,15 +155,12 @@ Por otra parte se realizó una búsqueda bases de datos con videos de capturas d
 	
 	
 
-%La revisión bibliográfica inicial permite encontrar los procesos principales que normalmente conforman un sistema de captura de movimiento: \emph{Adquisición}, \emph{Calibración}, \emph{Detección de marcadores}, \emph{Reconstrucción} y \emph{Seguimiento};  obteniendo a su vez una idea del estado del arte de dichos procesos. En dicha etapa se realiza una clasificación de los documentos de acuerdo a la relevancia que prestan y se definen los métodos que posteriormente se utilizaron para implementar los distintos procesos que componen el sistema. \\ 
-
-
-%Al no encontrar detalles sobre el diseño de sistemas que verifiquen las hipótesis de este proyecto, o que puedan reutilizarse como base, se decide implementar uno de manera íntegra, realizando una búsqueda bibliográfica detallada y asignando cada artículo a una categoría de acuerdo a los procesos definidos anteriormente. En el Apéndice \ref{tablabiblio}, se muestra una Tabla con toda la bibliografía relevante, ordenada según las categorías antes mencionadas.\\ 
 
 
 
 %Se puede ver, que en varios casos un mismo artículo contiene información de valor sobre varias etapas del sistema. Además se encontraron algunos documentos con diseños de sistemas completos.\\ 
 
+herda razones
 %En los bloques de seguimiento y estimación de pose se decide basar el desarrollo en las ideas del sistema propuesto por Lorna Herda en sus tesis de doctorado \cite{herda}. Dicha elección se debe a que el estudio de Herda contiene las ideas principales para implementar un sistema de captura de movimiento de manera compacta y general, posee una gran cantidad de menciones siendo un referente en el tema y la documentación disponible es amplia (dos papers, y tesis completa). Por otro lado, dicho trabajo se encuentra bajo las mismas hipótesis de uso que el estudio preliminar realizado por el grupo de proyecto (uso en fisioterapia, animación, biomecánica, entrenamiento en alto rendimiento), y es un punto de referencia habitualmente mencionado. Sin embargo, si bien en todas sus menciones la metodología de tratamiento de datos es la misma, tanto los bloques de adquisición como de detección van variando en equipamiento y métodos en los distintos proyectos.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
