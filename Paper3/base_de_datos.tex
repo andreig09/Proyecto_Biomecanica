@@ -1,18 +1,18 @@
-\section{Base de datos} 
+\section{Generación de secuencias} 
 \label{section_base_de_datos}
 Con el fin de implementar, testear y comparar los distintos tipos de algoritmos desarrollados por el sistema, es deseable poseer  múltiples secuencias de videos 2D de movimiento obtenidas a partir de cámaras situadas en un entorno 3D cerrado, previamente acondicionado. Así como también contar con el correspondiente ground truth 2D y 3D de los datos de movimiento disponibles, así como la información de calibración de las cámaras utilizadas para efectuar las capturas.
 
 \subsection{Características de Laboratorio}
 \label{seccion_Caracteristicas_Laboratorio}
-A continuación se enumeran algunas variables que es necesario tener en cuenta a la hora de diseñar un laboratorio adecuado para un sistema de captura óptica basado en marcadores. 
-
-\begin{itemize}
-\item \textbf{Cámaras}. La resolución espacial de los datos en el procesamiento condiciona la resolución de la cámara, la resolución temporal para la marcha requiere como mínimo 30 cuadros por segundo, con tiempos de obturación de al menos $1/2000\, s$, esto último permite evitar efectos de distorsión debidos a falta de nitidez.
-\item \textbf{Marcadores}. El color de los  marcadores debe contrastar claramente con la vestimenta y el fondo del espacio de captura, se recomienda una forma esférica. En capturas con cámaras ubicadas a menos de 12 metros del movimiento a relevar, un tamaño aceptable para el marcadores es de $3\,cm$ de diámetro.
-\item \textbf{Vestimenta}. Debe ser ajustada, para despreciar fluctuaciones en la posición de los marcadores y preferiblemente de igual color que el fondo. 
-\item \textbf{Iluminación}. debe ser uniforme, si se utiliza iluminación artificial con focos puntuales es habitual colocar pantallas difusoras delante de los focos.
-\item \textbf{Espacio de captura}. debe contrastar con los marcadores, y sus dimensiones varían según el tipo de marcha a relevar. En caso de marcha rectilínea sobre una plataforma de $3\,m \times 5 \,m$ se encuentra que 4 son el mínimo número de cámaras que permiten relevar el movimiento de manera satisfactoria. Mientras  que en el caso de la marcha libre sobre una plataforma circular de $5\,m$ de diámetro, se recomienda la utilización de al menos 8 cámaras.
-\end{itemize}
+Es necesario cuidar la relación entre algunas variables a la hora de diseñar un laboratorio adecuado para un sistema de captura óptica basado en marcadores. El espacio de captura y la vestimenta del paciente deben contrastar con los marcadores, la iluminación debe ser uniforme y fuera del campo visual de las cámaras. En estas últimas debe cuidarse la resolución, los tiempos de obturación mínimos así como su distribución en las dimensiones del espacio de captura dado el movimiento a relevar.
+%
+%\begin{itemize}
+%\item \textbf{Cámaras}. La resolución espacial de los datos en el procesamiento condiciona la resolución de la cámara, la resolución temporal para la marcha requiere como mínimo 30 cuadros por segundo, con tiempos de obturación de al menos $1/2000\, s$, esto último permite evitar efectos de distorsión debidos a falta de nitidez.
+%\item \textbf{Marcadores}. El color de los  marcadores debe contrastar claramente con la vestimenta y el fondo del espacio de captura, se recomienda una forma esférica. En capturas con cámaras ubicadas a menos de 12 metros del movimiento a relevar, un tamaño aceptable para el marcadores es de $3\,cm$ de diámetro.
+%\item \textbf{Vestimenta}. Debe ser ajustada, para despreciar fluctuaciones en la posición de los marcadores y preferiblemente de igual color que el fondo. 
+%\item \textbf{Iluminación}. debe ser uniforme, si se utiliza iluminación artificial con focos puntuales es habitual colocar pantallas difusoras delante de los focos.
+%\item \textbf{Espacio de captura}. debe contrastar con los marcadores, y sus dimensiones varían según el tipo de marcha a relevar. En caso de marcha rectilínea sobre una plataforma de $3\,m \times 5 \,m$ se encuentra que 4 son el mínimo número de cámaras que permiten relevar el movimiento de manera satisfactoria. Mientras  que en el caso de la marcha libre sobre una plataforma circular de $5\,m$ de diámetro, se recomienda la utilización de al menos 8 cámaras.
+%\end{itemize}
 
 \subsection{Laboratorio Virtual}
 
