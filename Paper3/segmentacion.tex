@@ -4,20 +4,21 @@ El bloque de detección de marcadores, se puede dividir en dos partes: la \texti
 El algoritmo realiza la detección siguiendo el siguiente proceso:
 %
 \begin{enumerate}
-  \item Se recibe como entrada un video y este es separado en cada uno de sus cuadros.
-  \item Se toma un cuadro y se lo segmenta utilizando umbralización de Otsu.
+  \item Obtención de cada cuadro de la entrada de video.
+  \item Se toma un cuadro y se segmenta utilizando umbralización de Otsu.
   \item A partir de la imagen segmentada, se identifican los marcadores.
-  \item Se escribe la posición de los marcadores detectados para este cuadro en un archivo con formato XML.
+  \item Se escribe la posición de los marcadores detectados en un archivo XML.
+  %\item Se escribe la posición de los marcadores detectados para este cuadro en un archivo con formato XML.
   \item Se toma el siguiente cuadro y se repite el proceso a partir del paso 2.
 \end{enumerate}
 %
 \subsubsection{Descripción de las etapas de detección.}
-En lo que respecta al bloque de \textit{segmentación}, se eligió utilizar la umbralización generando umbrales con el método de Otsu\cite{otsu} de tres clases.\\
+El bloque de \textit{segmentación} utilizó umbralización generando umbrales con el método de Otsu\cite{otsu} de tres clases.\\
 %
 La etapa de \textit{filtrado} no es más que una clasificación de los objetos segmentados. Dado que los objetos a detectar tienen formas relativamente sencillas (círculos blancos sobre fondo oscuro) y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requirió implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos\cite{imageMoments} y un filtro según el área de los mismos.
 %
 \subsubsection{Resultados.}
-Para la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios. Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son aceptables (ver Figura \ref{ejemploabelumbr2}).
+En la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios. Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son aceptables (ver Figura \ref{ejemploabelumbr2}).
 \vspace{-0.5cm}
 \begin{figure}[ht!]
       \centering
