@@ -11,8 +11,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="Algoritmo_reconstruccion.eps"
-   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Algoritmo_reconstruccion.svg"
+   inkscape:version="0.48.5 r10040"
    version="1.1"
    id="svg2"
    height="297mm"
@@ -24,14 +24,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="583.03171"
-     inkscape:cy="863.38776"
+     inkscape:zoom="2.2920606"
+     inkscape:cx="411.69055"
+     inkscape:cy="882.90661"
      inkscape:document-units="px"
-     inkscape:current-layer="svg2"
+     inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1055"
+     inkscape:window-width="1024"
+     inkscape:window-height="575"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -71,12 +71,12 @@
     <path
        inkscape:connector-curvature="0"
        id="path4656"
-       d="m 236.42857,161.83204 c 0,47.88997 0,47.88997 0,47.88997"
-       style="fill:none;stroke:#000000;stroke-width:0.3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       d="m 236.42857,161.83204 c 0,39.06056 0,39.06056 0,39.06056"
+       style="fill:none;stroke:#000000;stroke-width:0.27093691;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
        inkscape:connector-curvature="0"
        id="path4662"
-       d="m 236.27133,209.58108 5.71429,0"
+       d="m 236.27133,200.86112 5.71429,0"
        style="fill:none;stroke:#000000;stroke-width:0.30000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
        inkscape:connector-curvature="0"
