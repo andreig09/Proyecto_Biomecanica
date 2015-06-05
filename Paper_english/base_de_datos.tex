@@ -1,0 +1,51 @@
+\section{Generación de secuencias} 
+\label{section_base_de_datos}
+Con el fin de implementar, testear y comparar los distintos tipos de algoritmos desarrollados por el sistema, es deseable poseer  múltiples secuencias de videos 2D de movimiento obtenidas
+% a partir de 
+con cámaras situadas en un entorno 3D cerrado, previamente acondicionado. Así como también contar con el correspondiente ground truth 2D y 3D de los datos de movimiento disponibles y la información de calibración de las cámaras utilizadas para efectuar las capturas.
+
+%\subsubsection{Características de Laboratorio}
+\textit{Características de Laboratorio.}
+\label{seccion_Caracteristicas_Laboratorio}
+Es necesario cuidar la relación entre algunas variables a la hora de diseñar un laboratorio adecuado para un sistema de captura óptica basado en marcadores. El espacio de captura y la vestimenta del paciente deben contrastar con los marcadores, la iluminación debe ser uniforme y quedar fuera del campo visual de las cámaras. En estas últimas debe cuidarse la resolución, los tiempos de obturación mínimos así como su distribución en las dimensiones del espacio de captura dado el movimiento a relevar.
+%
+%\begin{itemize}
+%\item \textbf{Cámaras}. La resolución espacial de los datos en el procesamiento condiciona la resolución de la cámara, la resolución temporal para la marcha requiere como mínimo 30 cuadros por segundo, con tiempos de obturación de al menos $1/2000\, s$, esto último permite evitar efectos de distorsión debidos a falta de nitidez.
+%\item \textbf{Marcadores}. El color de los  marcadores debe contrastar claramente con la vestimenta y el fondo del espacio de captura, se recomienda una forma esférica. En capturas con cámaras ubicadas a menos de 12 metros del movimiento a relevar, un tamaño aceptable para el marcadores es de $3\,cm$ de diámetro.
+%\item \textbf{Vestimenta}. Debe ser ajustada, para despreciar fluctuaciones en la posición de los marcadores y preferiblemente de igual color que el fondo. 
+%\item \textbf{Iluminación}. debe ser uniforme, si se utiliza iluminación artificial con focos puntuales es habitual colocar pantallas difusoras delante de los focos.
+%\item \textbf{Espacio de captura}. debe contrastar con los marcadores, y sus dimensiones varían según el tipo de marcha a relevar. En caso de marcha rectilínea sobre una plataforma de $3\,m \times 5 \,m$ se encuentra que 4 son el mínimo número de cámaras que permiten relevar el movimiento de manera satisfactoria. Mientras  que en el caso de la marcha libre sobre una plataforma circular de $5\,m$ de diámetro, se recomienda la utilización de al menos 8 cámaras.
+%\end{itemize}
+
+\textit{Laboratorio Virtual.} Utilizando la suite de animación 3D gratuita y de código abierto de \textit{Blender}, se genera un laboratorio de captura de movimiento virtual, donde se obtienen secuencias de movimiento sintéticas con sus respectivos videos a partir de un modelo virtual 3D. El esqueleto del modelo contiene la información de movimiento, el mismo se obtuvo de la base de datos \textit{MotionBuilder-friendly versión} ofrecidas por \textit{cgspeed} \cite{cgspeed}, 
+%\footnote{\textcolor{blue}{\underline{\url{https://sites.google.com/a/cgspeed.com/cgspeed/motion-capture}}}. Accedido 4-12-14},
+donde se cuenta con las fuentes BVH que provienen de capturas de movimiento real de \textit{Carnegie Mellon University Motion Capture Database} (C.M.U.). Si bien las secuencias de video obtenidas son lo único necesario para el análisis posterior, al generar dichas secuencias a través de un entorno virtual controlado, permite probar múltiples configuraciones contando en cada caso, con la información exacta del ambiente de captura.
+
+\textit{Blender} permite extender su funcionalidad a través de programas en Python, automatizando varias etapas en el desarrollo de nuevas secuencias, así como la exportación de información a otros lenguajes.
+
+Por más detalles de la implementación del laboratorio virtual así como de la generación de secuencias consultar \cite{proyecto_biomecanica}.
+%\subsubsection{Disposición del Laboratorio}
+%
+%Un laboratorio con 17 cámaras dispuestas uniformemente sobre un ambiente rectangular de $10\times15\;m $ permite probar diferentes combinaciones de captura a la hora de generar secuencias. 
+%Para iluminar el laboratorio basta con $8$ focos puntuales de luz omnidireccional sobres los límites del mismo, rodeando la escena y a un nivel de 3 metros de altura. Cuidando que ninguno de los focos sea tomado directamente por las cámaras y los marcadores se iluminen correctamente.
+%
+%
+%\subsubsection{Modelo virtual}  
+%La relevancia del modelo en las capturas es simular las oclusiones de marcadores debida a los miembros del sujeto en una captura real.
+%El modelo virtual utilizado se basa en un maniquí de madera convencional, el mismo se ajusta con facilidad a una posición particular, siendo cada miembro fácilmente correlacionado con un hueso específico, sin perder las particularidades propia de un sujeto real.
+%
+%%Los marcadores que se van a utilizar son de color difuso blanco, por lo que el material del modelo es difuso negro con especularidad baja, de manera que no se generen brillos indeseados debido a la iluminación en el momento de la captura. La configuración recomendada es utilizar un fondo también oscuro.
+%
+%
+%\subsubsection{Esqueleto}
+       
+% Con el fin de normalizar las secuencias BVH \footnote{Biovision Hierarchical data, formato de captura de movimiento desarrollado por Biovision.} provenientes de \textit{MotionBuilder} se ha utilizado la herramienta de edición de archivos BVH \textit{bvhacker} \cite{bvhacker}.
+% %\footnote{bvhacker: The free bvh file editing tool. \textcolor{blue}{\underline{\url{ http://davedub.co.uk/bvhacker/}}}. Accedido 5-12-14}.
+% La misma permite centrar las secuencias sobre un mismo punto en el primer cuadro removiendo los offset globales.
+% Una vez gestionado lo anterior se importa en \textit{Blender} la secuencia BVH y se procede a generar los marcadores en las articulaciones del esqueleto, dado que se tiene la posición exacta del origen de cada hueso en el esqueleto y la articulación es la unión entre dos huesos consecutivos, se puede obtener la posición exacta de los marcadores a partir de la secuencia BVH.
+% La generación de los marcadores y el enlazado del esqueleto al modelo virtual se realiza a través de un código python.
+% Alguno de los factores que justifican esta elección son que C.M.U. dispone de un gran número de capturas de movimiento de acceso público, varias utilidades de software que permiten llevar a otros formatos y es utilizado ampliamente en el ámbito de la animación por computadora.
+% 
+% \subsubsection{Renderizado y ground truth}
+% Una vez se dispone de la secuencia de movimiento en el entorno virtual de \textit{Blender}, lo que resta es renderizar dicha secuencia sobre las cámaras del laboratorio. Para contar con el ground truth final de la secuencia animada se debe exportar desde \textit{Blender} la información del esqueleto en un BVH, cuidando de habilitar que se mantenga la misma escala de tiempos que en el momento del renderizado. De esta manera se tienen sincronizados los videos y el ground truth 3D.
+% 
