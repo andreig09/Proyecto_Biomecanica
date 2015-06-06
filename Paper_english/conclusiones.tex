@@ -1,12 +1,7 @@
-\section{Conclusiones}
+\section{Conclusions}
 
-Se obtuvo en forma íntegra un sistema óptico de captura de movimiento basado en marcadores, que a partir de las capturas de video de una persona en un ambiente de laboratorio con las condiciones adecuadas, obtiene la posición 3D de  los marcadores presentes en el cuerpo de dicha persona, logrando representar su movimiento con una precisión del orden del centímetro.
-%
-%Si bien inicialmente el objetivo fue que el sistema funcionara por lo menos para el caso de uso de la marcha, se han probado otros  movimientos con resultados aceptables. La aplicación desarrollada permite a partir de múltiples capturas de vídeo de un sujeto en movimiento, detectar los marcadores en cada toma de video. Junto a la información de las cámaras, luego reconstruye la posición de los marcadores en el espacio y finalmente logra identificar cada marcador a lo largo de la secuencia temporal. Cabe destacar que el sistema implementado no es solo óptico, sino que es lo bastante general para funcionar con cualquier sistema de adquisición que genere imágenes, por ejemplo con imágenes infrarrojas provenientes de sistemas de captura modernos.
-
-Por otro lado, la implementación separa cada etapa del proceso en módulos distintos, capaces de funcionar de manera independiente. Lo cual permite que el sistema no sea estrictamente óptico sino lo bastante general como para funcionar con cualquier sistema de adquisición que genere imágenes. %Esto además permite aumentar la reproductibilidad en el área, puse se cuenta con un sistema completo y esrtructurado donde fácilmente se pueden modificar, ingresar y probar distintas partes comparando sus desempeños.\\
-
-Al realizar pruebas con secuencias reales  provenientes de tres cámaras en un laboratorio fuera de las hipótesis de captura, se producen problemas en las etapas de segmentación y reconstrucción. Efectuando extracción de fondo y modificaciones sobre la reconstrucción se logran mejores resultados aunque apenas aceptables. Constatando el fuerte impacto que tiene una pobre metodología de captura sobre el posterior procesamiento.
-
-Se logra contribuir con reproductibilidad y metodología de diseño en el área a través de un sistema completo y estrructurado de captura de movimiento.
-%Para comparar los desempeños se definieron una serie de métricas, mediante las cuales se obtuvo una medida de performance de las etapas del sistema y del sistema completo, de forma tal de tener valores de referencia sobre los cuales comparar futuras versiones u otros sistemas.
+An optical motion capture system based on markers was obtained in full,
+from capture video of a person in a lab environment with the right conditions, manages to obtain the 3D position of markers in the body of the person, representing the movement with an accuracy of centimeter order.\\
+\hspace*{0.5cm} Furthermore, the implementation separates each process step in different modules capable of operating independently, allowing work with any acquisition system that generates not strictly optical images.\\
+\hspace*{0.5cm} When testing with real sequences from three cameras in a laboratory outside the capture hypothesis, problems occur in the stages of segmentation and reconstruction. Performing background subtraction and modifications reconstruction barely acceptable even better results are achieved. Verifying the strong impact of a poor methodology of captured on the further processing.\\
+\hspace*{0.5cm}This work does contribute to reproducibility and design methodology in the area through a structured full motion capture system.
