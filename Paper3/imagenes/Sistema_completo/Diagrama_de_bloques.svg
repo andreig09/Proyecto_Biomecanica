@@ -24,16 +24,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="518.34638"
-     inkscape:cy="707.53534"
+     inkscape:zoom="1.979899"
+     inkscape:cx="387.31134"
+     inkscape:cy="655.97717"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1031"
+     inkscape:window-height="1055"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata3344">
@@ -254,35 +254,34 @@
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51695012999999990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="path6161-2-18"
        d="m 227.77299,228.56695 42.48495,0.0728 0.0304,-12.95582 43.87455,21.85915 -44.05236,21.85918 -0.0154,-12.76501 -42.20297,0.20593 z" />
-    <g
-       id="g4012-0"
-       transform="matrix(0.20823756,0,0,0.20823756,38.368883,640.15048)">
-      <rect
-         style="fill:#4bbb5f;fill-opacity:1;stroke:#000000;stroke-width:9.8131361;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect5339-4-0-5-3"
-         y="-1543.8994"
-         x="518.27496"
-         ry="69.620644"
-         height="291.74939"
-         width="505.53894" />
-      <text
-         sodipodi:linespacing="125%"
-         style="font-size:56px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
-         xml:space="preserve"
-         id="text6329-6"
-         transform="translate(0,-3160.6293)"
-         y="1705.0227"
-         x="765.65753"><tspan
-           id="tspan6331-3"
-           y="1705.0227"
-           x="765.65753">Parámetros</tspan><tspan
-           id="tspan6333-6"
-           y="1775.0227"
-           x="774.40753">internos de las </tspan><tspan
-           id="tspan6335-6"
-           y="1845.0227"
-           x="765.65753">cámaras</tspan></text>
-    </g>
+    <rect
+       width="105.27219"
+       height="60.753181"
+       ry="14.497633"
+       x="146.2932"
+       y="318.65262"
+       id="rect5339-4-0-5-3"
+       style="fill:#4bbb5f;fill-opacity:1;stroke:#000000;stroke-width:2.04346347;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       x="200.35323"
+       y="338.40717"
+       id="text6329-6"
+       xml:space="preserve"
+       style="font-size:11.66130352px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
+       sodipodi:linespacing="125%"><tspan
+         x="200.35323"
+         y="338.40717"
+         id="tspan6331-3">Parámetros</tspan></text>
+    <text
+       x="198.08038"
+       y="355.20096"
+       xml:space="preserve"
+       style="font-size:11.66130352px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
+       sodipodi:linespacing="125%"
+       id="text3045"><tspan
+         x="198.08038"
+         y="355.20096"
+         id="tspan3047"> de la cámaras</tspan></text>
     <path
        inkscape:connector-curvature="0"
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.51663458000000007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
