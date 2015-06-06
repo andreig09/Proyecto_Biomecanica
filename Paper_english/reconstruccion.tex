@@ -1,28 +1,18 @@
-\subsection{Reconstrucción}
-A la salida del bloque de detección de marcadores se tiene, para cada cámara y para cada cuadro de una secuencia, un conjunto de coordenadas $(x,y)$ que ubican la posición en la imagen de aquellos marcadores que fueron detectados.
-El proceso de reconstrucción consiste en obtener la posición de los marcadores en el espacio, a partir de la posición de los marcadores en al menos dos retinas.
-%En la Figura \ref{fig: esquema_reconstruccion} se muestra un bosquejo de la reconstrucción de un marcador usando para esto la detección de marcadores en dos cámaras.
-%
-%\begin{figure}
-%\begin{center}
-%\includegraphics[scale=0.15]{./imagenes/Reconstruccion/reconstruccion}
-%\caption{Reconstrucción con dos cámaras.}
-%\label{fig: esquema_reconstruccion}
-%\end{center}
-%\end{figure}
-%
-El proceso de reconstrucción que se presenta fue inspirado en el trabajo de Herda y consiste en tres pasos fundamentales:
+\subsection{Reconstruction}
+A segmentation output has, for each camera and for each frame of a sequence, a set of coordinates $(x, y)$ that locate the position in the image of those markers that were detected.
+The reconstruction process is to obtain the position of the markers in space, from the position of the markers in at least two retinas.
+
+The reconstruction process presented was inspired by the work of Herda and consists of three basic steps:
 \vspace{-0.2cm}
 \begin{enumerate}
-\item Encontrar la correspondencia entre puntos en retinas diferentes.
-\item Seleccionar la mejor correspondencia.
-\item Reconstruir y verificar en el resto de las retinas.
+\item Find the correspondence between points in different retinas.
+\item Select the best match.
+\item Reconstruct and check the rest of the retinas.
 \end{enumerate}
 \vspace{-0.8cm}
-\subsubsection{Algoritmo}
-El algoritmo implementado recibe como entrada los puntos 2D de los marcadores detectados y devuelve como salida los puntos 3D reconstruidos. 
-%El primer paso consiste en establecer una asociación entre ciertos puntos 2D de distintas cámaras. Luego, se pasa a un conjunto de bloques que se ejecutan de manera iterativa hasta que no queden marcadores para reconstruir. En dicho bloque se busca la mejor asociación entre puntos bajo determinado criterio, luego se reconstruye un punto 3D y se realiza un proceso de validación de dicha reconstrucción. En la iteración siguiente se actualizan las asociaciones que habían sido establecidas previamente. Cuando no hay más marcadores para reconstruir se detiene el proceso iterativo y se devuelven aquellos marcadores que fueron reconstruidos en cada iteración. 
-En la Figura \ref{fig: diagrama algoritmo} se presenta un diagrama del algoritmo.
+\subsubsection{Algorithm}
+The implemented algorithm receives as input 2D points of the detected markers and returns as output reconstructed 3D points.
+Figure \ref{fig: diagrama algoritmo} is a diagram of the algorithm presented.
 %\vspace{-0.2cm}
 \begin{figure}
     \begin{center}
