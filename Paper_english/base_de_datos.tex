@@ -1,13 +1,13 @@
 \section{Sequence generation} 
 \label{section_base_de_datos}
-In order to implement, test and compare different types of algorithms developed by the system, it is desirable to have multiple sequences obtained 2D motion video cameras located in a previously conditioned closed 3D environment. As well as have the corresponding ground truth 2D and 3D motion data and information available calibration of the cameras used to the capture
+In order to implement, test and compare the different types of algorithms developed for the system, it is desirable to have multiple 2D video motion sequences obtained from cameras located in a previously conditioned closed 3D environment. As well as have the corresponding ground truth from 2D and 3D motion data, and information available about the calibration of cameras used to the capture.
 
 \textit{Laboratory Features.}
 \label{seccion_Caracteristicas_Laboratorio}
-It is necessary to foster the relationship between some variables when designing a suitable laboratory for optical capture system based on markers. The capture space and patient clothing should contrast with markers, lighting should be uniform and be out of sight of the cameras. According to motion, in the case of cameras must be careful with resolution, minimum shutter times and their distribution in space capture.
+It is necessary to pay attention to the relationship between some variables when designing a suitable laboratory for optical capture system based on markers. The capture space and patient clothing should contrast with markers, lighting should be uniform and be out of sight of the cameras. About the last ones, care must be taken with resolution, minimum shutter times and their distribution in space capture.
 
-\textit{Virtual Laboratory.} Using 3D animation suite of free and open source Blender, a laboratory of virtual motion capture, where synthetic motion sequences are obtained with their respective video from a 3D virtual model is generated.
-The skeleton model contains the motion information, the same was obtained from the database MotionBuilder-friendly version offered by cgspeed, where it has the BVH sources that come from capture actual movement of Carnegie Mellon University Motion Capture Database (CMU ). While video sequences obtained are all necessary for further analysis, to generate these sequences through a controlled virtual environment it allows you to test multiple configurations counting in each case, with the exact capture information from the environment.
+\textit{Virtual Laboratory.} Using 3D animation suite of free and open source Blender, a laboratory of virtual motion capture is generated, where synthetic motion sequences are obtained with their respective video from a 3D virtual model.
+The skeleton model contains motion information, the same was obtained from database MotionBuilder-friendly version offered by cgspeed, where it has the BVH sources that come from real motion captures of Carnegie Mellon University Motion Capture Database (CMU). While video sequences obtained are all necessary for further analysis, to generate these sequences through a controlled virtual environment allows you to test multiple configurations counting with the exact capture information from the environment.
 
-\emph{Blende}r allows extend its functionality through Python programs, automating various stages in the development of new sequences and export information to other languages.
+\emph{Blender} allows extend its functionality through Python programs, automating various stages in the development of new sequences and export information to other languages.
 For more details of the implementation of the virtual laboratory as well as check sequence generation, refer to \cite{proyecto_biomecanica}.
