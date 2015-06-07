@@ -1,23 +1,23 @@
 \subsection{Reconstruction}
-A segmentation output has, for each camera and for each frame of a sequence, a set of coordinates $(x, y)$ that locate the position in the image of those markers that were detected.
-The reconstruction process is to obtain the position of the markers in space, from the position of the markers in at least two retinas.
+Segmentation output has, for each camera and for each frame of a sequence, a set of coordinates $(x, y)$ that locate the position in the image of detected markers.
+The reconstruction process is to obtain the position of the markers in space, from 2D markers position in at least two retinas.
 
-The reconstruction process presented was inspired by the work of Herda and consists of three basic steps:
+The reconstruction process presented was inspired by Herda's work and consists of three basic steps:
 \vspace{-0.2cm}
 \begin{enumerate}
 \item Find the correspondence between points in different retinas.
-\item Select the best match.
-\item Reconstruct and check the rest of the retinas.
+\item Select best match.
+\item Reconstruct and check rest of the retinas.
 \end{enumerate}
 \vspace{-0.8cm}
 \subsubsection{Algorithm}
-The implemented algorithm receives as input 2D points of the detected markers and returns as output reconstructed 3D points.
+The implemented algorithm receives as input 2D points of detected markers and returns as output reconstructed 3D points.
 Figure \ref{fig: diagrama algoritmo} is a diagram of the algorithm presented.
 %\vspace{-0.2cm}
 \begin{figure}
     \begin{center}
         \includegraphics[scale=0.45]{./imagenes/Reconstruccion/bloques_reconstruccion}
-        \caption{Diagrama de bloques del algoritmo de reconstrucción.}
+        \caption{Block diagram of reconstruction algorithm.}
         \label{fig: diagrama algoritmo}
     \end{center}
 \end{figure}
@@ -25,12 +25,12 @@ Figure \ref{fig: diagrama algoritmo} is a diagram of the algorithm presented.
 
 \textit{Associating 2D points.}\label{seccion_asociar2D_uno}
 %
-This block receives as input the coordinates of the detected points and projection matrices of the cameras, returning to each point a list sorted by relevance, existing partnerships with points on other cameras. \\ 
+This block receives as input the coordinates of detected points and projection matrices of the cameras, returning to each point a list sorted by relevance of the existing partnerships with points on other cameras. \\ 
 \textit{\hspace*{0.5cm}Best match.}\label{MejorAsociacion}
 %
-From the list of associations between pairs of cameras it is necessary to choose one that possesses more likely to form the pair corresponding to the projection of a 3D marker views on such images.
+From the list of associations between pairs of cameras it is necessary to choose one that possesses more probability to form the pair corresponding to the projection of a 3D marker views on such images.
 %
-On each pair of cameras is taken that association which maintains the shorter distance and contains valid points, discarding the rest. 
+From each pair of cameras is taken the association which maintains the shorter distance and contains valid points, discarding the rest. 
 \vspace{-0.65cm}
 \begin{figure}
     \begin{center}
@@ -39,13 +39,13 @@ On each pair of cameras is taken that association which maintains the shorter di
 \end{figure}
 \vspace{-1.0cm}
 
-For the choice of pairs of cameras two cases were considered.
-The first evaluates each camera with all the remaining and the second considers the arrangement of the cameras in space and match the adjacent cameras consecutively.
+To choice the pairs of cameras were considered two cases.
+The first one evaluates each camera with all remaining and the second one considers the arrangement of cameras in space and match the adjacent cameras consecutively.
 
 \textit{3D reconstruction and Validation.}\label{seccion_reconstruccion3D_validacion}
-$x_i x_j$ couple of points of the cameras $i$ and $j$ respectively,  reconstruct a valid point 3D $X_{ij}$ if there is at least one $x_k$ in camera $k\not= i, \,j$ such that $X_{ik} \in $ sphere$(X_{ij}, \delta)$, to certain threshold $\delta$.
+Couple of points $x_i x_j$ of cameras $i$ and $j$ respectively, reconstruct a valid point 3D $X_{ij}$ if there is at least one $x_k$ in camera $k\not= i, \,j$ such that $X_{ik} \in $ sphere$(X_{ij}, \delta)$, to certain threshold $\delta$.
 
 \textit{Update matches}\label{actualizar_asociaciones}
-The couple who reconstructs $X_{ij}$ as well  as the $x_k$ points who validate this reconstruction are removed. 
-Iteration is continued repeating the process with the next pairs cameras best associated.
-Finally the iterative process stops when the number of reconstructed markers equals the number of markers that person has, equal to the maximum number of  reconstructions indicated, or no valid 2D points such that a partnership between different points of view can be established.
+The couple who reconstructs $X_{ij}$ as well as $x_k$ points who validate this reconstruction are removed. 
+Iteration continue repeating the process with next pairs of best associated cameras.
+Finally iterative process stops when the number of reconstructed markers equals number of markers that the person has, equal to maximum number of reconstructions indicated, or not valid 2D points such that a partnership between different points of view can be established.
