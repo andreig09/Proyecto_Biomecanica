@@ -1,24 +1,25 @@
-\subsection{Detección de marcadores}
-El bloque de detección de marcadores, se puede dividir en dos partes: la \textit{segmentación} y el \textit{filtrado de objetos}.
+\subsection{Markers Detection}
+Markers detection block, can be divided in two parts: \textit{segmentation} and \textit{objects filter}.
 %
-El algoritmo realiza la detección siguiendo el siguiente proceso:
+Algorithm makes the detection through the following process:
 %
 \begin{enumerate}
-  \item Obtención de cada cuadro de la entrada de video.
-  \item Se toma un cuadro y se segmenta utilizando umbralización de Otsu.
-  \item A partir de la imagen segmentada, se identifican los marcadores.
-  \item Se escribe la posición de los marcadores detectados en un archivo XML.
+  \item Get each frame from video input.
+  \item Take a frame and segment it using Otsu's umbralization.
+  \item Detect markers from segmented image.
+  \item Write detected markers position in an XML file.
   %\item Se escribe la posición de los marcadores detectados para este cuadro en un archivo con formato XML.
-  \item Se toma el siguiente cuadro y se repite el proceso a partir del paso 2.
+  \item Take the following frame and repeat process from step two.
 \end{enumerate}
 %
-\subsubsection{Descripción de las etapas de detección.}
-El bloque de \textit{segmentación} utilizó umbralización generando umbrales con el método de Otsu\cite{otsu} de tres clases.\\
+\subsubsection{Detection stages description}
+\textit{Segmentation} block uses umbralization generating thresholds with three class Otsu's method\cite{otsu}.\\
 %
-La etapa de \textit{filtrado} no es más que una clasificación de los objetos segmentados. Dado que los objetos a detectar tienen formas relativamente sencillas (círculos blancos sobre fondo oscuro) y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requirió implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos\cite{imageMoments} y un filtro según el área de los mismos.
+\textit{Filtering} stage is just a classification of segmented objects. Since objects to be detected have relatively simple shapes (white circles on dark background) and laboratory conditions are controlled during the capture, this stage not required to implement a complex algorithm. Particularly, it was implemented a circular object detector based on geometric moments\cite{imageMoments} and an area based filter.
 %
-\subsubsection{Resultados.}
-En la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios. Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son aceptables (ver Figura \ref{ejemploabelumbr2}).
+\subsubsection{Results}
+It was observed that results on segmentation stage strongly depends from capture conditions and calculated threshold. Special care must be taken in capture conditions since if not meet the established, results are not entirely satisfactory.
+On the other hand, if captures are made in the established conditions, obtained results are acceptable (Figure \ref{ejemploabelumbr2}).
 \vspace{-0.5cm}
 \begin{figure}[ht!]
       \centering
@@ -30,12 +31,12 @@ En la etapa de segmentación se observó que el resultado obtenido depende fuert
         \label{abeldetect}}
       \caption{%Entradas y salidas de cada etapa del bloque de deteción.
        %\textbf{(\ref{abelvideo})} 
-       \textit{Izquierda}: imagen original de una secuencia fuera de las hipótesis de captura. 
-       \textit{Centro izquierda}: resultado de la segmentación fuera de las hipótesis de captura.
+       \textit{Left}: original image from a sequencue without capture hypothesis. 
+       \textit{Left center}: segmentation results without capture hypothesis.
        % \textbf{(\ref{abelvideo2})} 
-       \textit{Centro derecha}: captura original de una secuencia real bajo las hipótesis de captura.
+       \textit{Right center}: Original capture from a real sequence under capture hypothesis.
        % \textbf{(\ref{abelfiltro2})} Imagen filtrada con el umbral de Otsu. \textbf{(\ref{abeldetect})}
-       \textit{Derecha}: marcadores detectados.}  
+       \textit{Right}: Detected markers.}  
       \label{ejemploabelumbr2}
 \end{figure}
 \vspace{-0.6cm}
