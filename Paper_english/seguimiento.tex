@@ -4,13 +4,7 @@ The tracking of marker trajectories is performed by a sliding window of three or
 
 \hspace*{0.5cm} \textit{Algorithm}. Being known the trajectory of a marker until frame [f]  it's wanted to find the next position on frame [f+1] which is predicted by the displacement from [f-1] to [f]. A search neighbourhood is defined centered on the predicted point in which is expected to find the best reconstructed marker that continues the trajectory.
 
-If within the search neighbourhood there is more than one posible candidate, for each of them is defined a second prediction on frame [f+2] such that the acceleration from [f-1], [f] and the predicted point in [f+1] is the same as the acceleration of [f+1] and the predicted point in [f+2]. Then is selected the trajectory whith the least variation of acceleration. If there is not any marker within the search neighbourhood  its radius is expanded up to a limit.
-
-
-If a trajectory could not be linked in a frame, the movement is prolonged into the next frames to find reconstructed markers near the predicted ones so the markers between those frames can be extrapolated. In addition, thresholds are implemented to define limits on the acceleration to detect discontinuities on the tracking.
-
-
-Figure \ref{restricciones_tracking} shows the motion capture of a walk standing out the trajectories of the leg markers.
+If within the search neighbourhood there is more than one posible candidate, for each of them is defined a second prediction on frame [f+2] such that the acceleration from [f-1], [f] and the predicted point in [f+1] is the same as the acceleration of [f+1] and the predicted point in [f+2]. Then is selected the trajectory whith the least variation of acceleration. If there is not any marker within the search neighbourhood  its radius is expanded up to a limit. If a trajectory could not be linked in a frame, the movement is prolonged into the next frames to find reconstructed markers near the predicted ones so the markers between those frames can be extrapolated. In addition, thresholds are implemented to define limits on the acceleration to detect discontinuities on the tracking. Figure \ref{restricciones_tracking} shows the motion capture of a walk standing out the trajectories of the leg markers.
 
 \begin{figure}[ht!]
  \begin{center}
