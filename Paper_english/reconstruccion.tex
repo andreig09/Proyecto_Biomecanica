@@ -31,14 +31,13 @@ This block receives as input the coordinates of detected points and projection m
 From the list of associations between pairs of cameras it is necessary to choose one that possesses more probability to form the pair corresponding to the projection of a 3D marker views on such images.
 %
 From each pair of cameras is taken the association which maintains the shorter distance and contains valid points, discarding the rest. 
-\vspace{-0.65cm}
+%\vspace{-0.65cm}
 \begin{figure}
     \begin{center}
        \includegraphics[scale=1.0]{./imagenes/Reconstruccion/Algoritmo_reconstruccion}       
     \end{center}
 \end{figure}
-\vspace{-1.0cm}
-
+%
 To choice the pairs of cameras were considered two cases.
 The first one evaluates each camera with all remaining and the second one considers the arrangement of cameras in space and match the adjacent cameras consecutively.
 
