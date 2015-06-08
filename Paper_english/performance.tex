@@ -1,10 +1,10 @@
-\section{Result}
+\section{Results}
 
-They were used the metrics established in HumanEva \cite{humaneva} to compare sets of data to the output of each individual block with that retrieved reference set in the ground truth database, seeking first the correspondence between points and then the Euclidian distance (in 2D for cameras and 3D for 
+Metrics established in HumanEva \cite{humaneva} were used to compare sets of data to each individual block output with that retrieved reference set in the ground truth database, seeking first correspondence between points and then Euclidian distance (in 2D for cameras and 3D for 
 reconstructed space) between points of both sets.
 
-Error detection of markers in each one of the cameras does not exceed a couple of pixels in the case of cameras with resolution in image $1600\times600$. It is possible to reduce the resolution of the cameras up to $800\times300$ while maintaining the same results, but in lower resolutions begins to degrade the rate of detection of markers in single camera which impairs the following stages. Injecting noise in the detection block was quantified their impact in later stages of finding that you can work with up to three pixels of error without significantly compromising the final error.
+Error detection of markers in each one of the cameras does not exceed a couple of pixels in case of cameras with resolution in image $1600\times600$. It is possible to reduce resolution of the cameras up to $800\times300$ and maintain the same results, but in lower resolutions it begins to degrade the rate of markers detection in single camera, which impairs the following stages. Another tests were performed injecting noise in detection block and measuring impact in later stages, results show that system can work with up to three pixels of error without significantly compromising the final error.
 
-If the cameras are on the previous error condition, full coverage with 17 cameras surrounding the capture space allows us to reconstruct all paths with an error below cm with close to three centimeters maximum errors. The results are maintained within these limits using eight cameras, one pair in each corner of the capture space.
- The project documentation \cite{proyecto_biomecanica} shows how under certain conditions can further reduce the number of cameras while maintaining acceptable performance.
+If cameras are on the previous error condition, full coverage with 17 cameras surrounding capture space allows us to reconstruct all paths with an error below one centimeter with close to three centimeters maximum errors. Results are maintained within these limits using eight cameras, one pair in each corner of the capture space.
+ The project documentation \cite{proyecto_biomecanica} shows how under certain conditions can further reduce number of cameras while maintaining acceptable performance.
 
