@@ -5,7 +5,7 @@ Algorithm makes the detection through the following process:
 %
 \begin{enumerate}
   \item Get each frame from video input.
-  \item Take a frame and segment it using Otsu's umbralization.
+  \item Take a frame and segment it using Otsu's threshold.
   \item Detect markers from segmented image.
   \item Write detected markers position in an XML file.
   %\item Se escribe la posición de los marcadores detectados para este cuadro en un archivo con formato XML.
@@ -13,7 +13,7 @@ Algorithm makes the detection through the following process:
 \end{enumerate}
 %
 \subsubsection{Detection stages description}
-\textit{Segmentation} block uses umbralization generating thresholds with three class Otsu's method\cite{otsu}.\\
+\textit{Segmentation} block uses thresholds with three class Otsu's method\cite{otsu}.\\
 %
 \textit{Filtering} stage is just a classification of segmented objects. Since objects to be detected have relatively simple shapes (white circles on dark background) and laboratory conditions are controlled during the capture, this stage not required to implement a complex algorithm. Particularly, it was implemented a circular object detector based on geometric moments\cite{imageMoments} and an area based filter.
 %
