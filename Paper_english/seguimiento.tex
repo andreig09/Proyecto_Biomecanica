@@ -1,36 +1,11 @@
-\subsection{Seguimiento}
+\subsection{Tracking}
 
-El seguimiento de trayectorias se realiza sobre una ventana deslizante de tres a cuatro cuadros enlazando los puntos reconstruidos de manera de mantener un movimiento lo mas suave posible. 
-Esta metodología fue utilizada por Herda \cite{herda} en su trabajo basándose en los estudios de Malik, Drako, Papantoniou \cite{griegos} .
-%\subsubsection{Algoritmo}
-\hspace*{0.5cm} \textit{Algoritmo.} Sea la trayectoria de un marcador enlazada hasta el instante [f] sobre la cual desea buscarse su próximo punto en [f+1], el movimiento entre [f-1] y [f] es prolongado para establecer un centro de búsqueda y encontrar el punto reconstruido que mejor continúa la trayectoria como se muestra en la Figura \ref{herda_00} .
+The tracking of marker trajectories is performed by a sliding window of three or four frames linking the reconstructed points under the assumption that displacement of a marker from one frame into the next is minimal. This methodology was used by Herda \textit{et al.} \cite{herda} based on the work of Malik \textit{et al.} \cite{griegos}.
 
-%\vspace{-0.7cm}
-\begin{figure}[ht!]
-\begin{center}
-\includegraphics[scale=0.4]{imagenes/Seguimiento/tracking-eps-converted-to.pdf}
-\end{center}
-\caption{Seguimiento en cuatro cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. ( Fuente  Human movement
-science 20(3), 313–341 \cite{herda} ) .}
-\label{herda_00}
-\end{figure}
-%\vspace{-0.3cm}
-Se presentan tres posibles casos al buscar puntos reconstruidos:
+\hspace*{0.5cm} \textit{Algorithm}. Being known the trajectory of a marker until frame [f]  it's wanted to find the next position on frame [f+1] which is predicted by the displacement from [f-1] to [f]. A search neighbourhood is defined centered on the predicted point in which is expected to find the best reconstructed marker that continues the trajectory.
 
-\begin{itemize}
+If within the search neighbourhood there is more than one posible candidate, for each of them is defined a second prediction on frame [f+2] such that the acceleration from [f-1], [f] and the predicted point in [f+1] is the same as the acceleration of [f+1] and the predicted point in [f+2]. Then is selected the trajectory whith the least variation of acceleration. If there is not any marker within the search neighbourhood  its radius is expanded up to a limit. If a trajectory could not be linked in a frame, the movement is prolonged into the next frames to find reconstructed markers near the predicted ones so the markers between those frames can be extrapolated. In addition, thresholds are implemented to define limits on the acceleration to detect discontinuities on the tracking. Figure \ref{restricciones_tracking} shows the motion capture of a walk standing out the trajectories of the leg markers.
 
-\item Si solo se encuentra un punto reconstruido se agrega a la trayectoria para el cuadro [f+1], buscando el mas cercano a la estimación calculada como aquella que mejor se aproxima a una trayectoria de tres puntos con aceleración mínima
-
-\item En el caso de encontrar mas de un punto cada posible candidato es evaluado para realizar una segunda estimación hacia [f+2] de forma que la aceleración entre [f-1], [f] y el candidato en [f+1] sea la misma que entre [f], el candidato en [f+1] y la estimación en [f+2]. Luego de todos los posible caminos en cuatro cuadros, se elige el de menor variación de aceleración.
-
-\item Si no se encuentra ningún punto, se procede a aumentar de forma limitada el radio de búsqueda en [f+1] de forma excepcional. Esto se hace para continuar trayectorias que entran en estado de reposo y el último movimiento conocido es nulo o muy pequeño.
-
-\end{itemize}
-
-Si una trayectoria queda trunca durante el enlazado, se intenta recuperar prolongando el movimiento en próximas cuadros para encontrar puntos reconstruidos cercanos a las estimaciones y extrapolar los puntos intermedios. Por otro lado, se implementan umbrales para definir límites sobre la aceleración de los enlaces obtenidos y detectar discontinuidades durante el seguimiento.
-
-Estas medidas permiten detectar trayectorias individuales sobre los puntos reconstruidos, detectar de forma simple posibles discontinuidades, y estimar reemplazos en casos de pérdidas. La captura en la Figura \ref{restricciones_tracking} corresponde a la marcha y se resaltan las trayectorias individuales de puntos de la pierna así como un esqueleto simple generado para visualizar la evolución entre marcadores.\\
-%\vspace{-0.25cm}
 \begin{figure}[ht!]
  \begin{center}
 %  \subfloat[Trayectorias de marcadores de pierna]
@@ -39,9 +14,60 @@ Estas medidas permiten detectar trayectorias individuales sobre los puntos recon
  % \subfloat[Distancia y Angulo entre marcadores de la pierna.]
  {\includegraphics[scale=0.4]{imagenes/Seguimiento/051_Salida_Angulo_Distancia_13_14_10}\label{distancia_angulo_marcadores_piernas}}
   \end{center}
-\caption{Posibles restricciones en ángulo y distancia, para el caso de la pierna en marcha. Izquierda: trayectorias de marcadores de pierna. Derecha: distancia y ángulo entre marcadores de la pierna.}
+\caption{\textit{Left}: leg markers trajectories. \textit{Right}: distance and angle between two leg markers.}
 \label{restricciones_tracking}
 \end{figure}
-%\vspace{-0.5cm}
-El conjunto de puntos reconstruidos puede ser sometido a otros algoritmos de seguimiento como Kalman \cite{kalman} requiriendo la inicialización de modelos, o algoritmos basados en restricciones más fuertes que utilicen las distancias relativamente constantes entre marcadores de los miembros y ángulos continuos entre articulaciones, requiriendo un mayor estudio de las características del sujeto y movimiento a capturar. %La Figura \ref{restricciones_tracking} muestra posibles restricciones en la marcha sobre los huesos de la pierna.
 
+
+Another tracking algorithms could be used like Kalman \cite{kalman} which requires the inicialization of models. There are also algorithms based on the constraint that some markers keep a constant distance between them.
+
+%
+%
+%\subsection{Seguimiento}
+%
+%El seguimiento de trayectorias se realiza sobre una ventana deslizante de tres a cuatro cuadros enlazando los puntos reconstruidos de manera de mantener un movimiento lo mas suave posible. 
+%Esta metodología fue utilizada por Herda \cite{herda} en su trabajo basándose en los estudios de Malik, Drako, Papantoniou \cite{griegos} .
+%
+%
+%\hspace*{0.5cm} \textit{Algoritmo.} Sea la trayectoria de un marcador enlazada hasta el instante [f] sobre la cual desea buscarse su próximo punto en [f+1], el movimiento entre [f-1] y [f] es prolongado para establecer un centro de búsqueda y encontrar el punto reconstruido que mejor continúa la trayectoria como se muestra en la Figura \ref{herda_00} .
+%
+%%\vspace{-0.7cm}
+%\begin{figure}[ht!]
+%\begin{center}
+%\includegraphics[scale=0.4]{imagenes/Seguimiento/tracking-eps-converted-to.pdf}
+%\end{center}
+%\caption{Seguimiento en cuatro cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. ( Fuente  Human movement
+%science 20(3), 313–341 \cite{herda} ) .}
+%\label{herda_00}
+%\end{figure}
+%%\vspace{-0.3cm}
+%Se presentan tres posibles casos al buscar puntos reconstruidos:
+%
+%\begin{itemize}
+%
+%\item Si solo se encuentra un punto reconstruido se agrega a la trayectoria para el cuadro [f+1], buscando el mas cercano a la estimación calculada como aquella que mejor se aproxima a una trayectoria de tres puntos con aceleración mínima
+%
+%\item En el caso de encontrar mas de un punto cada posible candidato es evaluado para realizar una segunda estimación hacia [f+2] de forma que la aceleración entre [f-1], [f] y el candidato en [f+1] sea la misma que entre [f], el candidato en [f+1] y la estimación en [f+2]. Luego de todos los posible caminos en cuatro cuadros, se elige el de menor variación de aceleración.
+%
+%\item Si no se encuentra ningún punto, se procede a aumentar de forma limitada el radio de búsqueda en [f+1] de forma excepcional. Esto se hace para continuar trayectorias que entran en estado de reposo y el último movimiento conocido es nulo o muy pequeño.
+%
+%\end{itemize}
+%
+%Si una trayectoria queda trunca durante el enlazado, se intenta recuperar prolongando el movimiento en próximas cuadros para encontrar puntos reconstruidos cercanos a las estimaciones y extrapolar los puntos intermedios. Por otro lado, se implementan umbrales para definir límites sobre la aceleración de los enlaces obtenidos y detectar discontinuidades durante el seguimiento.
+%
+%Estas medidas permiten detectar trayectorias individuales sobre los puntos reconstruidos, detectar de forma simple posibles discontinuidades, y estimar reemplazos en casos de pérdidas. La captura en la Figura \ref{restricciones_tracking} corresponde a la marcha y se resaltan las trayectorias individuales de puntos de la pierna así como un esqueleto simple generado para visualizar la evolución entre marcadores.\\
+%%\vspace{-0.25cm}
+%\begin{figure}[ht!]
+% \begin{center}
+%%  \subfloat[Trayectorias de marcadores de pierna]
+%  {\includegraphics[scale=0.4]{imagenes/Seguimiento/050_Salida_Tracking_13_14_10} %\label{trayectorias_marcadores_piernas}
+%   }	
+% % \subfloat[Distancia y Angulo entre marcadores de la pierna.]
+% {\includegraphics[scale=0.4]{imagenes/Seguimiento/051_Salida_Angulo_Distancia_13_14_10}\label{distancia_angulo_marcadores_piernas}}
+%  \end{center}
+%\caption{Posibles restricciones en ángulo y distancia, para el caso de la pierna en marcha. Izquierda: trayectorias de marcadores de pierna. Derecha: distancia y ángulo entre marcadores de la pierna.}
+%\label{restricciones_tracking}
+%\end{figure}
+%%\vspace{-0.5cm}
+%El conjunto de puntos reconstruidos puede ser sometido a otros algoritmos de seguimiento como Kalman \cite{kalman} requiriendo la inicialización de modelos, o algoritmos basados en restricciones más fuertes que utilicen las distancias relativamente constantes entre marcadores de los miembros y ángulos continuos entre articulaciones, requiriendo un mayor estudio de las características del sujeto y movimiento a capturar. %La Figura \ref{restricciones_tracking} muestra posibles restricciones en la marcha sobre los huesos de la pierna.
+%
