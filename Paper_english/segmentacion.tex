@@ -15,10 +15,10 @@ Algorithm makes the detection through the following process:
 \subsubsection{Detection stages description}
 \textit{Segmentation} block uses thresholds with three class Otsu's method\cite{otsu}.\\
 %
-\textit{Filtering} stage is just a classification of segmented objects. Since objects to be detected have relatively simple shapes (white circles on dark background) and laboratory conditions are controlled during the capture, this stage not required to implement a complex algorithm. Particularly, it was implemented a circular object detector based on geometric moments\cite{imageMoments} and an area based filter.
+\textit{Filtering} stage is just a classification of segmented objects. Since objects to be detected have relatively simple shapes (white circles on dark background) and laboratory conditions are controlled during the capture, this stage does not require to implement a complex algorithm. Particularly, it was implemented a circular object detector based on geometric moments\cite{imageMoments} and an area based filter.
 %
 \subsubsection{Results}
-It was observed that results on segmentation stage strongly depends from capture conditions and calculated threshold. Special care must be taken in capture conditions since if not meet the established, results are not entirely satisfactory.
+It was observed that results on segmentation stage strongly depends on capture conditions and calculated threshold. Special care must be taken in capture conditions since if does not meet the established, results are not entirely satisfactory.
 On the other hand, if captures are made in the established conditions, obtained results are acceptable (Figure \ref{ejemploabelumbr2}).
 \vspace{-0.5cm}
 \begin{figure}[ht!]
