@@ -7,7 +7,7 @@ The reconstruction process presented was inspired by Herda's work and consists o
 \begin{enumerate}
 \item Find the correspondence between points in different retinas.
 \item Select best match.
-\item Reconstruct and check rest of the retinas.
+\item Reconstruct and check the other retinas.
 \end{enumerate}
 \vspace{-0.8cm}
 \subsubsection{Algorithm}
@@ -28,9 +28,9 @@ Figure \ref{fig: diagrama algoritmo} is a diagram of the algorithm presented.
 This block receives as input the coordinates of detected points and projection matrices of the cameras, returning to each point a list sorted by relevance of the existing partnerships with points on other cameras. \\ 
 \textit{\hspace*{0.5cm}Best match.}\label{MejorAsociacion}
 %
-From the list of associations between pairs of cameras it is necessary to choose one that possesses more probability to form the pair corresponding to the projection of a 3D marker views on such images.
+From the list of associations between pairs of cameras it is necessary to choose one that has more probability to form the pair corresponding to the projection of a 3D marker views on such images.
 %
-From each pair of cameras is taken the association which maintains the shorter distance and contains valid points, discarding the rest. 
+From each pair of cameras is taken the association which maintains the shorter distance and contains valid points, discarding the others. 
 %\vspace{-0.65cm}
 \begin{figure}
     \begin{center}
@@ -39,7 +39,7 @@ From each pair of cameras is taken the association which maintains the shorter d
 \end{figure}
 %
 To choice the pairs of cameras were considered two cases.
-The first one evaluates each camera with all remaining and the second one considers the arrangement of cameras in space and match the adjacent cameras consecutively.
+The first one evaluates each camera with all remaining cameras and the second one considers the arrangement of cameras in space and match the adjacent cameras consecutively.
 
 \textit{3D reconstruction and Validation.}\label{seccion_reconstruccion3D_validacion}
 Couple of points $x_i x_j$ of cameras $i$ and $j$ respectively, reconstruct a valid point 3D $X_{ij}$ if there is at least one $x_k$ in camera $k\not= i, \,j$ such that $X_{ik} \in $ sphere$(X_{ij}, \delta)$, to certain threshold $\delta$.
