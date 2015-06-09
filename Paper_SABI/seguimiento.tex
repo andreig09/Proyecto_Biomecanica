@@ -5,16 +5,16 @@ Esta metodología fue utilizada por Herda \cite{herda} en su trabajo basándose 
 %\subsubsection{Algoritmo}
 \hspace*{0.5cm} \textit{Algoritmo.} Sea la trayectoria de un marcador enlazada hasta el instante [f] sobre la cual desea buscarse su próximo punto en [f+1], el movimiento entre [f-1] y [f] es prolongado para establecer un centro de búsqueda y encontrar el punto reconstruido que mejor continúa la trayectoria como se muestra en la Figura \ref{herda_00} .
 
-%\vspace{-0.7cm}
+
 \begin{figure}[ht!]
 \begin{center}
-\includegraphics[scale=0.4]{imagenes/Seguimiento/tracking-eps-converted-to.pdf}
+\includegraphics[scale=0.6]{imagenes/Seguimiento/tracking-eps-converted-to.pdf}
 \end{center}
 \caption{Seguimiento en cuatro cuadros, siendo [f] el cuadro actual que queremos seguir en [f+1]. ( Fuente  Human movement
 science 20(3), 313–341 \cite{herda} ) .}
 \label{herda_00}
 \end{figure}
-%\vspace{-0.3cm}
+
 Se presentan tres posibles casos al buscar puntos reconstruidos:
 
 \begin{itemize}
@@ -34,10 +34,10 @@ Estas medidas permiten detectar trayectorias individuales sobre los puntos recon
 \begin{figure}[ht!]
  \begin{center}
 %  \subfloat[Trayectorias de marcadores de pierna]
-  {\includegraphics[scale=0.4]{imagenes/Seguimiento/050_Salida_Tracking_13_14_10} %\label{trayectorias_marcadores_piernas}
+  {\includegraphics[scale=0.57]{imagenes/Seguimiento/050_Salida_Tracking_13_14_10.png}\hspace{1.3cm} %\label{trayectorias_marcadores_piernas}
    }	
  % \subfloat[Distancia y Angulo entre marcadores de la pierna.]
- {\includegraphics[scale=0.4]{imagenes/Seguimiento/051_Salida_Angulo_Distancia_13_14_10}\label{distancia_angulo_marcadores_piernas}}
+ {\includegraphics[scale=0.57]{imagenes/Seguimiento/051_Salida_Angulo_Distancia_13_14_10.png}\label{distancia_angulo_marcadores_piernas}}
   \end{center}
 \caption{Posibles restricciones en ángulo y distancia, para el caso de la pierna en marcha. Izquierda: trayectorias de marcadores de pierna. Derecha: distancia y ángulo entre marcadores de la pierna.}
 \label{restricciones_tracking}

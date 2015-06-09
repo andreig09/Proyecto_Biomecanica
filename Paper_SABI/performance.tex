@@ -1,10 +1,18 @@
-\section{Results}
+\section{Resultados}
 
-Metrics established in HumanEva \cite{humaneva} were used to compare sets of data to each individual block output with that retrieved reference set in the ground truth database, seeking first correspondence between points and then Euclidian distance (in 2D for cameras and 3D for 
-reconstructed space) between points of both sets.
+Fueron utilizadas las métricas establecidas en HumanEva \cite{humaneva} para comparar los conjuntos de datos obtenidos a la salida de cada bloque individual con aquel conjunto de referencia obtenido en el ground truth de base de datos, buscando primero la correspondencia entre puntos y luego la distancia euclidiana (en 2D para cámaras y 3D para espacio reconstruido) entre los puntos de ambos conjuntos.
 
-Error detection of markers in each one of the cameras does not exceed a couple of pixels in case of cameras with resolution in image $1600\times600$. It is possible to reduce resolution of the cameras up to $800\times300$ and maintain the same results, but in lower resolutions it begins to degrade the rate of markers detection in single camera, which impairs the following stages. Another tests were performed injecting noise in detection block and measuring impact in later stages, results show that system can work with up to three pixels of error without significantly compromising the final error.
+%Las secuencias sintéticas generadas para múltiples situaciones son más complejas que en caso ideal y contemplan problemas presentes en la realidad siendo el principal ejemplo que ciertos marcadores se encuentran ocultos por el propio cuerpo del sujeto a capturar. 
 
-If cameras are on the previous error condition, full coverage with 17 cameras surrounding capture space allows us to reconstruct all paths with an error below one centimeter with close to three centimeters maximum errors. Results are maintained within these limits using eight cameras, one pair in each corner of the capture space.
- The project documentation \cite{proyecto_biomecanica} shows how under certain conditions can further reduce number of cameras while maintaining acceptable performance.
+
+El error de detección de los marcadores en cada una de las cámaras no supera un par de pixeles para el caso de cámaras con resolución en imagen de $1600\times600$. Es posible reducir la resolución de las cámaras hasta $800\times300$ manteniendo los mismos resultados, pero en resoluciones menores comienza a degradarse la tasa de detección de marcadores en cámaras individuales lo cual perjudica las siguiente etapas. Inyectando ruido en el bloque de detección se cuantificó su impacto en etapas posteriores encontrando que se puede trabajar con hasta tres pixeles de error sin comprometer significativamente el error final.
+
+
+Si las cámaras se encuentran en la condición de error anterior, una cobertura total con 17 cámaras rodeando el espacio de captura permite reconstruir todas las trayectorias con un error por debajo del centímetro con errores máximos cercanos a tres centímetros. Los resultados se mantienen dentro de estos límites utilizando ocho cámaras, un par en cada esquina del espacio de captura.
+La documentación del proyecto \cite{proyecto_biomecanica} muestra como bajo ciertas condiciones se puede seguir reduciendo el número de cámaras manteniendo una performance aceptable.
+ 
+%Reducir aún más el conjunto de cámaras sin degradar la performance es posible con ciertas condiciones: un conjunto de seis cámaras colocadas en dos costados de a tres, y cada costado tiene dos cámaras próximas con una tercera mas alejada. De esta manera se tiene las condiciones mínimas por las cuales se estableció la reconstrucción, tener dos cámaras para reconstruir y una tercera para confirmar.
+
+
+%Este caso limite de reconstrucción muestra comportamiento global similares a los anteriores, pero presenta degradaciones puntuales para ciertas trayectorias de marcadores que superan el error promedio y deberían ser reparadas con medidas avanzadas.
 
