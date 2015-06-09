@@ -1,0 +1,14 @@
+\section{Sequence generation} 
+\label{section_base_de_datos}
+In order to implement, test and compare the different types of algorithms developed for the system, it is desirable to have multiple 2D video motion sequences obtained from cameras located in a previously conditioned closed 3D environment. As well as the corresponding ground truth from 2D and 3D motion data, along information available about the calibration of cameras used to the capture the markers on the patient.
+
+\textit{Laboratory Features.}
+\label{seccion_Caracteristicas_Laboratorio}
+It is necessary to pay attention to the relationship between some variables when designing a suitable laboratory for optical capture system based on markers. The capture space and patient clothing should contrast with markers, lighting should be uniform and be out of sight to the cameras. About the last hypothesis, care must be taken with resolution of the cameras, minimum shutter times and their distribution in capture space.
+
+\textit{Virtual Laboratory.} Using 3D animation suite of free and open source Blender, a virtual laboratory for motion capture is generated, where synthetic motion sequences are obtained along their respective videos of a 3D virtual model.
+
+The skeleton model contains motion information, the same obtained from database MotionBuilder-friendly version offered by cgspeed which contains the BVH sources that come from real motion captures of Carnegie Mellon University Motion Capture Database (CMU). While video sequences obtained are all necessary for further analysis, to generate these sequences through a controlled virtual environment allows testing on multiple configurations and obtaining the exact capture information of the environment.
+
+\emph{Blender} allows to extend the functionality through Python scripts, automating various stages in the development of new sequences and exporting the information to other programming languages.
+For more details on the implementation of virtual laboratory as well as sequence generation, refer to \cite{proyecto_biomecanica}.

@@ -1,0 +1,20 @@
+\subsection{Camera calibration}\label{calibracion}
+
+A valid calibration method was required for the arrangement of cameras used in the virtual environment described in section \ref{section_base_de_datos}. Different existing implementations were tested such as two toolboxes developed in \emph{Matlab}. The calibration method was simulated in \emph{Blender} with \emph{Python}  \textit{scripts} and the resulting images were processed with these toolboxes. Further description of the methodology and simulations can be found in \cite{proyecto_biomecanica}.
+
+One of these toolboxes is the \textit{Automatic Multi-Camera Calibration Toolbox (amcctoolbox)} \cite{amcctoolbox}, which uses a checkerboard as a calibration object. This method, although has good accuracy results \cite{zhang_libro}, it is not flexible enough for our virtual environment with many cameras because in some cases manual intervention is required. The other toolbox is the \textit{Multi-Camera Self-Calibration Toolbox} \cite{toolbox_led}. This method captures the movement of a point light source, for example a led light bulb. For each frame there is a 3D point in space in a different position and its corresponding projection in each camera. The average re-projection error is less than 0.13 pixels for all cameras. This method seems simple and suitable for a system of many cameras.
+
+
+
+%%%%% EN ESPAÑOL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\subsection{Calibración}\label{calibracion}
+%
+% Para establecer una metodología de calibración válida para la configuración de cámaras con las que se diseñó el entorno virtual descrito en la sección \ref{section_base_de_datos}, se probaron distintas implementaciones existentes, evaluando dos toolbox elaborados en \emph{Matlab}. La metodología de calibración fue simulada en \emph{Blender} mediante \textit{scripts} \emph{Python} y las imágenes resultantes procesadas con dichos toolbox. La descripción de la metodología y las simulaciones se detalla en \cite{proyecto_biomecanica}.\
+% 
+% Uno de los toolbox utilizados es el \textit{Automatic Multi-Camera Calibration Toolbox (amcctoolbox)} \cite{amcctoolbox}, el cual utiliza como objeto de calibración un damero. Este método, con resultados de buena precisión \cite{zhang_libro}, puede no ser suficientemente flexible para un sistema de muchas cámaras ya que, entre otras cosas, es necesaria la intervención manual en algunos casos.\
+% 
+%El otro toolbox utilizado es el \textit{Multi-Camera Self-Calibration Toolbox} \cite{toolbox_led}. Este método consiste en capturar el movimiento de una fuente puntual de luz que recorra el volumen de trabajo. Para cada cuadro se tiene un punto 3D en el espacio en una posición distinta y en cada una de las cámaras su correspondiente proyección.
+% El error de re-proyección promedio obtenido es menor a 0.13 píxeles para todas las cámaras. Este método plantea una forma simple de calibrar un conjunto de muchas cámaras adecuado para el sistema de 17 cámaras del laboratorio virtual desarrollado en \emph{Blender}.
+%
+% 
