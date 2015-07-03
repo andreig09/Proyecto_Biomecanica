@@ -1,3 +1,3 @@
 # Proyecto_Biomecanica
 
-Las instrucciones se encuentran en un apendice de la documentación presentada en Proyecto_Biomecanica/Documentacion
+Las instrucciones se encuentran en un apéndice de la documentación.pdf cuyas fuentes se encuentran en Proyecto_Biomecanica/Documentacion
