@@ -1,8 +1,51 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: documentacion.aux
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: documentacion.aux
 A level-1 auxiliary file: quotes.aux
 A level-1 auxiliary file: agradecimientos.aux
 A level-1 auxiliary file: resumen.aux
 The style file: unsrt.bst
 Database file #1: referencias.bib
 Warning--empty journal in gross2001cmu
+You've used 70 entries,
+            1791 wiz_defined-function locations,
+            810 strings with 12730 characters,
+and the built_in function-call counts, 13573 in all, are:
+= -- 1254
+> -- 463
+< -- 21
++ -- 189
+- -- 119
+* -- 606
+:= -- 1965
+add.period$ -- 235
+call.type$ -- 70
+change.case$ -- 59
+chr.to.int$ -- 0
+cite$ -- 71
+duplicate$ -- 645
+empty$ -- 1532
+format.name$ -- 119
+if$ -- 3224
+int.to.chr$ -- 0
+int.to.str$ -- 70
+missing$ -- 49
+newline$ -- 372
+num.names$ -- 57
+pop$ -- 383
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 323
+stack$ -- 0
+substring$ -- 607
+swap$ -- 180
+text.length$ -- 21
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 114
+width$ -- 72
+write$ -- 751
 (There was 1 warning)
