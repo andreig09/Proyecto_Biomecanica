@@ -11,12 +11,12 @@ El algoritmo realiza la detección siguiendo el siguiente proceso:
   %\item Se escribe la posición de los marcadores detectados para este cuadro en un archivo con formato XML.
   \item Se toma el siguiente cuadro y se repite el proceso a partir del paso 2.
 \end{enumerate}
-%
+\vspace{-0.4cm} 
 \subsubsection{Descripción de las etapas de detección.}
 El bloque de \textit{segmentación} utilizó umbralización generando umbrales con el método de Otsu\cite{otsu} de tres clases.\\
 %
 La etapa de \textit{filtrado} no es más que una clasificación de los objetos segmentados. Dado que los objetos a detectar tienen formas relativamente sencillas (círculos blancos sobre fondo oscuro) y las condiciones de laboratorio son controladas al realizar la captura, esta etapa no requirió implementar algoritmos muy complejos. En particular, se implementó un detector de objetos circulares en base a momentos geométricos\cite{imageMoments} y un filtro según el área de los mismos.
-%
+\vspace{-0.3cm} 
 \subsubsection{Resultados.}
 En la etapa de segmentación se observó que el resultado obtenido depende fuertemente de las condiciones de captura y del umbral calculado. Se debe tener especial atención en las condiciones de captura ya que de no cumplir con las establecidas los resultados no son del todo satisfactorios. Por otro lado, si las capturas se hacen dentro de las condiciones establecidas, los resultados obtenidos son aceptables (ver Figura \ref{ejemploabelumbr2}).
 
@@ -38,4 +38,3 @@ En la etapa de segmentación se observó que el resultado obtenido depende fuert
        (d) Marcadores detectados.}  
       \label{ejemploabelumbr2}
 \end{figure}
-\vspace{-0.6cm}
