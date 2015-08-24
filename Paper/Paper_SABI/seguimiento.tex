@@ -30,7 +30,7 @@ Se presentan tres posibles casos al buscar puntos reconstruidos:
 
 Si una trayectoria queda trunca durante el enlazado, se intenta recuperar prolongando el movimiento en próximas cuadros para encontrar puntos reconstruidos cercanos a las estimaciones y extrapolar los puntos intermedios. Por otro lado, se implementan umbrales para definir límites sobre la aceleración de los enlaces obtenidos y detectar discontinuidades durante el seguimiento.
 
-Estas medidas permiten detectar trayectorias individuales sobre los puntos reconstruidos, detectar de forma simple posibles discontinuidades, y estimar reemplazos en casos de pérdidas. La captura en la Figura \ref{restricciones_tracking} corresponde a la marcha y se resaltan las trayectorias individuales de puntos de la pierna así como un esqueleto simple generado para visualizar la evolución entre marcadores.\\
+Estas medidas permiten detectar trayectorias individuales sobre los puntos reconstruidos, detectar de forma simple posibles discontinuidades, y estimar reemplazos en casos de pérdidas. En la Figura \ref{restricciones_tracking} se muestra el resultado de procesar imágenes de una secuencia real de marcha con zancada exagerada de un hombre sano, provenientes de 8 cámaras del laboratorio virtual que mantienen una visión doble desde cada una de las esquinas de un espacio de captura rectangular. Se resaltan las trayectorias individuales de tres puntos $9-10-12$ correspondientes a pie, rodilla y parte superior de la pierna derecha, así como un esqueleto simple generado para visualizar la evolución entre marcadores.\\
 %\vspace{-0.25cm}
 \begin{figure}[ht!]
  \begin{center}
