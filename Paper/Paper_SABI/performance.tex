@@ -8,9 +8,48 @@ Fueron utilizadas las métricas establecidas en HumanEva \cite{humaneva} para co
 El error de detección de los marcadores en cada una de las cámaras no supera un par de pixeles para el caso de cámaras con resolución en imagen de $1600\times600$. Es posible reducir la resolución de las cámaras hasta $800\times300$ manteniendo los mismos resultados, pero en resoluciones menores comienza a degradarse la tasa de detección de marcadores en cámaras individuales lo cual perjudica las siguiente etapas. Inyectando ruido en el bloque de detección se cuantificó su impacto en etapas posteriores encontrando que se puede trabajar con hasta tres pixeles de error sin comprometer significativamente el error final.
 
 
-Si las cámaras se encuentran en la condición de error anterior, una cobertura total con 17 cámaras rodeando el espacio de captura permite reconstruir todas las trayectorias con un error por debajo del centímetro con errores máximos cercanos a tres centímetros. Los resultados se mantienen dentro de estos límites utilizando ocho cámaras, un par en cada esquina del espacio de captura.
+Si las cámaras se encuentran en la condición de error anterior, una cobertura total con 17 cámaras rodeando el espacio de captura permite reconstruir todas las trayectorias con un error medio por debajo del centímetro con errores máximos cercanos a tres centímetros. Los resultados se mantienen dentro de estos límites utilizando ocho cámaras, un par en cada esquina del espacio de captura.
 La documentación del proyecto \cite{proyecto_biomecanica} muestra como bajo ciertas condiciones se puede seguir reduciendo el número de cámaras manteniendo una performance aceptable.
- 
+
+\begin{table}[ht!]
+	\centering
+	\resizebox{13cm}{!}{
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\textbf{Acción}                                                                                  & \textbf{\begin{tabular}[c]{@{}c@{}}Nombre\\ Secuencia\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Longitud\\ de secuencia\\ (segundos)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Cuadros \\ por segundo\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Espacio \\ de captura\\ (metros)\end{tabular}} \\ \hline
+			Marcha rectilínea                                                                                & 08\_03\_100\_100                                                    & 2,5                                                                                  & 30                                                                      & 1,5 x 5,5                                                                         \\ \hline
+			\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Marcha rectilínea, \\ zancada exagerada\end{tabular}} & 08\_07\_100\_100                                                    & \multirow{2}{*}{2,6}                                                                 & 24                                                                      & \multirow{2}{*}{1,5 x 5,5}                                                        \\ \cline{2-2} \cline{4-4}
+			& 08\_07\_100\_200                                                    &                                                                                       & 48                                                                      &                                                                                   \\ \hline
+			\begin{tabular}[c]{@{}c@{}}Marcha rectilínea\\ lenta, zancada ancha\end{tabular}                 & 08\_11\_100\_100                                                    & 3,8                                                                                   & 30                                                                      & 1,5 x 5                                                                           \\ \hline
+			\multirow{2}{*}{Corriendo}                                                                       & 09\_07\_100\_100                                                    & \multirow{2}{*}{1,2}                                                                  & 24                                                                      & \multirow{2}{*}{1,5 x 5}                                                          \\ \cline{2-2} \cline{4-4}
+			& 09\_07\_100\_200                                                    &                                                                                       & 48                                                                      &                                                                                   \\ \hline
+			Marcha libre                                                                                     & 09\_12\_100\_100                                                    & 12,5                                                                                  & 24                                                                      & 3 x 5                                                                             \\ \hline
+		\end{tabular}
+	}
+	\caption{Resumen de secuencias de la base de datos sintética utilizadas para análisis de performance.}
+	\label{tabla_resumen_secuencias}
+\end{table}
+
+\begin{table}[ht!]
+	\centering
+	\resizebox{16.4cm}{!}{
+		\begin{tabular}{cccc|c|c|c|c|c|c|ll}
+			\cline{5-10}
+			& & & & \multicolumn{2}{|c|}{\textbf{Segmentación}}  & \multicolumn{2}{|c|}{\textbf{Reconstrucción}} & \multicolumn{2}{|c|}{\textbf{Seguimiento}} &  &  \\ \cline{1-10}
+			\multicolumn{1}{|c|}{captura} & \multicolumn{1}{c|}{markers} & \multicolumn{1}{c|}{cuadros} & n.cams & \begin{tabular}[c]{@{}c@{}}Promedio\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (px)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Promedio\\ (cm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}99\%\\ (cm)\end{tabular} &  &  \\ \cline{1-10}
+			\multicolumn{1}{|c|}{08\_03\_100\_100}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{89}     & 17      & 1,11 & \textbf{3,68}  & \textbf{0,41}     & 2,64  & \textbf{0,42} & \textbf{2,90}  &  &  \\ \cline{1-10}
+			\multicolumn{1}{|c|}{08\_07\_100\_100}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{62}     & 17      & 1,09 & 3,12  & 0,34     & 1,81   & 0,34     & 1,81   &  &  \\ \cline{1-10}
+			\multicolumn{1}{|c|}{08\_07\_100\_200}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{\textbf{123}}    & 17      & 1,09 & 3,31  & 0,39     & 1,27
+			& 0,36     & 1,27  &  &  \\ \cline{1-10}
+			\multicolumn{1}{|c|}{08\_11\_100\_100}    & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{94}     & 17      & 1,07  & 2,90  & 0,39     & \textbf{2,87}  & 0,39     & 2,87  &  &  \\ \cline{1-10}
+			\multicolumn{1}{|c|}{09\_07\_100\_100}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{29}     & 17      & 1,13 & 3,32  & 0,28     & 2,04  & 0,28     & 2,04  &  &  \\ \cline{1-10}
+			\multicolumn{1}{|c|}{09\_07\_100\_200}  & \multicolumn{1}{c|}{14}         & \multicolumn{1}{c|}{57}     & 17      & \textbf{1,14} & 3,45  & 0,35     & 1,99  & 0,35     & 1,99  &  &  \\ \cline{1-10}
+			\multicolumn{1}{|c|}{09\_12\_100\_100}  & \multicolumn{1}{c|}{13}         & \multicolumn{1}{c|}{\textbf{300}}    & 15      & 1,04 & 2,12   & 0,40     & 1,50  & 0,40     & 1,50  &  &  \\ \cline{1-10}
+		\end{tabular}
+	}
+	\caption{Resultados de las etapas de procesamiento, para distintas capturas sintéticas}
+	\label{resultados_distintas_capturas}
+\end{table}
 %Reducir aún más el conjunto de cámaras sin degradar la performance es posible con ciertas condiciones: un conjunto de seis cámaras colocadas en dos costados de a tres, y cada costado tiene dos cámaras próximas con una tercera mas alejada. De esta manera se tiene las condiciones mínimas por las cuales se estableció la reconstrucción, tener dos cámaras para reconstruir y una tercera para confirmar.
 
 
