@@ -1,6 +1,6 @@
 \subsection{Reconstrucción}
 A la salida del bloque de detección de marcadores se tiene, para cada cámara y para cada cuadro de una secuencia, un conjunto de coordenadas $(x,y)$ que ubican la posición en la imagen de aquellos marcadores que fueron detectados.
-El proceso de reconstrucción consiste en obtener la posición de los marcadores en el espacio, a partir de la posición de los marcadores en al menos dos retinas.
+El proceso de reconstrucción consiste en obtener la posición de los marcadores en el espacio, a partir de la posición de los marcadores sobre las retinas de al menos dos cámaras.
 %En la Figura \ref{fig: esquema_reconstruccion} se muestra un bosquejo de la reconstrucción de un marcador usando para esto la detección de marcadores en dos cámaras.
 %
 %\begin{figure}
@@ -14,9 +14,9 @@ El proceso de reconstrucción consiste en obtener la posición de los marcadores
 El proceso de reconstrucción que se presenta fue inspirado en el trabajo de Herda y consiste en tres pasos fundamentales:
 
 \begin{enumerate}
-\item Encontrar la correspondencia entre puntos en retinas diferentes.
+\item Encontrar la correspondencia entre puntos en cámaras diferentes.
 \item Seleccionar la mejor correspondencia.
-\item Reconstruir y verificar en el resto de las retinas.
+\item Reconstruir y verificar en el resto de las cámaras.
 \end{enumerate}
 
 \subsubsection{Algoritmo}
